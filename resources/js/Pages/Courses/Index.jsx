@@ -1,4 +1,4 @@
-import WrapperLayout from '@/Layouts/WrapperLayout';
+import Wrapper from '@/Layouts/WrapperLayout';
 import CourseCard from '@/Components/CourseCard';
 import Heading1 from '@/Components/Typography/Heading1';
 import { Head } from '@inertiajs/inertia-react';
@@ -30,7 +30,7 @@ export default function Index() {
         }
     ];
     return (
-        <WrapperLayout>
+        <Wrapper>
             <Head title="Courses" />
 
             <div className="py-12">
@@ -51,6 +51,5 @@ export default function Index() {
             <div className="w-full bg-sky-100">
                 <MonthlyComponent></MonthlyComponent>
             </div>
-        </WrapperLayout>
     );
 }

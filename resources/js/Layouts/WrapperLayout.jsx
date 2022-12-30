@@ -12,7 +12,7 @@ export default function Wrapper({ children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-slate-400">
+        <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
             <nav className="bg-pbsblue text-white border-b-2 border-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -87,13 +87,13 @@ export default function Wrapper({ children }) {
                     </div>
                 </div>
             </nav>
-            <main className="flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-                <div className="w-full mt-6 px-6 py-4 bg-white shadow-md overflow-hidden">
+            <main className="h-full grow flex flex-col sm:justify-center pt-6 sm:pt-0">
+                <div className="w-full grow mt-6 px-6 py-4 bg-white shadow-md overflow-hidden">
                     {children}
                 </div>
             </main>
 
-            <footer className="bg-pbsblue text-white h-fit">
+            <footer className="bg-pbsblue text-white bottom-0 left-0">
                 <div className="w-full mt-0 px-6 py-6">
                     <div className="grid grid-rows-4 gap-4 sm:grid-cols-4 sm:grid-rows-none">
                         <FooterGroup heading="About Us">
@@ -123,7 +123,6 @@ export default function Wrapper({ children }) {
                     </div>
                 </div>
             </footer>
-
         </div>
     );
 }
