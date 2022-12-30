@@ -2,8 +2,12 @@ import Heading1 from "@/Components/Typography/Heading1";
 import Heading2 from "@/Components/Typography/Heading2";
 import MonthPill from "@/Components/MonthlyLessons/MonthPill";
 import MonthlyOverview from "./MonthlyOverview";
+import { useState } from "react";
 
 export default function MonthlyComponent({ children }) {
+    const [selectedMonth, setSelectedMonth] = useState("");
+    const [selectedSeries, setSelectedSeries] = useState("");
+
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const series = ["A series", "B series", "C series"];
     return (
@@ -13,14 +17,14 @@ export default function MonthlyComponent({ children }) {
                 <div className="grid grid-cols-3 grid-row-4 gap-2 p-4">
                     {
                         months.map((month, index) => (
-                            <MonthPill addClass={`py-4`} key={index}>{month}</MonthPill>
+                            <MonthPill isActive={selectedMonth === month} setActive={setSelectedMonth} addClass={`py-4`} key={index}>{month}</MonthPill>
                         ))
                     }
                 </div>
                 <div className="grid grid-cols-3 gap-2 p-4">
                     {
                         series.map((element, index) => (
-                            <MonthPill addClass={`py-1`} key={index}>{element}</MonthPill>
+                            <MonthPill isActive={selectedSeries === element} setActive={setSelectedSeries} addClass={`py-1`} key={index}>{element}</MonthPill>
                         ))
                     }
                 </div>

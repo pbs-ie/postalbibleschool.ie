@@ -29,5 +29,17 @@ module.exports = {
         },
     },
 
+    safelist: [
+        'kidspace',
+        'teenspace',
+        'lifespace',
+        'pbsblue',
+        'hover:bg-blue-500',
+        {
+            pattern: /bg-bibletime-(pink|orange|red|green|blue)/,
+            variants: ['hover']
+        }
+    ],
+
     plugins: [require('@tailwindcss/forms')],
 };
