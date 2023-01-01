@@ -1,34 +1,9 @@
 import Heading2 from "@/Components/Typography/Heading2";
+import { bibleTimeLevels } from "@/constants";
 import LessonDownloadBar from "./LessonDownloadBar";
 
 export default function MonthlyOverview({ children }) {
-    const monthLessons = [
-        {
-            level: "Level 0",
-            themeColor: "bg-bibletime-pink",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 1",
-            themeColor: "bg-bibletime-orange",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 2",
-            themeColor: "bg-bibletime-red",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 3",
-            themeColor: "bg-bibletime-green",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 4",
-            themeColor: "bg-bibletime-blue",
-            title: "A9-Jacob"
-        }
-    ];
+    const monthLessons = bibleTimeLevels;
     const assemblyVideo = {
         tag: "Online Presentation",
         themeColor: "bg-blue-500",
@@ -43,7 +18,7 @@ export default function MonthlyOverview({ children }) {
                 <div className="space-y-1">
                     {
                         monthLessons.map((lesson, index) => (
-                            <LessonDownloadBar key={index} title={lesson.title} infoText={lesson.level} infoClass={lesson.themeColor}></LessonDownloadBar>
+                            <LessonDownloadBar key={index} title={lesson.title} infoText={lesson.level} infoClass={lesson.tagColor}></LessonDownloadBar>
                         ))
                     }
                 </div>
