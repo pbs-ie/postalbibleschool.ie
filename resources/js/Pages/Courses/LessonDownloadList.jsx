@@ -1,4 +1,4 @@
-import LessonDownloadBar from "@/Components/MonthlyLessons/LessonDownloadBar";
+import LessonDownloadButton from "@/Components/MonthlyLessons/LessonDownloadButton";
 import { monthNames, seriesNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import { useEffect, useState } from "react";
@@ -30,7 +30,7 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
                         <div className={`text-center h-fit w-full text-gray-50 ${tagClass} py-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (
-                                <LessonDownloadBar key={index} getDownloadLink={getDownloadLink(seriesElement.code, tagCode, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadBar>
+                                <LessonDownloadButton key={index} getDownloadLink={getDownloadLink(seriesElement.code, tagCode, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadButton>
                             ))
                         }
                     </div>

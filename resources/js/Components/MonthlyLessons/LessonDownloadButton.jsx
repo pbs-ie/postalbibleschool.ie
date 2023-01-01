@@ -1,4 +1,4 @@
-export default function LessonDownloadBar({ title, infoText, infoClass, getDownloadLink, children }) {
+export default function LessonDownloadButton({ title, infoText, infoClass, getDownloadLink }) {
     return (
         <>
             {infoText &&
