@@ -48,31 +48,36 @@ export const groupThemes = {
 
 export const bibleTimeLevels = [
     {
-        level: "Level 0",
+        tagName: "Level 0",
+        tagCode: "level0",
         tagColor: "bg-bibletime-pink",
         image: Level0Image,
         title: "A9 - Jacob"
     },
     {
-        level: "Level 1",
+        tagName: "Level 1",
+        tagCode: "level1",
         tagColor: "bg-bibletime-orange",
         image: Level1Image,
         title: "A9 - Jacob"
     },
     {
-        level: "Level 2",
+        tagName: "Level 2",
+        tagCode: "level2",
         tagColor: "bg-bibletime-red",
         image: Level2Image,
         title: "A9 - Jacob"
     },
     {
-        level: "Level 3",
+        tagName: "Level 3",
+        tagCode: "level3",
         tagColor: "bg-bibletime-green",
         image: Level3Image,
         title: "A9 - Jacob"
     },
     {
-        level: "Level 4",
+        tagName: "Level 4",
+        tagCode: "level4",
         tagColor: "bg-bibletime-blue",
         image: Level4Image,
         title: "A9 - Jacob"

@@ -1,15 +1,11 @@
 import LessonDownloadBar from "@/Components/MonthlyLessons/LessonDownloadBar";
 import { monthNames, seriesNames } from "@/constants";
-import { groupedBySeriesBes } from "@/helper";
+import { getDownloadLink } from "@/helper";
 import { useEffect, useState } from "react";
 
 export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tagCode = "level0" }) {
     const [isWideScreen, setIsWideScreen] = useState(false);
 
-    const getDownloadLink = function (tagCode, seriesCode, monthValue) {
-        let groupedList = groupedBySeriesBes();
-        return groupedList[seriesCode][tagCode][monthValue]?.link ?? "";
-    };
 
     useEffect(() => {
         const mql = window.matchMedia("(min-width: 640px)");
@@ -34,7 +30,7 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
                         <div className={`text-center h-fit w-full text-gray-50 ${tagClass} py-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (
-                                <LessonDownloadBar key={index} getDownloadLink={getDownloadLink(tagCode, seriesElement.code, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadBar>
+                                <LessonDownloadBar key={index} getDownloadLink={getDownloadLink(seriesElement.code, tagCode, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadBar>
                             ))
                         }
                     </div>

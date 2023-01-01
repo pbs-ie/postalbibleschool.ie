@@ -23,7 +23,7 @@ export default function LessonDownloadSection() {
                 {
                     bibleTimeLevels.map((level, index) => (
 
-                        <LessonCard setSelectedLevel={setSelectedLevel} className={"p-2"} key={index} heading={level.level} image={level.image} description={"Bible Stories"} type="bibletime"></LessonCard>
+                        <LessonCard setSelectedLevel={setSelectedLevel} className={"p-2"} key={index} heading={level.tagName} image={level.image} description={"Bible Stories"} type="bibletime"></LessonCard>
                     ))
                 }
             </div>
