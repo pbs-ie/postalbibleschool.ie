@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,13 +26,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/testing', function () {
-    return Inertia::render('Testing/Index');
-})->name('testing');
 
-Route::get('/courses', function () {
-    return Inertia::render('Courses/Index');
-})->name('courses');
+Route::get('/courses', [CourseController::class, 'list'])->name('courses');
+
 
 
 

@@ -1,40 +1,17 @@
 import Heading2 from "@/Components/Typography/Heading2";
-import LessonDownloadBar from "./LessonDownloadBar";
+import { bibleTimeLevels, monthNames } from "@/constants";
+import { getAlphabetFromNumber, getDownloadLink } from "@/helper";
+import LessonDownloadButton from "./LessonDownloadButton";
 
-export default function MonthlyOverview({ children }) {
-    const monthLessons = [
-        {
-            level: "Level 0",
-            themeColor: "bg-bibletime-pink",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 1",
-            themeColor: "bg-bibletime-orange",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 2",
-            themeColor: "bg-bibletime-red",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 3",
-            themeColor: "bg-bibletime-green",
-            title: "A9-Jacob"
-        },
-        {
-            level: "Level 4",
-            themeColor: "bg-bibletime-blue",
-            title: "A9-Jacob"
-        }
-    ];
+export default function MonthlyOverview({ selectedMonth, selectedSeries, children }) {
+    const monthLessons = bibleTimeLevels;
+    const seriesAlpha = getAlphabetFromNumber(selectedSeries).toUpperCase();
+
     const assemblyVideo = {
         tag: "Online Presentation",
         themeColor: "bg-blue-500",
-        title: "A9 - Changes After Salvation"
+        title: "Changes After Salvation"
     };
-
 
     return (
         <div className="flex flex-col">
@@ -43,14 +20,14 @@ export default function MonthlyOverview({ children }) {
                 <div className="space-y-1">
                     {
                         monthLessons.map((lesson, index) => (
-                            <LessonDownloadBar key={index} title={lesson.title} infoText={lesson.level} infoClass={lesson.themeColor}></LessonDownloadBar>
+                            <LessonDownloadButton getDownloadLink={getDownloadLink(seriesAlpha, lesson.tagCode, selectedMonth)} key={index} title={`${seriesAlpha}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
                         ))
                     }
                 </div>
             </div>
             <div className="mb-2">
                 <Heading2>School Assembly Video</Heading2>
-                <LessonDownloadBar title={assemblyVideo.title} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor}></LessonDownloadBar>
+                <LessonDownloadButton title={`${seriesAlpha}${selectedMonth + 1} ${assemblyVideo.title}`} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor}></LessonDownloadButton>
             </div>
         </div>
     );
