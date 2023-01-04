@@ -1,4 +1,4 @@
-import WrapperLayout from '@/Layouts/WrapperLayout';
+import Wrapper from '@/Layouts/WrapperLayout';
 import { Head } from '@inertiajs/inertia-react';
 
 export default function Index() {
