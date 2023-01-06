@@ -25,14 +25,14 @@ export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overv
                 <div className="space-y-1">
                     {
                         monthLessons.map((lesson, index) => (
-                            <LessonDownloadButton getDownloadLink={getDownloadLink(seriesAlpha, lesson.tagCode, selectedMonth)} key={index} title={`${seriesAlpha}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
+                            <LessonDownloadButton downloadLink={getDownloadLink(seriesAlpha, lesson.tagCode, selectedMonth)} key={index} title={`${seriesAlpha}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
                         ))
                     }
                 </div>
             </div>
             <div className="mb-2">
                 <Heading2>School Assembly Video</Heading2>
-                <LessonDownloadButton title={`${seriesAlpha}${selectedMonth + 1} ${assemblyVideo.title}`} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor} getDownloadLink={""}></LessonDownloadButton>
+                <LessonDownloadButton title={`${seriesAlpha}${selectedMonth + 1} ${assemblyVideo.title}`} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor} downloadLink={""}></LessonDownloadButton>
             </div>
         </div>
     );

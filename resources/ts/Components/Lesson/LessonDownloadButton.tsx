@@ -2,10 +2,17 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
     const isLinkEnabled = () => {
         return downloadLink && downloadLink !== "" && downloadLink !== "#";
     }
+    const getButtonColorClass = () => {
+        if (isLinkEnabled())
+            return `hover:${infoClass} bg-slate-300 text-slate-800 hover:text-slate-50`;
+        else
+            return `bg-slate-300 text-gray-500`;
+    }
+
     return (
         <>
             {infoText &&
-                <button disabled={!isLinkEnabled()} onClick={() => console.log(downloadLink)} className={`flex flex-row items-center h-fit w-full hover:${infoClass} bg-slate-300  text-slate-800 hover:text-slate-50 rounded`}>
+                <button disabled={!isLinkEnabled()} onClick={() => console.log(downloadLink)} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} rounded`}>
                     <div className={`basis-1/3 ${infoClass} text-white font-bold text-center rounded p-2`}>{infoText}</div>
                     <div className="basis-2/3 text-center px-4">{title}</div>
                     {isLinkEnabled() &&
@@ -18,7 +25,7 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
                 </button>
             }
             {!infoText &&
-                <button disabled={!isLinkEnabled()} onClick={() => console.log(downloadLink)} className={`flex flex-row items-center h-fit w-full hover:${infoClass} bg-slate-300  text-slate-800 hover:text-slate-50 py-2 rounded`}>
+                <button disabled={!isLinkEnabled()} onClick={() => console.log(downloadLink)} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} py-2 rounded`}>
                     <div className="grow text-center px-4">{title}</div>
                     {isLinkEnabled() &&
                         <div className="ml-auto px-3">

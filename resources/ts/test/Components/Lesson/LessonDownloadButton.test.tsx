@@ -34,10 +34,14 @@ describe('Lesson download button render', () => {
     });
 
     test('should render disabled button component correctly', () => {
-        const downloadButton = render(<LessonDownloadButton title={"Jacob"} infoText={null} infoClass={passedClass} downloadLink={""} />);
+        const downloadButtonRender = render(<LessonDownloadButton title={"Jacob"} infoText={null} infoClass={passedClass} downloadLink={""} />);
 
-        expect(downloadButton.getByRole('button')).not.toBeEmptyDOMElement();
-        expect(downloadButton.getByRole('button')).toBeDisabled();
+        const downloadButton = downloadButtonRender.getByRole('button');
+
+        expect(downloadButton).not.toBeEmptyDOMElement();
+        expect(downloadButton).toBeDisabled();
+        expect(downloadButton.classList).not.toContain(`hover:${passedClass}`);
+        expect(downloadButton.classList).toContain('text-gray-500');
 
     })
 
