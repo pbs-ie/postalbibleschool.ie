@@ -1,12 +1,52 @@
 // Imports
 import { render, screen } from "@testing-library/react";
-import { setBesLinksOnce } from "@/helper";
+import { responseLinks, setBesLinksOnce } from "@/helper";
 
 // To Test
 import LessonDownloadList from "@/Components/Lesson/LessonDownloadList";
 
-let windowMock: jest.Mock<(query: string) => MediaQueryList>;
 
+const passedClass = "bg-bibletime-pink";
+const tagCode = "level0";
+let mockLinksObject: responseLinks = {};
+
+beforeAll(() => {
+
+    mockLinksObject[tagCode] = [{
+        link: 'test',
+        dateModified: "123",
+        size: "123",
+        series: "A",
+        monthNumber: 2,
+
+    },
+    {
+        link: 'test',
+        dateModified: "123",
+        size: "123",
+        series: "A",
+        monthNumber: 3,
+
+    },
+    {
+        link: 'test',
+        dateModified: "123",
+        size: "123",
+        series: "B",
+        monthNumber: 4,
+
+    },
+    {
+        link: 'test',
+        dateModified: "123",
+        size: "123",
+        series: "A",
+        monthNumber: 4,
+
+    }];
+
+    setBesLinksOnce(mockLinksObject);
+})
 beforeEach(() => {
     // Component makes use of window.matchMedia listener to adjust for responsive elements. This definition Mocks the matchMedia function for Jest
     Object.defineProperty(window, 'matchMedia', {
@@ -23,30 +63,51 @@ beforeEach(() => {
 })
 
 // Test
-test('should render Lesson download list correctly', () => {
-    //Setup
-    const passedClass = "bg-bibletime-pink";
-    setBesLinksOnce({
-        "level0": [{
-            link: 'test',
-            dateModified: "123",
-            size: "123",
-            series: "A",
-            monthNumber: 2,
+describe("Lesson Downloads list tests", () => {
+    test('should render Lesson download list correctly', () => {
+        //Setup
+        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} />);
 
-        }]
+        const allButtons = list.queryAllByRole("button");
+        const enabledButtons = allButtons.filter((el) => !(el as HTMLButtonElement).disabled);
+
+
+        // Pre Expectations
+        expect(list.queryAllByText(/^A\d/, { exact: false }).length).toBe(12);
+        expect(list.queryAllByText(/^B\d/, { exact: false }).length).toBe(12);
+        expect(list.queryAllByText(/^C\d/, { exact: false }).length).toBe(12);
+
+        expect(allButtons.length).toBe(36);
+
+
+        expect(enabledButtons.length).toBe(mockLinksObject[tagCode].length);
+
+        enabledButtons.map((buttonElement) => {
+            expect(buttonElement).not.toBeDisabled();
+        })
+
     });
 
-    const list = render(<LessonDownloadList tagClass="" tagCode="" />);
+    test('should set correct number of disabled buttons for the corresponding series', () => {
+        //Setup
+        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} />);
 
-    // Pre Expectations
-    expect(list.queryAllByText(/^A\d/, { exact: false }).length).toBe(12);
+        const AButtons = list.queryAllByRole("button", { name: /^A/ });
+        const BButtons = list.queryAllByRole("button", { name: /^B/ });
+        const CButtons = list.queryAllByRole("button", { name: /^C/ });
 
-    // Init
+        const enabledAButtons = AButtons.filter((el) => !(el as HTMLButtonElement).disabled);
+        const enabledBButtons = BButtons.filter((el) => !(el as HTMLButtonElement).disabled);
+        const enabledCButtons = CButtons.filter((el) => !(el as HTMLButtonElement).disabled);
 
+        const countAEnabled = mockLinksObject[tagCode].filter((el) => el.series === 'A');
+        const countBEnabled = mockLinksObject[tagCode].filter((el) => el.series === 'B');
+        const countCEnabled = mockLinksObject[tagCode].filter((el) => el.series === 'C');
 
-    // Post Expectations
+        // Pre Expectations
+        expect(enabledAButtons.length).toBe(countAEnabled.length);
+        expect(enabledBButtons.length).toBe(countBEnabled.length);
+        expect(enabledCButtons.length).toBe(countCEnabled.length);
 
-
-
-});
+    })
+})

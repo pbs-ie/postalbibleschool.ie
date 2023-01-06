@@ -7,7 +7,7 @@ interface propertyItem {
     series: string;
     monthNumber: number;
 }
-interface responseLinks {
+export interface responseLinks {
     [property: string]: Array<propertyItem>;
 }
 
