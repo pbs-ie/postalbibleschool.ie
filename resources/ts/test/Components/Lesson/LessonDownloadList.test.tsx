@@ -88,7 +88,7 @@ describe("Lesson Downloads list tests", () => {
 
     });
 
-    test('should set correct number of disabled buttons for the corresponding series', () => {
+    test('should set correct number of enabled buttons for the corresponding series', () => {
         //Setup
         const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} />);
 
