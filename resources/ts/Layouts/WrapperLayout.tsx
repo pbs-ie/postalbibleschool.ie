@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import NavLink from '@/Components/Navigation/NavLink'; 
+import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
 import FooterGroup from '@/Components/FooterGroup';
 
-import LogoWhite from '../../images/Logo-white.png';
+import LogoWhite from '@images/Logo-white.png';
 
-export default function Wrapper({ children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+declare function route(name?:string, params?: any): any;
+
+export default function WrapperLayout({ children }: {children:any}) {
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
 
     return (
         <div className="min-h-screen flex flex-col items-stretch bg-slate-400">

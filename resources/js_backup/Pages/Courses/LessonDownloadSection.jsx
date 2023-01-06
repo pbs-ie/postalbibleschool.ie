@@ -1,4 +1,4 @@
-import LessonCard from "@/Components/LessonCard";
+import LessonCard from "@/Components/Lesson/LessonCard";
 import Heading1 from "@/Components/Typography/Heading1";
 import Level0Image from "@images/Level0_A1.jpg";
 import Level1Image from "@images/Level1_A1.jpg";

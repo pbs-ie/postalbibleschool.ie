@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "jsx": "react-jsx",
+        "noEmit": true,
+        "isolatedModules": true,
+
+        "strict": true,
+        "noImplicitAny": true,
+
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["resources/ts/*"],
+            "@images/*": ["resources/images/*"]
+        },
+        "types": ["vite/client", "jest"],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        "resources/js_backup",
+        "resources/js_backup/**/*.jsx",
+        "resources/ts",
+        "resources/ts/**/*",
+        "jest-setup.ts"
+    ],
+    "exclude": ["node_modules", "public"]
+}

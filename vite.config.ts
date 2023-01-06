@@ -1,17 +1,18 @@
+import { fileURLToPath } from "url";
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
-const path = require('path');
 
 export default defineConfig({
     resolve: {
         alias: {
-            '@images': path.resolve(__dirname, './resources/images')
-        }
+            "@": fileURLToPath(new URL("./resources/ts", import.meta.url)),
+            "@images": fileURLToPath(new URL("./resources/images", import.meta.url)),
+        },
     },
     plugins: [
         laravel({
-            input: "resources/js/app.jsx",
+            input: "resources/ts/app.tsx",
             refresh: true,
         }),
         react(),
