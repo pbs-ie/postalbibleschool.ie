@@ -57,12 +57,13 @@ class CourseController extends Controller
 
             $dateValue = $row->find('td',2);
             $sizeValue = $row->find('td',3);
-            preg_match('/_(A|B|C)\d{1,2}.pdf/', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
+            preg_match('/_(A|B|C)(\d{1,2}).pdf/', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
             
             $response[$propertyValue][$iter]["link"] = $baseUrl.trim($linkHref);
             $response[$propertyValue][$iter]["dateModified"] = is_null($dateValue) ? null: trim($dateValue->innertext);
             $response[$propertyValue][$iter]["size"] = is_null($sizeValue) ? null: trim($sizeValue->innertext);
-            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<2 ? null: trim($matchCode[1]);
+            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<3 ? null: trim($matchCode[1]);
+            $response[$propertyValue][$iter]["monthNumber"] = is_null($matchCode) || count($matchCode)<3 ? null: (int)trim($matchCode[2]);
             $iter++;
         }
         unset($iter, $linkValue, $dateValue, $sizeValue);

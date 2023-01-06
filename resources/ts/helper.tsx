@@ -5,6 +5,7 @@ interface propertyItem {
     dateModified: string;
     size: string;
     series: string;
+    monthNumber: number;
 }
 interface responseLinks {
     [property: string]: Array<propertyItem>;
@@ -28,7 +29,7 @@ export const setBesLinksOnce = function (updateValue: responseLinks) {
 
 // Returns the download url for BES lessons from the BES links list
 export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string)): string {
-    return BES_GLOBALS.besLinksBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "#";
+    return BES_GLOBALS.besLinksBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
 };
 
 // Converts series number to corresponding alphabet

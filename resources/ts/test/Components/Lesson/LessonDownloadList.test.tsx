@@ -31,7 +31,8 @@ test('should render Lesson download list correctly', () => {
             link: 'test',
             dateModified: "123",
             size: "123",
-            series: "A"
+            series: "A",
+            monthNumber: 2,
 
         }]
     });
