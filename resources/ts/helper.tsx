@@ -1,7 +1,17 @@
 import { seriesNames } from "./constants";
 
+interface propertyItem {
+    link: string;
+    dateModified: string;
+    size: string;
+    series: string;
+}
+interface responseLinks {
+    [property: string]: Array<propertyItem>;
+}
+
 interface BesLinksType {
-    besLinks: any;
+    besLinks: responseLinks;
     besLinksBySeries: any;
 }
 
@@ -10,15 +20,15 @@ const BES_GLOBALS: BesLinksType = {
     besLinksBySeries: {}
 };
 
-export const setBesLinksOnce = function (updateValue: any) {
+export const setBesLinksOnce = function (updateValue: responseLinks) {
     BES_GLOBALS.besLinks = updateValue;
     BES_GLOBALS.besLinksBySeries = groupedBySeriesBes();
     Object.freeze(BES_GLOBALS);
 };
 
 // Returns the download url for BES lessons from the BES links list
-export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number|string)): string {
-    return BES_GLOBALS.besLinksBySeries[seriesCode][tagCode][monthNumber]?.link ?? "";
+export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string)): string {
+    return BES_GLOBALS.besLinksBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "#";
 };
 
 // Converts series number to corresponding alphabet
@@ -27,12 +37,16 @@ export const getAlphabetFromNumber = function (num: number): string {
 };
 
 const getCurrentSeriesList = function (seriesCode: string) {
-    let onlyTagged = {} as any;
+    let onlyTagged = {} as responseLinks;
     const besLinks = BES_GLOBALS.besLinks;
     for (const key in besLinks) {
-        let filtered = besLinks[key].filter((value: any) => value.series === seriesCode);
-        if (onlyTagged[key]?.length)
+        let filtered = besLinks[key].filter((value: propertyItem) => value.series === seriesCode);
+        if (filtered.length === 0) {
+            continue;
+        }
+        if (onlyTagged[key]?.length) {
             onlyTagged[key] = [...onlyTagged[key], ...filtered];
+        }
         else {
             onlyTagged[key] = [...filtered];
         }
@@ -41,9 +55,12 @@ const getCurrentSeriesList = function (seriesCode: string) {
 };
 
 const groupedBySeriesBes = function () {
-    let pivot = {} as any;
+    let pivot: { [property: string]: responseLinks } = {};
     seriesNames.forEach((series) => {
-        pivot[series.code] = getCurrentSeriesList(series.code);
+        let currentList = getCurrentSeriesList(series.code);
+        if (Object.keys(currentList).length !== 0) {
+            pivot[series.code] = currentList;
+        }
     });
     return pivot;
 };
