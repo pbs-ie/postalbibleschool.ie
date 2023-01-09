@@ -15,6 +15,7 @@ declare global {
         description: string;
         image: string;
         type: "bibletime" | "gleaners" | "newlife";
+        scrollTo: string;
     }
 }
 
@@ -23,19 +24,22 @@ export const courseContent: CourseContent[] = [
         heading: "Bible Time Lessons",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level0Image,
-        type: "bibletime"
+        type: "bibletime",
+        scrollTo: "lesson-download"
     },
     {
         heading: "New Life",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level1Image,
-        type: "newlife"
+        type: "newlife",
+        scrollTo: "new-life"
     },
     {
         heading: "Gleaners",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level2Image,
-        type: "gleaners"
+        type: "gleaners",
+        scrollTo: "gleaners"
     }
 ];
 

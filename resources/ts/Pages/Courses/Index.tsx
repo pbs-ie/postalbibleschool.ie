@@ -26,15 +26,15 @@ export default function Index({ besDownloads }: any) {
                     <div className="flex flex-col md:flex-row">
                         {
                             courseContent.map((course, index) => (
-                                <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image}></CourseCard>
+                                <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} scrollTo={course.scrollTo}></CourseCard>
                             ))
                         }
                     </div>
                 </section>
             </div>
-            
+
             <MonthlySection></MonthlySection>
-            
+
             <LessonDownloadSection></LessonDownloadSection>
         </WrapperLayout>
     );
