@@ -2,6 +2,7 @@ import CardBlock from "@/Components/CardBlock";
 import CardContainer from "@/Components/CardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import EventWrapper from "@/Layouts/EventWrapper";
+import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 export default function Shed() {
@@ -14,9 +15,9 @@ export default function Shed() {
                 <div className="w-full">
                     <p className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam culpa. Esse sunt similique repellendus aspernatur, excepturi impedit dolore architecto unde? Facere ad numquam exercitationem, sint est ea quas excepturi.</p>
                 </div>
-                <div className="w-screen relative right-1/2 left-1/2 -mx-[50vw] px-5 py-3">
+                <ExtendScreenWrapper>
                     <GalleryBasic></GalleryBasic>
-                </div>
+                </ExtendScreenWrapper>
                 <CardContainer type="shed" />
                 <div className="mb-10">
                     <CardBlock title="Contact" description={descriptionText} buttonText="Consent Form" />

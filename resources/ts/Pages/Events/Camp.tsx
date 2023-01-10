@@ -3,15 +3,16 @@ import GalleryAdvanced from "@/Components/Gallery/GalleryAdvanced";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Heading2 from "@/Components/Typography/Heading2";
 import EventWrapper from "@/Layouts/EventWrapper";
+import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 export default function Camp() {
     return (
         <WrapperLayout>
             <EventWrapper title="Summer Camp">
-                <div className="w-screen relative right-1/2 left-1/2 -mx-[50vw] px-5 py-3">
+                <ExtendScreenWrapper>
                     <GalleryBasic></GalleryBasic>
-                </div>
+                </ExtendScreenWrapper>
                 <CardContainer type="camp" />
                 <Heading2>Camp</Heading2>
                 <div className="w-full text-center ">
