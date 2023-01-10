@@ -17,6 +17,13 @@ declare global {
         type: "bibletime" | "gleaners" | "newlife";
         scrollTo: string;
     }
+    interface Button {
+        type: "submit" | "button" | "reset" | undefined;
+        className: string;
+        processing: boolean;
+        children: React.ReactNode;
+        onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    }
 }
 
 export const courseContent: CourseContent[] = [

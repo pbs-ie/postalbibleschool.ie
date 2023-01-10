@@ -29,6 +29,10 @@ Route::get('/', function () {
 
 Route::get('/courses', [CourseController::class, 'list'])->name('courses');
 
+Route::get('/events/prizegivings', function() {
+    return Inertia::render('Events/Prizegivings');
+})->name('events.prizegivings');
+
 
 
 

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
-import NavLink from '@/Components/Navigation/NavLink'; 
+import NavLink from '@/Components/Navigation/NavLink';
 import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
 import FooterGroup from '@/Components/FooterGroup';
 
 import LogoWhite from '@images/Logo-white.png';
 
-declare function route(name?:string, params?: any): any;
+declare function route(name?: string, params?: any): any;
 
-export default function WrapperLayout({ children }: {children:any}) {
+export default function WrapperLayout({ children }: { children: any }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
 
     return (
@@ -34,12 +34,17 @@ export default function WrapperLayout({ children }: {children:any}) {
                                     Courses
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('events.prizegivings')} active={route().current('events.prizegivings')}>
+                                    Events
+                                </NavLink>
+                            </div>
 
                         </div>
                         <div className="-mr-2 flex items-center sm:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
