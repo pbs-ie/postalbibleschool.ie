@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseController;
+use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,16 +19,19 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Dashboard', [
+        'besDownloads' => DownloadsList::get(),
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'canRegister' => Route::has('register')
     ]);
 });
 
 
-Route::get('/courses', [CourseController::class, 'list'])->name('courses');
+Route::get('/courses', function() {
+    return Inertia::render('Courses/Index', [
+        'besDownloads' => DownloadsList::get()
+    ]);
+})->name('courses');
 
 Route::get('/events/prizegivings', function() {
     return Inertia::render('Events/Prizegivings');

@@ -1,24 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\CustomClasses\HtmlDomParser;
-use Inertia\Inertia;
 
-
-class CourseController extends Controller
+class DownloadsList extends Model
 {
-    /**
-     * Retrieve BES course list
-     * Note: The list is currently being retrieved from the BES website downloads page list. Should this external page be changed in the future, this code will break.
-     * 
-     * 
-     * @return response
-     * 
-     */
-    public function list() {
+    public static function get() {
         $properties = ["timeline","level0","level1","level2","level3","level4"];
         
         $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
@@ -73,29 +65,6 @@ class CourseController extends Controller
         // This is done to receive an array on the view rather than an object with keys of incremnental numbers determined by $iter
         $response = array_map(fn($propertyGroup)=>array_values($propertyGroup),$response);
 
-        return Inertia::render('Courses/Index', [
-            'besDownloads' => $response
-        ]);
-    }
-
-    /**
-     * Groups array based on the specified property
-     * 
-     * @param property array
-     * @param data array
-     * 
-     * @return array
-     */
-    private function group_array($property, $data) {
-        $grouped_array = [];
-        foreach ($data as $value) {
-            if(str_contains($value->link, $property)) {
-                
-            }
-
-        }
-
-        unset($line);
-
+        return $response;
     }
 }
