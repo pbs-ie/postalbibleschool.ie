@@ -39,9 +39,15 @@ Route::get('/events/shed', function() {
 })->name('events.shed');
 
 
-Route::get('/events/step', function() {
-    return Inertia::render('Events/Step');
-})->name('events.step');
+Route::get('/events/shed', function() {
+    return Inertia::render('Events/Shed');
+})->name('events.shed');
+
+
+
+Route::get('/events/camp', function() {
+    return Inertia::render('Events/Camp');
+})->name('events.camp');
 
 
 

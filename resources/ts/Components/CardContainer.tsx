@@ -9,7 +9,7 @@ import ChatBubble from "@/Components/Icons/ChatBubble";
 import { useEffect, useState } from "react";
 
 interface CardTypes {
-    type: "prizegivings" | "shed" | "step";
+    type: "prizegivings" | "shed" | "step" | "camp";
 }
 
 export default function CardContainer({ type }: CardTypes) {
@@ -25,6 +25,9 @@ export default function CardContainer({ type }: CardTypes) {
                 break;
             case "step":
                 setNumberOfCards(stepCards.length);
+                break;
+            case "camp":
+                setNumberOfCards(campCards.length);
                 break;
         }
 
@@ -100,6 +103,21 @@ export default function CardContainer({ type }: CardTypes) {
         },
     ]
 
+    const campCards = [
+        {
+            icon: Calendar,
+            title: "When",
+            description: "16th to 23rd July, 2023",
+            buttonText: ""
+        },
+        {
+            icon: Location,
+            title: "Where",
+            description: "Avoca Manor, Avoca, Co Wicklow",
+            buttonText: ""
+        }
+    ]
+
     const getCurrentTypeCards = () => {
         switch (type) {
             case "prizegivings":
@@ -108,6 +126,8 @@ export default function CardContainer({ type }: CardTypes) {
                 return shedCards;
             case "step":
                 return stepCards;
+            case "camp":
+                return campCards;
         }
     }
     return (
