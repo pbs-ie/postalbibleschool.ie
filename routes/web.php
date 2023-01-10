@@ -34,6 +34,10 @@ Route::get('/events/prizegivings', function() {
 })->name('events.prizegivings');
 
 
+Route::get('/events/shed', function() {
+    return Inertia::render('Events/Shed');
+})->name('events.shed');
+
 
 
 Route::get('/dashboard', function () {
