@@ -1,4 +1,4 @@
-import Heading2 from "@/Components/Typography/Heading2";
+import Heading3 from "@/Components/Typography/Heading3";
 import { bibleTimeLevels, monthNames } from "@/constants";
 import { getAlphabetFromNumber, getDownloadLink } from "@/helper";
 import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
@@ -21,7 +21,7 @@ export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overv
     return (
         <div className="flex flex-col">
             <div className="mb-2">
-                <Heading2>Bible Time Lessons</Heading2>
+                <Heading3>Bible Time Lessons</Heading3>
                 <div className="space-y-1">
                     {
                         monthLessons.map((lesson, index) => (
@@ -31,7 +31,7 @@ export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overv
                 </div>
             </div>
             <div className="mb-2">
-                <Heading2>School Assembly Video</Heading2>
+                <Heading3>School Assembly Video</Heading3>
                 <LessonDownloadButton title={`${seriesAlpha}${selectedMonth + 1} ${assemblyVideo.title}`} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor} downloadLink={""}></LessonDownloadButton>
             </div>
         </div>

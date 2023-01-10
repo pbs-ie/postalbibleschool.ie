@@ -1,9 +1,9 @@
-import Heading2 from "@/Components/Typography/Heading2";
 import ButtonPill from "@/Components/ButtonPill";
 import MonthlyOverview from "@/Components/Monthly/MonthlyOverview";
 import { useState } from "react";
 import { monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
+import Heading3 from "@/Components/Typography/Heading3";
 
 export default function MonthlySection() {
     const [selectedMonth, setSelectedMonth] = useState(-1);
@@ -23,7 +23,7 @@ export default function MonthlySection() {
         <section className="w-full bg-sky-100">
             <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 p-5 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col bg-white">
-                    <Heading2>This month's lessons</Heading2>
+                    <Heading3>This month's lessons</Heading3>
                     <h3>Select Month</h3>
                     <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 justify-items-stretch p-4">
                         {

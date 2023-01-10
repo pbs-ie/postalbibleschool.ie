@@ -1,6 +1,6 @@
 import { Link as ScrollLink } from "react-scroll";
 
-import Heading2 from '@/Components/Typography/Heading2';
+import Heading3 from '@/Components/Typography/Heading3';
 import TagGroupPill from '@/Components/TagGroupPill';
 
 import { groupThemes } from '@/constants';
@@ -10,13 +10,13 @@ export default function CourseCard({ heading, image, description, type = "biblet
 
     return (
         <div className="flex flex-col items-center min-w-min h-full rounded-md bg-slate-100 mb-4 md:mx-2 p-6 drop-shadow-lg">
-            <Heading2>{heading}</Heading2>
+            <Heading3>{heading}</Heading3>
             <img className="w-52 h-auto" src={image} alt={`${heading} image`} />
             <p className="text-sm leading-tight p-4 text-gray-500">{description}</p>
             <div className="h-auto flex flex-auto flex-wrap">
                 {
                     levelGroup.map((element, index) => (
-                        <TagGroupPill key={index} addClass={element.tagClass}>{element.tagName}</TagGroupPill>
+                        <TagGroupPill key={index} addClass={element.tagClass + " text-xs"}>{element.tagName}</TagGroupPill>
                     ))
                 }
             </div>

@@ -1,12 +1,24 @@
 import CardBlock from "@/Components/CardBlock";
 import Calendar from "@/Components/Icons/Calendar";
 import Location from "@/Components/Icons/Location";
+import { useEffect, useState } from "react";
 
 interface CardTypes {
     type: "prizegivings" | "shed";
 }
 
 export default function CardContainer({ type }: CardTypes) {
+    const [numberOfCards, setNumberOfCards] = useState(0);
+
+    useEffect(() => {
+        if (type === "prizegivings")
+            setNumberOfCards(prizegivingCards.length);
+        if (type === "shed")
+            setNumberOfCards(shedCards.length);
+
+    }, []);
+
+
     const prizegivingCards = [
         {
             icon: Calendar,
@@ -53,9 +65,9 @@ export default function CardContainer({ type }: CardTypes) {
     }
     return (
         <div className="flex justify-center mt-10 mb-20">
-            <div className="flex flex-col md:flex-row justify-between justify-items-stretch p-6 rounded-lg shadow-lg bg-sky-100 md:w-5/6 ">
+            <div className="flex flex-col md:flex-row justify-around justify-items-stretch p-6 rounded-lg shadow-lg bg-sky-100 md:w-5/6 ">
                 {getCurrentTypeCards().map(({ icon, title, description, buttonText }) => (
-                    <div key={title} className="flex flex-col basis-1/3 grow-0 items-center justify-between max-w-sm mb-8 last-of-type:mb-0 md:mb-0 md:mx-4">
+                    <div key={title} className={`flex flex-col basis-1/${numberOfCards} grow-0 items-center justify-between max-w-sm mb-8 last-of-type:mb-0 md:mb-0 md:mx-4`}>
                         <CardBlock Icon={icon} title={title} description={description} buttonText={buttonText} />
                     </div>
                 ))}
