@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
 import NavLink from '@/Components/Navigation/NavLink';
@@ -9,7 +9,7 @@ import LogoWhite from '@images/Logo-white.png';
 
 declare function route(name?: string, params?: any): any;
 
-export default function WrapperLayout({ children }: { children: any }) {
+export default function WrapperLayout({ children }: { children: React.ReactNode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
 
     return (

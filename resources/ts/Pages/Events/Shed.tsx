@@ -1,9 +1,8 @@
 import CardBlock from "@/Components/CardBlock";
 import CardContainer from "@/Components/CardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
-import Heading1 from "@/Components/Typography/Heading1";
+import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/inertia-react";
 
 export default function Shed() {
     const descriptionText = <p className="text-lg">
@@ -11,9 +10,7 @@ export default function Shed() {
     </p>
     return (
         <WrapperLayout>
-            <Head title="Events - The Shed"></Head>
-            <section className="text-center shadow-sm sm:rounded-lg max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
-                <Heading1>The SHED</Heading1>
+            <EventWrapper title="The SHED">
                 <div className="w-full">
                     <p className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam culpa. Esse sunt similique repellendus aspernatur, excepturi impedit dolore architecto unde? Facere ad numquam exercitationem, sint est ea quas excepturi.</p>
                 </div>
@@ -24,8 +21,7 @@ export default function Shed() {
                 <div className="mb-10">
                     <CardBlock title="Contact" description={descriptionText} buttonText="Consent Form" />
                 </div>
-
-            </section>
+            </EventWrapper>
         </WrapperLayout>
     )
 }

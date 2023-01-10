@@ -4,17 +4,24 @@ import Location from "@/Components/Icons/Location";
 import { useEffect, useState } from "react";
 
 interface CardTypes {
-    type: "prizegivings" | "shed";
+    type: "prizegivings" | "shed" | "step";
 }
 
 export default function CardContainer({ type }: CardTypes) {
     const [numberOfCards, setNumberOfCards] = useState(0);
 
     useEffect(() => {
-        if (type === "prizegivings")
-            setNumberOfCards(prizegivingCards.length);
-        if (type === "shed")
-            setNumberOfCards(shedCards.length);
+        switch (type) {
+            case "prizegivings":
+                setNumberOfCards(prizegivingCards.length);
+                break;
+            case "shed":
+                setNumberOfCards(shedCards.length);
+                break;
+            case "step":
+                setNumberOfCards(stepCards.length);
+                break;
+        }
 
     }, []);
 
@@ -55,12 +62,47 @@ export default function CardContainer({ type }: CardTypes) {
         },
     ];
 
+    const stepCards = [
+        {
+            icon: Calendar,
+            title: "When",
+            description: "3 times a year",
+            buttonText: ""
+        },
+        {
+            icon: Location,
+            title: "Where",
+            description: "Castledaly Manor, Athlone, Co Westmeath",
+            buttonText: ""
+        },
+        {
+            icon: Location,
+            title: "Topic",
+            description: "2 Samuel",
+            buttonText: ""
+        },
+        {
+            icon: Location,
+            title: "Who can attend",
+            description: "Teens and Young Adults 16+",
+            buttonText: ""
+        },
+        {
+            icon: Location,
+            title: "Cost",
+            description: <p>Regular €65<br />Student €50</p>,
+            buttonText: ""
+        },
+    ]
+
     const getCurrentTypeCards = () => {
         switch (type) {
             case "prizegivings":
                 return prizegivingCards;
             case "shed":
                 return shedCards;
+            case "step":
+                return stepCards;
         }
     }
     return (
