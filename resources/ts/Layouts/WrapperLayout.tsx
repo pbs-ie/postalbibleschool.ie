@@ -93,8 +93,8 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     </div>
                 </div>
             </nav>
-            <main className="h-full grow flex flex-col sm:justify-center pt-6 sm:pt-0">
-                <div className="w-full grow mt-6 px-6 py-4 bg-white shadow-md overflow-hidden">
+            <main className="h-full grow flex flex-col sm:justify-center pt-0">
+                <div className="w-full grow px-6 py-4 bg-white overflow-hidden">
                     {children}
                 </div>
             </main>
