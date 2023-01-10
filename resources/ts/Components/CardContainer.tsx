@@ -1,6 +1,11 @@
 import CardBlock from "@/Components/CardBlock";
 import Calendar from "@/Components/Icons/Calendar";
 import Location from "@/Components/Icons/Location";
+import Clock from "@/Components/Icons/Clock";
+import Group from "@/Components/Icons/Group";
+import Banknotes from "@/Components/Icons/Banknotes";
+import ChatBubble from "@/Components/Icons/ChatBubble";
+
 import { useEffect, useState } from "react";
 
 interface CardTypes {
@@ -55,7 +60,7 @@ export default function CardContainer({ type }: CardTypes) {
             buttonText: ""
         },
         {
-            icon: Location,
+            icon: Clock,
             title: "Time",
             description: "7:30pm to 10:00pm",
             buttonText: ""
@@ -76,19 +81,19 @@ export default function CardContainer({ type }: CardTypes) {
             buttonText: ""
         },
         {
-            icon: Location,
+            icon: ChatBubble,
             title: "Topic",
             description: "2 Samuel",
             buttonText: ""
         },
         {
-            icon: Location,
+            icon: Group,
             title: "Who can attend",
             description: "Teens and Young Adults 16+",
             buttonText: ""
         },
         {
-            icon: Location,
+            icon: Banknotes,
             title: "Cost",
             description: <p>Regular €65<br />Student €50</p>,
             buttonText: ""
