@@ -21,7 +21,7 @@ export default function MonthlySection() {
 
     return (
         <section className="w-full">
-            <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 px-8 pt-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
+            <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 px-8 pt-10 md:pb-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col bg-white">
                     <Heading3>This month's lessons</Heading3>
                     <h3 className="ml-10">Select Month</h3>

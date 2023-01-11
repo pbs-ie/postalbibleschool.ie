@@ -3,22 +3,8 @@ import { monthNames, seriesNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import { useEffect, useState } from "react";
 
-export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tagCode = "level0" }) {
-    const [isWideScreen, setIsWideScreen] = useState(false);
+export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tagCode = "level0", isWideScreen = false }) {
 
-
-    useEffect(() => {
-        const mql = window.matchMedia("(min-width: 640px)");
-        const onChange = () => setIsWideScreen(!!mql.matches);
-        mql.addEventListener("change", onChange);
-
-        setIsWideScreen(mql.matches);
-
-        return () => {
-            mql.removeEventListener("change", onChange);
-        };
-
-    }, []);
 
 
 

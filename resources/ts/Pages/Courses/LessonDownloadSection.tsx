@@ -2,28 +2,58 @@ import LessonCard from "@/Components/Lesson/LessonCard";
 import Heading2 from "@/Components/Typography/Heading2";
 import LessonDownloadList from "@/Components/Lesson/LessonDownloadList";
 
-import { bibleTimeLevels } from "@/constants";
-import { useState } from "react";
+import { bibleTimeLevels, gleanersLevels, newLifeLevels } from "@/constants";
+import { ReactNode, useEffect, useState } from "react";
 
+interface DownloadSection {
+    heading: string;
+    description: ReactNode;
+    type: "bibletime" | "newlife" | "gleaners"
+}
 
-export default function LessonDownloadSection() {
+export default function LessonDownloadSection({ heading, description, type }: DownloadSection) {
     const [selectedLevel, setSelectedLevel] = useState<GroupThemes>({} as GroupThemes);
+    const [isWideScreen, setIsWideScreen] = useState(false);
+
+
+    useEffect(() => {
+        const mql = window.matchMedia("(min-width: 640px)");
+        const onChange = () => setIsWideScreen(!!mql.matches);
+        mql.addEventListener("change", onChange);
+
+        setIsWideScreen(mql.matches);
+
+        return () => {
+            mql.removeEventListener("change", onChange);
+        };
+
+    }, []);
+
+    const getCurrentTypeList = () => {
+        switch (type) {
+            case "bibletime":
+                return bibleTimeLevels;
+            case "newlife":
+                return newLifeLevels;
+            case "gleaners":
+                return gleanersLevels;
+        }
+    }
 
     return (
-        <section id="lesson-download">
-            <Heading2>Bible Time Lessons</Heading2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tellus venenatis, vestibulum lectus sed, vehicula sapien. Suspendisse ultricies pretium dui a volutpat. Pellentesque vel elementum nulla. Sed aliquet ornare velit et blandit. Nullam id consequat nisi. Nullam convallis vel est rutrum sodales. Sed sollicitudin sed risus at pellentesque. Donec ut diam dolor. Maecenas id lectus vestibulum, euismod mauris id, ornare ex. Duis iaculis eros ut tellus aliquet, id commodo arcu tempus. Pellentesque ac porta mauris. Cras maximus erat in euismod euismod. Aenean mattis feugiat nibh vel semper.
-                Suspendisse velit dolor, faucibus ac ligula at, mollis ultricies enim. Integer viverra iaculis nisl, in fermentum velit. In ut imperdiet elit. Sed pulvinar dictum metus, quis pharetra ex porta nec. Curabitur nec lobortis lorem, quis dictum dui. Integer ut neque et arcu condimentum dapibus ut ut augue. Nunc sit amet egestas velit. Duis libero justo, dapibus eget libero vitae, tristique tempus dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel elementum justo. Sed at purus aliquet, vestibulum enim at, ornare velit.</p>
+        <section id="lesson-download" className="my-20 px-10 sm:px-20">
+            <Heading2>{heading}</Heading2>
+            {description}
 
-            <div className="flex flex-col md:flex-row justify-around mt-5 w-full">
+            <div className="flex flex-col md:flex-row justify-around mt-4 mb-8 w-full">
                 {
-                    bibleTimeLevels.map((level, index) => (
+                    getCurrentTypeList().map((level, index) => (
 
-                        <LessonCard setSelectedLevel={setSelectedLevel} className={"p-2"} key={index} heading={level.tagName} image={level.image} description={"Bible Stories"} type="bibletime"></LessonCard>
+                        <LessonCard isWideScreen={isWideScreen} setSelectedLevel={setSelectedLevel} className={"p-2"} key={index} heading={level.tagName} tagCode={level.tagCode} image={level.image} description={"Bible Stories"} type={type}></LessonCard>
                     ))
                 }
             </div>
-            <LessonDownloadList tagClass={selectedLevel.tagClass} tagCode={selectedLevel.tagCode}></LessonDownloadList>
+            <LessonDownloadList isWideScreen={isWideScreen} tagClass={selectedLevel.tagClass} tagCode={selectedLevel.tagCode}></LessonDownloadList>
         </section>
     );
 }

@@ -26,6 +26,14 @@ declare global {
     }
 }
 
+interface LevelsDescription {
+    tagName: string,
+    tagCode: string,
+    tagColor: string,
+    image: string,
+    title: string
+}
+
 export const courseContent: CourseContent[] = [
     {
         heading: "Bible Time Lessons",
@@ -50,7 +58,7 @@ export const courseContent: CourseContent[] = [
     }
 ];
 
-export const groupThemes = {
+export const groupThemes: { [key: string]: GroupThemes[] } = {
     "bibletime": [
         { tagCode: "level0", tagClass: "bg-bibletime-pink", tagName: "level 0" },
         { tagCode: "level1", tagClass: "bg-bibletime-orange", tagName: "level 1" },
@@ -58,16 +66,16 @@ export const groupThemes = {
         { tagCode: "level3", tagClass: "bg-bibletime-green", tagName: "level 3" },
         { tagCode: "level4", tagClass: "bg-bibletime-blue", tagName: "level 4" }],
     "newlife": [
-        { tagCode: "groupA", tagClass: "bg-bibletime-blue", tagName: "group A" },
-        { tagCode: "groupB", tagClass: "bg-bibletime-green", tagName: "group B" },
-        { tagCode: "groupC", tagClass: "bg-bibletime-red", tagName: "group C" }
+        { tagCode: "newlifeA", tagClass: "bg-bibletime-blue", tagName: "newlife A" },
+        { tagCode: "newlifeB", tagClass: "bg-bibletime-green", tagName: "newlife B" },
+        { tagCode: "newlifeC", tagClass: "bg-bibletime-red", tagName: "newlife C" }
     ],
     "gleaners": [
-        { tagCode: "groupA", tagClass: "bg-bibletime-pink", tagName: "group A" },
-        { tagCode: "groupB", tagClass: "bg-bibletime-orange", tagName: "group B" },
-        { tagCode: "groupC", tagClass: "bg-bibletime-red", tagName: "group C" },
-        { tagCode: "groupD", tagClass: "bg-bibletime-green", tagName: "group D" },
-        { tagCode: "groupE", tagClass: "bg-bibletime-blue", tagName: "group E" }
+        { tagCode: "gleanersA", tagClass: "bg-bibletime-pink", tagName: "gleaners A" },
+        { tagCode: "gleanersB", tagClass: "bg-bibletime-orange", tagName: "gleaners B" },
+        { tagCode: "gleanersC", tagClass: "bg-bibletime-red", tagName: "gleaners C" },
+        { tagCode: "gleanersD", tagClass: "bg-bibletime-green", tagName: "gleaners D" },
+        { tagCode: "gleanersE", tagClass: "bg-bibletime-blue", tagName: "gleaners E" }
     ]
 };
 
@@ -107,6 +115,67 @@ export const bibleTimeLevels = [
         image: Level4Image,
         title: "A9 - Jacob"
     }
+];
+
+export const newLifeLevels = [
+    {
+        tagName: "Newlife A",
+        tagCode: "newlifeA",
+        tagColor: "bg-bibletime-pink",
+        image: Level0Image,
+        title: "A- Newlife"
+    },
+    {
+        tagName: "Newlife B",
+        tagCode: "newlifeB",
+        tagColor: "bg-bibletime-orange",
+        image: Level1Image,
+        title: "B - Newlife"
+    },
+    {
+        tagName: "Newlife C",
+        tagCode: "newlifeC",
+        tagColor: "bg-bibletime-red",
+        image: Level2Image,
+        title: "C - Newlife"
+    }
+];
+export const gleanersLevels = [
+    {
+        tagName: "Gleaners A",
+        tagCode: "gleanersA",
+        tagColor: "bg-bibletime-pink",
+        image: Level0Image,
+        title: "A- Gleaners"
+    },
+    {
+        tagName: "Gleaners B",
+        tagCode: "gleanersB",
+        tagColor: "bg-bibletime-orange",
+        image: Level1Image,
+        title: "B - Gleaners"
+    },
+    {
+        tagName: "Gleaners C",
+        tagCode: "gleanersC",
+        tagColor: "bg-bibletime-red",
+        image: Level2Image,
+        title: "C - Gleaners"
+    },
+    {
+        tagName: "Gleaners D",
+        tagCode: "gleanersD",
+        tagColor: "bg-bibletime-orange",
+        image: Level1Image,
+        title: "D - Gleaners"
+    },
+    {
+        tagName: "Gleaners E",
+        tagCode: "gleanersE",
+        tagColor: "bg-bibletime-red",
+        image: Level2Image,
+        title: "E - Gleaners"
+    },
 ];
 export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const seriesNames = [
