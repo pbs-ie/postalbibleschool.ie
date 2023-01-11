@@ -20,9 +20,9 @@ export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overv
 
     return (
         <div className="flex flex-col">
-            <div className="mb-2">
+            <div className="mb-10">
                 <Heading3>Bible Time Lessons</Heading3>
-                <div className="space-y-1">
+                <div className="space-y-2">
                     {
                         monthLessons.map((lesson, index) => (
                             <LessonDownloadButton downloadLink={getDownloadLink(seriesAlpha, lesson.tagCode, selectedMonth)} key={index} title={`${seriesAlpha}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>

@@ -33,8 +33,9 @@ export default function Index({ besDownloads }: any) {
                 </section>
             </div>
 
-            <MonthlySection></MonthlySection>
-
+            <div className="max-w-screen mx-auto py-12 sm:px-10 bg-sky-100">
+                <MonthlySection></MonthlySection>
+            </div>
             <LessonDownloadSection></LessonDownloadSection>
         </WrapperLayout>
     );
