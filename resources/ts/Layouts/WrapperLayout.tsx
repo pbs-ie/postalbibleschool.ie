@@ -7,11 +7,14 @@ import DropdownNavLink from '@/Components/Navigation/DropdownNavLink';
 import FooterGroup from '@/Components/FooterGroup';
 
 import LogoWhite from '@images/Logo-white.png';
+import FooterLink from '@/Components/Navigation/FooterLink';
 
 declare function route(name?: string, params?: any): any;
 
 export default function WrapperLayout({ children }: { children: React.ReactNode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
+
+    const currentYear = (new Date()).getFullYear();
 
     return (
         <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
@@ -130,33 +133,37 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
             </main>
 
             <footer className="bg-pbsblue text-white bottom-0 left-0">
-                <div className="w-full mt-0 px-6 py-6">
-                    <div className="grid grid-rows-4 gap-4 sm:grid-cols-4 sm:grid-rows-none">
+                <div className="w-full my-10 px-8 sm:px-40 py-6">
+                    {/* <div className="grid grid-rows-4 gap-8 content-start sm:grid-cols-4 sm:grid-rows-none"> */}
+                    <div className="flex flex-nowrap flex-col sm:flex-row justify-evenly">
                         <FooterGroup heading="About Us">
-                            <p className="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <p className="text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</p>
                         </FooterGroup>
                         <FooterGroup heading="Courses">
-                            <div className="flex flex-col">
-                                <Link href={route('courses')}>BibleTime</Link>
-                                <Link href={route('courses')}>New Life</Link>
-                                <Link href={route('courses')}>Gleaners</Link>
-                                <Link href={route('courses')}>Online Assembly</Link>
-                            </div>
+                            <ul className="flex flex-col">
+                                <li><FooterLink href={route('courses')}>BibleTime</FooterLink></li>
+                                <li><FooterLink href={route('courses')}>New Life</FooterLink></li>
+                                <li><FooterLink href={route('courses')}>Gleaners</FooterLink></li>
+                                <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li>
+                            </ul>
                         </FooterGroup>
                         <FooterGroup heading="Programmes">
-                            <div className="flex flex-col">
-                                <Link href='#'>Prizegivings</Link>
-                                <Link href='#'>The SHED</Link>
-                                <Link href='#'>STEP</Link>
-                                <Link href='#'>Summer Camp</Link>
-                            </div>
+                            <ul className="flex flex-col">
+                                <li><FooterLink href={route('events.prizegivings')}>Prizegivings</FooterLink></li>
+                                <li><FooterLink href={route('events.shed')}>The SHED</FooterLink></li>
+                                <li><FooterLink href={route('events.step')}>STEP</FooterLink></li>
+                                <li><FooterLink href={route('events.camp')}>Summer Camp</FooterLink></li>
+                            </ul>
                         </FooterGroup>
                         <FooterGroup heading="Contact Us">
                             <p>Phone - 049 555 2915</p>
                             <p>Internation - 0035349 5552915</p>
-                            <p>Email - info@postalbibleschool.ie</p>
+                            <p>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
                         </FooterGroup>
                     </div>
+                </div>
+                <div className="w-full p-8 sm:p-10 border-t border-gray-300">
+                    <p className='leading-tight text-center text-sm'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
                 </div>
             </footer>
         </div>
