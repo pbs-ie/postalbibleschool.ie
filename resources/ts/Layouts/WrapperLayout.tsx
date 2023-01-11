@@ -50,7 +50,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                         <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
                                     </svg>
                                 </NavLink>
-                                <ul className="absolute bg-slate-300 text-slate-600 flex flex-col top-full -left-1/2  opacity-0 group-hover:opacity-100 group-focus:opacity-100 scale-0 group-hover:scale-100 group-focus:scale-100 group-focus:text-red-200 transition-opacity duration-200 ease-in-out z-10">
+                                <ul className="absolute bg-clip-border bg-white text-slate-600 flex flex-col top-full -left-1/2 drop-shadow-lg rounded-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 scale-0 group-hover:scale-100 group-focus:scale-100 transition-opacity duration-200 ease-in-out z-10">
                                     <li className='inline-flex'><DropdownNavLink href={route('events.prizegivings')} active={route().current('events.prizegivings')}>
                                         Prizegivings
                                     </DropdownNavLink></li>

@@ -4,7 +4,6 @@ import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { setBesLinksOnce } from "@/helper";
 import { monthNames, seriesNames } from "@/constants";
-import Heading2 from "@/Components/Typography/Heading2";
 import Placeholder from "@images/Placeholder.svg";
 
 export default function Dashboard({ bibleTimeDownloads }: any): JSX.Element {
@@ -20,13 +19,9 @@ export default function Dashboard({ bibleTimeDownloads }: any): JSX.Element {
     // This will need to be manually fixed when and if BES makes changes on their end
     const currentSeriesNumber = (today.getFullYear() - 2022) % 3;
 
-    const currentSeries = seriesNames[currentSeriesNumber];
-
     return (
         <WrapperLayout>
             <Heading1>Dashboard</Heading1>
-            <Heading3>Lesson Download Links for current month</Heading3>
-
             <section className="w-full">
                 <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 p-5 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
                     <div className="flex flex-col text-center uppercase">
