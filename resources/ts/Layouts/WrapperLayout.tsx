@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from '@inertiajs/inertia-react';
+import { Link, usePage } from '@inertiajs/inertia-react';
 
 import NavLink from '@/Components/Navigation/NavLink';
 import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
@@ -15,6 +15,8 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
 
     const currentYear = (new Date()).getFullYear();
+
+    const { flash }: any = usePage().props
 
     return (
         <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
@@ -67,28 +69,35 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                             </div>
 
                         </div>
-                        <div className="-mr-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                        <div className="flex justify-between h-16">
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('contactus')} active={route().current('contactus')}>
+                                    Contact Us
+                                </NavLink>
+                            </div>
+                            <div className="-mr-2 flex items-center sm:hidden">
+                                <button
+                                    onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
+                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                >
+                                    <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                        <path
+                                            className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                        <path
+                                            className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,49 +132,54 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                 Summer Camp
                             </ResponsiveNavLink>
                         </div>
+                        <div className="pt-2 pb-3 space-y-1 border-t border-gray-200">
+                            <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
+                                Contact Us
+                            </ResponsiveNavLink>
+                        </div>
                     </div>
                 </div>
             </nav>
-            <main className="h-full grow flex flex-col sm:justify-center">
+            <main className="relative h-full grow flex flex-col sm:justify-center">
                 <div className="w-full grow py-4 bg-white overflow-hidden">
                     {children}
                 </div>
-            </main>
 
-            <footer className="bg-pbsblue text-white bottom-0 left-0">
-                <div className="w-full my-10 px-8 sm:px-40 py-6">
-                    {/* <div className="grid grid-rows-4 gap-8 content-start sm:grid-cols-4 sm:grid-rows-none"> */}
-                    <div className="flex flex-nowrap flex-col sm:flex-row justify-evenly">
-                        <FooterGroup heading="About Us">
-                            <p className="text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</p>
-                        </FooterGroup>
-                        <FooterGroup heading="Courses">
-                            <ul className="flex flex-col">
-                                <li><FooterLink href={route('courses')}>BibleTime</FooterLink></li>
-                                <li><FooterLink href={route('courses')}>New Life</FooterLink></li>
-                                <li><FooterLink href={route('courses')}>Gleaners</FooterLink></li>
-                                <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li>
-                            </ul>
-                        </FooterGroup>
-                        <FooterGroup heading="Programmes">
-                            <ul className="flex flex-col">
-                                <li><FooterLink href={route('events.prizegivings')}>Prizegivings</FooterLink></li>
-                                <li><FooterLink href={route('events.shed')}>The SHED</FooterLink></li>
-                                <li><FooterLink href={route('events.step')}>STEP</FooterLink></li>
-                                <li><FooterLink href={route('events.camp')}>Summer Camp</FooterLink></li>
-                            </ul>
-                        </FooterGroup>
-                        <FooterGroup heading="Contact Us">
-                            <p>Phone - 049 555 2915</p>
-                            <p>Internation - 0035349 5552915</p>
-                            <p>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
-                        </FooterGroup>
+                <footer className="bg-pbsblue text-white bottom-0 left-0">
+                    <div className="w-full my-10 px-8 sm:px-40 py-6">
+                        <div className="flex flex-nowrap flex-col sm:flex-row justify-evenly">
+                            <FooterGroup heading="About Us">
+                                <p className="text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</p>
+                            </FooterGroup>
+                            <FooterGroup heading="Courses">
+                                <ul className="flex flex-col">
+                                    <li><FooterLink href={route('courses')}>BibleTime</FooterLink></li>
+                                    <li><FooterLink href={route('courses')}>New Life</FooterLink></li>
+                                    <li><FooterLink href={route('courses')}>Gleaners</FooterLink></li>
+                                    <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li>
+                                </ul>
+                            </FooterGroup>
+                            <FooterGroup heading="Programmes">
+                                <ul className="flex flex-col">
+                                    <li><FooterLink href={route('events.prizegivings')}>Prizegivings</FooterLink></li>
+                                    <li><FooterLink href={route('events.shed')}>The SHED</FooterLink></li>
+                                    <li><FooterLink href={route('events.step')}>STEP</FooterLink></li>
+                                    <li><FooterLink href={route('events.camp')}>Summer Camp</FooterLink></li>
+                                </ul>
+                            </FooterGroup>
+                            <FooterGroup heading="Contact Us">
+                                <p>Phone - 049 555 2915</p>
+                                <p>Internation - 0035349 5552915</p>
+                                <p>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
+                            </FooterGroup>
+                        </div>
                     </div>
-                </div>
-                <div className="w-full p-8 sm:p-10 border-t border-gray-300">
-                    <p className='leading-tight text-center text-sm'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
-                </div>
-            </footer>
+                    <div className="w-full p-8 sm:p-10 border-t border-gray-300">
+                        <p className='leading-tight text-center text-sm'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
+                    </div>
+                </footer>
+
+            </main>
         </div>
     );
 }

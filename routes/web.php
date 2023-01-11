@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ContactController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +26,14 @@ Route::get('/', function () {
     ]);
 });
 
+// Show Contact Us Form
+Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
 
-Route::get('/courses', function() {
+// Submit Contact Us Form
+Route::post('/contactus', [ContactController::class, 'store'])->name('contactus');
+
+
+Route::get('/courses', function () {
     return Inertia::render('Courses/Index', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'goingDeeperDownloads' => DownloadsList::getGoingDeeperList(),
@@ -35,23 +41,23 @@ Route::get('/courses', function() {
     ]);
 })->name('courses');
 
-Route::get('/events/prizegivings', function() {
+Route::get('/events/prizegivings', function () {
     return Inertia::render('Events/Prizegivings');
 })->name('events.prizegivings');
 
 
-Route::get('/events/shed', function() {
+Route::get('/events/shed', function () {
     return Inertia::render('Events/Shed');
 })->name('events.shed');
 
 
-Route::get('/events/step', function() {
+Route::get('/events/step', function () {
     return Inertia::render('Events/Step');
 })->name('events.step');
 
 
 
-Route::get('/events/camp', function() {
+Route::get('/events/camp', function () {
     return Inertia::render('Events/Camp');
 })->name('events.camp');
 

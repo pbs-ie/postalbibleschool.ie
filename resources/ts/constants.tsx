@@ -19,10 +19,10 @@ declare global {
     }
     interface Button {
         type: "submit" | "button" | "reset" | undefined;
-        className: string;
-        processing: boolean;
+        className?: string;
+        processing?: boolean;
         children: React.ReactNode;
-        onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+        onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
     }
 }
 
