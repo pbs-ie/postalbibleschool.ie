@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Dashboard', [
-        'besDownloads' => DownloadsList::get(),
+        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register')
     ]);
@@ -29,7 +29,9 @@ Route::get('/', function () {
 
 Route::get('/courses', function() {
     return Inertia::render('Courses/Index', [
-        'besDownloads' => DownloadsList::get()
+        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
+        'goingDeeperDownloads' => DownloadsList::getGoingDeeperList(),
+        'gleanersDownloads' => DownloadsList::getGleanersList(),
     ]);
 })->name('courses');
 

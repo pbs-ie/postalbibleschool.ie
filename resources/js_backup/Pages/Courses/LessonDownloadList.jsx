@@ -30,7 +30,7 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
                         <div className={`text-center h-fit w-full text-gray-50 ${tagClass} py-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (
-                                <LessonDownloadButton key={index} getDownloadLink={getDownloadLink(seriesElement.code, tagCode, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadButton>
+                                <LessonDownloadButton key={index} downloadLink={getDownloadLink(seriesElement.code, tagCode, index)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${isWideScreen ? ' - ' + month : ''}`}></LessonDownloadButton>
                             ))
                         }
                     </div>

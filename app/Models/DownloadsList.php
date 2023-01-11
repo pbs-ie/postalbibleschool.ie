@@ -10,10 +10,7 @@ use App\CustomClasses\HtmlDomParser;
 
 class DownloadsList extends Model
 {
-    public static function get() {
-        $properties = ["timeline","level0","level1","level2","level3","level4"];
-        
-        $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
+    function getListForUrl($properties, $baseUrl) {
         $response = Http::get($baseUrl);
         $htmlBody = $response->body();
 
@@ -49,12 +46,12 @@ class DownloadsList extends Model
 
             $dateValue = $row->find('td',2);
             $sizeValue = $row->find('td',3);
-            preg_match('/_(A|B|C)(\d{1,2}).pdf/', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
+            preg_match('/(?:_|-)(A|B|C|D|E)(\d{1,2}).pdf/i', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
             
             $response[$propertyValue][$iter]["link"] = $baseUrl.trim($linkHref);
             $response[$propertyValue][$iter]["dateModified"] = is_null($dateValue) ? null: trim($dateValue->innertext);
             $response[$propertyValue][$iter]["size"] = is_null($sizeValue) ? null: trim($sizeValue->innertext);
-            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<3 ? null: trim($matchCode[1]);
+            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<3 ? null: trim(strtoupper($matchCode[1]));
             $response[$propertyValue][$iter]["monthNumber"] = is_null($matchCode) || count($matchCode)<3 ? null: (int)trim($matchCode[2]);
             $iter++;
         }
@@ -67,4 +64,30 @@ class DownloadsList extends Model
 
         return $response;
     }
+    
+    public static function getBibleTimeList() {
+        $properties = ["timeline","level0","level1","level2","level3","level4"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
+
+        return (new self)->getListForUrl($properties, $baseUrl);
+    }
+
+    public static function getGoingDeeperList() {
+        $properties = ["goingdeeper"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/goingdeeper/";
+
+        return (new self)->getListForUrl($properties, $baseUrl);
+
+    }
+    public static function getGleanersList() {
+        $properties = ["gleaners"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/gleaners/";
+
+        return (new self)->getListForUrl($properties, $baseUrl);
+
+    }
+    
 }

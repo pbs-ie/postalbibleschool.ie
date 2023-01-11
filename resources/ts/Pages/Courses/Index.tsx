@@ -7,11 +7,14 @@ import MonthlySection from './MonthlySection';
 import LessonDownloadSection from './LessonDownloadSection';
 
 import { courseContent } from '@/constants';
-import { setBesLinksOnce } from '@/helper';
+import { BES_GLOBALS, setBesLinksOnce, setGleanersLinks, setGoingDeeperLinks } from '@/helper';
 
-export default function Index({ besDownloads }: any) {
+export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads }: any) {
     try {
-        setBesLinksOnce(besDownloads);
+        setBesLinksOnce(bibleTimeDownloads);
+        setGoingDeeperLinks(goingDeeperDownloads);
+        setGleanersLinks(gleanersDownloads);
+        console.log(BES_GLOBALS);
     } catch (e) {
         console.warn("Global links variable tried to reset");
     }
@@ -54,7 +57,7 @@ export default function Index({ besDownloads }: any) {
                 <MonthlySection></MonthlySection>
             </div>
             <LessonDownloadSection heading={bibleTimeTextInfo.title} description={bibleTimeTextInfo.description} type="bibletime"></LessonDownloadSection>
-            <LessonDownloadSection heading={goingDeeperTextInfo.title} description={goingDeeperTextInfo.description} type="newlife"></LessonDownloadSection>
+            <LessonDownloadSection heading={goingDeeperTextInfo.title} description={goingDeeperTextInfo.description} type="goingdeeper"></LessonDownloadSection>
             <LessonDownloadSection heading={gleanersTextInfo.title} description={gleanersTextInfo.description} type="gleaners"></LessonDownloadSection>
         </WrapperLayout>
     );

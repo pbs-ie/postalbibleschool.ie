@@ -6,7 +6,7 @@ interface LessonCard {
     heading: string;
     image: string;
     description: string;
-    type: "bibletime" | "gleaners" | "newlife";
+    type: "bibletime" | "goingdeeper" | "gleaners";
     setSelectedLevel: (level: GroupThemes) => void;
     isWideScreen: boolean;
     tagCode: string;

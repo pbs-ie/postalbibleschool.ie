@@ -12,7 +12,7 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
     return (
         <>
             {infoText &&
-                <a className="block" href={downloadLink} target="_blank">
+                <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                     <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} rounded-md`}>
                         <div className={`basis-1/3 ${infoClass} text-white font-bold text-center rounded p-2 py-3`}>{infoText}</div>
                         <div className="basis-2/3 text-center px-4">{title}</div>
@@ -26,7 +26,7 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
                     </button></a>
             }
             {!infoText &&
-                <a className="block" href={downloadLink} target="_blank">
+                <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                     <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} py-2 rounded`}>
                         <div className="grow text-center px-4">{title}</div>
                         {isLinkEnabled() &&

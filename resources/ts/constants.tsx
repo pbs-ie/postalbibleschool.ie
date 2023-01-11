@@ -14,7 +14,7 @@ declare global {
         heading: string;
         description: string;
         image: string;
-        type: "bibletime" | "gleaners" | "newlife";
+        type: "bibletime" | "goingdeeper" | "gleaners";
         scrollTo: string;
     }
     interface Button {
@@ -46,7 +46,7 @@ export const courseContent: CourseContent[] = [
         heading: "New Life",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level1Image,
-        type: "newlife",
+        type: "goingdeeper",
         scrollTo: "new-life"
     },
     {
@@ -65,17 +65,17 @@ export const groupThemes: { [key: string]: GroupThemes[] } = {
         { tagCode: "level2", tagClass: "bg-bibletime-red", tagName: "level 2" },
         { tagCode: "level3", tagClass: "bg-bibletime-green", tagName: "level 3" },
         { tagCode: "level4", tagClass: "bg-bibletime-blue", tagName: "level 4" }],
-    "newlife": [
-        { tagCode: "newlifeA", tagClass: "bg-bibletime-blue", tagName: "newlife A" },
-        { tagCode: "newlifeB", tagClass: "bg-bibletime-green", tagName: "newlife B" },
-        { tagCode: "newlifeC", tagClass: "bg-bibletime-red", tagName: "newlife C" }
+    "goingdeeper": [
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-blue", tagName: "going deeper A" },
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-green", tagName: "going deeper B" },
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-red", tagName: "going deeper C" }
     ],
     "gleaners": [
-        { tagCode: "gleanersA", tagClass: "bg-bibletime-pink", tagName: "gleaners A" },
-        { tagCode: "gleanersB", tagClass: "bg-bibletime-orange", tagName: "gleaners B" },
-        { tagCode: "gleanersC", tagClass: "bg-bibletime-red", tagName: "gleaners C" },
-        { tagCode: "gleanersD", tagClass: "bg-bibletime-green", tagName: "gleaners D" },
-        { tagCode: "gleanersE", tagClass: "bg-bibletime-blue", tagName: "gleaners E" }
+        { tagCode: "gleaners", tagClass: "bg-bibletime-pink", tagName: "gleaners A" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-orange", tagName: "gleaners B" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-red", tagName: "gleaners C" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-green", tagName: "gleaners D" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-blue", tagName: "gleaners E" }
     ]
 };
 
@@ -116,72 +116,18 @@ export const bibleTimeLevels = [
         title: "A9 - Jacob"
     }
 ];
-
-export const newLifeLevels = [
-    {
-        tagName: "Newlife A",
-        tagCode: "newlifeA",
-        tagColor: "bg-bibletime-pink",
-        image: Level0Image,
-        title: "A- Newlife"
-    },
-    {
-        tagName: "Newlife B",
-        tagCode: "newlifeB",
-        tagColor: "bg-bibletime-orange",
-        image: Level1Image,
-        title: "B - Newlife"
-    },
-    {
-        tagName: "Newlife C",
-        tagCode: "newlifeC",
-        tagColor: "bg-bibletime-red",
-        image: Level2Image,
-        title: "C - Newlife"
-    }
-];
-export const gleanersLevels = [
-    {
-        tagName: "Gleaners A",
-        tagCode: "gleanersA",
-        tagColor: "bg-bibletime-pink",
-        image: Level0Image,
-        title: "A- Gleaners"
-    },
-    {
-        tagName: "Gleaners B",
-        tagCode: "gleanersB",
-        tagColor: "bg-bibletime-orange",
-        image: Level1Image,
-        title: "B - Gleaners"
-    },
-    {
-        tagName: "Gleaners C",
-        tagCode: "gleanersC",
-        tagColor: "bg-bibletime-red",
-        image: Level2Image,
-        title: "C - Gleaners"
-    },
-    {
-        tagName: "Gleaners D",
-        tagCode: "gleanersD",
-        tagColor: "bg-bibletime-orange",
-        image: Level1Image,
-        title: "D - Gleaners"
-    },
-    {
-        tagName: "Gleaners E",
-        tagCode: "gleanersE",
-        tagColor: "bg-bibletime-red",
-        image: Level2Image,
-        title: "E - Gleaners"
-    },
-];
 export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const seriesNames = [
     { name: "A series", code: "A" },
     { name: "B series", code: "B" },
-    { name: "C series", code: "C" }
+    { name: "C series", code: "C" },
 ];
+export const gleanersSeriesNames = [
+    { name: "A series", code: "A" },
+    { name: "B series", code: "B" },
+    { name: "C series", code: "C" },
+    { name: "D series", code: "D" },
+    { name: "E series", code: "E" },
+]
 
 export const downloadUrlBase = "https://www.besweb.com/downloads/en/bibletime/";

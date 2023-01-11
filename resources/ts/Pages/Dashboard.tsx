@@ -7,9 +7,9 @@ import { monthNames, seriesNames } from "@/constants";
 import Heading2 from "@/Components/Typography/Heading2";
 import Placeholder from "@images/Placeholder.svg";
 
-export default function Dashboard({ besDownloads }: any): JSX.Element {
+export default function Dashboard({ bibleTimeDownloads }: any): JSX.Element {
     try {
-        setBesLinksOnce(besDownloads);
+        setBesLinksOnce(bibleTimeDownloads);
     } catch (e) {
         console.warn("Global links variable tried to reset");
     }
