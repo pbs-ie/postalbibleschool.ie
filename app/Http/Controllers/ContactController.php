@@ -24,6 +24,6 @@ class ContactController extends Controller
             'contactDescription' => ['required', 'max:200']
         ]);
 
-        return redirect('/');
+        return redirect('/')->with('success', "Contact Us form submitted");
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, usePage } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/inertia-react';
 
 import NavLink from '@/Components/Navigation/NavLink';
 import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
@@ -8,6 +8,7 @@ import FooterGroup from '@/Components/FooterGroup';
 
 import LogoWhite from '@images/Logo-white.png';
 import FooterLink from '@/Components/Navigation/FooterLink';
+import FlashMessage from '@/Components/FlashMessage';
 
 declare function route(name?: string, params?: any): any;
 
@@ -16,7 +17,6 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
 
     const currentYear = (new Date()).getFullYear();
 
-    const { flash }: any = usePage().props
 
     return (
         <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
@@ -140,6 +140,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     </div>
                 </div>
             </nav>
+            <FlashMessage />
             <main className="relative h-full grow flex flex-col sm:justify-center">
                 <div className="w-full grow py-4 bg-white overflow-hidden">
                     {children}
