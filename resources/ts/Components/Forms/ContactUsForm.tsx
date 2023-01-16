@@ -11,6 +11,7 @@ declare function route(name?: string, params?: any): any;
 
 export default function ContactUsForm() {
     const { data, setData, post, processing, errors, reset } = useForm({
+        name: "",
         contactName: "",
         contactEmail: "",
         contactDescription: ""
@@ -32,10 +33,11 @@ export default function ContactUsForm() {
     return (
         <div className="block p-6 rounded-lg shadow-lg bg-white max-w-md">
             <form onSubmit={handleSubmit} method="post">
+                <TextInput id="name" type="hidden" name="name" value={data.name} className="" autoComplete="off" handleChange={handleChange}></TextInput>
                 <div className="mb-6">
                     <InputLabel forInput="contactName" value="Name" />
                     <TextInput
-                        id="conactName"
+                        id="contactName"
                         type="text"
                         name="contactName"
                         value={data.contactName}
