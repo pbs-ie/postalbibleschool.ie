@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ContactController;
+use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,17 +19,47 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Dashboard', [
+        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'canRegister' => Route::has('register')
     ]);
 });
 
+// Show Contact Us Form
+Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
 
-Route::get('/courses', [CourseController::class, 'list'])->name('courses');
+// Submit Contact Us Form
+Route::post('/contactus', [ContactController::class, 'store'])->name('contactus');
 
+
+Route::get('/courses', function () {
+    return Inertia::render('Courses/Index', [
+        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
+        'goingDeeperDownloads' => DownloadsList::getGoingDeeperList(),
+        'gleanersDownloads' => DownloadsList::getGleanersList(),
+    ]);
+})->name('courses');
+
+Route::get('/events/prizegivings', function () {
+    return Inertia::render('Events/Prizegivings');
+})->name('events.prizegivings');
+
+
+Route::get('/events/shed', function () {
+    return Inertia::render('Events/Shed');
+})->name('events.shed');
+
+
+Route::get('/events/step', function () {
+    return Inertia::render('Events/Step');
+})->name('events.step');
+
+
+
+Route::get('/events/camp', function () {
+    return Inertia::render('Events/Camp');
+})->name('events.camp');
 
 
 

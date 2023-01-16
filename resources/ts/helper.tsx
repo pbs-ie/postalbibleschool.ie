@@ -1,4 +1,4 @@
-import { seriesNames } from "./constants";
+import { gleanersSeriesNames } from "./constants";
 
 interface propertyItem {
     link: string;
@@ -13,23 +13,45 @@ export interface responseLinks {
 
 interface BesLinksType {
     besLinks: responseLinks;
-    besLinksBySeries: any;
+    bibleTimeBySeries: any;
+    goingDeeperBySeries: any;
+    gleanersBySeries: any;
 }
 
-const BES_GLOBALS: BesLinksType = {
+export const BES_GLOBALS: BesLinksType = {
     besLinks: {},
-    besLinksBySeries: {}
+    bibleTimeBySeries: {},
+    goingDeeperBySeries: {},
+    gleanersBySeries: {},
 };
 
 export const setBesLinksOnce = function (updateValue: responseLinks) {
     BES_GLOBALS.besLinks = updateValue;
-    BES_GLOBALS.besLinksBySeries = groupedBySeriesBes();
-    Object.freeze(BES_GLOBALS);
+    BES_GLOBALS.bibleTimeBySeries = groupedBySeriesBes();
 };
+export const setGoingDeeperLinks = function (updateValue: responseLinks) {
+    BES_GLOBALS.besLinks = updateValue;
+    BES_GLOBALS.goingDeeperBySeries = groupedBySeriesBes();
+}
+export const setGleanersLinks = function (updateValue: responseLinks) {
+    BES_GLOBALS.besLinks = updateValue;
+    BES_GLOBALS.gleanersBySeries = groupedBySeriesBes();
+}
+
 
 // Returns the download url for BES lessons from the BES links list
-export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string)): string {
-    return BES_GLOBALS.besLinksBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
+export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string), type = "bibletime"): string {
+    if (type === "bibletime") {
+        return BES_GLOBALS.bibleTimeBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
+    }
+    else if (type === "goingdeeper") {
+        return BES_GLOBALS.goingDeeperBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
+    }
+    else if (type === "gleaners") {
+        return BES_GLOBALS.gleanersBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
+
+    }
+    return "";
 };
 
 // Converts series number to corresponding alphabet
@@ -57,7 +79,7 @@ const getCurrentSeriesList = function (seriesCode: string) {
 
 const groupedBySeriesBes = function () {
     let pivot: { [property: string]: responseLinks } = {};
-    seriesNames.forEach((series) => {
+    gleanersSeriesNames.forEach((series) => {
         let currentList = getCurrentSeriesList(series.code);
         if (Object.keys(currentList).length !== 0) {
             pivot[series.code] = currentList;

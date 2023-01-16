@@ -12,10 +12,10 @@ export const courseContent = [
         type: "bibletime"
     },
     {
-        heading: "New Life",
+        heading: "Going Deeper",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level1Image,
-        type: "newlife"
+        type: "goingdeeper"
     },
     {
         heading: "Gleaners",
@@ -32,7 +32,7 @@ export const groupThemes = {
         { tagCode: "level2", tagClass: "bg-bibletime-red", tagName: "level 2" },
         { tagCode: "level3", tagClass: "bg-bibletime-green", tagName: "level 3" },
         { tagCode: "level4", tagClass: "bg-bibletime-blue", tagName: "level 4" }],
-    "newlife": [
+    "goingdeeper": [
         { tagCode: "groupA", tagClass: "bg-bibletime-blue", tagName: "group A" },
         { tagCode: "groupB", tagClass: "bg-bibletime-green", tagName: "group B" },
         { tagCode: "groupC", tagClass: "bg-bibletime-red", tagName: "group C" }

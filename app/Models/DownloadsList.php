@@ -1,27 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\CustomClasses\HtmlDomParser;
-use Inertia\Inertia;
 
-
-class CourseController extends Controller
+class DownloadsList extends Model
 {
-    /**
-     * Retrieve BES course list
-     * Note: The list is currently being retrieved from the BES website downloads page list. Should this external page be changed in the future, this code will break.
-     * 
-     * 
-     * @return response
-     * 
-     */
-    public function list() {
-        $properties = ["timeline","level0","level1","level2","level3","level4"];
-        
-        $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
+    function getListForUrl($properties, $baseUrl) {
         $response = Http::get($baseUrl);
         $htmlBody = $response->body();
 
@@ -57,12 +46,12 @@ class CourseController extends Controller
 
             $dateValue = $row->find('td',2);
             $sizeValue = $row->find('td',3);
-            preg_match('/_(A|B|C)(\d{1,2}).pdf/', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
+            preg_match('/(?:_|-)(A|B|C|D|E)(\d{1,2}).pdf/i', $linkHref, $matchCode, PREG_UNMATCHED_AS_NULL);
             
             $response[$propertyValue][$iter]["link"] = $baseUrl.trim($linkHref);
             $response[$propertyValue][$iter]["dateModified"] = is_null($dateValue) ? null: trim($dateValue->innertext);
             $response[$propertyValue][$iter]["size"] = is_null($sizeValue) ? null: trim($sizeValue->innertext);
-            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<3 ? null: trim($matchCode[1]);
+            $response[$propertyValue][$iter]["series"] = is_null($matchCode) || count($matchCode)<3 ? null: trim(strtoupper($matchCode[1]));
             $response[$propertyValue][$iter]["monthNumber"] = is_null($matchCode) || count($matchCode)<3 ? null: (int)trim($matchCode[2]);
             $iter++;
         }
@@ -73,29 +62,32 @@ class CourseController extends Controller
         // This is done to receive an array on the view rather than an object with keys of incremnental numbers determined by $iter
         $response = array_map(fn($propertyGroup)=>array_values($propertyGroup),$response);
 
-        return Inertia::render('Courses/Index', [
-            'besDownloads' => $response
-        ]);
+        return $response;
+    }
+    
+    public static function getBibleTimeList() {
+        $properties = ["timeline","level0","level1","level2","level3","level4"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
+
+        return (new self)->getListForUrl($properties, $baseUrl);
     }
 
-    /**
-     * Groups array based on the specified property
-     * 
-     * @param property array
-     * @param data array
-     * 
-     * @return array
-     */
-    private function group_array($property, $data) {
-        $grouped_array = [];
-        foreach ($data as $value) {
-            if(str_contains($value->link, $property)) {
-                
-            }
+    public static function getGoingDeeperList() {
+        $properties = ["goingdeeper"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/goingdeeper/";
 
-        }
-
-        unset($line);
+        return (new self)->getListForUrl($properties, $baseUrl);
 
     }
+    public static function getGleanersList() {
+        $properties = ["gleaners"];
+        
+        $baseUrl = "https://www.besweb.com/downloads/en/gleaners/";
+
+        return (new self)->getListForUrl($properties, $baseUrl);
+
+    }
+    
 }

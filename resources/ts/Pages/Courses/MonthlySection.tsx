@@ -1,9 +1,9 @@
-import Heading2 from "@/Components/Typography/Heading2";
-import MonthPill from "@/Components/Monthly/MonthPill";
+import ButtonPill from "@/Components/ButtonPill";
 import MonthlyOverview from "@/Components/Monthly/MonthlyOverview";
 import { useState } from "react";
 import { monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
+import Heading3 from "@/Components/Typography/Heading3";
 
 export default function MonthlySection() {
     const [selectedMonth, setSelectedMonth] = useState(-1);
@@ -20,23 +20,23 @@ export default function MonthlySection() {
     };
 
     return (
-        <section className="w-full bg-sky-100">
-            <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 p-5 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
+        <section className="w-full">
+            <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 px-8 pt-10 md:pb-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col bg-white">
-                    <Heading2>This month's lessons</Heading2>
-                    <h3>Select Month</h3>
-                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 justify-items-stretch p-4">
+                    <Heading3>This month's lessons</Heading3>
+                    <h3 className="ml-10">Select Month</h3>
+                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-4 justify-items-stretch py-4 px-16">
                         {
                             monthNames.map((month, index) => (
-                                <MonthPill key={month} onPress={delayMonthlyOverview} isActive={selectedMonth === index} setActive={setSelectedMonth} idx={index} addClass={`w-full py-4`} >{month}</MonthPill>
+                                <ButtonPill key={month} onPress={delayMonthlyOverview} isActive={selectedMonth === index} setActive={setSelectedMonth} idx={index} addClass={`w-full py-8`} >{month}</ButtonPill>
                             ))
                         }
                     </div>
-                    <h3>Select Series</h3>
-                    <div role="list" className="grid grid-cols-3 gap-2 p-4">
+                    <h3 className="ml-10">Select Series</h3>
+                    <div role="list" className="grid grid-cols-3 gap-2 py-4 px-16">
                         {
                             seriesNames.map((seriesElement, index) => (
-                                <MonthPill key={seriesElement.code} onPress={delayMonthlyOverview} isActive={selectedSeries === index} setActive={setSelectedSeries} idx={index} addClass={`w-full py-1`} >{seriesElement.name}</MonthPill>
+                                <ButtonPill key={seriesElement.code} onPress={delayMonthlyOverview} isActive={selectedSeries === index} setActive={setSelectedSeries} idx={index} addClass={`w-full py-1`} >{seriesElement.name}</ButtonPill>
                             ))
                         }
                     </div>

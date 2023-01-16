@@ -1,5 +1,5 @@
-export default function Heading2({ children }: {children: React.ReactNode}): JSX.Element {
+export default function Heading2({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-        <><h2 className="font-medium leading-tight text-2xl font-bold mb-2 mt-0 p-4 text-blue-600">{children}</h2></>
+        <><h2 className="leading-relaxed uppercase text-3xl text-center font-bold mb-4 mt-6 p-6 text-blue-800">{children}</h2></>
     );
 }
