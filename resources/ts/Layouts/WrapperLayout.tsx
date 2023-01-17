@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
 import NavLink from '@/Components/Navigation/NavLink';
@@ -14,14 +14,32 @@ declare function route(name?: string, params?: any): any;
 
 export default function WrapperLayout({ children }: { children: React.ReactNode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
+    const [showToTopButton, setShowToTopButton] = useState(false);
 
     const currentYear = (new Date()).getFullYear();
+
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > window.innerHeight) {
+                setShowToTopButton(true);
+            } else {
+                setShowToTopButton(false);
+            }
+        })
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
 
 
     return (
         <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
             <nav className="bg-pbsblue text-white border-b-2 border-gray-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
@@ -30,17 +48,17 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
                                 <NavLink href="#" active={false}>
                                     About Us
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
                                 <NavLink href={route('courses')} active={route().current('courses')}>
                                     Courses
                                 </NavLink>
                             </div>
-                            <div className="hidden group relative space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden group relative space-x-8 md:-my-px md:ml-10 md:flex">
                                 <NavLink href={route('events.prizegivings')} active={
                                     route().current('events.prizegivings')
                                     || route().current('events.shed')
@@ -70,12 +88,12 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
 
                         </div>
                         <div className="flex justify-between h-16">
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
                                 <NavLink href={route('contactus')} active={route().current('contactus')}>
                                     Contact Us
                                 </NavLink>
                             </div>
-                            <div className="-mr-2 flex items-center sm:hidden">
+                            <div className="-mr-2 flex items-center md:hidden">
                                 <button
                                     onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                     className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
@@ -102,7 +120,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' sm:hidden transition-transform transition-opacity duration-1000 ease-in-out'}>
+                <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-transform transition-opacity duration-1000 ease-in-out'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href="#" active={false}>
                             About Us
@@ -141,14 +159,14 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                 </div>
             </nav>
             <FlashMessage />
-            <main className="relative h-full grow flex flex-col sm:justify-center">
+            <main className="relative h-full grow flex flex-col md:justify-center">
                 <div className="w-full grow py-4 bg-white overflow-hidden">
                     {children}
                 </div>
 
                 <footer className="bg-pbsblue text-white bottom-0 left-0">
-                    <div className="w-full my-10 px-8 sm:px-40 py-6">
-                        <div className="flex flex-nowrap flex-col sm:flex-row justify-evenly">
+                    <div className="w-full my-10 px-8 md:px-40 py-6">
+                        <div className="flex flex-nowrap flex-col md:flex-row justify-evenly">
                             <FooterGroup heading="About Us">
                                 <p className="text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</p>
                             </FooterGroup>
@@ -175,12 +193,19 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                             </FooterGroup>
                         </div>
                     </div>
-                    <div className="w-full p-8 sm:p-10 border-t border-gray-300">
+                    <div className="w-full p-8 md:p-10 border-t border-gray-300">
                         <p className='leading-tight text-center text-sm'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
                     </div>
                 </footer>
 
             </main>
+            {showToTopButton &&
+                <button onClick={() => scrollToTop()} className="fixed bottom-4 right-4 z-10 rounded-full h-[65px] w-[65px] bg-blue-400 text-white font-bold shadow-xl p-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" fill="currentColor" >
+                        <path fillRule="evenodd" d="M11.47 2.47a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06l-6.22-6.22V21a.75.75 0 01-1.5 0V4.81l-6.22 6.22a.75.75 0 11-1.06-1.06l7.5-7.5z" clipRule="evenodd" stroke='currentColor' strokeWidth="3px" />
+                    </svg>
+                </button>
+            }
         </div>
     );
 }
