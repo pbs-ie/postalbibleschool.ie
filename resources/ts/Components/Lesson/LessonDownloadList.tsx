@@ -25,7 +25,7 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
         <div className={`grid ${gridCols} gap-1`}>
             {
                 getSeries().map((seriesElement, index) => (
-                    <div key={index} className="flex flex-col space-y-0.5">
+                    <div key={index} className="flex flex-col gap-0.5">
                         <div className={`text-center h-fit w-full text-gray-50 ${tagClass} py-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (

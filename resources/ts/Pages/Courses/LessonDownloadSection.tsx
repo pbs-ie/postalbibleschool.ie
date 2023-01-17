@@ -45,7 +45,7 @@ export default function LessonDownloadSection({ heading, description, type }: Do
     }, []);
 
     return (
-        <section id="lesson-download" className="my-20 px-10 sm:px-20">
+        <section id={type} className="my-20 px-10 sm:px-20">
             <Heading2>{heading}</Heading2>
             {description}
 

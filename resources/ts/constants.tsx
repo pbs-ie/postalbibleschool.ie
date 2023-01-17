@@ -40,14 +40,14 @@ export const courseContent: CourseContent[] = [
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level0Image,
         type: "bibletime",
-        scrollTo: "lesson-download"
+        scrollTo: "bibletime"
     },
     {
-        heading: "New Life",
+        heading: "Going Deeper",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: Level1Image,
         type: "goingdeeper",
-        scrollTo: "new-life"
+        scrollTo: "goingdeeper"
     },
     {
         heading: "Gleaners",
