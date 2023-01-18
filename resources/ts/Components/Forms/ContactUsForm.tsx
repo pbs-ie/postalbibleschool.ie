@@ -31,17 +31,17 @@ export default function ContactUsForm() {
         post(route('contactus'));
     }
     return (
-        <div className="block p-6 rounded-lg shadow-lg bg-white max-w-md">
-            <form onSubmit={handleSubmit} method="post">
+        <div className="block py-6 text-left bg-white rounded-lg">
+            <form onSubmit={handleSubmit} method="post" className="max-w-screen-md">
                 <TextInput id="name" type="hidden" name="name" value={data.name} className="" autoComplete="off" handleChange={handleChange}></TextInput>
                 <div className="mb-6">
-                    <InputLabel forInput="contactName" value="Name" />
+                    <InputLabel forInput="contactName" value="Name" required />
                     <TextInput
                         id="contactName"
                         type="text"
                         name="contactName"
                         value={data.contactName}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="off"
                         handleChange={handleChange}
                         required
@@ -49,34 +49,34 @@ export default function ContactUsForm() {
                     <InputError message={errors.contactName} className="mt-2" />
 
                 </div>
-                <div className="mb-6 mb-6">
-                    <InputLabel forInput="contactEmail" value="Email" />
+                <div className="mb-6">
+                    <InputLabel forInput="contactEmail" value="Email" required />
                     <TextInput
                         id="contactEmail"
                         type="email"
                         name="contactEmail"
                         value={data.contactEmail}
-                        className="mt-1 block w-full"
+                        className="block w-full mt-1"
                         autoComplete="email"
                         handleChange={handleChange}
                         required
                     />
                     <InputError message={errors.contactEmail} className="mt-2" />
                 </div>
-                <div className="mb-6 mb-6">
-                    <InputLabel forInput="contactDescription" value="Description" />
+                <div className="mb-6">
+                    <InputLabel forInput="contactDescription" value="Message" required />
                     <TextAreaInput
                         id="contactDescription"
                         name="contactDescription"
                         value={data.contactDescription}
-                        className="mt-1 block w-full"
-                        rows={3}
+                        className="block w-full mt-1"
+                        rows={4}
                         handleChange={handleChange}
                         required
                     />
                     <InputError message={errors.contactDescription} className="mt-2" />
                 </div>
-                <div className="w-full inline-flex justify-end"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
+                <div className="inline-flex justify-end w-full"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
             </form>
         </div>
     )

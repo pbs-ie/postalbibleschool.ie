@@ -22,7 +22,7 @@ export default function TextInput({ type = 'text', name, id, value, className, a
                 id={id}
                 value={value}
                 className={
-                    `border-gray-300 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out` +
+                    `border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out` +
                     className
                 }
                 autoComplete={autoComplete}
