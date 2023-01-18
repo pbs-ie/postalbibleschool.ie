@@ -1,8 +1,11 @@
-import Level0Image from "@images/Level0_A1.jpg";
-import Level1Image from "@images/Level1_A1.jpg";
-import Level2Image from "@images/Level2_A1.jpg";
-import Level3Image from "@images/Level3_A1.jpg";
-import Level4Image from "@images/Level4_A1.jpg";
+import Level0Image from "@images/lessons/Level0_A1.jpg";
+import Level1Image from "@images/lessons/Level1_A1.jpg";
+import Level2Image from "@images/lessons/Level2_A1.jpg";
+import Level3Image from "@images/lessons/Level3_A1.jpg";
+import Level4Image from "@images/lessons/Level4_A1.jpg";
+import BibleTimeLessons from "@images/lessons/lessons-fan-english.jpg";
+import NewLifeLessons from "@images/lessons/newlife-lessons.jpg";
+import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "./Components/Typography/Paragraph";
 
 declare global {
@@ -44,21 +47,21 @@ export const courseContent: CourseContent[] = [
             <Paragraph>The course is split into 5 levels aimed at an approximate reading age. Each level consists of a syllabus of 36 lessons split monthly over 3 years. Each lesson is subdivided into four stories or studies which can be completed weekly. The stories are taken from both the Old and New Testaments and cover basic Bible stories and major Bible characters.</Paragraph>
 
             <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please contact us</Paragraph></>,
-        image: Level0Image,
+        image: BibleTimeLessons,
         type: "bibletime",
         scrollTo: "bibletime"
     },
     {
         heading: "Going Deeper",
         description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons.</Paragraph></>,
-        image: Level1Image,
+        image: NewLifeLessons,
         type: "goingdeeper",
         scrollTo: "goingdeeper"
     },
     {
         heading: "Gleaners",
         description: <><Paragraph>Gleaners is an in depth 5 year study course aimed at adults, covering a wide range of subjects including creation, christian life and prophecy. It is designed for individual use and is free of charge. Please get in touch if this would be of benefit to you.</Paragraph></>,
-        image: Level2Image,
+        image: GleanersLessons,
         type: "gleaners",
         scrollTo: "gleaners"
     }

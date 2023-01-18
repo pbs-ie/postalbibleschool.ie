@@ -47,7 +47,7 @@ export default function LessonDownloadSection({ heading, description, type }: Do
     return (
         <section id={type} className="my-20 px-10 sm:px-20">
             <Heading2>{heading}</Heading2>
-            {description}
+            <div className="w-3/4 mx-auto text-center">{description}</div>
 
             <div className="flex flex-col md:flex-row justify-around mt-4 mb-8 w-full">
                 {type === "bibletime" &&

@@ -1,8 +1,15 @@
 import GalleryCard from "@/Components/Gallery/GalleryCard";
 
-export default function GalleryBasic() {
+declare global {
+    interface Gallery {
+        title: string;
+        imageLink: string;
+        altText?: string;
+    }
+}
 
-    const images = Array(8).fill({ title: "Sample", imageLink: "" });
+export default function GalleryBasic({ images }: { images: Gallery[] }) {
+
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1 justify-center mx-10">
             {images.map(({ title, imageLink }, idx) => (

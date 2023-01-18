@@ -20,8 +20,8 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     ))
                 }
             </div>
-            <button className="w-full">
-                <ScrollLink to={scrollTo} smooth={true} className="pt-4 flex justify-center">
+            <button className="w-full mt-2">
+                <ScrollLink to={scrollTo} smooth={true} className="py-2 flex justify-center">
                     <svg className="text-gray-500 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                     </svg>
