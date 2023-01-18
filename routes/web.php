@@ -56,11 +56,14 @@ Route::get('/events/step', function () {
 })->name('events.step');
 
 
-
 Route::get('/events/camp', function () {
     return Inertia::render('Events/Camp');
 })->name('events.camp');
 
+
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
 
 
 Route::get('/dashboard', function () {
