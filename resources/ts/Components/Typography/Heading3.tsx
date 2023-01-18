@@ -1,5 +1,5 @@
-export default function Heading3({ children }: { children: React.ReactNode }): JSX.Element {
+export default function Heading3({ className = "", children }: { className?: string, children: React.ReactNode }): JSX.Element {
     return (
-        <><h3 className="leading-tight capitalize text-blue-800 text-2xl font-bold mb-2 mt-0 ">{children}</h3></>
+        <><h3 className={`leading-tight capitalize text-blue-800 text-2xl font-bold mb-2 mt-0 ${className}`}>{children}</h3></>
     );
 }

@@ -5,6 +5,7 @@ import { monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
 import Heading3 from "@/Components/Typography/Heading3";
 import Paragraph from "@/Components/Typography/Paragraph";
+import Heading4 from "@/Components/Typography/Heading4";
 
 export default function MonthlySection() {
     const [selectedMonth, setSelectedMonth] = useState(-1);
@@ -22,19 +23,19 @@ export default function MonthlySection() {
 
     return (
         <section className="w-full">
-            <div className="h-92 bg-white grid grid-rows-2 md:grid-rows-none md:grid-cols-2 gap-5 px-8 pt-10 md:pb-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
-                <div className="flex flex-col bg-white">
-                    <Heading3>This month's lessons</Heading3>
-                    <h3 className="ml-10">Select Month</h3>
-                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-4 justify-items-stretch py-4 px-16">
+            <div className="grid grid-rows-2 gap-5 px-2 pt-10 bg-white rounded-lg md:px-8 h-92 md:grid-rows-none md:grid-cols-2 md:pb-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
+                <div className="flex flex-col">
+                    <Heading4>This month's lessons</Heading4>
+                    <h3 className="ml-10 underline">Select Month</h3>
+                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 px-5 py-4 md:px-16 justify-items-stretch">
                         {
                             monthNames.map((month, index) => (
                                 <ButtonPill key={month} onPress={delayMonthlyOverview} isActive={selectedMonth === index} setActive={setSelectedMonth} idx={index} addClass={`w-full py-8`} >{month}</ButtonPill>
                             ))
                         }
                     </div>
-                    <h3 className="ml-10">Select Series</h3>
-                    <div role="list" className="grid grid-cols-3 gap-2 py-4 px-16">
+                    <h3 className="ml-10 underline">Select Series</h3>
+                    <div role="list" className="grid grid-cols-3 gap-2 px-5 py-4 md:px-16">
                         {
                             seriesNames.map((seriesElement, index) => (
                                 <ButtonPill key={seriesElement.code} onPress={delayMonthlyOverview} isActive={selectedSeries === index} setActive={setSelectedSeries} idx={index} addClass={`w-full py-1`} >{seriesElement.name}</ButtonPill>
@@ -45,10 +46,10 @@ export default function MonthlySection() {
                 <div className="flex flex-col my-auto">
                     {
                         (selectedMonth === -1 || selectedSeries === -1) ?
-                            <div className="text-gray-600 text-left my-auto text-3xl p-20"><Paragraph>Select a month and series to see the available download links here.</Paragraph></div>
+                            <div className="p-20 my-auto text-3xl text-left text-gray-600"><p>Select a month and series to see the available download links here.</p></div>
                             :
                             !!processing ?
-                                <div className="flex space-around justify-center items-center text-gray-600 text-left my-auto text-3xl p-20">
+                                <div className="flex items-center justify-center p-20 my-auto text-3xl text-left text-gray-600 space-around">
                                     <Loader></Loader>
                                 </div>
                                 :
