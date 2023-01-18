@@ -12,7 +12,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
         <div className="flex flex-col items-center min-w-min h-full rounded-md bg-slate-100 mb-4 md:mx-2 p-6 drop-shadow-lg">
             <Heading3>{heading}</Heading3>
             <img className="w-52 h-auto" src={image} alt={`${heading} image`} />
-            <p className="text-sm leading-tight p-4 text-gray-500">{description}</p>
+            <div className="text-sm leading-tight p-4">{description}</div>
             <div className="flex flex-auto justify-center flex-wrap gap-1">
                 {
                     levelGroup.map((element, index) => (

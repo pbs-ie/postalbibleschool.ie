@@ -3,6 +3,7 @@ import Level1Image from "@images/Level1_A1.jpg";
 import Level2Image from "@images/Level2_A1.jpg";
 import Level3Image from "@images/Level3_A1.jpg";
 import Level4Image from "@images/Level4_A1.jpg";
+import Paragraph from "./Components/Typography/Paragraph";
 
 declare global {
     interface GroupThemes {
@@ -12,7 +13,8 @@ declare global {
     }
     interface CourseContent {
         heading: string;
-        description: string;
+        description: React.ReactNode;
+        longDescription?: React.ReactNode;
         image: string;
         type: "bibletime" | "goingdeeper" | "gleaners";
         scrollTo: string;
@@ -37,21 +39,25 @@ interface LevelsDescription {
 export const courseContent: CourseContent[] = [
     {
         heading: "Bible Time Lessons",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        description: <Paragraph>Bibletime is an extensive course of weekly fun-filled, activity work sheets for pre-school children right up to the age of 16. It covers the majority of the main Bible stories from Creation through to the early Church. Bibletime is designed for individual use or in a group setting and is available free of charge.</Paragraph>,
+        longDescription: <><Paragraph>Bibletime is an extensive course of weekly fun-filled, activity work sheets for pre-school children right up to the age of 16. It covers the majority of the main Bible stories from Creation through to the early Church. Bibletime is designed for individual use or in a group setting and is available free of charge.</Paragraph>
+            <Paragraph>The course is split into 5 levels aimed at an approximate reading age. Each level consists of a syllabus of 36 lessons split monthly over 3 years. Each lesson is subdivided into four stories or studies which can be completed weekly. The stories are taken from both the Old and New Testaments and cover basic Bible stories and major Bible characters.</Paragraph>
+
+            <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please contact us</Paragraph></>,
         image: Level0Image,
         type: "bibletime",
         scrollTo: "bibletime"
     },
     {
         heading: "Going Deeper",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons.</Paragraph></>,
         image: Level1Image,
         type: "goingdeeper",
         scrollTo: "goingdeeper"
     },
     {
         heading: "Gleaners",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        description: <><Paragraph>Gleaners is an in depth 5 year study course aimed at adults, covering a wide range of subjects including creation, christian life and prophecy. It is designed for individual use and is free of charge. Please get in touch if this would be of benefit to you.</Paragraph></>,
         image: Level2Image,
         type: "gleaners",
         scrollTo: "gleaners"
