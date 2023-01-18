@@ -7,14 +7,14 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
-import CampTeaching from "@images/camp/camp-teaching.jpg";
-import CampFriends from "@images/camp/camp-friends.jpg";
-import CampBeach from "@images/camp/camp-beach.jpg";
-import CampFire from "@images/camp/camp-fire.jpg";
-import CampSinging from "@images/camp/camp-singing.jpg";
-import CampGames from "@images/camp/camp-games.jpg";
-import CampCraft from "@images/camp/camp-craft.jpg";
-import CampAdventure from "@images/camp/camp-adventure.jpg";
+import CampTeaching from "@images/camp/camp-teaching-min.jpg";
+import CampFriends from "@images/camp/camp-friends-min.jpg";
+import CampBeach from "@images/camp/camp-beach-min.jpg";
+import CampFire from "@images/camp/camp-fire-min.jpg";
+import CampSinging from "@images/camp/camp-singing-min.jpg";
+import CampGames from "@images/camp/camp-games-min.jpg";
+import CampCraft from "@images/camp/camp-craft-min.jpg";
+import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 
 export default function Camp() {
     const images: Gallery[] = [
