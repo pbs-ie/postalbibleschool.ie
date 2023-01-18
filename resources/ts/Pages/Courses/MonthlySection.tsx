@@ -4,6 +4,7 @@ import { useState } from "react";
 import { monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
 import Heading3 from "@/Components/Typography/Heading3";
+import Paragraph from "@/Components/Typography/Paragraph";
 
 export default function MonthlySection() {
     const [selectedMonth, setSelectedMonth] = useState(-1);
@@ -44,7 +45,7 @@ export default function MonthlySection() {
                 <div className="flex flex-col my-auto">
                     {
                         (selectedMonth === -1 || selectedSeries === -1) ?
-                            <div className="text-gray-600 text-left my-auto text-3xl p-20"><p>Select a month and series to see the available download links here.</p></div>
+                            <div className="text-gray-600 text-left my-auto text-3xl p-20"><Paragraph>Select a month and series to see the available download links here.</Paragraph></div>
                             :
                             !!processing ?
                                 <div className="flex space-around justify-center items-center text-gray-600 text-left my-auto text-3xl p-20">

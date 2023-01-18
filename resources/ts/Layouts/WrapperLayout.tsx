@@ -9,6 +9,7 @@ import FooterGroup from '@/Components/FooterGroup';
 import LogoWhite from '@images/Logo-white.png';
 import FooterLink from '@/Components/Navigation/FooterLink';
 import FlashMessage from '@/Components/FlashMessage';
+import Paragraph from '@/Components/Typography/Paragraph';
 
 declare function route(name?: string, params?: any): any;
 
@@ -168,7 +169,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     <div className="w-full my-10 px-8 md:px-40 py-6">
                         <div className="flex flex-nowrap flex-col md:flex-row justify-evenly">
                             <FooterGroup heading="About Us">
-                                <p className="text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</p>
+                                <Paragraph className="text-white text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</Paragraph>
                             </FooterGroup>
                             <FooterGroup heading="Courses">
                                 <ul className="flex flex-col">
@@ -187,9 +188,9 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                 </ul>
                             </FooterGroup>
                             <FooterGroup heading="Contact Us">
-                                <p>Phone - 049 555 2915</p>
-                                <p>Internation - 0035349 5552915</p>
-                                <p>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
+                                <Paragraph className='text-white'>Phone - 049 555 2915</Paragraph>
+                                <Paragraph className='text-white'>Internation - 0035349 5552915</Paragraph>
+                                <Paragraph className='text-white'>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></Paragraph>
                             </FooterGroup>
                         </div>
                     </div>

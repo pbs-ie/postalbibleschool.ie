@@ -1,6 +1,7 @@
 import CardBlock from "@/Components/CardBlock";
 import CardContainer from "@/Components/CardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
+import Paragraph from "@/Components/Typography/Paragraph";
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -13,7 +14,7 @@ export default function Shed() {
         <WrapperLayout>
             <EventWrapper title="The SHED">
                 <div className="w-full">
-                    <p className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam culpa. Esse sunt similique repellendus aspernatur, excepturi impedit dolore architecto unde? Facere ad numquam exercitationem, sint est ea quas excepturi.</p>
+                    <Paragraph className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam culpa. Esse sunt similique repellendus aspernatur, excepturi impedit dolore architecto unde? Facere ad numquam exercitationem, sint est ea quas excepturi.</Paragraph>
                 </div>
                 <ExtendScreenWrapper>
                     <GalleryBasic></GalleryBasic>
