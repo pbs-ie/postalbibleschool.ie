@@ -49,7 +49,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                             </div>
 
                             <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href="#" active={false}>
+                                <NavLink href={route('about')} active={route().current('about')}>
                                     About Us
                                 </NavLink>
                             </div>
