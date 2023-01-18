@@ -19,7 +19,7 @@ export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overv
     };
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col px-2 md:px-0">
             <div className="mb-10">
                 <Heading3>Bible Time Lessons</Heading3>
                 <div className="space-y-2">

@@ -12,7 +12,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link href="https://fonts.bunny.net/css?family=roboto:400,400i,500,500i,700,700i|roboto-slab:500,700|cardo:400,400i|lato:400,700,400i" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=roboto:100,400,400i,500,500i,700,700i|roboto-slab:500,700|cardo:400,400i|lato:200,400,700,400i" rel="stylesheet" />
 
 
     <!-- Scripts -->

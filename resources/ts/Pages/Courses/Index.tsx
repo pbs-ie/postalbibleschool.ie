@@ -21,11 +21,11 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
         <WrapperLayout>
             <Head title="Courses" />
 
-            <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+            <div className="py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <section className="text-center shadow-sm sm:rounded-lg">
                     <Heading1>Courses</Heading1>
-                    <Paragraph className="font-regular text-base mb-2 mt-0 p-4">Postal Bible School offers a wide range of FREE courses for people of all ages</Paragraph>
-                    <div className="flex flex-col md:flex-row">
+                    <Paragraph className="p-4 mt-0 mb-2 text-base font-regular">Postal Bible School offers a wide range of FREE courses for people of all ages</Paragraph>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                         {
                             courseContent.map((course, index) => (
                                 <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} scrollTo={course.scrollTo}></CourseCard>
@@ -35,12 +35,12 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
                 </section>
             </div>
 
-            <div className="max-w-screen mx-auto py-12 sm:px-10 bg-sky-100">
+            <div className="py-12 mx-auto max-w-screen sm:px-10 bg-sky-100">
                 <MonthlySection></MonthlySection>
             </div>
             {
                 courseContent.map((course) => (
-                    <LessonDownloadSection heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadSection>
+                    <LessonDownloadSection key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadSection>
                 ))
             }
         </WrapperLayout>
