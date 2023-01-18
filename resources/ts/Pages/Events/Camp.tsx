@@ -7,29 +7,70 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
+import CampTeaching from "@images/camp/camp-teaching.jpg";
+import CampFriends from "@images/camp/camp-friends.jpg";
+import CampBeach from "@images/camp/camp-beach.jpg";
+import CampFire from "@images/camp/camp-fire.jpg";
+import CampSinging from "@images/camp/camp-singing.jpg";
+import CampGames from "@images/camp/camp-games.jpg";
+import CampCraft from "@images/camp/camp-craft.jpg";
+import CampAdventure from "@images/camp/camp-adventure.jpg";
+
 export default function Camp() {
+    const images: Gallery[] = [
+        {
+            title: "Bible Teaching",
+            imageLink: CampTeaching
+        },
+        {
+            title: "New Friends",
+            imageLink: CampFriends
+        },
+        {
+            title: "Beach Day",
+            imageLink: CampBeach
+        },
+        {
+            title: "Camp Fire",
+            imageLink: CampFire
+        },
+        {
+            title: "Singing",
+            imageLink: CampSinging
+        },
+        {
+            title: "Team Games",
+            imageLink: CampGames
+        },
+        {
+            title: "Craft",
+            imageLink: CampCraft
+        },
+        {
+            title: "Adventure",
+            imageLink: CampAdventure
+        }
+    ]
     return (
         <WrapperLayout>
             <EventWrapper title="Summer Camp">
                 <ExtendScreenWrapper>
-                    <GalleryBasic></GalleryBasic>
+                    <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer type="camp" />
                 <Heading2>Camp</Heading2>
-                <div className="w-full text-center ">
-                    <Paragraph className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut ea corporis minus qui amet velit deserunt fuga impedit quaerat quasi! Consequatur distinctio fugiat aspernatur, illum libero eligendi optio praesentium. Officia?<br />
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat inventore dolores minus corrupti est, ad odit sequi? Debitis illo velit ad, blanditiis, laboriosam officiis reiciendis sunt ex aperiam nisi beatae.<br />
-                        Quo repudiandae delectus quae, sint dolor impedit! Similique corrupti tempora nisi vitae deleniti eum? Blanditiis commodi quidem nostrum vitae, earum maiores illo in obcaecati magni, fugit pariatur sunt similique cumque?</Paragraph>
+                <div className="w-3/4 mb-20 mx-auto">
+                    <Paragraph>Camp is held each summer in mid-July and generally fills up extremely quickly after the forms go out in mid-May. Camp is held at Ovoca Manor just outside the village of Avoca and near Arklow in Co. Wicklow. Ovoca Manor is an outdoor adventure centre owned by Scripture Union. It offers accommodation and a whole range of activities. Our week at camp will typically involve some time in activities at the centre and several trips off site for other activities.</Paragraph>
+                    <Paragraph>During the week campers can, among other things, participate in team sports, water sports, craft, activities, shop and visit the beach. Besides activity there is the opportunity to make new friends, explore new places and eat good food. Each day at camp we meet twice to learn from the Bible and have a speaker who seeks to make the messages relevant to young people, this is what we feel is the most important aspect of camp.</Paragraph>
+                    <Paragraph>Camp is open to PBS students who are actively completing and returning lessons, and are over the age of 10 on the 1st January of the year in which camp takes place.</Paragraph>
                 </div>
                 <Heading2>Gallery</Heading2>
 
                 <GalleryAdvanced></GalleryAdvanced>
 
                 <Heading2>History</Heading2>
-                <div className="w-full text-center ">
-                    <Paragraph className="w-3/4 my-20 mx-auto text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus necessitatibus cupiditate eos. Delectus, cumque! Itaque, iusto vero. Quisquam unde ea modi ullam quam sit quibusdam, qui a, veritatis, ipsa quo?<br />
-                        Nemo voluptatem illum odio sint ipsa voluptate dolorem! Eligendi, illo. Autem reprehenderit maiores sed, quam ipsa in tempore eum nam! Incidunt quod possimus nisi libero similique mollitia repellat suscipit est.<br />
-                        Maxime nisi tempora omnis eos consequuntur nostrum. Incidunt doloremque, laborum esse consequatur fugit eaque ex repellat? Aperiam autem fugit earum accusamus quae vitae minus rerum sapiente dolores, dolorem dolor quibusdam.</Paragraph>
+                <div className="w-3/4 mb-20 mx-auto">
+                    <Paragraph>Summer camp is something that is very special to many of the young people who have had the opportunity for a week of “summer adventure”. PBS camp began in 1963 in Co. Cork and has visited a few locations down through the years. Most recently the Camp has been held at Ovoca Manor in Co. Wicklow. Some of the young people who have attended camp in recent years have parents who also attended PBS camps. Much has changed from some of those early camps. We have proper toilets, showers and dining halls. When we are travelling it's one person to a seat, instead of “how many can you get in”, but the central purpose of camp remains the same. That purpose is the teaching of the Bible to young people.</Paragraph>
                 </div>
             </EventWrapper>
         </WrapperLayout>
