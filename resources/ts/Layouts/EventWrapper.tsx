@@ -5,7 +5,7 @@ export default function EventWrapper({ title, children }: { title: string, child
     return (
         <>
             <Head title={`Events - ${title}`}></Head>
-            <section className="text-center shadow-sm sm:rounded-lg max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+            <section className="py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
                 <Heading1>{title}</Heading1>
                 {children}
             </section>

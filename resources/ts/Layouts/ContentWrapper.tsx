@@ -1,11 +1,11 @@
 import Heading1 from "@/Components/Typography/Heading1";
 import { Head } from "@inertiajs/inertia-react";
 
-export default function EventWrapper({ title, children }: { title: string, children: React.ReactNode }): JSX.Element {
+export default function ContentWrapper({ title, className = "", children }: { title: string, className?: string, children: React.ReactNode }): JSX.Element {
     return (
         <>
             <Head title={title}></Head>
-            <section className="text-center shadow-sm sm:rounded-lg max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+            <section className={`px-4 py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8 ${className}`}>
                 <Heading1>{title}</Heading1>
                 {children}
             </section>
