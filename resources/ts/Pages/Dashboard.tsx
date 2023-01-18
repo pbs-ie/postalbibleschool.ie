@@ -2,13 +2,13 @@ import MonthlyOverview from "@/Components/Monthly/MonthlyOverview"
 import Heading1 from "@/Components/Typography/Heading1"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
-import { setBesLinksOnce } from "@/helper";
+import { setAllBesLinks } from "@/helper";
 import { monthNames, seriesNames } from "@/constants";
 import Placeholder from "@images/Placeholder.svg";
 
 export default function Dashboard({ bibleTimeDownloads }: any): JSX.Element {
     try {
-        setBesLinksOnce(bibleTimeDownloads);
+        setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
         console.warn("Global links variable tried to reset");
     }
