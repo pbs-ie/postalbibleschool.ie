@@ -12,32 +12,26 @@ export interface responseLinks {
 }
 
 interface BesLinksType {
-    besLinks: responseLinks;
     bibleTimeBySeries: any;
     goingDeeperBySeries: any;
     gleanersBySeries: any;
 }
 
-export const BES_GLOBALS: BesLinksType = {
-    besLinks: {},
+const BES_GLOBALS: BesLinksType = {
     bibleTimeBySeries: {},
     goingDeeperBySeries: {},
     gleanersBySeries: {},
 };
 
-export const setBesLinksOnce = function (updateValue: responseLinks) {
-    BES_GLOBALS.besLinks = updateValue;
-    BES_GLOBALS.bibleTimeBySeries = groupedBySeriesBes();
-};
-export const setGoingDeeperLinks = function (updateValue: responseLinks) {
-    BES_GLOBALS.besLinks = updateValue;
-    BES_GLOBALS.goingDeeperBySeries = groupedBySeriesBes();
+export const setAllBesLinks = function (bibleTimeValues: responseLinks, goingDeeperValues: responseLinks = {}, gleanersValues: responseLinks = {}) {
+    BES_GLOBALS.bibleTimeBySeries = groupedBySeriesBes(bibleTimeValues);
+    if (Object.keys(goingDeeperValues).length !== 0) {
+        BES_GLOBALS.goingDeeperBySeries = groupedBySeriesBes(goingDeeperValues);
+    }
+    if (Object.keys(gleanersValues).length !== 0) {
+        BES_GLOBALS.gleanersBySeries = groupedBySeriesBes(gleanersValues);
+    }
 }
-export const setGleanersLinks = function (updateValue: responseLinks) {
-    BES_GLOBALS.besLinks = updateValue;
-    BES_GLOBALS.gleanersBySeries = groupedBySeriesBes();
-}
-
 
 // Returns the download url for BES lessons from the BES links list
 export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string), type = "bibletime"): string {
@@ -54,14 +48,10 @@ export const getDownloadLink = function (seriesCode: string, tagCode: string, mo
     return "";
 };
 
-// Converts series number to corresponding alphabet
-export const getAlphabetFromNumber = function (num: number): string {
-    return (num + 10).toString(36);
-};
 
-const getCurrentSeriesList = function (seriesCode: string) {
+const getCurrentSeriesList = function (seriesCode: string, updateValues: responseLinks) {
     let onlyTagged = {} as responseLinks;
-    const besLinks = BES_GLOBALS.besLinks;
+    const besLinks = updateValues;
     for (const key in besLinks) {
         let filtered = besLinks[key].filter((value: propertyItem) => value.series === seriesCode);
         if (filtered.length === 0) {
@@ -77,13 +67,19 @@ const getCurrentSeriesList = function (seriesCode: string) {
     return onlyTagged;
 };
 
-const groupedBySeriesBes = function () {
+const groupedBySeriesBes = function (updateValues: responseLinks) {
     let pivot: { [property: string]: responseLinks } = {};
     gleanersSeriesNames.forEach((series) => {
-        let currentList = getCurrentSeriesList(series.code);
+        let currentList = getCurrentSeriesList(series.code, updateValues);
         if (Object.keys(currentList).length !== 0) {
             pivot[series.code] = currentList;
         }
     });
     return pivot;
+};
+
+
+// Converts series number to corresponding alphabet
+export const getAlphabetFromNumber = function (num: number): string {
+    return (num + 10).toString(36);
 };
