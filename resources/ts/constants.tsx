@@ -9,6 +9,8 @@ import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "./Components/Typography/Paragraph";
 
 declare global {
+    function route(name?: string, params?: any): any;
+
     interface GroupThemes {
         tagCode: string;
         tagClass: string;
@@ -23,7 +25,7 @@ declare global {
         scrollTo: string;
     }
     interface Button {
-        type: "submit" | "button" | "reset" | undefined;
+        type?: "submit" | "button" | "reset" | undefined;
         className?: string;
         processing?: boolean;
         children: React.ReactNode;
