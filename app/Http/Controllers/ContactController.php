@@ -13,7 +13,7 @@ class ContactController extends Controller
     // Display the contact us page
     public function create()
     {
-        return Inertia::render('ContactUs');
+        return Inertia::render('Forms/ContactUs');
     }
 
     // Store new contact us form entry

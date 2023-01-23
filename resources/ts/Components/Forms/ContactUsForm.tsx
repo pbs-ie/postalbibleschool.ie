@@ -7,8 +7,6 @@ import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-declare function route(name?: string, params?: any): any;
-
 export default function ContactUsForm() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",

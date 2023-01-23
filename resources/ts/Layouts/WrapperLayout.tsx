@@ -11,8 +11,6 @@ import FooterLink from '@/Components/Navigation/FooterLink';
 import FlashMessage from '@/Components/FlashMessage';
 import Paragraph from '@/Components/Typography/Paragraph';
 
-declare function route(name?: string, params?: any): any;
-
 export default function WrapperLayout({ children }: { children: React.ReactNode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
     const [showToTopButton, setShowToTopButton] = useState(false);
@@ -38,12 +36,12 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
 
 
     return (
-        <div className="min-h-screen flex flex-col items-stretch bg-slate-400">
-            <nav className="bg-pbsblue text-white border-b-2 border-gray-800">
-                <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col items-stretch min-h-screen bg-slate-400">
+            <nav className="text-white border-b-2 border-gray-800 bg-pbsblue">
+                <div className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
-                            <div className="shrink-0 flex items-center">
+                            <div className="flex items-center shrink-0">
                                 <Link href="/">
                                     <img src={LogoWhite} alt="Postal Bible School" className="h-10" />
                                 </Link>
@@ -59,7 +57,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                     Courses
                                 </NavLink>
                             </div>
-                            <div className="hidden group relative space-x-8 md:-my-px md:ml-10 md:flex">
+                            <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
                                 <NavLink href={route('events.prizegivings')} active={
                                     route().current('events.prizegivings')
                                     || route().current('events.shed')
@@ -71,7 +69,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                         <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
                                     </svg>
                                 </NavLink>
-                                <ul className="absolute bg-white text-slate-600 flex flex-col top-full -left-1/2 drop-shadow-lg rounded-lg opacity-0 divide-y-2 group-hover:opacity-100 group-focus:opacity-100 scale-0 group-hover:scale-100 group-focus:scale-100 transition-opacity duration-200 ease-in-out z-10">
+                                <ul className="absolute z-10 flex flex-col transition-opacity duration-200 ease-in-out scale-0 bg-white divide-y-2 rounded-lg opacity-0 text-slate-600 top-full -left-1/2 drop-shadow-lg group-hover:opacity-100 group-focus:opacity-100 group-hover:scale-100 group-focus:scale-100">
                                     <li className='inline-flex'><DropdownNavLink href={route('events.prizegivings')} active={route().current('events.prizegivings')}>
                                         Prizegivings
                                     </DropdownNavLink></li>
@@ -94,12 +92,12 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                                     Contact Us
                                 </NavLink>
                             </div>
-                            <div className="-mr-2 flex items-center md:hidden">
+                            <div className="flex items-center -mr-2 md:hidden">
                                 <button
                                     onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-100 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                    className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
                                 >
-                                    <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                         <path
                                             className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                             strokeLinecap="round"
@@ -121,7 +119,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-transform transition-opacity duration-1000 ease-in-out'}>
+                <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href="#" active={false}>
                             About Us
@@ -160,16 +158,16 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                 </div>
             </nav>
             <FlashMessage />
-            <main className="relative h-full grow flex flex-col md:justify-center">
-                <div className="w-full grow py-4 bg-white overflow-hidden">
+            <main className="relative flex flex-col h-full grow md:justify-center">
+                <div className="w-full py-4 overflow-hidden bg-white grow">
                     {children}
                 </div>
 
-                <footer className="bg-pbsblue text-white bottom-0 left-0">
-                    <div className="w-full my-10 px-8 md:px-40 py-6">
-                        <div className="flex flex-nowrap flex-col md:flex-row justify-evenly">
+                <footer className="bottom-0 left-0 text-white bg-pbsblue">
+                    <div className="w-full px-8 py-6 my-10 md:px-40">
+                        <div className="flex flex-col flex-nowrap md:flex-row justify-evenly">
                             <FooterGroup heading="About Us">
-                                <Paragraph className="text-white text-left leading-relaxed">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</Paragraph>
+                                <Paragraph className="leading-relaxed text-left text-white">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</Paragraph>
                             </FooterGroup>
                             <FooterGroup heading="Courses">
                                 <ul className="flex flex-col">
@@ -194,8 +192,8 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                             </FooterGroup>
                         </div>
                     </div>
-                    <div className="w-full p-8 md:p-10 border-t border-gray-300">
-                        <p className='leading-tight text-center text-sm'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
+                    <div className="w-full p-8 border-t border-gray-300 md:p-10">
+                        <p className='text-sm leading-tight text-center'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
                     </div>
                 </footer>
 

@@ -1,8 +1,8 @@
 export default function FooterGroup({ heading, children }: { heading: string, children: any }) {
     return (
-        <div className="mb-10 w-full px-2">
-            <h3 className="uppercase font-bold mb-2 text-base">{heading}</h3>
-            <div className="text-gray-200 text-sm">{children}</div>
+        <div className="w-full px-2 mb-10">
+            <h3 className="mb-2 text-base font-bold uppercase">{heading}</h3>
+            <div className="text-sm text-gray-200">{children}</div>
         </div>
     );
 }
