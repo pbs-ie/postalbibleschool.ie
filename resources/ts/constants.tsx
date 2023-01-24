@@ -41,6 +41,12 @@ interface LevelsDescription {
     title: string
 }
 
+export interface SeriesName {
+    name: string;
+    code: string;
+    tagClass: string;
+}
+
 export const courseContent: CourseContent[] = [
     {
         heading: "Bible Time Lessons",
@@ -128,17 +134,22 @@ export const bibleTimeLevels = [
     }
 ];
 export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-export const seriesNames = [
-    { name: "A series", code: "A" },
-    { name: "B series", code: "B" },
-    { name: "C series", code: "C" },
+export const seriesNames: SeriesName[] = [
+    { name: "A series", code: "A", tagClass: "" },
+    { name: "B series", code: "B", tagClass: "" },
+    { name: "C series", code: "C", tagClass: "" },
 ];
-export const gleanersSeriesNames = [
-    { name: "A series", code: "A" },
-    { name: "B series", code: "B" },
-    { name: "C series", code: "C" },
-    { name: "D series", code: "D" },
-    { name: "E series", code: "E" },
+export const goingDeeperSeriesNames: SeriesName[] = [
+    { name: "A series", code: "A", tagClass: "bg-bibletime-red" },
+    { name: "B series", code: "B", tagClass: "bg-bibletime-green" },
+    { name: "C series", code: "C", tagClass: "bg-bibletime-blue" },
+]
+export const gleanersSeriesNames: SeriesName[] = [
+    { name: "A series", code: "A", tagClass: "bg-bibletime-pink" },
+    { name: "B series", code: "B", tagClass: "bg-bibletime-orange" },
+    { name: "C series", code: "C", tagClass: "bg-bibletime-red" },
+    { name: "D series", code: "D", tagClass: "bg-bibletime-green" },
+    { name: "E series", code: "E", tagClass: "bg-bibletime-blue" },
 ]
 
 export const downloadUrlBase = "https://www.besweb.com/downloads/en/bibletime/";
