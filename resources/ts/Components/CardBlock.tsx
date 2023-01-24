@@ -21,7 +21,7 @@ export default function CardBlock({ Icon = null, title, description, buttonText,
             }
             <Heading3>{title}</Heading3>
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
-            {isExternal ?
+            {buttonText && (isExternal ?
                 <a href={buttonLink} target="_blank">
                     <PrimaryButton type="button">{buttonText}</PrimaryButton>
                 </a>
@@ -29,7 +29,7 @@ export default function CardBlock({ Icon = null, title, description, buttonText,
                 <Link href={buttonLink}>
                     <PrimaryButton type="button">{buttonText}</PrimaryButton>
                 </Link>
-            }
+            )}
         </>
     )
 }

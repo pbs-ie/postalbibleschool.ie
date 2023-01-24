@@ -13,6 +13,7 @@ import ShedFun from "@images/shed/shed-fun.jpg";
 import ShedFood from "@images/shed/shed-food.jpg";
 import ShedActivities from "@images/shed/shed-activities.jpg";
 import ShedChallenges from "@images/shed/shed-challenges.jpg";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 export default function Shed() {
     const images: Gallery[] = [
@@ -49,13 +50,13 @@ export default function Shed() {
             imageLink: ShedChallenges
         }
     ]
-    const descriptionText = <><Paragraph className="text-base mb-2">Postal Bible School - 049 555 2915</Paragraph><Paragraph>Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10">If you need directions or a lift, give us a call</Paragraph></>
+    const descriptionText = <ParagraphContainer><Paragraph className="mb-2 text-base">Postal Bible School - 049 555 2915</Paragraph><Paragraph>Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10">If you need directions or a lift, give us a call</Paragraph></ParagraphContainer>
     return (
         <WrapperLayout>
             <EventWrapper title="The SHED">
-                <div className="w-3/4 mx-auto my-10">
+                <ParagraphContainer className="mb-10">
                     <Paragraph>The Shed is a Christian youth group for young people (age 11+). It is run in association with Postal Bible School. It is usually run on the last Saturday of every month. Those involved in organising the Shed aim to teach the Bible and its importance to young people.</Paragraph>
-                </div>
+                </ParagraphContainer>
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
