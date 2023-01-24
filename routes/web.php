@@ -20,7 +20,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard', [
+    return Inertia::render('Front', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register')

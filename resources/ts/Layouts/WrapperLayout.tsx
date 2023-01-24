@@ -159,7 +159,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
             </nav>
             <FlashMessage />
             <main className="relative flex flex-col h-full grow md:justify-center">
-                <div className="w-full py-4 overflow-hidden bg-white grow">
+                <div className="w-full overflow-hidden bg-white grow">
                     {children}
                 </div>
 
