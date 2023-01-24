@@ -16,26 +16,6 @@ interface CardTypes {
 
 
 export default function CardContainer({ type }: CardTypes) {
-    const [numberOfCards, setNumberOfCards] = useState(0);
-
-    useEffect(() => {
-        switch (type) {
-            case "prizegivings":
-                setNumberOfCards(prizegivingCards.length);
-                break;
-            case "shed":
-                setNumberOfCards(shedCards.length);
-                break;
-            case "step":
-                setNumberOfCards(stepCards.length);
-                break;
-            case "camp":
-                setNumberOfCards(campCards.length);
-                break;
-        }
-
-    }, []);
-
 
     const prizegivingCards: CardBlock[] = [
         {
@@ -134,6 +114,7 @@ export default function CardContainer({ type }: CardTypes) {
         }
     ]
 
+
     const getCurrentTypeCards = () => {
         switch (type) {
             case "prizegivings":
@@ -146,11 +127,16 @@ export default function CardContainer({ type }: CardTypes) {
                 return campCards;
         }
     }
+
+    const getColumnClass = () => {
+        return `md:grid-cols-${getCurrentTypeCards().length}`;
+    }
+
     return (
-        <div className="flex justify-center mt-10 mb-20">
-            <div className="flex flex-col justify-around p-6 rounded-lg shadow-lg md:flex-row justify-items-stretch bg-sky-100 md:w-5/6 ">
+        <div className="mx-auto mt-10 mb-20">
+            <div className={`flex flex-col flex-wrap md:w-4/5 md:mx-auto justify-around p-6 rounded-lg shadow-lg bg-sky-100 md:flex-row`}>
                 {getCurrentTypeCards().map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
-                    <div key={title} className={`flex flex-col basis-1/${numberOfCards} grow-0 items-center justify-between max-w-sm mb-8 last-of-type:mb-0 md:mb-0 md:mx-4`}>
+                    <div key={title} className={`flex flex-col basis-1/3 items-center justify-between max-w-sm`}>
                         <CardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                     </div>
                 ))}
