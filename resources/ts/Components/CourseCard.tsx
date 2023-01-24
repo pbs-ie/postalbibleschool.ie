@@ -4,8 +4,10 @@ import Heading3 from '@/Components/Typography/Heading3';
 import TagGroupPill from '@/Components/TagGroupPill';
 
 import { groupThemes } from '@/constants';
+import PrimaryButton from "./PrimaryButton";
+import { Link } from "@inertiajs/inertia-react";
 
-export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo = "lesson-download" }: CourseContent) {
+export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo }: CourseContent) {
     const levelGroup = groupThemes[type];
 
     return (
@@ -20,13 +22,17 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     ))
                 }
             </div>
-            <button className="w-full mt-2">
-                <ScrollLink to={scrollTo} smooth={true} className="flex justify-center py-2">
-                    <svg className="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                </ScrollLink>
-            </button>
+            {scrollTo ?
+                <button className="w-full mt-2">
+                    <ScrollLink to={scrollTo} smooth={true} className="flex justify-center py-2">
+                        <svg className="w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </ScrollLink>
+                </button>
+                :
+                <div className="mt-2"><Link href={route('courses')}><PrimaryButton>More details</PrimaryButton></Link></div>
+            }
 
         </div>
     );

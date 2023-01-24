@@ -27,7 +27,7 @@ export default function LandingCards({ heading, content, image, buttonText, butt
                 <div className={"gap-4 h-full drop-shadow-lg p-6 bg-slate-50 " + className}>
                     <div className="mb-1 text-2xl font-bold uppercase font-subtitle">{heading}</div>
                     <div className="mb-2 text-xl">{content}</div>
-                    <Link href={buttonLink} type="button"><PrimaryButton>{buttonText}</PrimaryButton></Link>
+                    <Link href={buttonLink} type="button"><PrimaryButton processing={buttonLink === ""}>{buttonLink === "" ? "Coming soon" : buttonText}</PrimaryButton></Link>
                 </div>
             }
         </>
