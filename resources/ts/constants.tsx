@@ -22,7 +22,7 @@ declare global {
         longDescription?: React.ReactNode;
         image: string;
         type: "bibletime" | "goingdeeper" | "gleaners";
-        scrollTo: string;
+        scrollTo?: string;
     }
     interface Button {
         type?: "submit" | "button" | "reset" | undefined;
