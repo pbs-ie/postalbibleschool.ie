@@ -5,39 +5,49 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
+import PrizesImage from "@images/prizegivings/prizegiving-prizes.jpg";
+import StoriesImage from "@images/prizegivings/prizegiving-stories.jpg";
+import QuizzesImage from "@images/prizegivings/prizegiving-quizzes.jpg";
+import SongsImage from "@images/prizegivings/prizegiving-songs.jpg";
+import FriendsImage from "@images/prizegivings/prizegiving-friends.jpg";
+import EventsImage from "@images/prizegivings/prizegiving-events.jpg";
+import SchoolsImage from "@images/prizegivings/prizegiving-schools.jpg";
+import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+
 export default function Prizegivings() {
     const images: Gallery[] = [
         {
             title: "Prizes",
-            imageLink: ""
+            imageLink: PrizesImage
         },
         {
             title: "Stories",
-            imageLink: ""
+            imageLink: StoriesImage
         },
         {
             title: "Quizzes",
-            imageLink: ""
+            imageLink: QuizzesImage
         },
         {
             title: "Songs",
-            imageLink: ""
+            imageLink: SongsImage
         },
         {
             title: "Friends",
-            imageLink: ""
+            imageLink: FriendsImage
         },
         {
             title: "Events",
-            imageLink: ""
+            imageLink: EventsImage
         },
         {
             title: "Schools",
-            imageLink: ""
+            imageLink: SchoolsImage
         },
         {
             title: "Team",
-            imageLink: ""
+            imageLink: TeamImage
         }
     ]
     return (
@@ -46,10 +56,10 @@ export default function Prizegivings() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <div className="w-3/4 mx-auto my-20">
+                <ParagraphContainer className="mt-20">
                     <Paragraph>Throughout the year those who returns lessons for marking are allocated marks for their work. The total marks accumulated from January to December each year is totalled and converted to a percentage. This percentage then entitles the student to one of four levels of prize. Each student is invited to attend a prizegiving of their choice to select their prize. A prizegiving will generally take between an hour and an hour and a half depending on the number attending. The evening will begin by students selecting their prizes. This will be followed by a short time of singing songs based on the Bible and an explanation of the Bible for young people. The evening will be concluded by the presentation of the prizes and refreshments.</Paragraph>
                     <Paragraph>Prizegivings are a special time for the staff of Postal Bible School as they get an opportunity to meet students and their families across Ireland.</Paragraph>
-                </div>
+                </ParagraphContainer>
                 <CardContainer type="prizegivings" />
             </EventWrapper>
         </WrapperLayout>
