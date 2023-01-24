@@ -17,7 +17,7 @@ module.exports = {
                 subtitle: ["Lato", ...defaultTheme.fontFamily.sans],
                 title: ["Roboto Slab", ...defaultTheme.fontFamily.serif],
             },
-            backgroundColor: {
+            colors: {
                 "bibletime-pink": "#c551b4",
                 "bibletime-orange": "#f78d22",
                 "bibletime-red": "#d72424",
