@@ -1,7 +1,19 @@
 import PrimaryButton from "@/Components/PrimaryButton";
+import { Link } from "@inertiajs/inertia-react";
 import Heading3 from "./Typography/Heading3";
 
-export default function CardBlock({ Icon = null, title, description, buttonText }: { Icon?: (({ className }: { className?: string | undefined; }) => JSX.Element) | null, title: string, description: string | JSX.Element, buttonText?: string | undefined }) {
+declare global {
+    interface CardBlock {
+        Icon?: (({ className }: { className?: string | undefined; }) => JSX.Element) | null;
+        title: string;
+        description: string | JSX.Element;
+        buttonText?: string | undefined
+        buttonLink?: string;
+        isExternal?: boolean;
+    }
+}
+
+export default function CardBlock({ Icon = null, title, description, buttonText, buttonLink = "", isExternal = false }: CardBlock) {
     return (
         <>
             {Icon !== null &&
@@ -9,8 +21,14 @@ export default function CardBlock({ Icon = null, title, description, buttonText 
             }
             <Heading3>{title}</Heading3>
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
-            {!!buttonText &&
-                <PrimaryButton type="button" className="" processing={false} onClick={undefined}>{buttonText}</PrimaryButton>
+            {isExternal ?
+                <a href={buttonLink} target="_blank">
+                    <PrimaryButton type="button">{buttonText}</PrimaryButton>
+                </a>
+                :
+                <Link href={buttonLink}>
+                    <PrimaryButton type="button">{buttonText}</PrimaryButton>
+                </Link>
             }
         </>
     )
