@@ -4,6 +4,7 @@ import LessonDownloadList from "@/Components/Lesson/LessonDownloadList";
 
 import { bibleTimeLevels } from "@/constants";
 import { ReactNode, useEffect, useState } from "react";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 interface DownloadSection {
     heading: string;
@@ -45,11 +46,11 @@ export default function LessonDownloadSection({ heading, description, type }: Do
     }, []);
 
     return (
-        <section id={type} className="my-20 px-10 sm:px-20">
+        <section id={type} className="px-10 my-20 sm:px-20">
             <Heading2>{heading}</Heading2>
-            <div className="w-3/4 mx-auto text-center">{description}</div>
+            <ParagraphContainer>{description}</ParagraphContainer>
 
-            <div className="flex flex-col md:flex-row justify-around mt-4 mb-8 w-full">
+            <div className="flex flex-col justify-around w-full mt-4 mb-8 md:flex-row">
                 {type === "bibletime" &&
                     bibleTimeLevels.map((level, index) => (
 

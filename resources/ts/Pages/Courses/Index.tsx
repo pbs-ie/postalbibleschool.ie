@@ -11,6 +11,7 @@ import { setAllBesLinks } from '@/helper';
 import Paragraph from '@/Components/Typography/Paragraph';
 import SecondaryButton from '@/Components/SecondaryButton';
 import RequestLessonBanner from '@/Components/RequestLessonBanner';
+import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
 
 export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads }: any) {
     try {
@@ -25,7 +26,9 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
 
             <section className="py-12 mx-auto text-center shadow-sm sm:rounded-lg max-w-7xl sm:px-6 lg:px-8">
                 <Heading1>Courses</Heading1>
-                <Paragraph className="p-4 mt-0 mb-2 text-base font-regular">Postal Bible School offers a wide range of FREE courses for people of all ages</Paragraph>
+                <ParagraphContainer>
+                    <Paragraph className="p-4 mt-0 mb-2 text-base font-regular">Postal Bible School offers a wide range of FREE courses for people of all ages. The majority of our lessons are used by young peple. We currently have five grades (Level0, Level 1, Level 2, Level 3 and Level 4) available to young people. These grades cover basic Bible stories and major Bible characters. Each grade has a structured 3 year syllabus, and for each month there is a series of 4 lessons.</Paragraph>
+                </ParagraphContainer>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                     {
                         courseContent.map((course, index) => (

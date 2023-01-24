@@ -1,18 +1,32 @@
 import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
-import { gleanersSeriesNames, monthNames, seriesNames } from "@/constants";
+import { gleanersSeriesNames, goingDeeperSeriesNames, monthNames, SeriesName, seriesNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import { useEffect, useState } from "react";
 
-export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tagCode = "level0", isWideScreen = false, type = "bibletime" }) {
+interface LessonDownloadList {
+    tagClass: string;
+    tagCode: string;
+    isWideScreen: boolean;
+    type: "bibletime" | "goingdeeper" | "gleaners"
+}
+
+export default function LessonDownloadList({ tagClass = "", tagCode = "level0", isWideScreen = false, type = "bibletime" }: LessonDownloadList) {
     const [gridCols, setGridCols] = useState("");
     const getSeries = () => {
         switch (type) {
             case "gleaners":
                 return gleanersSeriesNames;
+            case "goingdeeper":
+                return goingDeeperSeriesNames;
             default:
                 return seriesNames;
         }
     }
+    const getActiveTagClass = (seriesElement: SeriesName) => {
+        return seriesElement.tagClass === "" ? tagClass : seriesElement.tagClass;
+    }
+
+
     useEffect(() => {
         if (type === "gleaners") {
             setGridCols("grid-cols-5");
@@ -26,10 +40,10 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
             {
                 getSeries().map((seriesElement, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
-                        <div className={`text-center h-fit w-full text-gray-50 ${tagClass} py-2 mb-2 rounded`}>{seriesElement.name}</div>
+                        <div className={`text-center h-fit w-full text-gray-50 ${getActiveTagClass(seriesElement)} py-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (
-                                <LessonDownloadButton key={index} downloadLink={getDownloadLink(seriesElement.code, tagCode, index, type)} infoClass={tagClass} title={`${seriesElement.code}${(index + 1)}${type !== "gleaners" && isWideScreen ? ' - ' + month : ''}`} infoText={null}></LessonDownloadButton>
+                                <LessonDownloadButton key={index} downloadLink={getDownloadLink(seriesElement.code, tagCode, index, type)} infoClass={getActiveTagClass(seriesElement)} title={`${seriesElement.code}${(index + 1)}${type !== "gleaners" && isWideScreen ? ' - ' + month : ''}`} infoText={null}></LessonDownloadButton>
                             ))
                         }
                     </div>
