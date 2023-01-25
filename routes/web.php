@@ -51,33 +51,33 @@ Route::get('/courses', function () {
 
 
 
-Route::prefix('events')->group(function () {
+Route::prefix('events')->name('events.')->group(function () {
     Route::get('/prizegivings', function () {
         return Inertia::render('Events/Prizegivings');
-    })->name('events.prizegivings');
+    })->name('prizegivings');
     Route::get('/shed', function () {
         return Inertia::render('Events/Shed');
-    })->name('events.shed');
+    })->name('shed');
     Route::get('/camp', function () {
         return Inertia::render('Events/Camp');
-    })->name('events.camp');
+    })->name('camp');
 
     Route::prefix('step')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Events/Step/About');
-        })->name('events.step');
+        })->name('step');
 
         Route::get('/past', function () {
             return Inertia::render('Events/Step/About');
-        })->name('events.step.past');
+        })->name('step.past');
 
         Route::get('/signup', function () {
             return Inertia::render('Events/Step/Signup');
-        })->name('events.step.signup');
+        })->name('step.signup');
 
         Route::get('/schedule', function () {
             return Inertia::render('Events/Step/About');
-        })->name('events.step.schedule');
+        })->name('step.schedule');
     });
 });
 
