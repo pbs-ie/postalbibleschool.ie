@@ -7,12 +7,9 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import PrizesImage from "@images/prizegivings/prizegiving-prizes.jpg";
 import StoriesImage from "@images/prizegivings/prizegiving-stories.jpg";
-import QuizzesImage from "@images/prizegivings/prizegiving-quizzes.jpg";
 import SongsImage from "@images/prizegivings/prizegiving-songs.jpg";
-import FriendsImage from "@images/prizegivings/prizegiving-friends.jpg";
 import EventsImage from "@images/prizegivings/prizegiving-events.jpg";
 import SchoolsImage from "@images/prizegivings/prizegiving-schools.jpg";
-import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 export default function Prizegivings() {
@@ -27,7 +24,7 @@ export default function Prizegivings() {
         },
         {
             title: "Quizzes",
-            imageLink: QuizzesImage
+            imageLink: ""
         },
         {
             title: "Songs",
@@ -35,7 +32,7 @@ export default function Prizegivings() {
         },
         {
             title: "Friends",
-            imageLink: FriendsImage
+            imageLink: ""
         },
         {
             title: "Events",
@@ -47,7 +44,7 @@ export default function Prizegivings() {
         },
         {
             title: "Team",
-            imageLink: TeamImage
+            imageLink: ""
         }
     ]
     return (
