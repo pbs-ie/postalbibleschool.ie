@@ -2,7 +2,6 @@ import TeachingImage from "@images/step/step-teaching.jpg";
 import DiscussionImage from "@images/step/step-discussion.jpg";
 import SingingImage from "@images/step/step-singing.jpg";
 import FellowshipImage from "@images/step/step-fellowship.jpg";
-import ReadingImage from "@images/step/step-reading.jpg";
 import GamesImage from "@images/step/step-games.jpg";
 import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
@@ -37,7 +36,7 @@ export default function About() {
         },
         {
             title: "Reading",
-            imageLink: ReadingImage
+            imageLink: ""
         },
         {
             title: "Games",
