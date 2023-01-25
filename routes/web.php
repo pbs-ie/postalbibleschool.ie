@@ -49,37 +49,37 @@ Route::get('/courses', function () {
     ]);
 })->name('courses');
 
-Route::get('/events/prizegivings', function () {
-    return Inertia::render('Events/Prizegivings');
-})->name('events.prizegivings');
 
 
-Route::get('/events/shed', function () {
-    return Inertia::render('Events/Shed');
-})->name('events.shed');
+Route::prefix('events')->group(function () {
+    Route::get('/prizegivings', function () {
+        return Inertia::render('Events/Prizegivings');
+    })->name('events.prizegivings');
+    Route::get('/shed', function () {
+        return Inertia::render('Events/Shed');
+    })->name('events.shed');
+    Route::get('/camp', function () {
+        return Inertia::render('Events/Camp');
+    })->name('events.camp');
 
+    Route::prefix('step')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Events/Step/About');
+        })->name('events.step');
 
-Route::get('/events/step', function () {
-    return Inertia::render('Events/Step/About');
-})->name('events.step');
+        Route::get('/past', function () {
+            return Inertia::render('Events/Step/About');
+        })->name('events.step.past');
 
-Route::get('/events/step/past', function () {
-    return Inertia::render('Events/Step/About');
-})->name('events.step.past');
+        Route::get('/signup', function () {
+            return Inertia::render('Events/Step/Signup');
+        })->name('events.step.signup');
 
-Route::get('/events/step/signup', function () {
-    return Inertia::render('Events/Step/About');
-})->name('events.step.signup');
-
-Route::get('/events/step/schedule', function () {
-    return Inertia::render('Events/Step/About');
-})->name('events.step.schedule');
-
-
-Route::get('/events/camp', function () {
-    return Inertia::render('Events/Camp');
-})->name('events.camp');
-
+        Route::get('/schedule', function () {
+            return Inertia::render('Events/Step/About');
+        })->name('events.step.schedule');
+    });
+});
 
 Route::get('/about', function () {
     return Inertia::render('About');

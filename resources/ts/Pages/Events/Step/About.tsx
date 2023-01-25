@@ -78,7 +78,7 @@ export default function About() {
                         <Heading2>Location</Heading2>
                         <div className="flex flex-col gap-10 mx-auto md:flex-row md:w-3/4">
                             <div id="castledaly-location">
-                                <iframe className="border border-black" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2380.034969766731!2d-7.80367208441075!3d53.378423780009456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485c4c9204f232b9%3A0x142951a650ea93b6!2sCastledaly%20Manor%20-%20BCM%20Ireland!5e0!3m2!1sen!2suk!4v1674635864862!5m2!1sen!2suk" width="500" height="400" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe className="border border-black w-full md:w-[500px]" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2380.034969766731!2d-7.80367208441075!3d53.378423780009456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485c4c9204f232b9%3A0x142951a650ea93b6!2sCastledaly%20Manor%20-%20BCM%20Ireland!5e0!3m2!1sen!2suk!4v1674635864862!5m2!1sen!2suk" width="500" height="300" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                             <div className="text-left">
                                 <Paragraph className="text-black">Castledaly Manor is a Christian Camp and Conference Centre in the heart of Ireland.</Paragraph>
