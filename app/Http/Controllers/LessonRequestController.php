@@ -11,7 +11,7 @@ class LessonRequestController extends Controller
     // Display the Lesson request form
     public function create()
     {
-        return Inertia::render('Forms/Request');
+        return Inertia::render('Forms/GroupRequest');
     }
 
     // Enter form values into DB

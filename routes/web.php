@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\IndividualRequestController;
 use App\Http\Controllers\LessonRequestController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
@@ -34,11 +35,13 @@ Route::get('/contactus', [ContactController::class, 'create'])->name('contactus'
 Route::post('/contactus', [ContactController::class, 'store'])->name('contactus');
 
 
-// Show New lesson form
-Route::get('/request/school', [LessonRequestController::class, 'create'])->name('request.school');
-Route::get('/request/home', [LessonRequestController::class, 'create'])->name('request.home');
+Route::prefix('request')->name('request.')->group(function () {
+    Route::get('/group', [LessonRequestController::class, 'create'])->name('group');
+    Route::post('/group', [LessonRequestController::class, 'store'])->name('group');
 
-Route::post('/request/new', [LessonRequestController::class, 'store'])->name('request.new');
+    Route::get('/individual', [IndividualRequestController::class, 'create'])->name('individual');
+    Route::post('/individual', [IndividualRequestController::class, 'store'])->name('individual');
+});
 
 
 Route::get('/courses', function () {
