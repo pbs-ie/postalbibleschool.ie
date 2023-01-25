@@ -10,8 +10,9 @@ import LogoWhite from '@images/Logo-white.png';
 import FooterLink from '@/Components/Navigation/FooterLink';
 import FlashMessage from '@/Components/FlashMessage';
 import Paragraph from '@/Components/Typography/Paragraph';
+import SecondaryNavigation from '@/Components/Navigation/SecondaryNavigation';
 
-export default function WrapperLayout({ children }: { children: React.ReactNode }) {
+export default function WrapperLayout({ showSecondaryNav = false, children }: { showSecondaryNav?: boolean, children: React.ReactNode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
     const [showToTopButton, setShowToTopButton] = useState(false);
 
@@ -36,7 +37,7 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
 
 
     return (
-        <div className="flex flex-col items-stretch min-h-screen bg-slate-400">
+        <div className="flex flex-col items-stretch min-h-screen">
             <nav className="text-white border-b-2 border-gray-800 bg-pbsblue">
                 <div className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -157,9 +158,12 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
                     </div>
                 </div>
             </nav>
+            {showSecondaryNav &&
+                <SecondaryNavigation />
+            }
             <FlashMessage />
             <main className="relative flex flex-col h-full grow md:justify-center">
-                <div className="w-full overflow-hidden bg-white grow">
+                <div className="w-full pb-20 overflow-hidden bg-white grow">
                     {children}
                 </div>
 

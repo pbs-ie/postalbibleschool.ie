@@ -60,8 +60,20 @@ Route::get('/events/shed', function () {
 
 
 Route::get('/events/step', function () {
-    return Inertia::render('Events/Step');
+    return Inertia::render('Events/Step/About');
 })->name('events.step');
+
+Route::get('/events/step/past', function () {
+    return Inertia::render('Events/Step/About');
+})->name('events.step.past');
+
+Route::get('/events/step/signup', function () {
+    return Inertia::render('Events/Step/About');
+})->name('events.step.signup');
+
+Route::get('/events/step/schedule', function () {
+    return Inertia::render('Events/Step/About');
+})->name('events.step.schedule');
 
 
 Route::get('/events/camp', function () {

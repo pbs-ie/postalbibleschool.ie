@@ -10,12 +10,13 @@ import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
 
 import { useEffect, useState } from "react";
 
-interface CardTypes {
+interface CardContainer {
     type: "prizegivings" | "shed" | "step" | "camp";
+    children?: React.ReactNode;
 }
 
 
-export default function CardContainer({ type }: CardTypes) {
+export default function CardContainer({ type, children }: CardContainer) {
 
     const prizegivingCards: CardBlock[] = [
         {
@@ -128,19 +129,16 @@ export default function CardContainer({ type }: CardTypes) {
         }
     }
 
-    const getColumnClass = () => {
-        return `md:grid-cols-${getCurrentTypeCards().length}`;
-    }
-
     return (
-        <div className="mx-auto mt-10 mb-20">
-            <div className={`flex flex-col flex-wrap md:w-4/5 md:mx-auto justify-around p-6 rounded-lg shadow-lg bg-sky-100 md:flex-row`}>
+        <div className="p-6 mx-auto mt-10 mb-20 rounded-lg shadow-lg bg-sky-100 sm:w-4/5">
+            <div className={`flex flex-col flex-wrap md:mx-auto justify-center md:justify-around md:flex-row md:mb-5`}>
                 {getCurrentTypeCards().map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
-                    <div key={title} className={`flex flex-col basis-1/3 items-center justify-between max-w-sm`}>
+                    <div key={title} className={`flex flex-col basis-1/3 items-center justify-between md:max-w-sm`}>
                         <CardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                     </div>
                 ))}
             </div>
+            {children}
         </div>
     );
 }
