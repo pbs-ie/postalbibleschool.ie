@@ -168,17 +168,20 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                 </div>
 
                 <footer className="bottom-0 left-0 text-white bg-pbsblue">
-                    <div className="w-full px-8 py-6 my-10 md:px-40">
-                        <div className="flex flex-col flex-nowrap md:flex-row justify-evenly">
+                    <div className="w-full px-8 py-6 my-10 md:px-32">
+                        <div className="flex flex-col gap-8 md:gap-4 flex-nowrap md:flex-row justify-evenly">
                             <FooterGroup heading="About Us">
-                                <Paragraph className="leading-relaxed text-left text-white">Postal Bible School was originally called Postal Sunday School and bagan in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</Paragraph>
+                                <Paragraph className="leading-snug text-left text-white">Postal Bible School was originally called Postal Sunday School and began in County Cork in 1958. It began as the work of Bert and Wendy Gray who believed in the importance of young people learning from the Bible and wanted to cater for those in remote areas.</Paragraph>
+                                <div className="mt-5">
+                                    <Link className='text-base text-white hover:text-gray-300' href={route('about')}>Read more</Link>
+                                </div>
                             </FooterGroup>
                             <FooterGroup heading="Courses">
                                 <ul className="flex flex-col">
                                     <li><FooterLink href={route('courses')}>BibleTime</FooterLink></li>
                                     <li><FooterLink href={route('courses')}>New Life</FooterLink></li>
                                     <li><FooterLink href={route('courses')}>Gleaners</FooterLink></li>
-                                    <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li>
+                                    {/* <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li> */}
                                 </ul>
                             </FooterGroup>
                             <FooterGroup heading="Programmes">
@@ -190,14 +193,17 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                                 </ul>
                             </FooterGroup>
                             <FooterGroup heading="Contact Us">
-                                <Paragraph className='text-white'>Phone - 049 555 2915</Paragraph>
-                                <Paragraph className='text-white'>Internation - 0035349 5552915</Paragraph>
-                                <Paragraph className='text-white'>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></Paragraph>
+                                <p className='text-base text-white'>Phone - 049 555 2915</p>
+                                <p className='text-base text-white'>Internation - 0035349 5552915</p>
+                                <p className='text-base text-white'>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
+                                <div className="mt-5">
+                                    <Link className='text-base text-white hover:text-gray-300' href={route('contactus')}>Contact Us</Link>
+                                </div>
                             </FooterGroup>
                         </div>
                     </div>
                     <div className="w-full p-8 border-t border-gray-300 md:p-10">
-                        <p className='text-sm leading-tight text-center'>&copy;Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
+                        <p className='text-sm leading-tight text-center'>&copy; Copyright {currentYear}. Postal Bible School. All Rights Reserved.</p>
                     </div>
                 </footer>
 

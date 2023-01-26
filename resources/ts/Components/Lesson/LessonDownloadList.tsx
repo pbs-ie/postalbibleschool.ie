@@ -10,7 +10,7 @@ interface LessonDownloadList {
     type: "bibletime" | "goingdeeper" | "gleaners"
 }
 
-export default function LessonDownloadList({ tagClass = "", tagCode = "level0", isWideScreen = false, type = "bibletime" }: LessonDownloadList) {
+export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tagCode = "level0", isWideScreen = false, type = "bibletime" }: LessonDownloadList) {
     const [gridCols, setGridCols] = useState("");
     const getSeries = () => {
         switch (type) {

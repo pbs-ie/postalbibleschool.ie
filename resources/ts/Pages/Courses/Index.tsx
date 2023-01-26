@@ -1,7 +1,7 @@
 import WrapperLayout from '@/Layouts/WrapperLayout';
 import CourseCard from '@/Components/CourseCard';
 import Heading1 from '@/Components/Typography/Heading1';
-import { Head, Link } from '@inertiajs/inertia-react';
+import { Head } from '@inertiajs/inertia-react';
 
 import MonthlySection from './MonthlySection';
 import LessonDownloadSection from './LessonDownloadSection';
@@ -9,7 +9,6 @@ import LessonDownloadSection from './LessonDownloadSection';
 import { courseContent } from '@/constants';
 import { setAllBesLinks } from '@/helper';
 import Paragraph from '@/Components/Typography/Paragraph';
-import SecondaryButton from '@/Components/SecondaryButton';
 import RequestLessonBanner from '@/Components/RequestLessonBanner';
 import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
 

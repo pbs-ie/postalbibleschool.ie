@@ -128,7 +128,7 @@ export default function IndividualRequest() {
                             {studentState.map(({ fullname, dob }, idx) => (
                                 <div key={idx} className="flex flex-col gap-2 mb-2">
                                     <div className="flex gap-2">
-                                        <InputLabel forInput={`fullname[${idx}]`} value={"Name " + (idx + 1)} className="p-2 text-base rounded basis-1/3 bg-sky-100" required />
+                                        <InputLabel forInput={`fullname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
                                         <div className="inline-flex basis-2/3">
                                             <TextInput
                                                 type="text"
@@ -145,7 +145,7 @@ export default function IndividualRequest() {
                                         </div>
                                     </div>
                                     <div className="inline-flex gap-2">
-                                        <InputLabel forInput={`fullname[${idx}]`} value="Date of Birth" className="p-2 text-base rounded basis-1/3 bg-sky-100" required />
+                                        <InputLabel forInput={`fullname[${idx}]`} value="Date of Birth" className="basis-1/3" required />
 
                                         <input
                                             type="text"
@@ -170,7 +170,7 @@ export default function IndividualRequest() {
                         <h3 className="flex mb-4 text-lg font-bold">Contact Details</h3>
                         <div className="grid mb-5 items-start grid-cols-[1fr_2fr] gap-2">
 
-                            <InputLabel forInput="email" value="Email" className="p-2 text-base rounded bg-sky-100" required />
+                            <InputLabel forInput="email" value="Email" required />
                             <TextInput
                                 type="text"
                                 name="email"
@@ -182,7 +182,7 @@ export default function IndividualRequest() {
                                 required
                             />
 
-                            <InputLabel forInput="phone" value="Phone" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="phone" value="Phone" />
                             <TextInput
                                 type="text"
                                 name="phone"
@@ -261,7 +261,7 @@ export default function IndividualRequest() {
                                 ></RegionDropdown>
                             </div>
 
-                            <InputLabel forInput="message" value="Message or Comment" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="message" value="Message or Comment" />
                             <TextAreaInput
                                 name="message"
                                 id="message"

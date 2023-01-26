@@ -14,7 +14,7 @@ export default function LandingCards({ heading, content, image, buttonText, butt
     return (
         <>
             {image ?
-                <div className={"gap-4 h-full p-6 md:flex drop-shadow-lg bg-slate-50 " + className}>
+                <div className={"gap-4 h-full p-6 md:p-10 md:flex drop-shadow-lg bg-slate-50 " + className}>
                     <div className="md:w-1/2">
                         <div className="w-px mb-6 text-5xl font-bold uppercase md:text-6xl font-subtitle">{heading}</div>
                         <div className="mb-4 text-2xl md:text-3xl md:pr-5">{content}</div>
