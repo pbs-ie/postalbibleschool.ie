@@ -26,7 +26,6 @@ export default function GroupRequest() {
         state: "",
         postcode: "",
         country: "",
-        region: "",
         type: "",
         numberOfStudents: 0,
         ageRange: "",
@@ -37,12 +36,24 @@ export default function GroupRequest() {
         reset();
     }, []);
 
-    useEffect(() => {
-        reset("region");
-    }, [data.country]);
 
-    const handleChange = (event: any) => {
-        setData(event.target.name, event.target.value);
+    const handleChange = (event: React.ChangeEvent<HTMLFormElement | HTMLSelectElement>) => {
+        switch (event.target.name) {
+            case "fullname":
+            case "email":
+            case "phone":
+            case "address1":
+            case "address2":
+            case "city":
+            case "state":
+            case "postcode":
+            case "country":
+            case "type":
+            case "numberOfStudents":
+            case "ageRange":
+            case "message":
+                setData(event.target.name, event.target.value);
+        }
     };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -51,7 +62,7 @@ export default function GroupRequest() {
     }
     return (
         <WrapperLayout>
-            <ContentWrapper title="Request Sample Lesson">
+            <ContentWrapper title="Request Lessons for Groups">
                 <>
                     {errors &&
                         Object.keys(errors).map((key) =>
@@ -162,11 +173,6 @@ export default function GroupRequest() {
                                     value={data.country}
                                     handleChange={handleChange}
                                 />
-                                <RegionDropdown
-                                    country={data.country}
-                                    value={data.region}
-                                    handleChange={handleChange}
-                                ></RegionDropdown>
                             </div>
 
                             <InputLabel forInput="type" value="School or Group" required />
@@ -176,7 +182,7 @@ export default function GroupRequest() {
                                 <option value="group">Group</option>
                             </SelectInput>
 
-                            <InputLabel forInput="numberOfStudents" value="Number of Students" />
+                            <InputLabel forInput="numberOfStudents" value="Number of Students" required />
                             <NumberInput
                                 name="numberOfStudents"
                                 id="numberOfStudents"
@@ -186,6 +192,7 @@ export default function GroupRequest() {
                                 className="self-center block w-full"
                                 autoComplete="off"
                                 handleChange={handleChange}
+                                required
                             />
 
                             <InputLabel forInput="ageRange" value="Target Student Age Range" />

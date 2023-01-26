@@ -6,7 +6,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 export default function Signup() {
     return (
         <WrapperLayout showSecondaryNav>
-            <EventWrapper title="STEP - Sign Up">
+            <EventWrapper title="STEP - Sign Up" heading="Sign Up January 2023">
                 <ParagraphContainer>
                     <Paragraph>Having covered a broad range of books at STEP in the previous years, we will shift our focus to characters looking at an emphasis on cultivation of the devotional relationship with God as well as the ideas of sacrifice and service. In the month of November, we took a look at 1 Samuel and will continue through the same themes in the book of 2 Samuel this month.</Paragraph>
 

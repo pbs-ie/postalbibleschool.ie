@@ -20,8 +20,6 @@ class IndividualRequest extends Model
         'state',
         'postcode',
         'country',
-        'region',
-        'numberInFamily',
         'message'
     ];
 }

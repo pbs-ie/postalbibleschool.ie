@@ -24,12 +24,6 @@
 
         "forceConsistentCasingInFileNames": true
     },
-    "include": [
-        "resources/js_backup",
-        "resources/js_backup/**/*.jsx",
-        "resources/ts",
-        "resources/ts/**/*",
-        "jest-setup.ts"
-    ],
+    "include": ["resources/ts", "resources/ts/**/*", "jest-setup.ts"],
     "exclude": ["node_modules", "public"]
 }

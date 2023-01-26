@@ -1,7 +1,7 @@
 import MonthlyOverview from "@/Components/Monthly/MonthlyOverview"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
-import { setAllBesLinks } from "@/helper";
+import { responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, monthNames, seriesNames } from "@/constants";
 import { Head } from "@inertiajs/inertia-react";
 
@@ -19,7 +19,7 @@ import EventCard from "@/Components/EventCard";
 import ContactUsTemplate from "@/Components/ContactUsTemplate";
 import Heading2 from "@/Components/Typography/Heading2";
 
-export default function Front({ bibleTimeDownloads }: any): JSX.Element {
+export default function Home({ bibleTimeDownloads }: { bibleTimeDownloads: responseLinks }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
@@ -61,8 +61,8 @@ export default function Front({ bibleTimeDownloads }: any): JSX.Element {
                             <LandingCards
                                 heading="2023 Prizegivings"
                                 content="starting end of January"
-                                buttonText="Schedule"
-                                buttonLink={""}
+                                buttonText="Details"
+                                buttonLink={route('events.prizegivings')}
                                 className="border-4"
                             />
                         </div>

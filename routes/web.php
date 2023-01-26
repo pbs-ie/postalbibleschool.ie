@@ -21,7 +21,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Front', [
+    return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register')
