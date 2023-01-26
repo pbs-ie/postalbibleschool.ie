@@ -31,7 +31,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     </ScrollLink>
                 </button>
                 :
-                <div className="mt-2"><Link href={route('courses')}><PrimaryButton>More details</PrimaryButton></Link></div>
+                <div className="mt-2"><Link href={route('courses')}><PrimaryButton className="capitalize rounded-lg bg-sky-500">More details</PrimaryButton></Link></div>
             }
 
         </div>
