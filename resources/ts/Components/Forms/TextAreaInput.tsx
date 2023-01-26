@@ -13,20 +13,18 @@ interface TextAreaInput {
 export default function TextAreaInput({ name, id, value, className, rows, required, handleChange }: TextAreaInput) {
 
     return (
-        <div className="flex flex-col items-start">
-            <textarea
-                name={name}
-                id={id}
-                value={value}
-                className={
-                    `border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out` +
-                    className
-                }
-                autoComplete="off"
-                rows={rows}
-                required={required}
-                onChange={(e) => handleChange(e)}
-            />
-        </div>
+        <textarea
+            name={name}
+            id={id}
+            value={value}
+            className={
+                `border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out` +
+                className
+            }
+            autoComplete="off"
+            rows={rows}
+            required={required}
+            onChange={(e) => handleChange(e)}
+        />
     );
 };

@@ -6,6 +6,7 @@ import Paragraph from "@/Components/Typography/Paragraph";
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
 import CampFriends from "@images/camp/camp-friends-min.jpg";
@@ -15,7 +16,8 @@ import CampSinging from "@images/camp/camp-singing-min.jpg";
 import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
-import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+import CampBanner from "@images/camp/camp_header.png";
+
 
 export default function Camp() {
     const images: Gallery[] = [
@@ -54,7 +56,8 @@ export default function Camp() {
     ]
     return (
         <WrapperLayout>
-            <EventWrapper title="Summer Camp">
+            <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
+            <EventWrapper className="-mt-20 md:-mt-40" title="Summer Camp">
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
@@ -65,9 +68,6 @@ export default function Camp() {
                     <Paragraph>During the week campers can, among other things, participate in team sports, water sports, craft, activities, shop and visit the beach. Besides activity there is the opportunity to make new friends, explore new places and eat good food. Each day at camp we meet twice to learn from the Bible and have a speaker who seeks to make the messages relevant to young people, this is what we feel is the most important aspect of camp.</Paragraph>
                     <Paragraph>Camp is open to PBS students who are actively completing and returning lessons, and are over the age of 10 on the 1st January of the year in which camp takes place.</Paragraph>
                 </ParagraphContainer>
-                <Heading2>Gallery</Heading2>
-
-                <GalleryAdvanced></GalleryAdvanced>
 
                 <Heading2>History</Heading2>
                 <ParagraphContainer>

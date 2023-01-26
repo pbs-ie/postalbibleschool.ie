@@ -130,10 +130,10 @@ export default function CardContainer({ type, children }: CardContainer) {
     }
 
     return (
-        <div className="p-6 mx-auto mt-10 mb-20 rounded-lg shadow-lg bg-sky-100 sm:w-4/5">
+        <div className="p-6 mx-auto mt-10 mb-20 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
             <div className={`flex flex-col flex-wrap md:mx-auto justify-center md:justify-around md:flex-row md:mb-5`}>
                 {getCurrentTypeCards().map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
-                    <div key={title} className={`flex flex-col basis-1/3 items-center justify-between md:max-w-sm`}>
+                    <div key={title} className={`flex flex-col ${type === "prizegivings" ? 'basis-1/2' : 'basis-1/3'} items-center justify-between md:max-w-sm`}>
                         <CardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                     </div>
                 ))}

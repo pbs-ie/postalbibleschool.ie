@@ -61,7 +61,7 @@ export default function GroupRequest() {
                     <form method="post" onSubmit={handleSubmit} className="justify-center max-w-screen-md mx-auto">
                         <div className="grid mb-5 items-start grid-cols-[1fr_2fr] gap-2">
 
-                            <InputLabel forInput="name" value="Name" className="p-2 text-base rounded bg-sky-100" required />
+                            <InputLabel forInput="name" value="Name" required />
                             <div className="inline-flex">
                                 <TextInput
                                     type="text"
@@ -78,7 +78,7 @@ export default function GroupRequest() {
                             </div>
 
 
-                            <InputLabel forInput="email" value="Email" className="p-2 text-base rounded bg-sky-100" required />
+                            <InputLabel forInput="email" value="Email" required />
                             <TextInput
                                 type="text"
                                 name="email"
@@ -90,7 +90,7 @@ export default function GroupRequest() {
                                 required
                             />
 
-                            <InputLabel forInput="phone" value="Phone" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="phone" value="Phone" />
                             <TextInput
                                 type="text"
                                 name="phone"
@@ -169,14 +169,14 @@ export default function GroupRequest() {
                                 ></RegionDropdown>
                             </div>
 
-                            <InputLabel forInput="type" value="School or Group" className="p-2 text-base rounded bg-sky-100" required />
+                            <InputLabel forInput="type" value="School or Group" required />
                             <SelectInput className="self-center" name="type" id="type" value={data.type} handleChange={handleChange} required>
                                 <option value="" disabled>Select&hellip;</option>
                                 <option value="school">School</option>
                                 <option value="group">Group</option>
                             </SelectInput>
 
-                            <InputLabel forInput="numberOfStudents" value="Number of Students" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="numberOfStudents" value="Number of Students" />
                             <NumberInput
                                 name="numberOfStudents"
                                 id="numberOfStudents"
@@ -188,7 +188,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                             />
 
-                            <InputLabel forInput="ageRange" value="Target Student Age Range" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="ageRange" value="Target Student Age Range" />
                             <TextInput
                                 type="text"
                                 name="ageRange"
@@ -199,7 +199,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                             />
 
-                            <InputLabel forInput="message" value="Message or Comment" className="p-2 text-base rounded bg-sky-100" />
+                            <InputLabel forInput="message" value="Message or Comment" />
                             <TextAreaInput
                                 name="message"
                                 id="message"

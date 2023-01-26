@@ -4,7 +4,7 @@ import Level2Image from "@images/lessons/Level2_A1.jpg";
 import Level3Image from "@images/lessons/Level3_A1.jpg";
 import Level4Image from "@images/lessons/Level4_A1.jpg";
 import BibleTimeLessons from "@images/lessons/lessons-fan-english.jpg";
-import NewLifeLessons from "@images/lessons/newlife-lessons.jpg";
+import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
 import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "./Components/Typography/Paragraph";
 
@@ -62,7 +62,7 @@ export const courseContent: CourseContent[] = [
     {
         heading: "Going Deeper",
         description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons.</Paragraph></>,
-        image: NewLifeLessons,
+        image: GoingDeeperLessons,
         type: "goingdeeper",
         scrollTo: "goingdeeper"
     },

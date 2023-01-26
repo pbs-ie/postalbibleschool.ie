@@ -1,5 +1,5 @@
 export default function Heading2({ children }: { children: React.ReactNode }): JSX.Element {
     return (
-        <><h2 className="font-subtitle leading-relaxed uppercase text-3xl text-center font-bold mb-4 mt-6 p-6 text-blue-800">{children}</h2></>
+        <><h2 className="p-6 mt-6 mb-4 text-3xl font-bold leading-relaxed text-center text-blue-900 uppercase md:font-extrabold font-subtitle md:text-5xl">{children}</h2></>
     );
 }

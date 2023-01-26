@@ -1,3 +1,5 @@
+import DownloadIcon from "@/Components/Icons/DownloadIcon";
+
 export default function LessonDownloadButton({ title, infoText, infoClass = "bg-pbsblue", downloadLink = "" }: { title: string, infoText: string | null, infoClass: string, downloadLink: string | undefined }) {
     const isLinkEnabled = () => {
         return downloadLink && downloadLink !== "" && downloadLink !== "#";
@@ -15,12 +17,11 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
                 <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                     <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} rounded-md`}>
                         <div className={`basis-1/3 ${infoClass} text-white font-bold text-center rounded p-2 py-3`}>{infoText}</div>
-                        <div className="basis-2/3 text-center px-4">{title}</div>
+                        <div className="px-4 text-center basis-2/3">{title}</div>
                         {isLinkEnabled() &&
-                            <div className="shrink ml-auto px-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
-                                </svg>
+                            <div className="px-3 ml-auto shrink">
+                                <DownloadIcon />
+
                             </div>
                         }
                     </button></a>
@@ -28,12 +29,11 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
             {!infoText &&
                 <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                     <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} py-2 rounded`}>
-                        <div className="grow text-center px-4">{title}</div>
+                        <div className="px-4 text-center grow">{title}</div>
                         {isLinkEnabled() &&
-                            <div className="ml-auto px-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
-                                </svg>
+                            <div className="hidden px-3 ml-auto md:block">
+                                <DownloadIcon />
+
                             </div>
                         }
                     </button></a>
