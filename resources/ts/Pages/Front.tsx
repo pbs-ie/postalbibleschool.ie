@@ -61,8 +61,8 @@ export default function Front({ bibleTimeDownloads }: any): JSX.Element {
                             <LandingCards
                                 heading="2023 Prizegivings"
                                 content="starting end of January"
-                                buttonText="Schedule"
-                                buttonLink={""}
+                                buttonText="Details"
+                                buttonLink={route('events.prizegivings')}
                                 className="border-4"
                             />
                         </div>

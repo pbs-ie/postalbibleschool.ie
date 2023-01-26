@@ -15,6 +15,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function About() {
     const images: Gallery[] = [
@@ -62,7 +63,7 @@ export default function About() {
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer type="step">
-                    <a href="https://sites.google.com/postalbibleschool.ie/step/register" target="_blank"><PrimaryButton className="text-base">Sign Up</PrimaryButton></a>
+                    <Link href={route('events.step.signup')}><PrimaryButton className="text-base">Sign Up</PrimaryButton></Link>
                 </CardContainer>
                 <section>
                     <Heading2>What to expect</Heading2>
