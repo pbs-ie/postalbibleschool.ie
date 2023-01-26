@@ -1,9 +1,10 @@
 import { usePage } from "@inertiajs/inertia-react";
 import { useEffect, useState } from "react";
 
+
 export default function FlashMessage() {
     const [showNotifs, setShowNotifs] = useState(false);
-    const { flash }: any = usePage().props;
+    const { flash } = usePage<PassedProps>().props;
 
     useEffect(() => {
         setShowNotifs(true);

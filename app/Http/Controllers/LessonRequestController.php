@@ -27,7 +27,6 @@ class LessonRequestController extends Controller
             'state' => [],
             'postcode' => [],
             'country' => [],
-            'region' => [],
             'type' => [
                 function ($attribute, $value, $fail) {
                     if ($value !== "school" && $value !== "group") {
@@ -35,7 +34,7 @@ class LessonRequestController extends Controller
                     }
                 }
             ],
-            'numberOfStudents' => ['integer', "min:0", "max:1000"],
+            'numberOfStudents' => ['required', 'integer', "min:1", "max:1000"],
             'ageRange' => [],
             'message' => []
         ]);

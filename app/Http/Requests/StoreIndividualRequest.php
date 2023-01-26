@@ -34,7 +34,6 @@ class StoreIndividualRequest extends FormRequest
             'state' => [],
             'postcode' => [],
             'country' => ['required'],
-            'region' => [],
             'message' => []
         ];
     }

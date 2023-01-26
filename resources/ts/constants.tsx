@@ -7,6 +7,7 @@ import BibleTimeLessons from "@images/lessons/lessons-fan-english.jpg";
 import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
 import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "./Components/Typography/Paragraph";
+import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
 
 declare global {
     function route(name?: string, params?: any): any;
@@ -30,6 +31,20 @@ declare global {
         processing?: boolean;
         children: React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    }
+    interface PassedProps extends Page<PageProps> {
+        props: {
+            errors: Errors & ErrorBag;
+            auth: {
+                user: {
+                    name: string;
+                };
+            };
+            flash: {
+                success?: string;
+                failure?: string;
+            }
+        };
     }
 }
 

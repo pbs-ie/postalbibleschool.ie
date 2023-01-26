@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta head-key="description" name="description" content="Postal Bible School is an organisation in Ireland which promotes the study of the Bible through free Bible study tools and Bible courses online for all ages.">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'Postal Bible School') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

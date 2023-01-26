@@ -7,12 +7,12 @@ import MonthlySection from './MonthlySection';
 import LessonDownloadSection from './LessonDownloadSection';
 
 import { courseContent } from '@/constants';
-import { setAllBesLinks } from '@/helper';
+import { responseLinks, setAllBesLinks } from '@/helper';
 import Paragraph from '@/Components/Typography/Paragraph';
 import RequestLessonBanner from '@/Components/RequestLessonBanner';
 import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
 
-export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads }: any) {
+export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads }: { bibleTimeDownloads: responseLinks, goingDeeperDownloads: responseLinks, gleanersDownloads: responseLinks }) {
     try {
         setAllBesLinks(bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads);
     } catch (e) {

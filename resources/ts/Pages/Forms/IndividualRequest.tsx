@@ -1,9 +1,7 @@
 import CountryDropdown from "@/Components/Forms/CountryDropdown";
 import GroupLabel from "@/Components/Forms/GroupLabel";
 import InputLabel from "@/Components/Forms/InputLabel";
-import NumberInput from "@/Components/Forms/NumberInput";
 import RegionDropdown from "@/Components/Forms/RegionDropdown";
-import SelectInput from "@/Components/Forms/SelectInput";
 import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
@@ -12,7 +10,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { useForm, usePage } from "@inertiajs/inertia-react";
-import { FormEvent, useEffect, useReducer, useState } from "react";
+import React, { FormEvent, useEffect, useReducer } from "react";
 
 
 export default function IndividualRequest() {
@@ -71,7 +69,6 @@ export default function IndividualRequest() {
         state: "",
         postcode: "",
         country: "",
-        region: "",
         message: ""
     });
 
@@ -79,33 +76,34 @@ export default function IndividualRequest() {
         reset();
     }, []);
 
-    useEffect(() => {
-        reset("region");
-    }, [data.country]);
-
-    const handleChange = (event: any) => {
-        setData(event.target.name, event.target.value);
+    const handleChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+        switch (event.target.name) {
+            case "email":
+            case "phone":
+            case "address1":
+            case "address2":
+            case "city":
+            case "state":
+            case "postcode":
+            case "country":
+            case "message":
+                setData(event.target.name, event.target.value);
+        }
     };
 
-    // const handleMultiInputChange = (idx: number, event: any) => {
-    //     const cloneArray = [...nameInputs];
-    //     cloneArray[idx] = event.target.value;
-    //     setNameInputs([...cloneArray]);
-    // }
-
-    const handleComplexChange = (idx: number, event: any) => {
-        dispatch({
-            type: "changeValue",
-            name: event.target.name,
-            value: event.target.value,
-            idx: idx
-        });
-    }
-
-    const addStudent = () => {
-        dispatch({
-            type: "addValue",
-        })
+    const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
+        if (event.target instanceof HTMLInputElement) {
+            switch (event.target.name) {
+                case "fullname":
+                case "dob":
+                    dispatch({
+                        type: "changeValue",
+                        name: event.target.name,
+                        value: event.target.value,
+                        idx: idx
+                    });
+            }
+        }
     }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -115,7 +113,7 @@ export default function IndividualRequest() {
     }
     return (
         <WrapperLayout>
-            <ContentWrapper title="Request Sample Lesson">
+            <ContentWrapper title="Request Lessons for Individuals">
                 <>
                     {errors &&
                         Object.keys(errors).map((key) =>
@@ -157,7 +155,7 @@ export default function IndividualRequest() {
                                             onBlur={(e) => e.target.type = "text"}
                                             onChange={(e) => handleComplexChange(idx, e)}
                                             value={dob}
-                                            required={true}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -254,11 +252,6 @@ export default function IndividualRequest() {
                                     value={data.country}
                                     handleChange={handleChange}
                                 />
-                                <RegionDropdown
-                                    country={data.country}
-                                    value={data.region}
-                                    handleChange={handleChange}
-                                ></RegionDropdown>
                             </div>
 
                             <InputLabel forInput="message" value="Message or Comment" />

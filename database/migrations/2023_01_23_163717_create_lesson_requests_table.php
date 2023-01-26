@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('postcode')->nullable();
             $table->string('country')->nullable();
-            $table->string('region')->nullable();
             $table->string('type');
             $table->integer('numberOfStudents')->nullable();
             $table->string('ageRange')->nullable();

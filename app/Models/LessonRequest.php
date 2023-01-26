@@ -19,7 +19,6 @@ class LessonRequest extends Model
         'state',
         'postcode',
         'country',
-        'region',
         'type',
         'numberOfStudents',
         'ageRange',

@@ -1,5 +1,5 @@
 import { useForm } from "@inertiajs/inertia-react";
-import { FormEvent, useEffect } from "react";
+import React, { FormEvent, useEffect } from "react";
 
 import InputError from "@/Components/Forms/InputError";
 import InputLabel from "@/Components/Forms/InputLabel";
@@ -20,8 +20,15 @@ export default function ContactUsForm() {
     }, [])
 
 
-    const handleChange = (event: any) => {
-        setData(event.target.name, event.target.value);
+    const handleChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+        switch (event.target.name) {
+            case "name":
+            case "contactName":
+            case "contactEmail":
+            case "contactDescription":
+                setData(event.target.name, event.target.value);
+
+        }
     };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
