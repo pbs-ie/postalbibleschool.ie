@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualRequestController;
 use App\Http\Controllers\LessonRequestController;
+use App\Http\Controllers\AssemblyController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -88,6 +89,7 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
+Route::get('/assembly', [AssemblyController::class, 'index'])->name('assembly');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

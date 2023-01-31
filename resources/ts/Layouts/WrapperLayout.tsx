@@ -60,10 +60,7 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                             </div>
                             <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
                                 <NavLink href={route('events.prizegivings')} active={
-                                    route().current('events.prizegivings')
-                                    || route().current('events.shed')
-                                    || route().current('events.step')
-                                    || route().current('events.camp')
+                                    route().current('events.*')
                                 }>
                                     Events
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -85,7 +82,11 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                                     </DropdownNavLink></li>
                                 </ul>
                             </div>
-
+                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                                <NavLink href={route('assembly')} active={route().current('assembly')}>
+                                    School Assembly
+                                </NavLink>
+                            </div>
                         </div>
                         <div className="flex justify-between h-16">
                             <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">

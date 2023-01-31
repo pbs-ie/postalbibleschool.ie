@@ -48,7 +48,7 @@ export default function IndividualRequest() {
             return state.slice(0, state.length - 1);
         }
         else {
-            throw new Error();
+            return state;
         }
     }
 
