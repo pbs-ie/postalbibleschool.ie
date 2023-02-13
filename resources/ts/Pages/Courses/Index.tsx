@@ -11,13 +11,32 @@ import { responseLinks, setAllBesLinks } from '@/helper';
 import Paragraph from '@/Components/Typography/Paragraph';
 import RequestLessonBanner from '@/Components/RequestLessonBanner';
 import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
+import { useEffect } from 'react';
+import { scroller } from 'react-scroll';
 
-export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads }: { bibleTimeDownloads: responseLinks, goingDeeperDownloads: responseLinks, gleanersDownloads: responseLinks }) {
-    try {
-        setAllBesLinks(bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads);
-    } catch (e) {
-        console.warn("Global links variable tried to reset");
-    }
+
+export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads, queryParams }: { bibleTimeDownloads: responseLinks, goingDeeperDownloads: responseLinks, gleanersDownloads: responseLinks, queryParams: any }) {
+    useEffect(() => {
+        try {
+            setAllBesLinks(bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads);
+        } catch (e) {
+            console.warn("Global links variable tried to reset");
+        }
+
+    }, [bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads]);
+
+    useEffect(() => {
+        if (queryParams.type) {
+            setTimeout(() => {
+                scroller.scrollTo(queryParams.type, {
+                    duration: 1000,
+                    delay: 100,
+                    smooth: true,
+                })
+            }, 100);
+        }
+    }, [queryParams]);
+
 
     return (
         <WrapperLayout>
