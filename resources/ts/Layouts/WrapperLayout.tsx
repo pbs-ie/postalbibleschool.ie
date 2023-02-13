@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 
-import NavLink from '@/Components/Navigation/NavLink';
-import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
-import DropdownNavLink from '@/Components/Navigation/DropdownNavLink';
 import FooterGroup from '@/Components/FooterGroup';
 
-import LogoWhite from '@images/Logo-white.png';
 import FooterLink from '@/Components/Navigation/FooterLink';
 import FlashMessage from '@/Components/FlashMessage';
 import Paragraph from '@/Components/Typography/Paragraph';
 import SecondaryNavigation from '@/Components/Navigation/SecondaryNavigation';
+import Navbar from '@/Components/Navbar';
 
 export default function WrapperLayout({ showSecondaryNav = false, children }: { showSecondaryNav?: boolean, children: React.ReactNode }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
     const [showToTopButton, setShowToTopButton] = useState(false);
 
     const currentYear = (new Date()).getFullYear();
@@ -38,127 +34,7 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
 
     return (
         <div className="flex flex-col items-stretch min-h-screen">
-            <nav className="text-white border-b-2 border-gray-800 bg-pbsblue">
-                <div className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="flex items-center shrink-0">
-                                <Link href="/">
-                                    <img src={LogoWhite} alt="Postal Bible School" className="h-10" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('about')} active={route().current('about')}>
-                                    About Us
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('courses')} active={route().current('courses')}>
-                                    Courses
-                                </NavLink>
-                            </div>
-                            <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('events.prizegivings')} active={
-                                    route().current('events.*')
-                                }>
-                                    Events
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                        <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
-                                    </svg>
-                                </NavLink>
-                                <ul className="absolute z-10 flex flex-col transition-opacity duration-200 ease-in-out scale-0 bg-white divide-y-2 rounded-lg opacity-0 text-slate-600 top-full -left-1/2 drop-shadow-lg group-hover:opacity-100 group-focus:opacity-100 group-hover:scale-100 group-focus:scale-100">
-                                    <li className='inline-flex'><DropdownNavLink href={route('events.prizegivings')} active={route().current('events.prizegivings')}>
-                                        Prizegivings
-                                    </DropdownNavLink></li>
-                                    <li className='inline-flex'><DropdownNavLink href={route('events.shed')} active={route().current('events.shed')}>
-                                        The SHED
-                                    </DropdownNavLink></li>
-                                    <li className='inline-flex'><DropdownNavLink href={route('events.step')} active={route().current('events.step')}>
-                                        STEP
-                                    </DropdownNavLink></li>
-                                    <li className='inline-flex'><DropdownNavLink href={route('events.camp')} active={route().current('events.camp')}>
-                                        Summer Camp
-                                    </DropdownNavLink></li>
-                                </ul>
-                            </div>
-                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('assembly.index')} active={route().current('assembly.*')}>
-                                    School Assembly
-                                </NavLink>
-                            </div>
-                        </div>
-                        <div className="flex justify-between h-16">
-                            <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('contactus')} active={route().current('contactus')}>
-                                    Contact Us
-                                </NavLink>
-                            </div>
-                            <div className="flex items-center -mr-2 md:hidden">
-                                <button
-                                    onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                    className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
-                                >
-                                    <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                        <path
-                                            className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                        <path
-                                            className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href="#" active={false}>
-                            About Us
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('courses')} active={route().current('courses')}>
-                            Courses
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('events.prizegivings')} active={
-                            route().current('events.prizegivings')
-                            || route().current('events.shed')
-                            || route().current('events.step')
-                            || route().current('events.camp')
-                        }>
-                            Events
-                        </ResponsiveNavLink>
-                        <div className="ml-6">
-                            <ResponsiveNavLink href={route('events.prizegivings')} active={route().current('events.prizegivings')}>
-                                Prizegivings
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('events.shed')} active={route().current('events.shed')}>
-                                SHED
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('events.step')} active={route().current('events.step')}>
-                                STEP
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('events.camp')} active={route().current('events.camp')}>
-                                Summer Camp
-                            </ResponsiveNavLink>
-                        </div>
-                        <div className="pt-2 pb-3 space-y-1 border-t border-gray-200">
-                            <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
-                                Contact Us
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <Navbar />
             {showSecondaryNav &&
                 <SecondaryNavigation />
             }
