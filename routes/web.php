@@ -33,15 +33,15 @@ Route::get('/', function () {
 Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
 
 // Submit Contact Us Form
-Route::post('/contactus', [ContactController::class, 'store'])->name('contactus');
+Route::post('/contactus', [ContactController::class, 'store'])->name('contactus.store');
 
 
 Route::prefix('request')->name('request.')->group(function () {
     Route::get('/group', [LessonRequestController::class, 'create'])->name('group');
-    Route::post('/group', [LessonRequestController::class, 'store'])->name('group');
+    Route::post('/group', [LessonRequestController::class, 'store'])->name('group.store');
 
     Route::get('/individual', [IndividualRequestController::class, 'create'])->name('individual');
-    Route::post('/individual', [IndividualRequestController::class, 'store'])->name('individual');
+    Route::post('/individual', [IndividualRequestController::class, 'store'])->name('individual.store');
 });
 
 
