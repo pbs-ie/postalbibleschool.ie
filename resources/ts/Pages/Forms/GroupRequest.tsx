@@ -8,6 +8,7 @@ import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -233,7 +234,10 @@ export default function GroupRequest() {
                         />
 
                     </div>
-                    <div className="inline-flex justify-end w-full mt-5"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Request a Lesson</PrimaryButton></div>
+                    <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
+                        <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
+                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                    </div>
                 </form>
             </div>
         </WrapperLayout >

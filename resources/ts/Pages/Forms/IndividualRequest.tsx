@@ -8,7 +8,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { FormEvent, useEffect, useReducer } from "react";
 
 
@@ -284,7 +284,10 @@ export default function IndividualRequest() {
                         />
 
                     </div>
-                    <div className="inline-flex justify-end w-full mt-5"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Request a Lesson</PrimaryButton></div>
+                    <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
+                        <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
+                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                    </div>
                 </form>
             </div>
         </WrapperLayout >
