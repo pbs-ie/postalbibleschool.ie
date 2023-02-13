@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\IndividualRequestController;
-use App\Http\Controllers\LessonRequestController;
+use App\Http\Controllers\IndividualLessonRequestController;
+use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
@@ -37,11 +37,11 @@ Route::post('/contactus', [ContactController::class, 'store'])->name('contactus.
 
 
 Route::prefix('request')->name('request.')->group(function () {
-    Route::get('/group', [LessonRequestController::class, 'create'])->name('group');
-    Route::post('/group', [LessonRequestController::class, 'store'])->name('group.store');
+    Route::get('/group', [GroupLessonRequestController::class, 'create'])->name('group');
+    Route::post('/group', [GroupLessonRequestController::class, 'store'])->name('group.store');
 
-    Route::get('/individual', [IndividualRequestController::class, 'create'])->name('individual');
-    Route::post('/individual', [IndividualRequestController::class, 'store'])->name('individual.store');
+    Route::get('/individual', [IndividualLessonRequestController::class, 'create'])->name('individual');
+    Route::post('/individual', [IndividualLessonRequestController::class, 'store'])->name('individual.store');
 });
 
 

@@ -10,8 +10,15 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Carbon\Carbon;
 
-class IndividualRequestController extends Controller
+class IndividualLessonRequestController extends Controller
 {
+    private function getAge($dob)
+    {
+        $dateParse = Carbon::parse($dob);
+        $age = Carbon::createFromDate($dateParse->year, $dateParse->month, $dateParse->day)->age;
+        return $age;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -44,13 +51,28 @@ class IndividualRequestController extends Controller
         $studentDetails = $request->safe()->only(['studentDetails']);
 
         $computed = [];
+        $numberOfStudents = count($studentDetails['studentDetails']);
+
+        $i = 0;
+
         foreach ($studentDetails['studentDetails'] as $value) {
-            $computed[] = array_merge($value, $validated, ['updated_at' => Carbon::now()->toDateTimeString()], ['created_at' => Carbon::now()->toDateTimeString()]);
+            $i++;
+            $computed[] = array_merge(
+                $value,
+                $validated,
+                [
+                    'updated_at' => Carbon::now()->toDateTimeString(),
+                    'created_at' => Carbon::now()->toDateTimeString(),
+                    'numberInFamily' => $i . "/" . $numberOfStudents,
+                    'age' => $this->getAge($value['dob'])
+                ]
+            );
         }
         // Create an entry
-        // dd($computed);
         IndividualRequest::insert($computed);
 
+        unset($computed);
+        unset($i);
         // Redirect the user
         return redirect('/')->with('success', "Lesson request form submitted successfully");
     }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LessonRequest;
+use App\Models\GroupRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class LessonRequestController extends Controller
+class GroupLessonRequestController extends Controller
 {
     // Display the Lesson request form
     public function create()
@@ -18,7 +18,8 @@ class LessonRequestController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'fullname' => ['required', 'max:255'],
+            'firstname' => ['required', 'max:255'],
+            'lastname' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => [],
             'address1' => [],
@@ -40,7 +41,7 @@ class LessonRequestController extends Controller
         ]);
 
         // Create an entry
-        LessonRequest::create($validated);
+        GroupRequest::create($validated);
 
         // Redirect the user
         return redirect('/')->with('success', "Lesson request form submitted successfully");

@@ -13,23 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lesson_requests', function (Blueprint $table) {
-            $table->id();
-            $table->string('fullname');
-            $table->string('email');
-            $table->string('phone')->nullable();
-            $table->string('address1')->nullable();
-            $table->string('address2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('postcode')->nullable();
-            $table->string('country')->nullable();
-            $table->string('type');
-            $table->integer('numberOfStudents')->nullable();
-            $table->string('ageRange')->nullable();
-            $table->longText('message')->nullable();
-            $table->timestamps();
-        });
     }
 
     /**

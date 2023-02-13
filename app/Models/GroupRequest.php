@@ -10,7 +10,8 @@ class LessonRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fullname',
+        'firstname',
+        'lastname',
         'email',
         'phone',
         'address1',

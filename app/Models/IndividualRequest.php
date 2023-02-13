@@ -9,7 +9,8 @@ class IndividualRequest extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'fullname',
+        'firstname',
+        'lastname',
         'dob',
         'age',
         'email',
@@ -19,6 +20,7 @@ class IndividualRequest extends Model
         'city',
         'state',
         'postcode',
+        'numberInFamily',
         'country',
         'message'
     ];
