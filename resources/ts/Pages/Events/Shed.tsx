@@ -50,7 +50,7 @@ export default function Shed() {
             imageLink: ShedChallenges
         }
     ]
-    const descriptionText = <ParagraphContainer><Paragraph className="mb-2 text-base">Postal Bible School - 049 555 2915</Paragraph><Paragraph>Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10">If you need directions or a lift, give us a call</Paragraph></ParagraphContainer>
+    const descriptionText = <ParagraphContainer className="w-fit"><Paragraph className="mb-2 text-center">Postal Bible School - 049 555 2915</Paragraph><Paragraph className="mb-2 text-center">Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10 text-center">If you need directions or a lift, give us a call</Paragraph></ParagraphContainer>
     return (
         <WrapperLayout>
             <EventWrapper title="The SHED">

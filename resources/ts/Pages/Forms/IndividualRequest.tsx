@@ -1,34 +1,35 @@
 import CountryDropdown from "@/Components/Forms/CountryDropdown";
 import GroupLabel from "@/Components/Forms/GroupLabel";
 import InputLabel from "@/Components/Forms/InputLabel";
-import RegionDropdown from "@/Components/Forms/RegionDropdown";
 import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-import ContentWrapper from "@/Layouts/ContentWrapper";
+import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { FormEvent, useEffect, useReducer } from "react";
 
 
 export default function IndividualRequest() {
     interface Student {
-        fullname: string;
+        firstname: string;
+        lastname: string;
         dob: string;
     }
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
     interface ChangeAction extends Action {
-        name: "fullname" | "dob";
+        name: "firstname" | "lastname" | "dob";
         value: string;
         idx: number;
     }
 
     const initialState: Student[] = [{
-        fullname: "",
+        firstname: "",
+        lastname: "",
         dob: ""
     }]
 
@@ -48,7 +49,7 @@ export default function IndividualRequest() {
             return state.slice(0, state.length - 1);
         }
         else {
-            throw new Error();
+            return state;
         }
     }
 
@@ -58,7 +59,8 @@ export default function IndividualRequest() {
     const { errors } = usePage().props;
     const { data, setData, post, processing, reset } = useForm({
         studentDetails: [{
-            fullname: "",
+            firstname: "",
+            lastname: "",
             dob: ""
         }],
         email: "",
@@ -94,7 +96,8 @@ export default function IndividualRequest() {
     const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
         if (event.target instanceof HTMLInputElement) {
             switch (event.target.name) {
-                case "fullname":
+                case "firstname":
+                case "lastname":
                 case "dob":
                     dispatch({
                         type: "changeValue",
@@ -102,173 +105,198 @@ export default function IndividualRequest() {
                         value: event.target.value,
                         idx: idx
                     });
+                    setData("studentDetails", studentState);
+
             }
         }
     }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setData("studentDetails", studentState);
         post(route('request.individual'));
     }
     return (
         <WrapperLayout>
-            <ContentWrapper title="Request Lessons for Individuals">
-                <>
-                    {errors &&
-                        Object.keys(errors).map((key) =>
-                            <ToastBanner key={key} message={errors[key]} />
-                        )
-                    }
-                    <form method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
-                        <h3 className="flex mb-4 text-lg font-bold">Student Details</h3>
-                        <div className="flex flex-col gap-4 pb-3 mb-8 border-b border-gray-600">
-                            {studentState.map(({ fullname, dob }, idx) => (
-                                <div key={idx} className="flex flex-col gap-2 mb-2">
-                                    <div className="flex gap-2">
-                                        <InputLabel forInput={`fullname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
-                                        <div className="inline-flex basis-2/3">
-                                            <TextInput
-                                                type="text"
-                                                name="fullname"
-                                                id={`fullname[${idx}]`}
-                                                value={fullname}
-                                                placeholder="Name"
-                                                className="block w-full"
-                                                autoComplete="name"
-                                                handleChange={(e) => handleComplexChange(idx, e)}
-                                                required
-                                                ariaLabelledBy="name"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="inline-flex gap-2">
-                                        <InputLabel forInput={`fullname[${idx}]`} value="Date of Birth" className="basis-1/3" required />
-
-                                        <input
+            <div className="px-4 py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
+                <Head title="Request Sample Lessons" />
+                <Heading1Alt>Request Lesson for an Individual</Heading1Alt>
+                {errors &&
+                    Object.keys(errors).map((key) =>
+                        <ToastBanner key={key} message={errors[key]} />
+                    )
+                }
+                <form method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
+                    <h2 className="flex mb-4 text-lg font-bold">Student Details</h2>
+                    <div className="flex flex-col gap-4 pb-3 mb-8 border-b border-gray-600">
+                        {studentState.map(({ firstname, lastname, dob }, idx) => (
+                            <div key={idx} className="flex flex-col gap-2 mb-2">
+                                <div className="flex gap-2">
+                                    <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
+                                    <div className="inline-flex gap-2 basis-2/3">
+                                        <label htmlFor={`firstname[${idx}]`} className="hidden">First Name for {idx}</label>
+                                        <TextInput
                                             type="text"
-                                            name="dob"
-                                            placeholder="Date of birth"
-                                            className="rounded basis-2/3"
-                                            id={`dob[${idx}]`}
-                                            onFocus={(e) => e.target.type = "date"}
-                                            onBlur={(e) => e.target.type = "text"}
-                                            onChange={(e) => handleComplexChange(idx, e)}
-                                            value={dob}
+                                            name="firstname"
+                                            id={`firstname[${idx}]`}
+                                            value={firstname}
+                                            placeholder="First Name"
+                                            className="block w-full"
+                                            autoComplete="given-name"
+                                            handleChange={(e) => handleComplexChange(idx, e)}
                                             required
                                         />
+                                        <label htmlFor={`lastname[${idx}]`} className="hidden">Last Name for {idx}</label>
+                                        <TextInput
+                                            type="text"
+                                            name="lastname"
+                                            id={`lastname[${idx}]`}
+                                            value={lastname}
+                                            placeholder="Last Name"
+                                            className="block w-full"
+                                            autoComplete="family-name"
+                                            handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
+
+                                        />
+
                                     </div>
                                 </div>
-                            ))}
-                            <div className="flex justify-end gap-2">
-                                <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="my-2 before:content-['+'] before:pr-1 before:text-lg">Add Student</SecondaryButton>
-                                <SecondaryButton onClick={() => dispatch({ type: "removeValue" })} className="my-2 before:content-['-'] before:pr-1 before:text-lg">Remove Student</SecondaryButton>
-                            </div>
-                        </div>
-                        <h3 className="flex mb-4 text-lg font-bold">Contact Details</h3>
-                        <div className="grid mb-5 items-start grid-cols-[1fr_2fr] gap-2">
+                                <div className="inline-flex gap-2">
+                                    <InputLabel forInput={`dob[${idx}]`} value="Date of Birth" className="basis-1/3" required />
 
-                            <InputLabel forInput="email" value="Email" required />
+                                    <input
+                                        type="text"
+                                        name="dob"
+                                        placeholder="Date of birth"
+                                        className="rounded basis-2/3"
+                                        id={`dob[${idx}]`}
+                                        onFocus={(e) => e.target.type = "date"}
+                                        onBlur={(e) => e.target.type = "text"}
+                                        onChange={(e) => handleComplexChange(idx, e)}
+                                        value={dob}
+                                        autoComplete="bday"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                        <div className="flex justify-end gap-2">
+                            <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="my-2 before:content-['+'] before:pr-1 before:text-lg">Add Student</SecondaryButton>
+                            <SecondaryButton onClick={() => dispatch({ type: "removeValue" })} className="my-2 before:content-['-'] before:pr-1 before:text-lg">Remove Student</SecondaryButton>
+                        </div>
+                    </div>
+                    <h2 className="flex mb-4 text-lg font-bold">Contact Details</h2>
+                    <div className="grid mb-5 items-start grid-cols-[1fr_2fr] gap-2">
+
+                        <InputLabel forInput="email" value="Email" required />
+                        <TextInput
+                            type="text"
+                            name="email"
+                            id="email"
+                            value={data.email}
+                            className="block w-full"
+                            autoComplete="email"
+                            handleChange={handleChange}
+                            required
+                        />
+
+                        <InputLabel forInput="phone" value="Phone" />
+                        <TextInput
+                            type="text"
+                            name="phone"
+                            id="phone"
+                            value={data.phone}
+                            className="block w-full"
+                            autoComplete="phone"
+                            handleChange={handleChange}
+                        />
+
+                        <GroupLabel id="address" value="Address" required></GroupLabel>
+                        <div className="grid grid-cols-2 gap-2">
+                            <label htmlFor="address1" className="hidden">Address Field 1</label>
                             <TextInput
                                 type="text"
-                                name="email"
-                                id="email"
-                                value={data.email}
-                                className="block w-full"
-                                autoComplete="email"
+                                name="address1"
+                                id="address1"
+                                value={data.address1}
+                                placeholder="Street Address"
+                                className="block w-full col-span-2"
+                                autoComplete="on"
                                 handleChange={handleChange}
-                                required
+                                ariaLabelledBy="address1"
                             />
-
-                            <InputLabel forInput="phone" value="Phone" />
+                            <label htmlFor="address2" className="hidden">Address Field 2</label>
                             <TextInput
                                 type="text"
-                                name="phone"
-                                id="phone"
-                                value={data.phone}
+                                name="address2"
+                                id="address2"
+                                value={data.address2}
+                                placeholder="Address Line 2"
+                                className="block w-full col-span-2"
+                                autoComplete="on"
+                                handleChange={handleChange}
+                                ariaLabelledBy="address"
+                            />
+                            <label htmlFor="city" className="hidden">City</label>
+                            <TextInput
+                                type="text"
+                                name="city"
+                                id="city"
+                                value={data.city}
+                                placeholder="City"
                                 className="block w-full"
-                                autoComplete="phone"
+                                autoComplete="on"
+                                handleChange={handleChange}
+                                ariaLabelledBy="address"
+                            />
+                            <label htmlFor="state" className="hidden">State</label>
+                            <TextInput
+                                type="text"
+                                name="state"
+                                id="state"
+                                value={data.state}
+                                placeholder="State"
+                                className="block w-full"
+                                autoComplete="on"
+                                handleChange={handleChange}
+                                ariaLabelledBy="address"
+                            />
+                            <label htmlFor="postcode" className="hidden">Postcode</label>
+                            <TextInput
+                                type="text"
+                                name="postcode"
+                                id="postcode"
+                                value={data.postcode}
+                                placeholder="Postcode"
+                                className="block w-full"
+                                autoComplete="on"
+                                handleChange={handleChange}
+                                ariaLabelledBy="address"
+                            />
+                            <label htmlFor="country" className="hidden">Country</label>
+                            <CountryDropdown
+                                value={data.country}
                                 handleChange={handleChange}
                             />
-
-                            <GroupLabel id="address" value="Address" required></GroupLabel>
-                            <div className="grid grid-cols-2 gap-2">
-                                <TextInput
-                                    type="text"
-                                    name="address1"
-                                    id="address1"
-                                    value={data.address1}
-                                    placeholder="Street Address"
-                                    className="block w-full col-span-2"
-                                    autoComplete="on"
-                                    handleChange={handleChange}
-                                    ariaLabelledBy="address"
-                                />
-                                <TextInput
-                                    type="text"
-                                    name="address2"
-                                    id="address2"
-                                    value={data.address2}
-                                    placeholder="Address Line 2"
-                                    className="block w-full col-span-2"
-                                    autoComplete="on"
-                                    handleChange={handleChange}
-                                    ariaLabelledBy="address"
-                                />
-                                <TextInput
-                                    type="text"
-                                    name="city"
-                                    id="city"
-                                    value={data.city}
-                                    placeholder="City"
-                                    className="block w-full"
-                                    autoComplete="on"
-                                    handleChange={handleChange}
-                                    ariaLabelledBy="address"
-                                />
-                                <TextInput
-                                    type="text"
-                                    name="state"
-                                    id="state"
-                                    value={data.state}
-                                    placeholder="State"
-                                    className="block w-full"
-                                    autoComplete="on"
-                                    handleChange={handleChange}
-                                    ariaLabelledBy="address"
-                                />
-                                <TextInput
-                                    type="text"
-                                    name="postcode"
-                                    id="postcode"
-                                    value={data.postcode}
-                                    placeholder="Postcode"
-                                    className="block w-full"
-                                    autoComplete="on"
-                                    handleChange={handleChange}
-                                    ariaLabelledBy="address"
-                                />
-                                <CountryDropdown
-                                    value={data.country}
-                                    handleChange={handleChange}
-                                />
-                            </div>
-
-                            <InputLabel forInput="message" value="Message or Comment" />
-                            <TextAreaInput
-                                name="message"
-                                id="message"
-                                value={data.message}
-                                className="block w-full"
-                                handleChange={handleChange}
-                                rows={4}
-                            />
-
                         </div>
-                        <div className="inline-flex justify-end w-full mt-5"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
-                    </form>
-                </>
-            </ContentWrapper>
+
+                        <InputLabel forInput="message" value="Message or Comment" />
+                        <TextAreaInput
+                            name="message"
+                            id="message"
+                            value={data.message}
+                            className="block w-full"
+                            handleChange={handleChange}
+                            rows={4}
+                        />
+
+                    </div>
+                    <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
+                        <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
+                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                    </div>
+                </form>
+            </div>
         </WrapperLayout >
     )
 }

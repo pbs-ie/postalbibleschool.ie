@@ -1,3 +1,6 @@
 *
 !public/
 !.gitignore
+!video_json
+!video_json/*
+!assemblyconfig.json

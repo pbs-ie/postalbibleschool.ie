@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('individual_requests', function (Blueprint $table) {
+        Schema::create('group_requests', function (Blueprint $table) {
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->date('dob');
-            $table->integer('age')->nullable();
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('address1')->nullable();
@@ -27,7 +25,9 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('postcode')->nullable();
             $table->string('country')->nullable();
-            $table->string('numberInFamily')->nullable();
+            $table->string('type');
+            $table->integer('numberOfStudents')->nullable();
+            $table->string('ageRange')->nullable();
             $table->longText('message')->nullable();
             $table->timestamps();
         });
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('individual_requests');
+        Schema::dropIfExists('group_requests');
     }
 };

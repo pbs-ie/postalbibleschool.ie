@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IndividualRequest extends Model
+class LessonRequest extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'firstname',
         'lastname',
-        'dob',
-        'age',
         'email',
         'phone',
         'address1',
@@ -20,8 +19,10 @@ class IndividualRequest extends Model
         'city',
         'state',
         'postcode',
-        'numberInFamily',
         'country',
+        'type',
+        'numberOfStudents',
+        'ageRange',
         'message'
     ];
 }

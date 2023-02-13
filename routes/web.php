@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\IndividualRequestController;
-use App\Http\Controllers\LessonRequestController;
+use App\Http\Controllers\IndividualLessonRequestController;
+use App\Http\Controllers\GroupLessonRequestController;
+use App\Http\Controllers\AssemblyController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,15 +33,15 @@ Route::get('/', function () {
 Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
 
 // Submit Contact Us Form
-Route::post('/contactus', [ContactController::class, 'store'])->name('contactus');
+Route::post('/contactus', [ContactController::class, 'store'])->name('contactus.store');
 
 
 Route::prefix('request')->name('request.')->group(function () {
-    Route::get('/group', [LessonRequestController::class, 'create'])->name('group');
-    Route::post('/group', [LessonRequestController::class, 'store'])->name('group');
+    Route::get('/group', [GroupLessonRequestController::class, 'create'])->name('group');
+    Route::post('/group', [GroupLessonRequestController::class, 'store'])->name('group.store');
 
-    Route::get('/individual', [IndividualRequestController::class, 'create'])->name('individual');
-    Route::post('/individual', [IndividualRequestController::class, 'store'])->name('individual');
+    Route::get('/individual', [IndividualLessonRequestController::class, 'create'])->name('individual');
+    Route::post('/individual', [IndividualLessonRequestController::class, 'store'])->name('individual.store');
 });
 
 
@@ -88,6 +89,11 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
+Route::prefix('assembly')->name('assembly.')->group(function () {
+    Route::get('/', [AssemblyController::class, 'index'])->name('index');
+    Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
+    Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

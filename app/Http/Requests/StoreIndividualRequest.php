@@ -24,8 +24,9 @@ class StoreIndividualRequest extends FormRequest
     public function rules()
     {
         return [
-            'studentDetails.*.fullname' => ['required', 'min:3'],
-            'studentDetails.*.dob' => ['required_with:studentDetails.*.fullname', 'date', 'before:today'],
+            'studentDetails.*.firstname' => ['required', 'min:3', 'max:255'],
+            'studentDetails.*.lastname' => ['required', 'min:3', 'max:255'],
+            'studentDetails.*.dob' => ['required_with:studentDetails.*.firstname', 'date', 'before:today'],
             'email' => ['email'],
             'phone' => [],
             'address1' => ['required'],

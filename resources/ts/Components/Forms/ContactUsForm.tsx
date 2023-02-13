@@ -33,7 +33,7 @@ export default function ContactUsForm() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('contactus'));
+        post(route('contactus.store'));
     }
     return (
         <div className="block pt-4 text-left bg-white">
