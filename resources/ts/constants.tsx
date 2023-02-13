@@ -8,6 +8,7 @@ import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
 import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "./Components/Typography/Paragraph";
 import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
+import { Link } from "@inertiajs/inertia-react";
 
 declare global {
     function route(name?: string, params?: any): any;
@@ -69,14 +70,14 @@ export const courseContent: CourseContent[] = [
         longDescription: <><Paragraph>Bibletime is an extensive course of weekly fun-filled, activity work sheets for pre-school children right up to the age of 16. It covers the majority of the main Bible stories from Creation through to the early Church. Bibletime is designed for individual use or in a group setting and is available free of charge.</Paragraph>
             <Paragraph>The course is split into 5 levels aimed at an approximate reading age. Each level consists of a syllabus of 36 lessons split monthly over 3 years. Each lesson is subdivided into four stories or studies which can be completed weekly. The stories are taken from both the Old and New Testaments and cover basic Bible stories and major Bible characters.</Paragraph>
 
-            <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please contact us</Paragraph></>,
+            <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please <Link as="a" className="text-blue-600 underline hover:text-blue-800 visited:text-purple-600" href={route('contactus')}>contact us</Link></Paragraph></>,
         image: BibleTimeLessons,
         type: "bibletime",
         scrollTo: "bibletime"
     },
     {
         heading: "Going Deeper",
-        description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons.</Paragraph></>,
+        description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons. This course was started in 2022 and is currently being updated each month. </Paragraph><Paragraph className="text-lg text-center text-blue-600">You may find some lessons missing, they will be added in soon!</Paragraph></>,
         image: GoingDeeperLessons,
         type: "goingdeeper",
         scrollTo: "goingdeeper"
