@@ -89,7 +89,11 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::get('/assembly', [AssemblyController::class, 'index'])->name('assembly');
+Route::prefix('assembly')->name('assembly.')->group(function () {
+    Route::get('/', [AssemblyController::class, 'index'])->name('index');
+    Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
+    Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

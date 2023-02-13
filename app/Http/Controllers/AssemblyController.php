@@ -9,27 +9,64 @@ use stdClass;
 
 class AssemblyController extends Controller
 {
-
-    private function getCurrentMonthFileName()
+    private function getCurrentYearChar()
     {
         $year = date('Y');
-        $month = date('m');
 
-        return chr(97 + $year - 2022) . $month;
+        return chr(97 + (($year - 2022) % 3));
+    }
+
+
+    private function populateVideoImage($filename)
+    {
+        return Storage::url('video_images/' . $filename . '.png');
     }
 
     public function index()
     {
+        $config = json_decode(Storage::get('assemblyconfig.json'), false);
+
+        $updatedContent = array();
+
+        foreach ($config->content as $videoData) {
+            $videoData->imageLink = $this->populateVideoImage($videoData->routename);
+            array_push($updatedContent, $videoData);
+        }
+
+        return Inertia::render('Assembly/Index', [
+            'videoList' => $updatedContent
+        ]);
+    }
+
+    public function show($series)
+    {
         $jsonContent = new stdClass();
-        $fileName = $this->getCurrentMonthFileName();
+
+        $fileName = strtolower($series);
         $filePath = 'video_json/' . $fileName . '.json';
         if (Storage::disk('local')->exists($filePath)) {
 
             $content = Storage::disk('local')->get($filePath);
             $jsonContent = json_decode($content, false);
         }
-        return Inertia::render('Assembly', [
+        if ($jsonContent == new stdClass()) {
+            return Inertia::render('NotFound');
+        }
+
+        return Inertia::render('Assembly/Show', [
+            'videoId' => $this->getCurrentYearChar(),
             'videoData' => $jsonContent
         ]);
+    }
+
+    public function image($imageId)
+    {
+        $fileName = strtolower($imageId);
+        $filePath = 'video_images/' . $fileName . '.png';
+
+
+        if (Storage::disk('public')->exists($filePath)) {
+            return response()->file(Storage::disk('public')->path($filePath), ['Content-type' => 'image/png']);
+        }
     }
 }

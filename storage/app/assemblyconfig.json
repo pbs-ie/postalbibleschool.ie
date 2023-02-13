@@ -1,0 +1,19 @@
+{
+    "rootPath": "video_json",
+    "content": [
+        {
+            "id": 0,
+            "month": "January",
+            "series": "B1",
+            "title": "Putting God First",
+            "routename": "b01"
+        },
+        {
+            "id": 1,
+            "month": "February",
+            "series": "B2",
+            "title": "Miracles",
+            "routename": "b02"
+        }
+    ]
+}

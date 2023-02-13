@@ -2,15 +2,13 @@ import Heading3 from "@/Components/Typography/Heading3";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/inertia-react";
 
-import PlaceholderImage from "@images/assembly-sample.jpg";
 import { useEffect, useReducer, useState } from "react";
 import Loader from "@/Components/Loader";
 import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";
 import CarousalCard from "@/Components/Video/CarousalCard";
 import NavigationButton from "@/Components/Video/NavigationButton";
-import Heading2 from "@/Components/Typography/Heading2";
-import NotFound from "./NotFound";
+import NotFound from "@/Pages/NotFound";
 
 interface VideoMeta {
     externalUrl: string,
@@ -19,7 +17,7 @@ interface VideoMeta {
     id: number
 }
 
-export default function Assembly({ videoData }: { videoData: { title: string, content: VideoMeta[] } }) {
+export default function Show({ videoData }: { videoData: { title: string, imageId: string, content: VideoMeta[] } }) {
     const [assemblyLinks, setAssemblyLinks] = useState(videoData?.content || []);
 
 
@@ -91,10 +89,6 @@ export default function Assembly({ videoData }: { videoData: { title: string, co
     return (
         <WrapperLayout>
             <Head title="School Assembly" />
-
-            {assemblyLinks.length === 0 &&
-                <NotFound />
-            }
             {assemblyLinks.length > 0 &&
                 <section className="flex flex-col w-full">
                     <div className="relative justify-center py-10">
@@ -136,7 +130,7 @@ export default function Assembly({ videoData }: { videoData: { title: string, co
                         <div id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto border border-black bg-slate-50 snap-x snap-mandatory justify-items-center">
                             {
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
-                                    <CarousalCard key={idx} active={videoState.id === idx} total={assemblyLinks.length} title={title} duration={duration} idx={idx} onClick={() => loadNewLink({ externalUrl, title, duration, id: idx })} />)
+                                    <CarousalCard key={idx} active={videoState.id === idx} total={assemblyLinks.length} title={title} duration={duration} imageLink={videoData.imageId} idx={idx} onClick={() => loadNewLink({ externalUrl, title, duration, id: idx })} />)
                             }
                         </div>
                     </div>

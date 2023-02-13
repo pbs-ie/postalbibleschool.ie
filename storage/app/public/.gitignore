@@ -1,2 +1,4 @@
 *
 !.gitignore
+!video_images
+!video_images/*

@@ -83,7 +83,7 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                                 </ul>
                             </div>
                             <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
-                                <NavLink href={route('assembly')} active={route().current('assembly')}>
+                                <NavLink href={route('assembly.index')} active={route().current('assembly.*')}>
                                     School Assembly
                                 </NavLink>
                             </div>
