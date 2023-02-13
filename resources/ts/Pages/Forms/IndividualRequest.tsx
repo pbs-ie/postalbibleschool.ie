@@ -131,8 +131,9 @@ export default function IndividualRequest() {
                         {studentState.map(({ firstname, lastname, dob }, idx) => (
                             <div key={idx} className="flex flex-col gap-2 mb-2">
                                 <div className="flex gap-2">
-                                    <InputLabel forInput={`fullname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
+                                    <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
                                     <div className="inline-flex gap-2 basis-2/3">
+                                        <label htmlFor={`firstname[${idx}]`} className="hidden">First Name for {idx}</label>
                                         <TextInput
                                             type="text"
                                             name="firstname"
@@ -143,8 +144,8 @@ export default function IndividualRequest() {
                                             autoComplete="given-name"
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                             required
-                                            ariaLabelledBy="name"
                                         />
+                                        <label htmlFor={`lastname[${idx}]`} className="hidden">Last Name for {idx}</label>
                                         <TextInput
                                             type="text"
                                             name="lastname"
@@ -155,13 +156,13 @@ export default function IndividualRequest() {
                                             autoComplete="family-name"
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                             required
-                                            ariaLabelledBy="name"
+
                                         />
 
                                     </div>
                                 </div>
                                 <div className="inline-flex gap-2">
-                                    <InputLabel forInput={`fullname[${idx}]`} value="Date of Birth" className="basis-1/3" required />
+                                    <InputLabel forInput={`dob[${idx}]`} value="Date of Birth" className="basis-1/3" required />
 
                                     <input
                                         type="text"
@@ -212,6 +213,7 @@ export default function IndividualRequest() {
 
                         <GroupLabel id="address" value="Address" required></GroupLabel>
                         <div className="grid grid-cols-2 gap-2">
+                            <label htmlFor="address1" className="hidden">Address Field 1</label>
                             <TextInput
                                 type="text"
                                 name="address1"
@@ -221,8 +223,9 @@ export default function IndividualRequest() {
                                 className="block w-full col-span-2"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address"
+                                ariaLabelledBy="address1"
                             />
+                            <label htmlFor="address2" className="hidden">Address Field 2</label>
                             <TextInput
                                 type="text"
                                 name="address2"
@@ -234,6 +237,7 @@ export default function IndividualRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="city" className="hidden">City</label>
                             <TextInput
                                 type="text"
                                 name="city"
@@ -245,6 +249,7 @@ export default function IndividualRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="state" className="hidden">State</label>
                             <TextInput
                                 type="text"
                                 name="state"
@@ -256,6 +261,7 @@ export default function IndividualRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="postcode" className="hidden">Postcode</label>
                             <TextInput
                                 type="text"
                                 name="postcode"
@@ -267,6 +273,7 @@ export default function IndividualRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="country" className="hidden">Country</label>
                             <CountryDropdown
                                 value={data.country}
                                 handleChange={handleChange}

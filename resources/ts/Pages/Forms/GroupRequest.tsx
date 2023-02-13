@@ -131,6 +131,7 @@ export default function GroupRequest() {
 
                         <GroupLabel id="address" value="Address"></GroupLabel>
                         <div className="grid grid-cols-2 gap-2">
+                            <label htmlFor="address1" className="hidden">Address Field 1</label>
                             <TextInput
                                 type="text"
                                 name="address1"
@@ -142,6 +143,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="address2" className="hidden">Address Field 2</label>
                             <TextInput
                                 type="text"
                                 name="address2"
@@ -153,6 +155,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="city" className="hidden">City</label>
                             <TextInput
                                 type="text"
                                 name="city"
@@ -164,6 +167,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="state" className="hidden">State</label>
                             <TextInput
                                 type="text"
                                 name="state"
@@ -175,6 +179,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="postcode" className="hidden">Postcode</label>
                             <TextInput
                                 type="text"
                                 name="postcode"
@@ -186,6 +191,7 @@ export default function GroupRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address"
                             />
+                            <label htmlFor="country" className="hidden">Country</label>
                             <CountryDropdown
                                 value={data.country}
                                 handleChange={handleChange}
