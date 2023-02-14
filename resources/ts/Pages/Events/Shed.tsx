@@ -2,6 +2,8 @@ import CardBlock from "@/Components/CardBlock";
 import CardContainer from "@/Components/CardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -12,8 +14,8 @@ import ShedTeaching from "@images/shed/shed-teaching.jpg";
 import ShedFun from "@images/shed/shed-fun.jpg";
 import ShedFood from "@images/shed/shed-food.jpg";
 import ShedActivities from "@images/shed/shed-activities.jpg";
+import ShedSkills from "@images/shed/shed-skills.jpg";
 import ShedChallenges from "@images/shed/shed-challenges.jpg";
-import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 export default function Shed() {
     const images: Gallery[] = [
@@ -43,7 +45,7 @@ export default function Shed() {
         },
         {
             title: "Skills",
-            imageLink: ""
+            imageLink: ShedSkills
         },
         {
             title: "Challenges",

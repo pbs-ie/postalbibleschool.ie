@@ -1,16 +1,19 @@
 import CardContainer from "@/Components/CardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import PrizesImage from "@images/prizegivings/prizegiving-prizes.jpg";
 import StoriesImage from "@images/prizegivings/prizegiving-stories.jpg";
+import QuizImage from "@images/prizegivings/prizegiving-quiz.jpg";
 import SongsImage from "@images/prizegivings/prizegiving-songs.jpg";
 import EventsImage from "@images/prizegivings/prizegiving-events.jpg";
 import SchoolsImage from "@images/prizegivings/prizegiving-schools.jpg";
-import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
 
 export default function Prizegivings() {
     const images: Gallery[] = [
@@ -24,15 +27,11 @@ export default function Prizegivings() {
         },
         {
             title: "Quizzes",
-            imageLink: ""
+            imageLink: QuizImage
         },
         {
             title: "Songs",
             imageLink: SongsImage
-        },
-        {
-            title: "Friends",
-            imageLink: ""
         },
         {
             title: "Events",
@@ -44,7 +43,7 @@ export default function Prizegivings() {
         },
         {
             title: "Team",
-            imageLink: ""
+            imageLink: TeamImage
         }
     ]
     return (

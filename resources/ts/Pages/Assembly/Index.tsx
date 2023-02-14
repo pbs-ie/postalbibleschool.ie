@@ -8,14 +8,6 @@ import { hrefToUrl } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/inertia-react";
 
 
-interface VideoListMeta {
-    title: string,
-    month: string,
-    id: number,
-    series: string,
-    routename: string,
-    imageLink: string
-}
 
 export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
 

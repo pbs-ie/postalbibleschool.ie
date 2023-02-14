@@ -1,15 +1,15 @@
 import ButtonPill from "@/Components/ButtonPill";
 import MonthlyOverview from "@/Components/Monthly/MonthlyOverview";
 import { useState } from "react";
-import { monthNames, seriesNames } from "@/constants";
+import { currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
 import Heading3 from "@/Components/Typography/Heading3";
-import Paragraph from "@/Components/Typography/Paragraph";
 import Heading4 from "@/Components/Typography/Heading4";
+import { getUpperCaseAlphabetFromNumber } from "@/helper";
 
 export default function MonthlySection() {
-    const [selectedMonth, setSelectedMonth] = useState(-1);
-    const [selectedSeries, setSelectedSeries] = useState(-1);
+    const [selectedMonth, setSelectedMonth] = useState(currentMonthNumber);
+    const [selectedSeries, setSelectedSeries] = useState(currentSeriesNumber);
 
     const [processing, setProcessing] = useState(false);
 
@@ -53,7 +53,7 @@ export default function MonthlySection() {
                                     <Loader></Loader>
                                 </div>
                                 :
-                                <MonthlyOverview selectedMonth={selectedMonth} selectedSeries={selectedSeries}></MonthlyOverview>
+                                <MonthlyOverview selectedMonth={selectedMonth} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(selectedSeries)} ></MonthlyOverview>
                     }
                 </div>
             </div >

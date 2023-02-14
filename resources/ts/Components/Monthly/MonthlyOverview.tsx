@@ -1,39 +1,43 @@
 import Heading3 from "@/Components/Typography/Heading3";
 import { bibleTimeLevels, monthNames } from "@/constants";
-import { getAlphabetFromNumber, getDownloadLink } from "@/helper";
+import { getDownloadLink } from "@/helper";
 import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
+import RedirectButtonWithPill from "../RedirectButtonWithPill";
 
 interface Overview {
     selectedMonth: number,
-    selectedSeries: number
+    selectedSeriesAlphabet: string,
+    assemblyTitle?: string,
+    assemblyLink?: string,
+    assemblySeries?: string
 }
 
-export default function MonthlyOverview({ selectedMonth, selectedSeries }: Overview) {
+export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "" }: Overview) {
     const monthLessons = bibleTimeLevels;
-    const seriesAlpha = getAlphabetFromNumber(selectedSeries).toUpperCase();
-
-    const assemblyVideo = {
-        tag: "Online Presentation",
-        themeColor: "bg-blue-500",
-        title: "Changes After Salvation"
-    };
 
     return (
-        <div className="flex flex-col px-2 md:px-0">
+        <div className="flex flex-col justify-center px-2 md:px-0">
             <div className="mb-10">
                 <Heading3>Bible Time Lessons</Heading3>
                 <div className="space-y-2">
                     {
                         monthLessons.map((lesson, index) => (
-                            <LessonDownloadButton downloadLink={getDownloadLink(seriesAlpha, lesson.tagCode, selectedMonth)} key={index} title={`${seriesAlpha}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
+                            <LessonDownloadButton downloadLink={getDownloadLink(selectedSeriesAlphabet, lesson.tagCode, selectedMonth)} key={index} title={`${selectedSeriesAlphabet}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
                         ))
                     }
                 </div>
             </div>
-            <div className="mb-2">
-                <Heading3>School Assembly Video</Heading3>
-                <LessonDownloadButton title={`${seriesAlpha}${selectedMonth + 1} ${assemblyVideo.title}`} infoText={assemblyVideo.tag} infoClass={assemblyVideo.themeColor} downloadLink={""}></LessonDownloadButton>
-            </div>
+            {(assemblyTitle && assemblyTitle !== "") ?
+                <div className="mb-2">
+                    <Heading3>School Assembly Video</Heading3>
+                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText={monthNames[selectedMonth]} pillClass="bg-blue-500" downloadLink={assemblyLink}></RedirectButtonWithPill>
+                </div>
+                :
+                <div className="mb-2">
+                    <Heading3>School Assembly Video</Heading3>
+                    <RedirectButtonWithPill title="Go to Assembly Videos" pillText="Online Presentation" pillClass="bg-blue-500" downloadLink={route('assembly.index')}></RedirectButtonWithPill>
+                </div>
+            }
         </div>
     );
 }

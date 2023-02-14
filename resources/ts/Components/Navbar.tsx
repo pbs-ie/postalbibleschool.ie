@@ -35,6 +35,9 @@ export default function Navbar() {
                                 </svg>
                             </NavLink>
                             <DropdownNavWrapper>
+                                <li className='inline-flex'><DropdownNavLink href={route('courses')} active={route().current('courses')}>
+                                    Overview
+                                </DropdownNavLink></li>
                                 <li className='inline-flex'><DropdownNavLink href={route('request.individual')} active={route().current('request.individual')}>
                                     Request Lesson: Individual
                                 </DropdownNavLink></li>
