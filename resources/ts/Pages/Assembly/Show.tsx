@@ -2,7 +2,7 @@ import Heading3 from "@/Components/Typography/Heading3";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/inertia-react";
 
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import Loader from "@/Components/Loader";
 import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";
@@ -19,7 +19,24 @@ interface VideoMeta {
 
 export default function Show({ videoData }: { videoData: { title: string, imageId: string, content: VideoMeta[] } }) {
     const [assemblyLinks, setAssemblyLinks] = useState(videoData?.content || []);
+    const frameRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        if (videoData) {
+            setAssemblyLinks(videoData.content);
+        }
+    }, [videoData]);
+
+
+    const scrollListToView = (id: number) => {
+        if (frameRef.current) {
+            frameRef.current.scroll({
+                top: 0,
+                left: (id * Math.floor(frameRef.current.scrollWidth / assemblyLinks.length)) - 80,
+                behavior: 'smooth'
+            })
+        }
+    }
 
     interface ReducerMeta extends VideoMeta {
         isLoading: boolean
@@ -68,9 +85,8 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
         })
     }, []);
 
-
-
     const loadNewLink = ({ externalUrl, title, duration, id }: VideoMeta) => {
+        scrollListToView(id);
         if (externalUrl !== videoState.externalUrl) {
             dispatchReducer({
                 type: "setVideo",
@@ -82,6 +98,22 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                     id: id
                 }
             });
+        }
+    }
+
+    const handleClickEvent = (type: string, id: number) => {
+        scrollListToView(id)
+        switch (type) {
+            case "prev":
+                return () => dispatchReducer({
+                    type: "prevVideo"
+                })
+            case "next":
+                return () => dispatchReducer({
+                    type: "nextVideo"
+                })
+            default:
+                return;
         }
     }
 
@@ -108,9 +140,7 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                                 <NavigationButton
                                     className="md:float-left"
                                     disabled={videoState.id === 0}
-                                    onClick={() => dispatchReducer({
-                                        type: "prevVideo"
-                                    })}>
+                                    onClick={handleClickEvent("prev", videoState.id)}>
                                     <p className="flex items-center">
                                         <ChevronLeft className="w-10 h-10" />Previous
                                     </p>
@@ -118,19 +148,25 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                                 <NavigationButton
                                     className="md:float-right"
                                     disabled={videoState.id === assemblyLinks.length - 1}
-                                    onClick={() => dispatchReducer({
-                                        type: "nextVideo"
-                                    })}>
+                                    onClick={handleClickEvent("next", videoState.id)}>
                                     <p className="flex items-center">Next<ChevronRight className="w-10 h-10" /></p>
                                 </NavigationButton>
                             </div>
                         </div>
                     </div>
                     <div className="w-full px-2 mx-auto md:px-40">
-                        <div id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto border border-black bg-slate-50 snap-x snap-mandatory justify-items-center">
+                        <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto border border-black bg-slate-50 justify-items-center">
                             {
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
-                                    <CarousalCard key={idx} active={videoState.id === idx} total={assemblyLinks.length} title={title} duration={duration} imageLink={videoData.imageId} idx={idx} onClick={() => loadNewLink({ externalUrl, title, duration, id: idx })} />)
+                                    <CarousalCard
+                                        key={idx}
+                                        active={videoState.id === idx}
+                                        total={assemblyLinks.length}
+                                        title={title}
+                                        duration={duration}
+                                        imageLink={videoData.imageId}
+                                        idx={idx}
+                                        onClick={() => loadNewLink({ externalUrl, title, duration, id: idx })} />)
                             }
                         </div>
                     </div>

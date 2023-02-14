@@ -1,7 +1,17 @@
-import PlaceholderImage from "@images/assembly-sample.jpg";
+import { LegacyRef } from "react";
+
+interface CarousalCard {
+    title: string;
+    duration: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    active?: boolean;
+    total: number;
+    imageLink: string;
+    idx: number,
+}
 
 
-export default function CarousalCard({ title, duration, onClick, active = false, total, imageLink, idx }: { title: string, duration: string, onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined, active?: boolean, total: number, imageLink: string, idx: number }) {
+export default function CarousalCard({ title, duration, onClick, active = false, total, imageLink, idx }: CarousalCard) {
     return (
         <div className="flex-none snap-center">
             <button onClick={onClick} className={"inline-flex flex-col items-center gap-2 p-2 md:p-4 overflow-hidden rounded-lg drop-shadow-lg min-h-content w-fit " + (active ? "bg-pbsblue text-slate-50" : "bg-stone-100 text-gray-600")}>
