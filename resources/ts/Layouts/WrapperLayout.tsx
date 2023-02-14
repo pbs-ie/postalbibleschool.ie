@@ -70,9 +70,9 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
                                 </ul>
                             </FooterGroup>
                             <FooterGroup heading="Contact Us">
-                                <p className='text-base text-white'>Phone - 049 555 2915</p>
-                                <p className='text-base text-white'>Internation - 0035349 5552915</p>
-                                <p className='text-base text-white'>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
+                                <p className='text-white md:text-base'>Phone - 049 555 2915</p>
+                                <p className='text-white md:text-base'>Internation - 0035349 5552915</p>
+                                <p className='text-white md:text-base'>Email - <a href='mailto:info@postalbibleschool.ie'>info@postalbibleschool.ie</a></p>
                                 <div className="mt-5">
                                     <Link className='text-base text-white hover:text-gray-300' href={route('contactus')}>Contact Us</Link>
                                 </div>

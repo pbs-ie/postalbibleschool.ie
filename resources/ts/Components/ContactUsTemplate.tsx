@@ -11,7 +11,7 @@ export default function ContactUsTemplate() {
                 <Paragraph className="md:text-lg">Don't hesitate to reach out and contact Postal Bible School. <br />We would be happy to assist you and answer any questions you might have.</Paragraph>
                 <ContactUsForm />
             </div>
-            <div className="flex flex-col max-w-md gap-6 p-6 rounded-md shadow-lg md:p-10 md:my-auto h-fit md:gap-8 md:text-lg lg:text-xl bg-sky-100">
+            <div className="flex flex-col max-w-md gap-6 p-6 text-gray-700 rounded-md shadow-lg md:p-10 md:my-auto h-fit md:gap-8 md:text-lg lg:text-xl bg-sky-100">
                 <div className="inline-flex items-center gap-5">
                     <Location className="h-[50px] w-[50px] text-slate-600"></Location>
                     <div className="flex flex-col items-start">

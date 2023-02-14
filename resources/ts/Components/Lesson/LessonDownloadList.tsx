@@ -40,10 +40,10 @@ export default function LessonDownloadList({ tagClass = "bg-bibletime-pink", tag
             {
                 getSeries().map((seriesElement, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
-                        <div className={`text-center h-fit w-full text-gray-50 ${getActiveTagClass(seriesElement)} py-2 mb-2 rounded`}>{seriesElement.name}</div>
+                        <div className={`text-center h-fit w-full text-gray-50 ${getActiveTagClass(seriesElement)} p-2 mb-2 rounded`}>{seriesElement.name}</div>
                         {
                             monthNames.map((month, index) => (
-                                <LessonDownloadButton key={index} downloadLink={getDownloadLink(seriesElement.code, tagCode, index, type)} infoClass={getActiveTagClass(seriesElement)} title={`${seriesElement.code}${(index + 1)}${type !== "gleaners" && isWideScreen ? ' - ' + month : ''}`} infoText={null}></LessonDownloadButton>
+                                <LessonDownloadButton key={index} downloadLink={getDownloadLink(seriesElement.code, tagCode, index, type)} infoClass={getActiveTagClass(seriesElement)} title={`${seriesElement.code}${(index + 1)}${type !== "gleaners" && isWideScreen ? ' - ' + month : ''}`}></LessonDownloadButton>
                             ))
                         }
                     </div>

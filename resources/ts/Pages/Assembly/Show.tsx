@@ -8,7 +8,8 @@ import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";
 import CarousalCard from "@/Components/Video/CarousalCard";
 import NavigationButton from "@/Components/Video/NavigationButton";
-import NotFound from "@/Pages/NotFound";
+import Heading1Alt from "@/Components/Typography/Heading1Alt";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 interface VideoMeta {
     externalUrl: string,
@@ -123,11 +124,12 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
             <Head title="School Assembly" />
             {assemblyLinks.length > 0 &&
                 <section className="flex flex-col w-full">
-                    <div className="relative justify-center py-10">
+                    <div className="relative justify-center py-10 mx-2 md:mx-auto md:max-w-4xl">
 
                         <div className="flex flex-col items-center w-full gap-2">
-                            <Heading3>{videoData.title ? videoData.title : "School Assembly Video"}</Heading3>
+                            <Heading1Alt>{videoData.title ? videoData.title : "School Assembly Video"}</Heading1Alt>
 
+                            <div className="self-start"><Heading2Alt>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading2Alt></div>
                             <div className="relative self-stretch md:self-center">
                                 {videoState.isLoading ?
                                     <div className="absolute bottom-0 mb-5 text-2xl right-5">
@@ -155,7 +157,7 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                         </div>
                     </div>
                     <div className="w-full px-2 mx-auto md:px-40">
-                        <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto border border-black bg-slate-50 justify-items-center">
+                        <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
                             {
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
                                     <CarousalCard

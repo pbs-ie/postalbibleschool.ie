@@ -2,17 +2,18 @@ import Heading3 from "@/Components/Typography/Heading3";
 import { bibleTimeLevels, monthNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
-import RedirectButtonWithPill from "../RedirectButtonWithPill";
+import RedirectButtonWithPill from "./RedirectButtonWithPill";
 
 interface Overview {
-    selectedMonth: number,
-    selectedSeriesAlphabet: string,
-    assemblyTitle?: string,
-    assemblyLink?: string,
-    assemblySeries?: string
+    selectedMonth: number;
+    selectedSeriesAlphabet: string;
+    assemblyTitle?: string;
+    assemblyLink?: string;
+    assemblySeries?: string;
+    assemblyImageLink?: string;
 }
 
-export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "" }: Overview) {
+export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "", assemblyImageLink = "" }: Overview) {
     const monthLessons = bibleTimeLevels;
 
     return (
@@ -30,7 +31,7 @@ export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet,
             {(assemblyTitle && assemblyTitle !== "") ?
                 <div className="mb-2">
                     <Heading3>School Assembly Video</Heading3>
-                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText={monthNames[selectedMonth]} pillClass="bg-blue-500" downloadLink={assemblyLink}></RedirectButtonWithPill>
+                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText={monthNames[selectedMonth]} pillClass="bg-blue-500" downloadLink={assemblyLink} imageLink={assemblyImageLink}></RedirectButtonWithPill>
                 </div>
                 :
                 <div className="mb-2">

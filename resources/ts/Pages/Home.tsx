@@ -1,4 +1,4 @@
-import MonthlyOverview from "@/Components/Monthly/MonthlyOverview"
+import MonthlyOverview from "@/Components/MonthlyOverview"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
@@ -19,6 +19,7 @@ import EventCard from "@/Components/EventCard";
 import ContactUsTemplate from "@/Components/ContactUsTemplate";
 import Heading2 from "@/Components/Typography/Heading2";
 import { useEffect, useState } from "react";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[] }): JSX.Element {
     try {
@@ -76,14 +77,14 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                     </div>
                 </div>
             </section>
-            <section className="w-full">
-                <div className="grid gap-5 p-5 bg-white md:grid-cols-2 lg:px-20 lg:mx-20 md:my-10 drop-shadow-lg">
+            <section className="w-full bg-sky-100 md:py-10">
+                <div className="grid gap-5 py-5 bg-white rounded-lg md:py-8 md:grid-cols-2 md:pr-20 lg:mx-24 drop-shadow-lg">
                     <div className="flex flex-col text-center uppercase">
-                        <h4 className="text-xl italic text-blue-800">This month's Lesson</h4>
-                        <Heading3>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading3>
-                        <img className="object-cover w-4/5 h-auto mx-auto" src={LessonsImage} alt="Lessons fanned" />
+                        <h1 className="text-2xl italic text-blue-900">This month's Lesson</h1>
+                        <Heading2Alt>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading2Alt>
+                        <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <MonthlyOverview assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} />
+                    <MonthlyOverview assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />
@@ -92,7 +93,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                     {
                         courseContent.map((course, index) => (
-                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image}></CourseCard>
+                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} buttonText={course.buttonText}></CourseCard>
                         ))
                     }
                 </div>

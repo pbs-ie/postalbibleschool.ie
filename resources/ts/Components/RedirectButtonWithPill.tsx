@@ -5,9 +5,10 @@ interface RedirectButton {
     title: string;
     pillText?: string;
     pillClass?: string;
+    imageLink?: string;
 }
 
-export default function RedirectButtonWithPill({ title, pillText, pillClass = "bg-pbsblue", downloadLink = "" }: RedirectButton) {
+export default function RedirectButtonWithPill({ title, pillText, pillClass = "bg-pbsblue", downloadLink = "", imageLink }: RedirectButton) {
     const isLinkEnabled = () => {
         return downloadLink && downloadLink !== "" && downloadLink !== "#";
     }
@@ -21,29 +22,20 @@ export default function RedirectButtonWithPill({ title, pillText, pillClass = "b
     return (
         <>
             {pillText &&
-                <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
+                <a className={`${isLinkEnabled() ? "cursor-pointer" : "cursor-not-allowed"} block`} href={downloadLink} onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                     <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} rounded-md`}>
                         <div className={`basis-1/3 ${pillClass} text-white font-bold text-center rounded p-2 py-3`}>{pillText}</div>
                         <div className="px-4 text-center basis-2/3">{title.trim()}</div>
                         {isLinkEnabled() &&
                             <div className="px-3 ml-auto shrink">
                                 <RightIcon />
-
                             </div>
                         }
-                    </button></a>
-            }
-            {!pillText &&
-                <a className={`${isLinkEnabled() ? "cursor-auto" : "cursor-not-allowed"} block`} href={downloadLink} onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
-                    <button disabled={!isLinkEnabled()} className={`flex flex-row items-center h-fit w-full ${getButtonColorClass()} py-2 rounded`}>
-                        <div className="px-4 text-center grow">{title}</div>
-                        {isLinkEnabled() &&
-                            <div className="hidden px-3 ml-auto md:block">
-                                <RightIcon />
-
-                            </div>
-                        }
-                    </button></a>
+                    </button>
+                    {imageLink && imageLink !== "" &&
+                        <img className="float-right object-cover object-left w-2/3 h-auto mt-px rounded-lg aspect-video " src={"/assembly/image/" + imageLink} alt={imageLink + " assembly image thumbnail"} />
+                    }
+                </a>
             }
 
         </>

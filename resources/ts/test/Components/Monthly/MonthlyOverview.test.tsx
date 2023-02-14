@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/react";
 
 // To Test
-import MonthlyOverview from "@/Components/Monthly/MonthlyOverview";
+import MonthlyOverview from "@/Components/MonthlyOverview";
 import { responseLinks, setBesLinksOnce } from "@/helper";
 
 const passedClass = "bg-bibletime-pink";
