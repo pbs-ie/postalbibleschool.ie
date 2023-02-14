@@ -22,7 +22,7 @@ export default function CardBlock({ Icon = null, title, description, buttonText,
             }
             <EventCardHeading>{title}</EventCardHeading>
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
-            {buttonText && (isExternal ?
+            {buttonText && buttonLink !== "" && (isExternal ?
                 <a href={buttonLink} target="_blank">
                     <PrimaryButton type="button">{buttonText}</PrimaryButton>
                 </a>
