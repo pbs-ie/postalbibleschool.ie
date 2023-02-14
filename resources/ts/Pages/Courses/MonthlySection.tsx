@@ -1,15 +1,15 @@
 import ButtonPill from "@/Components/ButtonPill";
-import MonthlyOverview from "@/Components/Monthly/MonthlyOverview";
+import MonthlyOverview from "@/Components/MonthlyOverview";
 import { useState } from "react";
-import { monthNames, seriesNames } from "@/constants";
+import { currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
 import Heading3 from "@/Components/Typography/Heading3";
-import Paragraph from "@/Components/Typography/Paragraph";
 import Heading4 from "@/Components/Typography/Heading4";
+import { getUpperCaseAlphabetFromNumber } from "@/helper";
 
 export default function MonthlySection() {
-    const [selectedMonth, setSelectedMonth] = useState(-1);
-    const [selectedSeries, setSelectedSeries] = useState(-1);
+    const [selectedMonth, setSelectedMonth] = useState(currentMonthNumber);
+    const [selectedSeries, setSelectedSeries] = useState(currentSeriesNumber);
 
     const [processing, setProcessing] = useState(false);
 
@@ -23,9 +23,9 @@ export default function MonthlySection() {
 
     return (
         <section className="w-full">
-            <div className="grid grid-rows-2 gap-5 px-2 pt-10 bg-white rounded-lg md:px-8 h-92 md:grid-rows-none md:grid-cols-2 md:pb-10 lg:px-20 lg:mx-20 lg:my-2 drop-shadow-lg">
+            <div className="grid grid-rows-2 gap-5 px-2 pt-10 bg-white rounded-lg md:px-8 h-92 md:grid-rows-none md:grid-cols-2 md:pb-10 lg:px-20 lg:mx-24 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col">
-                    <Heading4>This month's lessons</Heading4>
+                    <h1 className="text-2xl italic font-thin text-blue-800 uppercase">This month's lessons</h1>
                     <h3 className="ml-10 underline">Select Month</h3>
                     <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 px-5 py-4 md:px-16 justify-items-stretch">
                         {
@@ -53,7 +53,7 @@ export default function MonthlySection() {
                                     <Loader></Loader>
                                 </div>
                                 :
-                                <MonthlyOverview selectedMonth={selectedMonth} selectedSeries={selectedSeries}></MonthlyOverview>
+                                <MonthlyOverview selectedMonth={selectedMonth} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(selectedSeries)} ></MonthlyOverview>
                     }
                 </div>
             </div >

@@ -83,3 +83,7 @@ const groupedBySeriesBes = function (updateValues: responseLinks) {
 export const getAlphabetFromNumber = function (num: number): string {
     return (num + 10).toString(36);
 };
+
+export const getUpperCaseAlphabetFromNumber = (num: number): string => {
+    return getAlphabetFromNumber(num).toUpperCase();
+}

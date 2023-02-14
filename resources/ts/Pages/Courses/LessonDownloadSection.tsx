@@ -50,14 +50,14 @@ export default function LessonDownloadSection({ heading, description, type }: Do
             <Heading2>{heading}</Heading2>
             <ParagraphContainer>{description}</ParagraphContainer>
 
-            <div className="flex flex-col justify-around w-full mt-4 mb-8 md:flex-row">
-                {type === "bibletime" &&
-                    bibleTimeLevels.map((level, index) => (
+            {type === "bibletime" &&
+                <div className="grid w-full grid-rows-5 mt-4 mb-8 md:grid-rows-1 md:grid-cols-5">
+                    {bibleTimeLevels.map((level, index) => (
 
-                        <LessonCard isWideScreen={isWideScreen} setSelectedLevel={setSelectedLevel} className={"p-2"} key={index} heading={level.tagName} tagCode={level.tagCode} image={level.image} description={"Bible Stories"} type={type}></LessonCard>
-                    ))
-                }
-            </div>
+                        <LessonCard isWideScreen={isWideScreen} selectedLevel={selectedLevel} setSelectedLevel={setSelectedLevel} key={index} heading={level.tagName} tagCode={level.tagCode} image={level.image} description={level.description} type={type}></LessonCard>
+                    ))}
+                </div>
+            }
             <LessonDownloadList isWideScreen={isWideScreen} tagClass={selectedLevel.tagClass} tagCode={selectedLevel.tagCode} type={type}></LessonDownloadList>
         </section>
     );

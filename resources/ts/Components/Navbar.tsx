@@ -35,6 +35,9 @@ export default function Navbar() {
                                 </svg>
                             </NavLink>
                             <DropdownNavWrapper>
+                                <li className='inline-flex'><DropdownNavLink href={route('courses')} active={route().current('courses')}>
+                                    Overview
+                                </DropdownNavLink></li>
                                 <li className='inline-flex'><DropdownNavLink href={route('request.individual')} active={route().current('request.individual')}>
                                     Request Lesson: Individual
                                 </DropdownNavLink></li>
@@ -106,17 +109,14 @@ export default function Navbar() {
 
             <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                 <div className="pt-2 pb-3 space-y-1">
-                    <ResponsiveNavLink href="#" active={false}>
+                    <ResponsiveNavLink href={route('about')} active={route().current('about')}>
                         About Us
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('courses')} active={route().current('courses')}>
                         Courses
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('events.prizegivings')} active={
-                        route().current('events.prizegivings')
-                        || route().current('events.shed')
-                        || route().current('events.step')
-                        || route().current('events.camp')
+                        route().current('events.*')
                     }>
                         Events
                     </ResponsiveNavLink>
@@ -125,7 +125,7 @@ export default function Navbar() {
                             Prizegivings
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('events.shed')} active={route().current('events.shed')}>
-                            SHED
+                            The SHED
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('events.step')} active={route().current('events.step')}>
                             STEP

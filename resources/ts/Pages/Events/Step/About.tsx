@@ -2,19 +2,22 @@ import TeachingImage from "@images/step/step-teaching.jpg";
 import DiscussionImage from "@images/step/step-discussion.jpg";
 import SingingImage from "@images/step/step-singing.jpg";
 import FellowshipImage from "@images/step/step-fellowship.jpg";
+import ReadingImage from "@images/step/step-reading.jpg";
 import GamesImage from "@images/step/step-games.jpg";
 import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
 
-import CardContainer from "@/Components/CardContainer";
-import GalleryBasic from "@/Components/Gallery/GalleryBasic";
-import Paragraph from "@/Components/Typography/Paragraph";
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+
+import CardContainer from "@/Components/CardContainer";
+import GalleryBasic from "@/Components/Gallery/GalleryBasic";
+import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
+
 import { Link } from "@inertiajs/inertia-react";
 
 export default function About() {
@@ -37,7 +40,7 @@ export default function About() {
         },
         {
             title: "Reading",
-            imageLink: ""
+            imageLink: ReadingImage
         },
         {
             title: "Games",

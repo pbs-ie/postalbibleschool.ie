@@ -17,24 +17,30 @@ class AssemblyController extends Controller
     }
 
 
-    private function populateVideoImage($filename)
+    private function getVideoImageUrl($filename)
     {
         return Storage::url('video_images/' . $filename . '.png');
     }
 
-    public function index()
+    public function getAssemblyList()
     {
         $config = json_decode(Storage::get('assemblyconfig.json'), false);
 
         $updatedContent = array();
 
         foreach ($config->content as $videoData) {
-            $videoData->imageLink = $this->populateVideoImage($videoData->routename);
+            $videoData->imageLink = $this->getVideoImageUrl($videoData->routename);
             array_push($updatedContent, $videoData);
         }
+        return $updatedContent;
+    }
+
+    public function index()
+    {
+        $videoList = $this->getAssemblyList();
 
         return Inertia::render('Assembly/Index', [
-            'videoList' => $updatedContent
+            'videoList' => $videoList
         ]);
     }
 

@@ -1,8 +1,8 @@
-import MonthlyOverview from "@/Components/Monthly/MonthlyOverview"
+import MonthlyOverview from "@/Components/MonthlyOverview"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
-import { responseLinks, setAllBesLinks } from "@/helper";
-import { courseContent, monthNames, seriesNames } from "@/constants";
+import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
+import { courseContent, currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import { Head } from "@inertiajs/inertia-react";
 
 import HeroImage from "@images/hero.jpg";
@@ -18,19 +18,27 @@ import CourseCard from "@/Components/CourseCard";
 import EventCard from "@/Components/EventCard";
 import ContactUsTemplate from "@/Components/ContactUsTemplate";
 import Heading2 from "@/Components/Typography/Heading2";
+import { useEffect, useState } from "react";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
-export default function Home({ bibleTimeDownloads }: { bibleTimeDownloads: responseLinks }): JSX.Element {
+export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[] }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
         console.warn("Global links variable tried to reset");
     }
 
-    const today = new Date();
-    const currentMonthNumber = today.getMonth();
-    // New series for BES started in 2022 -> A series. The following year should be B series and so on
-    // This will need to be manually fixed when and if BES makes changes on their end
-    const currentSeriesNumber = (today.getFullYear() - 2022) % 3;
+    const [currentAssembly, setCurrentAssembly] = useState(videoList[0]);
+
+
+
+    useEffect(() => {
+
+        const searchedAssembly = videoList.find((vid) => vid.series === getUpperCaseAlphabetFromNumber(currentSeriesNumber) + (currentMonthNumber + 1));
+        if (searchedAssembly) {
+            setCurrentAssembly(searchedAssembly);
+        }
+    }, [videoList]);
 
     return (
         <WrapperLayout>
@@ -51,9 +59,9 @@ export default function Home({ bibleTimeDownloads }: { bibleTimeDownloads: respo
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
                                 heading="New School Assembly Videos"
-                                content="is now available for January 2023"
+                                content="is now available for February 2023"
                                 buttonText="Show Me"
-                                buttonLink={""}
+                                buttonLink={route('assembly.index')}
                                 className="border-4"
                             />
                         </div>
@@ -69,14 +77,14 @@ export default function Home({ bibleTimeDownloads }: { bibleTimeDownloads: respo
                     </div>
                 </div>
             </section>
-            <section className="w-full">
-                <div className="grid gap-5 p-5 bg-white md:grid-cols-2 lg:px-20 lg:mx-20 md:my-10 drop-shadow-lg">
+            <section className="w-full bg-sky-100 md:py-10">
+                <div className="grid gap-5 py-5 bg-white rounded-lg md:py-8 md:grid-cols-2 md:pr-20 lg:mx-24 drop-shadow-lg">
                     <div className="flex flex-col text-center uppercase">
-                        <h4 className="text-xl italic text-blue-800">This month's Lesson</h4>
-                        <Heading3>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading3>
-                        <img className="object-cover w-4/5 h-auto mx-auto" src={LessonsImage} alt="Lessons fanned" />
+                        <h1 className="text-2xl italic text-blue-900">This month's Lesson</h1>
+                        <Heading2Alt>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading2Alt>
+                        <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <MonthlyOverview selectedMonth={currentMonthNumber} selectedSeries={currentSeriesNumber} />
+                    <MonthlyOverview assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />
@@ -85,7 +93,7 @@ export default function Home({ bibleTimeDownloads }: { bibleTimeDownloads: respo
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                     {
                         courseContent.map((course, index) => (
-                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image}></CourseCard>
+                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} buttonText={course.buttonText}></CourseCard>
                         ))
                     }
                 </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\AssemblyController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /*
@@ -24,8 +25,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register')
+        'videoList' => (new AssemblyController)->getAssemblyList(),
     ]);
 });
 
@@ -45,11 +45,12 @@ Route::prefix('request')->name('request.')->group(function () {
 });
 
 
-Route::get('/courses', function () {
+Route::get('/courses', function (Request $request) {
     return Inertia::render('Courses/Index', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'goingDeeperDownloads' => DownloadsList::getGoingDeeperList(),
         'gleanersDownloads' => DownloadsList::getGleanersList(),
+        'queryParams' => $request->query(),
     ]);
 })->name('courses');
 

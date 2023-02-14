@@ -2,20 +2,21 @@ import { Link as ScrollLink } from "react-scroll";
 
 import Heading3 from '@/Components/Typography/Heading3';
 import TagGroupPill from '@/Components/TagGroupPill';
+import ChevronRight from "@/Components/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
 import PrimaryButton from "./PrimaryButton";
 import { Link } from "@inertiajs/inertia-react";
 
-export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo }: CourseContent) {
+export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];
 
     return (
-        <div className="flex flex-col items-center h-full p-6 rounded-md min-w-min bg-slate-100 drop-shadow-lg">
+        <div className="grid content-between h-full grid-cols-1 p-6 rounded-md min-w-min bg-slate-100 drop-shadow-lg">
             <Heading3>{heading}</Heading3>
-            <img className="h-auto w-52" src={image} alt={`${heading} image`} />
-            <div className="p-4 text-sm leading-tight">{description}</div>
-            <div className="flex flex-wrap items-start justify-center flex-auto gap-1">
+            <img className="h-auto mx-auto w-52" src={image} alt={`${heading} image`} />
+            <div className="p-4 pb-0 text-sm leading-tight">{description}</div>
+            <div className="flex flex-wrap items-start content-start justify-center flex-auto gap-1 mb-2">
                 {
                     levelGroup.map((element, index) => (
                         <TagGroupPill key={index} addClass={element.tagClass + " text-xs"}>{element.tagName}</TagGroupPill>
@@ -31,7 +32,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     </ScrollLink>
                 </button>
                 :
-                <div className="mt-2"><Link href={route('courses')}><PrimaryButton className="capitalize rounded-lg bg-sky-500">More details</PrimaryButton></Link></div>
+                <div className="mt-2"><Link href={route('courses', { type })}><PrimaryButton className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500">{buttonText ? buttonText : "More details"}<ChevronRight /></PrimaryButton></Link></div>
             }
 
         </div>

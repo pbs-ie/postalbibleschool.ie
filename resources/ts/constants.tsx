@@ -25,6 +25,7 @@ declare global {
         image: string;
         type: "bibletime" | "goingdeeper" | "gleaners";
         scrollTo?: string;
+        buttonText?: string;
     }
     interface Button {
         type?: "submit" | "button" | "reset" | undefined;
@@ -47,6 +48,14 @@ declare global {
             }
         };
     }
+    interface VideoListMeta {
+        title: string,
+        month: string,
+        id: number,
+        series: string,
+        routename: string,
+        imageLink: string
+    }
 }
 
 interface LevelsDescription {
@@ -63,6 +72,12 @@ export interface SeriesName {
     tagClass: string;
 }
 
+const today = new Date();
+export const currentMonthNumber = today.getMonth();
+// New series for BES started in 2022 -> A series. The following year should be B series and so on
+// This will need to be manually fixed when and if BES makes changes on their end
+export const currentSeriesNumber = (today.getFullYear() - 2022) % 3;
+
 export const courseContent: CourseContent[] = [
     {
         heading: "Bible Time Lessons",
@@ -73,21 +88,25 @@ export const courseContent: CourseContent[] = [
             <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please <Link as="a" className="text-blue-600 underline hover:text-blue-800 visited:text-purple-600" href={route('contactus')}>contact us</Link></Paragraph></>,
         image: BibleTimeLessons,
         type: "bibletime",
-        scrollTo: "bibletime"
+        scrollTo: "bibletime",
+        buttonText: "Ages 4-15"
     },
     {
         heading: "Going Deeper",
-        description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons. This course was started in 2022 and is currently being updated each month. </Paragraph><Paragraph className="text-lg text-center text-blue-600">You may find some lessons missing, they will be added in soon!</Paragraph></>,
+        description: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons.</Paragraph></>,
+        longDescription: <><Paragraph>Aimed at ages 15 to adult Going Deeper is a course designed for those who want to start digging a little deeper into the Bible. Going Deeper is designed for individual use and is free of charge. The course is split into 3 groups of 12 monthly lessons like the Bibletime lessons. This course was started in 2022 and is currently being updated each month. </Paragraph><Paragraph className="text-lg text-center text-blue-600">You may find some lessons missing, they will be added in soon!</Paragraph></>,
         image: GoingDeeperLessons,
         type: "goingdeeper",
-        scrollTo: "goingdeeper"
+        scrollTo: "goingdeeper",
+        buttonText: "Age 16 to adults"
     },
     {
         heading: "Gleaners",
         description: <><Paragraph>Gleaners is an in depth 5 year study course aimed at adults, covering a wide range of subjects including creation, christian life and prophecy. It is designed for individual use and is free of charge. Please get in touch if this would be of benefit to you.</Paragraph></>,
         image: GleanersLessons,
         type: "gleaners",
-        scrollTo: "gleaners"
+        scrollTo: "gleaners",
+        buttonText: "For adults"
     }
 ];
 
@@ -118,35 +137,35 @@ export const bibleTimeLevels = [
         tagCode: "level0",
         tagColor: "bg-bibletime-pink",
         image: Level0Image,
-        title: "A9 - Jacob"
+        description: <><p>Bible Stories</p><p>Simple Puzzles</p><p>Colouring</p></>
     },
     {
         tagName: "Level 1",
         tagCode: "level1",
         tagColor: "bg-bibletime-orange",
         image: Level1Image,
-        title: "A9 - Jacob"
+        description: <><p>Bible Stories</p><p>Colouring Puzzles</p><p>Questions</p></>
     },
     {
         tagName: "Level 2",
         tagCode: "level2",
         tagColor: "bg-bibletime-red",
         image: Level2Image,
-        title: "A9 - Jacob"
+        description: <><p>More advanced Bible stories with tasks and key verses to learn</p></>
     },
     {
         tagName: "Level 3",
         tagCode: "level3",
         tagColor: "bg-bibletime-green",
         image: Level3Image,
-        title: "A9 - Jacob"
+        description: <><p>Deeper level Bible readings, questions and activities with key verses to learn</p></>
     },
     {
         tagName: "Level 4",
         tagCode: "level4",
         tagColor: "bg-bibletime-blue",
         image: Level4Image,
-        title: "A9 - Jacob"
+        description: <><p>Advanced Bible readings, more complex question and key verses to learn</p></>
     }
 ];
 export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
