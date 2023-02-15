@@ -3,7 +3,8 @@
     "scripts": {
         "dev": "vite",
         "serve": "php artisan serve",
-        "build": "vite build && vite build --ssr",
+        "build:client": "vite build",
+        "build:server": "vite build --ssr",
         "test": "jest"
     },
     "devDependencies": {

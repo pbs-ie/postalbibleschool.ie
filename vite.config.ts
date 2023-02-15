@@ -21,6 +21,7 @@ export default defineConfig({
     ssr: {
         noExternal: [
             "country-region-data",
+            "@inertiajs/server"
         ],
     },
     server: {
