@@ -22,8 +22,22 @@
     @inertiaHead
 </head>
 
+<!-- Google tag (gtag.js) -->
+
+
 <body class="font-sans antialiased">
     @inertia
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLR8NDJV53"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-YLR8NDJV53');
+    </script>
 </body>
 
 </html>
