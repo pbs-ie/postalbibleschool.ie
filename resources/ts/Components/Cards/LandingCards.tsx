@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/inertia-react";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 
 interface LandingCards {
     heading: React.ReactNode;

@@ -12,7 +12,7 @@ interface DownloadSection {
     type: "bibletime" | "goingdeeper" | "gleaners"
 }
 
-export default function LessonDownloadSection({ heading, description, type }: DownloadSection) {
+export default function LessonDownloadListAll({ heading, description, type }: DownloadSection) {
     const [selectedLevel, setSelectedLevel] = useState<GroupThemes>({} as GroupThemes);
     const [isWideScreen, setIsWideScreen] = useState(false);
 

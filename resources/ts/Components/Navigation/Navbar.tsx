@@ -6,14 +6,14 @@ import DropdownNavLink from '@/Components/Navigation/DropdownNavLink';
 
 import LogoWhite from '@images/Logo-white.png';
 import { useState } from 'react';
-import DropdownNavWrapper from './Navigation/DropdownNavWrapper';
+import DropdownNavWrapper from './DropdownNavWrapper';
 
 export default function Navbar() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
 
     return (
-        <nav className="text-white border-b-2 border-gray-800 bg-pbsblue">
-            <div className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
+        <header className="text-white border-b-2 border-gray-800 bg-pbsblue">
+            <nav className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="flex items-center shrink-0">
@@ -105,9 +105,9 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </nav>
 
-            <div className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
+            <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                 <div className="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink href={route('about')} active={route().current('about')}>
                         About Us
@@ -140,7 +140,7 @@ export default function Navbar() {
                         </ResponsiveNavLink>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
     )
 }

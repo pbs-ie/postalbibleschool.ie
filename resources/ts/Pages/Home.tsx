@@ -1,4 +1,4 @@
-import MonthlyOverview from "@/Components/MonthlyOverview"
+import LessonSelectorList from "@/Components/LessonSelectorList"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
@@ -12,11 +12,11 @@ import ShedImage from "@images/events/shed.jpg";
 import StepImage from "@images/events/step.jpg";
 import CampImage from "@images/events/camp.jpg";
 
-import LandingCards from "@/Components/LandingCards";
+import LandingCards from "@/Components/Cards/LandingCards";
 import RequestLessonBanner from "@/Components/RequestLessonBanner";
-import CourseCard from "@/Components/CourseCard";
-import EventCard from "@/Components/EventCard";
-import ContactUsTemplate from "@/Components/ContactUsTemplate";
+import CourseCard from "@/Components/Cards/CourseCard";
+import EventCard from "@/Components/Cards/EventCard";
+import ContactUsComponent from "@/Components/ContactUsComponent";
 import Heading2 from "@/Components/Typography/Heading2";
 import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
@@ -42,7 +42,11 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
 
     return (
         <WrapperLayout>
-            <Head title="Home"></Head>
+            {/* @ts-ignore: Type mismatch error */}
+            <Head>
+                <title>Home</title>
+                <meta head-key="description" name="description" content="Postal Bible School Ireland offers free Bible based study material for all ages" />
+            </Head>
             <section className="relative flex w-full">
                 <div className="flex py-10 justify-center align-center h-full flex-1 bg-center bg-no-repeat bg-cover bg-[url('/hero.jpg')] bg-slate-300 bg-blend-soft-light">
                     <div className="grid h-full w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 md:grid-cols-[1fr_1fr_20%]">
@@ -84,7 +88,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         <Heading2Alt>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading2Alt>
                         <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <MonthlyOverview assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} assemblyImageLink={currentAssembly.routename} />
+                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />
@@ -111,7 +115,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
             </section>
             <section className="mx-auto mb-10 text-center max-w-7xl">
                 <Heading2>Contact Us</Heading2>
-                <ContactUsTemplate />
+                <ContactUsComponent />
             </section>
         </WrapperLayout>
     )

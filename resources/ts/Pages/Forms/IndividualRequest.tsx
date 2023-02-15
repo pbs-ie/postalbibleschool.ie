@@ -4,11 +4,11 @@ import InputLabel from "@/Components/Forms/InputLabel";
 import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
-import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { FormEvent, useEffect, useReducer } from "react";
 
 

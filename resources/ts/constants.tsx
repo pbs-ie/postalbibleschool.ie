@@ -6,7 +6,7 @@ import Level4Image from "@images/lessons/Level4_A1.jpg";
 import BibleTimeLessons from "@images/lessons/lessons-fan-english.jpg";
 import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
 import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
-import Paragraph from "./Components/Typography/Paragraph";
+import Paragraph from "@/Components/Typography/Paragraph";
 import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
 import { Link } from "@inertiajs/inertia-react";
 

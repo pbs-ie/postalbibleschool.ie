@@ -1,6 +1,6 @@
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Paragraph from "@/Components/Typography/Paragraph";
-import HeroCard from "@/Components/Video/HeroCard";
+import VideoHeroCard from "@/Components/Cards/VideoHeroCard";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/inertia-react";
 
@@ -24,7 +24,7 @@ export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
                     <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
                         {videoList.map((value, index) => (
                             <li key={index}>
-                                <HeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={value.title === "" ? value.month : value.title} series={value.series} imageLink={value.routename} idx={value.id}></HeroCard>
+                                <VideoHeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={value.title === "" ? value.month : value.title} series={value.series} imageLink={value.routename} idx={value.id}></VideoHeroCard>
                             </li>
                         ))}
                     </ul>

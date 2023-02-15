@@ -1,7 +1,6 @@
-import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import { Link } from "@inertiajs/inertia-react";
-import EventCardHeading from "./Typography/EventCardHeading";
-import Heading3 from "./Typography/Heading3";
+import EventCardHeading from "../Typography/EventCardHeading";
 
 declare global {
     interface CardBlock {
@@ -14,7 +13,7 @@ declare global {
     }
 }
 
-export default function CardBlock({ Icon = null, title, description, buttonText, buttonLink = "", isExternal = false }: CardBlock) {
+export default function EventCardBlock({ Icon = null, title, description, buttonText, buttonLink = "", isExternal = false }: CardBlock) {
     return (
         <>
             {Icon !== null &&

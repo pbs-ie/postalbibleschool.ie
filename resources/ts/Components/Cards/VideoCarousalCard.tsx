@@ -1,5 +1,4 @@
-import { LegacyRef } from "react";
-import PlayIcon from "../Icons/PlayIcon";
+import PlayIcon from "@/Components/Icons/PlayIcon";
 
 interface CarousalCard {
     title: string;
@@ -12,7 +11,7 @@ interface CarousalCard {
 }
 
 
-export default function CarousalCard({ title, duration, onClick, active = false, total, imageLink, idx }: CarousalCard) {
+export default function VideoCarousalCard({ title, duration, onClick, active = false, total, imageLink, idx }: CarousalCard) {
     return (
         <div className="flex-none snap-center">
             <button onClick={onClick} className={"inline-flex flex-col items-center gap-2 p-2 md:p-4 overflow-hidden rounded-lg drop-shadow-lg " + (active ? "bg-pbsblue text-slate-50" : "bg-stone-100 text-gray-600")}>

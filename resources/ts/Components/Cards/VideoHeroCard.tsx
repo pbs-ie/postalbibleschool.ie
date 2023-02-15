@@ -1,9 +1,9 @@
 import PlaceholderImage from "@images/assembly-sample.jpg";
 import { Link } from "@inertiajs/inertia-react";
-import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 
 
-export default function HeroCard({ title, series, buttonLink, idx, imageLink }: { title: string, series: string, buttonLink: string, idx: number, imageLink?: string }) {
+export default function VideoHeroCard({ title, series, buttonLink, idx, imageLink }: { title: string, series: string, buttonLink: string, idx: number, imageLink?: string }) {
     return (
         <div className="flex-none">
             <div className="inline-flex flex-col items-center gap-2 p-2 py-4 overflow-hidden text-gray-700 rounded-lg md:p-4 drop-shadow-lg min-h-content w-fit bg-stone-100">

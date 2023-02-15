@@ -11,11 +11,11 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
-import CardContainer from "@/Components/CardContainer";
+import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 
 import { Link } from "@inertiajs/inertia-react";

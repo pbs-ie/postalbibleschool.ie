@@ -1,4 +1,4 @@
-import TimelineEntry from "./TimelineEntry";
+import TimelineEntry from "@/Components/Timeline/TimelineEntry";
 import GraysImage from "@images/bertandwendy-300x300.jpg";
 import McMeekin1Image from "@images/noelandlizamcmeekin-400x400.jpg";
 import McMeekin2Image from "@images/garethandmargaret.jpg";

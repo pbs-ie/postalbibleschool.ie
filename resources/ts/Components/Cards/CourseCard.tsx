@@ -5,7 +5,7 @@ import TagGroupPill from '@/Components/TagGroupPill';
 import ChevronRight from "@/Components/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import { Link } from "@inertiajs/inertia-react";
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {

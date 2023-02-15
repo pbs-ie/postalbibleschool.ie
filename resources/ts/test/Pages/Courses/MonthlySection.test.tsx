@@ -3,7 +3,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import UserEvent from "@testing-library/user-event";
 
 import { responseLinks, setBesLinksOnce } from "@/helper";
-import MonthlySection from "@/Pages/Courses/MonthlySection";
+import LessonSelectorComponent from "@/Pages/Courses/MonthlySection";
 import { monthNames, seriesNames } from "@/constants";
 import { mockLinksObject, passedClass } from "@/test/__mocks__/constants";
 
@@ -18,7 +18,7 @@ beforeAll(() => {
 describe("Test for full monthly downloads section", () => {
     test('should render month and series buttons', () => {
         //Setup
-        const section = render(<MonthlySection />);
+        const section = render(<LessonSelectorComponent />);
 
         const allLists = section.getAllByRole('list');
 
@@ -41,7 +41,7 @@ describe("Test for full monthly downloads section", () => {
     });
 
     test('should show default message and update on selection of buttons', async () => {
-        const section = render(<MonthlySection />);
+        const section = render(<LessonSelectorComponent />);
 
         const defaultMsg = "Select a month and series to see the available download links here."
 

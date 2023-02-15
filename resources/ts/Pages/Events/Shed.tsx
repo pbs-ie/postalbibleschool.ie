@@ -1,5 +1,5 @@
-import CardBlock from "@/Components/CardBlock";
-import CardContainer from "@/Components/CardContainer";
+import CardBlock from "@/Components/Cards/EventCardBlock";
+import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";

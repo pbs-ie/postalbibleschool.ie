@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/react";
 
 // To Test
-import MonthlyOverview from "@/Components/MonthlyOverview";
+import LessonSelectorList from "@/Components/MonthlyOverview";
 import { responseLinks, setBesLinksOnce } from "@/helper";
 
 const passedClass = "bg-bibletime-pink";
@@ -50,7 +50,7 @@ beforeAll(() => {
 describe('Monthly overview component tests', () => {
     test('should render the overview', () => {
         //Setup
-        const downloadButtonRender = render(<MonthlyOverview selectedMonth={0} selectedSeries={0} />);
+        const downloadButtonRender = render(<LessonSelectorList selectedMonth={0} selectedSeries={0} />);
 
         const allButtonElements = downloadButtonRender.getAllByRole('button');
         const getL0Button = downloadButtonRender.getByRole('button', { name: /Level 0/i });

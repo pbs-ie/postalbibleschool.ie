@@ -1,10 +1,10 @@
 import WrapperLayout from '@/Layouts/WrapperLayout';
-import CourseCard from '@/Components/CourseCard';
+import CourseCard from '@/Components/Cards/CourseCard';
 import Heading1 from '@/Components/Typography/Heading1';
 import { Head } from '@inertiajs/inertia-react';
 
-import MonthlySection from './MonthlySection';
-import LessonDownloadSection from './LessonDownloadSection';
+import LessonSelectorComponent from './LessonSelectorComponent';
+import LessonDownloadListAll from './LessonDownloadListAll';
 
 import { courseContent } from '@/constants';
 import { responseLinks, setAllBesLinks } from '@/helper';
@@ -57,12 +57,12 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
             </section>
 
             <div className="py-12 mx-auto max-w-screen sm:px-10 bg-sky-100">
-                <MonthlySection></MonthlySection>
+                <LessonSelectorComponent></LessonSelectorComponent>
             </div>
             <RequestLessonBanner />
             {
                 courseContent.map((course) => (
-                    <LessonDownloadSection key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadSection>
+                    <LessonDownloadListAll key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadListAll>
                 ))
             }
         </WrapperLayout>

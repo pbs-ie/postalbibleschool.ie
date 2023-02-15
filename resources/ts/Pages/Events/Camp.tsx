@@ -1,4 +1,4 @@
-import CardContainer from "@/Components/CardContainer";
+import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryAdvanced from "@/Components/Gallery/GalleryAdvanced";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Heading2 from "@/Components/Typography/Heading2";

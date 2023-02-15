@@ -1,4 +1,4 @@
-import CardBlock from "@/Components/CardBlock";
+import CardBlock from "@/Components/Cards/EventCardBlock";
 import Calendar from "@/Components/Icons/Calendar";
 import Location from "@/Components/Icons/Location";
 import Clock from "@/Components/Icons/Clock";
@@ -8,7 +8,6 @@ import ChatBubble from "@/Components/Icons/ChatBubble";
 
 import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
 
-import { useEffect, useState } from "react";
 
 interface CardContainer {
     type: "prizegivings" | "shed" | "step" | "camp";
@@ -16,7 +15,7 @@ interface CardContainer {
 }
 
 
-export default function CardContainer({ type, children }: CardContainer) {
+export default function EventCardContainer({ type, children }: CardContainer) {
 
     const prizegivingCards: CardBlock[] = [
         {

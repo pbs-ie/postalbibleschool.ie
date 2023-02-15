@@ -2,7 +2,7 @@ import Heading3 from "@/Components/Typography/Heading3";
 import { bibleTimeLevels, monthNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
-import RedirectButtonWithPill from "./RedirectButtonWithPill";
+import RedirectButtonWithPill from "@/Components/Buttons/RedirectButtonWithPill";
 
 interface Overview {
     selectedMonth: number;
@@ -13,7 +13,7 @@ interface Overview {
     assemblyImageLink?: string;
 }
 
-export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "", assemblyImageLink = "" }: Overview) {
+export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "", assemblyImageLink = "" }: Overview) {
     const monthLessons = bibleTimeLevels;
 
     return (

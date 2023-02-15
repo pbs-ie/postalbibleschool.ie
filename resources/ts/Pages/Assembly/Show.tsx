@@ -6,8 +6,8 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import Loader from "@/Components/Loader";
 import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";
-import CarousalCard from "@/Components/Video/CarousalCard";
-import NavigationButton from "@/Components/Video/NavigationButton";
+import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
+import VideoNavButton from "@/Components/Buttons/VideoNavButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
@@ -139,20 +139,20 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                                 <iframe title={videoState.title} onLoad={() => dispatchReducer({ type: "loadComplete" })} src={videoState.externalUrl} height="506" width="900" allowFullScreen allow="autoplay" className="aspect-video w-full h-auto md:w-[900px]" ></iframe>
                             </div>
                             <div className="flex gap-10">
-                                <NavigationButton
+                                <VideoNavButton
                                     className="md:float-left"
                                     disabled={videoState.id === 0}
                                     onClick={handleClickEvent("prev", videoState.id)}>
                                     <p className="flex items-center">
                                         <ChevronLeft className="w-10 h-10" />Previous
                                     </p>
-                                </NavigationButton>
-                                <NavigationButton
+                                </VideoNavButton>
+                                <VideoNavButton
                                     className="md:float-right"
                                     disabled={videoState.id === assemblyLinks.length - 1}
                                     onClick={handleClickEvent("next", videoState.id)}>
                                     <p className="flex items-center">Next<ChevronRight className="w-10 h-10" /></p>
-                                </NavigationButton>
+                                </VideoNavButton>
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                         <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
                             {
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
-                                    <CarousalCard
+                                    <VideoCarousalCard
                                         key={idx}
                                         active={videoState.id === idx}
                                         total={assemblyLinks.length}

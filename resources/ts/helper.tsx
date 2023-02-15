@@ -1,4 +1,4 @@
-import { gleanersSeriesNames } from "./constants";
+import { gleanersSeriesNames } from "@/constants";
 
 interface propertyItem {
     link: string;

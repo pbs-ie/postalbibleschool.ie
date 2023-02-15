@@ -1,5 +1,5 @@
-import Timeline from "@/Components/About/Timeline";
-import PrimaryButton from "@/Components/PrimaryButton";
+import Timeline from "@/Components/Timeline/Timeline";
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
@@ -11,11 +11,13 @@ export default function About() {
     return (
         <WrapperLayout>
             <ContentWrapper title="About Us">
-                <Heading2>Who We Are</Heading2>
-                <ParagraphContainer>
-                    <Paragraph>Postal Bible School is a registered charity in Ireland and is closely linked with the work of BES (Bible Educational Services) which grew out of the same seed work and now connects it to other PBS centres across the world.</Paragraph>
-                    <Paragraph>As a charity our aims are the distribution and teaching of God’s word the bible through distribution of educational resources and the hosting of events.</Paragraph>
-                </ParagraphContainer>
+                <header>
+                    <Heading2>Who We Are</Heading2>
+                    <ParagraphContainer>
+                        <Paragraph>Postal Bible School is a registered charity in Ireland and is closely linked with the work of BES (Bible Educational Services) which grew out of the same seed work and now connects it to other PBS centres across the world.</Paragraph>
+                        <Paragraph>As a charity our aims are the distribution and teaching of God’s word the bible through distribution of educational resources and the hosting of events.</Paragraph>
+                    </ParagraphContainer>
+                </header>
 
                 <Timeline />
 

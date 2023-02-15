@@ -1,13 +1,11 @@
-import ButtonPill from "@/Components/ButtonPill";
-import MonthlyOverview from "@/Components/MonthlyOverview";
+import ButtonPill from "@/Components/Buttons/ButtonPill";
+import LessonSelectorList from "@/Components/LessonSelectorList";
 import { useState } from "react";
 import { currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
-import Heading3 from "@/Components/Typography/Heading3";
-import Heading4 from "@/Components/Typography/Heading4";
 import { getUpperCaseAlphabetFromNumber } from "@/helper";
 
-export default function MonthlySection() {
+export default function LessonSelectorComponent() {
     const [selectedMonth, setSelectedMonth] = useState(currentMonthNumber);
     const [selectedSeries, setSelectedSeries] = useState(currentSeriesNumber);
 
@@ -25,8 +23,8 @@ export default function MonthlySection() {
         <section className="w-full">
             <div className="grid grid-rows-2 gap-5 px-2 pt-10 bg-white rounded-lg md:px-8 h-92 md:grid-rows-none md:grid-cols-2 md:pb-10 lg:px-20 lg:mx-24 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col">
-                    <h1 className="text-2xl italic font-thin text-blue-800 uppercase">This month's lessons</h1>
-                    <h3 className="ml-10 underline">Select Month</h3>
+                    <h1 className="text-2xl italic font-thin text-blue-800 uppercase">Individual month's lessons</h1>
+                    <h2 className="ml-10 underline">Select Month</h2>
                     <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 px-5 py-4 md:px-16 justify-items-stretch">
                         {
                             monthNames.map((month, index) => (
@@ -34,7 +32,7 @@ export default function MonthlySection() {
                             ))
                         }
                     </div>
-                    <h3 className="ml-10 underline">Select Series</h3>
+                    <h2 className="ml-10 underline">Select Series</h2>
                     <div role="list" className="grid grid-cols-3 gap-2 px-5 py-4 md:px-16">
                         {
                             seriesNames.map((seriesElement, index) => (
@@ -53,7 +51,7 @@ export default function MonthlySection() {
                                     <Loader></Loader>
                                 </div>
                                 :
-                                <MonthlyOverview selectedMonth={selectedMonth} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(selectedSeries)} ></MonthlyOverview>
+                                <LessonSelectorList selectedMonth={selectedMonth} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(selectedSeries)} ></LessonSelectorList>
                     }
                 </div>
             </div >
