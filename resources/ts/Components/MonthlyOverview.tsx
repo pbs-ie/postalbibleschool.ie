@@ -23,7 +23,7 @@ export default function MonthlyOverview({ selectedMonth, selectedSeriesAlphabet,
                 <div className="space-y-2">
                     {
                         monthLessons.map((lesson, index) => (
-                            <LessonDownloadButton downloadLink={getDownloadLink(selectedSeriesAlphabet, lesson.tagCode, selectedMonth)} key={index} title={`${selectedSeriesAlphabet}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
+                            <LessonDownloadButton downloadLink={getDownloadLink(selectedSeriesAlphabet, lesson.tagCode, selectedMonth)} key={index} title={`${selectedSeriesAlphabet}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoSubText={lesson.tagSubText} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
                         ))
                     }
                 </div>

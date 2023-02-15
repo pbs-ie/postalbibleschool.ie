@@ -134,6 +134,7 @@ export const groupThemes: { [key: string]: GroupThemes[] } = {
 export const bibleTimeLevels = [
     {
         tagName: "Level 0",
+        tagSubText: "Preschool",
         tagCode: "level0",
         tagColor: "bg-bibletime-pink",
         image: Level0Image,
@@ -141,6 +142,7 @@ export const bibleTimeLevels = [
     },
     {
         tagName: "Level 1",
+        tagSubText: "Ages 5-7",
         tagCode: "level1",
         tagColor: "bg-bibletime-orange",
         image: Level1Image,
@@ -148,6 +150,7 @@ export const bibleTimeLevels = [
     },
     {
         tagName: "Level 2",
+        tagSubText: "Ages 8-10",
         tagCode: "level2",
         tagColor: "bg-bibletime-red",
         image: Level2Image,
@@ -155,6 +158,7 @@ export const bibleTimeLevels = [
     },
     {
         tagName: "Level 3",
+        tagSubText: "Ages 11-13",
         tagCode: "level3",
         tagColor: "bg-bibletime-green",
         image: Level3Image,
@@ -162,6 +166,7 @@ export const bibleTimeLevels = [
     },
     {
         tagName: "Level 4",
+        tagSubText: "Ages 14+",
         tagCode: "level4",
         tagColor: "bg-bibletime-blue",
         image: Level4Image,

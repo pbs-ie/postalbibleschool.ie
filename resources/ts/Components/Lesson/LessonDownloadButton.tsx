@@ -4,10 +4,11 @@ interface LessonDownloadButton {
     downloadLink?: string;
     title: string;
     infoText?: string;
+    infoSubText?: string;
     infoClass?: string;
 }
 
-export default function LessonDownloadButton({ title, infoText, infoClass = "bg-pbsblue", downloadLink = "" }: LessonDownloadButton) {
+export default function LessonDownloadButton({ title, infoText, infoSubText = "", infoClass = "bg-pbsblue", downloadLink = "" }: LessonDownloadButton) {
     const isLinkEnabled = () => {
         return downloadLink && downloadLink !== "" && downloadLink !== "#";
     }
@@ -23,7 +24,12 @@ export default function LessonDownloadButton({ title, infoText, infoClass = "bg-
             {infoText &&
                 <button tabIndex={-1} disabled={!isLinkEnabled()} className={`block h-fit w-full ${getButtonColorClass()} rounded-md`}>
                     <a className="flex flex-row items-center" href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
-                        <div className={`basis-1/3 ${infoClass} text-white font-bold text-center rounded p-2 py-3`}>{infoText}</div>
+                        <div className={`basis-1/3 ${infoClass} text-white text-center rounded p-1 ${infoSubText === "" ? "py-3" : ""}`}>
+                            <div className="font-bold">{infoText}</div>
+                            {infoSubText !== "" &&
+                                <div className="text-xs font-light md:text-sm">{infoSubText}</div>
+                            }
+                        </div>
                         <div className="px-4 text-center basis-2/3">{title}</div>
                         {isLinkEnabled() &&
                             <div className="px-3 ml-auto shrink">
