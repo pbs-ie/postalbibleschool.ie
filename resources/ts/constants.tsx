@@ -85,7 +85,7 @@ export const courseContent: CourseContent[] = [
         longDescription: <><Paragraph>Bibletime is an extensive course of weekly fun-filled, activity work sheets for pre-school children right up to the age of 16. It covers the majority of the main Bible stories from Creation through to the early Church. Bibletime is designed for individual use or in a group setting and is available free of charge.</Paragraph>
             <Paragraph>The course is split into 5 levels aimed at an approximate reading age. Each level consists of a syllabus of 36 lessons split monthly over 3 years. Each lesson is subdivided into four stories or studies which can be completed weekly. The stories are taken from both the Old and New Testaments and cover basic Bible stories and major Bible characters.</Paragraph>
 
-            <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please <Link as="a" className="text-blue-600 underline hover:text-blue-800 visited:text-purple-600" href={route('contactus')}>contact us</Link></Paragraph></>,
+            <Paragraph>If you would like to receive free printed copies of the lessons each month in the post, have them marked and possibly receive prizes based on your scores, please contact us.</Paragraph></>,
         image: BibleTimeLessons,
         type: "bibletime",
         scrollTo: "bibletime",

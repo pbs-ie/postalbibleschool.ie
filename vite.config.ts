@@ -18,6 +18,11 @@ export default defineConfig({
         }),
         react(),
     ],
+    ssr: {
+        noExternal: [
+            "country-region-data",
+        ],
+    },
     server: {
         host: "127.0.0.1",
         // watch: {
