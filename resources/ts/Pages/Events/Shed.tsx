@@ -17,6 +17,8 @@ import ShedActivities from "@images/shed/shed-activities.jpg";
 import ShedSkills from "@images/shed/shed-skills.jpg";
 import ShedChallenges from "@images/shed/shed-challenges.jpg";
 
+import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
+
 export default function Shed() {
     const images: Gallery[] = [
         {
@@ -64,7 +66,7 @@ export default function Shed() {
                 </ExtendScreenWrapper>
                 <CardContainer type="shed" />
                 <div className="mb-10">
-                    <CardBlock title="Contact" description={descriptionText} buttonText="Consent Form" />
+                    <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Consent Form" isExternal={true} />
                 </div>
             </EventWrapper>
         </WrapperLayout>
