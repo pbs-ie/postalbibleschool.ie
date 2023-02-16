@@ -10,8 +10,11 @@ const jestConfig: JestConfigWithTsJest = {
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
     transform: {
         "^.+\\.tsx?$": "ts-jest",
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./resources/ts/test/__mocks__/fileTransformer.js"
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./resources/ts/tests/__mocks__/fileTransformer.js"
     },
+    transformIgnorePatterns: [
+        "/vendor/tightenco/ziggy"
+    ],
     setupFilesAfterEnv: ["./jest-setup.ts"]
 };
 

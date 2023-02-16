@@ -2,55 +2,24 @@
 import { render, screen } from "@testing-library/react";
 
 // To Test
-import LessonSelectorList from "@/Components/MonthlyOverview";
-import { responseLinks, setBesLinksOnce } from "@/helper";
+import LessonSelectorList from "@/Components/LessonSelectorList";
+import { setAllBesLinks } from "@/helper";
+
+import { mockLinksObject } from "@/tests/__mocks__/constants";
+import { route } from "@/tests/__mocks__/ziggy";
 
 const passedClass = "bg-bibletime-pink";
-const mockLinksObject: responseLinks = {};
 
 beforeAll(() => {
-
-    mockLinksObject["level0"] = [{
-        link: 'test',
-        dateModified: "123",
-        size: "123",
-        series: "A",
-        monthNumber: 2,
-
-    },
-    {
-        link: 'test',
-        dateModified: "123",
-        size: "123",
-        series: "A",
-        monthNumber: 3,
-
-    },
-    {
-        link: 'test',
-        dateModified: "123",
-        size: "123",
-        series: "B",
-        monthNumber: 4,
-
-    },
-    {
-        link: 'test',
-        dateModified: "123",
-        size: "123",
-        series: "A",
-        monthNumber: 4,
-
-    }];
-
-    setBesLinksOnce(mockLinksObject);
+    window.route = route;
+    setAllBesLinks(mockLinksObject);
 })
 
 // Tests
 describe('Monthly overview component tests', () => {
     test('should render the overview', () => {
         //Setup
-        const downloadButtonRender = render(<LessonSelectorList selectedMonth={0} selectedSeries={0} />);
+        const downloadButtonRender = render(<LessonSelectorList selectedMonth={0} selectedSeriesAlphabet={'A'} />);
 
         const allButtonElements = downloadButtonRender.getAllByRole('button');
         const getL0Button = downloadButtonRender.getByRole('button', { name: /Level 0/i });

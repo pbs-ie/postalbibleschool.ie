@@ -8,10 +8,26 @@ import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
 import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
 import Paragraph from "@/Components/Typography/Paragraph";
 import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
-import { Link } from "@inertiajs/inertia-react";
+import { Config, RouteParam, RouteParamsWithQueryOverload, Router } from "ziggy-js";
 
 declare global {
-    function route(name?: string, params?: any): any;
+    interface Window {
+        Ziggy: Config
+    }
+    // function route(
+    //     name?: undefined,
+    //     params?: RouteParamsWithQueryOverload | RouteParam,
+    //     absolute?: boolean,
+    //     config?: Config,
+    // ): Router;
+
+    // function route(
+    //     name: string,
+    //     params?: RouteParamsWithQueryOverload | RouteParam,
+    //     absolute?: boolean,
+    //     config?: Config,
+    // ): string;
+    function route(name: string, params?: any): any;
 
     interface GroupThemes {
         tagCode: string;
