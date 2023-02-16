@@ -1,18 +1,21 @@
-import WrapperLayout from '@/Layouts/WrapperLayout';
-import CourseCard from '@/Components/Cards/CourseCard';
-import Heading1 from '@/Components/Typography/Heading1';
 import { Head } from '@inertiajs/inertia-react';
-
-import LessonSelectorComponent from './LessonSelectorComponent';
-import LessonDownloadListAll from './LessonDownloadListAll';
+import { useEffect } from 'react';
+import { scroller } from 'react-scroll';
 
 import { courseContent } from '@/constants';
 import { responseLinks, setAllBesLinks } from '@/helper';
+
+import WrapperLayout from '@/Layouts/WrapperLayout';
+
+import LessonSelectorComponent from '@/Pages/Courses/LessonSelectorComponent';
+import LessonDownloadListSection from '@/Pages/Courses/LessonDownloadListSection';
+
+import CourseCard from '@/Components/Cards/CourseCard';
+import Heading1 from '@/Components/Typography/Heading1';
 import Paragraph from '@/Components/Typography/Paragraph';
 import RequestLessonBanner from '@/Components/RequestLessonBanner';
 import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
-import { useEffect } from 'react';
-import { scroller } from 'react-scroll';
+
 
 
 export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads, queryParams }: { bibleTimeDownloads: responseLinks, goingDeeperDownloads: responseLinks, gleanersDownloads: responseLinks, queryParams: any }) {
@@ -62,7 +65,7 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
             <RequestLessonBanner />
             {
                 courseContent.map((course) => (
-                    <LessonDownloadListAll key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadListAll>
+                    <LessonDownloadListSection key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadListSection>
                 ))
             }
         </WrapperLayout>

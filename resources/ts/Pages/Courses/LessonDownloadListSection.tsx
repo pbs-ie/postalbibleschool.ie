@@ -1,6 +1,6 @@
-import LessonCard from "@/Components/Lesson/LessonCard";
+import LessonCard from "@/Components/Cards/LessonCard";
 import Heading2 from "@/Components/Typography/Heading2";
-import LessonDownloadList from "@/Components/Lesson/LessonDownloadList";
+import LessonDownloadList from "@/Components/LessonDownloadList";
 
 import { bibleTimeLevels } from "@/constants";
 import { ReactNode, useEffect, useState } from "react";
@@ -12,7 +12,7 @@ interface DownloadSection {
     type: "bibletime" | "goingdeeper" | "gleaners"
 }
 
-export default function LessonDownloadListAll({ heading, description, type }: DownloadSection) {
+export default function LessonDownloadListSection({ heading, description, type }: DownloadSection) {
     const [selectedLevel, setSelectedLevel] = useState<GroupThemes>({} as GroupThemes);
     const [isWideScreen, setIsWideScreen] = useState(false);
 
