@@ -1,14 +1,14 @@
 // Imports
 import { render, screen } from "@testing-library/react";
-import { responseLinks, setBesLinksOnce } from "@/helper";
+import { responseLinks, setAllBesLinks } from "@/helper";
 
 // To Test
-import LessonDownloadList from "@/Components/Lesson/LessonDownloadList";
+import LessonDownloadList from "@/Components/LessonDownloadList";
 
+import { mockLinksObject } from "@/tests/__mocks__/constants";
 
 const passedClass = "bg-bibletime-pink";
-const tagCode = "level0";
-let mockLinksObject: responseLinks = {};
+const tagCode = "level1";
 
 beforeAll(() => {
 
@@ -45,7 +45,7 @@ beforeAll(() => {
 
     }];
 
-    setBesLinksOnce(mockLinksObject);
+    setAllBesLinks(mockLinksObject);
 })
 beforeEach(() => {
     // Component makes use of window.matchMedia listener to adjust for responsive elements. This definition Mocks the matchMedia function for Jest
@@ -66,7 +66,7 @@ beforeEach(() => {
 describe("Lesson Downloads list tests", () => {
     test('should render Lesson download list correctly', () => {
         //Setup
-        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} />);
+        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} isWideScreen={false} type={"bibletime"} />);
 
         const allButtons = list.queryAllByRole("button");
         const enabledButtons = allButtons.filter((el) => !(el as HTMLButtonElement).disabled);
@@ -90,7 +90,7 @@ describe("Lesson Downloads list tests", () => {
 
     test('should set correct number of enabled buttons for the corresponding series', () => {
         //Setup
-        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} />);
+        const list = render(<LessonDownloadList tagClass={passedClass} tagCode={tagCode} isWideScreen={false} type={"bibletime"} />);
 
         const AButtons = list.queryAllByRole("button", { name: /^A/ });
         const BButtons = list.queryAllByRole("button", { name: /^B/ });

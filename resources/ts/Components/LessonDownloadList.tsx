@@ -1,4 +1,4 @@
-import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
+import LessonDownloadButton from "@/Components/Buttons/LessonDownloadButton";
 import { gleanersSeriesNames, goingDeeperSeriesNames, monthNames, SeriesName, seriesNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import { useEffect, useState } from "react";

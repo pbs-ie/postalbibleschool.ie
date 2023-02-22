@@ -7,6 +7,7 @@
         "jsx": "react-jsx",
         "noEmit": true,
         "isolatedModules": true,
+        "allowJs": true,
 
         "strict": true,
         "noImplicitAny": true,
@@ -16,7 +17,8 @@
         "baseUrl": "./",
         "paths": {
             "@/*": ["resources/ts/*"],
-            "@images/*": ["resources/images/*"]
+            "@images/*": ["resources/images/*"],
+            "@ziggy/*": ["vendor/tightenco/ziggy/*"]
         },
         "types": ["vite/client", "jest"],
         "esModuleInterop": true,
@@ -24,6 +26,11 @@
 
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["resources/ts", "resources/ts/**/*", "jest-setup.ts"],
+    "include": [
+        "resources/ts",
+        "resources/ts/**/*",
+        "jest-setup.ts",
+        "vendor/tightenco/**/*"
+    ],
     "exclude": ["node_modules", "public"]
 }

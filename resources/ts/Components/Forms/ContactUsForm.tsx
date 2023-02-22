@@ -37,7 +37,7 @@ export default function ContactUsForm() {
     }
     return (
         <div className="block pt-4 text-left bg-white">
-            <form onSubmit={handleSubmit} method="post" className="max-w-screen-md">
+            <form name="contactUsForm" aria-label="Contact us form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
                 <TextInput id="name" type="hidden" name="name" value={data.name} className="" autoComplete="off" handleChange={handleChange}></TextInput>
                 <div className="flex gap-2 mb-2">
                     <InputLabel className="text-center basis-1/4" forInput="contactName" value="Name" required />

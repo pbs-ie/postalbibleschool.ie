@@ -2,16 +2,16 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import UserEvent from "@testing-library/user-event";
 
-import { responseLinks, setBesLinksOnce } from "@/helper";
-import LessonSelectorComponent from "@/Pages/Courses/MonthlySection";
+import { responseLinks, setAllBesLinks } from "@/helper";
+import LessonSelectorComponent from "@/Pages/Courses/LessonSelectorComponent";
 import { monthNames, seriesNames } from "@/constants";
-import { mockLinksObject, passedClass } from "@/test/__mocks__/constants";
+import { mockLinksObject, passedClass } from "@/tests/__mocks__/constants";
 
 // To Test
 
 beforeAll(() => {
 
-    setBesLinksOnce(mockLinksObject);
+    setAllBesLinks(mockLinksObject);
 })
 
 // Test

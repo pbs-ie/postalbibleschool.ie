@@ -11,18 +11,18 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { FormEvent, useEffect, useReducer } from "react";
 
+export interface Student {
+    firstname: string;
+    lastname: string;
+    dob: string;
+}
 
 export default function IndividualRequest() {
-    interface Student {
-        firstname: string;
-        lastname: string;
-        dob: string;
-    }
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
     interface ChangeAction extends Action {
-        name: "firstname" | "lastname" | "dob";
+        name: keyof Student;
         value: string;
         idx: number;
     }
@@ -125,7 +125,7 @@ export default function IndividualRequest() {
                         <ToastBanner key={key} message={errors[key]} />
                     )
                 }
-                <form method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
+                <form aria-label="Individual lesson request form" name="individualForm" method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
                     <h2 className="flex mb-4 text-lg font-bold">Student Details</h2>
                     <div className="flex flex-col gap-4 pb-3 mb-8 border-b border-gray-600">
                         {studentState.map(({ firstname, lastname, dob }, idx) => (
@@ -133,7 +133,7 @@ export default function IndividualRequest() {
                                 <div className="flex gap-2">
                                     <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
                                     <div className="inline-flex gap-2 basis-2/3">
-                                        <label htmlFor={`firstname[${idx}]`} className="hidden">First Name for {idx}</label>
+                                        <label htmlFor={`firstname[${idx}]`} className="hidden">First Name for {idx + 1}</label>
                                         <TextInput
                                             type="text"
                                             name="firstname"
@@ -145,7 +145,7 @@ export default function IndividualRequest() {
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                             required
                                         />
-                                        <label htmlFor={`lastname[${idx}]`} className="hidden">Last Name for {idx}</label>
+                                        <label htmlFor={`lastname[${idx}]`} className="hidden">Last Name for {idx + 1}</label>
                                         <TextInput
                                             type="text"
                                             name="lastname"
@@ -162,7 +162,7 @@ export default function IndividualRequest() {
                                     </div>
                                 </div>
                                 <div className="inline-flex gap-2">
-                                    <InputLabel forInput={`dob[${idx}]`} value="Date of Birth" className="basis-1/3" required />
+                                    <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
 
                                     <input
                                         type="text"
@@ -213,7 +213,7 @@ export default function IndividualRequest() {
 
                         <GroupLabel id="address" value="Address" required></GroupLabel>
                         <div className="grid grid-cols-2 gap-2">
-                            <label htmlFor="address1" className="hidden">Address Field 1</label>
+                            <label id="address1label" htmlFor="address1" className="hidden">Field 1</label>
                             <TextInput
                                 type="text"
                                 name="address1"
@@ -223,9 +223,9 @@ export default function IndividualRequest() {
                                 className="block w-full col-span-2"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address1"
+                                ariaLabelledBy="address address1label"
                             />
-                            <label htmlFor="address2" className="hidden">Address Field 2</label>
+                            <label id="address2label" htmlFor="address2" className="hidden">Field 2</label>
                             <TextInput
                                 type="text"
                                 name="address2"
@@ -235,9 +235,9 @@ export default function IndividualRequest() {
                                 className="block w-full col-span-2"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address"
+                                ariaLabelledBy="address address2label"
                             />
-                            <label htmlFor="city" className="hidden">City</label>
+                            <label id="citylabel" htmlFor="city" className="hidden">City</label>
                             <TextInput
                                 type="text"
                                 name="city"
@@ -247,9 +247,9 @@ export default function IndividualRequest() {
                                 className="block w-full"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address"
+                                ariaLabelledBy="address citylabel"
                             />
-                            <label htmlFor="state" className="hidden">State</label>
+                            <label id="statelabel" htmlFor="state" className="hidden">State</label>
                             <TextInput
                                 type="text"
                                 name="state"
@@ -259,9 +259,9 @@ export default function IndividualRequest() {
                                 className="block w-full"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address"
+                                ariaLabelledBy="address statelabel"
                             />
-                            <label htmlFor="postcode" className="hidden">Postcode</label>
+                            <label id="postcode" htmlFor="postcode" className="hidden">Postcode</label>
                             <TextInput
                                 type="text"
                                 name="postcode"
@@ -271,7 +271,7 @@ export default function IndividualRequest() {
                                 className="block w-full"
                                 autoComplete="on"
                                 handleChange={handleChange}
-                                ariaLabelledBy="address"
+                                ariaLabelledBy="address postcode"
                             />
                             <label htmlFor="country" className="hidden">Country</label>
                             <CountryDropdown

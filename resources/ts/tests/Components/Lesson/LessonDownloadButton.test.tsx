@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/react";
 
 // To Test
-import LessonDownloadButton from "@/Components/Lesson/LessonDownloadButton";
+import LessonDownloadButton from "@/Components/Buttons/LessonDownloadButton";
 
 const passedClass = "bg-bibletime-pink";
 
@@ -10,7 +10,7 @@ const passedClass = "bg-bibletime-pink";
 describe('Lesson download button render', () => {
     test('should render Lesson download button WITHOUT infotext correctly', () => {
         //Setup
-        const downloadButtonRender = render(<LessonDownloadButton title={"Jacob"} infoText={null} infoClass={passedClass} downloadLink={"abcde"} />);
+        const downloadButtonRender = render(<LessonDownloadButton title={"Jacob"} infoClass={passedClass} downloadLink={"abcde"} />);
 
         const buttonElement = downloadButtonRender.getByRole('button');
 
@@ -34,7 +34,7 @@ describe('Lesson download button render', () => {
     });
 
     test('should render disabled button component correctly', () => {
-        const downloadButtonRender = render(<LessonDownloadButton title={"Jacob"} infoText={null} infoClass={passedClass} downloadLink={""} />);
+        const downloadButtonRender = render(<LessonDownloadButton title={"Jacob"} infoClass={passedClass} downloadLink={""} />);
 
         const downloadButton = downloadButtonRender.getByRole('button');
 
@@ -46,7 +46,7 @@ describe('Lesson download button render', () => {
     })
 
     test('should render button with no values passed', () => {
-        const downloadButton = render(<LessonDownloadButton title={"Test title"} infoText={null} infoClass={passedClass} downloadLink={null} />);
+        const downloadButton = render(<LessonDownloadButton title={"Test title"} infoClass={passedClass} />);
 
         expect(downloadButton.getByRole('button')).not.toBeEmptyDOMElement();
     })
