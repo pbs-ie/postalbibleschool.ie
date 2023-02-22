@@ -24,15 +24,15 @@ export default function LessonSelectorComponent() {
             <div className="grid grid-rows-2 gap-5 px-2 pt-10 bg-white rounded-lg md:px-8 h-92 md:grid-rows-none md:grid-cols-2 md:pb-10 lg:px-20 lg:mx-24 lg:my-2 drop-shadow-lg">
                 <div className="flex flex-col">
                     <h1 className="text-2xl italic font-thin text-blue-800 uppercase">Individual month's lessons</h1>
-                    <h2 className="ml-10 underline">Select Month</h2>
-                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 px-5 py-4 md:px-16 justify-items-stretch">
+                    <h2 className="text-blue-800 uppercase">Select Month</h2>
+                    <div role="list" className="grid grid-cols-3 grid-rows-4 gap-2 px-5 py-4 md:px-10 justify-items-stretch">
                         {
                             monthNames.map((month, index) => (
                                 <ButtonPill key={month} onPress={delayMonthlyOverview} isActive={selectedMonth === index} setActive={setSelectedMonth} idx={index} addClass={`w-full py-8`} >{month}</ButtonPill>
                             ))
                         }
                     </div>
-                    <h2 className="ml-10 underline">Select Series</h2>
+                    <h2 className="text-blue-800 uppercase">Select Series</h2>
                     <div role="list" className="grid grid-cols-3 gap-2 px-5 py-4 md:px-16">
                         {
                             seriesNames.map((seriesElement, index) => (

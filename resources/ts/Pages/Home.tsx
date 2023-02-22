@@ -5,8 +5,7 @@ import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import { Head } from "@inertiajs/inertia-react";
 
-import HeroImage from "@images/hero.jpg";
-import LessonsImage from "@images/lessons-fanned.jpg";
+import LessonsImage from "@images/lessons/lessons-fan-english.jpg";
 import PrizegivingImage from "@images/events/prizegiving.jpg";
 import ShedImage from "@images/events/shed.jpg";
 import StepImage from "@images/events/step.jpg";
@@ -56,13 +55,13 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                                 content="Postal Bible School offers free Bible based study material for all age ranges at primary level"
                                 buttonText="Learn More"
                                 buttonLink={route('courses')}
-                                image={HeroImage}
+                                image={LessonsImage}
                                 className="border-4"
                             />
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="New School Assembly Videos"
+                                heading="New School Assembly Video"
                                 content="is now available for February 2023"
                                 buttonText="Show Me"
                                 buttonLink={route('assembly.index')}
@@ -71,7 +70,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="2023 Prizegivings"
+                                heading={<p>2023 Prize<wbr></wbr>givings</p>}
                                 content="starting end of January"
                                 buttonText="Details"
                                 buttonLink={route('events.prizegivings')}

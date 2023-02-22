@@ -3,9 +3,9 @@ import Level1Image from "@images/lessons/Level1_A1.jpg";
 import Level2Image from "@images/lessons/Level2_A1.jpg";
 import Level3Image from "@images/lessons/Level3_A1.jpg";
 import Level4Image from "@images/lessons/Level4_A1.jpg";
-import BibleTimeLessons from "@images/lessons/lessons-fan-english.jpg";
-import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.jpg";
-import GleanersLessons from "@images/lessons/gleaners-lessons.jpg";
+import BibleTimeLessons from "@images/lessons/lessons-fan-english.png";
+import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.png";
+import GleanersLessons from "@images/lessons/gleaners-lessons.png";
 import Paragraph from "@/Components/Typography/Paragraph";
 import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
 import { Config, RouteParam, RouteParamsWithQueryOverload, Router } from "ziggy-js";
@@ -133,16 +133,16 @@ export const groupThemes: { [key: string]: GroupThemes[] } = {
         { tagCode: "level3", tagClass: "bg-bibletime-green", tagName: "level 3" },
         { tagCode: "level4", tagClass: "bg-bibletime-blue", tagName: "level 4" }],
     "goingdeeper": [
-        { tagCode: "goingdeeper", tagClass: "bg-bibletime-blue", tagName: "going deeper A" },
-        { tagCode: "goingdeeper", tagClass: "bg-bibletime-green", tagName: "going deeper B" },
-        { tagCode: "goingdeeper", tagClass: "bg-bibletime-red", tagName: "going deeper C" }
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-blue", tagName: "group A" },
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-green", tagName: "group B" },
+        { tagCode: "goingdeeper", tagClass: "bg-bibletime-red", tagName: "group C" }
     ],
     "gleaners": [
-        { tagCode: "gleaners", tagClass: "bg-bibletime-pink", tagName: "gleaners A" },
-        { tagCode: "gleaners", tagClass: "bg-bibletime-orange", tagName: "gleaners B" },
-        { tagCode: "gleaners", tagClass: "bg-bibletime-red", tagName: "gleaners C" },
-        { tagCode: "gleaners", tagClass: "bg-bibletime-green", tagName: "gleaners D" },
-        { tagCode: "gleaners", tagClass: "bg-bibletime-blue", tagName: "gleaners E" }
+        { tagCode: "gleaners", tagClass: "bg-bibletime-pink", tagName: "group A" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-orange", tagName: "group B" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-red", tagName: "group C" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-green", tagName: "group D" },
+        { tagCode: "gleaners", tagClass: "bg-bibletime-blue", tagName: "group E" }
     ]
 };
 

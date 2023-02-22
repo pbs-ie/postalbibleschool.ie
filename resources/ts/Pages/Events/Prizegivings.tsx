@@ -14,6 +14,7 @@ import SongsImage from "@images/prizegivings/prizegiving-songs.jpg";
 import EventsImage from "@images/prizegivings/prizegiving-events.jpg";
 import SchoolsImage from "@images/prizegivings/prizegiving-schools.jpg";
 import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
+import CoffeeImage from "@images/prizegivings/prizegiving-tea-and-coffee.jpg";
 
 export default function Prizegivings() {
     const images: Gallery[] = [
@@ -32,6 +33,10 @@ export default function Prizegivings() {
         {
             title: "Songs",
             imageLink: SongsImage
+        },
+        {
+            title: "Tea and Coffee",
+            imageLink: CoffeeImage
         },
         {
             title: "Events",
