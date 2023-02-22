@@ -2,7 +2,7 @@ import LessonSelectorList from "@/Components/LessonSelectorList"
 import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
-import { courseContent, currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
+import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import { Head } from "@inertiajs/inertia-react";
 
 import HeroImage from "@images/hero.jpg";
@@ -34,7 +34,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
 
     useEffect(() => {
 
-        const searchedAssembly = videoList.find((vid) => vid.series === getUpperCaseAlphabetFromNumber(currentSeriesNumber) + (currentMonthNumber + 1));
+        const searchedAssembly = videoList.find((vid) => vid.series === getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber()) + (getCurrentMonthNumber() + 1));
         if (searchedAssembly) {
             setCurrentAssembly(searchedAssembly);
         }
@@ -85,10 +85,10 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                 <div className="grid gap-5 py-5 bg-white rounded-lg md:py-8 md:grid-cols-2 md:pr-20 lg:mx-24 drop-shadow-lg">
                     <div className="flex flex-col text-center uppercase">
                         <h1 className="text-2xl italic text-blue-900">This month's Lesson</h1>
-                        <Heading2Alt>{`${seriesNames[currentSeriesNumber].code}${currentMonthNumber + 1} - ${monthNames[currentMonthNumber]}`}</Heading2Alt>
+                        <Heading2Alt>{`${seriesNames[getCurrentSeriesNumber()].code}${getCurrentMonthNumber() + 1} - ${monthNames[getCurrentMonthNumber()]}`}</Heading2Alt>
                         <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={currentMonthNumber} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(currentSeriesNumber)} assemblyImageLink={currentAssembly.routename} />
+                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />

@@ -1,13 +1,13 @@
 import ButtonPill from "@/Components/Buttons/ButtonPill";
 import LessonSelectorList from "@/Components/LessonSelectorList";
 import { useState } from "react";
-import { currentMonthNumber, currentSeriesNumber, monthNames, seriesNames } from "@/constants";
+import { getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import Loader from "@/Components/Loader";
 import { getUpperCaseAlphabetFromNumber } from "@/helper";
 
 export default function LessonSelectorComponent() {
-    const [selectedMonth, setSelectedMonth] = useState(currentMonthNumber);
-    const [selectedSeries, setSelectedSeries] = useState(currentSeriesNumber);
+    const [selectedMonth, setSelectedMonth] = useState(getCurrentMonthNumber());
+    const [selectedSeries, setSelectedSeries] = useState(getCurrentSeriesNumber());
 
     const [processing, setProcessing] = useState(false);
 

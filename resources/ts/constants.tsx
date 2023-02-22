@@ -27,7 +27,7 @@ declare global {
     //     absolute?: boolean,
     //     config?: Config,
     // ): string;
-    function route(name: string, params?: any): any;
+    function route(name?: string, params?: any): any;
 
     interface GroupThemes {
         tagCode: string;
@@ -88,11 +88,10 @@ export interface SeriesName {
     tagClass: string;
 }
 
-const today = new Date();
-export const currentMonthNumber = today.getMonth();
+export const getCurrentMonthNumber = () => (new Date()).getMonth();
 // New series for BES started in 2022 -> A series. The following year should be B series and so on
 // This will need to be manually fixed when and if BES makes changes on their end
-export const currentSeriesNumber = (today.getFullYear() - 2022) % 3;
+export const getCurrentSeriesNumber = () => ((new Date()).getFullYear() - 2022) % 3;
 
 export const courseContent: CourseContent[] = [
     {
