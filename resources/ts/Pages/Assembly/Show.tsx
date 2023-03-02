@@ -156,7 +156,7 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                             </div>
                         </div>
                     </div>
-                    <div className="w-full px-2 mx-auto md:px-40">
+                    <div className="w-full px-2 mx-auto md:px-20 xl:px-40">
                         <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
                             {
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>

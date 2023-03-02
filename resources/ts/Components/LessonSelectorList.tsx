@@ -13,8 +13,8 @@ interface Overview {
     assemblyImageLink?: string;
 }
 
+const monthLessons = bibleTimeLevels;
 export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "", assemblyImageLink = "" }: Overview) {
-    const monthLessons = bibleTimeLevels;
 
     return (
         <div className="flex flex-col justify-center px-2 md:px-0">
@@ -31,7 +31,7 @@ export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphab
             {(assemblyTitle && assemblyTitle !== "") ?
                 <div className="mb-2">
                     <Heading3>School Assembly Video</Heading3>
-                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText={monthNames[selectedMonth]} pillClass="bg-blue-500" downloadLink={assemblyLink} imageLink={assemblyImageLink}></RedirectButtonWithPill>
+                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText="Latest Video" pillClass="bg-blue-500" downloadLink={assemblyLink} imageLink={assemblyImageLink}></RedirectButtonWithPill>
                 </div>
                 :
                 <div className="mb-2">

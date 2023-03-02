@@ -18,7 +18,7 @@ export default function VideoCarousalCard({ title, duration, onClick, active = f
                 <div className="relative">
                     <img src={"/assembly/image/" + imageLink} alt={"Video " + idx} className="block object-cover h-20 md:h-44 w-full rounded aspect-[4/3]" />
                     <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        <PlayIcon className="w-20 h-20" />
+                        <PlayIcon className="w-10 h-10 md:w-20 md:h-20" />
                     </div>
                 </div>
                 <p className={"text-base md:text-2xl font-bold " + (active ? "text-slate-50" : "text-blue-700")}>{title === "" ? `Title ${idx}` : title}</p>
