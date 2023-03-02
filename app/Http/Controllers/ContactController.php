@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ContactController extends Controller
@@ -38,6 +39,11 @@ class ContactController extends Controller
             'contactEmail' => $request->contactEmail,
             'contactDescription' => $request->contactDescription
         ]);
+
+        $newContact = Contact::orderBy('created_at', 'desc')->first();
+
+        // Send mail to Info
+        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new \App\Mail\ContactReceived($newContact));
 
         // Redirect the user
         return redirect('/')->with('success', "Contact Us form submitted successfully");
