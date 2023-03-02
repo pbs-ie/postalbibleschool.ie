@@ -36,6 +36,8 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
         const searchedAssembly = videoList.find((vid) => vid.series === getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber()) + (getCurrentMonthNumber() + 1));
         if (searchedAssembly) {
             setCurrentAssembly(searchedAssembly);
+        } else {
+            setCurrentAssembly(videoList[videoList.length - 1]);
         }
     }, [videoList]);
 
