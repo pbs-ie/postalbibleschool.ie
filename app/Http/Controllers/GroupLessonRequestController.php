@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class GroupLessonRequestController extends Controller
@@ -42,6 +43,11 @@ class GroupLessonRequestController extends Controller
 
         // Create an entry
         GroupRequest::create($validated);
+
+        $newGroup = GroupRequest::orderBy('created_at', 'desc')->first();
+
+        // Send mail to Info
+        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new \App\Mail\GroupRequest($newGroup));
 
         // Redirect the user
         return redirect('/')->with('success', "Lesson request form submitted successfully");

@@ -6,6 +6,8 @@ use App\Http\Requests\StoreIndividualRequest;
 use App\Models\IndividualRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+
 
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -70,6 +72,11 @@ class IndividualLessonRequestController extends Controller
         }
         // Create an entry
         IndividualRequest::insert($computed);
+
+        $newRequest = IndividualRequest::orderBy('created_at', 'desc')->first();
+
+        // Send mail to Info
+        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new \App\Mail\IndividualRequest($studentDetails['studentDetails'], $validated, $newRequest));
 
         unset($computed);
         unset($i);
