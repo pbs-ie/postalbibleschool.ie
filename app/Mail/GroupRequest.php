@@ -2,32 +2,29 @@
 
 namespace App\Mail;
 
-use App\Models\IndividualRequest as IndividualRequestModel;
+use App\Models\GroupRequest as GroupRequestModel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class IndividualRequest extends Mailable
+class GroupRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $request;
+    public $request;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($studentInfo, $contactInfo, $latest)
+    public function __construct(GroupRequestModel $groupRequest)
     {
-        $this->request = [
-            'studentInfo' => (object)$studentInfo,
-            'contactInfo' => (object)$contactInfo,
-            'latest' => (object)$latest
-        ];
+        $this->request = $groupRequest;
     }
 
     /**
@@ -39,10 +36,10 @@ class IndividualRequest extends Mailable
     {
         return new Envelope(
             replyTo: [
-                new Address($this->request['latest']->email, $this->request['latest']->firstname),
+                new Address($this->request->email, $this->request->firstname),
             ],
-            subject: 'New Individual Request from ' . $this->request['latest']->firstname . ' ' . $this->request['latest']->lastname,
-            tags: ['individual']
+            subject: 'New Group Request from ' . $this->request->firstname . ' ' . $this->request->lastname,
+            tags: ['group']
         );
     }
 
@@ -54,12 +51,7 @@ class IndividualRequest extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.request-individual',
-            with: [
-                'studentInfo' => $this->request['studentInfo'],
-                'contactInfo' => $this->request['contactInfo'],
-                'latest' => $this->request['latest']
-            ]
+            markdown: 'emails.request-group',
         );
     }
 

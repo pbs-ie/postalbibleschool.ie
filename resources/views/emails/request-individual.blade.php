@@ -52,6 +52,6 @@
 </x-mail::panel>
 
 Thanks,<br>
-{{ config('app.name') }}
+{{ config('app.name') }} Website
 
 </x-mail::message>
