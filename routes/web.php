@@ -83,6 +83,10 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/schedule', function () {
             return Inertia::render('Events/Step/About');
         })->name('step.schedule');
+
+        Route::get('/iteam', function () {
+            return Inertia::render('Events/Step/ITeam');
+        })->name('step.iteam');
     });
 });
 
