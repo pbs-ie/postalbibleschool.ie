@@ -14,6 +14,9 @@ export default function SecondaryNavigation() {
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.signup')} href={route('events.step.signup')}>Sign Up</NavLink>
                 </li>
+                <li className="flex -my-px">
+                    <NavLink isSecondary={true} active={route().current('events.step.iteam')} href={route('events.step.iteam')}>iTeam</NavLink>
+                </li>
                 {/* TODO: Create page */}
                 {/* <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.schedule')} href={route('events.step.schedule')}>Schedule</NavLink>
