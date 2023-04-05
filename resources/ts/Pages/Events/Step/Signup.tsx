@@ -1,26 +1,50 @@
+import AnchorLink from "@/Components/Navigation/AnchorLink";
+import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
+import Heading1 from "@/Components/Typography/Heading1";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+import { Head } from "@inertiajs/inertia-react";
 
 export default function Signup() {
+    const tableData: TableData[] = [
+        {
+            heading: "Topic",
+            content: <><p className="font-normal">Biblical and Practical training for Christian services</p><p className="text-sm text-gray-700 md:text-base">Special focus - Mark's Gospel</p></>
+        },
+        {
+            heading: "Speaker",
+            content: "David Wilson"
+        },
+        {
+            heading: "Dates",
+            content: "16th June - 18th June, 2023"
+        }
+    ]
     return (
         <WrapperLayout showSecondaryNav>
-            <EventWrapper title="STEP - Sign Up" heading="Sign Up January 2023">
+            {/* @ts-ignore  */}
+            <Head>
+                <title>Events - STEP - Sign Up</title>
+                <link rel="icon" href="/step.ico" />
+            </Head>
+            <section className="py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8 ">
+                <Heading1>Registration</Heading1>
+                <div className="flex justify-center mb-8">
+                    <BasicTable tableData={tableData}></BasicTable>
+                </div>
                 <ParagraphContainer>
-                    <Paragraph>Having covered a broad range of books at STEP in the previous years, we will shift our focus to characters looking at an emphasis on cultivation of the devotional relationship with God as well as the ideas of sacrifice and service. In the month of November, we took a look at 1 Samuel and will continue through the same themes in the book of 2 Samuel this month.</Paragraph>
+                    <Paragraph>Join us for the upcoming step in June 2023 where we look at Biblical and Practical training for Christian services through the Gospel according to Mark. We would encourage you to read/study chapters in the book of Mark beforehand. As always, new faces are welcome!</Paragraph>
 
-                    <Paragraph>We would encourage you to read/study chapters in the book beforehand. As always, new faces are welcome!</Paragraph>
+                    <Paragraph>This event will take place from the 16th - 18th June 2023. Sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. You can either pay using your card by following the PayPal link below or at the venue when you arrive.</Paragraph>
 
-                    <Paragraph>This event will take place from the 13th - 15th January 2022. Sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. You can either pay using your card by following the PayPal link below or at the venue when you arrive.</Paragraph>
+                    <AnchorLink href={"https://www.paypal.com/donate/?hosted_button_id=9W8MFQ599K4UQ"} newTab={true}></AnchorLink>
 
-                    <a className="text-blue-600 underline hover:text-blue-800 visited:text-purple-600" href="https://www.paypal.com/donate/?hosted_button_id=9W8MFQ599K4UQ" target="_blank">https://www.paypal.com/donate/?hosted_button_id=9W8MFQ599K4UQ
-                    </a>
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">
-                    <iframe className="w-full md:w-3/4 max-w-7xl h-96" src="https://docs.google.com/forms/d/e/1FAIpQLScne0SWWllcS3TmuXcOQV9Ko3f-A7fkv2rH_Fz1bLnZdyFhtw/viewform?embedded=true">Loading…</iframe>
+                    <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdV8flGeG04g6nVwoo-D88fuDNCOEAhD_EzGZWHNoAmmEMrKA/viewform?embedded=true">Loading…</iframe>
                 </div>
-            </EventWrapper>
+            </section>
         </WrapperLayout>
     )
 }
