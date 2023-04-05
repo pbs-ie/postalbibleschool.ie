@@ -63,21 +63,21 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Calendar,
             title: "When",
-            description: "3 times a year",
+            description: <p className="text-lg font-bold">16th June - 18th June, 2023</p>,
             buttonText: "",
             buttonLink: ""
         },
         {
             Icon: Location,
             title: "Where",
-            description: "Castledaly Manor, Athlone, Co Westmeath",
+            description: <p className="text-lg font-bold">Castledaly Manor, Athlone,<br /> Co Westmeath</p>,
             buttonText: "",
             buttonLink: ""
         },
         {
             Icon: ChatBubble,
             title: "Topic",
-            description: "2 Samuel",
+            description: <p className="text-lg font-bold">Biblical and Practical training<br /> for Christian Service</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -144,7 +144,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         <div className="p-6 mx-auto mt-10 mb-20 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
             <div className={`flex flex-col flex-wrap md:mx-auto justify-center md:justify-around md:flex-row md:mb-5`}>
                 {getCurrentTypeCards().map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
-                    <div key={title} className={`flex flex-col ${type === "prizegivings" ? 'basis-1/2' : 'basis-1/3'} items-center justify-between md:max-w-sm`}>
+                    <div key={title} className={`flex flex-col ${type === "prizegivings" ? 'basis-1/2  justify-between' : 'basis-1/3'} items-center md:max-w-sm`}>
                         <CardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                     </div>
                 ))}
