@@ -136,6 +136,9 @@ export default function Navbar() {
                         <ResponsiveNavLink href={route('events.camp')} active={route().current('events.camp')}>
                             Summer Camp
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('events.iteam')} active={route().current('events.iteam')}>
+                            iTeam
+                        </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-3 space-y-1 border-t border-gray-200">
                         <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
