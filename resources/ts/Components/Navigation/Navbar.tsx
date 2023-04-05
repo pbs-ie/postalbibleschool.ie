@@ -66,6 +66,9 @@ export default function Navbar() {
                                 <li className='inline-flex'><DropdownNavLink href={route('events.camp')} active={route().current('events.camp')}>
                                     Summer Camp
                                 </DropdownNavLink></li>
+                                <li className='inline-flex'><DropdownNavLink href={route('events.iteam')} active={route().current('events.iteam')}>
+                                    iTeam
+                                </DropdownNavLink></li>
                             </DropdownNavWrapper>
                         </div>
                         <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">

@@ -1,30 +1,31 @@
-import EventCardBlock from "@/Components/Cards/EventCardBlock";
+import EventCardContainer from "@/Components/Cards/EventCardContainer";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+import { Head } from "@inertiajs/inertia-react";
 
 export default function ITeam() {
+    const title = "iTeam";
     return (
-        <WrapperLayout showSecondaryNav>
-            <EventWrapper title="iTeam" heading="iTeam">
+        <WrapperLayout>
+            <Head title={`Events - ${title}`}></Head>
+            <section className={"py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8"}>
+                <h1 className="p-6 mt-2 mb-4 text-5xl font-bold leading-snug text-blue-800 font-title">{title}</h1>
                 <ParagraphContainer>
                     <Paragraph>
                         iTeam is a new event which intends to encourage those with an interest in producing digital educational resources to teach the bible to work together within a defined project for PBS. It is hoped that each contributor benefits personally in developing their own skillset by working along with complimentary skills while the group as a whole brings a whole year of bible lessons to be "click ready" for the classroom.
                     </Paragraph>
                     <div className="my-10">
-                        <div className="border border-gray-400"></div>
-
                         <div className="my-10">
-                            <EventCardBlock title={"Event Timing"} description={"Sunday 30th July - Saturday 5th August 2022"}></EventCardBlock>
+                            <EventCardContainer type={"iteam"}>
+                            </EventCardContainer>
                         </div>
-                        <div className="border border-gray-400"></div>
                     </div>
                     <Paragraph>
                         We are glad that you are interested in joining with us this summer, and would appreciate it if you could complete this form, and return it to us, as we have been advised to keep detailed records of participants.
                     </Paragraph>
                     <Paragraph>
-                        In accordance with our Child Safety Policy (which applies since both minors and adults will participate in this week), we have to ask some rather personal questions. These are necessary for legal reasons, and we do trust that you will understand.
+                        In accordance with our Child Safety Policy (which applies, since both minors and adults will participate in this week), we have to ask some rather personal questions. These are necessary for legal reasons, and we do trust that you will understand.
                     </Paragraph>
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">
@@ -36,7 +37,7 @@ export default function ITeam() {
                     </em>
                     </Paragraph>
                 </ParagraphContainer>
-            </EventWrapper>
+            </section>
 
         </WrapperLayout>
     )
