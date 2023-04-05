@@ -26,7 +26,7 @@ export default function Footer() {
                     </FooterGroup>
                     <FooterGroup heading="Programmes">
                         <ul className="flex flex-col">
-                            <li><FooterLink href={route('events.prizegivings')}>Prizegivings</FooterLink></li>
+                            <li><FooterLink href={route('events.prizegivings')}>Prize<wbr></wbr>givings</FooterLink></li>
                             <li><FooterLink href={route('events.shed')}>The SHED</FooterLink></li>
                             <li><FooterLink href={route('events.step')}>STEP</FooterLink></li>
                             <li><FooterLink href={route('events.camp')}>Summer Camp</FooterLink></li>

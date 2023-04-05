@@ -10,7 +10,7 @@ import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
 
 
 interface CardContainer {
-    type: "prizegivings" | "shed" | "step" | "camp";
+    type: "prizegivings" | "shed" | "step" | "camp" | "iteam";
     children?: React.ReactNode;
 }
 
@@ -114,6 +114,16 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         }
     ]
 
+    const iTeamCards: CardBlock[] = [
+        {
+            Icon: Calendar,
+            title: "Event Timing",
+            description: "Sunday, 30th July - Saturday, 5th August, 2023",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
+
 
     const getCurrentTypeCards = () => {
         switch (type) {
@@ -125,6 +135,8 @@ export default function EventCardContainer({ type, children }: CardContainer) {
                 return stepCards;
             case "camp":
                 return campCards;
+            case "iteam":
+                return iTeamCards;
         }
     }
 
