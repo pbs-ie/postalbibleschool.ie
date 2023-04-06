@@ -6,6 +6,8 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/inertia-react";
 
+import LogoWhite from "@images/step/step_logo.png";
+
 export default function Signup() {
     const tableData: TableData[] = [
         {
@@ -22,11 +24,11 @@ export default function Signup() {
         }
     ]
     return (
-        <WrapperLayout showSecondaryNav>
+        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
             {/* @ts-ignore  */}
             <Head>
                 <title>Events - STEP - Sign Up</title>
-                <link rel="icon" href="/step.ico" />
+                <link head-key="favicon" rel="shortcut icon" href={LogoWhite} />
             </Head>
             <section className="py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8 ">
                 <Heading1>Registration</Heading1>
@@ -42,7 +44,7 @@ export default function Signup() {
 
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">
-                    <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdV8flGeG04g6nVwoo-D88fuDNCOEAhD_EzGZWHNoAmmEMrKA/viewform?embedded=true">Loading…</iframe>
+                    <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdV8flGeG04g6nVwoo-D88fuDNCOEAhD_EzGZWHNoAmmEMrKA/viewform">Loading…</iframe>
                 </div>
             </section>
         </WrapperLayout>

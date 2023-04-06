@@ -6,7 +6,7 @@ import SecondaryNavigation from '@/Components/Navigation/SecondaryNavigation';
 import Navbar from '@/Components/Navigation/Navbar';
 import Footer from '@/Components/Navigation/Footer';
 
-export default function WrapperLayout({ showSecondaryNav = false, children }: { showSecondaryNav?: boolean, children: React.ReactNode }) {
+export default function WrapperLayout({ showSecondaryNav = false, extraLogo, children }: { showSecondaryNav?: boolean, extraLogo?: string | undefined, children: React.ReactNode }) {
     const [showToTopButton, setShowToTopButton] = useState(false);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
         <div className="flex flex-col items-stretch min-h-screen">
             <Navbar />
             {showSecondaryNav &&
-                <SecondaryNavigation />
+                <SecondaryNavigation logo={extraLogo} />
             }
             <FlashMessage />
             <main className="relative flex flex-col h-full grow md:justify-center">
