@@ -4,15 +4,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta head-key="description" name="description" content="Postal Bible School is an organisation in Ireland which promotes the study of the Bible through free Bible study tools and Bible courses online for all ages.">
-    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <meta head-key="description" name="description"
+        content="Postal Bible School is an organisation in Ireland which promotes the study of the Bible through free Bible study tools and Bible courses online for all ages.">
+    <link head-key="favicon" rel="shortcut icon" href="/favicon.png" type="image/png">
 
     <title inertia>{{ config('app.name', 'Postal Bible School') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link href="https://fonts.bunny.net/css?family=roboto:100,400,400i,500,500i,700,700i|roboto-slab:500,700|cardo:400,400i|lato:200,400,700,400i" rel="stylesheet" />
+    <link
+        href="https://fonts.bunny.net/css?family=roboto:100,400,400i,500,500i,700,700i|roboto-slab:500,700|cardo:400,400i|lato:200,400,700,400i"
+        rel="stylesheet" />
 
 
     <!-- Scripts -->
