@@ -7,6 +7,8 @@ import Banknotes from "@/Components/Icons/Banknotes";
 import ChatBubble from "@/Components/Icons/ChatBubble";
 
 import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import Heading2 from "../Typography/Heading2";
 
 
 interface CardContainer {
@@ -142,6 +144,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
 
     return (
         <div className="p-6 mx-auto mt-10 mb-20 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
+            <Heading2Alt className="py-4 md:pb-8">Upcoming Event</Heading2Alt>
             <div className={`flex flex-col flex-wrap md:mx-auto justify-center md:justify-around md:flex-row md:mb-5`}>
                 {getCurrentTypeCards().map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
                     <div key={title} className={`flex flex-col ${type === "prizegivings" ? 'basis-1/2  justify-between' : 'basis-1/3'} items-center md:max-w-sm`}>
@@ -150,6 +153,6 @@ export default function EventCardContainer({ type, children }: CardContainer) {
                 ))}
             </div>
             {children}
-        </div>
+        </div >
     );
 }

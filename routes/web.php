@@ -63,9 +63,16 @@ Route::prefix('events')->name('events.')->group(function () {
     Route::get('/shed', function () {
         return Inertia::render('Events/Shed');
     })->name('shed');
-    Route::get('/camp', function () {
-        return Inertia::render('Events/Camp');
-    })->name('camp');
+
+    Route::prefix('camp')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Events/Camp/Home');
+        })->name('camp');
+        Route::get('/signup', function () {
+            return Inertia::render('Events/Camp/Signup');
+        })->name('camp.signup');
+    });
+
     Route::get('/iteam', function () {
         return Inertia::render('Events/ITeam');
     })->name('iteam');
@@ -74,10 +81,6 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Events/Step/About');
         })->name('step');
-
-        Route::get('/past', function () {
-            return Inertia::render('Events/Step/About');
-        })->name('step.past');
 
         Route::get('/signup', function () {
             return Inertia::render('Events/Step/Signup');

@@ -35,7 +35,7 @@ export default function WrapperLayout({ showSecondaryNav = false, children }: { 
             }
             <FlashMessage />
             <main className="relative flex flex-col h-full grow md:justify-center">
-                <div className="w-full pb-20 overflow-hidden bg-white grow">
+                <div className="w-full pb-20 overflow-hidden grow">
                     {children}
                 </div>
             </main>
