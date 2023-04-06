@@ -21,6 +21,10 @@ export default function Signup() {
         {
             heading: "Dates",
             content: "16th June - 18th June, 2023"
+        },
+        {
+            heading: "Cost",
+            content: <p className="text-base">Regular - €65<br />Student - €50</p>
         }
     ]
     return (
