@@ -2,10 +2,10 @@ import TeachingImage from "@images/step/step-teaching.jpg";
 import DiscussionImage from "@images/step/step-discussion.jpg";
 import SingingImage from "@images/step/step-singing.jpg";
 import FellowshipImage from "@images/step/step-fellowship.jpg";
-import ReadingImage from "@images/step/step-reading.jpg";
 import GamesImage from "@images/step/step-games.jpg";
 import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
+import MeetingImage from "@images/step/step-meeting.jpg";
 
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
@@ -21,6 +21,9 @@ import Heading2 from "@/Components/Typography/Heading2";
 import { Head, Link } from "@inertiajs/inertia-react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading1 from "@/Components/Typography/Heading1";
+
+import LogoWhite from "@images/step/step_logo.png";
+
 
 export default function About() {
     const images: Gallery[] = [
@@ -41,8 +44,8 @@ export default function About() {
             imageLink: FellowshipImage
         },
         {
-            title: "Reading",
-            imageLink: ReadingImage
+            title: "People",
+            imageLink: MeetingImage
         },
         {
             title: "Games",
@@ -58,11 +61,11 @@ export default function About() {
         }
     ]
     return (
-        <WrapperLayout showSecondaryNav={true}>
+        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
             {/* @ts-ignore  */}
             <Head>
                 <title>Events - STEP</title>
-                <link rel="icon" href="/step.ico" />
+                <link head-key="favicon" rel="shortcut icon" href="/step.ico" type="image/ico" />
             </Head>
             <section className="py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
                 <Heading1>STEP</Heading1>
