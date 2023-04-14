@@ -19,9 +19,11 @@ import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
 import { Link } from "@inertiajs/inertia-react";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import { useState } from "react";
 
 
 export default function Home() {
+    const [isSignupActive, setIsSignupActive] = useState(false);
     const images: Gallery[] = [
         {
             title: "Bible Teaching",
@@ -64,7 +66,9 @@ export default function Home() {
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer type="camp">
-                    <Link href={route('events.camp.signup')}><PrimaryButton className="text-base">Register</PrimaryButton></Link>
+                    {isSignupActive &&
+                        <Link href={route('events.camp.signup')}><PrimaryButton className="text-base">Register</PrimaryButton></Link>
+                    }
                 </CardContainer>
                 <Heading2>Camp</Heading2>
                 <ParagraphContainer>
