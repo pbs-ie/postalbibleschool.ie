@@ -64,7 +64,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
                                 heading="New School Assembly Video"
-                                content="is now available for March 2023"
+                                content="is now available for April 2023"
                                 buttonText="Show Me"
                                 buttonLink={route('assembly.index')}
                                 className="border-4"
