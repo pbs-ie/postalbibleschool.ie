@@ -3,17 +3,17 @@
     "content": [
         {
             "id": 0,
-            "month": "February",
-            "series": "B2",
-            "title": "Miracles",
-            "routename": "b02"
-        },
-        {
-            "id": 1,
             "month": "March",
             "series": "B3",
             "title": "Love and Learning",
             "routename": "b03"
+        },
+        {
+            "id": 1,
+            "month": "April",
+            "series": "B4",
+            "title": "The Cross",
+            "routename": "b04"
         }
     ]
 }
