@@ -63,19 +63,20 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="New School Assembly Video"
-                                content="is now available for April 2023"
-                                buttonText="Show Me"
-                                buttonLink={route('assembly.index')}
+                                heading={<p>Summer Camp 2023</p>}
+                                content="Registrations are now active!"
+                                buttonText="Register"
+                                buttonLink={route('events.camp.signup')}
                                 className="border-4"
+                                showNewBanner={true}
                             />
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading={<p>2023 Prize<wbr></wbr>givings</p>}
-                                content="starting end of January"
-                                buttonText="Details"
-                                buttonLink={route('events.prizegivings')}
+                                heading="New School Assembly Video"
+                                content="is now available for April 2023"
+                                buttonText="Show Me"
+                                buttonLink={route('assembly.index')}
                                 className="border-4"
                             />
                         </div>

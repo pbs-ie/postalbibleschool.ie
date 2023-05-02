@@ -23,7 +23,7 @@ import { useState } from "react";
 
 
 export default function Home() {
-    const [isSignupActive, setIsSignupActive] = useState(false);
+    const [isSignupActive, setIsSignupActive] = useState(true);
     const images: Gallery[] = [
         {
             title: "Bible Teaching",
