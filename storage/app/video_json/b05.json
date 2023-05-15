@@ -1,0 +1,48 @@
+{
+    "title": "B5 - Parables - Pictures of Jesus",
+    "imageId": "b05",
+    "content": [
+        {
+            "id": 0,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=44a41c37-aba0-4151-a5c0-b003008d1420&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Introduction",
+            "duration": "3 min"
+        },
+        {
+            "id": 1,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=32a1d869-d609-4a44-89a6-b003008d2b98&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"The Good Shepherd",
+            "duration": "5 min"
+        },
+        {
+            "id": 2,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=d8e58a20-0cc5-42b4-bd6c-b003008d36cb&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Memory Verse",
+            "duration": "2 min"
+        },
+        {
+            "id": 3,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=b522fd1c-2109-4ed7-b266-b003008d42d1&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Story - The Prodigal Son",
+            "duration": "3 min"
+        },
+        {
+            "id": 4,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=9ca11d26-beb0-4aa7-8664-b003008d4f22&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Quiz",
+            "duration": "3 min"
+        },
+        {
+            "id": 5,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=dfd108e5-6f67-43c3-ac77-b003008d5a06&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Song",
+            "duration": "2 min"
+        },
+        {
+            "id": 6,
+            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=300941b1-888b-40c1-ab4e-b003008d63f0&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "title":"Conclusion",
+            "duration": "1 min"
+        }
+    ]
+}
