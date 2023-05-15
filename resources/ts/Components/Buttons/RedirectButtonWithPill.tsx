@@ -33,7 +33,7 @@ export default function RedirectButtonWithPill({ title, pillText, pillClass = "b
                         }
                     </button>
                     {imageLink && imageLink !== "" &&
-                        <img className="float-right object-cover object-left w-2/3 h-auto mt-px rounded-lg aspect-video " src={"/assembly/image/" + imageLink} alt={imageLink + " assembly image thumbnail"} />
+                        <img className="float-right object-cover object-left w-2/3 h-auto mt-px rounded-lg aspect-[4/3] " src={"/assembly/image/" + imageLink} alt={imageLink + " assembly image thumbnail"} />
                     }
                 </a>
             }
