@@ -9,7 +9,7 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
-import React, { FormEvent, useEffect, useReducer, useRef } from "react";
+import React, { FormEvent, useEffect, useReducer } from "react";
 import NumberInput from "@/Components/Forms/NumberInput";
 
 export interface Student {
@@ -151,7 +151,7 @@ export default function IndividualRequest() {
                 <Head title="Request Sample Lessons" />
                 <Heading1Alt>Request Lesson for an Individual</Heading1Alt>
                 {errors &&
-                    Object.keys(errors).slice(-1).map((key) =>
+                    Object.keys(errors).map((key) =>
                         <ToastBanner key={key} message={errors[key]} />
                     )
                 }

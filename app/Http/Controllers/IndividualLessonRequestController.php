@@ -51,7 +51,7 @@ class IndividualLessonRequestController extends Controller
         $rules = [
             'studentDetails.*.firstname' => ['required', 'min:3', 'max:255'],
             'studentDetails.*.lastname' => ['required', 'min:3', 'max:255'],
-            'studentDetails.*.dob' => ['required_with:studentDetails.*.firstname', 'date', 'before:today'],
+            'studentDetails.*.dob' => ['required_with:studentDetails.*.firstname', 'date', 'after:1900-01-01', 'before:today'],
             'email' => ['email'],
             'phone' => [],
             'address1' => ['required'],
