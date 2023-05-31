@@ -57,7 +57,6 @@ export default function IndividualRequest() {
     const [studentState, dispatch] = useReducer(reducer, initialState);
 
     const { errors } = usePage().props;
-    const dateRef = useRef<HTMLInputElement>(null);
     const { data, setData, post, processing, reset } = useForm({
         studentDetails: [{
             firstname: "",
@@ -113,13 +112,6 @@ export default function IndividualRequest() {
         }
     }
 
-    const handleDateClick = (event: React.MouseEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        if (dateRef.current !== null) {
-            dateRef.current.type = 'date';
-            dateRef.current.focus();
-        }
-    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -176,15 +168,11 @@ export default function IndividualRequest() {
                                     <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
 
                                     <input
-                                        ref={dateRef}
-                                        type="text"
+                                        type="date"
                                         name="dob"
                                         placeholder="Date of birth"
-                                        className="rounded basis-2/3"
+                                        className="self-center transition ease-in-out border-gray-400 rounded-md shadow-sm bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 basis-2/3"
                                         id={`dob[${idx}]`}
-                                        onFocus={(e) => { e.target.type = "date"; e.target.focus(); }}
-                                        onClick={handleDateClick}
-                                        onBlur={(e) => e.target.type = "text"}
                                         onChange={(e) => handleComplexChange(idx, e)}
                                         value={dob}
                                         autoComplete="bday"
