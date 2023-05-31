@@ -9,7 +9,7 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
-import React, { FormEvent, useEffect, useReducer } from "react";
+import React, { FormEvent, useEffect, useReducer, useRef } from "react";
 
 export interface Student {
     firstname: string;
@@ -57,6 +57,7 @@ export default function IndividualRequest() {
     const [studentState, dispatch] = useReducer(reducer, initialState);
 
     const { errors } = usePage().props;
+    const dateRef = useRef<HTMLInputElement>(null);
     const { data, setData, post, processing, reset } = useForm({
         studentDetails: [{
             firstname: "",
@@ -73,6 +74,7 @@ export default function IndividualRequest() {
         country: "",
         message: ""
     });
+
 
     useEffect(() => {
         reset();
@@ -111,10 +113,19 @@ export default function IndividualRequest() {
         }
     }
 
+    const handleDateClick = (event: React.MouseEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        if (dateRef.current !== null) {
+            dateRef.current.type = 'date';
+            dateRef.current.focus();
+        }
+    }
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('request.individual'));
     }
+
     return (
         <WrapperLayout>
             <div className="px-4 py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
@@ -165,12 +176,14 @@ export default function IndividualRequest() {
                                     <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
 
                                     <input
+                                        ref={dateRef}
                                         type="text"
                                         name="dob"
                                         placeholder="Date of birth"
                                         className="rounded basis-2/3"
                                         id={`dob[${idx}]`}
-                                        onFocus={(e) => e.target.type = "date"}
+                                        onFocus={(e) => { e.target.type = "date"; e.target.focus(); }}
+                                        onClick={handleDateClick}
                                         onBlur={(e) => e.target.type = "text"}
                                         onChange={(e) => handleComplexChange(idx, e)}
                                         value={dob}
