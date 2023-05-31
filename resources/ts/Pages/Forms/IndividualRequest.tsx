@@ -10,11 +10,14 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { FormEvent, useEffect, useReducer, useRef } from "react";
+import NumberInput from "@/Components/Forms/NumberInput";
 
 export interface Student {
     firstname: string;
     lastname: string;
-    dob: string;
+    day: number;
+    month: number;
+    year: number;
 }
 
 export default function IndividualRequest() {
@@ -23,20 +26,30 @@ export default function IndividualRequest() {
     }
     interface ChangeAction extends Action {
         name: keyof Student;
-        value: string;
+        value: string | number;
         idx: number;
     }
 
     const initialState: Student[] = [{
         firstname: "",
         lastname: "",
-        dob: ""
+        day: 0,
+        month: 0,
+        year: 0
     }]
 
     const reducer = (state: Student[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
             let returnObj = [...state];
-            returnObj[action.idx][action.name] = action.value;
+            switch (action.name) {
+                case "day":
+                case "month":
+                case "year":
+                    returnObj[action.idx][action.name] = +action.value;
+                    break;
+                default:
+                    returnObj[action.idx][action.name] = action.value + "";
+            }
             return returnObj;
         } else if (action.type === 'addValue') {
             return [
@@ -57,7 +70,7 @@ export default function IndividualRequest() {
     const [studentState, dispatch] = useReducer(reducer, initialState);
 
     const { errors } = usePage().props;
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset, transform } = useForm({
         studentDetails: [{
             firstname: "",
             lastname: "",
@@ -99,14 +112,16 @@ export default function IndividualRequest() {
             switch (event.target.name) {
                 case "firstname":
                 case "lastname":
-                case "dob":
+                case 'day':
+                case "month":
+                case "year":
                     dispatch({
                         type: "changeValue",
                         name: event.target.name,
                         value: event.target.value,
                         idx: idx
                     });
-                    setData("studentDetails", studentState);
+                    break;
 
             }
         }
@@ -115,6 +130,18 @@ export default function IndividualRequest() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let transformStudent: any = [];
+        studentState.forEach(({ firstname, lastname, day, month, year }) => {
+            transformStudent.push({
+                firstname: firstname,
+                lastname: lastname,
+                dob: new Date(year, month - 1, day).toISOString().slice(0, 10)
+            });
+        });
+        transform((data) => ({
+            ...data,
+            studentDetails: transformStudent
+        }));
         post(route('request.individual'));
     }
 
@@ -124,14 +151,14 @@ export default function IndividualRequest() {
                 <Head title="Request Sample Lessons" />
                 <Heading1Alt>Request Lesson for an Individual</Heading1Alt>
                 {errors &&
-                    Object.keys(errors).map((key) =>
+                    Object.keys(errors).slice(-1).map((key) =>
                         <ToastBanner key={key} message={errors[key]} />
                     )
                 }
                 <form aria-label="Individual lesson request form" name="individualForm" method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
                     <h2 className="flex mb-4 text-lg font-bold">Student Details</h2>
                     <div className="flex flex-col gap-4 pb-3 mb-8 border-b border-gray-600">
-                        {studentState.map(({ firstname, lastname, dob }, idx) => (
+                        {studentState.map(({ firstname, lastname, day, month, year }, idx) => (
                             <div key={idx} className="flex flex-col gap-2 mb-2">
                                 <div className="flex gap-2">
                                     <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
@@ -164,20 +191,51 @@ export default function IndividualRequest() {
 
                                     </div>
                                 </div>
-                                <div className="inline-flex gap-2">
+                                <div className="inline-flex flex-wrap items-start gap-2 md:flex-nowrap">
                                     <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
-
-                                    <input
-                                        type="date"
-                                        name="dob"
-                                        placeholder="Date of birth"
-                                        className="self-center transition ease-in-out border-gray-400 rounded-md shadow-sm bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 basis-2/3"
-                                        id={`dob[${idx}]`}
-                                        onChange={(e) => handleComplexChange(idx, e)}
-                                        value={dob}
-                                        autoComplete="bday"
-                                        required
-                                    />
+                                    <div className="flex justify-start gap-2 basis-2/3">
+                                        <div className="flex flex-col items-start">
+                                            <label htmlFor={`day[${idx}]`}>Day (DD):</label>
+                                            <NumberInput
+                                                name="day"
+                                                id={`day[${idx}]`}
+                                                max={31}
+                                                value={+day}
+                                                className="w-24"
+                                                autoComplete="bday"
+                                                handleChange={(e) => handleComplexChange(idx, e)}
+                                                required
+                                            ></NumberInput>
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <label htmlFor={`month[${idx}]`}>Month (MM):</label>
+                                            <NumberInput
+                                                name="month"
+                                                id={`month[${idx}]`}
+                                                max={12}
+                                                min={1}
+                                                value={+month}
+                                                className="w-24"
+                                                autoComplete="bday"
+                                                handleChange={(e) => handleComplexChange(idx, e)}
+                                                required
+                                            ></NumberInput>
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <label htmlFor={`year[${idx}]`}>Year (YYYY):</label>
+                                            <NumberInput
+                                                name="year"
+                                                id={`year[${idx}]`}
+                                                max={9999}
+                                                min={1900}
+                                                value={+year}
+                                                className="w-40"
+                                                autoComplete="bday"
+                                                handleChange={(e) => handleComplexChange(idx, e)}
+                                                required
+                                            ></NumberInput>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -191,7 +249,7 @@ export default function IndividualRequest() {
 
                         <InputLabel forInput="email" value="Email" required />
                         <TextInput
-                            type="text"
+                            type="email"
                             name="email"
                             id="email"
                             value={data.email}
