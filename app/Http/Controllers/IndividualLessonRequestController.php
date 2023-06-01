@@ -67,6 +67,7 @@ class IndividualLessonRequestController extends Controller
             'studentDetails.*.firstname' => "First Name",
             'studentDetails.*.lastname' => "Last Name",
             'studentDetails.*.dob' => "Date of Birth",
+            'address1' => "Address",
         ]);
 
         $validated = $validator->safe()->except(['studentDetails']);

@@ -9,15 +9,15 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
-import React, { FormEvent, useEffect, useReducer } from "react";
-import NumberInput from "@/Components/Forms/NumberInput";
+import React, { FormEvent, useEffect, useReducer, useState } from "react";
+import InputError from "@/Components/Forms/InputError";
 
 export interface Student {
     firstname: string;
     lastname: string;
-    day: number;
-    month: number;
-    year: number;
+    day: string;
+    month: string;
+    year: string;
 }
 
 export default function IndividualRequest() {
@@ -33,23 +33,16 @@ export default function IndividualRequest() {
     const initialState: Student[] = [{
         firstname: "",
         lastname: "",
-        day: 0,
-        month: 0,
-        year: 0
+        day: "",
+        month: "",
+        year: ""
     }]
+
 
     const reducer = (state: Student[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
             let returnObj = [...state];
-            switch (action.name) {
-                case "day":
-                case "month":
-                case "year":
-                    returnObj[action.idx][action.name] = +action.value;
-                    break;
-                default:
-                    returnObj[action.idx][action.name] = action.value + "";
-            }
+            returnObj[action.idx][action.name] = action.value + "";
             return returnObj;
         } else if (action.type === 'addValue') {
             return [
@@ -68,6 +61,7 @@ export default function IndividualRequest() {
 
 
     const [studentState, dispatch] = useReducer(reducer, initialState);
+    const [showDateError, setShowDateError] = useState([false]);
 
     const { errors } = usePage().props;
     const { data, setData, post, processing, reset, transform } = useForm({
@@ -122,11 +116,23 @@ export default function IndividualRequest() {
                         idx: idx
                     });
                     break;
-
             }
         }
     }
+    const hasDateError = (idx: number) => {
+        let isShowing = [...showDateError];
+        if ((studentState[idx].day !== "" && (isNaN(+studentState[idx].day) || +studentState[idx].day < 1 || +studentState[idx].day > 31))
+            || (studentState[idx].month !== "" && (isNaN(+studentState[idx].month) || +studentState[idx].month < 1 || +studentState[idx].month > 12))
+            || (studentState[idx].year !== "" && (isNaN(+studentState[idx].year) || +studentState[idx].year < 1900 || +studentState[idx].year >= (new Date().getFullYear())))) {
+            isShowing[idx] = true;
+        } else {
+            isShowing[idx] = false;
+        }
+        console.log("Setting showDateError", showDateError[idx]);
+        setShowDateError(isShowing);
 
+
+    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -135,9 +141,10 @@ export default function IndividualRequest() {
             transformStudent.push({
                 firstname: firstname,
                 lastname: lastname,
-                dob: new Date(year, month - 1, day).toISOString().slice(0, 10)
+                dob: new Date(Number(year), Number(month) - 1, Number(day)).toISOString().slice(0, 10)
             });
         });
+        setData("studentDetails", transformStudent);
         transform((data) => ({
             ...data,
             studentDetails: transformStudent
@@ -193,49 +200,60 @@ export default function IndividualRequest() {
                                 </div>
                                 <div className="inline-flex flex-wrap items-start gap-2 md:flex-nowrap">
                                     <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
-                                    <div className="flex justify-start gap-2 basis-2/3">
-                                        <div className="flex flex-col items-start">
-                                            <label htmlFor={`day[${idx}]`}>Day (DD):</label>
-                                            <NumberInput
-                                                name="day"
-                                                id={`day[${idx}]`}
-                                                max={31}
-                                                value={+day}
-                                                className="w-24"
-                                                autoComplete="bday"
-                                                handleChange={(e) => handleComplexChange(idx, e)}
-                                                required
-                                            ></NumberInput>
+                                    <div className="flex flex-col">
+                                        <div className="flex justify-start gap-2 basis-2/3">
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`day[${idx}]`}>Day (DD):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="day"
+                                                    id={`day[${idx}]`}
+                                                    value={day}
+                                                    className="w-24"
+                                                    placeholder="DD"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
+
+                                            </div>
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`month[${idx}]`}>Month (MM):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="month"
+                                                    id={`month[${idx}]`}
+                                                    value={month}
+                                                    className="w-24"
+                                                    placeholder="MM"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
+                                            </div>
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`year[${idx}]`}>Year (YYYY):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="year"
+                                                    id={`year[${idx}]`}
+                                                    value={year}
+                                                    className="w-40"
+                                                    placeholder="YYYY"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col items-start">
-                                            <label htmlFor={`month[${idx}]`}>Month (MM):</label>
-                                            <NumberInput
-                                                name="month"
-                                                id={`month[${idx}]`}
-                                                max={12}
-                                                min={1}
-                                                value={+month}
-                                                className="w-24"
-                                                autoComplete="bday"
-                                                handleChange={(e) => handleComplexChange(idx, e)}
-                                                required
-                                            ></NumberInput>
-                                        </div>
-                                        <div className="flex flex-col items-start">
-                                            <label htmlFor={`year[${idx}]`}>Year (YYYY):</label>
-                                            <NumberInput
-                                                name="year"
-                                                id={`year[${idx}]`}
-                                                max={9999}
-                                                min={1900}
-                                                value={+year}
-                                                className="w-40"
-                                                autoComplete="bday"
-                                                handleChange={(e) => handleComplexChange(idx, e)}
-                                                required
-                                            ></NumberInput>
-                                        </div>
+                                        {showDateError && showDateError[idx] &&
+                                            <InputError message={"Please enter a valid date"} className="mt-2 bg-red-100" />
+                                        }
                                     </div>
+
                                 </div>
                             </div>
                         ))}
@@ -352,7 +370,7 @@ export default function IndividualRequest() {
                     </div>
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
-                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-1/3" processing={processing || (showDateError.filter((el) => el === true).length > 0)}>Request a Lesson</PrimaryButton>
                     </div>
                 </form>
             </div>

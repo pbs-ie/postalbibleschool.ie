@@ -1,4 +1,4 @@
-import { ChangeEventHandler, forwardRef, useEffect, useRef } from 'react';
+import { ChangeEventHandler, FocusEventHandler } from 'react';
 
 interface TextInput {
     type: string,
@@ -10,11 +10,12 @@ interface TextInput {
     required?: boolean | undefined,
     isFocused?: boolean | undefined,
     handleChange: ChangeEventHandler<HTMLElement>,
+    onBlur?: FocusEventHandler<HTMLElement>
     placeholder?: string,
     ariaLabelledBy?: string
 }
 
-export default function TextInput({ type = 'text', name, id, value, placeholder, ariaLabelledBy, className, autoComplete, required, handleChange }: TextInput) {
+export default function TextInput({ type = 'text', name, id, value, placeholder, ariaLabelledBy, className, autoComplete, required, handleChange, onBlur }: TextInput) {
 
     return (
         <input
@@ -30,6 +31,7 @@ export default function TextInput({ type = 'text', name, id, value, placeholder,
             autoComplete={autoComplete}
             required={required}
             onChange={(e) => handleChange(e)}
+            onBlur={onBlur}
             aria-labelledby={ariaLabelledBy}
         />
     );
