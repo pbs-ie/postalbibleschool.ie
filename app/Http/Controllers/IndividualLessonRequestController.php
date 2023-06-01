@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreIndividualRequest;
 use App\Models\IndividualRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -47,10 +46,32 @@ class IndividualLessonRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreIndividualRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->safe()->except(['studentDetails']);
-        $studentDetails = $request->safe()->only(['studentDetails']);
+        $rules = [
+            'studentDetails.*.firstname' => ['required', 'min:3', 'max:255'],
+            'studentDetails.*.lastname' => ['required', 'min:3', 'max:255'],
+            'studentDetails.*.dob' => ['required_with:studentDetails.*.firstname', 'date', 'after:1900-01-01', 'before:today'],
+            'email' => ['email'],
+            'phone' => [],
+            'address1' => ['required'],
+            'address2' => [],
+            'city' => ['required'],
+            'state' => [],
+            'postcode' => [],
+            'country' => ['required'],
+            'message' => []
+        ];
+
+        $validator = Validator::make($request->all(), $rules, [], [
+            'studentDetails.*.firstname' => "First Name",
+            'studentDetails.*.lastname' => "Last Name",
+            'studentDetails.*.dob' => "Date of Birth",
+            'address1' => "Address",
+        ]);
+
+        $validated = $validator->safe()->except(['studentDetails']);
+        $studentDetails = $validator->safe()->only(['studentDetails']);
 
         $computed = [];
         $numberOfStudents = count($studentDetails['studentDetails']);

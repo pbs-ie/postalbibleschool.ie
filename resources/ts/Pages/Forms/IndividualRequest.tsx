@@ -9,12 +9,15 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/inertia-react";
-import React, { FormEvent, useEffect, useReducer } from "react";
+import React, { FormEvent, useEffect, useReducer, useState } from "react";
+import InputError from "@/Components/Forms/InputError";
 
 export interface Student {
     firstname: string;
     lastname: string;
-    dob: string;
+    day: string;
+    month: string;
+    year: string;
 }
 
 export default function IndividualRequest() {
@@ -23,20 +26,23 @@ export default function IndividualRequest() {
     }
     interface ChangeAction extends Action {
         name: keyof Student;
-        value: string;
+        value: string | number;
         idx: number;
     }
 
     const initialState: Student[] = [{
         firstname: "",
         lastname: "",
-        dob: ""
+        day: "",
+        month: "",
+        year: ""
     }]
+
 
     const reducer = (state: Student[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
             let returnObj = [...state];
-            returnObj[action.idx][action.name] = action.value;
+            returnObj[action.idx][action.name] = action.value + "";
             return returnObj;
         } else if (action.type === 'addValue') {
             return [
@@ -55,9 +61,10 @@ export default function IndividualRequest() {
 
 
     const [studentState, dispatch] = useReducer(reducer, initialState);
+    const [showDateError, setShowDateError] = useState([false]);
 
     const { errors } = usePage().props;
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset, transform } = useForm({
         studentDetails: [{
             firstname: "",
             lastname: "",
@@ -73,6 +80,7 @@ export default function IndividualRequest() {
         country: "",
         message: ""
     });
+
 
     useEffect(() => {
         reset();
@@ -98,23 +106,52 @@ export default function IndividualRequest() {
             switch (event.target.name) {
                 case "firstname":
                 case "lastname":
-                case "dob":
+                case 'day':
+                case "month":
+                case "year":
                     dispatch({
                         type: "changeValue",
                         name: event.target.name,
                         value: event.target.value,
                         idx: idx
                     });
-                    setData("studentDetails", studentState);
-
+                    break;
             }
         }
+    }
+    const hasDateError = (idx: number) => {
+        let isShowing = [...showDateError];
+        if ((studentState[idx].day !== "" && (isNaN(+studentState[idx].day) || +studentState[idx].day < 1 || +studentState[idx].day > 31))
+            || (studentState[idx].month !== "" && (isNaN(+studentState[idx].month) || +studentState[idx].month < 1 || +studentState[idx].month > 12))
+            || (studentState[idx].year !== "" && (isNaN(+studentState[idx].year) || +studentState[idx].year < 1900 || +studentState[idx].year >= (new Date().getFullYear())))) {
+            isShowing[idx] = true;
+        } else {
+            isShowing[idx] = false;
+        }
+        console.log("Setting showDateError", showDateError[idx]);
+        setShowDateError(isShowing);
+
+
     }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let transformStudent: any = [];
+        studentState.forEach(({ firstname, lastname, day, month, year }) => {
+            transformStudent.push({
+                firstname: firstname,
+                lastname: lastname,
+                dob: new Date(Number(year), Number(month) - 1, Number(day)).toISOString().slice(0, 10)
+            });
+        });
+        setData("studentDetails", transformStudent);
+        transform((data) => ({
+            ...data,
+            studentDetails: transformStudent
+        }));
         post(route('request.individual'));
     }
+
     return (
         <WrapperLayout>
             <div className="px-4 py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
@@ -128,7 +165,7 @@ export default function IndividualRequest() {
                 <form aria-label="Individual lesson request form" name="individualForm" method="post" onSubmit={handleSubmit} className="max-w-screen-md mx-auto">
                     <h2 className="flex mb-4 text-lg font-bold">Student Details</h2>
                     <div className="flex flex-col gap-4 pb-3 mb-8 border-b border-gray-600">
-                        {studentState.map(({ firstname, lastname, dob }, idx) => (
+                        {studentState.map(({ firstname, lastname, day, month, year }, idx) => (
                             <div key={idx} className="flex flex-col gap-2 mb-2">
                                 <div className="flex gap-2">
                                     <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
@@ -161,22 +198,62 @@ export default function IndividualRequest() {
 
                                     </div>
                                 </div>
-                                <div className="inline-flex gap-2">
+                                <div className="inline-flex flex-wrap items-start gap-2 md:flex-nowrap">
                                     <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
+                                    <div className="flex flex-col">
+                                        <div className="flex justify-start gap-2 basis-2/3">
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`day[${idx}]`}>Day (DD):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="day"
+                                                    id={`day[${idx}]`}
+                                                    value={day}
+                                                    className="w-24"
+                                                    placeholder="DD"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
 
-                                    <input
-                                        type="text"
-                                        name="dob"
-                                        placeholder="Date of birth"
-                                        className="rounded basis-2/3"
-                                        id={`dob[${idx}]`}
-                                        onFocus={(e) => e.target.type = "date"}
-                                        onBlur={(e) => e.target.type = "text"}
-                                        onChange={(e) => handleComplexChange(idx, e)}
-                                        value={dob}
-                                        autoComplete="bday"
-                                        required
-                                    />
+                                            </div>
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`month[${idx}]`}>Month (MM):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="month"
+                                                    id={`month[${idx}]`}
+                                                    value={month}
+                                                    className="w-24"
+                                                    placeholder="MM"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
+                                            </div>
+                                            <div className="flex flex-col items-start">
+                                                <label htmlFor={`year[${idx}]`}>Year (YYYY):</label>
+                                                <TextInput
+                                                    type="text"
+                                                    name="year"
+                                                    id={`year[${idx}]`}
+                                                    value={year}
+                                                    className="w-40"
+                                                    placeholder="YYYY"
+                                                    autoComplete=""
+                                                    handleChange={(e) => handleComplexChange(idx, e)}
+                                                    onBlur={(e) => hasDateError(idx)}
+                                                    required
+                                                ></TextInput>
+                                            </div>
+                                        </div>
+                                        {showDateError && showDateError[idx] &&
+                                            <InputError message={"Please enter a valid date"} className="mt-2 bg-red-100" />
+                                        }
+                                    </div>
+
                                 </div>
                             </div>
                         ))}
@@ -190,7 +267,7 @@ export default function IndividualRequest() {
 
                         <InputLabel forInput="email" value="Email" required />
                         <TextInput
-                            type="text"
+                            type="email"
                             name="email"
                             id="email"
                             value={data.email}
@@ -293,7 +370,7 @@ export default function IndividualRequest() {
                     </div>
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
-                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-1/3" processing={processing || (showDateError.filter((el) => el === true).length > 0)}>Request a Lesson</PrimaryButton>
                     </div>
                 </form>
             </div>
