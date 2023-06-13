@@ -38,6 +38,8 @@ class AssemblyController extends Controller
     public function index()
     {
         $videoList = $this->getAssemblyList();
+        // Showing only the latest 2 months of videos to the user
+        $videoList = array_slice($videoList, -2, 2);
 
         return Inertia::render('Assembly/Index', [
             'videoList' => $videoList

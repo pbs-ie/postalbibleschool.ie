@@ -14,6 +14,13 @@
             "series": "B5",
             "title": "Parables",
             "routename": "b05"
+        },
+        {
+            "id": 1,
+            "month": "June",
+            "series": "B6",
+            "title": "Trust",
+            "routename": "b06"
         }
     ]
 }
