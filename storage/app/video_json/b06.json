@@ -1,0 +1,42 @@
+{
+    "title": "B6 - Trust - Life of Joseph",
+    "imageId": "b06",
+    "content": [
+        {
+            "id": 0,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=96739924-03cf-4ecb-b690-b020009e75a6&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Introduction",
+            "duration":"1 min"
+        },
+        {
+            "id": 1,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=e484e301-6501-4707-912d-b020009e9c4c&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Joseph's Story",
+            "duration":"4 min"
+        },
+        {
+            "id": 2,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=0d7c6ca0-b0f2-4a50-abbc-b020009eac1e&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Joseph and the Cupbearer",
+            "duration":"3 min"
+        },
+        {
+            "id": 3,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=ebd157ba-291b-403c-bc85-b020009eb5a6&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Quiz",
+            "duration":"4 min"
+        },
+        {
+            "id": 4,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=3b0c654d-25e6-41c5-96c7-b020009ec072&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Gladys Aylward",
+            "duration":"3 min"
+        },
+        {
+            "id": 5,
+            "externalUrl":"https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=f9802331-8cd5-4d2b-8d9d-b020009eebbf&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none" ,
+            "title":"Conclusion",
+            "duration":"1 min"
+        }
+    ]
+}
