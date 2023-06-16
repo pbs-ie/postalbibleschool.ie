@@ -56,6 +56,9 @@ declare global {
             auth: {
                 user: {
                     name: string;
+                    email: string;
+                    nickname: string;
+                    picture: string;
                 };
             };
             flash: {

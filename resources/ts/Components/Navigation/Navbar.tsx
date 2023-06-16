@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/inertia-react';
+import { Link, usePage } from '@inertiajs/inertia-react';
 
 import NavLink from '@/Components/Navigation/NavLink';
 import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
@@ -7,9 +7,12 @@ import DropdownNavLink from '@/Components/Navigation/DropdownNavLink';
 import LogoWhite from '@images/Logo-white.png';
 import { useState } from 'react';
 import DropdownNavWrapper from './DropdownNavWrapper';
+import AnchorNavLink from './AnchorNavLink';
 
 export default function Navbar() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
+    const { auth } = usePage<PassedProps>().props;
+
 
     return (
         <header className="text-white border-b-2 border-gray-800 bg-pbsblue">
@@ -23,6 +26,11 @@ export default function Navbar() {
                         </div>
 
                         <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                            {auth?.user &&
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                    Dashboard
+                                </NavLink>
+                            }
                             <NavLink href={route('about')} active={route().current('about')}>
                                 About Us
                             </NavLink>
@@ -82,6 +90,31 @@ export default function Navbar() {
                             <NavLink href={route('contactus')} active={route().current('contactus')}>
                                 Contact Us
                             </NavLink>
+                        </div>
+                        <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
+
+                            {auth?.user ?
+                                (<><AnchorNavLink href={route('logout')}>
+                                    <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                        <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
+                                    </svg>
+                                </AnchorNavLink>
+                                    <DropdownNavWrapper>
+                                        <li className='inline-flex'>
+                                            <AnchorNavLink isDropdown={true} href={route('logout')} >
+                                                Logout
+                                            </AnchorNavLink>
+                                        </li>
+                                    </DropdownNavWrapper></>)
+                                :
+                                (
+                                    <AnchorNavLink href={route('login')} >
+                                        Login
+                                    </AnchorNavLink>
+                                )
+                            }
+
                         </div>
                         <div className="flex items-center -mr-2 md:hidden">
                             <button

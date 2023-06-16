@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Auth0\Laravel\Facade\Auth0;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,13 +104,8 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
 });
 
 Route::get('/dashboard', function () {
+    if (!auth()->check()) {
+        return response('You are not logged in.');
+    }
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__ . '/auth.php';
+})->middleware(['auth'])->name('dashboard');
