@@ -102,10 +102,3 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
-
-Route::get('/dashboard', function () {
-    if (!auth()->check()) {
-        return response('You are not logged in.');
-    }
-    return Inertia::render('Dashboard');
-})->middleware(['auth'])->name('dashboard');
