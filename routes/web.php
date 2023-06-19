@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Auth0\Laravel\Facade\Auth0;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,15 +102,3 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__ . '/auth.php';

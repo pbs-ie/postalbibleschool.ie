@@ -87,3 +87,7 @@ export const getAlphabetFromNumber = function (num: number): string {
 export const getUpperCaseAlphabetFromNumber = (num: number): string => {
     return getAlphabetFromNumber(num).toUpperCase();
 }
+
+export const sortArrayById = (array: any[]) => array.sort((a, b) => a.id - b.id);
+
+export const getLastElementsOfArray = (array: any[], number: number) => array.slice(-1 * number);

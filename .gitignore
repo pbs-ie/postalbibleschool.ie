@@ -24,3 +24,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+### Auth0 JSON files ###
+.auth0.*.json

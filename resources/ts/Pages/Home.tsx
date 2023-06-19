@@ -3,7 +3,7 @@ import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/inertia-react";
 
 import LessonsImage from "@images/lessons/lessons-fan-english.jpg";
 import PrizegivingImage from "@images/events/prizegiving.jpg";
@@ -19,6 +19,7 @@ import ContactUsComponent from "@/Components/ContactUsComponent";
 import Heading2 from "@/Components/Typography/Heading2";
 import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import BannerComponent from "@/Components/BannerComponent";
 
 export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[] }): JSX.Element {
     try {
@@ -27,7 +28,9 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
         console.warn("Global links variable tried to reset");
     }
 
+    const { auth } = usePage<PassedProps>().props;
     const [currentAssembly, setCurrentAssembly] = useState(videoList[0]);
+    const [showBanner, setShowBanner] = useState(true);
 
 
 
@@ -48,6 +51,9 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                 <title>Home</title>
                 <meta head-key="description" name="description" content="Postal Bible School Ireland offers free Bible based study material for all ages" />
             </Head>
+            {auth?.user && showBanner &&
+                <BannerComponent setShowBanner={setShowBanner} />
+            }
             <section className="relative flex w-full">
                 <div className="flex py-10 justify-center align-center h-full flex-1 bg-center bg-no-repeat bg-cover bg-[url('/hero.jpg')] bg-slate-300 bg-blend-soft-light">
                     <div className="grid h-full w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 md:grid-cols-[1fr_1fr_20%]">
