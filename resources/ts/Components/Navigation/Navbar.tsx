@@ -5,6 +5,7 @@ import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
 import DropdownNavLink from '@/Components/Navigation/DropdownNavLink';
 
 import LogoWhite from '@images/Logo-white.png';
+import LogoSmall from '@images/logo-icon.png';
 import { useState } from 'react';
 import DropdownNavWrapper from './DropdownNavWrapper';
 import AnchorNavLink from './AnchorNavLink';
@@ -21,7 +22,12 @@ export default function Navbar() {
                     <div className="flex">
                         <div className="flex items-center shrink-0">
                             <Link href="/">
-                                <img src={LogoWhite} alt="Postal Bible School" className="h-10" />
+                                <img
+                                    srcSet={`${LogoSmall} 250w,${LogoWhite} 898w`}
+                                    sizes='(max-width: 600px) 250px, 898px'
+                                    alt="Postal Bible School Logo"
+                                    src={LogoSmall}
+                                    className="h-10" />
                             </Link>
                         </div>
 
