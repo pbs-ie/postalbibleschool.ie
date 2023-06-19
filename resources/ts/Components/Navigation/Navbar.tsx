@@ -36,7 +36,7 @@ export default function Navbar() {
                             </NavLink>
                         </div>
                         <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
-                            <NavLink href={route('courses')} active={route().current('courses') || route().current('request.*')}>
+                            <NavLink href={'#'} active={route().current('courses') || route().current('request.*')}>
                                 Courses
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                     <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
@@ -55,7 +55,7 @@ export default function Navbar() {
                             </DropdownNavWrapper>
                         </div>
                         <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
-                            <NavLink href={route('events.prizegivings')} active={route().current('events.*')}>
+                            <NavLink href={'#'} active={route().current('events.*')}>
                                 Events
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                     <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
@@ -94,7 +94,7 @@ export default function Navbar() {
                         <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
 
                             {auth?.user ?
-                                (<><AnchorNavLink href={route('logout')}>
+                                (<><AnchorNavLink href={'#'}>
                                     <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                         <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
@@ -102,7 +102,7 @@ export default function Navbar() {
                                 </AnchorNavLink>
                                     <DropdownNavWrapper>
                                         <li className='inline-flex'>
-                                            <AnchorNavLink isDropdown={true} href={route('logout')} >
+                                            <AnchorNavLink href={route('logout')} isDropdown>
                                                 Logout
                                             </AnchorNavLink>
                                         </li>
@@ -145,6 +145,11 @@ export default function Navbar() {
 
             <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                 <div className="pt-2 pb-3 space-y-1">
+                    {auth?.user &&
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                            Dashboard
+                        </ResponsiveNavLink>
+                    }
                     <ResponsiveNavLink href={route('about')} active={route().current('about')}>
                         About Us
                     </ResponsiveNavLink>
@@ -177,6 +182,15 @@ export default function Navbar() {
                         <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
                             Contact Us
                         </ResponsiveNavLink>
+                        {!auth?.user ?
+                            (<AnchorNavLink href={route('login')} isResponsive>
+                                Login
+                            </AnchorNavLink>)
+                            :
+                            (<AnchorNavLink href={route('login')} isResponsive>
+                                Logout
+                            </AnchorNavLink>)
+                        }
                     </div>
                 </div>
             </nav>

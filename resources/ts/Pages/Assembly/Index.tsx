@@ -2,17 +2,20 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Paragraph from "@/Components/Typography/Paragraph";
 import VideoHeroCard from "@/Components/Cards/VideoHeroCard";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/inertia-react";
+import { getLastElementsOfArray, sortArrayById } from "@/helper";
+import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 
 
 
 export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
+    const { auth } = usePage<PassedProps>().props;
 
 
     return (
         <WrapperLayout>
             <Head title="School Assembly" />
-            <section className="flex flex-col items-center px-10 my-20 sm:px-20">
+            <main className="flex flex-col items-center px-10 md:my-20 sm:px-20">
                 <div className="mb-5 md:max-w-4xl">
                     <Heading1Alt>School Assembly Videos</Heading1Alt>
                     <Paragraph>
@@ -22,14 +25,19 @@ export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
 
                 <div className="mx-auto">
                     <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
-                        {videoList.map((value, index) => (
+                        {getLastElementsOfArray(sortArrayById(videoList), 2).map((value, index) => (
                             <li key={index}>
                                 <VideoHeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={value.title === "" ? value.month : value.title} series={value.series} imageLink={value.routename} idx={value.id}></VideoHeroCard>
                             </li>
                         ))}
                     </ul>
                 </div>
-            </section>
+            </main>
+
+            {auth && auth.user &&
+                <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
+            }
+
         </WrapperLayout>
     )
 }

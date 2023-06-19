@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use stdClass;
+use Illuminate\Support\Arr;
+use Auth0\Laravel\Facade\Auth0;
+
 
 class AssemblyController extends Controller
 {
@@ -37,12 +40,18 @@ class AssemblyController extends Controller
 
     public function index()
     {
-        $videoList = $this->getAssemblyList();
-        // Showing only the latest 2 months of videos to the user
-        $videoList = array_slice($videoList, -2, 2);
+        $videoList = json_decode(json_encode($this->getAssemblyList()), true);
+        $sortedList = $videoList;
+        if (!auth()->check()) {
+            $sortedList = array_values(Arr::sort($videoList, function (array $value) {
+                return $value;
+            }));
+            // Showing only the latest 2 months of videos to unauthenticated user
+            $sortedList = array_slice($sortedList, -2, 2);
+        }
 
         return Inertia::render('Assembly/Index', [
-            'videoList' => $videoList
+            'videoList' => $sortedList
         ]);
     }
 
@@ -64,6 +73,12 @@ class AssemblyController extends Controller
         return Inertia::render('Assembly/Show', [
             'videoId' => $this->getCurrentYearChar(),
             'videoData' => $jsonContent
+        ]);
+    }
+    public function list()
+    {
+        return Inertia::render('Assembly/List', [
+            'videoList' => $this->getAssemblyList()
         ]);
     }
 
