@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\LessonOrderController;
 use App\Models\DownloadsList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -109,3 +110,7 @@ Route::get('/dashboard', function () {
     }
     return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::resource('orders', LessonOrderController::class)
+    ->parameter('orders', 'lessonOrder')
+    ->middleware(['auth']);

@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/inertia-react';
 import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { StrictMode } from 'react';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'PBS';
 
@@ -14,7 +15,11 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        root.render(
+            <StrictMode>
+                <App {...props} />
+            </StrictMode>
+        );
     },
 });
 

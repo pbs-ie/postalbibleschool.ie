@@ -18,7 +18,7 @@ export default function ContactUs() {
                         <Link href={"/assembly"}>
                             <PrimaryButton>Assembly Videos</PrimaryButton>
                         </Link>
-                        <Link href={"/order/edit"}>
+                        <Link href={"/orders"}>
                             <PrimaryButton>Order Form</PrimaryButton>
                         </Link>
                     </div>

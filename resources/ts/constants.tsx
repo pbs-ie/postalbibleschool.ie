@@ -75,6 +75,19 @@ declare global {
         routename: string,
         imageLink: string
     }
+
+    interface LessonOrder {
+        id: number;
+        email: string;
+        schoolName: string;
+        level0Order: number;
+        level1Order: number;
+        level2Order: number;
+        level3Order: number;
+        level4Order: number;
+        tlpOrder: number;
+    }
+
 }
 
 interface LevelsDescription {
