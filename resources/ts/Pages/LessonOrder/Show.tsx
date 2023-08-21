@@ -4,10 +4,9 @@ import TextPillDiv from "@/Components/Typography/TextPillDiv";
 import LabelSpan from "@/Components/Typography/LabelSpan";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/inertia-react";
 
-export default function Edit({ lessonOrder }: { lessonOrder: LessonOrder }) {
-    const { auth } = usePage<PassedProps>().props;
+export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, lessonOrder: LessonOrder }) {
 
     return (
         <WrapperLayout>
@@ -15,12 +14,12 @@ export default function Edit({ lessonOrder }: { lessonOrder: LessonOrder }) {
                 <div className="px-2 py-5 text-left border md:px-10 w-fit">
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
                     <div className="block mb-6 text-left">
-                        <LabelSpan>Email</LabelSpan>
-                        <TextPillDiv className="w-80">{lessonOrder.email}</TextPillDiv>
+                        <LabelSpan className="font-bold">Email</LabelSpan>
+                        <span className="w-80">{lessonOrder.email}</span>
                     </div>
                     <div className="block mb-6 text-left">
-                        <LabelSpan>School Name</LabelSpan>
-                        <TextPillDiv className="w-80">{lessonOrder.schoolName}</TextPillDiv>
+                        <LabelSpan className="font-bold">School Name</LabelSpan>
+                        <span className="w-80">{lessonOrder.schoolName}</span>
                     </div>
 
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Lesson Order Numbers</h2>
@@ -46,15 +45,21 @@ export default function Edit({ lessonOrder }: { lessonOrder: LessonOrder }) {
                             <LabelSpan>Level 4</LabelSpan>
                             <TextPillDiv className="w-24">{lessonOrder.level4Order}</TextPillDiv>
                         </div>
-                    </div>
-                    <div className="block mb-6 text-left">
-                        <LabelSpan>TLP</LabelSpan>
-                        <TextPillDiv className="w-24">{lessonOrder.tlpOrder}</TextPillDiv>
+                        <div className="block mb-6 text-left">
+                            <LabelSpan>Teacher Lesson Plan</LabelSpan>
+                            <TextPillDiv className="w-24">{lessonOrder.tlpOrder}</TextPillDiv>
+                        </div>
                     </div>
 
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <SecondaryButton><Link href="/orders">Back</Link></SecondaryButton>
+                        {isAdmin &&
+                            <SecondaryButton><Link href="/orders">Back</Link></SecondaryButton>
+                        }
+                        {
+                            !isAdmin &&
+                            <SecondaryButton><Link href="/">Back</Link></SecondaryButton>
+                        }
                         <Link className="w-52" href={"/orders/" + lessonOrder.id + "/edit"}><PrimaryButton className="w-full">Edit</PrimaryButton></Link>
                     </div>
 

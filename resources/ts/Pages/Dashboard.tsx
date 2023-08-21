@@ -3,7 +3,7 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Link, usePage } from "@inertiajs/inertia-react";
 
-export default function ContactUs() {
+export default function Dashboard() {
     const { auth } = usePage<PassedProps>().props;
 
     return (

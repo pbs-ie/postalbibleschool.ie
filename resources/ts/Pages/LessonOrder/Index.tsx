@@ -4,11 +4,10 @@ import ListingTable from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Inertia } from "@inertiajs/inertia";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/inertia-react";
 import { useState } from "react";
 
-export default function Edit({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
-    const { auth } = usePage<PassedProps>().props;
+export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
 

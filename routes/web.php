@@ -7,6 +7,7 @@ use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Models\DownloadsList;
+use App\Models\LessonOrder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -23,6 +24,10 @@ use Auth0\Laravel\Facade\Auth0;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/scope', function () {
+    return response('You have `read:messages` permission, and can therefore access this resource.');
+})->middleware('auth')->can('read:messages');
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -111,6 +116,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('orders', LessonOrderController::class)
-    ->parameter('orders', 'lessonOrder')
-    ->middleware(['auth']);
+Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
+    Route::get('/', [LessonOrderController::class, 'index'])->name('index');
+    Route::post('/', [LessonOrderController::class, 'store'])->name('store')->middleware(['admin']);
+    Route::get('/create', [LessonOrderController::class, 'create'])->name('create')->middleware(['admin']);
+    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
+    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
+    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
+    Route::delete('/{lessonOrder}', [LessonOrderController::class, 'destroy'])->name('destroy')->middleware(['admin']);
+});
