@@ -32,6 +32,11 @@ export default function Navbar() {
                         </div>
 
                         <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                            {auth?.user &&
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                    Dashboard
+                                </NavLink>
+                            }
                             <NavLink href={route('about')} active={route().current('about')}>
                                 About Us
                             </NavLink>
@@ -146,6 +151,11 @@ export default function Navbar() {
 
             <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                 <div className="pt-2 pb-3 space-y-1">
+                    {auth?.user &&
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                            Dashboard
+                        </ResponsiveNavLink>
+                    }
                     <ResponsiveNavLink href={route('about')} active={route().current('about')}>
                         About Us
                     </ResponsiveNavLink>
@@ -183,7 +193,7 @@ export default function Navbar() {
                                 Login
                             </AnchorNavLink>)
                             :
-                            (<AnchorNavLink href={route('login')} isResponsive>
+                            (<AnchorNavLink href={route('logout')} isResponsive>
                                 Logout
                             </AnchorNavLink>)
                         }
