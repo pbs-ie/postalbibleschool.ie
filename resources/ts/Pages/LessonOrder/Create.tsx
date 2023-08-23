@@ -55,7 +55,7 @@ export default function Create() {
                     }
                     )
                 }
-                <div className="flex flex-col items-start gap-4 px-10 py-5 border border-red-500">
+                <div className="flex flex-col items-start gap-4 px-10 py-5 border">
                     <form method="post" onSubmit={handleSubmit} className="text-left min-w-screen-md">
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
                         <div className="block mb-6">

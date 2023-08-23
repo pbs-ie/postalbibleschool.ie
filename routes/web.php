@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth0\Laravel\Facade\Auth0;
+use Illuminate\Support\Facades\Gate;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,6 @@ use Auth0\Laravel\Facade\Auth0;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/scope', function () {
-    return response('You have `read:messages` permission, and can therefore access this resource.');
-})->middleware('auth')->can('read:messages');
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -113,15 +110,18 @@ Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return response('You are not logged in.');
     }
-    return Inertia::render('Dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return Inertia::render('Dashboard', [
+        'canViewAssembly' => Gate::check('view:assembly'),
+
+    ]);
+})->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
-    Route::get('/', [LessonOrderController::class, 'index'])->name('index');
-    Route::post('/', [LessonOrderController::class, 'store'])->name('store')->middleware(['admin']);
-    Route::get('/create', [LessonOrderController::class, 'create'])->name('create')->middleware(['admin']);
-    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
-    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
-    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
-    Route::delete('/{lessonOrder}', [LessonOrderController::class, 'destroy'])->name('destroy')->middleware(['admin']);
+    Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
+    Route::post('/', [LessonOrderController::class, 'store'])->name('store')->can('create:orders');
+    Route::get('/create', [LessonOrderController::class, 'create'])->name('create')->can('create:orders');
+    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show')->can('view:orders');
+    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
+    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
+    Route::delete('/{lessonOrder}', [LessonOrderController::class, 'destroy'])->name('destroy')->can('create:orders');
 });

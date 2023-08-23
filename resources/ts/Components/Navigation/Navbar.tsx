@@ -193,7 +193,7 @@ export default function Navbar() {
                                 Login
                             </AnchorNavLink>)
                             :
-                            (<AnchorNavLink href={route('login')} isResponsive>
+                            (<AnchorNavLink href={route('logout')} isResponsive>
                                 Logout
                             </AnchorNavLink>)
                         }
