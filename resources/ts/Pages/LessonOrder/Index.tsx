@@ -1,5 +1,8 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import DialogCard from "@/Components/Cards/DialogCard";
+import DeleteIcon from "@/Components/Icons/DeleteIcon";
+import EditIcon from "@/Components/Icons/EditIcon";
+import ViewIcon from "@/Components/Icons/ViewIcon";
 import ListingTable from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -35,11 +38,11 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             <>
                 <th className="w-1/12 p-4 min-w-[50px]">#</th>
                 <th className="w-3/12 p-4 min-w-[100px]">School Name</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 0</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 1</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 2</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 3</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 4</th>
+                <th className="w-1/12 p-4 min-w-[50px] text-white bg-bibletime-pink">Level 0</th>
+                <th className="w-1/12 p-4 min-w-[50px] text-white bg-bibletime-orange">Level 1</th>
+                <th className="w-1/12 p-4 min-w-[50px] text-white bg-bibletime-red">Level 2</th>
+                <th className="w-1/12 p-4 min-w-[50px] text-white bg-bibletime-green">Level 3</th>
+                <th className="w-1/12 p-4 min-w-[50px] text-white bg-bibletime-blue">Level 4</th>
                 <th className="w-1/12 p-4 min-w-[50px]">TLP </th>
                 <th className="w-1/12 p-4 min-w-[50px]"></th>
             </>,
@@ -55,9 +58,9 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                     <td className="p-4">{order.level4Order}</td>
                     <td className="p-4">{order.tlpOrder}</td>
                     <td className="flex gap-2 p-4">
-                        <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + order.id + "/edit"}>Edit</Link>
-                        <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + order.id}>View</Link>
-                        <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(order.id)}>Delete</button>
+                        <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + order.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
+                        <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + order.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                        <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(order.id)}><DeleteIcon className="w-6 h-6" /> Delete</button>
                     </td >
                 </>)
     }
