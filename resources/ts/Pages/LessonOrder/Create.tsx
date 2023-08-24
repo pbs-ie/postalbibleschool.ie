@@ -58,13 +58,18 @@ export default function Create() {
                 <div className="flex flex-col items-start gap-4 px-10 py-5 border">
                     <form method="post" onSubmit={handleSubmit} className="text-left min-w-screen-md">
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
-                        <div className="block mb-6">
+                        <div className="block mb-4">
                             <InputLabel2 forInput={"email"} value={"email"} required></InputLabel2>
                             <TextInput type={"email"} name={"email"} id={"email"} value={data.email} className={""} autoComplete={"email"} handleChange={handleChange} required />
                         </div>
-                        <div className="block mb-6">
+                        <div className="block mb-4">
                             <InputLabel2 forInput={"schoolName"} value={"School Name"} required />
                             <TextInput type={"text"} name={"schoolName"} id={"schoolName"} value={data.schoolName} className={""} autoComplete={"off"} handleChange={handleChange} required />
+                        </div>
+                        <div className="block mb-4">
+                            <InputLabel2 forInput={"tlpOrder"} value="Teacher Lesson Plans" />
+                            <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} />
+
                         </div>
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Lesson Order Numbers</h2>
                         <div className="flex flex-wrap gap-4 mb-4">
@@ -93,8 +98,7 @@ export default function Create() {
                                 <NumberInput name={"level4Order"} id={"level4Order"} value={data.level4Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                             </div>
                         </div>
-                        <InputLabel2 forInput={"tlpOrder"} value="Teacher Lesson Plans" />
-                        <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} />
+
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                             <SecondaryButton><Link href="/orders">Cancel</Link></SecondaryButton>
                             <PrimaryButton type="submit" className="w-1/3" processing={processing}>Create</PrimaryButton>
