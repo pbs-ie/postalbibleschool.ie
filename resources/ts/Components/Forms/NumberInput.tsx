@@ -6,7 +6,7 @@ interface NumberInput {
     value: number;
     min?: number;
     max?: number;
-    className: string;
+    className?: string;
     autoComplete: string;
     required?: boolean | undefined;
     isFocused?: boolean | undefined;
