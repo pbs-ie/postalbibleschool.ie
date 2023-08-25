@@ -6,6 +6,9 @@ use App\Http\Middleware\CheckIfAdmin;
 use App\Models\LessonOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Mail\OrderChanged;
+use Illuminate\Support\Facades\Mail;
+
 
 
 class LessonOrderController extends Controller
@@ -14,6 +17,7 @@ class LessonOrderController extends Controller
     /**
      * Create the controller instance.
      */
+    // TODO: Create a guard that checks edit and viewing for valid entry or admin privilege
     // public function __construct()
     // {
     //     $this->authorizeResource(LessonOrder::class, null);
@@ -32,7 +36,7 @@ class LessonOrderController extends Controller
         } else {
             $userLesson = $this->getCurrentUserOrder();
             if (!isset($userLesson)) {
-                return abort(403);
+                return Inertia::render('LessonOrder/NotFound', [], 404);
             }
             return redirect()->route('orders.show', $userLesson->id);
         }
@@ -81,12 +85,7 @@ class LessonOrderController extends Controller
      */
     public function show(LessonOrder $lessonOrder)
     {
-        if ($this->checkIfAdmin())
-            return Inertia::render('LessonOrder/Show', [
-                'isAdmin' => $this->checkIfAdmin(),
-                'lessonOrder' => $lessonOrder
-            ]);
-        if ($this->getCurrentUserOrder()->id !== $lessonOrder->id) {
+        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
             return abort(404);
         }
 
@@ -104,6 +103,10 @@ class LessonOrderController extends Controller
      */
     public function edit(LessonOrder $lessonOrder)
     {
+        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+            return abort(404);
+        }
+
         return Inertia::render('LessonOrder/Edit', [
             'lessonOrder' => $lessonOrder,
             'isAdmin' => $this->checkIfAdmin()
@@ -119,6 +122,10 @@ class LessonOrderController extends Controller
      */
     public function update(Request $request, LessonOrder $lessonOrder)
     {
+        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+            return abort(404);
+        }
+
         if ($this->checkIfAdmin()) {
             $validated = $request->validate([
                 'schoolName' => ['required', 'max:50', 'min:3'],
@@ -141,7 +148,11 @@ class LessonOrderController extends Controller
             ]);
         }
 
+        $oldOrder = LessonOrder::find($lessonOrder->id);
         $lessonOrder->updateOrFail($validated);
+        
+        // Send mail to admin
+        Mail::to(env('MAIL_CONTACT_ADDRESS'))->queue(new OrderChanged($oldOrder, $lessonOrder));
 
         // Redirect the user
         return redirect('/orders')->with('success', "Updated order for school successfully");
@@ -155,10 +166,15 @@ class LessonOrderController extends Controller
      */
     public function destroy(LessonOrder $lessonOrder)
     {
+        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+            return abort(404);
+        }
+
         $lessonOrder->delete();
         return redirect('/orders')->with('success', "School entry deleted successfully");
     }
 
+    // TODO: Change to check Auth0 roles for admin
     function checkIfAdmin()
     {
         return (auth()?->user()?->email === "info@postalbibleschool.ie");
