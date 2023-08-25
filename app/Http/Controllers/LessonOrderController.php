@@ -147,8 +147,8 @@ class LessonOrderController extends Controller
                 'tlpOrder' => ['numeric', 'max_digits:3']
             ]);
         }
+        $oldOrder = clone LessonOrder::find($lessonOrder->id);
 
-        $oldOrder = LessonOrder::find($lessonOrder->id);
         $lessonOrder->updateOrFail($validated);
         
         // Send mail to admin
