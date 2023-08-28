@@ -149,10 +149,13 @@ class LessonOrderController extends Controller
         }
         $oldOrder = clone LessonOrder::find($lessonOrder->id);
 
-        $lessonOrder->updateOrFail($validated);
+        $oldOrder = $lessonOrder->replicate();
         
+        $lessonOrder->updateOrFail($validated);
+        $lessonOrder->refresh();
+
         // Send mail to admin
-        Mail::to(env('MAIL_CONTACT_ADDRESS'))->queue(new OrderChanged($oldOrder, $lessonOrder));
+        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new OrderChanged($oldOrder, $lessonOrder));
 
         // Redirect the user
         return redirect('/orders')->with('success', "Updated order for school successfully");
