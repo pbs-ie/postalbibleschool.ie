@@ -147,6 +147,7 @@ class LessonOrderController extends Controller
                 'tlpOrder' => ['numeric', 'max_digits:3']
             ]);
         }
+        $oldOrder = clone LessonOrder::find($lessonOrder->id);
 
         $oldOrder = $lessonOrder->replicate();
         

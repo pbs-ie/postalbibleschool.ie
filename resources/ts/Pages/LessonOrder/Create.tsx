@@ -68,34 +68,34 @@ export default function Create() {
                         </div>
                         <div className="block mb-4">
                             <InputLabel2 forInput={"tlpOrder"} value="Teacher Lesson Plans" />
-                            <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} />
+                            <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} required/>
 
                         </div>
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Lesson Order Numbers</h2>
                         <div className="flex flex-wrap gap-4 mb-4">
                             <div>
                                 <InputLabel2 forInput={"level0Order"} value={"Level 0"} />
-                                <NumberInput name={"level0Order"} id={"level0Order"} value={data.level0Order} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                <NumberInput name={"level0Order"} id={"level0Order"} value={data.level0Order} className={""} autoComplete={"off"} handleChange={handleChange} required/>
                             </div>
 
                             <div>
                                 <InputLabel2 forInput={"level1Order"} value={"Level 1"} />
-                                <NumberInput name={"level1Order"} id={"level1Order"} value={data.level1Order} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                <NumberInput name={"level1Order"} id={"level1Order"} value={data.level1Order} className={""} autoComplete={"off"} handleChange={handleChange} required/>
                             </div>
 
                             <div>
                                 <InputLabel2 forInput={"level2Order"} value={"Level 2"} />
-                                <NumberInput name={"level2Order"} id={"level2Order"} value={data.level2Order} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                <NumberInput name={"level2Order"} id={"level2Order"} value={data.level2Order} className={""} autoComplete={"off"} handleChange={handleChange} required/>
                             </div>
 
                             <div>
                                 <InputLabel2 forInput={"level3Order"} value={"Level 3"} />
-                                <NumberInput name={"level3Order"} id={"level3Order"} value={data.level3Order} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                <NumberInput name={"level3Order"} id={"level3Order"} value={data.level3Order} className={""} autoComplete={"off"} handleChange={handleChange} required/>
                             </div>
 
                             <div>
                                 <InputLabel2 forInput={"level4Order"} value={"Level 4"} />
-                                <NumberInput name={"level4Order"} id={"level4Order"} value={data.level4Order} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                <NumberInput name={"level4Order"} id={"level4Order"} value={data.level4Order} className={""} autoComplete={"off"} handleChange={handleChange} required/>
                             </div>
                         </div>
 
