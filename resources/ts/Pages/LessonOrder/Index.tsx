@@ -1,9 +1,9 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import DialogCard from "@/Components/Cards/DialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
 import ViewIcon from "@/Components/Icons/ViewIcon";
-import ListingTable from "@/Components/Tables/ListingTable";
+import ModalComponent from "@/Components/ModalComponent";
+import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Inertia } from "@inertiajs/inertia";
@@ -33,7 +33,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         setToggleModal(false);
     }
 
-    const tableData = {
+    const tableData:TableData = {
         'headings':
             <>
                 <th className="w-1/12 p-4 min-w-[50px]">#</th>
@@ -68,9 +68,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
     return (
         <WrapperLayout>
             {toggleModal &&
-                <div className="fixed top-0 flex items-center justify-center w-screen h-screen overflow-auto bg-black bg-opacity-50 overscroll-none backdrop-blur">
-                    <DialogCard onClose={handleOnClose} onSubmit={handleSubmit}></DialogCard>
-                </div>
+                <ModalComponent message="Are you sure you want to delete this school?" handleOnClose={handleOnClose} handleSubmit={handleSubmit} />
             }
             <ContentWrapper title="Monthly Lesson Order">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">

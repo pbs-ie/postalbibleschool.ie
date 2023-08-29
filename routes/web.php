@@ -102,7 +102,13 @@ Route::get('/about', function () {
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/', [AssemblyController::class, 'index'])->name('index');
+    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin');
+    Route::post('/', [AssemblyController::class, 'store'])->name('store');
+    Route::get('/create', [AssemblyController::class, 'create'])->name('create');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
+    Route::get('/{series}/edit', [AssemblyController::class, 'edit'])->name('edit');
+    Route::put('/{series}', [AssemblyController::class, 'update'])->name('update');
+    Route::delete('/{series}', [AssemblyController::class, 'destroy'])->name('destroy');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
 Route::get('/dashboard', function () {

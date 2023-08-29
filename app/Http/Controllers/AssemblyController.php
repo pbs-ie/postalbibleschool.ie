@@ -38,6 +38,11 @@ class AssemblyController extends Controller
         return $updatedContent;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $videoList = json_decode(json_encode($this->getAssemblyList()), true);
@@ -49,13 +54,44 @@ class AssemblyController extends Controller
             // Showing only the latest 2 months of videos to unauthenticated user
             $sortedList = array_slice($sortedList, -2, 2);
         }
-
+        
+        // TODO: Admin check for creation functionality 
         return Inertia::render('Assembly/Index', [
-            'videoList' => $sortedList
+            'videoList' => $sortedList,
+            'isAdmin' => true
         ]);
     }
 
-    public function show($series)
+    /**
+     * Display admin panel for the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function admin()
+    {
+        $videoList = json_decode(json_encode($this->getAssemblyList()), true);
+        return Inertia::render('Assembly/Admin', [
+            'videoList' => $videoList
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  string  $series
+     * @return \Illuminate\Http\Response
+     */
+    public function show(string $series)
     {
         $jsonContent = new stdClass();
 
@@ -75,6 +111,41 @@ class AssemblyController extends Controller
             'videoData' => $jsonContent
         ]);
     }
+    
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  string $series
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(string $series)
+    {
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $series
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, string $series)
+    {
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string $series
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(string $series)
+    {
+    }
+
+
+
     public function list()
     {
         return Inertia::render('Assembly/List', [
