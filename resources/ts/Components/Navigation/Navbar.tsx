@@ -17,11 +17,11 @@ export default function Navbar() {
 
     return (
         <header className="text-white border-b-2 border-gray-800 bg-pbsblue">
-            <nav className="px-4 mx-auto max-w-7xl md:px-6 lg:px-8">
+            <nav className="px-4 mx-auto max-w-7xl">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="flex items-center shrink-0">
-                            <Link href="/">
+                            <Link href="/home">
                                 <img
                                     srcSet={`${LogoSmall} 250w,${LogoWhite} 898w`}
                                     sizes='(max-width: 600px) 250px, 898px'
@@ -33,10 +33,13 @@ export default function Navbar() {
 
                         <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             {auth?.user &&
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink isCta href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
                             }
+                            <NavLink href={route('home')} active={route().current('home')}>
+                                Home
+                            </NavLink>
                             <NavLink href={route('about')} active={route().current('about')}>
                                 About Us
                             </NavLink>
