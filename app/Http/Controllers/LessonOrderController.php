@@ -147,15 +147,23 @@ class LessonOrderController extends Controller
                 'tlpOrder' => ['numeric', 'max_digits:3']
             ]);
         }
-        $oldOrder = clone LessonOrder::find($lessonOrder->id);
 
+        $orderNumbersChanged = false;
         $oldOrder = $lessonOrder->replicate();
         
-        $lessonOrder->updateOrFail($validated);
+        $lessonOrder->fill($validated);
+
+        if($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
+            $orderNumbersChanged = true;
+        }
+
+        $lessonOrder->save();
         $lessonOrder->refresh();
 
-        // Send mail to admin
-        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new OrderChanged($oldOrder, $lessonOrder));
+        if ($orderNumbersChanged) {
+            // Send mail to admin
+            Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new OrderChanged($oldOrder, $lessonOrder));
+        }
 
         // Redirect the user
         return redirect('/orders')->with('success', "Updated order for school successfully");
