@@ -56,7 +56,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
             }
             <section className="relative flex w-full">
                 <div className="flex py-10 justify-center align-center h-full flex-1 bg-center bg-no-repeat bg-cover bg-[url('/hero.jpg')] bg-slate-300 bg-blend-soft-light">
-                    <div className="grid h-full w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 md:grid-cols-[1fr_1fr_20%]">
+                    <div className="grid h-full w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 lg:grid-cols-[1fr_1fr_20%]">
                         <div className="bg-white bg-clip-content md:col-span-2 md:row-span-2">
                             <LandingCards
                                 heading="School Study Materials"
@@ -65,21 +65,19 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                                 buttonLink={route('courses')}
                                 image={LessonsImage}
                                 className="border-4"
+                                primary
                             />
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading={<p>Summer Camp 2023</p>}
-                                content="Registrations are now active!"
-                                buttonText="Register"
-                                buttonLink={route('events.camp.signup')}
+                                heading={<p>Camp Reunion</p>}
+                                content="Additional information coming soon!"
                                 className="border-4"
-                                showNewBanner={true}
                             />
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="New School Assembly Video"
+                                heading="School Assembly Video"
                                 content="is now available for June 2023"
                                 buttonText="Show Me"
                                 buttonLink={route('assembly.index')}

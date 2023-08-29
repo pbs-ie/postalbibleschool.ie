@@ -31,7 +31,7 @@ export default function Navbar() {
                             </Link>
                         </div>
 
-                        <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                        <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             {auth?.user &&
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
@@ -41,7 +41,7 @@ export default function Navbar() {
                                 About Us
                             </NavLink>
                         </div>
-                        <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
+                        <div className="relative hidden space-x-8 group lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={'#'} active={route().current('courses') || route().current('request.*')}>
                                 Courses
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -60,7 +60,7 @@ export default function Navbar() {
                                 </DropdownNavLink></li>
                             </DropdownNavWrapper>
                         </div>
-                        <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
+                        <div className="relative hidden space-x-8 group lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={'#'} active={route().current('events.*')}>
                                 Events
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -85,19 +85,19 @@ export default function Navbar() {
                                 </DropdownNavLink></li>
                             </DropdownNavWrapper>
                         </div>
-                        <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                        <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={route('assembly.index')} active={route().current('assembly.*')}>
                                 School Assembly
                             </NavLink>
                         </div>
                     </div>
                     <div className="flex justify-between h-16">
-                        <div className="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                        <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={route('contactus')} active={route().current('contactus')}>
                                 Contact Us
                             </NavLink>
                         </div>
-                        <div className="relative hidden space-x-8 group md:-my-px md:ml-10 md:flex">
+                        <div className="relative hidden space-x-8 group lg:-my-px lg:ml-10 lg:flex">
 
                             {auth?.user ?
                                 (<><AnchorNavLink href={'#'}>
@@ -122,7 +122,7 @@ export default function Navbar() {
                             }
 
                         </div>
-                        <div className="flex items-center -mr-2 md:hidden">
+                        <div className="flex items-center -mr-2 lg:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
@@ -149,7 +149,7 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' md:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
+            <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' lg:hidden transition-[transform,opacity] duration-1000 ease-in-out'}>
                 <div className="pt-2 pb-3 space-y-1">
                     {auth?.user &&
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
