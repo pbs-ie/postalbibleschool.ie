@@ -76,7 +76,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex justify-between w-full mb-2">
                         <h2 className="p-0 text-xl font-bold text-black">View Schools</h2>
-                        <PrimaryButton className="w-52"><Link href={"/orders/create"}>Add school</Link></PrimaryButton>
+                        <Link href={"/orders/create"}><PrimaryButton className="w-52">Add school</PrimaryButton></Link>
 
                     </div>
                     <div className="w-full overflow-x-auto">

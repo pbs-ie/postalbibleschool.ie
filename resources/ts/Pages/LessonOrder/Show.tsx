@@ -23,11 +23,11 @@ export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, less
                         <OrderInfoCard schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
                         <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
                             {isAdmin &&
-                                <SecondaryButton><Link href="/orders">Back</Link></SecondaryButton>
+                                <Link href="/orders"><SecondaryButton>Back</SecondaryButton></Link>
                             }
                             {
                                 !isAdmin &&
-                                <SecondaryButton><Link href="/">Back</Link></SecondaryButton>
+                                <Link href="/"><SecondaryButton>Back</SecondaryButton></Link>
                             }
                             <Link className="w-1/3" href={"/orders/" + lessonOrder.id + "/edit"}><PrimaryButton className="w-full">Edit</PrimaryButton></Link>
                         </div>
