@@ -27,11 +27,15 @@ use Illuminate\Support\Facades\Gate;
 */
 
 Route::get('/', function () {
+    return redirect()->route('home');
+})->middleware(['guest']);
+
+Route::get('/home', function() {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'videoList' => (new AssemblyController)->getAssemblyList(),
     ]);
-});
+})->name('home');
 
 // Show Contact Us Form
 Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');

@@ -100,7 +100,7 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                            <SecondaryButton><Link href="/orders">Cancel</Link></SecondaryButton>
+                            <Link href="/orders"><SecondaryButton>Cancel</SecondaryButton></Link>
                             <PrimaryButton type="submit" className="w-1/3" processing={processing}>Create</PrimaryButton>
                         </div>
                     </form>
