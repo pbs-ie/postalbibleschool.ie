@@ -4,43 +4,43 @@
     "content": [
         {
             "id": 0,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=b6af5ce3-254e-48e8-b96b-afc5010eedda&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792356?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Introduction",
             "duration": "3 min"
         },
         {
             "id": 1,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=c6ccbf2c-6246-41fa-9281-afc50110a886&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792436?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Mary and Martha",
             "duration": "1 min"
         },
         {
             "id": 2,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=b7c20730-2347-43ce-a391-afc50110bd40&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792477?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Quiz",
             "duration": "2 min"
         },
         {
             "id": 3,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=a14f449b-9b11-4019-abcd-afc50110d22b&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792509?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Lazarus",
             "duration": "2 min"
         },
         {
             "id": 4,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=5bebaa7a-9350-46c8-a355-afc50110f031&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792534?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Story: Corrie and Betsie",
             "duration": "2 min"
         },
         {
             "id": 5,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=918fb3cf-3667-4914-8730-afc501110ef2&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792593?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Memory Verse",
             "duration": "1 min"
         },
         {
             "id": 6,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=38864f7c-945f-4a4e-b36e-afc501111f83&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792638?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Conclusion",
             "duration": "1 min"
         }
