@@ -4,43 +4,43 @@
     "content": [
         {
             "id": 0,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=983563e6-3eb4-4d53-b70d-afa300adea80&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840791896?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Introduction",
             "duration": "2 min"
         },
         {
             "id": 1,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=f529e560-e22a-4df2-af16-afa300ae9beb&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840791957?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Water Into Wine",
             "duration": "2 min"
         },
         {
             "id": 2,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=36757174-0481-44d8-bb5e-afa300aee24d&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792021?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Memory Verse",
             "duration": "1 min"
         },
         {
             "id": 3,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=05baee32-c26e-4f69-96db-afa300af0532&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792048?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Healing",
             "duration": "4 min"
         },
         {
             "id": 4,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=f348762a-0e2e-4226-a2a0-afa300af17a9&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792123?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Quiz",
             "duration": "1 min"
         },
         {
             "id": 5,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=c04cb683-d9fc-4b10-8802-afa300af234f&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792156?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Brother Andrew",
             "duration": "2 min"
         },
         {
             "id": 6,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=92f50151-b09d-46a9-8da0-afa300af2cf0&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792265?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title": "Conclusion",
             "duration": "2 min"
         }
