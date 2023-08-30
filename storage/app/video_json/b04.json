@@ -4,43 +4,43 @@
     "content": [
         {
             "id": 0,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=ac5f2abb-3d5b-4a52-aba1-afe700d245f4&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792791?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Introduction",
             "duration": "1 min"
         },
         {
             "id": 1,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=6c3eee45-a83a-417f-9b02-afe700d25b44&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792842?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Life of Jesus",
             "duration": "2 min"
         },
         {
             "id": 2,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=a2e7d0a7-2b07-415c-b9c3-afe700d25fbb&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840792896?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Story - Bartimaeus and Simon",
             "duration": "4 min"
         },
         {
             "id": 3,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=da066424-8570-4e0a-be65-afe700d24d3c&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840793022?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Story of the Cross",
             "duration": "4 min"
         },
         {
             "id": 4,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=a79ab03c-6bf5-407f-9ce7-afe700d266b9&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840793069?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Resurrection",
             "duration": "3 min"
         },
         {
             "id": 5,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=89ab2b0f-ee9d-4316-9464-afe700d26a4c&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840793157?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Memory Verse",
             "duration": "2 min"
         },
         {
             "id": 6,
-            "externalUrl": "https://pro.panopto.com/Panopto/Pages/Embed.aspx?tid=f63e302c-0139-4604-863a-afe700d26f5b&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&captions=false&interactivity=none",
+            "externalUrl": "https://player.vimeo.com/video/840793220?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
             "title":"Conclusion",
             "duration": "1 min"
         }
