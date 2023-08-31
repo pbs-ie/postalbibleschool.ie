@@ -1,5 +1,5 @@
 import Heading1 from "@/Components/Typography/Heading1";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 
 export default function ContentWrapper({ title, className = "", children }: { title: string, className?: string, children: React.ReactNode }): JSX.Element {
     return (

@@ -8,8 +8,8 @@ import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { sortArrayById } from "@/helper";
-import { Inertia } from "@inertiajs/inertia";
-import { Head, Link } from "@inertiajs/inertia-react";
+import { router } from "@inertiajs/core";
+import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
@@ -28,7 +28,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
 
     const handleSubmit = () => {
         if (idToDelete) {
-            Inertia.delete(route('assembly.destroy', idToDelete));
+            router.delete(route('assembly.destroy', idToDelete));
         } else {
             console.error('Could not find that entry. Please contact administrator');
         }

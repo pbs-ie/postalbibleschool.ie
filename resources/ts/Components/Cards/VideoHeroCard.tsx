@@ -1,5 +1,5 @@
 import PlaceholderImage from "@images/assembly-sample.jpg";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 
 

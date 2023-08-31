@@ -1,4 +1,4 @@
-import { useForm } from "@inertiajs/inertia-react";
+import { useForm } from "@inertiajs/react";
 import React, { FormEvent, useEffect } from "react";
 
 import InputError from "@/Components/Forms/InputError";

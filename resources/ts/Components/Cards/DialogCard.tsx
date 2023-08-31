@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import { Dispatch, SetStateAction } from "react";
@@ -15,7 +15,7 @@ export default function DialogCard({ onClose, onSubmit, message }: { onClose: ()
             </button>
             <div className="mx-3">
                 <h1 className="mb-4 text-lg font-bold">Delete School</h1>
-                <p className="mb-4 text-base text-gray-500">{(message ? message : "Are you sure you want to delete this record?")+ " The record will be removed permanently. This action cannot be undone."}</p>
+                <p className="mb-4 text-base text-gray-500">{(message ? message : "Are you sure you want to delete this record?") + " The record will be removed permanently. This action cannot be undone."}</p>
             </div>
             <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                 <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>

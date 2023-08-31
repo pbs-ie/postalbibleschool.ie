@@ -6,8 +6,8 @@ import ModalComponent from "@/Components/ModalComponent";
 import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/inertia-react";
+import { router } from "@inertiajs/core";
+import { Link } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
@@ -26,7 +26,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
 
     const handleSubmit = () => {
         if (idToDelete) {
-            Inertia.delete(route('orders.destroy', idToDelete));
+            router.delete(route('orders.destroy', idToDelete));
         } else {
             console.error('Could not find that entry. Please contact administrator');
         }

@@ -8,7 +8,7 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, useForm, usePage } from "@inertiajs/inertia-react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import React, { FormEvent, useEffect, useReducer, useState } from "react";
 import InputError from "@/Components/Forms/InputError";
 

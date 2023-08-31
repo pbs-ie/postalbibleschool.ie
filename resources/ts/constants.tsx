@@ -7,7 +7,7 @@ import BibleTimeLessons from "@images/lessons/lessons-fan-english.png";
 import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.png";
 import GleanersLessons from "@images/lessons/gleaners-lessons.png";
 import Paragraph from "@/Components/Typography/Paragraph";
-import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/inertia/types/types";
+import { ErrorBag, Errors, Page, PageProps } from "@inertiajs/core/types/types";
 import { Config, RouteParam, RouteParamsWithQueryOverload, Router } from "ziggy-js";
 
 declare global {
@@ -50,22 +50,20 @@ declare global {
         children: React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
     }
-    interface PassedProps extends Page<PageProps> {
-        props: {
-            errors: Errors & ErrorBag;
-            auth: {
-                user: {
-                    name: string;
-                    email: string;
-                    nickname: string;
-                    picture: string;
-                };
+    interface PassedProps extends PageProps {
+        errors: Errors & ErrorBag;
+        auth: {
+            user: {
+                name: string;
+                email: string;
+                nickname: string;
+                picture: string;
             };
-            flash: {
-                success?: string;
-                failure?: string;
-            }
         };
+        flash: {
+            success?: string;
+            failure?: string;
+        }
     }
     interface VideoListMeta {
         title: string,

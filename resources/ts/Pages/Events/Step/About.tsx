@@ -18,7 +18,7 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 
-import { Head, Link } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading1 from "@/Components/Typography/Heading1";
 

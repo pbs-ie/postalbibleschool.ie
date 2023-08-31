@@ -1,4 +1,4 @@
-import { createInertiaApp } from '@inertiajs/inertia-react'
+import { createInertiaApp } from '@inertiajs/react'
 import createServer from '@inertiajs/server'
 import ReactDOMServer from 'react-dom/server'
 import route from "ziggy-js";

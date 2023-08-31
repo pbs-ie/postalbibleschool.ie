@@ -2,8 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/inertia-react';
-import { InertiaProgress } from '@inertiajs/progress';
+import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
 
@@ -21,6 +20,8 @@ createInertiaApp({
             </StrictMode>
         );
     },
+    progress: {
+        color: '#ffffff',
+        showSpinner: true
+    }
 });
-
-InertiaProgress.init({ color: '#ffffff', showSpinner: true });

@@ -9,7 +9,7 @@ import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, useForm } from "@inertiajs/inertia-react";
+import { Link, useForm } from "@inertiajs/react";
 import { FormEvent } from "react";
 
 

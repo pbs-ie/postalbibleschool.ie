@@ -5,7 +5,7 @@ import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage, useForm, Link } from "@inertiajs/inertia-react";
+import { usePage, useForm, Link } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer, useRef } from "react";
 
 export interface AssemblyVideo {

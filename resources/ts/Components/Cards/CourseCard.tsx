@@ -6,7 +6,7 @@ import ChevronRight from "@/Components/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];

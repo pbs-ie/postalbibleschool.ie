@@ -1,6 +1,6 @@
 import Heading3 from "@/Components/Typography/Heading3";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 
 import { useEffect, useReducer, useRef, useState } from "react";
 import Loader from "@/Components/Loader";

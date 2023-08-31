@@ -2,7 +2,7 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Paragraph from "@/Components/Typography/Paragraph";
 import VideoHeroCard from "@/Components/Cards/VideoHeroCard";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 

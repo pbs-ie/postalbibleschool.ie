@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/react';
 export default function NavLink({ href, active, isCta, isSecondary, children }: { href: string, active: boolean, isSecondary?: boolean, isCta?: boolean, children: any }) {
     const getCurrentStyle: () => string = () => {
         let styleValue = 'inline-flex uppercase items-center pt-1 border-b-2 text-sm leading-5 transition duration-150 ease-in-out ';

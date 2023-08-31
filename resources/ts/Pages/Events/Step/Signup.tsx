@@ -4,7 +4,7 @@ import Heading1 from "@/Components/Typography/Heading1";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 
 import LogoWhite from "@images/step/step_logo.png";
 
