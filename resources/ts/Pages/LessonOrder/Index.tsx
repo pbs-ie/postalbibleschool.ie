@@ -33,7 +33,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         setToggleModal(false);
     }
 
-    const tableData:TableData = {
+    const tableData: TableData = {
         'headings':
             <>
                 <th className="w-1/12 p-4 min-w-[50px]">#</th>

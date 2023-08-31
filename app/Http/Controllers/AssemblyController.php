@@ -8,6 +8,8 @@ use Inertia\Inertia;
 use stdClass;
 use Illuminate\Support\Arr;
 use Auth0\Laravel\Facade\Auth0;
+use Illuminate\Support\Facades\Validator;
+use App\Models\AssemblyVideo;
 
 
 class AssemblyController extends Controller
@@ -54,7 +56,7 @@ class AssemblyController extends Controller
             // Showing only the latest 2 months of videos to unauthenticated user
             $sortedList = array_slice($sortedList, -2, 2);
         }
-        
+
         // TODO: Admin check for creation functionality 
         return Inertia::render('Assembly/Index', [
             'videoList' => $sortedList,
@@ -76,6 +78,17 @@ class AssemblyController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return Inertia::render('Assembly/Create');
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,6 +96,32 @@ class AssemblyController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+        $rules = [
+            'monthTitle' => ['required'],
+            'month' => ['required'],
+            'series' => ['required'],
+            'routename' => ['required'],
+            'content.*.videoTitle' => ['required'],
+            'content.*.externalUrl' => ['required'],
+            'content.*.duration' => ['required'],
+        ];
+        $validator = Validator::make($request->all(), $rules, []);
+
+        $assemblyInfo = $validator->safe()->except(['content']);
+        $videoInfo = $validator->safe()->only(['content']);
+
+        $assemblyInfo['imageLink'] = $this->getVideoImageUrl($assemblyInfo['routename']);
+
+        $videoList = $this->getAssemblyList();
+
+        dd($videoList);
+
+        Storage::putFileAs(
+            '/',
+            json_encode($videoList),
+            'assemblyconfig.json'
+        );
     }
 
     /**
@@ -111,7 +150,7 @@ class AssemblyController extends Controller
             'videoData' => $jsonContent
         ]);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -120,7 +159,6 @@ class AssemblyController extends Controller
      */
     public function edit(string $series)
     {
-
     }
 
     /**
@@ -134,7 +172,7 @@ class AssemblyController extends Controller
     {
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  string $series

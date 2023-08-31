@@ -6,7 +6,7 @@ interface TextInput {
     id: string,
     value: string | number,
     className: string,
-    autoComplete: string,
+    autoComplete?: string,
     required?: boolean | undefined,
     isFocused?: boolean | undefined,
     handleChange: ChangeEventHandler<HTMLElement>,
@@ -15,7 +15,7 @@ interface TextInput {
     ariaLabelledBy?: string
 }
 
-export default function TextInput({ type = 'text', name, id, value, placeholder, ariaLabelledBy, className, autoComplete, required, handleChange, onBlur }: TextInput) {
+export default function TextInput({ type = 'text', name, id, value, placeholder, ariaLabelledBy, className, autoComplete = "off", required, handleChange, onBlur }: TextInput) {
 
     return (
         <input
