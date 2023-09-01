@@ -100,9 +100,9 @@ class AssemblyController extends Controller
         $rules = [
             'monthTitle' => ['required'],
             'month' => ['required'],
-            'series' => ['required', 'regex:/^\D\d$/'],
+            'series' => ['required', 'regex:/^\D\d{1,2}$/'],
             'routename' => ['required', 'regex:/^\D\d{2}$/'],
-            'imageFile' => ['required', 'image', 'mimetypes:image/*'],
+            'imageFile' => ['required', 'image', 'mimetypes:image/png'],
             'content' => ['array:videoTitle,externalUrl,duration', 'max:20', 'min:1'],
             'content.*.videoTitle' => ['required', 'min:3'],
             'content.*.externalUrl' => ['required', 'url'],
@@ -210,11 +210,34 @@ class AssemblyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string $series
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $series)
+    public function destroy(int $id)
     {
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        $fileName = strtolower($assemblyConfig->content[$id]->routename);
+
+        $filePath = 'video_json/' . $fileName . '.json';
+        $pngPath = 'video_images/' . $fileName . '.png';
+
+        if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
+            return redirect()->back()->with('failure', 'Missing file in system');
+        }
+
+        // Destroy the .json file for the month
+        Storage::disk('local')->delete($filePath);
+
+        // Destroy the image for the month
+        Storage::disk('public')->delete($pngPath);
+
+        // Remove the entry in assembly config for the month
+        $assemblyConfig->content = array_filter($assemblyConfig->content, function ($item) use ($id) {
+            return $item->id !== $id;
+        });
+        Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
+
+        return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
     }
 
 

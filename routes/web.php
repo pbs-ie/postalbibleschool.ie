@@ -30,7 +30,7 @@ Route::get('/', function () {
     return redirect()->route('home');
 })->middleware(['guest']);
 
-Route::get('/home', function() {
+Route::get('/home', function () {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'videoList' => (new AssemblyController)->getAssemblyList(),
@@ -112,7 +112,7 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/{series}/edit', [AssemblyController::class, 'edit'])->name('edit');
     Route::put('/{series}', [AssemblyController::class, 'update'])->name('update');
-    Route::delete('/{series}', [AssemblyController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
 Route::get('/dashboard', function () {

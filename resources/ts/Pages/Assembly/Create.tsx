@@ -144,7 +144,7 @@ export default function Create() {
                         </div>
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
-                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/*" />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/png" />
                         </div>
                     </div>
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
