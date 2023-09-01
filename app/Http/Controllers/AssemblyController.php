@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use stdClass;
@@ -96,32 +97,66 @@ class AssemblyController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $rules = [
             'monthTitle' => ['required'],
             'month' => ['required'],
-            'series' => ['required'],
-            'routename' => ['required'],
-            'content.*.videoTitle' => ['required'],
-            'content.*.externalUrl' => ['required'],
+            'series' => ['required', 'regex:/^\D\d$/'],
+            'routename' => ['required', 'regex:/^\D\d{2}$/'],
+            'imageFile' => ['required', 'image', 'mimetypes:image/*'],
+            'content' => ['array:videoTitle,externalUrl,duration', 'max:20', 'min:1'],
+            'content.*.videoTitle' => ['required', 'min:3'],
+            'content.*.externalUrl' => ['required', 'url'],
             'content.*.duration' => ['required'],
         ];
-        $validator = Validator::make($request->all(), $rules, []);
+        $validator = Validator::make($request->all(), $rules, [], [
+            'monthTitle' => 'Main Title',
+            'content' => 'Video information',
+            'content.*.videoTitle' => 'Video Title',
+            'content.*.externalUrl' => 'External Url',
+            'content.*.duration' => 'Duration',
+        ]);
 
-        $assemblyInfo = $validator->safe()->except(['content']);
+        $assemblyInfo = $validator->safe()->except(['content', 'imageFile']);
         $videoInfo = $validator->safe()->only(['content']);
+        $imageInfo = $validator->safe()->only(['imageFile']);
 
-        $assemblyInfo['imageLink'] = $this->getVideoImageUrl($assemblyInfo['routename']);
+        // Storing updated assembly config file
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        $assemblyInfo['series'] = strtoupper($assemblyInfo['series']);
+        $assemblyInfo['routename'] = strtolower($assemblyInfo['routename']);
+        $assemblyInfo['id'] = count($assemblyConfig->content);
+        array_push($assemblyConfig->content, (object)$assemblyInfo);
 
-        $videoList = $this->getAssemblyList();
+        // Storing updated video config file for the month
+        $videoConfig = new stdClass();
+        $videoConfig->title = $assemblyInfo['series'] . ' - ' . $assemblyInfo['monthTitle'];
+        $videoConfig->imageId = $assemblyInfo['routename'];
+        $videoConfig->content = $videoInfo['content'];
 
-        dd($videoList);
+        for ($i = 0; $i < count($videoConfig->content); $i++) {
+            $videoConfig->content[$i]['id'] = $i;
+        }
 
-        Storage::putFileAs(
-            '/',
-            json_encode($videoList),
-            'assemblyconfig.json'
+        // Storing image for the month
+        $imageFile = $imageInfo["imageFile"];
+
+        $path = $imageFile->storeAs('public/video_images', $assemblyInfo['routename'] . '.' . $imageFile->getClientOriginalExtension());
+
+        $storeConfigSuccess = Storage::put(
+            'assemblyconfig.json',
+            json_encode($assemblyConfig)
         );
+        $videoConfigSuccess = Storage::put(
+            'video_json/' . strtolower($assemblyInfo['routename']) . '.json',
+            json_encode($videoConfig)
+        );
+
+
+        if (!$storeConfigSuccess || !$videoConfigSuccess) {
+            return redirect()->back()->with('failure', 'Something went wrong');
+        } else {
+            return redirect()->route('assembly.admin')->with('success', 'Video added successfully');
+        }
     }
 
     /**

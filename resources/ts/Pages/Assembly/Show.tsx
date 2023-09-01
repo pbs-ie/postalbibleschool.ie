@@ -118,6 +118,10 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
         }
     }
 
+    const isCarousalActive = () => {
+        return assemblyLinks.length > 1
+    }
+
 
     return (
         <WrapperLayout>
@@ -138,27 +142,29 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
 
                                 <iframe title={videoState.title} onLoad={() => dispatchReducer({ type: "loadComplete" })} src={videoState.externalUrl} height="506" width="900" allowFullScreen allow="autoplay" className="aspect-video w-full h-auto md:w-[900px]" ></iframe>
                             </div>
-                            <div className="flex gap-10">
-                                <VideoNavButton
-                                    className="md:float-left"
-                                    disabled={videoState.id === 0}
-                                    onClick={handleClickEvent("prev", videoState.id)}>
-                                    <p className="flex items-center">
-                                        <ChevronLeft className="w-10 h-10" />Previous
-                                    </p>
-                                </VideoNavButton>
-                                <VideoNavButton
-                                    className="md:float-right"
-                                    disabled={videoState.id === assemblyLinks.length - 1}
-                                    onClick={handleClickEvent("next", videoState.id)}>
-                                    <p className="flex items-center">Next<ChevronRight className="w-10 h-10" /></p>
-                                </VideoNavButton>
-                            </div>
+                            {isCarousalActive() &&
+                                <div className="flex gap-10">
+                                    <VideoNavButton
+                                        className="md:float-left"
+                                        disabled={videoState.id === 0}
+                                        onClick={handleClickEvent("prev", videoState.id)}>
+                                        <p className="flex items-center">
+                                            <ChevronLeft className="w-10 h-10" />Previous
+                                        </p>
+                                    </VideoNavButton>
+                                    <VideoNavButton
+                                        className="md:float-right"
+                                        disabled={videoState.id === assemblyLinks.length - 1}
+                                        onClick={handleClickEvent("next", videoState.id)}>
+                                        <p className="flex items-center">Next<ChevronRight className="w-10 h-10" /></p>
+                                    </VideoNavButton>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div className="w-full px-2 mx-auto md:px-20 xl:px-40">
                         <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
-                            {
+                            {isCarousalActive() &&
                                 assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
                                     <VideoCarousalCard
                                         key={idx}

@@ -94,7 +94,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         <Heading2Alt>{`${seriesNames[getCurrentSeriesNumber()].code}${getCurrentMonthNumber() + 1} - ${monthNames[getCurrentMonthNumber()]}`}</Heading2Alt>
                         <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
+                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.monthTitle} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />

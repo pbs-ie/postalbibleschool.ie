@@ -27,7 +27,7 @@ export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
                     <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
                         {getLastElementsOfArray(sortArrayById(videoList), 2).map((value, index) => (
                             <li key={index}>
-                                <VideoHeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={value.title === "" ? value.month : value.title} series={value.series} imageLink={value.routename} idx={value.id}></VideoHeroCard>
+                                <VideoHeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={(value.monthTitle && value.monthTitle !== "") ? value.monthTitle : value.month} series={value.series} imageLink={value.routename} idx={value.id}></VideoHeroCard>
                             </li>
                         ))}
                     </ul>

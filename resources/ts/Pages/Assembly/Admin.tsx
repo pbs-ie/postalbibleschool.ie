@@ -50,8 +50,8 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             videoList.map((video) =>
                 <>
                     <td className="p-4">{video.id}</td>
-                    <td className="p-4"><img className="h-15" src={video.imageLink} alt={"Image for " + video.title} /></td>
-                    <td className="p-4">{video.title}</td>
+                    <td className="p-4"><img className="h-15" src={video.imageLink} alt={"Image for " + video.monthTitle} /></td>
+                    <td className="p-4">{video.monthTitle}</td>
                     <td className="p-4">{video.month}</td>
                     <td className="p-4">{video.series}</td>
                     <td className="p-4">{video.routename}</td>

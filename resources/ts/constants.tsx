@@ -66,7 +66,7 @@ declare global {
         }
     }
     interface VideoListMeta {
-        title: string,
+        monthTitle: string,
         month: string,
         id: number,
         series: string,

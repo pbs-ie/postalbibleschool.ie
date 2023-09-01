@@ -1,5 +1,6 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
@@ -57,12 +58,12 @@ export default function Create() {
 
 
     const { errors } = usePage().props;
-    const { data, setData, post, reset, processing, transform } = useForm({
+    const { data, setData, post, reset, processing } = useForm({
         monthTitle: "",
         month: "",
         series: "",
         routename: "",
-        imageLink: "",
+        imageFile: null as File | null,
         content: [{
             videoTitle: "",
             externalUrl: "",
@@ -80,6 +81,11 @@ export default function Create() {
                 setData(event.target.name, event.target.value);
         }
     };
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.name === "imageFile" && event.target.files) {
+            setData(event.target.name, event.target.files[0]);
+        }
+    }
     const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
         if (event.target instanceof HTMLInputElement) {
             switch (event.target.name) {
@@ -92,6 +98,7 @@ export default function Create() {
                         value: event.target.value,
                         idx: idx
                     });
+                    setData("content", [...videoState]);
                     break;
             }
         }
@@ -99,17 +106,6 @@ export default function Create() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setData("content", [...videoState]);
-        transform((data) => ({
-            ...data,
-            monthTitle: "Random",
-            content: [{
-                videoTitle: "random",
-                externalUrl: "random",
-                duration: "random",
-            }]
-        }));
-
         post(route('assembly.store'));
     }
 
@@ -136,13 +132,19 @@ export default function Create() {
                             <InputLabel forInput={"month"} value={"Month"} required />
                             <TextInput type={"text"} name={"month"} id={"month"} value={data.month} className={""} handleChange={handleChange} required />
                         </div>
-                        <div className="inline-flex gap-2">
+                        <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"series"} value={"series"} required />
                             <TextInput type={"text"} name={"series"} id={"series"} value={data.series} className={""} handleChange={handleChange} required />
+                            <p className="text-gray-600">//format should be letter and number. E.g. "A1"</p>
                         </div>
-                        <div className="inline-flex gap-2">
+                        <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"routename"} value={"routename"} required />
                             <TextInput type={"text"} name={"routename"} id={"routename"} value={data.routename} className={""} handleChange={handleChange} required />
+                            <p className="text-gray-600">//format should be letter and number with leading 0 for single digit. E.g. "a01 or a10"</p>
+                        </div>
+                        <div className="inline-flex gap-2">
+                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/*" />
                         </div>
                     </div>
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
@@ -157,13 +159,14 @@ export default function Create() {
                         </thead>
                         <tbody>
                             {videoState.map(({ videoTitle, externalUrl, duration }, idx) => (
-                                <tr key={videoTitle + idx}>
+                                <tr key={"contenttable" + idx}>
+
                                     <td>
                                         <TextInput
                                             type={"text"}
-                                            name={"videoTitle"}
-                                            id={`videoTitle${idx}`}
-                                            value={videoTitle}
+                                            name={"externalUrl"}
+                                            id={`externalUrl${idx}`}
+                                            value={externalUrl}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                         />
@@ -171,9 +174,9 @@ export default function Create() {
                                     <td>
                                         <TextInput
                                             type={"text"}
-                                            name={"externalUrl"}
-                                            id={`externalUrl${idx}`}
-                                            value={externalUrl}
+                                            name={"videoTitle"}
+                                            id={`videoTitle${idx}`}
+                                            value={videoTitle}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                         />
