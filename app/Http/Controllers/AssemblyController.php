@@ -10,6 +10,7 @@ use stdClass;
 use Illuminate\Support\Arr;
 use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\AssemblyVideo;
 
 
@@ -22,23 +23,24 @@ class AssemblyController extends Controller
         return chr(97 + (($year - 2022) % 3));
     }
 
-
-    private function getVideoImageUrl($filename)
+    private function parseExternalUrl($externalUrl)
     {
-        return Storage::url('video_images/' . $filename . '.png');
+        preg_match('/\/(\d{5,})\??/', $externalUrl, $numCode, PREG_UNMATCHED_AS_NULL);
+        if (is_null($numCode[1])) {
+            return "";
+        } else {
+
+            $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+            return $assemblyConfig->externalPlayer->path . $numCode[1] . $assemblyConfig->externalPlayer->params;
+        }
     }
 
+    // Returns the assembly config content as an array with imageLinks
     public function getAssemblyList()
     {
         $config = json_decode(Storage::get('assemblyconfig.json'), false);
 
-        $updatedContent = array();
-
-        foreach ($config->content as $videoData) {
-            $videoData->imageLink = $this->getVideoImageUrl($videoData->routename);
-            array_push($updatedContent, $videoData);
-        }
-        return $updatedContent;
+        return $config->content;
     }
 
     /**
@@ -49,13 +51,15 @@ class AssemblyController extends Controller
     public function index()
     {
         $videoList = json_decode(json_encode($this->getAssemblyList()), true);
-        $sortedList = $videoList;
+        $sortedList = [];
         if (!auth()->check()) {
             $sortedList = array_values(Arr::sort($videoList, function (array $value) {
                 return $value;
             }));
             // Showing only the latest 2 months of videos to unauthenticated user
             $sortedList = array_slice($sortedList, -2, 2);
+        } else {
+            $sortedList = $videoList;
         }
 
         // TODO: Admin check for creation functionality 
@@ -119,6 +123,7 @@ class AssemblyController extends Controller
         $videoInfo = $validator->safe()->only(['content']);
         $imageInfo = $validator->safe()->only(['imageFile']);
         $assemblyInfo = $validator->safe()->except(['content', 'imageFile']);
+
         $assemblyInfo['series'] = strtoupper($assemblyInfo['series']);
         $assemblyInfo['routename'] = strtolower($assemblyInfo['routename']);
 
@@ -130,7 +135,7 @@ class AssemblyController extends Controller
         // Storing updated assembly config file
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $assemblyInfo['id'] = count($assemblyConfig->content);
-        $assemblyInfo['imagePath'] = $path;
+        $assemblyInfo['imageLink'] = Storage::url($path);
         array_push($assemblyConfig->content, (object)$assemblyInfo);
 
         // Storing updated video config file for the month
@@ -141,6 +146,7 @@ class AssemblyController extends Controller
 
         for ($i = 0; $i < count($videoConfig->content); $i++) {
             $videoConfig->content[$i]['id'] = $i;
+            $videoConfig->content[$i]['externalUrl'] = $this->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
         }
 
         $storeConfigSuccess = Storage::put(
@@ -148,7 +154,7 @@ class AssemblyController extends Controller
             json_encode($assemblyConfig)
         );
         $videoConfigSuccess = Storage::put(
-            'video_json/' . strtolower($assemblyInfo['routename']) . '.json',
+            $assemblyConfig->jsonPath . strtolower($assemblyInfo['routename']) . '.json',
             json_encode($videoConfig)
         );
 
@@ -182,7 +188,6 @@ class AssemblyController extends Controller
         }
 
         return Inertia::render('Assembly/Show', [
-            'videoId' => $this->getCurrentYearChar(),
             'videoData' => $jsonContent
         ]);
     }
@@ -219,8 +224,8 @@ class AssemblyController extends Controller
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $fileName = strtolower($assemblyConfig->content[$id]->routename);
 
-        $filePath = 'video_json/' . $fileName . '.json';
-        $pngPath = 'video_images/' . $fileName . '.png';
+        $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
+        $pngPath = $assemblyConfig->imagesPath . $fileName . '.png';
 
 
         // TODO: This check does not need to prevent the deletion
@@ -241,15 +246,6 @@ class AssemblyController extends Controller
         Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
 
         return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
-    }
-
-
-
-    public function list()
-    {
-        return Inertia::render('Assembly/List', [
-            'videoList' => $this->getAssemblyList()
-        ]);
     }
 
     public function image($imageId)
