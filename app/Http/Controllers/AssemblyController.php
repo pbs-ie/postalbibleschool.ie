@@ -99,7 +99,7 @@ class AssemblyController extends Controller
     {
         $rules = [
             'monthTitle' => ['required'],
-            'month' => ['required'],
+            'month' => ['required', Rule::in(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])],
             'series' => ['required', 'regex:/^\D\d{1,2}$/'],
             'routename' => ['required', 'regex:/^\D\d{2}$/'],
             'imageFile' => ['required', 'image', 'mimetypes:image/png'],
@@ -116,15 +116,21 @@ class AssemblyController extends Controller
             'content.*.duration' => 'Duration',
         ]);
 
-        $assemblyInfo = $validator->safe()->except(['content', 'imageFile']);
         $videoInfo = $validator->safe()->only(['content']);
         $imageInfo = $validator->safe()->only(['imageFile']);
+        $assemblyInfo = $validator->safe()->except(['content', 'imageFile']);
+        $assemblyInfo['series'] = strtoupper($assemblyInfo['series']);
+        $assemblyInfo['routename'] = strtolower($assemblyInfo['routename']);
+
+        // Storing image for the month
+        $imageFile = $imageInfo["imageFile"];
+
+        $path = $imageFile->storeAs('public/video_images', $assemblyInfo['routename'] . '.' . $imageFile->getClientOriginalExtension());
 
         // Storing updated assembly config file
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        $assemblyInfo['series'] = strtoupper($assemblyInfo['series']);
-        $assemblyInfo['routename'] = strtolower($assemblyInfo['routename']);
         $assemblyInfo['id'] = count($assemblyConfig->content);
+        $assemblyInfo['imagePath'] = $path;
         array_push($assemblyConfig->content, (object)$assemblyInfo);
 
         // Storing updated video config file for the month
@@ -136,11 +142,6 @@ class AssemblyController extends Controller
         for ($i = 0; $i < count($videoConfig->content); $i++) {
             $videoConfig->content[$i]['id'] = $i;
         }
-
-        // Storing image for the month
-        $imageFile = $imageInfo["imageFile"];
-
-        $path = $imageFile->storeAs('public/video_images', $assemblyInfo['routename'] . '.' . $imageFile->getClientOriginalExtension());
 
         $storeConfigSuccess = Storage::put(
             'assemblyconfig.json',
@@ -221,6 +222,8 @@ class AssemblyController extends Controller
         $filePath = 'video_json/' . $fileName . '.json';
         $pngPath = 'video_images/' . $fileName . '.png';
 
+
+        // TODO: This check does not need to prevent the deletion
         if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
             return redirect()->back()->with('failure', 'Missing file in system');
         }

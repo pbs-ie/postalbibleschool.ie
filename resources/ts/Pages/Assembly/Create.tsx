@@ -131,6 +131,7 @@ export default function Create() {
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"month"} value={"Month"} required />
                             <TextInput type={"text"} name={"month"} id={"month"} value={data.month} className={""} handleChange={handleChange} required />
+                            <p className="text-gray-600">//Full month name. E.g. "January"</p>
                         </div>
                         <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"series"} value={"series"} required />

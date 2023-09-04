@@ -1,5 +1,6 @@
 {
-    "rootPath": "video_json",
+    "jsonPath": "video_json",
+    "imagesPath": "video_json",
     "content": [
         {
             "id": 0,
