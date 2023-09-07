@@ -65,7 +65,7 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer type="camp">
+                <CardContainer type="reunion">
                     {isSignupActive &&
                         <Link href={route('events.camp.signup')}><PrimaryButton className="text-base">Register</PrimaryButton></Link>
                     }

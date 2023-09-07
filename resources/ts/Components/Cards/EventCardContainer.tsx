@@ -8,10 +8,11 @@ import ChatBubble from "@/Components/Icons/ChatBubble";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
+import SchoolIcon from "@/Components/Icons/SchoolIcon";
 
 
 interface CardContainer {
-    type: "prizegivings" | "shed" | "step" | "camp" | "iteam";
+    type: "prizegivings" | "shed" | "step" | "camp" | "iteam" | "reunion";
     children?: React.ReactNode;
 }
 
@@ -115,6 +116,30 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         }
     ]
 
+    const reunionCards: CardBlock[] = [
+        {
+            Icon: SchoolIcon,
+            title: "What",
+            description: "Camp Reunion",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Calendar,
+            title: "When",
+            description: "6th to 8th October, 2023",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Castledaly Manor, Moate, Athlone, Co. Westmeath",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
+
     const iTeamCards: CardBlock[] = [
         {
             Icon: Calendar,
@@ -138,6 +163,8 @@ export default function EventCardContainer({ type, children }: CardContainer) {
                 return campCards;
             case "iteam":
                 return iTeamCards;
+            case "reunion":
+                return reunionCards;
         }
     }
 
