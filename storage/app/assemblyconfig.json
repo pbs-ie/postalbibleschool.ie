@@ -1,48 +1,58 @@
 {
-    "jsonPath": "video_json",
-    "imagesPath": "video_json",
+    "jsonPath": "video_json\/",
+    "imagesPath": "video_images\/",
+    "externalPlayer": {
+        "path": "https:\/\/player.vimeo.com\/video\/",
+        "params": "?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+    },
     "content": [
         {
             "id": 0,
             "month": "January",
             "series": "B1",
             "monthTitle": "Putting God First",
-            "routename": "b01"
+            "routename": "b01",
+            "imageLink": "\/storage\/video_images\/b01.png"
         },
         {
             "id": 1,
             "month": "February",
             "series": "B2",
             "monthTitle": "Miracles",
-            "routename": "b02"
+            "routename": "b02",
+            "imageLink": "\/storage\/video_images\/b02.png"
         },
         {
             "id": 2,
             "month": "March",
             "series": "B3",
             "monthTitle": "Love and Learning",
-            "routename": "b03"
+            "routename": "b03",
+            "imageLink": "\/storage\/video_images\/b03.png"
         },
         {
             "id": 3,
             "month": "April",
             "series": "B4",
             "monthTitle": "The Cross",
-            "routename": "b04"
+            "routename": "b04",
+            "imageLink": "\/storage\/video_images\/b04.png"
         },
         {
             "id": 4,
             "month": "May",
             "series": "B5",
             "monthTitle": "Parables",
-            "routename": "b05"
+            "routename": "b05",
+            "imageLink": "\/storage\/video_images\/b05.png"
         },
         {
             "id": 5,
             "month": "June",
             "series": "B6",
             "monthTitle": "Trust",
-            "routename": "b06"
+            "routename": "b06",
+            "imageLink": "\/storage\/video_images\/b06.png"
         }
     ]
 }

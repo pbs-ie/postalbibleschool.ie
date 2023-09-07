@@ -110,8 +110,8 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::post('/', [AssemblyController::class, 'store'])->name('store');
     Route::get('/create', [AssemblyController::class, 'create'])->name('create');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
-    Route::get('/{series}/edit', [AssemblyController::class, 'edit'])->name('edit');
-    Route::put('/{series}', [AssemblyController::class, 'update'])->name('update');
+    Route::get('/{id}/edit', [AssemblyController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [AssemblyController::class, 'update'])->name('update');
     Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });

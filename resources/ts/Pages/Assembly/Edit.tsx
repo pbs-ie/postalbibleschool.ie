@@ -9,30 +9,36 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm, Link } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer, useRef } from "react";
 
-export interface AssemblyVideo {
-    videoTitle: string,
+interface VideoEdit {
+    title: string,
     externalUrl: string,
     duration: string,
+    id: string
+}
+interface FullAssemblyVideo {
+    id: number,
+    monthTitle: string,
+    month: string,
+    series: string,
+    routename: string,
+    imageFile: File | null,
+    imageLink: string,
+    content: VideoEdit[]
 }
 
-
-export default function Create() {
+export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
 
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
     interface ChangeAction extends Action {
-        name: keyof AssemblyVideo;
+        name: keyof VideoEdit;
         value: string | number;
         idx: number;
     }
-    const initialState: AssemblyVideo[] = [{
-        videoTitle: "",
-        externalUrl: "",
-        duration: "",
-    }];
+    const initialState: VideoEdit[] = videoData.content;
 
-    const reducer = (state: AssemblyVideo[], action: ChangeAction | Action) => {
+    const reducer = (state: VideoEdit[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
             let returnObj = [...state];
             returnObj[action.idx][action.name] = action.value + "";
@@ -59,17 +65,13 @@ export default function Create() {
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
-        monthTitle: "",
-        month: "",
-        series: "",
-        routename: "",
-        imageFile: null as File | null,
-        content: [{
-            videoTitle: "",
-            externalUrl: "",
-            duration: "",
-
-        }]
+        monthTitle: videoData.monthTitle,
+        month: videoData.month,
+        series: videoData.series,
+        routename: videoData.routename,
+        imageFile: videoData.imageFile,
+        imageLink: videoData.imageLink,
+        content: videoData.content
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,9 +91,10 @@ export default function Create() {
     const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
         if (event.target instanceof HTMLInputElement) {
             switch (event.target.name) {
-                case "videoTitle":
+                case "title":
                 case "externalUrl":
                 case "duration":
+                case "id":
                     dispatch({
                         type: "changeValue",
                         name: event.target.name,
@@ -106,7 +109,7 @@ export default function Create() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('assembly.store'));
+        post(route('assembly.update', videoData.id));
     }
 
     useEffect(() => {
@@ -115,7 +118,7 @@ export default function Create() {
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="Create New Assembly">
+            <ContentWrapper title="Edit Assembly">
                 {errors &&
                     Object.keys(errors).map((key) =>
                         <ToastBanner key={key} message={errors[key]} />
@@ -144,15 +147,17 @@ export default function Create() {
                             <p className="text-gray-600">//format should be letter and number with leading 0 for single digit. E.g. "a01 or a10"</p>
                         </div>
                         <div className="inline-flex gap-2">
-                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
+                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
                             <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/png" />
                         </div>
-                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : ""} />
+                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
+                    <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
@@ -160,9 +165,19 @@ export default function Create() {
                             </tr>
                         </thead>
                         <tbody>
-                            {videoState.map(({ videoTitle, externalUrl, duration }, idx) => (
+                            {videoState.map(({ title, externalUrl, duration, id }, idx) => (
                                 <tr key={"contenttable" + idx}>
 
+                                    <td>
+                                        <TextInput
+                                            type={"text"}
+                                            name={"id"}
+                                            id={`id${idx}`}
+                                            value={id}
+                                            className={""}
+                                            handleChange={(e) => handleComplexChange(idx, e)}
+                                        />
+                                    </td>
                                     <td>
                                         <TextInput
                                             type={"text"}
@@ -178,7 +193,7 @@ export default function Create() {
                                             type={"text"}
                                             name={"videoTitle"}
                                             id={`videoTitle${idx}`}
-                                            value={videoTitle}
+                                            value={title}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                         />
@@ -212,7 +227,7 @@ export default function Create() {
                         <Link href={route('assembly.admin')}>
                             <SecondaryButton>Cancel</SecondaryButton>
                         </Link>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 
                 </form>

@@ -195,22 +195,35 @@ class AssemblyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $series
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(string $series)
+    public function edit(int $id)
     {
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        $videoData = $assemblyConfig->content[$id];
+        $fileName = strtolower($videoData->routename);
+
+        $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
+        $pngPath = $assemblyConfig->imagesPath . $fileName . '.png';
+
+        $videoData->content = (json_decode(Storage::get($filePath), false))->content;
+
+        return Inertia::render('Assembly/Edit', [
+            "videoData" => $videoData
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string $series
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $series)
+    public function update(Request $request, int $id)
     {
+        dd($id);
     }
 
     /**
