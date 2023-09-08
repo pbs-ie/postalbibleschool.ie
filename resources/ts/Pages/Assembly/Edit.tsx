@@ -37,6 +37,12 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
         idx: number;
     }
     const initialState: VideoEdit[] = videoData.content;
+    const blankState: VideoEdit[] = [{
+        title: "",
+        externalUrl: "",
+        duration: "",
+        id: ""
+    }]
 
     const reducer = (state: VideoEdit[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
@@ -45,11 +51,11 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
             return returnObj;
         } else if (action.type === 'addValue') {
             return [
-                ...state, ...initialState
+                ...state, ...blankState
             ];
         } else if (action.type === "removeValue" && "idx" in action) {
             if (state.length === 1) {
-                return initialState;
+                return blankState;
             }
             let returnObj = [...state];
             returnObj.splice(action.idx, 1);
@@ -64,7 +70,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
 
 
     const { errors } = usePage().props;
-    const { data, setData, post, reset, processing } = useForm({
+    const { data, setData, put, reset, processing } = useForm({
         monthTitle: videoData.monthTitle,
         month: videoData.month,
         series: videoData.series,
@@ -101,20 +107,27 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                         value: event.target.value,
                         idx: idx
                     });
-                    setData("content", [...videoState]);
                     break;
             }
         }
     }
 
+    const handleRowChange = (action: ChangeAction | Action) => {
+        dispatch(action);
+    }
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('assembly.update', videoData.id));
+        put(route('assembly.update', videoData.id));
     }
 
     useEffect(() => {
         reset();
     }, []);
+
+    useEffect(() => {
+        setData("content", [...videoState]);
+    }, [videoState]);
 
     return (
         <WrapperLayout>
@@ -138,17 +151,17 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                         </div>
                         <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"series"} value={"series"} required />
-                            <TextInput type={"text"} name={"series"} id={"series"} value={data.series} className={""} handleChange={handleChange} required />
-                            <p className="text-gray-600">//format should be letter and number. E.g. "A1"</p>
+                            <input type={"text"} name={"series"} id={"series"} value={data.series} className={"border-gray-400 bg-clip-padding bg-neutral-100 text-neutral-500 rounded-md shadow-sm transition ease-in-out self-center"} disabled />
+                            <p className="text-gray-600">//Should not be changed as it will break the association. Create a new assembly if you need to change it.</p>
                         </div>
                         <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"routename"} value={"routename"} required />
-                            <TextInput type={"text"} name={"routename"} id={"routename"} value={data.routename} className={""} handleChange={handleChange} required />
-                            <p className="text-gray-600">//format should be letter and number with leading 0 for single digit. E.g. "a01 or a10"</p>
+                            <input type={"text"} name={"routename"} id={"routename"} value={data.routename} className={"border-gray-400 bg-clip-padding bg-neutral-100 text-neutral-500 rounded-md shadow-sm transition ease-in-out self-center"} required disabled />
+                            <p className="text-gray-600">//Should not be changed as it will break the association. Create a new assembly if you need to change it.</p>
                         </div>
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
-                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/png" />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} accept="image/png" />
                         </div>
                         <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
@@ -161,7 +174,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
-                                <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
+                                <th><SecondaryButton onClick={() => handleRowChange({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -176,6 +189,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                             value={id}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
                                         />
                                     </td>
                                     <td>
@@ -186,16 +200,18 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                             value={externalUrl}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
                                         />
                                     </td>
                                     <td>
                                         <TextInput
                                             type={"text"}
-                                            name={"videoTitle"}
-                                            id={`videoTitle${idx}`}
+                                            name={"title"}
+                                            id={`title${idx}`}
                                             value={title}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
                                         />
                                     </td>
                                     <td>
@@ -210,7 +226,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                     </td>
                                     <td>
                                         <SecondaryButton
-                                            onClick={() => dispatch({
+                                            onClick={() => handleRowChange({
                                                 type: "removeValue",
                                                 idx: idx
                                             })}

@@ -98,7 +98,6 @@ export default function Create() {
                         value: event.target.value,
                         idx: idx
                     });
-                    setData("content", [...videoState]);
                     break;
             }
         }
@@ -112,6 +111,11 @@ export default function Create() {
     useEffect(() => {
         reset();
     }, []);
+
+    useEffect(() => {
+        setData("content", [...videoState]);
+    }, [videoState]);
+
 
     return (
         <WrapperLayout>
