@@ -1,6 +1,7 @@
-import { Link } from '@inertiajs/inertia-react';
+import { Method } from '@inertiajs/core';
+import { Link } from '@inertiajs/react';
 
-export default function ResponsiveNavLink({ method = 'get', as = 'a', href, children }: { method?: string, as?: string, href: string, children: React.ReactNode }) {
+export default function ResponsiveNavLink({ method = 'get', as = 'a', href, children }: { method?: Method | undefined, as?: string, href: string, children: React.ReactNode }) {
     return (
         <Link
             method={method}

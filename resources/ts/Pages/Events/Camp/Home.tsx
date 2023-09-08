@@ -17,7 +17,7 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import { useState } from "react";
 

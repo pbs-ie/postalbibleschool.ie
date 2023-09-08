@@ -1,7 +1,7 @@
 import FooterGroup from "@/Components/Navigation/FooterGroup";
 import FooterLink from "@/Components/Navigation/FooterLink";
 import Paragraph from "@/Components/Typography/Paragraph";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 
 export default function Footer() {
     const currentYear = (new Date()).getFullYear();

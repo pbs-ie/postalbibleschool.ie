@@ -4,7 +4,7 @@ import TextPillDiv from "@/Components/Typography/TextPillDiv";
 import LabelSpan from "@/Components/Typography/LabelSpan";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";

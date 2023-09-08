@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 
 export default function RequestLessonBanner() {

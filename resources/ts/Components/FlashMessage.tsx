@@ -1,5 +1,6 @@
-import { usePage } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import CloseX from "./Icons/CloseX";
 
 
 export default function FlashMessage() {
@@ -10,14 +11,15 @@ export default function FlashMessage() {
         setShowNotifs(true);
         setTimeout(() => {
             setShowNotifs(false);
-        }, 3500);
+        }, 10000);
     }, [])
 
     return (
         <div className="relative">
             {(flash.success || flash.failure) &&
-                <div className={`fixed pointer-events-none ${showNotifs ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} transition-[opacity,transform] duration-1000 ease-in top-10 md:top-auto right-2 md:right-6 md:bottom-10 z-30`}>
-                    <div className={`max-w-80  ml-2 md:ml-0 overflow-auto bg-blue-500 text-gray-50 ${flash.failure ? "bg-red-700" : "bg-green-600"} rounded py-4 px-6`}>
+                <div className={`fixed ${showNotifs ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} transition-[opacity,transform] duration-1000 ease-in top-10 md:top-auto right-2 md:right-6 md:bottom-10 z-30`}>
+                    <div className={`max-w-80 w-full  ml-2 md:ml-0 overflow-auto bg-blue-500 text-gray-50 ${flash.failure ? "bg-red-700" : "bg-green-600"} rounded py-4 px-6 relative`}>
+                        <button className="absolute right-2" onClick={() => setShowNotifs(false)}><CloseX className="w-6 h-6" /></button>
                         {flash.success &&
                             <div className="flex items-center gap-5 mr-10">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-[50px] h-[50px]">
@@ -42,8 +44,8 @@ export default function FlashMessage() {
                             </div>
                         }
                     </div>
-                </div>
+                </div >
             }
-        </div>
+        </div >
     )
 }

@@ -2,7 +2,7 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 
 import iTeamFlyer from "@images/iteam/iteam_flyer.png"
 import Calendar from "@/Components/Icons/Calendar";

@@ -4,7 +4,7 @@ export const passedClass = "bg-bibletime-pink";
 
 export const videoList: VideoListMeta[] = [
     {
-        title: "아버지의 이야기",
+        monthTitle: "아버지의 이야기",
         month: "12월",
         series: "아버지의 이야기",
         id: 1,

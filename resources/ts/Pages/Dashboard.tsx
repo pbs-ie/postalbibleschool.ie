@@ -1,7 +1,7 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Dashboard() {
     const { auth } = usePage<PassedProps>().props;

@@ -3,7 +3,7 @@ import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
-import { Head, usePage } from "@inertiajs/inertia-react";
+import { Head, usePage } from "@inertiajs/react";
 
 import LessonsImage from "@images/lessons/lessons-fan-english.jpg";
 import PrizegivingImage from "@images/events/prizegiving.jpg";
@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BannerComponent from "@/Components/BannerComponent";
 
-export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[] }): JSX.Element {
+export default function Home({ bibleTimeDownloads, videoList, canViewGallery = false }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[], canViewGallery: boolean }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
@@ -51,7 +51,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                 <title>Home</title>
                 <meta head-key="description" name="description" content="Postal Bible School Ireland offers free Bible based study material for all ages" />
             </Head>
-            {auth?.user && showBanner &&
+            {auth?.user && canViewGallery && showBanner &&
                 <BannerComponent setShowBanner={setShowBanner} />
             }
             <section className="relative flex w-full">
@@ -94,7 +94,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                         <Heading2Alt>{`${seriesNames[getCurrentSeriesNumber()].code}${getCurrentMonthNumber() + 1} - ${monthNames[getCurrentMonthNumber()]}`}</Heading2Alt>
                         <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.title} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
+                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.monthTitle} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
                 </div>
             </section>
             <RequestLessonBanner />

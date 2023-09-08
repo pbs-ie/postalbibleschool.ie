@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/inertia-react';
+import { Link } from '@inertiajs/react';
 export default function DropdownNavLink({ href, active, children }: { href: string, active: boolean, children: any }) {
     return (
         <Link

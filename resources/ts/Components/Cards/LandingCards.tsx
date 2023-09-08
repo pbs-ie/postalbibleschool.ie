@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 
 interface LandingCards {
@@ -12,7 +12,7 @@ interface LandingCards {
     primary?: boolean;
 }
 
-export default function LandingCards({ heading, content, image, buttonText, buttonLink, className = "", showNewBanner = false, primary=false }: LandingCards) {
+export default function LandingCards({ heading, content, image, buttonText, buttonLink, className = "", showNewBanner = false, primary = false }: LandingCards) {
     return (
         <>
             {primary ?
@@ -22,9 +22,9 @@ export default function LandingCards({ heading, content, image, buttonText, butt
                             <div className="mb-6 text-4xl font-bold uppercase break-words md:text-4xl lg:text-5xl font-subtitle">{heading}</div>
                             <div className="mb-4 text-xl lg:text-3xl md:pr-5">{content}</div>
                         </div>
-                        {buttonLink && buttonText && 
-                        <div className="flex justify-center w-full md:block">
-                            <Link href={buttonLink} type="button"><PrimaryButton>{buttonText}</PrimaryButton></Link>
+                        {buttonLink && buttonText &&
+                            <div className="flex justify-center w-full md:block">
+                                <Link href={buttonLink} type="button"><PrimaryButton>{buttonText}</PrimaryButton></Link>
                             </div>
                         }
 

@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/inertia-react';
+import { Link, usePage } from '@inertiajs/react';
 
 import NavLink from '@/Components/Navigation/NavLink';
 import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';

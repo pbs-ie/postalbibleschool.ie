@@ -1,5 +1,5 @@
 import Heading1 from "@/Components/Typography/Heading1";
-import { Head } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/react";
 
 export default function EventWrapper({ title, heading, className = "", children }: { title: string, heading?: string, className?: string, children: React.ReactNode }): JSX.Element {
     return (

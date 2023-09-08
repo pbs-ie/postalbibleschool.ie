@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/inertia-react';
+import { Head } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { scroller } from 'react-scroll';
 

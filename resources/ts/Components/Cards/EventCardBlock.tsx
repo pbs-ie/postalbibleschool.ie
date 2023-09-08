@@ -1,5 +1,5 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import { Link } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import EventCardHeading from "../Typography/EventCardHeading";
 
 declare global {
