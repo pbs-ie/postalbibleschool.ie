@@ -8,7 +8,7 @@ import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 
 
 
-export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
+export default function Index({ videoList, canViewGallery = false }: { videoList: VideoListMeta[], canViewGallery: boolean }) {
     const { auth } = usePage<PassedProps>().props;
 
 
@@ -34,7 +34,7 @@ export default function Index({ videoList }: { videoList: VideoListMeta[] }) {
                 </div>
             </main>
 
-            {auth && auth.user &&
+            {auth && auth.user && canViewGallery &&
                 <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
             }
 

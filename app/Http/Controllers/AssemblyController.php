@@ -12,6 +12,7 @@ use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\AssemblyVideo;
+use Illuminate\Support\Facades\Gate;
 
 
 class AssemblyController extends Controller
@@ -62,9 +63,10 @@ class AssemblyController extends Controller
      */
     public function index()
     {
+        $canViewAll = Gate::check('view:assembly');
         $videoList = json_decode(json_encode($this->getAssemblyList()), true);
         $sortedList = [];
-        if (!auth()->check()) {
+        if (!$canViewAll) {
             $sortedList = array_values(Arr::sort($videoList, function (array $value) {
                 return $value;
             }));
@@ -77,7 +79,7 @@ class AssemblyController extends Controller
         // TODO: Admin check for creation functionality 
         return Inertia::render('Assembly/Index', [
             'videoList' => $sortedList,
-            'isAdmin' => true
+            'canViewGallery' => $canViewAll
         ]);
     }
 
@@ -178,6 +180,18 @@ class AssemblyController extends Controller
      */
     public function show(string $series)
     {
+        // Hiding additional assembly videos from unauthenticated users
+        $canViewAll = Gate::check('view:assembly');
+        if (!$canViewAll) {
+            $assemblyList = json_decode(json_encode($this->getAssemblyList()), true);
+            $lastTwoMonths = array_slice($assemblyList, -2, 2);
+            $seriesExists = array_filter($lastTwoMonths, function ($value) use ($series) {
+                return $value['routename'] == $series;
+            });
+            if (count($seriesExists) == 0) {
+                return Inertia::render('NotFound');
+            }
+        }
         $jsonContent = new stdClass();
 
         $fileName = strtolower($series);

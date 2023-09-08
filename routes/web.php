@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth0\Laravel\Facade\Auth0;
-use Illuminate\Support\Facades\Gate;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,23 +105,20 @@ Route::get('/about', function () {
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/', [AssemblyController::class, 'index'])->name('index');
-    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin');
-    Route::post('/', [AssemblyController::class, 'store'])->name('store');
-    Route::get('/create', [AssemblyController::class, 'create'])->name('create');
+    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin')->middleware(['auth'])->can('create:assembly');
+    Route::post('/', [AssemblyController::class, 'store'])->name('store')->middleware(['auth'])->can('create:assembly');
+    Route::get('/create', [AssemblyController::class, 'create'])->name('create')->middleware(['auth'])->can('create:assembly');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [AssemblyController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [AssemblyController::class, 'update'])->name('update');
-    Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}/edit', [AssemblyController::class, 'edit'])->name('edit')->middleware(['auth'])->can('create:assembly');
+    Route::put('/{id}', [AssemblyController::class, 'update'])->name('update')->middleware(['auth'])->can('create:assembly');
+    Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy')->middleware(['auth'])->can('create:assembly');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
 Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return response('You are not logged in.');
     }
-    return Inertia::render('Dashboard', [
-        'canViewAssembly' => Gate::check('view:assembly'),
-
-    ]);
+    return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
