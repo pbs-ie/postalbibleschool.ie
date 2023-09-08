@@ -21,7 +21,7 @@ interface FullAssemblyVideo {
     month: string,
     series: string,
     routename: string,
-    imageFile: File | null,
+    imageFile?: File | null,
     imageLink: string,
     content: VideoEdit[]
 }
@@ -70,7 +70,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
 
 
     const { errors } = usePage().props;
-    const { data, setData, put, reset, processing } = useForm({
+    const { data, setData, post, reset, processing } = useForm({
         monthTitle: videoData.monthTitle,
         month: videoData.month,
         series: videoData.series,
@@ -118,7 +118,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        put(route('assembly.update', videoData.id));
+        post(route('assembly.update', videoData.id));
     }
 
     useEffect(() => {

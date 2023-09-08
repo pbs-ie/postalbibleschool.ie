@@ -139,7 +139,7 @@ class AssemblyController extends Controller
         // Storing updated assembly config file
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $assemblyInfo['id'] = count($assemblyConfig->content);
-        $assemblyInfo['imageLink'] = Storage::url($path);
+        $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
         array_push($assemblyConfig->content, (object)$assemblyInfo);
 
         // Storing updated video config file for the month
@@ -223,7 +223,6 @@ class AssemblyController extends Controller
         $fileName = strtolower($videoData->routename);
 
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
-        $pngPath = $assemblyConfig->imagesPath . $fileName . '.png';
 
         $videoData->content = (json_decode(Storage::get($filePath), false))->content;
 
@@ -256,24 +255,23 @@ class AssemblyController extends Controller
         $assemblyInfo = $validator->safe()->except(['content', 'imageFile']);
 
 
-        // Storing image for the month
-        if ($imageInfo) {
-            $imageFile = $imageInfo["imageFile"];
-
-            if (isset($imageFile)) {
-                $path = $imageFile->storeAs('public/video_images', $assemblyInfo['routename'] . '.' . $imageFile->getClientOriginalExtension());
-                $assemblyInfo['imageLink'] = Storage::url($path);
-            }
-        }
-
         // Storing updated assembly config file
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $assemblyInfo['id'] = $id;
         $assemblyInfo['series'] = strtoupper($assemblyConfig->content[$id]->series);
         $assemblyInfo['routename'] = strtolower($assemblyConfig->content[$id]->routename);
 
-        $assemblyConfig->content[$id] = (object)$assemblyInfo;
+        // Storing image for the month
+        if ($imageInfo) {
+            $imageFile = $imageInfo["imageFile"];
 
+            if (isset($imageFile)) {
+                $path = $imageFile->storeAs('public/video_images', $assemblyInfo['routename'] . '.' . $imageFile->getClientOriginalExtension());
+                $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
+            }
+        }
+
+        $assemblyConfig->content[$id] = (object)$assemblyInfo;
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -321,7 +319,7 @@ class AssemblyController extends Controller
         $fileName = strtolower($assemblyConfig->content[$id]->routename);
 
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
-        $pngPath = $assemblyConfig->imagesPath . $fileName . '.png';
+        $pngPath = 'video_images/' . $fileName . '.png';
 
 
         // TODO: This check does not need to prevent the deletion
