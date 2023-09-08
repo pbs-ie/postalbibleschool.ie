@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BannerComponent from "@/Components/BannerComponent";
 
-export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[] }): JSX.Element {
+export default function Home({ bibleTimeDownloads, videoList, canViewGallery = false }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[], canViewGallery: boolean }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
@@ -51,7 +51,7 @@ export default function Home({ bibleTimeDownloads, videoList }: { bibleTimeDownl
                 <title>Home</title>
                 <meta head-key="description" name="description" content="Postal Bible School Ireland offers free Bible based study material for all ages" />
             </Head>
-            {auth?.user && showBanner &&
+            {auth?.user && canViewGallery && showBanner &&
                 <BannerComponent setShowBanner={setShowBanner} />
             }
             <section className="relative flex w-full">

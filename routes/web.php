@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth0\Laravel\Facade\Auth0;
+use Illuminate\Support\Facades\Gate;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::get('/home', function () {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
         'videoList' => (new AssemblyController)->getAssemblyList(),
+        'canViewGallery' => Gate::check('view:assembly'),
     ]);
 })->name('home');
 
