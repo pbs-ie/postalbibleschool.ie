@@ -12,6 +12,7 @@ class LessonOrder extends Model
     protected $fillable = [
         'email',
         'schoolName',
+        'schoolType',
         'level0Order',
         'level1Order',
         'level2Order',

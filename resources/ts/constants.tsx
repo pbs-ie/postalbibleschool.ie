@@ -78,6 +78,7 @@ declare global {
         id: number;
         email: string;
         schoolName: string;
+        schoolType: string;
         level0Order: number;
         level1Order: number;
         level2Order: number;

@@ -44,6 +44,10 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             header: 'School Name',
             minSize: 100
         }),
+        columnHelper.accessor(row => row.schoolType, {
+            header: 'School Type',
+            minSize: 100
+        }),
         columnHelper.accessor(row => row.level0Order, {
             id: 'level0Order',
             header: () => <span className="p-2 text-white bg-bibletime-pink">Level 0</span>,

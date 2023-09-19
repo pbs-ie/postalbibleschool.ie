@@ -16,6 +16,7 @@ import { FormEvent } from "react";
 export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lessonOrder: LessonOrder }) {
     const { data, setData, processing, reset, put } = useForm({
         schoolName: lessonOrder.schoolName,
+        schoolType: lessonOrder.schoolType,
         email: lessonOrder.email,
         level0Order: lessonOrder.level0Order,
         level1Order: lessonOrder.level1Order,
@@ -28,6 +29,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
     const handleChange = (event: React.ChangeEvent<HTMLFormElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "schoolName":
+            case "schoolType":
             case "email":
             case "level0Order":
             case "level1Order":
@@ -39,31 +41,6 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
         }
     };
 
-    const tableData = {
-        'headings':
-            <>
-                <th className="w-3/12 p-4 min-w-[100px]">School Name</th>
-                <th className="w-3/12 p-4 min-w-[100px]">Email</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 0</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 1</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 2</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 3</th>
-                <th className="w-1/12 p-4 min-w-[50px]">Level 4</th>
-                <th className="w-1/12 p-4 min-w-[50px]">TLP </th>
-                <th className="w-1/12 p-4 min-w-[50px]"></th>
-            </>,
-        'content':
-            [<>
-                <td className="p-4">{lessonOrder.schoolName}</td>
-                <td className="p-4">{lessonOrder.email}</td>
-                <td className="p-4">{lessonOrder.level0Order}</td>
-                <td className="p-4">{lessonOrder.level1Order}</td>
-                <td className="p-4">{lessonOrder.level2Order}</td>
-                <td className="p-4">{lessonOrder.level3Order}</td>
-                <td className="p-4">{lessonOrder.level4Order}</td>
-                <td className="p-4">{lessonOrder.tlpOrder}</td>
-            </>]
-    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -91,6 +68,10 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                     <div className="block mb-4">
                                         <InputLabel2 forInput={"schoolName"} value={"School Name"} required />
                                         <TextInput type={"text"} name={"schoolName"} id={"schoolName"} value={data.schoolName} className={""} autoComplete={"off"} handleChange={handleChange} required />
+                                    </div>
+                                    <div className="block mb-4">
+                                        <InputLabel2 forInput={"schoolType"} value={"School Type"} />
+                                        <TextInput type={"text"} name={"schoolType"} id={"schoolType"} value={data.schoolType} className={""} autoComplete={"off"} handleChange={handleChange} />
                                     </div>
 
                                 </>}
@@ -122,7 +103,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                 </div>
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                                <SecondaryButton><Link href="/orders">Cancel</Link></SecondaryButton>
+                                <Link href="/orders"><SecondaryButton>Cancel</SecondaryButton></Link>
                                 <PrimaryButton type="submit" className="w-1/3" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>
