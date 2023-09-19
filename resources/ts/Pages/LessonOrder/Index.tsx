@@ -72,9 +72,9 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.id}><ViewIcon className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(+row.id)}><DeleteIcon className="w-6 h-6" /> Delete</button>
+                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id)}><DeleteIcon className="w-6 h-6" /> Delete</button>
                 </div>
             )
         })
