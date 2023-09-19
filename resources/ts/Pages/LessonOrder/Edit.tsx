@@ -72,6 +72,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                     <div className="block mb-4">
                                         <InputLabel2 forInput={"schoolType"} value={"School Type"} />
                                         <TextInput type={"text"} name={"schoolType"} id={"schoolType"} value={data.schoolType} className={""} autoComplete={"off"} handleChange={handleChange} />
+                                        <p className="text-sm italic text-gray-600">Like: Delivery, Saints, Non-Saints, Donegal</p>
                                     </div>
 
                                 </>}
