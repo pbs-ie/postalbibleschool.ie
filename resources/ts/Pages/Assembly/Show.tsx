@@ -1,6 +1,6 @@
 import Heading3 from "@/Components/Typography/Heading3";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 
 import { useEffect, useReducer, useRef, useState } from "react";
 import Loader from "@/Components/Loader";
@@ -10,6 +10,7 @@ import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
 import VideoNavButton from "@/Components/Buttons/VideoNavButton";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 
 interface VideoMeta {
     externalUrl: string,
@@ -162,10 +163,10 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                             }
                         </div>
                     </div>
-                    <div className="w-full px-2 mx-auto md:px-20 xl:px-40">
-                        <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
-                            {isCarousalActive() &&
-                                assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
+                    {isCarousalActive() &&
+                        <div className="w-full px-2 mx-auto md:px-20 xl:px-40">
+                            <div ref={frameRef} id="carousel-cards" className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
+                                {assemblyLinks.map(({ title, duration, externalUrl }, idx) =>
                                     <VideoCarousalCard
                                         key={idx}
                                         active={videoState.id === idx}
@@ -175,11 +176,15 @@ export default function Show({ videoData }: { videoData: { title: string, imageI
                                         imageLink={videoData.imageId}
                                         idx={idx}
                                         onClick={() => loadNewLink({ externalUrl, title, duration, id: idx })} />)
-                            }
+                                }
+                            </div>
                         </div>
-                    </div>
+                    }
                 </section>
             }
+            <div className="flex justify-center w-full px-5 mt-5 md:mt-10 md:px-10">
+                <Link href={route('assembly.index')}><SecondaryButton>Go Back to Assembly Gallery</SecondaryButton></Link>
+            </div>
         </WrapperLayout>
     )
 }

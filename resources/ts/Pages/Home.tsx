@@ -78,9 +78,9 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
                                 heading="School Assembly Video"
-                                content="is now available for June 2023"
+                                content={`is now available for ${currentAssembly.month}`}
                                 buttonText="Show Me"
-                                buttonLink={route('assembly.index')}
+                                buttonLink={route('assembly.show', { 'series': currentAssembly.routename })}
                                 className="border-4"
                             />
                         </div>
