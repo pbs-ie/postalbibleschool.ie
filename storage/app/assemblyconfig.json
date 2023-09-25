@@ -53,6 +53,14 @@
             "monthTitle": "Trust",
             "routename": "b06",
             "imageLink": "\/assembly\/image\/b06"
+        },
+        {
+            "monthTitle": "God Calls Moses",
+            "month": "September",
+            "series": "B9",
+            "routename": "b09",
+            "id": 6,
+            "imageLink": "\/assembly\/image\/b09"
         }
     ]
 }
