@@ -62,6 +62,7 @@ class LessonOrderController extends Controller
     {
         $validated = $request->validate([
             'schoolName' => ['required', 'max:50', 'min:3'],
+            'schoolType' => ['max:50', 'min:3'],
             'email' => ['required', 'unique:lesson_orders', 'email'],
             'level0Order' => ['numeric', 'max_digits:3'],
             'level1Order' => ['numeric', 'max_digits:3'],
@@ -129,6 +130,7 @@ class LessonOrderController extends Controller
         if ($this->checkIfAdmin()) {
             $validated = $request->validate([
                 'schoolName' => ['required', 'max:50', 'min:3'],
+                'schoolType' => ['max:50', 'min:3'],
                 'email' => ['required', 'email'],
                 'level0Order' => ['numeric'],
                 'level1Order' => ['numeric'],
@@ -150,10 +152,10 @@ class LessonOrderController extends Controller
 
         $orderNumbersChanged = false;
         $oldOrder = $lessonOrder->replicate();
-        
+
         $lessonOrder->fill($validated);
 
-        if($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
+        if ($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
             $orderNumbersChanged = true;
         }
 
