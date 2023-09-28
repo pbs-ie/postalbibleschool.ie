@@ -24,7 +24,7 @@ class AssemblyController extends Controller
         return chr(97 + (($year - 2022) % 3));
     }
 
-    private function parseExternalUrl($externalUrl)
+    public function parseExternalUrl($externalUrl)
     {
         preg_match('/\/(\d{5,})\??/', $externalUrl, $numCode, PREG_UNMATCHED_AS_NULL);
         if (is_null($numCode[1])) {

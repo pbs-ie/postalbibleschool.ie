@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
@@ -106,9 +107,15 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
+    Route::prefix('bonus')->name('bonus.')->middleware(['auth'])->group(function () {
+        Route::get('/', [BonusAssemblyController::class, 'index'])->name('index')->can('view:assembly');
+        Route::get('/create', [BonusAssemblyController::class, 'create'])->name('create')->can('create:assembly');
+        Route::post('/store', [BonusAssemblyController::class, 'store'])->name('store')->can('create:assembly');
+        Route::delete('/{id}', [BonusAssemblyController::class, 'destroy'])->name('destroy')->can('create:assembly');
+    });
     Route::get('/', [AssemblyController::class, 'index'])->name('index');
-    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin')->middleware(['auth'])->can('create:assembly');
     Route::post('/', [AssemblyController::class, 'store'])->name('store')->middleware(['auth'])->can('create:assembly');
+    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin')->middleware(['auth'])->can('create:assembly');
     Route::get('/create', [AssemblyController::class, 'create'])->name('create')->middleware(['auth'])->can('create:assembly');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [AssemblyController::class, 'edit'])->name('edit')->middleware(['auth'])->can('create:assembly');
