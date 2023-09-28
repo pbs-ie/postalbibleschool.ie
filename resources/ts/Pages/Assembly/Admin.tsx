@@ -67,9 +67,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
 
     return (
         <WrapperLayout>
-            {toggleModal &&
-                <ModalComponent message="Are you sure you want to delete this month?" handleOnClose={handleOnClose} handleSubmit={handleSubmit} />
-            }
+            <ModalComponent isOpen={toggleModal} message="Are you sure you want to delete this month?" handleOnClose={handleOnClose} handleSubmit={handleSubmit} />
             <ContentWrapper title="Admin" >
                 <div className="flex justify-end w-full">
                     <Link href={route('assembly.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>

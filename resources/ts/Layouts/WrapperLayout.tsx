@@ -34,6 +34,7 @@ export default function WrapperLayout({ showSecondaryNav = false, extraLogo, chi
                 <SecondaryNavigation logo={extraLogo} />
             }
             <FlashMessage />
+            <div id="modal"></div>
             <main className="relative flex flex-col h-full grow md:justify-center">
                 <div className="w-full pb-20 overflow-hidden grow">
                     {children}
