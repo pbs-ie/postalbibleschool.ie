@@ -6,6 +6,7 @@ use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\LessonOrderController;
+use App\Http\Controllers\PayPalController;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
 use Illuminate\Foundation\Application;
@@ -132,4 +133,8 @@ Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function (
     Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
     Route::delete('/{lessonOrder}', [LessonOrderController::class, 'destroy'])->name('destroy')->can('create:orders');
+});
+
+Route::prefix('paypal')->name('paypal.')->group(function () {
+    Route::get('/', [PayPalController::class, 'index'])->name('index');
 });
