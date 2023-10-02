@@ -1,4 +1,5 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
@@ -15,10 +16,13 @@ import { useState } from "react";
 export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
+    const [nameToDelete, setNameToDelete] = useState<null | string>(null);
+
 
     const showModal = (id: number) => {
         setIdToDelete(id);
         setToggleModal(true);
+        setNameToDelete(videoList[id].monthTitle);
     }
 
     const handleOnClose = () => {
@@ -67,7 +71,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
 
     return (
         <WrapperLayout>
-            <ModalComponent isOpen={toggleModal} message="Are you sure you want to delete this month?" handleOnClose={handleOnClose} handleSubmit={handleSubmit} />
+            <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Admin" >
                 <div className="flex justify-end w-full">
                     <Link href={route('assembly.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>

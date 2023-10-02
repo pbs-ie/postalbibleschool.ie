@@ -58,7 +58,15 @@ class BonusAssemblyController extends Controller
         $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
 
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        $assemblyInfo['id'] = last($assemblyConfig->bbwContent)['id'] + 1;
+        if (!isset($assemblyConfig->bbwContent)) {
+            $assemblyConfig->bbwContent = [];
+        }
+        $lastElement = last($assemblyConfig->bbwContent);
+        if ($lastElement == null) {
+            $assemblyInfo['id'] = 0;
+        } else {
+            $assemblyInfo['id'] = $lastElement['id'] + 1;
+        }
         $assemblyInfo['routename'] = 'bbw' . $assemblyInfo['id'];
 
         // Storing image for the month
