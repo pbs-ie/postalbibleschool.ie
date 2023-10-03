@@ -38,7 +38,7 @@ class BonusAssemblyController extends Controller
         $canEdit = Gate::check('create:assembly');
         $videoList = json_decode(json_encode($this->getVideoList()), true);
         if ($videoList === false) {
-            return redirect()->back()->with('failure', 'Missing file in system');
+            return redirect()->route('assembly.index')->with('failure', 'No file in system');
         }
         $sortedList = [];
         $sortedList = array_values(Arr::sort($videoList, function (array $value) {
@@ -87,6 +87,8 @@ class BonusAssemblyController extends Controller
         $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
         array_push($videoList, (object)$assemblyInfo);
 
+        $assemblyConfig->bbwContent = $videoList;
+
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
         $videoConfig->title = $assemblyInfo['monthTitle'];
@@ -108,9 +110,9 @@ class BonusAssemblyController extends Controller
 
 
         if (!$storeConfigSuccess || !$videoConfigSuccess) {
-            return redirect()->back()->with('failure', 'Something went wrong');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Something went wrong');
         } else {
-            return redirect()->route('assembly.bonus.index')->with('success', 'Video added successfully');
+            return redirect()->route('assembly.bonus.admin')->with('success', 'Video added successfully');
         }
     }
 
@@ -125,7 +127,7 @@ class BonusAssemblyController extends Controller
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $videoList = $this->getVideoList();
         if ($videoList === false) {
-            return redirect()->back()->with('failure', 'Missing file in system');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
         }
         $videoData = $videoList[$id];
         $fileName = strtolower($videoData->routename);
@@ -161,13 +163,13 @@ class BonusAssemblyController extends Controller
         $videoList = $this->getVideoList();
         $currentRoutename = $videoList[$id]->routename;
         if ($videoList === false) {
-            return redirect()->back()->with('failure', 'Missing file in system');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
         }
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
 
         $videoConfigPath = $assemblyConfig->jsonPath . strtolower($currentRoutename) . '.json';
         if (!Storage::exists($videoConfigPath)) {
-            return redirect()->back()->with('failure', 'Could not find associated file');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Could not find associated file');
         }
 
         // Storing image for the month
@@ -208,7 +210,7 @@ class BonusAssemblyController extends Controller
 
 
         if (!$storeConfigSuccess || !$videoConfigSuccess) {
-            return redirect()->back()->with('failure', 'Something went wrong');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Something went wrong');
         } else {
             return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
         }
@@ -234,7 +236,7 @@ class BonusAssemblyController extends Controller
 
         // TODO: This check does not need to prevent the deletion
         if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
-            return redirect()->back()->with('failure', 'Missing file in system');
+            return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
         }
 
         // Destroy the .json file for the month
@@ -255,9 +257,6 @@ class BonusAssemblyController extends Controller
     public function admin()
     {
         $videoList = $this->getVideoList();
-        if (!$videoList) {
-            return redirect()->back()->with('failure', 'Missing file in system');
-        }
         return Inertia::render('Assembly/Bonus/Admin', [
             'videoList' => $videoList
         ]);
