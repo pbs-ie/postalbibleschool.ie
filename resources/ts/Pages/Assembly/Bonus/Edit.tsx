@@ -2,14 +2,15 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
+import SelectInput from "@/Components/Forms/SelectInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm, Link } from "@inertiajs/react";
-import { FormEvent, useEffect, useReducer, useRef, useState } from "react";
+import { FormEvent, useEffect } from "react";
 
-interface FullBbwVideo {
+interface FullBonusVideo {
     id: number,
     monthTitle: string,
     routename: string,
@@ -17,9 +18,10 @@ interface FullBbwVideo {
     imageLink: string,
     title: string,
     externalUrl: string,
-    duration: string
+    duration: string,
+    category: string
 }
-export default function Edit({ videoData }: { videoData: FullBbwVideo }) {
+export default function Edit({ videoData }: { videoData: FullBonusVideo }) {
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
@@ -29,15 +31,16 @@ export default function Edit({ videoData }: { videoData: FullBbwVideo }) {
         videoTitle: videoData.title,
         externalUrl: videoData.externalUrl,
         duration: videoData.duration,
-
+        category: videoData.category
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "monthTitle":
             case "videoTitle":
             case "externalUrl":
             case "duration":
+            case "category":
                 setData(event.target.name, event.target.value);
         }
     };
@@ -71,6 +74,14 @@ export default function Edit({ videoData }: { videoData: FullBbwVideo }) {
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"monthTitle"} value={"Title"} required />
                             <TextInput type={"text"} name={"monthTitle"} id={"monthTitle"} value={data.monthTitle} className={""} handleChange={handleChange} required />
+                        </div>
+                        <div className="inline-flex gap-2">
+                            <InputLabel forInput={"category"} value={"Category"} required />
+                            <SelectInput defaultValue={data.category} name={"category"} id={"category"} className={"self-center"} handleChange={handleChange} required>
+                                <option value="" disabled>Select&hellip;</option>
+                                <option value="bbw">Big Bible Words</option>
+                                <option value="bbooks">Bible Books</option>
+                            </SelectInput>
                         </div>
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />

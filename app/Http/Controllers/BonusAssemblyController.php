@@ -16,10 +16,10 @@ class BonusAssemblyController extends Controller
     private function getVideoList()
     {
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        if (!isset($assemblyConfig->bbwContent) || !is_array($assemblyConfig->bbwContent) || empty($assemblyConfig->bbwContent)) {
+        if (!isset($assemblyConfig->bonusContent) || !is_array($assemblyConfig->bonusContent) || empty($assemblyConfig->bonusContent)) {
             return false;
         }
-        return $assemblyConfig->bbwContent;
+        return $assemblyConfig->bonusContent;
     }
     private function getRules()
     {
@@ -29,7 +29,15 @@ class BonusAssemblyController extends Controller
             'videoTitle' => ['required'],
             'externalUrl' => ['required'],
             'duration' => ['required'],
-            'routename' => ['required']
+            'routename' => [],
+            'category' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if ($value !== "bbw" && $value !== "bbooks") {
+                        $fail('Expected either "Big Bible Words" or "Bible Books');
+                    }
+                }
+            ]
         ];
     }
 
@@ -75,7 +83,7 @@ class BonusAssemblyController extends Controller
             $lastElement = last($videoList);
             $assemblyInfo['id'] = $lastElement->id + 1;
         }
-        $assemblyInfo['routename'] = 'bbw' . $assemblyInfo['id'];
+        $assemblyInfo['routename'] = 'bonus' . $assemblyInfo['id'];
 
         // Storing image for the month
         $imageFile = $imageInfo["imageFile"];
@@ -87,7 +95,7 @@ class BonusAssemblyController extends Controller
         $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
         array_push($videoList, (object)$assemblyInfo);
 
-        $assemblyConfig->bbwContent = $videoList;
+        $assemblyConfig->bonusContent = $videoList;
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -180,13 +188,13 @@ class BonusAssemblyController extends Controller
                 $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $currentRoutename;
             }
         }
-
-        $bbwConfigUpdate = $assemblyConfig->bbwContent[$id];
-        $bbwConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
-        $bbwConfigUpdate->imageLink = $assemblyInfo['imageLink'];
+        $bonusConfigUpdate = $assemblyConfig->bonusContent[$id];
+        $bonusConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
+        $bonusConfigUpdate->imageLink = $assemblyInfo['imageLink'];
+        $bonusConfigUpdate->category = $assemblyInfo['category'];
 
         // Storing updated assembly config file
-        $assemblyConfig->bbwContent[$id] = $bbwConfigUpdate;
+        $assemblyConfig->bonusContent[$id] = $bonusConfigUpdate;
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -228,7 +236,7 @@ class BonusAssemblyController extends Controller
     public function destroy(int $id)
     {
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        $fileName = strtolower($assemblyConfig->bbwContent[$id]->routename);
+        $fileName = strtolower($assemblyConfig->bonusContent[$id]->routename);
 
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
         $pngPath = 'video_images/' . $fileName . '.png';
@@ -246,7 +254,7 @@ class BonusAssemblyController extends Controller
         Storage::disk('public')->delete($pngPath);
 
         // Remove the entry in assembly config for the month
-        $assemblyConfig->bbwContent = array_filter($assemblyConfig->bbwContent, function ($item) use ($id) {
+        $assemblyConfig->bonusContent = array_filter($assemblyConfig->bonusContent, function ($item) use ($id) {
             return $item->id !== $id;
         });
         Storage::put('assemblyconfig.json', json_encode($assemblyConfig));

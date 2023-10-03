@@ -2,6 +2,7 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
+import SelectInput from "@/Components/Forms/SelectInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
@@ -16,18 +17,20 @@ export default function Create() {
     const { data, setData, post, reset, processing } = useForm({
         monthTitle: "",
         imageFile: null as File | null,
+        category: "",
         videoTitle: "",
         externalUrl: "",
         duration: "",
 
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "monthTitle":
             case "videoTitle":
             case "externalUrl":
             case "duration":
+            case "category":
                 setData(event.target.name, event.target.value);
         }
     };
@@ -61,6 +64,14 @@ export default function Create() {
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"monthTitle"} value={"Title"} required />
                             <TextInput type={"text"} name={"monthTitle"} id={"monthTitle"} value={data.monthTitle} className={""} handleChange={handleChange} required />
+                        </div>
+                        <div className="inline-flex gap-2">
+                            <InputLabel forInput={"category"} value={"Category"} required />
+                            <SelectInput defaultValue="" name={"category"} id={"category"} className={"self-center"} handleChange={handleChange} required>
+                                <option value="" disabled>Select&hellip;</option>
+                                <option value="bbw">Big Bible Words</option>
+                                <option value="bbooks">Bible Books</option>
+                            </SelectInput>
                         </div>
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />

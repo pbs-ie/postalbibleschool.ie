@@ -71,7 +71,8 @@ declare global {
         id: number,
         series: string,
         routename: string,
-        imageLink: string
+        imageLink: string,
+        category?: string
     }
 
     interface LessonOrder {

@@ -56,6 +56,9 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
         columnHelper.accessor(row => row.routename, {
             header: 'Routename',
         }),
+        columnHelper.accessor(row => row.category, {
+            header: 'Category',
+        }),
         columnHelper.display({
             id: 'actions',
             header: 'Actions',
