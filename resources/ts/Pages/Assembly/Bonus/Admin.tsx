@@ -4,7 +4,6 @@ import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
 import ViewIcon from "@/Components/Icons/ViewIcon";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
@@ -12,7 +11,7 @@ import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
+export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
     const [nameToDelete, setNameToDelete] = useState<null | string>(null);
@@ -31,7 +30,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
 
     const handleSubmit = () => {
         if (idToDelete) {
-            router.delete(route('assembly.destroy', idToDelete));
+            router.delete(route('assembly.bonus.destroy', idToDelete));
         } else {
             console.error('Could not find that entry. Please contact administrator');
         }
@@ -53,12 +52,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
         columnHelper.accessor(row => row.monthTitle, {
             header: 'Title',
         }),
-        columnHelper.accessor(row => row.month, {
-            header: 'Month',
-        }),
-        columnHelper.accessor(row => row.series, {
-            header: 'Series',
-        }),
+
         columnHelper.accessor(row => row.routename, {
             header: 'Routename',
         }),
@@ -67,8 +61,8 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/assembly/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/assembly/" + row.original.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.show', row.original.routename)}><ViewIcon className="w-6 h-6" /> View</Link>
                     <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id)}><DeleteIcon className="w-6 h-6" /> Delete</button>
                 </div>
             )
@@ -78,9 +72,9 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
     return (
         <WrapperLayout>
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
-            <ContentWrapper title="Admin" >
+            <ContentWrapper title="Admin - Bonus Videos" >
                 <div className="flex justify-end w-full">
-                    <Link href={route('assembly.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>
+                    <Link href={route('assembly.bonus.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>
                 </div>
 
                 <div className="w-full overflow-x-auto">

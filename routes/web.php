@@ -109,8 +109,12 @@ Route::get('/about', function () {
 Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::prefix('bonus')->name('bonus.')->middleware(['auth'])->group(function () {
         Route::get('/', [BonusAssemblyController::class, 'index'])->name('index')->can('view:assembly');
+        Route::post('/', [BonusAssemblyController::class, 'store'])->name('store')->can('create:assembly');
+        Route::get('/admin', [BonusAssemblyController::class, 'admin'])->name('admin')->can('create:assembly');
         Route::get('/create', [BonusAssemblyController::class, 'create'])->name('create')->can('create:assembly');
-        Route::post('/store', [BonusAssemblyController::class, 'store'])->name('store')->can('create:assembly');
+        Route::get('/{id}/edit', [BonusAssemblyController::class, 'edit'])->name('edit')->can('create:assembly');
+        // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+        Route::post('/{id}', [BonusAssemblyController::class, 'update'])->name('update')->middleware(['auth'])->can('create:assembly');
         Route::delete('/{id}', [BonusAssemblyController::class, 'destroy'])->name('destroy')->can('create:assembly');
     });
     Route::get('/', [AssemblyController::class, 'index'])->name('index');

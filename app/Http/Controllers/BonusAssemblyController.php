@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Gate;
 
 class BonusAssemblyController extends Controller
 {
+    private function getVideoList()
+    {
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        if (!isset($assemblyConfig->bbwContent) || !is_array($assemblyConfig->bbwContent) || empty($assemblyConfig->bbwContent)) {
+            return false;
+        }
+        return $assemblyConfig->bbwContent;
+    }
     private function getRules()
     {
         return [
@@ -21,20 +29,21 @@ class BonusAssemblyController extends Controller
             'videoTitle' => ['required'],
             'externalUrl' => ['required'],
             'duration' => ['required'],
+            'routename' => ['required']
         ];
     }
 
     public function index()
     {
         $canEdit = Gate::check('create:assembly');
-        $config = json_decode(Storage::get('assemblyconfig.json'), false);
-        $sortedList = [];
-        if (isset($config->bbwContent)) {
-            $videoList = json_decode(json_encode($config->bbwContent), true);
-            $sortedList = array_values(Arr::sort($videoList, function (array $value) {
-                return $value;
-            }));
+        $videoList = json_decode(json_encode($this->getVideoList()), true);
+        if ($videoList === false) {
+            return redirect()->back()->with('failure', 'Missing file in system');
         }
+        $sortedList = [];
+        $sortedList = array_values(Arr::sort($videoList, function (array $value) {
+            return $value;
+        }));
         return Inertia::render('Assembly/Bonus/Index', [
             'videoList' => $sortedList,
             'canEdit' => $canEdit
@@ -57,15 +66,14 @@ class BonusAssemblyController extends Controller
         $assemblyInfo = $validator->safe()->except(['imageFile', 'videoTitle', 'externalUrl', 'duration']);
         $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
 
+        $videoList = $this->getVideoList();
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        if (!isset($assemblyConfig->bbwContent)) {
-            $assemblyConfig->bbwContent = [];
-        }
-        $lastElement = last($assemblyConfig->bbwContent);
-        if ($lastElement == null) {
+        if ($videoList === false) {
+            $videoList = [];
             $assemblyInfo['id'] = 0;
         } else {
-            $assemblyInfo['id'] = $lastElement['id'] + 1;
+            $lastElement = last($videoList);
+            $assemblyInfo['id'] = $lastElement->id + 1;
         }
         $assemblyInfo['routename'] = 'bbw' . $assemblyInfo['id'];
 
@@ -77,7 +85,7 @@ class BonusAssemblyController extends Controller
         // Storing updated assembly config file
 
         $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
-        array_push($assemblyConfig->bbwContent, (object)$assemblyInfo);
+        array_push($videoList, (object)$assemblyInfo);
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -105,6 +113,109 @@ class BonusAssemblyController extends Controller
             return redirect()->route('assembly.bonus.index')->with('success', 'Video added successfully');
         }
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(int $id)
+    {
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        $videoList = $this->getVideoList();
+        if ($videoList === false) {
+            return redirect()->back()->with('failure', 'Missing file in system');
+        }
+        $videoData = $videoList[$id];
+        $fileName = strtolower($videoData->routename);
+
+        $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
+        $fileContent = (json_decode(Storage::get($filePath), false))->content;
+        $finalVideoData = (object) array_merge((array) $videoData, (array) $fileContent[0]);
+
+        return Inertia::render('Assembly/Bonus/Edit', [
+            "videoData" => $finalVideoData
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $id)
+    {
+        $rules = $this->getRules();
+        $rules['imageLink'] = [];
+        $validator = Validator::make($request->all(), $rules, [], [
+            'monthTitle' => 'Main Title',
+        ]);
+
+        $imageInfo = $validator->safe()->only(['imageFile']);
+        $assemblyInfo = $validator->safe()->except(['imageFile', 'videoTitle', 'externalUrl', 'duration']);
+        $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
+
+        $videoList = $this->getVideoList();
+        $currentRoutename = $videoList[$id]->routename;
+        if ($videoList === false) {
+            return redirect()->back()->with('failure', 'Missing file in system');
+        }
+        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+
+        $videoConfigPath = $assemblyConfig->jsonPath . strtolower($currentRoutename) . '.json';
+        if (!Storage::exists($videoConfigPath)) {
+            return redirect()->back()->with('failure', 'Could not find associated file');
+        }
+
+        // Storing image for the month
+        if ($imageInfo) {
+            $imageFile = $imageInfo["imageFile"];
+            if (isset($imageFile)) {
+                $path = $imageFile->storeAs('public/video_images', $currentRoutename . '.' . $imageFile->getClientOriginalExtension());
+                $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $currentRoutename;
+            }
+        }
+
+        $bbwConfigUpdate = $assemblyConfig->bbwContent[$id];
+        $bbwConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
+        $bbwConfigUpdate->imageLink = $assemblyInfo['imageLink'];
+
+        // Storing updated assembly config file
+        $assemblyConfig->bbwContent[$id] = $bbwConfigUpdate;
+
+        // Storing updated video config file for the month
+        $videoConfig = new stdClass();
+        $videoConfig->title = $assemblyInfo['monthTitle'];
+        $videoConfig->imageId = $currentRoutename;
+
+        $videoConfig->content[0]['id'] = 0;
+        $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
+        $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
+        $videoConfig->content[0]['duration'] = $videoInfo['duration'];
+
+        $storeConfigSuccess = Storage::put(
+            'assemblyconfig.json',
+            json_encode($assemblyConfig)
+        );
+
+        $videoConfigSuccess = Storage::put(
+            $videoConfigPath,
+            json_encode($videoConfig)
+        );
+
+
+        if (!$storeConfigSuccess || !$videoConfigSuccess) {
+            return redirect()->back()->with('failure', 'Something went wrong');
+        } else {
+            return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
+        }
+    }
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -139,5 +250,16 @@ class BonusAssemblyController extends Controller
         Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
 
         return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
+    }
+
+    public function admin()
+    {
+        $videoList = $this->getVideoList();
+        if (!$videoList) {
+            return redirect()->back()->with('failure', 'Missing file in system');
+        }
+        return Inertia::render('Assembly/Bonus/Admin', [
+            'videoList' => $videoList
+        ]);
     }
 }
