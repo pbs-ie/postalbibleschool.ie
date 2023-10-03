@@ -62,5 +62,21 @@
             "id": 6,
             "imageLink": "\/assembly\/image\/b09"
         }
+    ],
+    "bonusContent": [
+        {
+            "monthTitle": "Disciple",
+            "category": "bbw",
+            "id": 0,
+            "routename": "bonus0",
+            "imageLink": "\/assembly\/image\/bonus0"
+        },
+        {
+            "monthTitle": "Bible Books with Chris",
+            "category": "bbooks",
+            "id": 1,
+            "routename": "bonus1",
+            "imageLink": "\/assembly\/image\/bonus1"
+        }
     ]
 }

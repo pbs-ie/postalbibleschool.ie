@@ -24,7 +24,7 @@ class AssemblyController extends Controller
         return chr(97 + (($year - 2022) % 3));
     }
 
-    private function parseExternalUrl($externalUrl)
+    public function parseExternalUrl($externalUrl)
     {
         preg_match('/\/(\d{5,})\??/', $externalUrl, $numCode, PREG_UNMATCHED_AS_NULL);
         if (is_null($numCode[1])) {
@@ -64,6 +64,7 @@ class AssemblyController extends Controller
     public function index()
     {
         $canViewAll = Gate::check('view:assembly');
+        $canEdit = Gate::check('create:assembly');
         $videoList = json_decode(json_encode($this->getAssemblyList()), true);
         $sortedList = [];
         if (!$canViewAll) {
@@ -76,10 +77,10 @@ class AssemblyController extends Controller
             $sortedList = $videoList;
         }
 
-        // TODO: Admin check for creation functionality 
         return Inertia::render('Assembly/Index', [
             'videoList' => $sortedList,
-            'canViewGallery' => $canViewAll
+            'canViewGallery' => $canViewAll,
+            'canEdit' => $canEdit
         ]);
     }
 
