@@ -48,12 +48,22 @@ class BonusAssemblyController extends Controller
         if ($videoList === false) {
             return redirect()->route('assembly.index')->with('failure', 'No file in system');
         }
-        $sortedList = [];
-        $sortedList = array_values(Arr::sort($videoList, function (array $value) {
+        $bbwList = array_filter($videoList, function ($listItem) {
+            return $listItem['category'] === 'bbw';
+        });
+
+        $bbooksList = array_filter($videoList, function ($listItem) {
+            return $listItem['category'] === 'bbooks';
+        });
+        $sortedBbwList = array_values(Arr::sort($bbwList, function (array $value) {
+            return $value;
+        }));
+        $sortedBbooksList = array_values(Arr::sort($bbooksList, function (array $value) {
             return $value;
         }));
         return Inertia::render('Assembly/Bonus/Index', [
-            'videoList' => $sortedList,
+            'bbwList' => $sortedBbwList,
+            'bbooksList' => $sortedBbooksList,
             'canEdit' => $canEdit
         ]);
     }

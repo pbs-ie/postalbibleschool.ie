@@ -52,7 +52,7 @@ export default function Create() {
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="Create New Big Bible Word">
+            <ContentWrapper title="Create New Bonus Assembly Video">
                 {errors &&
                     Object.keys(errors).map((key) =>
                         <ToastBanner key={key} message={errors[key]} />
