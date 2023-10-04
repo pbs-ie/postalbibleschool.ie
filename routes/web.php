@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Models\DownloadsList;
@@ -107,9 +108,19 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
+    Route::prefix('bonus')->name('bonus.')->middleware(['auth'])->group(function () {
+        Route::get('/', [BonusAssemblyController::class, 'index'])->name('index')->can('view:assembly');
+        Route::post('/', [BonusAssemblyController::class, 'store'])->name('store')->can('create:assembly');
+        Route::get('/admin', [BonusAssemblyController::class, 'admin'])->name('admin')->can('create:assembly');
+        Route::get('/create', [BonusAssemblyController::class, 'create'])->name('create')->can('create:assembly');
+        Route::get('/{id}/edit', [BonusAssemblyController::class, 'edit'])->name('edit')->can('create:assembly');
+        // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+        Route::post('/{id}', [BonusAssemblyController::class, 'update'])->name('update')->middleware(['auth'])->can('create:assembly');
+        Route::delete('/{id}', [BonusAssemblyController::class, 'destroy'])->name('destroy')->can('create:assembly');
+    });
     Route::get('/', [AssemblyController::class, 'index'])->name('index');
-    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin')->middleware(['auth'])->can('create:assembly');
     Route::post('/', [AssemblyController::class, 'store'])->name('store')->middleware(['auth'])->can('create:assembly');
+    Route::get('/admin', [AssemblyController::class, 'admin'])->name('admin')->middleware(['auth'])->can('create:assembly');
     Route::get('/create', [AssemblyController::class, 'create'])->name('create')->middleware(['auth'])->can('create:assembly');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [AssemblyController::class, 'edit'])->name('edit')->middleware(['auth'])->can('create:assembly');
