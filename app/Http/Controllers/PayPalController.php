@@ -17,10 +17,10 @@ class PayPalController extends Controller
 
     public function __construct()
     {
-        $this->environment = env('PAYPAL_ENVIRONMENT', 'sandbox');
-        $this->clientId = env('PAYPAL_CLIENT_ID');
-        $this->clientSecret = env('PAYPAL_CLIENT_SECRET');
-        $this->endpointUrl = $this->environment === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
+        $this->environment = config('paypal.environment', 'sandbox');
+        $this->clientId = config('paypal.clientId');
+        $this->clientSecret = config('paypal.clientSecret');
+        $this->endpointUrl = $this->environment === 'production' ? 'https://api-m.paypal.com' : 'https://api-m.sandbox.paypal.com';
     }
 
     function guidv4($data = null)
