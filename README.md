@@ -20,12 +20,12 @@ As a charity it aims to distribute and teach God’s word the Bible through dist
 
 ## Upcoming Features
 
-- [ ] Filter and search in order form admin panel
-- [ ] Gallery interface for 
-  - [ ] Big Bible Words
-  - [ ] Bible Books
 - [ ] Section for historical information of STEP
-- [ ] PayPal integration on the website
+- [x] Filter and search in order form admin panel
+- [x] Gallery interface for 
+  - [x] Big Bible Words
+  - [x] Bible Books
+- [x] PayPal integration on the website
 
 ## Changes
 

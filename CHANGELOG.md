@@ -1,3 +1,8 @@
+## 1.1.0 (2023-10-06)
+
+- Added functionality for Bonus videos in School Assembly view - Big Bible words and Bible Books (5535f67)
+- Paypal integration using default buttons and custom price
+
 ## 1.0.0 (2023-09-18)
 
 - Created Changelog file

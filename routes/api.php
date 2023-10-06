@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\PaypalResource;
+use App\Http\Controllers\PayPalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/orders', [PayPalController::class, 'createOrder'])->name('paypal.create');
+Route::post('/orders/{orderId}/capture', [PayPalController::class, 'captureOrder'])->name('paypal.capture');
