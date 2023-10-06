@@ -88,10 +88,15 @@ class PayPalController extends Controller
             'Paypal-Request-Id' => $paypalRequestId,
         ])->acceptJson()->post($url, $payload);
 
+        $returnJson = [];
         $jsonResponse = $response->json();
-        $returnJson = [
-            'id' => $jsonResponse['id']
-        ];
+        if (array_key_exists('id', $jsonResponse)) {
+            $returnJson = [
+                'id' => $jsonResponse['id']
+            ];
+        } else {
+            $returnJson = $jsonResponse;
+        }
         return $returnJson;
     }
 
