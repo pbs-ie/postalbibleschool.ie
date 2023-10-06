@@ -6,7 +6,6 @@ import PaypalCheckoutButtons, { Cart } from "@/Components/Buttons/PaypalCheckout
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
-// import DefaultPaymentOptions from "@/Components/Payments/DefaultPaymentOptions";
 
 export interface Product {
     title: string;
@@ -77,7 +76,7 @@ export default function Index() {
     const handleContinueButton = () => {
         if (activeOption === null || currentPrice === '') {
             setIsButtonDisabled(true);
-            setError("Select or enter an amount value");
+            setError("Please select or enter an amount to send");
             return;
         }
         setCart([{

@@ -148,5 +148,4 @@ Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function (
 
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/', [PayPalController::class, 'index'])->name('index');
-    Route::get('/confirm', [PayPalController::class, 'confirm'])->name('confirm');
 });

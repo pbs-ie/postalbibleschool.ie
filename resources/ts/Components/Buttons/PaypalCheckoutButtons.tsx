@@ -45,8 +45,8 @@ export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, 
             }
         }
         catch (error) {
-            console.error(error);
-            setMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
+            console.log(error);
+            setMessage(`Could not initiate PayPal Checkout... Please try again later`);
         }
     }
     const onApprove = async (data: any, actions: any) => {
@@ -80,8 +80,9 @@ export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, 
                 const transaction =
                     orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
                     orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
-                setMessage(
-                    `Transaction ${transaction.status}: ${transaction.id} - See console for all available details`,
+                setMessage(`Transaction ${transaction.status}: ${transaction.id}`);
+                console.log(
+                    `Transaction ${transaction.status}: ${transaction.id} - See console for all available details`
                 );
                 setSuccess(true);
                 console.log(
@@ -91,7 +92,8 @@ export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, 
                 );
             }
         } catch (e: any) {
-            setMessage(`Transaction Failed: ${e.message}`);
+            console.log(`Transaction Failed: ${e.message}`);
+            setMessage(`Transaction Failed. Please try again later.`);
         }
 
     }

@@ -17,7 +17,7 @@ export default function Navbar() {
 
     return (
         <header className="text-white border-b-2 border-gray-800 bg-pbsblue">
-            <nav className="px-4 mx-auto max-w-7xl">
+            <nav className="px-8 mx-auto">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="flex items-center shrink-0">
@@ -91,6 +91,11 @@ export default function Navbar() {
                         <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={route('assembly.index')} active={route().current('assembly.*')}>
                                 School Assembly
+                            </NavLink>
+                        </div>
+                        <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
+                            <NavLink href={route('payment.index')} active={route().current('payment.*')}>
+                                Payment
                             </NavLink>
                         </div>
                     </div>
@@ -187,6 +192,12 @@ export default function Navbar() {
                             iTeam
                         </ResponsiveNavLink>
                     </div>
+                    <ResponsiveNavLink href={route('assembly.index')} active={route().current('assembly.*')}>
+                        School Assembly
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('payment.index')} active={route().current('payment.*')}>
+                        Payment
+                    </ResponsiveNavLink>
                     <div className="pt-2 pb-3 space-y-1 border-t border-gray-200">
                         <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
                             Contact Us
