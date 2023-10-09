@@ -25,6 +25,9 @@ export default function SecondaryNavigation({ logo }: { logo?: string | undefine
                 {/* <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.schedule')} href={route('events.step.schedule')}>Schedule</NavLink>
                 </li> */}
+                <li className="flex -my-px">
+                    <NavLink isSecondary={true} active={route().current('payment.step')} href={route('payment.step')}>Payment</NavLink>
+                </li>
 
             </ul>
         </div>

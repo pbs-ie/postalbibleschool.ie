@@ -8,7 +8,14 @@ export interface Cart {
     value: number;
 }
 
-export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, setSuccess }: { cart: Cart[], onClick: (data: any, actions: any) => void, setErrorMessage: React.Dispatch<React.SetStateAction<string>>, setSuccess: React.Dispatch<React.SetStateAction<boolean>> }) {
+interface PaypalCheckoutButtonsProps {
+    cart: Cart[],
+    onClick: (data: any, actions: any) => void,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+    setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+    cartDescription?: string
+}
+export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, setSuccess, cartDescription = "" }: PaypalCheckoutButtonsProps) {
     const [message, setMessage] = useState('');
     const resetMessage = () => {
         setMessage('');
@@ -17,13 +24,8 @@ export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, 
         resetMessage();
         try {
             let body = {
-                cart
-                // cart: [
-                //     {
-                //         id: 1,
-                //         quantity: 1,
-                //     }
-                // ]
+                cart: cart,
+                description: cartDescription
             }
             const response = await fetch(route('paypal.create'), {
                 method: 'POST',

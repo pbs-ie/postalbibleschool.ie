@@ -1,26 +1,27 @@
+import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import PopoutWindow from "@/Components/Icons/PopoutWindow";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Heading1 from "@/Components/Typography/Heading1";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head } from "@inertiajs/react";
 
-import LogoWhite from "@images/step/step_logo.png";
+import StepWrapper from "@/Layouts/StepWrapper";
+import { Link } from "@inertiajs/react";
 
 export default function Signup() {
     const tableData: TableData[] = [
         {
             heading: "Topic",
-            content: <><p className="font-normal">Biblical and Practical training for Christian services</p><p className="text-sm text-gray-700 md:text-base">Special focus - Mark's Gospel</p></>
+            content: <><p className="font-normal">Study on the book of Job</p></>
         },
         {
             heading: "Speaker",
-            content: "David Wilson"
+            content: "John Hewitt"
         },
         {
             heading: "Dates",
-            content: "16th June - 18th June, 2023"
+            content: "17th November - 19th November, 2023"
         },
         {
             heading: "Cost",
@@ -28,29 +29,24 @@ export default function Signup() {
         }
     ]
     return (
-        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
-            {/* @ts-ignore  */}
-            <Head>
-                <title>Events - STEP - Sign Up</title>
-                <link head-key="favicon" rel="shortcut icon" href={LogoWhite} />
-            </Head>
+        <StepWrapper title={"Sign Up"}>
             <section className="py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8 ">
                 <Heading1>Registration</Heading1>
                 <div className="flex justify-center mb-8">
                     <BasicTable tableData={tableData}></BasicTable>
                 </div>
                 <ParagraphContainer>
-                    <Paragraph>Join us for the upcoming step in June 2023 where we look at Biblical and Practical training for Christian services through the Gospel according to Mark. We would encourage you to read/study chapters in the book of Mark beforehand. As always, new faces are welcome!</Paragraph>
+                    <Paragraph>Join us for the upcoming STEP in November 2023 where we take a deeper look at the book of Job. We would encourage you to read/study chapters in the book of Job beforehand. As always, new faces are welcome!</Paragraph>
 
-                    <Paragraph>This event will take place from the 16th - 18th June 2023. Sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. You can either pay using your card by following the PayPal link below or at the venue when you arrive.</Paragraph>
+                    <Paragraph>This event will take place from the 17th - 19th November 2023. Sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. Please fill in the form first before making payment. You can either pay using your card by following the link below or at the venue when you arrive.</Paragraph>
 
-                    <AnchorLink href={"https://www.paypal.com/donate/?hosted_button_id=9W8MFQ599K4UQ"} newTab={true}></AnchorLink>
+                    <a target="_" href={route('payment.step')}><PrimaryButton>Make Payment <PopoutWindow className="w-5 h-5 ml-2" /></PrimaryButton></a>
 
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">
-                    <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdV8flGeG04g6nVwoo-D88fuDNCOEAhD_EzGZWHNoAmmEMrKA/viewform">Loading…</iframe>
+                    <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdYvzFVJEJ6TKU-NdC8DlnJL21o1fQaMSgBbi5gSmh8Epdygw/viewform">Loading…</iframe>
                 </div>
             </section>
-        </WrapperLayout>
+        </StepWrapper>
     )
 }
