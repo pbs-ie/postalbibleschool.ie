@@ -57,6 +57,12 @@ class PayPalController extends Controller
         }
         return $data['access_token'];
     }
+
+    public function step()
+    {
+        return Inertia::render('Payment/Step');
+    }
+
     public function index()
     {
         return Inertia::render('Payment/Index');
@@ -65,18 +71,26 @@ class PayPalController extends Controller
 
     public function createOrder(Request $request)
     {
-        $bodyContent = $request->all(['cart']);
-        $cartContent = $bodyContent['cart'][0];
-        $purchaseValue = round($cartContent['value'], 2);
+        $bodyContent = $request->all(['cart', 'description']);
+        $cartContent = $bodyContent['cart'];
+        $description = $bodyContent['description'];
+        $totalPurchaseValue = 0;
+        foreach ($cartContent as $item) {
+            if (isset($item['value']) && isset($item['quantity'])) {
+                $quantity = $item['quantity'];
+                $value = $item['value'];
+                $totalPurchaseValue += $quantity * $value;
+            }
+        }
         $accessToken = $this->getAccessToken();
         $url = $this->endpointUrl . '/v2/checkout/orders';
         $payload = [
             "intent" => "CAPTURE",
             "purchase_units" => [[
-                "description" => "Order #1",
+                "description" => $description,
                 "amount" => [
                     "currency_code" => "EUR",
-                    "value" => $purchaseValue
+                    "value" => round($totalPurchaseValue, 2)
                 ]
             ]]
         ];

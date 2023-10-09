@@ -7,7 +7,7 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
 
-export interface Product {
+interface Product {
     title: string;
     description?: string;
     price: number;
