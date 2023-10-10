@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 
 import FlashMessage from '@/Components/FlashMessage';
-import SecondaryNavigation from '@/Components/Navigation/SecondaryNavigation';
+import StepNavbar from '@/Components/Navigation/StepNavbar';
 import Navbar from '@/Components/Navigation/Navbar';
 import Footer from '@/Components/Navigation/Footer';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
-export default function WrapperLayout({ showSecondaryNav = false, extraLogo, children }: { showSecondaryNav?: boolean, extraLogo?: string | undefined, children: React.ReactNode }) {
+export default function WrapperLayout({ showStepNav = false, children }: { showStepNav?: boolean, children: React.ReactNode }) {
     const [showToTopButton, setShowToTopButton] = useState(false);
 
     useEffect(() => {
@@ -38,8 +38,8 @@ export default function WrapperLayout({ showSecondaryNav = false, extraLogo, chi
         }}>
             <div className="flex flex-col items-stretch min-h-screen">
                 <Navbar />
-                {showSecondaryNav &&
-                    <SecondaryNavigation logo={extraLogo} />
+                {showStepNav &&
+                    <StepNavbar />
                 }
                 <FlashMessage />
                 <div id="modal"></div>

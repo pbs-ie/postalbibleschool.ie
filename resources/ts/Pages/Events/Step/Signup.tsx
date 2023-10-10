@@ -1,13 +1,11 @@
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import PopoutWindow from "@/Components/Icons/PopoutWindow";
-import AnchorLink from "@/Components/Navigation/AnchorLink";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Heading1 from "@/Components/Typography/Heading1";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import StepWrapper from "@/Layouts/StepWrapper";
-import { Link } from "@inertiajs/react";
 
 export default function Signup() {
     const tableData: TableData[] = [

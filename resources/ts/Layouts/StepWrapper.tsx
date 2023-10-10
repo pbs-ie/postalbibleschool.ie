@@ -5,7 +5,7 @@ import LogoWhite from "@images/step/step_logo.png";
 
 export default function StepWrapper({ children, title }: { children: React.ReactNode, title: string }) {
     return (
-        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
+        <WrapperLayout showStepNav>
             {/* @ts-ignore  */}
             <Head>
                 <title>{`Events - STEP - ${title}`}</title>

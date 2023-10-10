@@ -7,7 +7,6 @@ import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
 
-import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
@@ -61,7 +60,7 @@ export default function About() {
         }
     ]
     return (
-        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
+        <WrapperLayout showStepNav>
             {/* @ts-ignore  */}
             <Head>
                 <title>Events - STEP</title>
