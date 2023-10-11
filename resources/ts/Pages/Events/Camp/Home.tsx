@@ -1,5 +1,4 @@
 import CardContainer from "@/Components/Cards/EventCardContainer";
-import GalleryAdvanced from "@/Components/Gallery/GalleryAdvanced";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
@@ -17,9 +16,8 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import { Link } from "@inertiajs/react";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import { useState } from "react";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 
 export default function Home() {
@@ -67,7 +65,7 @@ export default function Home() {
                 </ExtendScreenWrapper>
                 <CardContainer type="reunion">
                     {isSignupActive &&
-                        <Link href={route('events.camp.signup')}><PrimaryButton className="text-base">Register</PrimaryButton></Link>
+                        <ButtonLink className="text-base" href={route('events.camp.signup')}>Register</ButtonLink>
                     }
                 </CardContainer>
                 <Heading2>Camp</Heading2>

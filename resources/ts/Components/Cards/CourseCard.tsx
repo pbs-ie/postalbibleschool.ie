@@ -34,7 +34,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     </button>
                 </>
                 :
-                <div className="mt-2"><Link href={route('courses', { type })}><PrimaryButton className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500">{buttonText ? buttonText : "More details"}<ChevronRight /></PrimaryButton></Link></div>
+                <div className="mt-2"><Link href={route('courses', { type })}><PrimaryButton type="button" className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500">{buttonText ? buttonText : "More details"}<ChevronRight /></PrimaryButton></Link></div>
             }
 
         </div>

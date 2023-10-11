@@ -1,9 +1,8 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
 import ViewIcon from "@/Components/Icons/ViewIcon";
-import ModalComponent from "@/Components/ModalComponent";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -97,7 +96,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex justify-between w-full mb-2">
                         <h2 className="p-0 text-xl font-bold text-black">View Schools</h2>
-                        <Link href={"/orders/create"}><PrimaryButton className="w-52">Add school</PrimaryButton></Link>
+                        <ButtonLink className="w-52" href={route('orders.create')}>Add school</ButtonLink>
 
                     </div>
                     <AdvancedTable data={tableDataMemo} columns={defaultColumns} />

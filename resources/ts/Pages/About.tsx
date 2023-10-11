@@ -1,11 +1,11 @@
 import Timeline from "@/Components/Timeline/Timeline";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link } from "@inertiajs/react";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonAnchor from "@/Components/Buttons/ButtonAnchor";
 
 export default function About() {
     return (
@@ -25,7 +25,7 @@ export default function About() {
                 <ParagraphContainer>
                     <Paragraph>Postal Bible School has depended on the help of those who freely gave of their spare time from its inception. One of the most important of these roles is praying. Others include correcting lessons and communicating with kids via post, being a leader at camp and speaking to young people about the Bible. People find opportunity to use all sorts of abilities to assist us as they seek to serve God. These opportunities have included many things including carrying boxes, fixing vehicles, computer work, paper work & building work as well as more public opportunities to share the Christian faith. We praise God for the assistance of all those who have supported the work in one way or another and trust God to continue to provide people to do His work in the future.</Paragraph>
                     <Paragraph>If you would like to contact us with a view to helping us in prayer or some other way please contact Gareth or Margaret</Paragraph>
-                    <Link href={route('contactus')} preserveScroll={true} type="button"><PrimaryButton className="mt-2" type="button">Contact Us</PrimaryButton></Link>
+                    <ButtonLink href={route('contactus')}>Contact Us</ButtonLink>
                 </ParagraphContainer>
 
                 <Heading2>How is PBS Funded</Heading2>
@@ -36,7 +36,7 @@ export default function About() {
                 <ParagraphContainer>
                     <Paragraph>Bible Education Services is the trust which organises the publication of material used by Postal Bible School. PBS and BES begas as the same organisation. PBS continues to use the material in Ireland while BES produce the material and encourage the translation and give support to those who make use of this material around the world.</Paragraph>
                     <Paragraph>For more information you can check out their website</Paragraph>
-                    <a target="_blank" href="https://www.besweb.com/"><PrimaryButton className="mt-2" type="button">BESWEB.ORG</PrimaryButton></a>
+                    <ButtonAnchor newTab href="https://www.besweb.com/">BESWEB.ORG</ButtonAnchor>
                 </ParagraphContainer>
             </ContentWrapper>
         </WrapperLayout>

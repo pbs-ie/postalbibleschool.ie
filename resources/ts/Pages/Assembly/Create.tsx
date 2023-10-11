@@ -1,3 +1,4 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
@@ -6,8 +7,8 @@ import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage, useForm, Link } from "@inertiajs/react";
-import { FormEvent, useEffect, useReducer, useRef } from "react";
+import { usePage, useForm } from "@inertiajs/react";
+import { FormEvent, useEffect, useReducer } from "react";
 
 export interface AssemblyVideo {
     videoTitle: string,
@@ -213,9 +214,7 @@ export default function Create() {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <Link href={route('assembly.admin')}>
-                            <SecondaryButton>Cancel</SecondaryButton>
-                        </Link>
+                        <ButtonLink type="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
                     </div>
 

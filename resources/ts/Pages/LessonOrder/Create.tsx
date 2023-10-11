@@ -1,13 +1,12 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import NumberInput from "@/Components/Forms/NumberInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { FormEvent } from "react";
 
 
@@ -100,7 +99,7 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                            <Link href="/orders"><SecondaryButton>Cancel</SecondaryButton></Link>
+                            <ButtonLink href={route('orders.index')}>Cancel</ButtonLink>
                             <PrimaryButton type="submit" className="w-1/3" processing={processing}>Create</PrimaryButton>
                         </div>
                     </form>

@@ -1,15 +1,14 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import NumberInput from "@/Components/Forms/NumberInput";
 import TextInput from "@/Components/Forms/TextInput";
-import ListingTable from "@/Components/Tables/ListingTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, useForm } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { FormEvent } from "react";
 
 
@@ -104,7 +103,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                 </div>
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                                <Link href="/orders"><SecondaryButton>Cancel</SecondaryButton></Link>
+                                <ButtonLink href={route('orders.index')}>Cancel</ButtonLink>
                                 <PrimaryButton type="submit" className="w-1/3" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>

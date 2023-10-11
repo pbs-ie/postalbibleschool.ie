@@ -14,12 +14,12 @@ import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading1 from "@/Components/Typography/Heading1";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 
 
@@ -76,7 +76,7 @@ export default function About() {
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer type="step">
-                    <Link href={route('events.step.signup')}><PrimaryButton className="text-base">Register Now</PrimaryButton></Link>
+                    <ButtonLink className="text-base" href={route('events.step.signup')}>Register Now</ButtonLink>
                 </CardContainer>
                 <ExtendScreenWrapper>
                     <section className="pt-4 pb-8 bg-stone-100">

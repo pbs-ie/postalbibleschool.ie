@@ -1,4 +1,4 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PopoutWindow from "@/Components/Icons/PopoutWindow";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Heading1 from "@/Components/Typography/Heading1";
@@ -38,7 +38,7 @@ export default function Signup() {
 
                     <Paragraph>This event will take place from the 17th - 19th November 2023. Sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. Please fill in the form first before making payment. You can either pay using your card by following the link below or at the venue when you arrive.</Paragraph>
 
-                    <a target="_" href={route('payment.step')}><PrimaryButton>Make Payment <PopoutWindow className="w-5 h-5 ml-2" /></PrimaryButton></a>
+                    <ButtonLink href={route('payment.step')}>Make Payment <PopoutWindow className="w-5 h-5 ml-2" /></ButtonLink>
 
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">

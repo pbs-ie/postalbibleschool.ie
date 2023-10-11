@@ -1,10 +1,9 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
 import ViewIcon from "@/Components/Icons/ViewIcon";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
@@ -80,7 +79,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Admin" >
                 <div className="flex justify-end w-full">
-                    <Link href={route('assembly.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>
+                    <ButtonLink className="w-44" href={route('assembly.create')}>Add video</ButtonLink>
                 </div>
 
                 <div className="w-full overflow-x-auto">

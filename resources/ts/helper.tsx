@@ -91,3 +91,13 @@ export const getUpperCaseAlphabetFromNumber = (num: number): string => {
 export const sortArrayById = (array: any[]) => array.sort((a, b) => a.id - b.id);
 
 export const getLastElementsOfArray = (array: any[], number: number) => array.slice(-1 * number);
+
+export const getButtonClassName = (className: string, type: "primary" | "secondary") => {
+    if (type === "primary") {
+        return (`inline-flex items-center justify-center px-6 py-2.5 bg-blue-600 border border-transparent rounded shadow-md font-medium leading-tight text-white uppercase tracking-widest hover:bg-blue-700 hover:shadow-lg  active:bg-blue-800 active:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ` + className);
+    } else {
+        return (
+            `inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold  text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 ` + className
+        )
+    }
+}
