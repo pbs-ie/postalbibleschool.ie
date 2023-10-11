@@ -27,7 +27,7 @@ class AssemblyController extends Controller
     public function parseExternalUrl($externalUrl)
     {
         preg_match('/\/(\d{5,})\??/', $externalUrl, $numCode, PREG_UNMATCHED_AS_NULL);
-        if (is_null($numCode[1])) {
+        if (count($numCode) < 1 || is_null($numCode[1])) {
             return "";
         } else {
 
