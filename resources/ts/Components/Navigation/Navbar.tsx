@@ -93,13 +93,13 @@ export default function Navbar() {
                                 School Assembly
                             </NavLink>
                         </div>
+                    </div>
+                    <div className="flex justify-between h-16">
                         <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={route('payment.index')} active={route().current('payment.*')}>
                                 Payment
                             </NavLink>
                         </div>
-                    </div>
-                    <div className="flex justify-between h-16">
                         <div className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
                             <NavLink href={route('contactus')} active={route().current('contactus')}>
                                 Contact Us
@@ -195,10 +195,11 @@ export default function Navbar() {
                     <ResponsiveNavLink href={route('assembly.index')} active={route().current('assembly.*')}>
                         School Assembly
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('payment.index')} active={route().current('payment.*')}>
-                        Payment
-                    </ResponsiveNavLink>
+
                     <div className="pt-2 pb-3 space-y-1 border-t border-gray-200">
+                        <ResponsiveNavLink href={route('payment.index')} active={route().current('payment.*')}>
+                            Payment
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('contactus')} active={route().current('contactus')}>
                             Contact Us
                         </ResponsiveNavLink>

@@ -21,7 +21,6 @@ import { Head, Link } from "@inertiajs/react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading1 from "@/Components/Typography/Heading1";
 
-import LogoWhite from "@images/step/step_logo.png";
 
 
 export default function About() {
