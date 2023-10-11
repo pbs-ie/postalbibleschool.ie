@@ -102,7 +102,7 @@ export default function Navbar() {
 
     return (
         <header className="text-white border-b-2 border-gray-800">
-            <AnchorLink className="absolute px-3 font-bold text-gray-200 no-underline duration-100 transform -translate-y-16 bg-gray-600 visited:text-white left-1/2 focus:translate-y-0" href='#mainContent'>Skip to content</AnchorLink>
+            <div className="absolute p-2 m-3 font-bold text-gray-800 no-underline duration-100 transform -translate-y-16 bg-gray-200 visited:text-white focus-within:translate-y-0" >Skip to <AnchorLink href='#mainContent'>content</AnchorLink> or <AnchorLink href='#footerContent'>footer</AnchorLink></div>
             <nav className="px-8 mx-auto bg-pbsblue">
                 <div className="flex justify-between h-16">
                     <ul className="flex">
