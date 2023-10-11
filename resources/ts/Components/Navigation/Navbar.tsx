@@ -8,6 +8,7 @@ import LogoSmall from '@images/logo-icon.png';
 import { useState } from 'react';
 import AnchorNavLink from './AnchorNavLink';
 import NavItem from './NavItem';
+import AnchorLink from './AnchorLink';
 
 export default function Navbar() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
@@ -100,8 +101,9 @@ export default function Navbar() {
     ]
 
     return (
-        <header className="text-white border-b-2 border-gray-800 bg-pbsblue">
-            <nav className="px-8 mx-auto">
+        <header className="text-white border-b-2 border-gray-800">
+            <AnchorLink className="absolute px-3 font-bold text-gray-200 no-underline duration-100 transform -translate-y-16 bg-gray-600 visited:text-white left-1/2 focus:translate-y-0" href='#mainContent'>Skip to content</AnchorLink>
+            <nav className="px-8 mx-auto bg-pbsblue">
                 <div className="flex justify-between h-16">
                     <ul className="flex">
                         <li className="flex items-center shrink-0">

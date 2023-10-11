@@ -43,7 +43,7 @@ export default function WrapperLayout({ showStepNav = false, children }: { showS
                 }
                 <FlashMessage />
                 <div id="modal"></div>
-                <main className="relative flex flex-col h-full grow md:justify-center">
+                <main id="mainContent" className="relative flex flex-col h-full grow md:justify-center">
                     <div className="w-full pb-20 overflow-hidden grow">
                         {children}
                     </div>
