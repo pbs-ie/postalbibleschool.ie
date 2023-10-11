@@ -30,9 +30,9 @@ export default function ITeam() {
                         <Paragraph>
                             iTeam is a new event which intends to encourage those with an interest in producing digital educational resources to teach the bible to work together within a defined project for PBS. It is hoped that each contributor benefits personally in developing their own skillset by working along with complimentary skills while the group as a whole brings a whole year of bible lessons to be "click ready" for the classroom.
                         </Paragraph>
-                        <div className="p-6 mx-auto my-10 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
+                        <div className="p-6 mx-auto my-10 rounded-lg drop-shadow-lg bg-sky-100 lg:w-4/5">
                             {iTeamCards.map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
-                                <EventCardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
+                                <EventCardBlock key={title} Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                             ))}
                         </div>
 
