@@ -1,10 +1,15 @@
 ## 1.1.1 (2023-10-10)
 - Updated STEP information and signup for November 2023
   - Paypal payment page for STEP November 2023
+- Minor improvements to UI and backend refactoring
+  - Added 'Skip to content' button
+  - Navbar refactor and dark mode friendly
+  - Secondary Navbar made exclusive to STEP event
+  - Refactored Buttons inside Inertia Links to styled links to follow HTML5 standard
 
 ## 1.1.0 (2023-10-06)
 
-- Added functionality for Bonus videos in School Assembly view - Big Bible words and Bible Books (5535f67)
+- Added functionality for Bonus videos in School Assembly view - Big Bible words and Bible Books (#5535f67)
 - Paypal integration using default buttons and custom price
 
 ## 1.0.0 (2023-09-18)
