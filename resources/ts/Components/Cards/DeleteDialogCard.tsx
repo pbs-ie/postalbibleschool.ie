@@ -69,7 +69,7 @@ export default function DeleteDialogCard({ isOpen, onClose, onSubmit, message, h
             </div>
             <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                 <SecondaryButton onClick={handleCloseModal}>Cancel</SecondaryButton>
-                <PrimaryButton type="submit" className="w-1/3 text-white bg-red-600 hover:bg-red-700 active:bg-red-700 focus:bg-red-700" onClick={() => onSubmit()}>Confirm</PrimaryButton>
+                <PrimaryButton type="button" className="w-1/3 text-white bg-red-600 hover:bg-red-700 active:bg-red-700 focus:bg-red-700" onClick={() => onSubmit()}>Confirm</PrimaryButton>
             </div>
         </dialog>
     )

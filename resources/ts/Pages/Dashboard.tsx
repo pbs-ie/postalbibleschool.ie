@@ -1,7 +1,7 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
 export default function Dashboard() {
     const { auth } = usePage<PassedProps>().props;
@@ -17,19 +17,13 @@ export default function Dashboard() {
                     <div className="flex flex-col gap-2 mb-5 text-left md:gap-6">
                         <p>Welcome to the School Assembly page. We hope you are able to make use of the additional resources provided here. You can view the assembly videos that correlate with each month's BibleTime lesson or update your lesson order information if we have you registered.</p>
                         <div className="flex justify-center w-full gap-2">
-                            <Link href={"/assembly"}>
-                                <PrimaryButton>Assembly Videos</PrimaryButton>
-                            </Link>
-                            <Link href={"/orders"}>
-                                <PrimaryButton>Order Form</PrimaryButton>
-                            </Link>
+                            <ButtonLink href={"/assembly"}>Assembly Videos</ButtonLink>
+                            <ButtonLink href={"/orders"}>Order Form</ButtonLink>
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-2 text-left md:gap-6 ">
                         <p>We have additional videos that cover the themes of Bible books and explanation videos for Big Bible Words that may be hard for some children to understand. Please feel free to make use of the resources provided.</p>
-                        <Link href={route("assembly.bonus.index")}>
-                            <PrimaryButton>Go to Bonus Videos</PrimaryButton>
-                        </Link>
+                        <ButtonLink className="w-fit" href={route("assembly.bonus.index")}>Go to Bonus Videos</ButtonLink>
                     </div>
                 </div>
             </ContentWrapper>

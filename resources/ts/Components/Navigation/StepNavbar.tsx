@@ -1,11 +1,13 @@
 import NavLink from "@/Components/Navigation/NavLink";
+import LogoWhite from "@images/step/step_logo.png";
 
-export default function SecondaryNavigation({ logo }: { logo?: string | undefined }) {
+
+export default function StepNavbar() {
     return (
         <div role="navigation" className="w-full text-blue-900 bg-sky-300">
-            {logo && (
+            {LogoWhite && (
                 <div className="relative hidden md:block">
-                    <img src={logo} alt="Logo" className="absolute h-10 my-1 left-20" />
+                    <img src={LogoWhite} alt="STEP Logo" className="absolute h-10 my-1 left-20" />
                 </div>
 
             )

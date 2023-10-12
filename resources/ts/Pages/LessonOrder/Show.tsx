@@ -1,13 +1,9 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import TextPillDiv from "@/Components/Typography/TextPillDiv";
-import LabelSpan from "@/Components/Typography/LabelSpan";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link } from "@inertiajs/react";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, lessonOrder: LessonOrder }) {
 
@@ -23,13 +19,13 @@ export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, less
                         <OrderInfoCard schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
                         <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
                             {isAdmin &&
-                                <Link href="/orders"><SecondaryButton>Back</SecondaryButton></Link>
+                                <ButtonLink type="secondary" href={route('orders.index')}>Back</ButtonLink>
                             }
                             {
                                 !isAdmin &&
-                                <Link href="/"><SecondaryButton>Back</SecondaryButton></Link>
+                                <ButtonLink type="secondary" href="/">Back</ButtonLink>
                             }
-                            <Link className="w-1/3" href={"/orders/" + lessonOrder.id + "/edit"}><PrimaryButton className="w-full">Edit</PrimaryButton></Link>
+                            <ButtonLink className="w-1/3" href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
                         </div>
                     </div>
                 </div>

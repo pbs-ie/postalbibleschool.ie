@@ -7,10 +7,11 @@ export default function ResponsiveNavLink({ method = "get", as = 'a', href, acti
             method={method}
             as={as}
             href={href}
-            className={`w-full flex items-start pl-3 pr-4 py-2 border-l-4 ${active
-                ? 'border-indigo-400 text-indigo-700 bg-gray-50 focus:text-indigo-800 focus:bg-gray-100 focus:border-indigo-700'
-                : 'border-transparent text-gray-200 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300'
-                } text-base font-medium focus:outline-none transition duration-150 ease-in-out`}
+            className={`w-full flex items-start mx-2 px-2 py-2 text-base font-medium transition duration-150 ease-in-out rounded 
+            ${active
+                    ? 'bg-gray-300 text-gray-900 dark:bg-gray-700  dark:text-gray-100'
+                    : 'border-transparent hover:text-gray-900 focus:text-gray-900 focus:bg-gray-300 hover:bg-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-700 dark:focus:text-gray-100 dark:focus:bg-gray-700'
+                }`}
         >
             {children}
         </Link>

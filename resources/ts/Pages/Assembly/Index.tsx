@@ -2,10 +2,10 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Paragraph from "@/Components/Typography/Paragraph";
 import VideoHeroCard from "@/Components/Cards/VideoHeroCard";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 
 
@@ -22,8 +22,8 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                     {canEdit &&
                         <div className="flex justify-end w-full mb-5">
                             <div className="inline-flex gap-2 rounded-md">
-                                <Link href={route('assembly.admin')}><PrimaryButton>Admin Panel</PrimaryButton></Link>
-                                <Link href={route('assembly.create')}><PrimaryButton>Add New Video</PrimaryButton></Link>
+                                <ButtonLink href={route('assembly.admin')}>Admin Panel</ButtonLink>
+                                <ButtonLink href={route('assembly.create')}>Add New Video</ButtonLink>
                             </div>
                         </div>
                     }

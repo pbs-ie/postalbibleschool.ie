@@ -1,22 +1,23 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import NumberInput from "@/Components/Forms/NumberInput";
 import TextInput from "@/Components/Forms/TextInput";
-import ListingTable from "@/Components/Tables/ListingTable";
+import ToastBanner from "@/Components/Forms/ToastBanner";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Link, useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { FormEvent } from "react";
 
 
 export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lessonOrder: LessonOrder }) {
+    const { errors } = usePage().props;
     const { data, setData, processing, reset, put } = useForm({
         schoolName: lessonOrder.schoolName,
-        schoolType: lessonOrder.schoolType,
+        schoolType: lessonOrder.schoolType ?? "",
         email: lessonOrder.email,
         level0Order: lessonOrder.level0Order,
         level1Order: lessonOrder.level1Order,
@@ -50,6 +51,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
     return (
         <WrapperLayout>
             <ContentWrapper title="Edit Order">
+
                 <ParagraphContainer>
                     <Paragraph className="text-left">View and update your monthly orders of BibleTime lessons here. Please note, changes are made effective only from the following month. If you wish for the changes to take effect immediately, please contact us.</Paragraph>
                 </ParagraphContainer>
@@ -58,6 +60,16 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                         <h2 className="p-0 mb-2 text-xl font-bold text-black capitalize">Current information</h2>
                         <OrderInfoCard schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Update Information</h2>
+                        {errors &&
+                            Object.keys(errors).map((key) => {
+                                if (key === "tlpOrder") {
+                                    let updatedError = errors[key].replaceAll("tlp", "Teacher Lesson Plan");
+                                    return <ToastBanner key={key} message={updatedError} />
+                                }
+                                return <ToastBanner key={key} message={errors[key]} />
+                            }
+                            )
+                        }
                         <form method="post" onSubmit={handleSubmit} className="text-left min-w-screen-md">
                             {isAdmin &&
                                 <>
@@ -104,7 +116,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                 </div>
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                                <Link href="/orders"><SecondaryButton>Cancel</SecondaryButton></Link>
+                                <ButtonLink type="secondary" href={route('orders.index')}>Cancel</ButtonLink>
                                 <PrimaryButton type="submit" className="w-1/3" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>

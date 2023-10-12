@@ -7,7 +7,7 @@ export default function Footer() {
     const currentYear = (new Date()).getFullYear();
 
     return (
-        <footer className="bottom-0 left-0 bg-gray-800 text-slate-300">
+        <footer id="footerContent" className="bottom-0 left-0 bg-gray-800 text-slate-300">
             <div className="w-full px-8 py-6 my-5 md:px-32">
                 <div className="flex flex-col gap-8 md:gap-4 flex-nowrap md:flex-row justify-evenly">
                     <FooterGroup heading="About Us">
@@ -16,20 +16,22 @@ export default function Footer() {
                             <Link className='text-base underline text-slate-300 hover:text-white focus:text-white' href={route('about')}>Read more</Link>
                         </div>
                     </FooterGroup>
-                    <FooterGroup heading="Courses">
+                    <FooterGroup heading="Links">
                         <ul className="flex flex-col">
-                            <li><FooterLink href={route('courses')}>BibleTime</FooterLink></li>
-                            <li><FooterLink href={route('courses')}>New Life</FooterLink></li>
-                            <li><FooterLink href={route('courses')}>Gleaners</FooterLink></li>
-                            {/* <li><FooterLink href={route('courses')}>Online Assembly</FooterLink></li> */}
+                            <li><FooterLink href={route('courses')}>Courses - Bibletime and more</FooterLink></li>
+                            <li><FooterLink href={route('request.individual')}>Request an Individual Lesson</FooterLink></li>
+                            <li><FooterLink href={route('request.group')}>Request a Group Lesson</FooterLink></li>
+                            <li><FooterLink href={route('assembly.index')}>Online Assembly</FooterLink></li>
+                            <li><FooterLink href={route('payment.index')}>Payment</FooterLink></li>
                         </ul>
                     </FooterGroup>
-                    <FooterGroup heading="Programmes">
+                    <FooterGroup heading="Events">
                         <ul className="flex flex-col">
                             <li><FooterLink href={route('events.prizegivings')}>Prize<wbr></wbr>givings</FooterLink></li>
                             <li><FooterLink href={route('events.shed')}>The SHED</FooterLink></li>
                             <li><FooterLink href={route('events.step')}>STEP</FooterLink></li>
                             <li><FooterLink href={route('events.camp')}>Summer Camp</FooterLink></li>
+                            <li><FooterLink href={route('events.iteam')}>iTeam</FooterLink></li>
                         </ul>
                     </FooterGroup>
                     <FooterGroup heading="Contact Us">

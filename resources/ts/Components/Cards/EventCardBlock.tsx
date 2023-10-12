@@ -1,6 +1,6 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import { Link } from "@inertiajs/react";
-import EventCardHeading from "../Typography/EventCardHeading";
+import EventCardHeading from "@/Components/Typography/EventCardHeading";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonAnchor from "@/Components/Buttons/ButtonAnchor";
 
 declare global {
     interface CardBlock {
@@ -21,15 +21,12 @@ export default function EventCardBlock({ Icon = null, title, description, button
             }
             <EventCardHeading>{title}</EventCardHeading>
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
-            {buttonText && buttonLink !== "" && (isExternal ?
-                <a href={buttonLink} target="_blank">
-                    <PrimaryButton type="button">{buttonText}</PrimaryButton>
-                </a>
-                :
-                <Link href={buttonLink}>
-                    <PrimaryButton type="button">{buttonText}</PrimaryButton>
-                </Link>
-            )}
+            {buttonText && buttonLink !== "" &&
+                (isExternal ?
+                    <ButtonAnchor href={buttonLink} newTab>{buttonText}</ButtonAnchor>
+                    :
+                    <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
+                )}
         </>
     )
 }

@@ -1,5 +1,5 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import SelectInput from "@/Components/Forms/SelectInput";
@@ -7,7 +7,7 @@ import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage, useForm, Link } from "@inertiajs/react";
+import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
 
 interface FullBonusVideo {
@@ -139,9 +139,7 @@ export default function Edit({ videoData }: { videoData: FullBonusVideo }) {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <Link href={route('assembly.bonus.admin')}>
-                            <SecondaryButton>Cancel</SecondaryButton>
-                        </Link>
+                        <ButtonLink type="secondary" href={route('assembly.bonus.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 

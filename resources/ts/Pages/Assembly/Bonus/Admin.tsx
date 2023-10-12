@@ -1,4 +1,4 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
@@ -77,7 +77,7 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Admin - Bonus Videos" >
                 <div className="flex justify-end w-full">
-                    <Link href={route('assembly.bonus.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>
+                    <ButtonLink className="w-44" href={route('assembly.bonus.create')}>Add video</ButtonLink>
                 </div>
 
                 <div className="w-full overflow-x-auto">

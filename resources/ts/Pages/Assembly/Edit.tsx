@@ -1,3 +1,4 @@
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
@@ -240,9 +241,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <Link href={route('assembly.admin')}>
-                            <SecondaryButton>Cancel</SecondaryButton>
-                        </Link>
+                        <ButtonLink type="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 

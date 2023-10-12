@@ -1,6 +1,5 @@
 import PlaceholderImage from "@images/assembly-sample.jpg";
-import { Link } from "@inertiajs/react";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 
 export default function VideoHeroCard({ title, series, buttonLink, idx, imageLink }: { title: string, series: string, buttonLink: string, idx: number, imageLink?: string }) {
@@ -10,7 +9,7 @@ export default function VideoHeroCard({ title, series, buttonLink, idx, imageLin
                 <img src={imageLink ? "/assembly/image/" + imageLink : PlaceholderImage} alt={"Assembly thumbnail " + idx} className="object-cover object-center h-64 md:h-96 w-full rounded aspect-[4/3]" />
                 <p className="text-base font-bold text-blue-700 md:text-lg">{series + " - " + title}</p>
                 <div className="flex justify-between text-sm">
-                    <Link href={buttonLink}><PrimaryButton>View in Browser</PrimaryButton></Link>
+                    <ButtonLink href={buttonLink}>View in Browser</ButtonLink>
                 </div>
             </div>
         </div>

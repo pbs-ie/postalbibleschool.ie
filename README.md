@@ -27,7 +27,7 @@ As a charity it aims to distribute and teach God’s word the Bible through dist
   - [x] Bible Books
 - [x] PayPal integration on the website
 
-## Changes
+## Website Changes
 
 [Changelog][]
 

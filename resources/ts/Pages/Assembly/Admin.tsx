@@ -1,10 +1,9 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
 import ViewIcon from "@/Components/Icons/ViewIcon";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
@@ -68,7 +67,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
                     <Link className="text-blue-500 underline hover:no-underline" href={"/assembly/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/assembly/" + row.original.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={"/assembly/" + row.original.routename}><ViewIcon className="w-6 h-6" /> View</Link>
                     <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id)}><DeleteIcon className="w-6 h-6" /> Delete</button>
                 </div>
             )
@@ -80,7 +79,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Admin" >
                 <div className="flex justify-end w-full">
-                    <Link href={route('assembly.create')}><PrimaryButton className="w-44">Add video</PrimaryButton></Link>
+                    <ButtonLink className="w-44" href={route('assembly.create')}>Add video</ButtonLink>
                 </div>
 
                 <div className="w-full overflow-x-auto">

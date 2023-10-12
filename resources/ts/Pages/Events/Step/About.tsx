@@ -7,7 +7,6 @@ import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
 
-import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
@@ -15,14 +14,13 @@ import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading1 from "@/Components/Typography/Heading1";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
-import LogoWhite from "@images/step/step_logo.png";
 
 
 export default function About() {
@@ -61,7 +59,7 @@ export default function About() {
         }
     ]
     return (
-        <WrapperLayout showSecondaryNav extraLogo={LogoWhite}>
+        <WrapperLayout showStepNav>
             {/* @ts-ignore  */}
             <Head>
                 <title>Events - STEP</title>
@@ -78,7 +76,7 @@ export default function About() {
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer type="step">
-                    <Link href={route('events.step.signup')}><PrimaryButton className="text-base">Register Now</PrimaryButton></Link>
+                    <ButtonLink className="text-base" href={route('events.step.signup')}>Register Now</ButtonLink>
                 </CardContainer>
                 <ExtendScreenWrapper>
                     <section className="pt-4 pb-8 bg-stone-100">

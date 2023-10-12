@@ -1,5 +1,4 @@
-import { Link } from "@inertiajs/react";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 interface LandingCards {
     heading: React.ReactNode;
@@ -24,7 +23,7 @@ export default function LandingCards({ heading, content, image, buttonText, butt
                         </div>
                         {buttonLink && buttonText &&
                             <div className="flex justify-center w-full md:block">
-                                <Link href={buttonLink} type="button"><PrimaryButton>{buttonText}</PrimaryButton></Link>
+                                <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
                             </div>
                         }
 
@@ -41,7 +40,7 @@ export default function LandingCards({ heading, content, image, buttonText, butt
                     <div className="mb-2 text-xl">{content}</div>
                     {buttonLink && buttonText &&
                         <div className="flex justify-center w-full md:block">
-                            <Link href={buttonLink} type="button"><PrimaryButton processing={buttonLink === ""}>{buttonLink === "" ? "Coming soon" : buttonText}</PrimaryButton></Link>
+                            <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
                         </div>
                     }
                 </div>
