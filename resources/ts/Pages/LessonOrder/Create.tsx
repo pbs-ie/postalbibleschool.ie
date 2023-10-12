@@ -14,6 +14,7 @@ export default function Create() {
     const { errors } = usePage().props;
     const { data, setData, post, processing } = useForm({
         schoolName: "",
+        schoolType: "",
         email: "",
         level0Order: 0,
         level1Order: 0,
@@ -26,6 +27,7 @@ export default function Create() {
     const handleChange = (event: React.ChangeEvent<HTMLFormElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "schoolName":
+            case "schoolType":
             case "email":
             case "level0Order":
             case "level1Order":
@@ -66,6 +68,11 @@ export default function Create() {
                             <TextInput type={"text"} name={"schoolName"} id={"schoolName"} value={data.schoolName} className={""} autoComplete={"off"} handleChange={handleChange} required />
                         </div>
                         <div className="block mb-4">
+                            <InputLabel2 forInput={"schoolType"} value={"School Type"} />
+                            <TextInput type={"text"} name={"schoolType"} id={"schoolType"} value={data.schoolType} className={""} autoComplete={"off"} handleChange={handleChange} />
+                            <p className="text-sm italic text-gray-600">Like: Delivery, Saints, Non-Saints, Donegal</p>
+                        </div>
+                        <div className="block mb-4">
                             <InputLabel2 forInput={"tlpOrder"} value="Teacher Lesson Plans" />
                             <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} required />
 
@@ -99,7 +106,7 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                            <ButtonLink href={route('orders.index')}>Cancel</ButtonLink>
+                            <ButtonLink type="secondary" href={route('orders.index')}>Cancel</ButtonLink>
                             <PrimaryButton type="submit" className="w-1/3" processing={processing}>Create</PrimaryButton>
                         </div>
                     </form>

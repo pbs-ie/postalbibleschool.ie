@@ -129,7 +129,7 @@ export default function Create() {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <ButtonLink href={route('assembly.admin')}>Cancel</ButtonLink>
+                        <ButtonLink type="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
                     </div>
 
