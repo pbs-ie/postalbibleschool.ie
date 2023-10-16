@@ -17,6 +17,8 @@ import ShedActivities from "@images/shed/shed-activities.jpg";
 import ShedSkills from "@images/shed/shed-skills.jpg";
 import ShedChallenges from "@images/shed/shed-challenges.jpg";
 
+import ShedLogo from "@images/shed/shed-logo.png";
+
 import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
 
 export default function Shed() {
@@ -57,6 +59,7 @@ export default function Shed() {
     const descriptionText = <ParagraphContainer className="w-fit"><Paragraph className="mb-2 text-center">Postal Bible School - 049 555 2915</Paragraph><Paragraph className="mb-2 text-center">Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10 text-center">If you need directions or a lift, give us a call</Paragraph></ParagraphContainer>
     return (
         <WrapperLayout>
+            <img src={ShedLogo} alt="The SHED logo" className="float-left w-40 mt-5 ml-5" />
             <EventWrapper title="The SHED">
                 <ParagraphContainer className="mb-10">
                     <Paragraph>The Shed is a Christian youth group for young people (age 11+). It is run in association with Postal Bible School. It is usually run on the last Saturday of every month. Those involved in organising the Shed aim to teach the Bible and its importance to young people.</Paragraph>

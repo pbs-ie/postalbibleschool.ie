@@ -1,3 +1,8 @@
+## 1.1.2 (2023-10-18)
+- New Assembly for October B10
+- Change SHED logo
+- Change background image of Bibletime lessons to the new lessons
+
 ## 1.1.1 (2023-10-10)
 - Updated STEP information and signup for November 2023
   - Paypal payment page for STEP November 2023

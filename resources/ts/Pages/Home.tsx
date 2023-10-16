@@ -1,5 +1,4 @@
 import LessonSelectorList from "@/Components/LessonSelectorList"
-import Heading3 from "@/Components/Typography/Heading3"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
@@ -10,6 +9,7 @@ import PrizegivingImage from "@images/events/prizegiving.jpg";
 import ShedImage from "@images/events/shed.jpg";
 import StepImage from "@images/events/step.jpg";
 import CampImage from "@images/events/camp.jpg";
+import BibletimeBanner from "@images/bibletime-banner.png";
 
 import LandingCards from "@/Components/Cards/LandingCards";
 import RequestLessonBanner from "@/Components/RequestLessonBanner";
@@ -55,8 +55,11 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                 <BannerComponent setShowBanner={setShowBanner} />
             }
             <section className="relative flex w-full">
-                <div className="flex py-10 justify-center align-center h-full flex-1 bg-center bg-no-repeat bg-cover bg-[url('/hero.jpg')] bg-slate-300 bg-blend-soft-light">
-                    <div className="grid h-full w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 lg:grid-cols-[1fr_1fr_20%]">
+                <div className={`relative h-fit flex justify-center align-middle bg-sky-100 lg:bg-slate-50/70`}>
+                    <div className="absolute">
+                        <img src={BibletimeBanner} alt="" className="relative flex justify-center flex-1 invisible align-middle pointer-events-none blur-sm -z-50 lg:visible lg:h-fit " />
+                    </div>
+                    <div className="grid h-full py-10 w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 lg:grid-cols-[1fr_1fr_20%]">
                         <div className="bg-white bg-clip-content md:col-span-2 md:row-span-2">
                             <LandingCards
                                 heading="School Study Materials"
