@@ -29,7 +29,7 @@ export default function ContactUsComponent() {
                 <div className="inline-flex items-center gap-5">
                     <Envelope className="h-[50px] w-[50px] text-slate-600"></Envelope>
                     <div className="flex flex-col items-start">
-                        <p>info@postalbibleschool.ie</p>
+                        <a href="mailto:info@postalbibleschool.ie">info@postalbibleschool.ie</a>
                     </div>
                 </div>
             </address>

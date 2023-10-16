@@ -7,6 +7,7 @@ import ChevronRight from "@/Components/Icons/ChevronRight";
 import { groupThemes } from '@/constants';
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import { Link } from "@inertiajs/react";
+import ButtonLink from "@/Components/Buttons/ButtonLink";
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];
@@ -34,7 +35,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     </button>
                 </>
                 :
-                <div className="mt-2"><Link href={route('courses', { type })}><PrimaryButton type="button" className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500">{buttonText ? buttonText : "More details"}<ChevronRight /></PrimaryButton></Link></div>
+                <div className="mt-2"><ButtonLink className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500" href={route('courses', { type })}>{buttonText ? buttonText : "More details"}<ChevronRight /></ButtonLink></div>
             }
 
         </div>
