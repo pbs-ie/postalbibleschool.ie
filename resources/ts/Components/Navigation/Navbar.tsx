@@ -103,24 +103,24 @@ export default function Navbar() {
     return (
         <header className="text-white border-b-2 border-gray-800">
             <div className="absolute p-2 m-3 font-bold text-gray-800 no-underline duration-100 transform -translate-y-16 bg-gray-200 visited:text-white focus-within:translate-y-0" >Skip to <AnchorLink href='#mainContent'>content</AnchorLink> or <AnchorLink href='#footerContent'>footer</AnchorLink></div>
-            <nav className="px-8 mx-auto bg-pbsblue">
+            <nav className="px-6 mx-auto bg-pbsblue">
                 <div className="flex justify-between h-16">
                     <ul className="flex">
-                        <li className="flex items-center shrink-0">
+                        <li className="flex items-center shrink-0 lg:mr-5">
                             <Link href="/home">
                                 <img
-                                    srcSet={`${LogoSmall} 250w,${LogoWhite} 898w`}
+                                    srcSet={`${LogoSmall} 450w,${LogoWhite} 898w`}
                                     sizes='(max-width: 600px) 250px, 898px'
                                     alt="Postal Bible School Logo"
                                     src={LogoSmall}
-                                    className="h-10" />
+                                    className="h-8" />
                             </Link>
                         </li>
 
                         {auth?.user &&
-                            <li className="hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
+                            <li className="hidden space-x-8 lg:-my-px lg:ml-6 lg:flex">
                                 <NavLink isCta href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
+                                    The Hub
                                 </NavLink>
                             </li>
                         }
