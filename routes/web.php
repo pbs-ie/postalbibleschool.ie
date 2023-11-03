@@ -90,15 +90,18 @@ Route::prefix('events')->name('events.')->group(function () {
 
     Route::prefix('step')->group(function () {
         Route::get('/', function () {
-            return Inertia::render('Events/Step/About');
+            return Inertia::render('Events/Step/Index');
         })->name('step');
 
         Route::get('/signup', function () {
             return Inertia::render('Events/Step/Signup');
         })->name('step.signup');
 
+        Route::get('/past', function () {
+            return Inertia::render('Events/Step/Past');
+        })->name('step.past');
         Route::get('/schedule', function () {
-            return Inertia::render('Events/Step/About');
+            return Inertia::render('Events/Step/Index');
         })->name('step.schedule');
     });
 });

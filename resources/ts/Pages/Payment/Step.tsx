@@ -1,4 +1,3 @@
-import ContentWrapper from "@/Layouts/ContentWrapper";
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import LogoSmall from '@images/logo-icon.png';
 import PaypalCheckoutButtons, { Cart } from "@/Components/Buttons/PaypalCheckoutButtons";
@@ -251,67 +250,65 @@ export default function Step() {
 
     return (
 
-        <StepWrapper title="Payment">
-            <ContentWrapper title="STEP Payment">
-                <div className="flex justify-center w-3/4 mx-auto">
-                    <div className="flex flex-col items-center w-full gap-2 p-8 mb-5 border border-gray-300 rounded-md lg:w-2/3">
-                        <div className="inline-flex justify-center w-full px-6">
-                            <img src={LogoSmall} alt="Postal Bible School Logo" className="my-4 h-14"></img>
-                        </div>
-                        <h2 className="text-3xl">Postal Bible School</h2>
-                        {!isSuccess && <>
-                            <p className="px-10 mb-5 text-xl">You can make payments for STEP to the<br /> Postal Bible School Trust here</p>
-                            {isButtonDisabled &&
-                                <div>
-                                    <div className="grid grid-cols-3 gap-2 mb-4">
-                                        {
-                                            productState.map(({ title, quantity, price }, index) => (
-                                                <button onClick={() => handleOptionSelect(index)} key={index + "product"} className={"flex flex-col justify-center items-center p-2 px-6 border border-gray-300 rounded-md shadow-md" + (activeOption === index ? " bg-blue-800 text-white" : "")}>
-                                                    {price &&
-                                                        <>
-                                                            <p className="text-lg font-bold before:content-['€']">{price}</p>
-                                                            <p className="capitalize">{title}</p>
-                                                        </>
-                                                    }
-                                                </button>
-                                            ))
-                                        }
-                                        <button onClick={() => handleOptionSelect(4)} className={"flex flex-col justify-center items-center p-2 px-6 border border-gray-300 rounded-md shadow-md" + (activeOption === 4 ? " bg-blue-800 text-white" : "")}>
-                                            <p className="text-lg font-bold">Custom</p>
-                                        </button>
-                                    </div>
-                                    {displayAdditionalAction()}
-
-                                    <div className="flex justify-end w-full">
-                                        <PrimaryButton onClick={() => handleContinueButton()}>Continue</PrimaryButton>
-                                    </div>
-
-                                </div>
-                            }
-                            {!isButtonDisabled &&
-                                <div className={"w-full lg:max-w-2xl"}>
-                                    <div>
-                                        <p className="mb-2">You have selected to pay</p>
-                                        <p className="mb-4 text-xl md:text-4xl">€{getTotalAmount()}</p>
-                                        <SecondaryButton onClick={() => handleAmountReset()}>Change Amount</SecondaryButton>
-                                    </div>
-                                    <hr className="w-1/2 h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-                                    <div className="py-4 lg:px-8">
-                                        <PaypalCheckoutButtons setSuccess={setIsSuccess} setErrorMessage={setError} onClick={handlePaymentContinued} cart={cartState} cartDescription="Payment for PBS STEP" />
-                                    </div>
-                                </div>
-                            }
-                            <div className="w-full lg:max-w-2xl">
-                                {error && <p className="text-red-500">{error}</p>}
-                            </div>
-                        </>
-                        }
-                        {isSuccess &&
-                            <PaymentSuccessComponent />
-                        }
+        <StepWrapper heading="STEP Payment" title="Payment">
+            <div className="flex justify-center w-3/4 mx-auto">
+                <div className="flex flex-col items-center w-full gap-2 p-8 mb-5 border border-gray-300 rounded-md lg:w-2/3">
+                    <div className="inline-flex justify-center w-full px-6">
+                        <img src={LogoSmall} alt="Postal Bible School Logo" className="my-4 h-14"></img>
                     </div>
+                    <h2 className="text-3xl">Postal Bible School</h2>
+                    {!isSuccess && <>
+                        <p className="px-10 mb-5 text-xl">You can make payments for STEP to the<br /> Postal Bible School Trust here</p>
+                        {isButtonDisabled &&
+                            <div>
+                                <div className="grid grid-cols-3 gap-2 mb-4">
+                                    {
+                                        productState.map(({ title, quantity, price }, index) => (
+                                            <button onClick={() => handleOptionSelect(index)} key={index + "product"} className={"flex flex-col justify-center items-center p-2 px-6 border border-gray-300 rounded-md shadow-md" + (activeOption === index ? " bg-blue-800 text-white" : "")}>
+                                                {price &&
+                                                    <>
+                                                        <p className="text-lg font-bold before:content-['€']">{price}</p>
+                                                        <p className="capitalize">{title}</p>
+                                                    </>
+                                                }
+                                            </button>
+                                        ))
+                                    }
+                                    <button onClick={() => handleOptionSelect(4)} className={"flex flex-col justify-center items-center p-2 px-6 border border-gray-300 rounded-md shadow-md" + (activeOption === 4 ? " bg-blue-800 text-white" : "")}>
+                                        <p className="text-lg font-bold">Custom</p>
+                                    </button>
+                                </div>
+                                {displayAdditionalAction()}
+
+                                <div className="flex justify-end w-full">
+                                    <PrimaryButton onClick={() => handleContinueButton()}>Continue</PrimaryButton>
+                                </div>
+
+                            </div>
+                        }
+                        {!isButtonDisabled &&
+                            <div className={"w-full lg:max-w-2xl"}>
+                                <div>
+                                    <p className="mb-2">You have selected to pay</p>
+                                    <p className="mb-4 text-xl md:text-4xl">€{getTotalAmount()}</p>
+                                    <SecondaryButton onClick={() => handleAmountReset()}>Change Amount</SecondaryButton>
+                                </div>
+                                <hr className="w-1/2 h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                                <div className="py-4 lg:px-8">
+                                    <PaypalCheckoutButtons setSuccess={setIsSuccess} setErrorMessage={setError} onClick={handlePaymentContinued} cart={cartState} cartDescription="Payment for PBS STEP" />
+                                </div>
+                            </div>
+                        }
+                        <div className="w-full lg:max-w-2xl">
+                            {error && <p className="text-red-500">{error}</p>}
+                        </div>
+                    </>
+                    }
+                    {isSuccess &&
+                        <PaymentSuccessComponent />
+                    }
                 </div>
-            </ContentWrapper>
+            </div>
         </StepWrapper>
     )
 }
