@@ -1,3 +1,7 @@
+## 1.1.3 (2023-11-03)
+- Bug fixes
+  - Form Submissions not working on production - Environment variable being directly used instead of from config
+
 ## 1.1.2 (2023-10-18)
 - New Assembly for October B10
 - Change SHED logo

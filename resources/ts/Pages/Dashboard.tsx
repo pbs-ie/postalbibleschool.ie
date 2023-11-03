@@ -8,7 +8,7 @@ export default function Dashboard() {
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="Dashboard">
+            <ContentWrapper title="The Hub">
                 <div className="flex flex-col items-center gap-4">
                     <div className="flex gap-2 w-fit">
                         <img className="w-8" src={auth?.user?.picture} alt={`${auth?.user?.nickname} Picture`} />

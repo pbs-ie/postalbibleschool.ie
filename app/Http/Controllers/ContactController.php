@@ -43,7 +43,7 @@ class ContactController extends Controller
         $newContact = Contact::orderBy('created_at', 'desc')->first();
 
         // Send mail to Info
-        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new \App\Mail\ContactReceived($newContact));
+        Mail::to(config('mail.admin.address'))->send(new \App\Mail\ContactReceived($newContact));
 
         // Redirect the user
         return redirect('/')->with('success', "Contact Us form submitted successfully");

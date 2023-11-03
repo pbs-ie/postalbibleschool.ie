@@ -50,7 +50,7 @@ class OrderChanged extends Mailable
                 'schoolName' => $this->oldOrder->schoolName,
                 'oldOrder' => $this->oldOrder,
                 'newOrder' => $this->newOrder,
-                'orderUrl' => env('APP_URL') . '/orders/' . $this->oldOrder->id
+                'orderUrl' => config('app.url') . '/orders/' . $this->oldOrder->id
             ]
         );
     }
