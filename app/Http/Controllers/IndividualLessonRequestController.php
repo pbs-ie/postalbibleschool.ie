@@ -97,7 +97,7 @@ class IndividualLessonRequestController extends Controller
         $newRequest = IndividualRequest::orderBy('created_at', 'desc')->first();
 
         // Send mail to Info
-        Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new \App\Mail\IndividualRequest($studentDetails['studentDetails'], $validated, $newRequest));
+        Mail::to(config('mail.admin.address'))->send(new \App\Mail\IndividualRequest($studentDetails['studentDetails'], $validated, $newRequest));
 
         unset($computed);
         unset($i);

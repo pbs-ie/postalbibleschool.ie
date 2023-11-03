@@ -164,7 +164,7 @@ class LessonOrderController extends Controller
 
         if ($orderNumbersChanged) {
             // Send mail to admin
-            Mail::to(env('MAIL_CONTACT_ADDRESS'))->send(new OrderChanged($oldOrder, $lessonOrder));
+            Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
         }
 
         // Redirect the user

@@ -23,6 +23,7 @@
     @viteReactRefresh
     @vite(['resources/ts/app.tsx', "resources/ts/Pages/{$page['component']}.tsx"])
     @inertiaHead
+    @production
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLR8NDJV53"></script>
     <script>
@@ -35,6 +36,7 @@
 
         gtag('config', 'G-YLR8NDJV53');
     </script>
+    @endproduction
 </head>
 
 
