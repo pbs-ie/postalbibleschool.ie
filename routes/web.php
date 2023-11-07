@@ -98,9 +98,7 @@ Route::prefix('events')->name('events.')->group(function () {
         
         Route::get('/past/{event}', [StepEventController::class, 'details'])->name('past.details');
 
-        Route::get('/schedule', function () {
-            return Inertia::render('Events/Step/Index');
-        })->name('schedule');
+        Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
     });
 });
 

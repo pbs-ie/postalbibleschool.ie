@@ -1,0 +1,41 @@
+{
+    "imagePath": "step/events",
+    "content": [
+        {
+            "id": "2samuel",
+            "heading": "2nd Samuel",
+            "description": "Continuing through the same theme of cultivating a devotional relationship with God, we take a look at the Book of 2nd Samuel presented by Gareth McMeekin",
+            "date": "January 2023"
+        },
+        {
+            "id": "1samuel",
+            "heading": "1st Samuel",
+            "description": "Our focus was on characters, looking at an emphasis on cultivation of the devotional relationship with God as well as the ideas of sacrifice and service in 1 Samuel through various speakers",
+            "date": "November 2022"
+        },
+        {
+            "id": "revelation",
+            "heading": "Overview of Revelation",
+            "description": "Looking at our future hope and promise, we explored the book of Revelations displayed to us by Stevie Rogers from Apsley Hall as our speaker",
+            "date": "June 2022"
+        },
+        {
+            "id": "isaiah",
+            "heading": "Isaiah",
+            "description": "Continuing on the theme of prophecy in the Bible, we were led through the book of Isaiah with Allan McKinnon from Tilsley College",
+            "date": "January 2022"
+        },
+        {
+            "id": "jonah",
+            "heading": "Introduction to Prophecy",
+            "description": "\"An Introduction to Bible Prophecy\" with a focus on the book of Jonah",
+            "date": "November 2021"
+        },
+        {
+            "id": "john",
+            "heading": "Gospel of John",
+            "description": "Josh Fitzhugh from Belfast took us through the Gospel of John for the first gathering after lockdown",
+            "date": "July 2021"
+        }
+    ]
+}
