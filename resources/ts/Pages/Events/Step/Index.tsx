@@ -8,7 +8,6 @@ import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
 
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
@@ -16,9 +15,7 @@ import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import Heading2 from "@/Components/Typography/Heading2";
 
-import { Head } from "@inertiajs/react";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
-import Heading1 from "@/Components/Typography/Heading1";
 import ButtonLink from "@/Components/Buttons/ButtonLink";
 import StepWrapper from "@/Layouts/StepWrapper";
 

@@ -119,7 +119,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                     <div className="flex flex-col content-center justify-center gap-4 md:flex-row">
                         <EventCard title="Prizegivings" image={PrizegivingImage} imageAlt="Prizegiving image" routeName="events.prizegivings" />
                         <EventCard title="The SHED" image={ShedImage} imageAlt="SHED image" routeName="events.shed" />
-                        <EventCard title="STEP" image={StepImage} imageAlt="STEP image" routeName="events.step" />
+                        <EventCard title="STEP" image={StepImage} imageAlt="STEP image" routeName="events.step.index" />
                         <EventCard title="Summer Camp" image={CampImage} imageAlt="Summer Camp image" routeName="events.camp" />
                     </div>
                 </div>

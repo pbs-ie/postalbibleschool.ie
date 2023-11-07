@@ -8,6 +8,7 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\StepEventController;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
 use Illuminate\Foundation\Application;
@@ -88,21 +89,18 @@ Route::prefix('events')->name('events.')->group(function () {
         return Inertia::render('Events/ITeam');
     })->name('iteam');
 
-    Route::prefix('step')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Events/Step/Index');
-        })->name('step');
+    Route::prefix('step')->name('step.')->group(function () {
+        Route::get('/', [StepEventController::class, 'index'])->name('index');
 
-        Route::get('/signup', function () {
-            return Inertia::render('Events/Step/Signup');
-        })->name('step.signup');
+        Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
 
-        Route::get('/past', function () {
-            return Inertia::render('Events/Step/Past');
-        })->name('step.past');
+        Route::get('/past', [StepEventController::class, 'past'])->name('past.gallery');
+        
+        Route::get('/past/{event}', [StepEventController::class, 'details'])->name('past.details');
+
         Route::get('/schedule', function () {
             return Inertia::render('Events/Step/Index');
-        })->name('step.schedule');
+        })->name('schedule');
     });
 });
 
