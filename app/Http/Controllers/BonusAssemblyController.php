@@ -251,25 +251,29 @@ class BonusAssemblyController extends Controller
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
         $pngPath = 'video_images/' . $fileName . '.png';
 
-
         // TODO: This check does not need to prevent the deletion
         if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
             return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
         }
 
-        // Destroy the .json file for the month
-        Storage::disk('local')->delete($filePath);
+        try {
+            // Destroy the .json file for the month
+            Storage::disk('local')->delete($filePath);
 
-        // Destroy the image for the month
-        Storage::disk('public')->delete($pngPath);
+            // Destroy the image for the month
+            Storage::disk('public')->delete($pngPath);
 
-        // Remove the entry in assembly config for the month
-        $assemblyConfig->bonusContent = array_filter($assemblyConfig->bonusContent, function ($item) use ($id) {
-            return $item->id !== $id;
-        });
-        Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
+            // Remove the entry in assembly config for the month
+            $filteredContent = array_filter($assemblyConfig->bonusContent, function ($item) use ($id) {
+                return $item->id !== $id;
+            });
+            $assemblyConfig->bonusContent = array_values($filteredContent);
+            Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
+        } catch (Exception $ex) {
+            Log::error($ex->getMessage());
+        }
 
-        return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
+        return redirect()->route('assembly.bonus.admin')->with('success', 'Video removed successfully');
     }
 
     public function admin()

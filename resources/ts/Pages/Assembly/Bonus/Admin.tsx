@@ -29,7 +29,7 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
     }
 
     const handleSubmit = () => {
-        if (idToDelete) {
+        if (idToDelete !== null) {
             router.delete(route('assembly.bonus.destroy', idToDelete));
         } else {
             console.error('Could not find that entry. Please contact administrator');

@@ -335,9 +335,9 @@ class AssemblyController extends Controller
         Storage::disk('public')->delete($pngPath);
 
         // Remove the entry in assembly config for the month
-        $assemblyConfig->content = array_filter($assemblyConfig->content, function ($item) use ($id) {
+        $assemblyConfig->content = array_values(array_filter($assemblyConfig->content, function ($item) use ($id) {
             return $item->id !== $id;
-        });
+        }));
         Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
 
         return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
