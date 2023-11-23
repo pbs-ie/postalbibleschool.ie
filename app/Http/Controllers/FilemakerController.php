@@ -67,17 +67,4 @@ class FilemakerController extends Controller
             dd($response->json());
         }
     }
-
-    public function getProductInfo() {
-        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/productinfo";
-        $token = $this->getBearerToken();
-        $response = Http::withHeaders([
-            'Authorization' => 'FMID '.$token
-        ])
-            ->withBody('[]', 'application/json')
-            ->get($path);
-
-        $data = $response->json();
-        dd($data);
-    }
 }

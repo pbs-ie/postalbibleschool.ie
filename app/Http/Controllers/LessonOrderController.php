@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\CheckIfAdmin;
 use App\Models\LessonOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Mail\OrderChanged;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Gate;
 
 
 class LessonOrderController extends Controller
 {
-
-    /**
-     * Create the controller instance.
-     */
-    // TODO: Create a guard that checks edit and viewing for valid entry or admin privilege
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(LessonOrder::class, null);
-    // }
+    
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +20,8 @@ class LessonOrderController extends Controller
      */
     public function index()
     {
-        if ($this->checkIfAdmin()) {
+        $isAdmin = Gate::check('create:orders');
+        if ($isAdmin) {
             return Inertia::render('LessonOrder/Index', [
                 'lessonOrders' => LessonOrder::all()
             ]);
@@ -86,12 +78,13 @@ class LessonOrderController extends Controller
      */
     public function show(LessonOrder $lessonOrder)
     {
-        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+        $isAdmin = Gate::check('create:orders');
+        if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
         return Inertia::render('LessonOrder/Show', [
-            'isAdmin' => $this->checkIfAdmin(),
+            'isAdmin' => $isAdmin,
             'lessonOrder' => $lessonOrder
         ]);
     }
@@ -104,13 +97,14 @@ class LessonOrderController extends Controller
      */
     public function edit(LessonOrder $lessonOrder)
     {
-        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+        $isAdmin = Gate::check('create:orders');
+        if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
         return Inertia::render('LessonOrder/Edit', [
             'lessonOrder' => $lessonOrder,
-            'isAdmin' => $this->checkIfAdmin()
+            'isAdmin' => $isAdmin
         ]);
     }
 
@@ -123,11 +117,12 @@ class LessonOrderController extends Controller
      */
     public function update(Request $request, LessonOrder $lessonOrder)
     {
-        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
+        $isAdmin = Gate::check('create:orders');
+        if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
-        if ($this->checkIfAdmin()) {
+        if ($isAdmin) {
             $validated = $request->validate([
                 'schoolName' => ['required', 'max:50', 'min:3'],
                 'schoolType' => ['nullable', 'string', 'max:50', 'min:3'],
@@ -179,22 +174,18 @@ class LessonOrderController extends Controller
      */
     public function destroy(LessonOrder $lessonOrder)
     {
-        if (!$this->checkIfAdmin() && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id)) {
-            return abort(404);
-        }
-
         $lessonOrder->delete();
         return redirect('/orders')->with('success', "School entry deleted successfully");
     }
 
-    // TODO: Change to check Auth0 roles for admin
-    function checkIfAdmin()
-    {
-        return (auth()?->user()?->email === "info@postalbibleschool.ie");
-    }
 
     function getCurrentUserOrder()
     {
         return LessonOrder::where('email', auth()->user()->email)->get()?->first();
+    }
+
+    function isCurrentOrderUser(LessonOrder $lessonOrder) {
+        $isAdmin = Gate::check('create:orders');
+        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id);
     }
 }
