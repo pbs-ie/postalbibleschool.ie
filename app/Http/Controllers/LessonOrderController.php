@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Mail\OrderChanged;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\FilemakerController;
 
 
 class LessonOrderController extends Controller
@@ -22,8 +23,11 @@ class LessonOrderController extends Controller
     {
         $isAdmin = Gate::check('create:orders');
         if ($isAdmin) {
+            $lessonOrders = (new FilemakerController())->getLessonOrders();
             return Inertia::render('LessonOrder/Index', [
-                'lessonOrders' => LessonOrder::all()
+                'lessonOrders' => LessonOrder::all(),
+                'getAllOrdersCall' => '/api/lesson/orders/',
+                'lessonOrdersFromCall' => $lessonOrders
             ]);
         } else {
             $userLesson = $this->getCurrentUserOrder();

@@ -11,10 +11,42 @@ import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
+interface newLessonOrder {
+    "Area": string,
+    "Dispatch Code": string,
+    "L0 Ord": number | string,
+    "L1 Ord": number | string,
+    "L2 Ord": number | string,
+    "L3 Ord": number | string,
+    "L4 Ord": number | string,
+    "Adv Ord": number | string,
+    "NL Ord": number | string,
+    "TLP Ord": number | string,
+    "Total": number | string
+
+}
+
+interface FMLessonOrder {
+    fieldData: newLessonOrder,
+    modId: string,
+    portalData: string[],
+    recordId: string
+}
+
+export default function Index({ lessonOrders, lessonOrdersFromCall }: { lessonOrders: LessonOrder[], lessonOrdersFromCall: FMLessonOrder[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
     const [nameToDelete, setNameToDelete] = useState<null | string>(null);
+
+    const getTypeFromDispatchCode = (code: string) => {
+        switch (code) {
+            case "DL": return "Donegal";
+            case "G": return "Group";
+            case "S": return "Delivery";
+            case "SP": return "Postal";
+            default: return "";
+        }
+    }
 
     const showModal = (id: number) => {
         setIdToDelete(id);
@@ -36,7 +68,27 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         setToggleModal(false);
     }
 
+    const sanitizeLessonOrdersInfo = () => {
+        let newLessonOrders: LessonOrder[] = lessonOrdersFromCall.map(({ fieldData, modId, portalData, recordId }) => {
+            let sanitizedOrder: LessonOrder = {
+                id: Number(recordId),
+                schoolName: fieldData.Area,
+                schoolType: getTypeFromDispatchCode(fieldData["Dispatch Code"]),
+                level0Order: Number(fieldData["L0 Ord"]),
+                level1Order: Number(fieldData["L1 Ord"]),
+                level2Order: Number(fieldData["L2 Ord"]),
+                level3Order: Number(fieldData["L3 Ord"]),
+                level4Order: Number(fieldData["L4 Ord"]),
+                tlpOrder: Number(fieldData["TLP Ord"]),
+                email: fieldData.Area
+            }
+            return sanitizedOrder;
+        });
+        return newLessonOrders;
+    }
+
     const tableDataMemo = useMemo(() => lessonOrders, []);
+    const newTableDataMemo = useMemo(() => sanitizeLessonOrdersInfo(), []);
 
 
     const columnHelper = createColumnHelper<LessonOrder>();
@@ -44,7 +96,8 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
     const defaultColumns = [
         columnHelper.accessor(row => row.schoolName, {
             header: 'School Name',
-            minSize: 100
+            minSize: 100,
+            maxSize: 100
         }),
         columnHelper.accessor(row => row.schoolType, {
             header: 'School Type',
@@ -99,7 +152,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                         <ButtonLink className="w-52" href={route('orders.create')}>Add school</ButtonLink>
 
                     </div>
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                    <AdvancedTable data={newTableDataMemo} columns={defaultColumns} />
 
                 </div>
             </ContentWrapper>

@@ -17,6 +17,7 @@ class FilemakerController extends Controller
     private $fmUser;
     private $fmPassword;
     private $fmVersion;
+    private $fmDatabase;
 
     private $fmidToken;
     private $refreshToken;
@@ -52,9 +53,13 @@ class FilemakerController extends Controller
         }
     }
 
-    private function validateSession() {
+    /** 
+     * Validate session of the current token
+     * 
+     * @return string
+    */
+    private function validateSession($token) {
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/validateSession";
-        $token = $this->getBearerToken();
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$token
         ])
@@ -66,5 +71,44 @@ class FilemakerController extends Controller
         } else {
             dd($response->json());
         }
+    }
+
+    private function getMonthlyOrderRecords() {
+        $formattedLayout = rawurlencode('Monthly Order Report');
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
+        $queryData = [
+            '_limit' => 100,
+            'script' => 'dapi_monthly_order'
+        ];
+        $query = http_build_query($queryData);
+        $token = $this->getBearerToken();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])
+            ->withBody('', 'application/json')
+            ->get($path.'?'.$query);
+
+        $responseData = json_decode(json_encode($response->json()))->response->data;
+        return $responseData;
+        
+    }
+
+    private function runScript($layoutName, $scriptName) {
+        $formattedLayout = rawurlencode($layoutName);
+        $formattedScript = rawurlencode($scriptName);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/script/{$formattedScript}";
+        
+        $token = $this->getBearerToken();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])
+            ->withBody('', 'application/json')
+            ->get($path);
+
+        dd($response->json());
+    }
+
+    public function getLessonOrders() {
+        return $this->getMonthlyOrderRecords();
     }
 }
