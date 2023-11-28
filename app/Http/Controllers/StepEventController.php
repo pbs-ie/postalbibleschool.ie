@@ -18,16 +18,23 @@ class StepEventController extends Controller
     }
 
     public function past() {
-        $content = json_decode(Storage::get('stepconfig.json'), false);
+        $config = json_decode(Storage::get('stepconfig.json'), false);
         return Inertia::render('Events/Step/PastGallery', [
-            'content' => $content->content
+            'content' => $config->content
         ]);
     }
 
-    public function details(string $event) {
-        return Inertia::render('Events/Step/PastDetails', [
-            'event' => $event
-        ]);
+    public function details(string $eventId) {
+        $config = json_decode(Storage::get('stepconfig.json'), false);
+        $content = $config->content;
+        foreach($content as $event) {
+            if($event->id === $eventId) {
+                return Inertia::render('Events/Step/PastDetails', [
+                    'event' => $event
+                ]);
+            }
+        }
+        return Inertia::render('NotFound');
     }
 
     public function schedule( ) {

@@ -96,7 +96,7 @@ Route::prefix('events')->name('events.')->group(function () {
 
         Route::get('/past', [StepEventController::class, 'past'])->name('past.gallery');
         
-        Route::get('/past/{event}', [StepEventController::class, 'details'])->name('past.details');
+        Route::get('/past/{eventId}', [StepEventController::class, 'details'])->name('past.details');
 
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
     });

@@ -36,6 +36,7 @@ module.exports = {
         "teenspace",
         "lifespace",
         "pbsblue",
+        "hover:bg-pbsblue",
         "hover:bg-blue-500",
         {
             pattern: /bg-bibletime-(pink|orange|red|green|blue)/,
