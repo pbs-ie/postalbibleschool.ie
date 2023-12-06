@@ -23,7 +23,7 @@ export default function AdvancedTable({ data, columns }: { data: any, columns: a
 
     return (
         <>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-2">
                 <InputLabel2 forInput={"filter"} value={"Filter :"} />
                 <TextInput
                     placeholder="Search"

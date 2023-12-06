@@ -1,1 +1,15 @@
-{"jsonPath":"video_json\/","imagePath":"\/events\/step\/image\/","content":[]}
+{
+    "jsonPath": "video_json\/",
+    "imagePath": "\/events\/step\/image\/",
+    "content": [
+        {
+            "date": "November 2023",
+            "description": "We take a deeper look at the book of Job and what it means to suffer. This study was led by John Hewitt",
+            "heading": "Praying Our Tears - Job",
+            "routename": "step-november2023",
+            "id": 0,
+            "imageLink": "\/events\/step\/image\/step-november2023",
+            "showDetails": "1"
+        }
+    ]
+}

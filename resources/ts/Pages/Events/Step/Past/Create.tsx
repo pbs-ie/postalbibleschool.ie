@@ -3,6 +3,8 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
+import InputLabel2 from "@/Components/Forms/InputLabel2";
+import RadioInput from "@/Components/Forms/RadioInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import ContentWrapper from "@/Layouts/ContentWrapper";
@@ -64,6 +66,7 @@ export default function Create() {
         heading: "",
         description: "",
         imageFile: null as File | null,
+        showDetails: "0",
         content: [{
             videoTitle: "",
             externalUrl: "",
@@ -76,6 +79,7 @@ export default function Create() {
             case "date":
             case "heading":
             case "description":
+            case "showDetails":
                 setData(event.target.name, event.target.value);
         }
     };
@@ -138,6 +142,17 @@ export default function Create() {
                         <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"description"} value={"Description"} required />
                             <TextInput type={"text"} name={"description"} id={"description"} value={data.description} className={""} handleChange={handleChange} required />
+                        </div>
+                        <div className="inline-flex items-end gap-2">
+                            <InputLabel forInput={"showDetails"} value={"Show Details"} required />
+                            <InputLabel2 className="mr-2">
+                                <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
+                                Yes
+                            </InputLabel2>
+                            <InputLabel2>
+                                <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
+                                No
+                            </InputLabel2>
                         </div>
 
                         <div className="inline-flex gap-2">

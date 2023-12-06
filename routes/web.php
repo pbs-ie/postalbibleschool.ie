@@ -96,14 +96,14 @@ Route::prefix('events')->name('events.')->group(function () {
         
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
         Route::prefix('past')->name('past.')->middleware(['auth'])->group(function() {
-            Route::post('/', [StepEventController::class, 'store'])->name('store');
-            Route::get('/admin', [StepEventController::class, 'admin'])->name('admin');
-            Route::get('/create', [StepEventController::class, 'create'])->name('create');
-            Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy');
+            Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
+            Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
+            Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
+            Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
         });
         Route::prefix('past')->name('past.')->group(function() {
-            Route::get('/', [StepEventController::class, 'past'])->name('gallery');
-            Route::get('/{eventName}', [StepEventController::class, 'details'])->name('details');
+            Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
+            Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
         });
     });
 });

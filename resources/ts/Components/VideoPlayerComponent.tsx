@@ -1,11 +1,11 @@
 import { useState, useReducer, useRef, useEffect } from "react";
-import Loader from "./Loader";
-import Heading1Alt from "./Typography/Heading1Alt";
-import Heading2Alt from "./Typography/Heading2Alt";
-import VideoNavButton from "./Buttons/VideoNavButton";
-import VideoCarousalCard from "./Cards/VideoCarousalCard";
-import ChevronLeft from "./Icons/ChevronLeft";
-import ChevronRight from "./Icons/ChevronRight";
+import Loader from "@/Components/Loader";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import VideoNavButton from "@/Components/Buttons/VideoNavButton";
+import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
+import ChevronLeft from "@/Components/Icons/ChevronLeft";
+import ChevronRight from "@/Components/Icons/ChevronRight";
+import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 interface VideoPlayerProps {
     title: string;
@@ -119,10 +119,10 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
     return (
         videoLinks.length > 0 && (
             <section className="flex flex-col w-full">
-                <div className="relative justify-center py-10 mx-2 md:mx-auto md:max-w-4xl">
+                <div className="relative justify-center py-5 mx-2 md:mx-auto md:max-w-4xl">
 
                     <div className="flex flex-col items-center w-full gap-2">
-                        <Heading1Alt>{title}</Heading1Alt>
+                        <Heading2Nospace>{title}</Heading2Nospace>
 
                         <div className="self-start"><Heading2Alt>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading2Alt></div>
                         <div className="relative self-stretch md:self-center">

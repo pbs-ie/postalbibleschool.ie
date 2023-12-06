@@ -12,7 +12,7 @@ Format for the config JSON file
             "date": "<Month YYYY>",
             "routename": "<monthyyyy>",
             "imageLink": "/events/step/image/step-job",
-            "showDetails": <true|false>
+            "showDetails": "<1|0>"
         }, ...
     ]
 }

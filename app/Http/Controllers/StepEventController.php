@@ -21,6 +21,7 @@ class StepEventController extends Controller
             'description' => ['required'],
             'heading' => ['required'],
             'imageFile' => ['required', 'image', 'mimetypes:image/png'],
+            'showDetails' => ['required', 'boolean'],
             'content' => ['array:videoTitle,externalUrl,duration', 'max:20', 'min:1'],
         ];
     }
@@ -43,23 +44,34 @@ class StepEventController extends Controller
         return Inertia::render('Events/Step/Signup');
     }
 
-    public function past() {
+    public function gallery() {
         $config = $this->getStepConfig();
         return Inertia::render('Events/Step/Past/Gallery', [
             'content' => $config->content
         ]);
     }
 
-    public function details(string $eventName) {
+    public function show(string $eventName) {
         $config = $this->getStepConfig();
         $content = $config->content;
         $event = $this->searchMatchingContent($eventName, 'routename', $content);
-        if($event !== null) {
-            return Inertia::render('Events/Step/Past/Show', [
-                'event' => $event
-            ]);
+        
+        $jsonContent = new stdClass();
+
+        $fileName = strtolower($eventName);
+        $filePath = 'video_json/' . $fileName . '.json';
+        if (Storage::disk('local')->exists($filePath)) {
+
+            $content = Storage::disk('local')->get($filePath);
+            $jsonContent = json_decode($content, false);
         }
-        return Inertia::render('NotFound');
+        if ($jsonContent == new stdClass()) {
+            return Inertia::render('NotFound');
+        }
+
+        return Inertia::render('Events/Step/Past/Show', [
+            'videoData' => $jsonContent
+        ]);
     }
 
     /**
@@ -104,7 +116,6 @@ class StepEventController extends Controller
         $videoData = $validator->safe()->only(['content']);
         $imageData = $validator->safe()->only(['imageFile']);
         $configData = $validator->safe()->except(['content', 'imageFile']);
-
         
         $configData['routename'] = Str::kebab("step ".$configData["date"]);
         // Storing updated assembly config file
@@ -121,6 +132,7 @@ class StepEventController extends Controller
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
         $videoConfig->title = $configData['heading'];
+        $videoConfig->date = $configData['date'];
         $videoConfig->imageId = $configData['routename'];
         $videoConfig->content = $videoData['content'];
 
