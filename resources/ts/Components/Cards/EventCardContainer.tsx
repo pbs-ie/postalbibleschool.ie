@@ -65,7 +65,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Calendar,
             title: "When",
-            description: <p className="text-lg font-bold">17th November - 18th November, 2023</p>,
+            description: <p className="text-lg font-bold">19th January - 21st January, 2024</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -79,7 +79,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: ChatBubble,
             title: "Topic",
-            description: <p className="text-lg font-bold">Study on the book<br />of Job</p>,
+            description: <p className="text-lg font-bold">1 John - Light, Love and Truth</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -93,7 +93,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Banknotes,
             title: "Cost",
-            description: <p>Regular €65<br />Student €50</p>,
+            description: <p>Standard €65<br />Student €50</p>,
             buttonText: "",
             buttonLink: ""
         },

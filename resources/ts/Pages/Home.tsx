@@ -73,7 +73,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="STEP November 2023"
+                                heading="STEP January 2024"
                                 content="Signups are now open"
                                 className="border-4"
                                 buttonText="Sign Up"

@@ -9,7 +9,7 @@ import MeetingImage from "@images/step/step-meeting.jpg";
 
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 
-import CardContainer from "@/Components/Cards/EventCardContainer";
+import EventCardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
@@ -65,9 +65,9 @@ export default function Index() {
             <ExtendScreenWrapper>
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
-            <CardContainer type="step">
+            <EventCardContainer type="step">
                 <ButtonLink className="text-base" href={route('events.step.signup')}>Register Now</ButtonLink>
-            </CardContainer>
+            </EventCardContainer>
             <ExtendScreenWrapper>
                 <section className="pt-4 pb-8 bg-stone-100">
                     <Heading2>What to expect</Heading2>
