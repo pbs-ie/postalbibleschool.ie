@@ -75,6 +75,13 @@ declare global {
         category?: string
     }
 
+    interface VideoMeta {
+        externalUrl: string,
+        title: string,
+        duration: string,
+        id: number
+    }
+
     interface LessonOrder {
         id: number;
         email: string;

@@ -64,8 +64,8 @@ export default function Navbar() {
                 },
                 {
                     name: 'STEP',
-                    href: route('events.step'),
-                    active: route().current('events.step')
+                    href: route('events.step.index'),
+                    active: route().current('events.step.index')
                 },
                 {
                     name: 'Camp',

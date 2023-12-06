@@ -8,6 +8,7 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\StepEventController;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
 use Illuminate\Foundation\Application;
@@ -88,18 +89,22 @@ Route::prefix('events')->name('events.')->group(function () {
         return Inertia::render('Events/ITeam');
     })->name('iteam');
 
-    Route::prefix('step')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Events/Step/About');
-        })->name('step');
+    Route::prefix('step')->name('step.')->group(function () {
+        Route::get('/', [StepEventController::class, 'index'])->name('index');
 
-        Route::get('/signup', function () {
-            return Inertia::render('Events/Step/Signup');
-        })->name('step.signup');
-
-        Route::get('/schedule', function () {
-            return Inertia::render('Events/Step/About');
-        })->name('step.schedule');
+        Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
+        
+        Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
+        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function() {
+            Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
+            Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
+            Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
+            Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
+        });
+        Route::prefix('past')->name('past.')->group(function() {
+            Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
+            Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
+        });
     });
 });
 
