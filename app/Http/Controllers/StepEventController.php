@@ -159,105 +159,105 @@ class StepEventController extends Controller
             return redirect()->route('events.step.past.admin')->with('success', 'Video added successfully');
         }
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(int $id)
-    {
-        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        $videoList = $this->getVideoList();
-        if ($videoList === false) {
-            return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
-        }
-        $videoData = $videoList[$id];
-        $fileName = strtolower($videoData->routename);
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit(int $id)
+    // {
+    //     $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+    //     $videoList = $this->getVideoList();
+    //     if ($videoList === false) {
+    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
+    //     }
+    //     $videoData = $videoList[$id];
+    //     $fileName = strtolower($videoData->routename);
 
-        $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
-        $fileContent = (json_decode(Storage::get($filePath), false))->content;
-        $finalVideoData = (object) array_merge((array) $videoData, (array) $fileContent[0]);
+    //     $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
+    //     $fileContent = (json_decode(Storage::get($filePath), false))->content;
+    //     $finalVideoData = (object) array_merge((array) $videoData, (array) $fileContent[0]);
 
-        return Inertia::render('Events/Step/Past/Edit', [
-            "videoData" => $finalVideoData
-        ]);
-    }
+    //     return Inertia::render('Events/Step/Past/Edit', [
+    //         "videoData" => $finalVideoData
+    //     ]);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, int $id)
-    {
-        $rules = $this->getRules();
-        $rules['imageLink'] = [];
-        $validator = Validator::make($request->all(), $rules, [], [
-            'monthTitle' => 'Main Title',
-        ]);
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request, int $id)
+    // {
+    //     $rules = $this->getRules();
+    //     $rules['imageLink'] = [];
+    //     $validator = Validator::make($request->all(), $rules, [], [
+    //         'monthTitle' => 'Main Title',
+    //     ]);
 
-        $imageInfo = $validator->safe()->only(['imageFile']);
-        $assemblyInfo = $validator->safe()->except(['imageFile', 'videoTitle', 'externalUrl', 'duration']);
-        $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
+    //     $imageInfo = $validator->safe()->only(['imageFile']);
+    //     $assemblyInfo = $validator->safe()->except(['imageFile', 'videoTitle', 'externalUrl', 'duration']);
+    //     $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
 
-        $videoList = $this->getVideoList();
-        $currentRoutename = $videoList[$id]->routename;
-        if ($videoList === false) {
-            return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
-        }
-        $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+    //     $videoList = $this->getVideoList();
+    //     $currentRoutename = $videoList[$id]->routename;
+    //     if ($videoList === false) {
+    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
+    //     }
+    //     $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
 
-        $videoConfigPath = $assemblyConfig->jsonPath . strtolower($currentRoutename) . '.json';
-        if (!Storage::exists($videoConfigPath)) {
-            return redirect()->route('assembly.bonus.admin')->with('failure', 'Could not find associated file');
-        }
+    //     $videoConfigPath = $assemblyConfig->jsonPath . strtolower($currentRoutename) . '.json';
+    //     if (!Storage::exists($videoConfigPath)) {
+    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Could not find associated file');
+    //     }
 
-        // Storing image for the month
-        if ($imageInfo) {
-            $imageFile = $imageInfo["imageFile"];
-            if (isset($imageFile)) {
-                $path = $imageFile->storeAs('public/video_images', $currentRoutename . '.' . $imageFile->getClientOriginalExtension());
-                $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $currentRoutename;
-            }
-        }
-        $bonusConfigUpdate = $assemblyConfig->bonusContent[$id];
-        $bonusConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
-        $bonusConfigUpdate->imageLink = $assemblyInfo['imageLink'];
-        $bonusConfigUpdate->category = $assemblyInfo['category'];
+    //     // Storing image for the month
+    //     if ($imageInfo) {
+    //         $imageFile = $imageInfo["imageFile"];
+    //         if (isset($imageFile)) {
+    //             $path = $imageFile->storeAs('public/video_images', $currentRoutename . '.' . $imageFile->getClientOriginalExtension());
+    //             $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $currentRoutename;
+    //         }
+    //     }
+    //     $bonusConfigUpdate = $assemblyConfig->bonusContent[$id];
+    //     $bonusConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
+    //     $bonusConfigUpdate->imageLink = $assemblyInfo['imageLink'];
+    //     $bonusConfigUpdate->category = $assemblyInfo['category'];
 
-        // Storing updated assembly config file
-        $assemblyConfig->bonusContent[$id] = $bonusConfigUpdate;
+    //     // Storing updated assembly config file
+    //     $assemblyConfig->bonusContent[$id] = $bonusConfigUpdate;
 
-        // Storing updated video config file for the month
-        $videoConfig = new stdClass();
-        $videoConfig->title = $assemblyInfo['monthTitle'];
-        $videoConfig->imageId = $currentRoutename;
+    //     // Storing updated video config file for the month
+    //     $videoConfig = new stdClass();
+    //     $videoConfig->title = $assemblyInfo['monthTitle'];
+    //     $videoConfig->imageId = $currentRoutename;
 
-        $videoConfig->content[0]['id'] = 0;
-        $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
-        $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
-        $videoConfig->content[0]['duration'] = $videoInfo['duration'];
+    //     $videoConfig->content[0]['id'] = 0;
+    //     $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
+    //     $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
+    //     $videoConfig->content[0]['duration'] = $videoInfo['duration'];
 
-        $storeConfigSuccess = Storage::put(
-            'assemblyconfig.json',
-            json_encode($assemblyConfig)
-        );
+    //     $storeConfigSuccess = Storage::put(
+    //         'assemblyconfig.json',
+    //         json_encode($assemblyConfig)
+    //     );
 
-        $videoConfigSuccess = Storage::put(
-            $videoConfigPath,
-            json_encode($videoConfig)
-        );
+    //     $videoConfigSuccess = Storage::put(
+    //         $videoConfigPath,
+    //         json_encode($videoConfig)
+    //     );
 
 
-        if (!$storeConfigSuccess || !$videoConfigSuccess) {
-            return redirect()->route('assembly.bonus.admin')->with('failure', 'Something went wrong');
-        } else {
-            return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
-        }
-    }
+    //     if (!$storeConfigSuccess || !$videoConfigSuccess) {
+    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Something went wrong');
+    //     } else {
+    //         return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
+    //     }
+    // }
 
 
 
