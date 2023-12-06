@@ -16,14 +16,14 @@ export default function LessonDownloadButton({ title, infoText, infoSubText = ""
         if (isLinkEnabled())
             return `hover:${infoClass} bg-stone-200 font-bold text-slate-700 hover:text-slate-50`;
         else
-            return `bg-stone-200 text-gray-500`;
+            return `bg-stone-200 text-gray-500 cursor-default`;
     }
 
     return (
         <>
             {infoText &&
                 <div tabIndex={-1} aria-disabled={!isLinkEnabled()} className={`block h-fit w-full ${getButtonColorClass()} rounded-md`}>
-                    <a className="flex flex-row items-center" href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
+                    <a className={"flex flex-row items-center"} href={downloadLink} target="_blank" onClick={(event) => !isLinkEnabled() ? event.preventDefault() : null}>
                         <div className={`basis-1/3 ${infoClass} text-white text-center rounded p-1 ${infoSubText === "" ? "py-3" : ""}`}>
                             <div className="font-bold">{infoText}</div>
                             {infoSubText !== "" &&

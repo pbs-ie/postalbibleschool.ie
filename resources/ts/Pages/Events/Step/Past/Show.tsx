@@ -1,13 +1,27 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
 import LessonDownloadButton from "@/Components/Buttons/LessonDownloadButton";
-import { EventCardProps } from "@/Components/Cards/StepEventCard";
+import { PastEventCardProps } from "@/Components/Cards/StepEventCard";
 import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import Heading3 from "@/Components/Typography/Heading3";
 import StepWrapper from "@/Layouts/StepWrapper";
 
-export default function Event({ event }: { event: EventCardProps }) {
+export default function Show({ event }: { event: PastEventCardProps }) {
+    const videos = [
+        {
+            title: "Titl;e 1",
+            duration: "23 min",
+            imageLink: "",
+            idx: 0
+        },
+        {
+            title: "TItle 2",
+            duration: "24 min",
+            imageLink: "",
+            idx: 1
+        }
+    ]
     const worksheets = [{ title: "title" }, { title: "title2" }];
     const slides = [];
     return (
@@ -17,8 +31,9 @@ export default function Event({ event }: { event: EventCardProps }) {
                 <div className="col-span-2">
                     <Heading3>Individual Talks</Heading3>
                     <div className="flex gap-5 p-2 overflow-x-auto bg-slate-50 justify-items-center">
-                        <VideoCarousalCard title={"Test title"} duration={"23 min"} total={2} imageLink={""} idx={0} />
-                        <VideoCarousalCard title={"Test title 2"} duration={"23 min"} total={2} imageLink={""} idx={1} />
+                        {videos.map(({ title, duration, imageLink, idx }) => (
+                            <VideoCarousalCard title={title} duration={duration} total={videos.length} imageLink={imageLink} idx={idx} />
+                        ))}
                     </div>
                 </div>
                 <div>
