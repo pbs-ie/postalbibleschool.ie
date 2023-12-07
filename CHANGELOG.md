@@ -1,3 +1,8 @@
+## 1.1.4 (2023-12-06)
+- STEP Events page updates
+  - Past events now show up as a gallery with an admin panel for managing CRUD operations.
+  - Signups for January 2024 added
+
 ## 1.1.3 (2023-11-03)
 - Bug fixes
   - Form Submissions not working on production - Environment variable being directly used instead of from config
