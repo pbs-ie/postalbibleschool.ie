@@ -1,4 +1,5 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
+import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";
@@ -6,34 +7,12 @@ import ViewIcon from "@/Components/Icons/ViewIcon";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { router } from "@inertiajs/core";
-import { Link } from "@inertiajs/react";
+import { truncateString } from "@/helper";
+import { Link, router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-interface newLessonOrder {
-    "Area": string,
-    "Dispatch Code": string,
-    "L0 Ord": number | string,
-    "L1 Ord": number | string,
-    "L2 Ord": number | string,
-    "L3 Ord": number | string,
-    "L4 Ord": number | string,
-    "Adv Ord": number | string,
-    "NL Ord": number | string,
-    "TLP Ord": number | string,
-    "Total": number | string
-
-}
-
-interface FMLessonOrder {
-    fieldData: newLessonOrder,
-    modId: string,
-    portalData: string[],
-    recordId: string
-}
-
-export default function Index({ lessonOrders, lessonOrdersFromCall }: { lessonOrders: LessonOrder[], lessonOrdersFromCall: FMLessonOrder[] }) {
+export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
     const [nameToDelete, setNameToDelete] = useState<null | string>(null);
@@ -68,40 +47,20 @@ export default function Index({ lessonOrders, lessonOrdersFromCall }: { lessonOr
         setToggleModal(false);
     }
 
-    const sanitizeLessonOrdersInfo = () => {
-        let newLessonOrders: LessonOrder[] = lessonOrdersFromCall.map(({ fieldData, modId, portalData, recordId }) => {
-            let sanitizedOrder: LessonOrder = {
-                id: Number(recordId),
-                schoolName: fieldData.Area,
-                schoolType: getTypeFromDispatchCode(fieldData["Dispatch Code"]),
-                level0Order: Number(fieldData["L0 Ord"]),
-                level1Order: Number(fieldData["L1 Ord"]),
-                level2Order: Number(fieldData["L2 Ord"]),
-                level3Order: Number(fieldData["L3 Ord"]),
-                level4Order: Number(fieldData["L4 Ord"]),
-                tlpOrder: Number(fieldData["TLP Ord"]),
-                email: fieldData.Area
-            }
-            return sanitizedOrder;
-        });
-        return newLessonOrders;
-    }
-
     const tableDataMemo = useMemo(() => lessonOrders, []);
-    const newTableDataMemo = useMemo(() => sanitizeLessonOrdersInfo(), []);
+    // const newTableDataMemo = useMemo(() => sanitizeLessonOrdersInfo(), []);
 
 
     const columnHelper = createColumnHelper<LessonOrder>();
 
     const defaultColumns = [
-        columnHelper.accessor(row => row.schoolName, {
+        columnHelper.accessor(row => truncateString(row.schoolName, 20), {
             header: 'School Name',
-            minSize: 100,
-            maxSize: 100
+            maxSize: 20
         }),
-        columnHelper.accessor(row => row.schoolType, {
+        columnHelper.accessor(row => getTypeFromDispatchCode(row.schoolType), {
             header: 'School Type',
-            minSize: 100
+            minSize: 100,
         }),
         columnHelper.accessor(row => row.level0Order, {
             id: 'level0Order',
@@ -140,7 +99,9 @@ export default function Index({ lessonOrders, lessonOrdersFromCall }: { lessonOr
     ];
 
 
-
+    const handleDataSync = () => {
+        router.get(route('orders.sync'));
+    }
 
     return (
         <WrapperLayout>
@@ -149,10 +110,13 @@ export default function Index({ lessonOrders, lessonOrdersFromCall }: { lessonOr
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex justify-between w-full mb-2">
                         <h2 className="p-0 text-xl font-bold text-black">View Schools</h2>
-                        <ButtonLink className="w-52" href={route('orders.create')}>Add school</ButtonLink>
+                        <div className="flex gap-2 text-sm">
+                            <SecondaryButton onClick={handleDataSync}>Sync Data</SecondaryButton>
+                            <ButtonLink className="w-52" href={route('orders.create')}>Add school</ButtonLink>
+                        </div>
 
                     </div>
-                    <AdvancedTable data={newTableDataMemo} columns={defaultColumns} />
+                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
 
                 </div>
             </ContentWrapper>
