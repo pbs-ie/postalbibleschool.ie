@@ -80,8 +80,8 @@ class LessonOrderController extends Controller
         if ($isAdmin) {
             $lessonOrders = FmLessonOrder::all();
             return Inertia::render('LessonOrder/Index', [
-                'lessonOrders' => $lessonOrders
-                'getAllOrdersCall' => '/api/lesson/orders/',
+                'lessonOrders' => $lessonOrders,
+                'getAllOrdersCall' => '/api/lesson/orders/'
             ]);
         } else {
             $userLesson = $this->getCurrentUserOrder();
@@ -90,32 +90,6 @@ class LessonOrderController extends Controller
             }
             return redirect()->route('orders.show', $userLesson->id);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return Inertia::render('LessonOrder/Create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate($this->getRules());
-
-        LessonOrder::create($validated);
-
-        // Redirect the user
-        return redirect('/orders')->with('success', "New order for school created successfully");
     }
 
     /**
@@ -212,18 +186,6 @@ class LessonOrderController extends Controller
 
         // Redirect the user
         return redirect('/orders')->with('success', "Updated order for school successfully");
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LessonOrder  $lessonOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(LessonOrder $lessonOrder)
-    {
-        $lessonOrder->delete();
-        return redirect('/orders')->with('success', "School entry deleted successfully");
     }
 
     /**

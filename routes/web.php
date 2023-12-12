@@ -143,13 +143,10 @@ Route::get('/dashboard', function () {
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
-    Route::post('/', [LessonOrderController::class, 'store'])->name('store')->can('create:orders');
-    Route::get('/create', [LessonOrderController::class, 'create'])->name('create')->can('create:orders');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync')->can('create:orders');
     Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show')->can('view:orders');
     Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
-    Route::delete('/{lessonOrder}', [LessonOrderController::class, 'destroy'])->name('destroy')->can('create:orders');
 });
 
 Route::prefix('payment')->name('payment.')->group(function () {
