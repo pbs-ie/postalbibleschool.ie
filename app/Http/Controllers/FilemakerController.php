@@ -74,7 +74,7 @@ class FilemakerController extends Controller
     }
 
     private function getMonthlyOrderRecords() {
-        $formattedLayout = rawurlencode('Monthly Order Report');
+        $formattedLayout = rawurlencode('Monthly Order Report API');
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
             '_limit' => 100,

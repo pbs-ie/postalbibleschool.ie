@@ -21,6 +21,7 @@ class LessonOrderController extends Controller
     {
         return [
             'fmRecordId' => ['nullable'],
+            'email' => ['email', 'nullable', 'unique:App\Models\FmLessonOrder'],
             'schoolName' => ['required', 'max:50', 'min:3'],
             'schoolType' => ['nullable', 'string', 'max:50'],
             'level0Order' => ['numeric', 'max_digits:3'],
@@ -41,6 +42,7 @@ class LessonOrderController extends Controller
             $returnObject = (object) array(
                 'fmRecordId' => $item->recordId,
                 'schoolName' => trim($fieldData->{"Area"}),
+                'email' => trim($fieldData->{"Contact Email"}),
                 'schoolType' => trim($fieldData->{"Dispatch Code"}),
                 'level0Order' => trim($fieldData->{"L0 Ord"}) ?: 0,
                 'level1Order' => trim($fieldData->{"L1 Ord"}) ?: 0,

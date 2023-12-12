@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('fmRecordId')->unique();
+            $table->string('email')->nullable();
             $table->string('schoolName');
             $table->string('schoolType');
             $table->smallInteger('level0Order')->default(0);
