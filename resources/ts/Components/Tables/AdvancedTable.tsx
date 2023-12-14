@@ -67,7 +67,7 @@ export default function AdvancedTable({ data, columns }: { data: any, columns: a
                     {table.getRowModel().rows.map(row => (
                         <tr className="even:bg-gray-100" key={row.id}>
                             {row.getVisibleCells().map(cell => (
-                                <td className="p-2 min-w-[50px]" key={cell.id}>
+                                <td className="px-2 min-w-[50px]" key={cell.id}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}

@@ -12,16 +12,44 @@ use App\Http\Controllers\FilemakerController;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use stdClass;
 
 
 class LessonOrderController extends Controller
 {
+    
+    function getCurrentUserOrder()
+    {
+        return FmLessonOrder::where('email', auth()->user()->email)->get()?->first();
+    }
+
+    function isCurrentOrderUser(FmLessonOrder $lessonOrder) {
+        $isAdmin = Gate::check('create:orders');
+        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id);
+    }
+    
+    private function getFmOrderRecordsMap() {
+        return [
+            'fmRecordId' => 'recordId',
+            'email' => 'Contact Email',
+            'schoolName' => 'Area',
+            'schoolType' => 'Dispatch Code',
+            'level0Order' => 'L0 Ord',
+            'level1Order' => 'L1 Ord',
+            'level2Order' => 'L2 Ord',
+            'level3Order' => 'L3 Ord',
+            'level4Order' => 'L4 Ord',
+            'tlpOrder' => 'TLP Ord',
+            'goingDeeperOrder' => 'NL Ord',
+            'gleanersOrder' => 'Adv Ord'
+        ];
+    }
     private function getRules()
     {
         return [
             'fmRecordId' => ['nullable'],
-            'email' => ['email', 'nullable', 'unique:App\Models\FmLessonOrder'],
+            'email' => ['email', 'nullable'],
             'schoolName' => ['required', 'max:50', 'min:3'],
             'schoolType' => ['nullable', 'string', 'max:50'],
             'level0Order' => ['numeric', 'max_digits:3'],
@@ -37,21 +65,22 @@ class LessonOrderController extends Controller
     private function populateOrdersFromFilemaker() 
     {
         $fmLessonOrders = collect((new FilemakerController())->getLessonOrders());
-        $mappedOrders = $fmLessonOrders->map(function($item, $key) {
+        $mapValues = $this->getFmOrderRecordsMap();
+        $mappedOrders = $fmLessonOrders->map(function($item, $key) use ($mapValues) {
             $fieldData = $item->fieldData;
             $returnObject = (object) array(
                 'fmRecordId' => $item->recordId,
-                'schoolName' => trim($fieldData->{"Area"}),
-                'email' => trim($fieldData->{"Contact Email"}),
-                'schoolType' => trim($fieldData->{"Dispatch Code"}),
-                'level0Order' => trim($fieldData->{"L0 Ord"}) ?: 0,
-                'level1Order' => trim($fieldData->{"L1 Ord"}) ?: 0,
-                'level2Order' => trim($fieldData->{"L2 Ord"}) ?: 0,
-                'level3Order' => trim($fieldData->{"L3 Ord"}) ?: 0,
-                'level4Order' => trim($fieldData->{"L4 Ord"}) ?: 0,
-                'goingDeeperOrder' => trim($fieldData->{"NL Ord"}) ?: 0,
-                "gleanersOrder" => trim($fieldData->{"Adv Ord"}) ?: 0,
-                'tlpOrder' => trim($fieldData->{"TLP Ord"}) ?: 0
+                'schoolName' => trim($fieldData->{$mapValues['schoolName']}),
+                'email' => trim($fieldData->{$mapValues['email']}),
+                'schoolType' => trim($fieldData->{$mapValues['schoolType']}),
+                'level0Order' => trim($fieldData->{$mapValues['level0Order']}) ?: 0,
+                'level1Order' => trim($fieldData->{$mapValues['level1Order']}) ?: 0,
+                'level2Order' => trim($fieldData->{$mapValues['level2Order']}) ?: 0,
+                'level3Order' => trim($fieldData->{$mapValues['level3Order']}) ?: 0,
+                'level4Order' => trim($fieldData->{$mapValues['level4Order']}) ?: 0,
+                'goingDeeperOrder' => trim($fieldData->{$mapValues['goingDeeperOrder']}) ?: 0,
+                "gleanersOrder" => trim($fieldData->{$mapValues["gleanersOrder"]}) ?: 0,
+                'tlpOrder' => trim($fieldData->{$mapValues['tlpOrder']}) ?: 0
             );
             return $returnObject;
         });
@@ -63,12 +92,25 @@ class LessonOrderController extends Controller
                 $validator->errors()->add("Name of School", $value['schoolName']);
                 dd($validator->errors());
             }
-            array_push($safeValues, $validator->validated());
+            $validatedValues = $validator->validated();
+            $validatedValues['created_at'] =  Carbon::now();
+            array_push($safeValues, $validatedValues);
         }
         // First removing all rows of the table
         FmLessonOrder::truncate();
         // Populating with the new values from FM
         DB::table('fm_lesson_orders')->insert($safeValues);
+    }
+
+    private function updateFilemakerOrder(int $recordId, $changedRecord) {
+        $mapValues = $this->getFmOrderRecordsMap();
+        $keys = array_keys((array)$changedRecord);
+        for($i=0; $i<count($keys); $i++){
+            $currentKey = $keys[$i];
+            $changedRecord->{$mapValues[$currentKey]} = $changedRecord->$currentKey;
+            unset($changedRecord->$currentKey);
+        }
+        return (new FilemakerController())->updateLessonOrders($recordId, $changedRecord);
     }
     
     /**
@@ -97,10 +139,10 @@ class LessonOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\LessonOrder  $lessonOrder
+     * @param  \App\Models\FmLessonOrder  $lessonOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(LessonOrder $lessonOrder)
+    public function show(FmLessonOrder $lessonOrder)
     {
         $isAdmin = Gate::check('create:orders');
         if ($this->isCurrentOrderUser($lessonOrder)) {
@@ -116,10 +158,10 @@ class LessonOrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\LessonOrder  $lessonOrder
+     * @param  \App\Models\FmLessonOrder  $lessonOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(LessonOrder $lessonOrder)
+    public function edit(FmLessonOrder $lessonOrder)
     {
         $isAdmin = Gate::check('create:orders');
         if ($this->isCurrentOrderUser($lessonOrder)) {
@@ -136,52 +178,43 @@ class LessonOrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\LessonOrder  $lessonOrder
+     * @param  \App\Models\FmLessonOrder  $lessonOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LessonOrder $lessonOrder)
+    public function update(Request $request, FmLessonOrder $lessonOrder)
     {
         $isAdmin = Gate::check('create:orders');
         if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
-        if ($isAdmin) {
-            $validated = $request->validate([
-                'schoolName' => ['required', 'max:50', 'min:3'],
-                'schoolType' => ['nullable', 'string', 'max:50', 'min:3'],
-                'email' => ['required', 'email'],
-                'level0Order' => ['numeric'],
-                'level1Order' => ['numeric'],
-                'level2Order' => ['numeric'],
-                'level3Order' => ['numeric'],
-                'level4Order' => ['numeric'],
-                'tlpOrder' => ['numeric']
-            ]);
-        } else {
+        // if ($isAdmin) {
+        //     $validated = $request->validate($this->getRules());
+        // } else {
             $validated = $request->validate([
                 'level0Order' => ['numeric', 'max_digits:3'],
                 'level1Order' => ['numeric', 'max_digits:3'],
                 'level2Order' => ['numeric', 'max_digits:3'],
                 'level3Order' => ['numeric', 'max_digits:3'],
                 'level4Order' => ['numeric', 'max_digits:3'],
-                'tlpOrder' => ['numeric', 'max_digits:3']
+                'tlpOrder' => ['numeric', 'max_digits:3'],
+                'goingDeeperOrder'=> ['numeric', 'max_digits:3'],
+                'gleanersOrder'=> ['numeric', 'max_digits:3']
             ]);
-        }
+        // };
 
-        $orderNumbersChanged = false;
         $oldOrder = $lessonOrder->replicate();
 
         $lessonOrder->fill($validated);
 
         if ($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
-            $orderNumbersChanged = true;
-        }
-
-        $lessonOrder->save();
-        $lessonOrder->refresh();
-
-        if ($orderNumbersChanged) {
+            $updatedRecord = (object) $validated; 
+            $isUpdated = $this->updateFilemakerOrder($lessonOrder['fmRecordId'], $updatedRecord);
+            if($isUpdated) {
+                $lessonOrder->updated_at = Carbon::now();
+                $lessonOrder->save();
+                $lessonOrder->refresh();
+            }
             // Send mail to admin
             Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
         }
@@ -191,20 +224,13 @@ class LessonOrderController extends Controller
     }
 
     /**
-     * Syncronise the Laravel database with Filemaker
+     * Pull from the Filemaker database to Laravel
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function sync() {
         $this->populateOrdersFromFilemaker();
-        return redirect(route('orders.index'))->with('success', "Table synchronized");
+        return redirect(route('orders.index'))->with('success', "Table data synchronised");
     }
-
-    function getCurrentUserOrder()
-    {
-        return LessonOrder::where('email', auth()->user()->email)->get()?->first();
-    }
-
-    function isCurrentOrderUser(LessonOrder $lessonOrder) {
-        $isAdmin = Gate::check('create:orders');
-        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id);
-    }
+    
 }

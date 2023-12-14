@@ -6,6 +6,7 @@ use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use stdClass;
 
 class FilemakerController extends Controller
 {
@@ -21,6 +22,8 @@ class FilemakerController extends Controller
 
     private $fmidToken;
     private $refreshToken;
+
+    const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
 
     public function __construct() 
     {
@@ -74,7 +77,7 @@ class FilemakerController extends Controller
     }
 
     private function getMonthlyOrderRecords() {
-        $formattedLayout = rawurlencode('Monthly Order Report API');
+        $formattedLayout = rawurlencode(self::MONTHLY_ORDER_LAYOUT);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
             '_limit' => 100,
@@ -108,7 +111,31 @@ class FilemakerController extends Controller
         dd($response->json());
     }
 
+    private function updateRecordById(string $layoutName,int $recordId, $changedRecord) {
+        $formattedLayout = rawurlencode($layoutName);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records/{$recordId}";
+        
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body->fieldData = $changedRecord;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->patch($path);
+        
+        $responseData = json_decode(json_encode($response->json()))->response;
+        return $response->ok();
+    }
+
     public function getLessonOrders() {
         return $this->getMonthlyOrderRecords();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function updateLessonOrders(int $recordId, $changedRecord) {
+        return $this->updateRecordById(self::MONTHLY_ORDER_LAYOUT, $recordId, $changedRecord);
     }
 }
