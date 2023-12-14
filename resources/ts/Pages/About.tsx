@@ -34,7 +34,7 @@ export default function About() {
                 </ParagraphContainer>
                 <Heading2>PBS and BES</Heading2>
                 <ParagraphContainer>
-                    <Paragraph>Bible Education Services is the trust which organises the publication of material used by Postal Bible School. PBS and BES begas as the same organisation. PBS continues to use the material in Ireland while BES produce the material and encourage the translation and give support to those who make use of this material around the world.</Paragraph>
+                    <Paragraph>Bible Education Services is the trust which organises the publication of material used by Postal Bible School. PBS and BES began as the same organisation. PBS continues to use the material in Ireland while BES produce the material and encourage the translation and give support to those who make use of this material around the world.</Paragraph>
                     <Paragraph>For more information you can check out their website</Paragraph>
                     <ButtonAnchor newTab href="https://www.besweb.com/">BESWEB.ORG</ButtonAnchor>
                 </ParagraphContainer>
