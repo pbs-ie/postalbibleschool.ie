@@ -116,9 +116,10 @@ class LessonOrderController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $isAdmin = Gate::check('create:orders');
         if ($isAdmin) {
@@ -132,7 +133,8 @@ class LessonOrderController extends Controller
             if (!isset($userLesson)) {
                 return Inertia::render('LessonOrder/NotFound', [], 404);
             }
-            return redirect()->route('orders.show', $userLesson->id);
+            $request->session()->reflash();
+            return redirect(route('orders.show', $userLesson->id));
         }
     }
 
@@ -220,7 +222,8 @@ class LessonOrderController extends Controller
         }
 
         // Redirect the user
-        return redirect('/orders')->with('success', "Updated order for school successfully");
+        $request->session()->flash('success', "Updated order for school successfully");
+        return redirect(route('orders.index'));
     }
 
     /**
