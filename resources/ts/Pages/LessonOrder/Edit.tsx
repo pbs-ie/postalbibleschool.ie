@@ -71,23 +71,6 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                             )
                         }
                         <form method="post" onSubmit={handleSubmit} className="text-left min-w-screen-md">
-                            {isAdmin &&
-                                <>
-                                    <div className="block mb-4">
-                                        <InputLabel2 forInput={"email"} value={"email"} required></InputLabel2>
-                                        <TextInput type={"email"} name={"email"} id={"email"} value={data.email} className={""} autoComplete={"email"} handleChange={handleChange} required />
-                                    </div>
-                                    <div className="block mb-4">
-                                        <InputLabel2 forInput={"schoolName"} value={"School Name"} required />
-                                        <TextInput type={"text"} name={"schoolName"} id={"schoolName"} value={data.schoolName} className={""} autoComplete={"off"} handleChange={handleChange} required />
-                                    </div>
-                                    <div className="block mb-4">
-                                        <InputLabel2 forInput={"schoolType"} value={"School Type"} />
-                                        <TextInput type={"text"} name={"schoolType"} id={"schoolType"} value={data.schoolType} className={""} autoComplete={"off"} handleChange={handleChange} />
-                                        <p className="text-sm italic text-gray-600">Like: Delivery, Saints, Non-Saints, Donegal</p>
-                                    </div>
-
-                                </>}
                             <div className="block mb-4">
                                 <InputLabel2 forInput={"tlpOrder"} value="Teacher Lesson Plans" />
                                 <NumberInput name={"tlpOrder"} id={"tlpOrder"} value={data.tlpOrder} className={""} autoComplete={"off"} handleChange={handleChange} />

@@ -84,6 +84,7 @@ declare global {
 
     interface LessonOrder {
         id: number;
+        fmRecordId: number | string;
         email: string;
         schoolName: string;
         schoolType: string;

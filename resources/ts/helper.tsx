@@ -101,3 +101,7 @@ export const getButtonClassName = (className: string, type: "primary" | "seconda
         )
     }
 }
+
+export const truncateString = (value: string, index: number) => {
+    return (value.length > index) ? value.slice(0, index - 1) + '…' : value;
+};

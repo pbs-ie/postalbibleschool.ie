@@ -1,6 +1,6 @@
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import CloseX from "./Icons/CloseX";
+import CloseX from "@/Components/Icons/CloseX";
 
 
 export default function FlashMessage() {
@@ -17,7 +17,7 @@ export default function FlashMessage() {
     return (
         <div className="relative">
             {(flash.success || flash.failure) &&
-                <div className={`fixed ${showNotifs ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} transition-[opacity,transform] duration-1000 ease-in top-10 md:top-auto right-2 md:right-6 md:bottom-10 z-30`}>
+                <div className={`fixed ${showNotifs ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0 pointer-events-none"} transition-[opacity,transform] duration-1000 ease-in top-10 md:top-auto right-2 md:right-6 md:bottom-10 z-30`}>
                     <div className={`max-w-80 w-full  ml-2 md:ml-0 overflow-auto bg-blue-500 text-gray-50 ${flash.failure ? "bg-red-700" : "bg-green-600"} rounded py-4 px-6 relative`}>
                         <button className="absolute right-2" onClick={() => setShowNotifs(false)}><CloseX className="w-6 h-6" /></button>
                         {flash.success &&

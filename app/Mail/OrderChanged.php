@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\LessonOrder;
+use App\Models\FmLessonOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -19,7 +20,7 @@ class OrderChanged extends Mailable
      *
      * @return void
      */
-    public function __construct(protected LessonOrder $oldOrder, protected LessonOrder $newOrder)
+    public function __construct(protected FmLessonOrder $oldOrder, protected FmLessonOrder $newOrder)
     {
         //
     }
@@ -32,7 +33,7 @@ class OrderChanged extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Lesson Order Changed for ' . $this->oldOrder->email,
+            subject: 'Lesson Order Changed for ' . $this->oldOrder->schoolName,
             tags: ['individual']
         );
     }

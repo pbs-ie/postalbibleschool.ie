@@ -15,7 +15,6 @@ export default function Create() {
     const { data, setData, post, processing } = useForm({
         schoolName: "",
         schoolType: "",
-        email: "",
         level0Order: 0,
         level1Order: 0,
         level2Order: 0,
@@ -28,7 +27,6 @@ export default function Create() {
         switch (event.target.name) {
             case "schoolName":
             case "schoolType":
-            case "email":
             case "level0Order":
             case "level1Order":
             case "level2Order":
@@ -59,10 +57,6 @@ export default function Create() {
                 <div className="flex flex-col items-start gap-4 px-10 py-5 border">
                     <form method="post" onSubmit={handleSubmit} className="text-left min-w-screen-md">
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
-                        <div className="block mb-4">
-                            <InputLabel2 forInput={"email"} value={"email"} required></InputLabel2>
-                            <TextInput type={"email"} name={"email"} id={"email"} value={data.email} className={""} autoComplete={"email"} handleChange={handleChange} required />
-                        </div>
                         <div className="block mb-4">
                             <InputLabel2 forInput={"schoolName"} value={"School Name"} required />
                             <TextInput type={"text"} name={"schoolName"} id={"schoolName"} value={data.schoolName} className={""} autoComplete={"off"} handleChange={handleChange} required />
