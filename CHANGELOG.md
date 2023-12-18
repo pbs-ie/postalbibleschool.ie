@@ -1,3 +1,8 @@
+## 1.1.5 (2023-12-18)
+- School Assembly page changes
+  - JSON file now saves with new line formatting for human readability
+  - Loading the right links for default 2 videos fixed.
+
 ## 1.1.4 (2023-12-06)
 - STEP Events page updates
   - Past events now show up as a gallery with an admin panel for managing CRUD operations.
