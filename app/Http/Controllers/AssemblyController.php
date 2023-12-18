@@ -69,7 +69,7 @@ class AssemblyController extends Controller
         $sortedList = [];
         if (!$canViewAll) {
             $sortedList = array_values(Arr::sort($videoList, function (array $value) {
-                return $value;
+                return $value['id'];
             }));
             // Showing only the latest 2 months of videos to unauthenticated user
             $sortedList = array_slice($sortedList, -2, 2);
@@ -158,11 +158,11 @@ class AssemblyController extends Controller
 
         $storeConfigSuccess = Storage::put(
             'assemblyconfig.json',
-            json_encode($assemblyConfig)
+            json_encode($assemblyConfig, JSON_PRETTY_PRINT)
         );
         $videoConfigSuccess = Storage::put(
             $assemblyConfig->jsonPath . strtolower($assemblyInfo['routename']) . '.json',
-            json_encode($videoConfig)
+            json_encode($videoConfig, JSON_PRETTY_PRINT)
         );
 
 
@@ -293,11 +293,11 @@ class AssemblyController extends Controller
 
         $storeConfigSuccess = Storage::put(
             'assemblyconfig.json',
-            json_encode($assemblyConfig)
+            json_encode($assemblyConfig, JSON_PRETTY_PRINT)
         );
         $videoConfigSuccess = Storage::put(
             $assemblyConfig->jsonPath . strtolower($assemblyInfo['routename']) . '.json',
-            json_encode($videoConfig)
+            json_encode($videoConfig, JSON_PRETTY_PRINT)
         );
 
 
@@ -338,7 +338,7 @@ class AssemblyController extends Controller
         $assemblyConfig->content = array_values(array_filter($assemblyConfig->content, function ($item) use ($id) {
             return $item->id !== $id;
         }));
-        Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
+        Storage::put('assemblyconfig.json', json_encode($assemblyConfig, JSON_PRETTY_PRINT));
 
         return redirect()->route('assembly.admin')->with('success', 'Video removed successfully');
     }
