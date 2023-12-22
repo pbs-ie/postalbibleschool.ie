@@ -99,6 +99,9 @@ Route::prefix('events')->name('events.')->group(function () {
             Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
             Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
             Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
+            Route::get('/{id}/edit', [StepEventController::class, 'edit'])->name('edit')->can('create:events');
+            // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+            Route::post('/{id}', [StepEventController::class, 'update'])->name('update')->can('create:events');
             Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
         });
         Route::prefix('past')->name('past.')->group(function() {

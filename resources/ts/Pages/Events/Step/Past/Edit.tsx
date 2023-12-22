@@ -12,41 +12,54 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer } from "react";
 
-interface VideoProps {
-    videoTitle: string,
-    externalUrl: string,
-    duration: string,
+
+interface FullVideoMeta {
+    id: number,
+    date: string,
+    description: string,
+    heading: string,
+    routename: string,
+    imageFile?: File | null,
+    imageLink: string,
+    content: VideoMeta[],
+    showDetails: "1" | "0";
 }
 
 
-export default function Create() {
+export default function Edit({ videoData }: { videoData: FullVideoMeta }) {
 
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
     interface ChangeAction extends Action {
-        name: keyof VideoProps;
+        name: keyof VideoMeta;
         value: string | number;
         idx: number;
     }
-    const initialState: VideoProps[] = [{
-        videoTitle: "",
+    const initialState: VideoMeta[] = videoData.content;
+    const blankState: VideoMeta[] = [{
+        title: "",
         externalUrl: "",
         duration: "",
+        id: 0
     }];
 
-    const reducer = (state: VideoProps[], action: ChangeAction | Action) => {
+    const reducer = (state: VideoMeta[], action: ChangeAction | Action) => {
         if (action.type === "changeValue" && "name" in action) {
             let returnObj = [...state];
-            returnObj[action.idx][action.name] = action.value + "";
+            if (action.name === "id") {
+                returnObj[action.idx][action.name] = +action.value;
+            } else {
+                returnObj[action.idx][action.name] = action.value + "";
+            }
             return returnObj;
         } else if (action.type === 'addValue') {
             return [
-                ...state, ...initialState
+                ...state, ...blankState
             ];
         } else if (action.type === "removeValue" && "idx" in action) {
             if (state.length === 1) {
-                return initialState;
+                return blankState;
             }
             let returnObj = [...state];
             returnObj.splice(action.idx, 1);
@@ -62,16 +75,13 @@ export default function Create() {
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
-        date: "",
-        heading: "",
-        description: "",
-        imageFile: null as File | null,
-        showDetails: "0",
-        content: [{
-            videoTitle: "",
-            externalUrl: "",
-            duration: "",
-        }]
+        date: videoData.date,
+        heading: videoData.heading,
+        description: videoData.description,
+        imageFile: videoData.imageFile,
+        imageLink: videoData.imageLink,
+        showDetails: videoData.showDetails,
+        content: videoData.content
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,9 +101,10 @@ export default function Create() {
     const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
         if (event.target instanceof HTMLInputElement) {
             switch (event.target.name) {
-                case "videoTitle":
+                case "title":
                 case "externalUrl":
                 case "duration":
+                case "id":
                     dispatch({
                         type: "changeValue",
                         name: event.target.name,
@@ -107,7 +118,7 @@ export default function Create() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('events.step.past.store'));
+        post(route('events.step.past.update', videoData.id));
     }
 
     useEffect(() => {
@@ -156,15 +167,17 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex gap-2">
-                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
-                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/png" />
+                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} accept="image/png" />
                         </div>
-                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : ""} />
+                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
                     <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
+                    <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
@@ -172,9 +185,19 @@ export default function Create() {
                             </tr>
                         </thead>
                         <tbody>
-                            {videoState.map(({ videoTitle, externalUrl, duration }, idx) => (
+                            {videoState.map(({ title, externalUrl, duration, id }, idx) => (
                                 <tr key={"contenttable" + idx}>
-
+                                    <td>
+                                        <TextInput
+                                            type={"text"}
+                                            name={"id"}
+                                            id={`id${idx}`}
+                                            value={id}
+                                            className={""}
+                                            handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
+                                        />
+                                    </td>
                                     <td>
                                         <TextInput
                                             type={"text"}
@@ -188,9 +211,9 @@ export default function Create() {
                                     <td>
                                         <TextInput
                                             type={"text"}
-                                            name={"videoTitle"}
-                                            id={`videoTitle${idx}`}
-                                            value={videoTitle}
+                                            name={"title"}
+                                            id={`title${idx}`}
+                                            value={title}
                                             className={""}
                                             handleChange={(e) => handleComplexChange(idx, e)}
                                         />
@@ -222,7 +245,7 @@ export default function Create() {
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 
                 </form>
