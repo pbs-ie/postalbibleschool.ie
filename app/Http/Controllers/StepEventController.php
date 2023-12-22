@@ -309,7 +309,7 @@ class StepEventController extends Controller
                 return $item->id !== $id;
             });
             $stepConfig->content = array_values($filteredContent);
-            Storage::put('stepconfig.json', json_encode($stepConfig));
+            Storage::put('stepconfig.json', json_encode($stepConfig, JSON_PRETTY_PRINT));
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
         }
