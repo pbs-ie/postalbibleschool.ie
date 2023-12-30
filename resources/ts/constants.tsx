@@ -82,6 +82,15 @@ declare global {
         id: number
     }
 
+    interface FileMeta {
+        name: string,
+        title: string,
+        type: "slide" | "document" | "",
+        filePath?: string,
+        fileData?: File | null,
+        id: number
+    }
+
     interface LessonOrder {
         id: number;
         fmRecordId: number | string;

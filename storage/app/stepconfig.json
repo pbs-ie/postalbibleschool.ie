@@ -1,6 +1,7 @@
 {
     "jsonPath": "video_json\/",
     "imagePath": "\/events\/step\/image\/",
+    "filePath": "\/events\/step\/file\/",
     "content": [
         {
             "date": "November 2023",

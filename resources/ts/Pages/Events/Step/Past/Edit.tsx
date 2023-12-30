@@ -1,17 +1,18 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
+import Legend from "@/Components/Forms/Legend";
 import RadioInput from "@/Components/Forms/RadioInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import VideoEditFormComponent from "@/Components/VideoEditFormComponent";
+import VideoFilesEditComponent from "@/Components/VideoFilesEditComponent";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
-import { FormEvent, useEffect, useReducer } from "react";
+import { FormEvent, useEffect } from "react";
 
 
 interface FullVideoMeta {
@@ -28,17 +29,18 @@ interface FullVideoMeta {
 }
 
 
-export default function Edit({ videoData: eventData }: { videoData: FullVideoMeta }) {
+export default function Edit({ videoData }: { videoData: FullVideoMeta }) {
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
-        date: eventData.date,
-        heading: eventData.heading,
-        description: eventData.description,
-        imageFile: eventData.imageFile,
-        imageLink: eventData.imageLink,
-        showDetails: eventData.showDetails,
-        content: eventData.content
+        date: videoData.date,
+        heading: videoData.heading,
+        description: videoData.description,
+        imageFile: videoData.imageFile,
+        imageLink: videoData.imageLink,
+        showDetails: videoData.showDetails,
+        content: videoData.content,
+        fileContent: videoData.fileContent
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,11 +60,14 @@ export default function Edit({ videoData: eventData }: { videoData: FullVideoMet
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('events.step.past.update', eventData.id));
+        post(route('events.step.past.update', videoData.id));
     }
 
-    const updateContent = (newContent: VideoMeta[]) => {
+    const setContent = (newContent: VideoMeta[]) => {
         setData('content', [...newContent]);
+    }
+    const setFileContent = (newContent: FileMeta[]) => {
+        setData('fileContent', [...newContent]);
     }
 
     useEffect(() => {
@@ -95,15 +100,17 @@ export default function Edit({ videoData: eventData }: { videoData: FullVideoMet
                             <TextInput type={"text"} name={"description"} id={"description"} value={data.description} className={""} handleChange={handleChange} required />
                         </div>
                         <div className="inline-flex items-end gap-2">
-                            <InputLabel forInput={"showDetails"} value={"Show Details"} required />
-                            <InputLabel2 className="mr-2">
-                                <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
-                                Yes
-                            </InputLabel2>
-                            <InputLabel2>
-                                <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
-                                No
-                            </InputLabel2>
+                            <fieldset className="inline-flex">
+                                <Legend required value="Show Details" />
+                                <InputLabel2 className="mr-2" forInput="true">
+                                    <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
+                                    Yes
+                                </InputLabel2>
+                                <InputLabel2 forInput="false">
+                                    <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
+                                    No
+                                </InputLabel2>
+                            </fieldset>
                         </div>
 
                         <div className="inline-flex gap-2">
@@ -112,7 +119,8 @@ export default function Edit({ videoData: eventData }: { videoData: FullVideoMet
                         </div>
                         <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
-                    <VideoEditFormComponent videoContent={eventData.content} updateContent={updateContent} />
+                    <VideoEditFormComponent videoContent={videoData.content} setContent={setContent} />
+                    <VideoFilesEditComponent fileContent={videoData.fileContent} setContent={setFileContent} />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>

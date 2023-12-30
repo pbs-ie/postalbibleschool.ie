@@ -4,61 +4,20 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
+import Legend from "@/Components/Forms/Legend";
 import RadioInput from "@/Components/Forms/RadioInput";
+import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
+import VideoEditFormComponent from "@/Components/VideoEditFormComponent";
+import VideoFilesEditComponent from "@/Components/VideoFilesEditComponent";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
-import { FormEvent, useEffect, useReducer } from "react";
-
-interface VideoProps {
-    videoTitle: string,
-    externalUrl: string,
-    duration: string,
-}
+import { FormEvent, useEffect } from "react";
 
 
 export default function Create() {
-
-    interface Action {
-        type: "changeValue" | "addValue" | "removeValue";
-    }
-    interface ChangeAction extends Action {
-        name: keyof VideoProps;
-        value: string | number;
-        idx: number;
-    }
-    const initialState: VideoProps[] = [{
-        videoTitle: "",
-        externalUrl: "",
-        duration: "",
-    }];
-
-    const reducer = (state: VideoProps[], action: ChangeAction | Action) => {
-        if (action.type === "changeValue" && "name" in action) {
-            let returnObj = [...state];
-            returnObj[action.idx][action.name] = action.value + "";
-            return returnObj;
-        } else if (action.type === 'addValue') {
-            return [
-                ...state, ...initialState
-            ];
-        } else if (action.type === "removeValue" && "idx" in action) {
-            if (state.length === 1) {
-                return initialState;
-            }
-            let returnObj = [...state];
-            returnObj.splice(action.idx, 1);
-            return returnObj;
-        }
-        else {
-            return state;
-        }
-    }
-
-    const [videoState, dispatch] = useReducer(reducer, initialState);
-
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
@@ -68,10 +27,12 @@ export default function Create() {
         imageFile: null as File | null,
         showDetails: "0",
         content: [{
-            videoTitle: "",
+            title: "",
             externalUrl: "",
             duration: "",
-        }]
+            id: 0
+        }] as VideoMeta[],
+        fileContent: [] as FileMeta[]
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,23 +49,6 @@ export default function Create() {
             setData(event.target.name, event.target.files[0]);
         }
     }
-    const handleComplexChange = (idx: number, event: React.ChangeEvent<HTMLInputElement | HTMLElement>) => {
-        if (event.target instanceof HTMLInputElement) {
-            switch (event.target.name) {
-                case "videoTitle":
-                case "externalUrl":
-                case "duration":
-                    dispatch({
-                        type: "changeValue",
-                        name: event.target.name,
-                        value: event.target.value,
-                        idx: idx
-                    });
-                    break;
-            }
-        }
-    }
-
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('events.step.past.store'));
@@ -114,10 +58,13 @@ export default function Create() {
         reset();
     }, []);
 
-    useEffect(() => {
-        setData("content", [...videoState]);
-    }, [videoState]);
 
+    const setContent = (newContent: VideoMeta[]) => {
+        setData('content', [...newContent]);
+    }
+    const setFileContent = (newContent: FileMeta[]) => {
+        setData('fileContent', [...newContent]);
+    }
 
     return (
         <WrapperLayout>
@@ -139,86 +86,32 @@ export default function Create() {
                             <InputLabel forInput={"heading"} value={"Heading"} required />
                             <TextInput type={"text"} name={"heading"} id={"heading"} value={data.heading} className={""} handleChange={handleChange} required />
                         </div>
-                        <div className="inline-flex items-end gap-2">
+                        <div className="inline-flex items-start gap-2">
                             <InputLabel forInput={"description"} value={"Description"} required />
-                            <TextInput type={"text"} name={"description"} id={"description"} value={data.description} className={""} handleChange={handleChange} required />
+                            <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
                         </div>
                         <div className="inline-flex items-end gap-2">
-                            <InputLabel forInput={"showDetails"} value={"Show Details"} required />
-                            <InputLabel2 className="mr-2">
-                                <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
-                                Yes
-                            </InputLabel2>
-                            <InputLabel2>
-                                <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
-                                No
-                            </InputLabel2>
+                            <fieldset className="inline-flex">
+                                <Legend required value="Show Details" />
+                                <InputLabel2 className="mr-2" forInput="true">
+                                    <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
+                                    Yes
+                                </InputLabel2>
+                                <InputLabel2 forInput="false">
+                                    <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
+                                    No
+                                </InputLabel2>
+                            </fieldset>
                         </div>
 
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
-                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/png" />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/*" />
                         </div>
                         <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : ""} />
                     </div>
-                    <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>External URL</th>
-                                <th>Title</th>
-                                <th>Duration</th>
-                                <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {videoState.map(({ videoTitle, externalUrl, duration }, idx) => (
-                                <tr key={"contenttable" + idx}>
 
-                                    <td>
-                                        <TextInput
-                                            type={"text"}
-                                            name={"externalUrl"}
-                                            id={`externalUrl${idx}`}
-                                            value={externalUrl}
-                                            className={""}
-                                            handleChange={(e) => handleComplexChange(idx, e)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <TextInput
-                                            type={"text"}
-                                            name={"videoTitle"}
-                                            id={`videoTitle${idx}`}
-                                            value={videoTitle}
-                                            className={""}
-                                            handleChange={(e) => handleComplexChange(idx, e)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <TextInput
-                                            type={"text"}
-                                            name={"duration"}
-                                            id={`duration${idx}`}
-                                            value={duration}
-                                            className={""}
-                                            handleChange={(e) => handleComplexChange(idx, e)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <SecondaryButton
-                                            onClick={() => dispatch({
-                                                type: "removeValue",
-                                                idx: idx
-                                            })}
-                                            className="bg-red-200 before:content-['-'] before:pr-1 before:text-lg">
-                                            Remove Row
-                                        </SecondaryButton>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <VideoEditFormComponent videoContent={data.content} setContent={setContent} mode="create" />                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} mode="create" />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>

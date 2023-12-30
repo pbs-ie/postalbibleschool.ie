@@ -2,7 +2,7 @@ import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import TextInput from "@/Components/Forms/TextInput";
 import { useEffect, useReducer } from "react";
 
-export default function VideoEditFormComponent({ videoContent, updateContent }: { videoContent: VideoMeta[], updateContent: (newContent: VideoMeta[]) => void }) {
+export default function VideoEditFormComponent({ videoContent, setContent, mode = "edit" }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void, mode?: "create" | "edit" }) {
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
@@ -69,13 +69,15 @@ export default function VideoEditFormComponent({ videoContent, updateContent }: 
     }
 
     useEffect(() => {
-        updateContent([...videoState]);
+        setContent([...videoState]);
     }, [videoState]);
 
     return (
         <>
             <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
-            <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
+            {mode === "edit" &&
+                <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
+            }
             <table>
                 <thead>
                     <tr>
@@ -90,15 +92,19 @@ export default function VideoEditFormComponent({ videoContent, updateContent }: 
                     {videoState.map(({ title, externalUrl, duration, id }, idx) => (
                         <tr key={"contenttable" + idx}>
                             <td>
-                                <TextInput
-                                    type={"text"}
-                                    name={"id"}
-                                    id={`id${idx}`}
-                                    value={id}
-                                    className={""}
-                                    handleChange={(e) => handleComplexChange(idx, e)}
-                                    required
-                                />
+                                {mode === "edit" ?
+                                    <TextInput
+                                        type={"text"}
+                                        name={"id"}
+                                        id={`id${idx}`}
+                                        value={id}
+                                        className={""}
+                                        handleChange={(e) => handleComplexChange(idx, e)}
+                                        required
+                                    />
+                                    :
+                                    <div className="px-4">{idx}</div>
+                                }
                             </td>
                             <td>
                                 <TextInput
