@@ -1,6 +1,6 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
-import VideoAdditionalFilesComponent from "@/Components/VideoAdditionalFilesComponent";
-import VideoPlayerComponent from "@/Components/VideoPlayerComponent";
+import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFilesComponent";
+import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";
 
 export default function Show({ videoData }: { videoData: { title: string, date: string, imageId: string, content: VideoMeta[], fileContent?: FileMeta[] } }) {

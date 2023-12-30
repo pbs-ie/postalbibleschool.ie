@@ -11,6 +11,15 @@
             "id": 0,
             "imageLink": "\/events\/step\/image\/step-november2023",
             "showDetails": "1"
+        },
+        {
+            "date": "January 2023",
+            "description": "Having covered a broad range of books at STEP in the previous years, we will shift our focus to characters looking at an emphasis on cultivation of the devotional relationship with God as well as the ideas of sacrifice and service. We look through the same themes in the book of 2 Samuel this month.",
+            "heading": "2 Samuel",
+            "showDetails": "1",
+            "routename": "step-january2023",
+            "id": 1,
+            "imageLink": "\/events\/step\/image\/step-january2023"
         }
     ]
 }

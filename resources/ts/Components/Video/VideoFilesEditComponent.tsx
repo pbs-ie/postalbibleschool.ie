@@ -1,15 +1,10 @@
-import Heading3 from "@/Components/Typography/Heading3";
-import LessonDownloadButton from "./Buttons/LessonDownloadButton";
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import { useReducer, useEffect } from "react";
-import TextInput from "./Forms/TextInput";
-import InputLabel from "./Forms/InputLabel";
-import SelectInput from "./Forms/SelectInput";
-import FileInput from "./Forms/FileInput";
-import LabelSpan from "./Typography/LabelSpan";
-import InputLabel2 from "./Forms/InputLabel2";
-import Newspaper from "./Icons/Newspaper";
-import FileIcon from "./Icons/FileIcon";
+import TextInput from "../Forms/TextInput";
+import SelectInput from "../Forms/SelectInput";
+import FileInput from "../Forms/FileInput";
+import InputLabel2 from "../Forms/InputLabel2";
+import FileIcon from "../Icons/FileIcon";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {
@@ -110,7 +105,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
     return (
         <>
             <h2 className="p-0 mb-2 text-xl font-bold text-black">File Information</h2>
-            {fileState.length === 0 ?
+            {(fileState && fileState.length === 0) ?
                 <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton>
                 :
                 <table>

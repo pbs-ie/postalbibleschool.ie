@@ -27,5 +27,35 @@
             "id": 3,
             "title": "Session 4"
         }
+    ],
+    "fileContent": [
+        {
+            "id": 0,
+            "name": "Notes Job 2023",
+            "title": "Notes",
+            "type": "document",
+            "filePath": "\/events\/step\/file\/step-november2023_icaytxgie.pdf"
+        },
+        {
+            "id": 1,
+            "name": "Notes - Bildad",
+            "title": "Worksheet - Bildad",
+            "type": "document",
+            "filePath": "\/events\/step\/file\/step-november2023_l7dszjide.pdf"
+        },
+        {
+            "id": 2,
+            "name": "Notes - Eliphaz",
+            "title": "Worksheet - Eliphaz",
+            "type": "document",
+            "filePath": "\/events\/step\/file\/step-november2023_2nqjr54dn.pdf"
+        },
+        {
+            "id": 3,
+            "name": "Notes - Zophar",
+            "title": "Worksheet - Zophar",
+            "type": "document",
+            "filePath": "\/events\/step\/file\/step-november2023_bqtcyg7f7.pdf"
+        }
     ]
 }

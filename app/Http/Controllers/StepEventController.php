@@ -198,8 +198,12 @@ class StepEventController extends Controller
         $filePath = $stepConfig->jsonPath . $fileName . '.json';
         $fileData = (json_decode(Storage::get($filePath), false));
         
-        $event->content = $fileData->content;
-        $event->fileContent = $fileData->fileContent;
+        if(isset($fileData->content)) {
+            $event->content = $fileData->content;
+        }
+        if(isset($fileData->fileContent)) {
+            $event->fileContent = $fileData->fileContent;
+        }
 
         return Inertia::render('Events/Step/Past/Edit', [
             "videoData" => $event
@@ -337,21 +341,34 @@ class StepEventController extends Controller
         $fileName = strtolower($event->routename);
 
         $filePath = $stepConfig->jsonPath . $fileName . '.json';
-        $pngPath = 'video_images/' . $fileName . '.png';
+
+        $allVideoImages = Storage::disk('public')->files('video_images/');
+        $matchingImages = array_values(array_filter($allVideoImages, function($image) use ($fileName) {
+            return Str::startsWith(basename($image), $fileName);
+        }));
+        
+        $allSavedFiles = Storage::disk('public')->files('video_files/');
+        $associatedFiles = array_values(array_filter($allSavedFiles, function($file) use ($fileName) {
+            return Str::startsWith(basename($file), $fileName);
+        }));
+
 
         // TODO: This check does not need to prevent the deletion
-        if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
+        if (!Storage::disk('local')->exists($filePath) ) {
             return redirect()->route('events.step.past.admin')->with('failure', 'Missing file in system');
         }
 
         try {
-            // Destroy the .json file for the month
+            // Destroy the .json file for the event
             Storage::disk('local')->delete($filePath);
+            
+            // Destroy associated files uploaded for the event
+            Storage::disk('public')->delete($associatedFiles);
 
-            // Destroy the image for the month
-            Storage::disk('public')->delete($pngPath);
+            // Destroy the image for the event
+            Storage::disk('public')->delete($matchingImages);
 
-            // Remove the entry in step config for the month
+            // Remove the entry in step config for the event
             $filteredContent = array_filter($stepConfig->content, function ($item) use ($id) {
                 return $item->id !== $id;
             });

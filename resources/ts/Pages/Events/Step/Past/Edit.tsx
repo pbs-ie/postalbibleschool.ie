@@ -7,8 +7,8 @@ import Legend from "@/Components/Forms/Legend";
 import RadioInput from "@/Components/Forms/RadioInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
-import VideoEditFormComponent from "@/Components/VideoEditFormComponent";
-import VideoFilesEditComponent from "@/Components/VideoFilesEditComponent";
+import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
+import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
@@ -39,8 +39,8 @@ export default function Edit({ videoData }: { videoData: FullVideoMeta }) {
         imageFile: videoData.imageFile,
         imageLink: videoData.imageLink,
         showDetails: videoData.showDetails,
-        content: videoData.content,
-        fileContent: videoData.fileContent
+        content: videoData.content ?? [],
+        fileContent: videoData.fileContent ?? []
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,8 +119,8 @@ export default function Edit({ videoData }: { videoData: FullVideoMeta }) {
                         </div>
                         <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
-                    <VideoEditFormComponent videoContent={videoData.content} setContent={setContent} />
-                    <VideoFilesEditComponent fileContent={videoData.fileContent} setContent={setFileContent} />
+                    <VideoEditFormComponent videoContent={data.content} setContent={setContent} />
+                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
