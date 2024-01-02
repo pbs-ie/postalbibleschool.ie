@@ -7,12 +7,13 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AssemblyController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use stdClass;
 
 class StepEventController extends Controller
 {
-    private function sortArray($array, string $byParam) {
+    private function sortArrayByParam($array, string $byParam) {
         usort($array, function ($a, $b) use ($byParam) {
             if ((int)$a[$byParam] === (int)$b[$byParam]) {
                 return 0;
@@ -22,6 +23,10 @@ class StepEventController extends Controller
     }
     private function getStepConfig() {
         return json_decode(Storage::get('stepconfig.json'), false);
+    }
+    private function getUploadedFilesPath(string $routename, string $filename) {
+
+        return 'video_files/' . $routename . '/' . $filename;
     }
     private function getRules() {
         return [
@@ -34,6 +39,18 @@ class StepEventController extends Controller
             'fileContent' => ['array:id,title,name,type,filePath,fileData', 'max:20'],
             'fileContent.*.type' => ['required'],
             'fileContent.*.fileData' => ['nullable', 'mimes:pdf'],
+        ];
+    }
+
+    private function getCustomAttributes() {
+        return [
+            'content' => 'Video information',
+            'content.*.externalUrl' => 'External Url',
+            'content.*.duration' => 'Duration',
+            'fileContent' => 'Files information',
+            'fileContent.*.name' => 'File Name',
+            'fileContent.*.type' => 'File Type',
+            'fileContent.*.fileData' => 'Uploaded file',
         ];
     }
 
@@ -116,14 +133,7 @@ class StepEventController extends Controller
     public function store(Request $request)
     {
         $rules = $this->getRules();
-        $validator = Validator::make($request->all(), $rules, [], [
-            'content' => 'Video information',
-            'content.*.externalUrl' => 'External Url',
-            'content.*.duration' => 'Duration',
-            'fileContent' => 'Files information',
-            'fileContent.*.name' => 'File Name',
-            'fileContent.*.type' => 'File Type',
-        ]);
+        $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
         
         $videoData = $validator->safe()->only(['content']);
         $imageData = $validator->safe()->only(['imageFile']);
@@ -159,8 +169,8 @@ class StepEventController extends Controller
         for ($i = 0; $i < count($videoConfig->fileContent); $i++) {
             $videoConfig->fileContent[$i]['id'] = $i;
             $uploadedFile = $videoConfig->fileContent[$i]['fileData'];
-            $filePath = $uploadedFile->storeAs('public/video_files', $configData['routename'] . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
-            $videoConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . Storage::name($filePath);
+            $filePath = $uploadedFile->storeAs('public/video_files/' . $configData['routename'], $configData['routename'] . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
+            $videoConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . $configData['routename'] . '/' . Storage::name($filePath);
             unset($videoConfig->fileContent[$i]['fileData']);
         }
 
@@ -222,15 +232,7 @@ class StepEventController extends Controller
         $rules = $this->getRules();
         $rules['imageLink'] = [];
         $rules['imageFile'] = ['nullable'];
-        $validator = Validator::make($request->all(), $rules, [], [
-            'content' => 'Video information',
-            'content.*.videoTitle' => 'Video Title',
-            'content.*.externalUrl' => 'External Url',
-            'content.*.duration' => 'Duration',
-            'fileContent' => 'Files information',
-            'fileContent.*.name' => 'File Name',
-            'fileContent.*.type' => 'File Type',
-        ]);
+        $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
         
         $videoData = $validator->safe(['content']);
         $imageData = $validator->safe(['imageFile']);
@@ -280,33 +282,34 @@ class StepEventController extends Controller
         $eventConfig->content = $videoData['content'];
         $eventConfig->fileContent = $fileData['fileContent'] ?? [];
 
-        $this->sortArray($eventConfig->content, 'id');
+        $this->sortArrayByParam($eventConfig->content, 'id');
         for ($i = 0; $i < count($eventConfig->content); $i++) {
             $eventConfig->content[$i]['id'] = $i;
             $eventConfig->content[$i]['externalUrl'] = (new AssemblyController())->parseExternalUrl($eventConfig->content[$i]['externalUrl']);
         }
-        $this->sortArray($eventConfig->fileContent, 'id');
+        $this->sortArrayByParam($eventConfig->fileContent, 'id');
         for ($i = 0; $i < count($eventConfig->fileContent); $i++) {
             $eventConfig->fileContent[$i]['id'] = $i;
             
             if (array_key_exists('fileData', $eventConfig->fileContent[$i]) && isset($eventConfig->fileContent[$i]['fileData'])) {
                 $uploadedFile = $eventConfig->fileContent[$i]['fileData'];
-                $newFilePath = $uploadedFile->storeAs('public/video_files', $currentEvent->routename . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
-                $eventConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . basename($newFilePath);
+                $newFilePath = $uploadedFile->storeAs('public/video_files/'.$currentEvent->routename, $currentEvent->routename . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
+                $eventConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . $currentEvent->routename . '/' . basename($newFilePath);
                 unset($eventConfig->fileContent[$i]['fileData']);
             }
             else if (array_key_exists('filePath', $eventConfig->fileContent[$i])) {
-                $fileName = Str::after($eventConfig->fileContent[$i]['filePath'], $stepConfig->filePath);
-                $filePath = 'video_files/' . $fileName;
+                $fileName = Str::after($eventConfig->fileContent[$i]['filePath'], $stepConfig->filePath . $currentEvent->routename);
+                $filePath = $this->getUploadedFilesPath($currentEvent->routename, $fileName);
                 if(Storage::disk('public')->exists($filePath)) {
                     continue;
+                }
+                else {
+                    Log::warning("Could not find file in system : " . $fileName, [$filePath, $currentEvent->routename]);
                 }
             } else {
                 unset($eventConfig->fileContent[$i]);
                 $i--;
             }
-
-
         }
 
         $storeConfigSuccess = Storage::put(
@@ -347,7 +350,7 @@ class StepEventController extends Controller
             return Str::startsWith(basename($image), $fileName);
         }));
         
-        $allSavedFiles = Storage::disk('public')->files('video_files/');
+        $allSavedFiles = Storage::disk('public')->allFiles('video_files/');
         $associatedFiles = array_values(array_filter($allSavedFiles, function($file) use ($fileName) {
             return Str::startsWith(basename($file), $fileName);
         }));
@@ -398,9 +401,9 @@ class StepEventController extends Controller
         }
     }
 
-    public function getFile($filename) {
+    public function getFile(string $routename,string $filename) {
         $fileName = strtolower($filename);
-        $filePath = 'video_files/' . $fileName;
+        $filePath = $this->getUploadedFilesPath($routename, $fileName);
 
         if (Storage::disk('public')->exists($filePath)) {
             return response()->file(Storage::disk('public')->path($filePath), ['Content-type' => 'application/pdf']);

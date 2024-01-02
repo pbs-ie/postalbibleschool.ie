@@ -95,7 +95,7 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
         
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
-        Route::get('/file/{filename}', [StepEventController::class, 'getFile'])->name('file');
+        Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
         Route::prefix('past')->name('past.')->middleware(['auth'])->group(function() {
             Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
             Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
