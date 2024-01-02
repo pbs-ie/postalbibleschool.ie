@@ -2,7 +2,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, Link } from "@inertiajs/react";
 
 import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import VideoPlayerComponent from "@/Components/VideoPlayerComponent";
+import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 
 
 export default function Show({ videoData }: { videoData: { title: string, imageId: string, content: VideoMeta[] } }) {

@@ -7,22 +7,50 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\AssemblyController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use stdClass;
 
 class StepEventController extends Controller
 {
+    private function sortArrayByParam($array, string $byParam) {
+        usort($array, function ($a, $b) use ($byParam) {
+            if ((int)$a[$byParam] === (int)$b[$byParam]) {
+                return 0;
+            }
+            return (int)$a[$byParam] < (int)$b[$byParam] ? -1 : 1;
+        });
+    }
     private function getStepConfig() {
         return json_decode(Storage::get('stepconfig.json'), false);
+    }
+    private function getUploadedFilesPath(string $routename, string $filename) {
+
+        return 'video_files/' . $routename . '/' . $filename;
     }
     private function getRules() {
         return [
             'date' => ['required'],
             'description' => ['required'],
             'heading' => ['required'],
-            'imageFile' => ['required', 'image', 'mimetypes:image/png'],
+            'imageFile' => ['required', 'image', 'mimes:png,jpg'],
             'showDetails' => ['required', 'boolean'],
-            'content' => ['array:videoTitle,externalUrl,duration', 'max:20', 'min:1'],
+            'content' => ['array:title,externalUrl,duration', 'max:20', 'min:1'],
+            'fileContent' => ['array:id,title,name,type,filePath,fileData', 'max:20'],
+            'fileContent.*.type' => ['required'],
+            'fileContent.*.fileData' => ['nullable', 'mimes:pdf'],
+        ];
+    }
+
+    private function getCustomAttributes() {
+        return [
+            'content' => 'Video information',
+            'content.*.externalUrl' => 'External Url',
+            'content.*.duration' => 'Duration',
+            'fileContent' => 'Files information',
+            'fileContent.*.name' => 'File Name',
+            'fileContent.*.type' => 'File Type',
+            'fileContent.*.fileData' => 'Uploaded file',
         ];
     }
 
@@ -105,20 +133,15 @@ class StepEventController extends Controller
     public function store(Request $request)
     {
         $rules = $this->getRules();
-        $validator = Validator::make($request->all(), $rules, [], [
-            'heading' => 'Main Title',
-            'content' => 'Video information',
-            'content.*.videoTitle' => 'Video Title',
-            'content.*.externalUrl' => 'External Url',
-            'content.*.duration' => 'Duration',
-        ]);
+        $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
         
         $videoData = $validator->safe()->only(['content']);
         $imageData = $validator->safe()->only(['imageFile']);
-        $configData = $validator->safe()->except(['content', 'imageFile']);
+        $fileData = $validator->safe()->only(['fileContent']);
+        $configData = $validator->safe()->except(['content', 'imageFile', 'fileContent']);
         
         $configData['routename'] = Str::kebab("step ".$configData["date"]);
-        // Storing updated assembly config file
+        // Storing updated step config file
         $stepConfig = json_decode(Storage::get('stepconfig.json'), false);
         $configData['id'] = count($stepConfig->content);
         $configData['imageLink'] = $stepConfig->imagePath . $configData['routename'];
@@ -135,131 +158,177 @@ class StepEventController extends Controller
         $videoConfig->date = $configData['date'];
         $videoConfig->imageId = $configData['routename'];
         $videoConfig->content = $videoData['content'];
+        $videoConfig->fileContent = $fileData['fileContent'] ?? [];
 
         for ($i = 0; $i < count($videoConfig->content); $i++) {
             $videoConfig->content[$i]['id'] = $i;
-            $videoConfig->content[$i]['title'] = $videoData['content'][$i]['videoTitle'];
-            unset($videoConfig->content[$i]['videoTitle']);
             $videoConfig->content[$i]['externalUrl'] = (new AssemblyController())->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
+        }
+
+        // Storing additional files
+        for ($i = 0; $i < count($videoConfig->fileContent); $i++) {
+            $videoConfig->fileContent[$i]['id'] = $i;
+            $uploadedFile = $videoConfig->fileContent[$i]['fileData'];
+            $filePath = $uploadedFile->storeAs('public/video_files/' . $configData['routename'], $configData['routename'] . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
+            $videoConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . $configData['routename'] . '/' . Storage::name($filePath);
+            unset($videoConfig->fileContent[$i]['fileData']);
         }
 
         $storeConfigSuccess = Storage::put(
             'stepconfig.json',
-            json_encode($stepConfig)
+            json_encode($stepConfig, JSON_PRETTY_PRINT)
         );
         $videoConfigSuccess = Storage::put(
             $stepConfig->jsonPath . strtolower($configData['routename']) . '.json',
-            json_encode($videoConfig)
+            json_encode($videoConfig, JSON_PRETTY_PRINT)
         );
 
 
         if (!$storeConfigSuccess || !$videoConfigSuccess) {
             return redirect()->back()->with('failure', 'Something went wrong');
         } else {
-            return redirect()->route('events.step.past.admin')->with('success', 'Video added successfully');
+            return redirect()->route('events.step.past.admin')->with('success', 'Event added successfully');
         }
     }
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit(int $id)
-    // {
-    //     $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-    //     $videoList = $this->getVideoList();
-    //     if ($videoList === false) {
-    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
-    //     }
-    //     $videoData = $videoList[$id];
-    //     $fileName = strtolower($videoData->routename);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(int $id)
+    {
+        $stepConfig = $this->getStepConfig();
+        $event = $this->searchMatchingContent($id, 'id', $stepConfig->content);
+        if ($event === null) {
+            return redirect()->route('events.step.past.admin')->with('failure', 'Missing file in system');
+        }
+        $fileName = strtolower($event->routename);
 
-    //     $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
-    //     $fileContent = (json_decode(Storage::get($filePath), false))->content;
-    //     $finalVideoData = (object) array_merge((array) $videoData, (array) $fileContent[0]);
+        $filePath = $stepConfig->jsonPath . $fileName . '.json';
+        $fileData = (json_decode(Storage::get($filePath), false));
+        
+        if(isset($fileData->content)) {
+            $event->content = $fileData->content;
+        }
+        if(isset($fileData->fileContent)) {
+            $event->fileContent = $fileData->fileContent;
+        }
 
-    //     return Inertia::render('Events/Step/Past/Edit', [
-    //         "videoData" => $finalVideoData
-    //     ]);
-    // }
+        return Inertia::render('Events/Step/Past/Edit', [
+            "videoData" => $event
+        ]);
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, int $id)
-    // {
-    //     $rules = $this->getRules();
-    //     $rules['imageLink'] = [];
-    //     $validator = Validator::make($request->all(), $rules, [], [
-    //         'monthTitle' => 'Main Title',
-    //     ]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $id)
+    {
+        $rules = $this->getRules();
+        $rules['imageLink'] = [];
+        $rules['imageFile'] = ['nullable'];
+        $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
+        
+        $videoData = $validator->safe(['content']);
+        $imageData = $validator->safe(['imageFile']);
+        $fileData = $validator->safe(['fileContent']);
+        $configData = $validator->safe()->except(['imageFile', 'content', 'fileContent']);
+        
+        $stepConfig = $this->getStepConfig();
 
-    //     $imageInfo = $validator->safe()->only(['imageFile']);
-    //     $assemblyInfo = $validator->safe()->except(['imageFile', 'videoTitle', 'externalUrl', 'duration']);
-    //     $videoInfo = $validator->safe()->only(['videoTitle', 'externalUrl', 'duration']);
+        $currentEvent = $this->searchMatchingContent($id, 'id', $stepConfig->content);
+        if ($currentEvent === null) {
+            return redirect()->route('events.step.past.admin')->with('failure', 'Missing event in system');
+        }
+        $fileName = strtolower($currentEvent->routename);
+        
 
-    //     $videoList = $this->getVideoList();
-    //     $currentRoutename = $videoList[$id]->routename;
-    //     if ($videoList === false) {
-    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
-    //     }
-    //     $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
+        $eventConfigPath = $stepConfig->jsonPath . $fileName . '.json';
+        if (!Storage::exists($eventConfigPath)) {
+            return redirect()->route('events.step.past.admin')->with('failure', 'Could not find associated file');
+        }
 
-    //     $videoConfigPath = $assemblyConfig->jsonPath . strtolower($currentRoutename) . '.json';
-    //     if (!Storage::exists($videoConfigPath)) {
-    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Could not find associated file');
-    //     }
+        // Updating image for the month
+        if ($imageData) {
+            $imageFile = $imageData["imageFile"];
+            if (isset($imageFile)) {
+                $path = $imageFile->storeAs('public/video_images', $fileName . '.' . $imageFile->getClientOriginalExtension());
+                $configData['imageLink'] = $stepConfig->imagesPath . $fileName;
+            }
+        }
 
-    //     // Storing image for the month
-    //     if ($imageInfo) {
-    //         $imageFile = $imageInfo["imageFile"];
-    //         if (isset($imageFile)) {
-    //             $path = $imageFile->storeAs('public/video_images', $currentRoutename . '.' . $imageFile->getClientOriginalExtension());
-    //             $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $currentRoutename;
-    //         }
-    //     }
-    //     $bonusConfigUpdate = $assemblyConfig->bonusContent[$id];
-    //     $bonusConfigUpdate->monthTitle = $assemblyInfo['monthTitle'];
-    //     $bonusConfigUpdate->imageLink = $assemblyInfo['imageLink'];
-    //     $bonusConfigUpdate->category = $assemblyInfo['category'];
+        // Updating step config content
+        foreach($stepConfig->content as $event) {
+            if($event->id === $id) {
+                $event->date = $configData['date'];
+                $event->heading = $configData['heading'];
+                $event->description = $configData['description'];
+                $event->showDetails = $configData['showDetails'];
+                $event->imageLink = $configData['imageLink'];
+                break;
+            }
+        }
 
-    //     // Storing updated assembly config file
-    //     $assemblyConfig->bonusContent[$id] = $bonusConfigUpdate;
+        // Storing updated event config file 
+        $eventConfig = new stdClass();
+        $eventConfig->title = $configData['heading'];
+        $eventConfig->date = $configData['date'];
+        $eventConfig->imageId = $fileName;
+        $eventConfig->content = $videoData['content'];
+        $eventConfig->fileContent = $fileData['fileContent'] ?? [];
 
-    //     // Storing updated video config file for the month
-    //     $videoConfig = new stdClass();
-    //     $videoConfig->title = $assemblyInfo['monthTitle'];
-    //     $videoConfig->imageId = $currentRoutename;
+        $this->sortArrayByParam($eventConfig->content, 'id');
+        for ($i = 0; $i < count($eventConfig->content); $i++) {
+            $eventConfig->content[$i]['id'] = $i;
+            $eventConfig->content[$i]['externalUrl'] = (new AssemblyController())->parseExternalUrl($eventConfig->content[$i]['externalUrl']);
+        }
+        $this->sortArrayByParam($eventConfig->fileContent, 'id');
+        for ($i = 0; $i < count($eventConfig->fileContent); $i++) {
+            $eventConfig->fileContent[$i]['id'] = $i;
+            
+            if (array_key_exists('fileData', $eventConfig->fileContent[$i]) && isset($eventConfig->fileContent[$i]['fileData'])) {
+                $uploadedFile = $eventConfig->fileContent[$i]['fileData'];
+                $newFilePath = $uploadedFile->storeAs('public/video_files/'.$currentEvent->routename, $currentEvent->routename . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
+                $eventConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . $currentEvent->routename . '/' . basename($newFilePath);
+                unset($eventConfig->fileContent[$i]['fileData']);
+            }
+            else if (array_key_exists('filePath', $eventConfig->fileContent[$i])) {
+                $fileName = Str::after($eventConfig->fileContent[$i]['filePath'], $stepConfig->filePath . $currentEvent->routename);
+                $filePath = $this->getUploadedFilesPath($currentEvent->routename, $fileName);
+                if(Storage::disk('public')->exists($filePath)) {
+                    continue;
+                }
+                else {
+                    Log::warning("Could not find file in system : " . $fileName, [$filePath, $currentEvent->routename]);
+                }
+            } else {
+                unset($eventConfig->fileContent[$i]);
+                $i--;
+            }
+        }
 
-    //     $videoConfig->content[0]['id'] = 0;
-    //     $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
-    //     $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
-    //     $videoConfig->content[0]['duration'] = $videoInfo['duration'];
+        $storeConfigSuccess = Storage::put(
+            'stepconfig.json',
+            json_encode($stepConfig, JSON_PRETTY_PRINT)
+        );
 
-    //     $storeConfigSuccess = Storage::put(
-    //         'assemblyconfig.json',
-    //         json_encode($assemblyConfig)
-    //     );
-
-    //     $videoConfigSuccess = Storage::put(
-    //         $videoConfigPath,
-    //         json_encode($videoConfig)
-    //     );
+        $eventConfigSuccess = Storage::put(
+            $eventConfigPath,
+            json_encode($eventConfig, JSON_PRETTY_PRINT)
+        );
 
 
-    //     if (!$storeConfigSuccess || !$videoConfigSuccess) {
-    //         return redirect()->route('assembly.bonus.admin')->with('failure', 'Something went wrong');
-    //     } else {
-    //         return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
-    //     }
-    // }
-
-
+        if (!$storeConfigSuccess || !$eventConfigSuccess) {
+            return redirect()->route('events.step.past.admin')->with('failure', 'Something went wrong');
+        } else {
+            return redirect()->route('events.step.past.admin')->with('success', 'Event updated successfully');
+        }
+    }
 
 
     /**
@@ -275,26 +344,39 @@ class StepEventController extends Controller
         $fileName = strtolower($event->routename);
 
         $filePath = $stepConfig->jsonPath . $fileName . '.json';
-        $pngPath = 'video_images/' . $fileName . '.png';
+
+        $allVideoImages = Storage::disk('public')->files('video_images/');
+        $matchingImages = array_values(array_filter($allVideoImages, function($image) use ($fileName) {
+            return Str::startsWith(basename($image), $fileName);
+        }));
+        
+        $allSavedFiles = Storage::disk('public')->allFiles('video_files/');
+        $associatedFiles = array_values(array_filter($allSavedFiles, function($file) use ($fileName) {
+            return Str::startsWith(basename($file), $fileName);
+        }));
+
 
         // TODO: This check does not need to prevent the deletion
-        if (!Storage::disk('local')->exists($filePath) || !Storage::disk('public')->exists($pngPath)) {
+        if (!Storage::disk('local')->exists($filePath) ) {
             return redirect()->route('events.step.past.admin')->with('failure', 'Missing file in system');
         }
 
         try {
-            // Destroy the .json file for the month
+            // Destroy the .json file for the event
             Storage::disk('local')->delete($filePath);
+            
+            // Destroy associated files uploaded for the event
+            Storage::disk('public')->delete($associatedFiles);
 
-            // Destroy the image for the month
-            Storage::disk('public')->delete($pngPath);
+            // Destroy the image for the event
+            Storage::disk('public')->delete($matchingImages);
 
-            // Remove the entry in assembly config for the month
+            // Remove the entry in step config for the event
             $filteredContent = array_filter($stepConfig->content, function ($item) use ($id) {
                 return $item->id !== $id;
             });
             $stepConfig->content = array_values($filteredContent);
-            Storage::put('stepconfig.json', json_encode($stepConfig));
+            Storage::put('stepconfig.json', json_encode($stepConfig, JSON_PRETTY_PRINT));
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
         }
@@ -317,5 +399,14 @@ class StepEventController extends Controller
         } else if(Storage::disk('public')->exists($filePathJpg)) {
             return response()->file(Storage::disk('public')->path($filePathJpg), ['Content-type' => 'image/jpg']);
         }
+    }
+
+    public function getFile(string $routename,string $filename) {
+        $fileName = strtolower($filename);
+        $filePath = $this->getUploadedFilesPath($routename, $fileName);
+
+        if (Storage::disk('public')->exists($filePath)) {
+            return response()->file(Storage::disk('public')->path($filePath), ['Content-type' => 'application/pdf']);
+        } 
     }
 }

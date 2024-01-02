@@ -1,14 +1,15 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
-import VideoPlayerComponent from "@/Components/VideoPlayerComponent";
+import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFilesComponent";
+import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";
 
-export default function Show({ videoData }: { videoData: { title: string, date: string, imageId: string, content: VideoMeta[] } }) {
+export default function Show({ videoData }: { videoData: { title: string, date: string, imageId: string, content: VideoMeta[], fileContent?: FileMeta[] } }) {
+    let worksheetFiles = videoData.fileContent?.filter((fileData) => fileData.type === "document");
+    let slideFiles = videoData.fileContent?.filter((fileData) => fileData.type === "slide");
     return (
         <StepWrapper title={videoData.title} heading={videoData.date}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('events.step.image', videoData.imageId)} content={videoData.content} />
-            {/* <div className="grid justify-start max-w-5xl grid-cols-2 gap-4 mx-auto my-5 text-left">
-                * Section for worksheets and slides *
-            </div> */}
+            <VideoAdditionalFilesComponent worksheetFiles={worksheetFiles} slideFiles={slideFiles} />
             <div className="mt-4">
                 <ButtonLink type="secondary" href={route('events.step.past.gallery')}>Back to All</ButtonLink>
             </div>

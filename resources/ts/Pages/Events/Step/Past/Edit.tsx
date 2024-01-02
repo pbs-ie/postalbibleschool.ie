@@ -1,12 +1,10 @@
 import ButtonLink from "@/Components/Buttons/ButtonLink";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import Legend from "@/Components/Forms/Legend";
 import RadioInput from "@/Components/Forms/RadioInput";
-import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
@@ -17,22 +15,32 @@ import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
 
 
-export default function Create() {
+interface FullVideoMeta {
+    id: number,
+    date: string,
+    description: string,
+    heading: string,
+    routename: string,
+    imageFile?: File | null,
+    imageLink: string,
+    content: VideoMeta[],
+    fileContent: FileMeta[],
+    showDetails: "1" | "0";
+}
+
+
+export default function Edit({ videoData }: { videoData: FullVideoMeta }) {
 
     const { errors } = usePage().props;
     const { data, setData, post, reset, processing } = useForm({
-        date: "",
-        heading: "",
-        description: "",
-        imageFile: null as File | null,
-        showDetails: "0",
-        content: [{
-            title: "",
-            externalUrl: "",
-            duration: "",
-            id: 0
-        }] as VideoMeta[],
-        fileContent: [] as FileMeta[]
+        date: videoData.date,
+        heading: videoData.heading,
+        description: videoData.description,
+        imageFile: videoData.imageFile,
+        imageLink: videoData.imageLink,
+        showDetails: videoData.showDetails,
+        content: videoData.content ?? [],
+        fileContent: videoData.fileContent ?? []
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,15 +57,11 @@ export default function Create() {
             setData(event.target.name, event.target.files[0]);
         }
     }
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('events.step.past.store'));
+        post(route('events.step.past.update', videoData.id));
     }
-
-    useEffect(() => {
-        reset();
-    }, []);
-
 
     const setContent = (newContent: VideoMeta[]) => {
         setData('content', [...newContent]);
@@ -65,6 +69,11 @@ export default function Create() {
     const setFileContent = (newContent: FileMeta[]) => {
         setData('fileContent', [...newContent]);
     }
+
+    useEffect(() => {
+        reset();
+    }, []);
+
 
     return (
         <WrapperLayout>
@@ -86,9 +95,9 @@ export default function Create() {
                             <InputLabel forInput={"heading"} value={"Heading"} required />
                             <TextInput type={"text"} name={"heading"} id={"heading"} value={data.heading} className={""} handleChange={handleChange} required />
                         </div>
-                        <div className="inline-flex items-start gap-2">
+                        <div className="inline-flex items-end gap-2">
                             <InputLabel forInput={"description"} value={"Description"} required />
-                            <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
+                            <TextInput type={"text"} name={"description"} id={"description"} value={data.description} className={""} handleChange={handleChange} required />
                         </div>
                         <div className="inline-flex items-end gap-2">
                             <fieldset className="inline-flex">
@@ -105,17 +114,17 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex gap-2">
-                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required />
-                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required accept="image/*" />
+                            <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
+                            <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} accept="image/png" />
                         </div>
-                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : ""} />
+                        <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : data.imageLink} />
                     </div>
-
-                    <VideoEditFormComponent videoContent={data.content} setContent={setContent} mode="create" />                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} mode="create" />
+                    <VideoEditFormComponent videoContent={data.content} setContent={setContent} />
+                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
+                        <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 
                 </form>
