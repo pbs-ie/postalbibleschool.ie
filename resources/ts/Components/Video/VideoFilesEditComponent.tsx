@@ -104,7 +104,8 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
 
     return (
         <>
-            <h2 className="p-0 mb-2 text-xl font-bold text-black">File Information</h2>
+            <h2 className="p-0 text-xl font-bold text-black">File Information</h2>
+            <p className="p-0 mb-2 text-base text-gray-600">Only supporting .pdf files at the moment.</p>
             {(fileState && fileState.length === 0) ?
                 <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton>
                 :
