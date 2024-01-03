@@ -9,9 +9,10 @@ interface NavLinkProps {
     role?: string;
     ariaHaspopup?: AriaAttributes['aria-haspopup'];
     children: React.ReactNode;
+    onClick?: (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => void;
 }
 
-export default function NavLink({ href, active, isCta, isSecondary, role, ariaHaspopup, children }: NavLinkProps) {
+export default function NavLink({ href, active, isCta, isSecondary, role, ariaHaspopup, children, onClick }: NavLinkProps) {
     const getCurrentStyle: () => string = () => {
         let styleValue = 'inline-flex uppercase items-center pt-1 border-b-2 text-sm leading-5 transition duration-150 ease-in-out ';
         if (isCta) {
@@ -36,6 +37,8 @@ export default function NavLink({ href, active, isCta, isSecondary, role, ariaHa
             className={getCurrentStyle()}
             role={role}
             aria-haspopup={ariaHaspopup}
+            aria-current={active ? "page" : "false"}
+            onClick={onClick}
         >
             {children}
         </Link>
