@@ -12,7 +12,7 @@ export default function StepWrapper({ children, title, heading }: { children: Re
                 <title>{`Events - STEP${title !== "" ? " - " + title : ""}`}</title>
                 <link head-key="favicon" rel="shortcut icon" href={LogoWhite} />
             </Head>
-            <section className="py-6 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
+            <section className="px-3 py-6 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8">
                 {heading && heading !== "" &&
                     <Heading1Nospace>{heading}</Heading1Nospace>
                 }

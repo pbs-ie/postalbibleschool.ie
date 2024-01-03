@@ -6,6 +6,7 @@ import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
 import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
+import Heading3 from "../Typography/Heading3";
 
 interface VideoPlayerProps {
     title: string;
@@ -124,7 +125,7 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
                     <div className="flex flex-col items-center w-full gap-2">
                         <Heading2Nospace>{title}</Heading2Nospace>
 
-                        <div className="self-start"><Heading2Alt>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading2Alt></div>
+                        <div className="self-start"><Heading3>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading3></div>
                         <div className="relative self-stretch md:self-center">
                             {videoState.isLoading ?
                                 <div className="absolute bottom-0 mb-5 text-2xl right-5">
@@ -140,14 +141,14 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
                                     disabled={videoState.id === 0}
                                     onClick={handleClickEvent("prev", videoState.id)}>
                                     <p className="flex items-center">
-                                        <ChevronLeft className="w-10 h-10" />Previous
+                                        <ChevronLeft className="w-5 h-5 md:w-10 md:h-10" />Previous
                                     </p>
                                 </VideoNavButton>
                                 <VideoNavButton
                                     className="md:float-right"
                                     disabled={videoState.id === videoLinks.length - 1}
                                     onClick={handleClickEvent("next", videoState.id)}>
-                                    <p className="flex items-center">Next<ChevronRight className="w-10 h-10" /></p>
+                                    <p className="flex items-center">Next<ChevronRight className="w-5 h-5 md:w-10 md:h-10" /></p>
                                 </VideoNavButton>
                             </div>
                         }
