@@ -8,7 +8,7 @@ export default function VideoAdditionalFilesComponent({ worksheetFiles = [], sli
     return (
         <div className="grid justify-start max-w-5xl grid-cols-1 gap-4 mx-auto my-5 text-left md:grid-cols-2 md:my-10">
             {worksheetFiles.length !== 0 &&
-                <div className="flex flex-col md:w-3/4">
+                <div className="flex flex-col gap-1 md:gap-2 md:w-3/4">
                     <Heading3>Worksheets</Heading3>
                     {worksheetFiles.map((file) => (
                         <LessonDownloadButton key={file.title} title={file.title} downloadLink={file.filePath} />
@@ -17,7 +17,7 @@ export default function VideoAdditionalFilesComponent({ worksheetFiles = [], sli
                 </div>
             }
             {slideFiles.length !== 0 &&
-                <div className="flex flex-col md:w-3/4">
+                <div className="flex flex-col gap-1 md:gap-2 md:w-3/4">
                     <Heading3>Slides</Heading3>
                     {slideFiles.map((file) => (
                         <LessonDownloadButton key={file.title} title={file.title} downloadLink={file.filePath} />

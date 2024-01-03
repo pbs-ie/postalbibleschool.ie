@@ -16,7 +16,7 @@ export default function Gallery({ content }: { content: PastEventCardProps[] }) 
             <div className="my-5">
                 <LatestEvent />
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {content.slice(1).map(({ heading, imageLink, description, date, id, routename, showDetails }) => (
                     <StepEventCard key={id} id={id} heading={heading} routename={routename} imageLink={imageLink} description={description} date={date} showDetails={showDetails} />
                 ))}
