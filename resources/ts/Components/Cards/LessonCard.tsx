@@ -1,4 +1,4 @@
-import TagGroupButton from '@/Components/Buttons/TagGroupButton';
+import TagGroupButton from '@/Elements/Buttons/TagGroupButton';
 import { groupThemes } from '@/constants';
 
 interface LessonCard {

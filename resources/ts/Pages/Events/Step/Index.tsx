@@ -16,7 +16,7 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import Heading2 from "@/Components/Typography/Heading2";
 
 import AnchorLink from "@/Components/Navigation/AnchorLink";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import StepWrapper from "@/Layouts/StepWrapper";
 
 

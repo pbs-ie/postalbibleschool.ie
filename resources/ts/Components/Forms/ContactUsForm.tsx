@@ -5,7 +5,7 @@ import InputError from "@/Components/Forms/InputError";
 import InputLabel from "@/Components/Forms/InputLabel";
 import TextAreaInput from "@/Components/Forms/TextAreaInput";
 import TextInput from "@/Components/Forms/TextInput";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 export default function ContactUsForm() {
     const { data, setData, post, processing, errors, reset } = useForm({

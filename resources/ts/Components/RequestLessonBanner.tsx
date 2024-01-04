@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function RequestLessonBanner() {
     return (

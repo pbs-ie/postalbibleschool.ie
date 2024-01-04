@@ -1,5 +1,5 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";
 import EditIcon from "@/Components/Icons/EditIcon";

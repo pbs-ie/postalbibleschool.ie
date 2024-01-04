@@ -1,5 +1,5 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import NumberInput from "@/Components/Forms/NumberInput";
 import TextInput from "@/Components/Forms/TextInput";

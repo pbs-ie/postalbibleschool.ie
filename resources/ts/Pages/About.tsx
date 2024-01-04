@@ -4,8 +4,8 @@ import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import ButtonAnchor from "@/Components/Buttons/ButtonAnchor";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 
 export default function About() {
     return (

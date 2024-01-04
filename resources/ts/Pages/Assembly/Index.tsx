@@ -5,7 +5,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 
 

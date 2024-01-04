@@ -1,4 +1,4 @@
-import ButtonPill from "@/Components/Buttons/ButtonPill";
+import ButtonPill from "@/Elements/Buttons/ButtonPill";
 import LessonSelectorList from "@/Components/LessonSelectorList";
 import { useState } from "react";
 import { getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";

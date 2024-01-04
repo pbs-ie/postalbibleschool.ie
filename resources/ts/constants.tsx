@@ -44,11 +44,13 @@ declare global {
         buttonText?: string;
     }
     interface Button {
-        type?: "submit" | "button" | "reset" | undefined;
-        className?: string;
+        type?: "submit" | "button" | "reset";
+        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
+        size?: "xsmall" | "small" | "medium" | "large";
         processing?: boolean;
-        children: React.ReactNode;
-        onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+        children: string | React.ReactNode;
+        onClick?: React.MouseEventHandler<HTMLButtonElement>;
+        className?: string;
     }
     interface PassedProps extends PageProps {
         errors: Errors & ErrorBag;

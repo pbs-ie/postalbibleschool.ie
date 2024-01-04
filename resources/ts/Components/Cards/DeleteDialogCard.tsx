@@ -1,5 +1,5 @@
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import { useEffect, useRef, useState } from "react";
 import CloseX from "@/Components//Icons/CloseX";
 

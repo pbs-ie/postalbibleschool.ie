@@ -1,4 +1,4 @@
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";

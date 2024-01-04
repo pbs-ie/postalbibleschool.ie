@@ -1,4 +1,4 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 interface LandingCards {
     heading: React.ReactNode;

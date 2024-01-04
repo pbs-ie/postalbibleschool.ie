@@ -1,4 +1,4 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PopoutWindow from "@/Components/Icons/PopoutWindow";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";

@@ -2,9 +2,9 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { ChangeEvent, useEffect, useState } from "react";
 import LogoSmall from '@images/logo-icon.png';
-import PaypalCheckoutButtons, { Cart } from "@/Components/Buttons/PaypalCheckoutButtons";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import PaypalCheckoutButtons, { Cart } from "@/Elements/Buttons/PaypalCheckoutButtons";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
 
 interface Product {

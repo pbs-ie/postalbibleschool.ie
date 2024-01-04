@@ -5,7 +5,7 @@ import TagGroupPill from '@/Components/TagGroupPill';
 import ChevronRight from "@/Components/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];

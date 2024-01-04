@@ -1,5 +1,5 @@
 import PlaceholderImage from "@images/assembly-sample.jpg";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 
 export default function VideoHeroCard({ title, series, buttonLink, idx, imageLink }: { title: string, series: string, buttonLink: string, idx: number, imageLink?: string }) {

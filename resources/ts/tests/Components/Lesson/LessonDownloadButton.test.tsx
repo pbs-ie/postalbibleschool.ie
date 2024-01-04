@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/react";
 
 // To Test
-import LessonDownloadButton from "@/Components/Buttons/LessonDownloadButton";
+import LessonDownloadButton from "@/Elements/Buttons/LessonDownloadButton";
 
 const passedClass = "bg-bibletime-pink";
 

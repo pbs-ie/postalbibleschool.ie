@@ -1,4 +1,4 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import { PastEventCardProps } from "@/Components/Cards/StepEventCard";
 import DeleteIcon from "@/Components/Icons/DeleteIcon";

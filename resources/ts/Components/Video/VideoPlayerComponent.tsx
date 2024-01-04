@@ -1,7 +1,7 @@
 import { useState, useReducer, useRef, useEffect } from "react";
 import Loader from "@/Components/Loader";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import VideoNavButton from "@/Components/Buttons/VideoNavButton";
+import VideoNavButton from "@/Elements/Buttons/VideoNavButton";
 import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
 import ChevronLeft from "@/Components/Icons/ChevronLeft";
 import ChevronRight from "@/Components/Icons/ChevronRight";

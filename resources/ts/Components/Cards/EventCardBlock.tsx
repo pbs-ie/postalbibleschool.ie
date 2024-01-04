@@ -1,6 +1,6 @@
 import EventCardHeading from "@/Components/Typography/EventCardHeading";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import ButtonAnchor from "@/Components/Buttons/ButtonAnchor";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 
 declare global {
     interface CardBlock {

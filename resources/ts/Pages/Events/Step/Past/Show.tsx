@@ -1,4 +1,4 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFilesComponent";
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";

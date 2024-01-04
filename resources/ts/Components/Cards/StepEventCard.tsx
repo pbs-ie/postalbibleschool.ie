@@ -1,6 +1,6 @@
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ChevronRight from "@/Components/Icons/ChevronRight";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export interface PastEventCardProps {
     id: number;

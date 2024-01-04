@@ -17,7 +17,7 @@ import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
 import { useState } from "react";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 
 export default function Home() {

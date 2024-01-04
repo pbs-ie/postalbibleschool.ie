@@ -3,7 +3,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, lessonOrder: LessonOrder }) {
 

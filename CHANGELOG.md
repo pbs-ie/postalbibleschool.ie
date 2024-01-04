@@ -1,3 +1,6 @@
+# 1.1.6 (2024-01-04)
+- UI changes for buttons and links
+- Codebase refactor to follow atomic design (design inspiration - https://boltdesignsystem.com/pattern-lab/)
 
 ## 1.1.5 (2023-12-18)
 - School Assembly page changes

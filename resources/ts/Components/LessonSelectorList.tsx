@@ -1,8 +1,8 @@
 import Heading3 from "@/Components/Typography/Heading3";
 import { bibleTimeLevels, monthNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
-import LessonDownloadButton from "@/Components/Buttons/LessonDownloadButton";
-import RedirectButtonWithPill from "@/Components/Buttons/RedirectButtonWithPill";
+import LessonDownloadButton from "@/Elements/Buttons/LessonDownloadButton";
+import RedirectButtonWithPill from "@/Elements/Buttons/RedirectButtonWithPill";
 
 interface Overview {
     selectedMonth: number;

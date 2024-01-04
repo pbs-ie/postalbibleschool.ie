@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import CheckBadge from "../Icons/CheckBadge";
 
 export default function PaymentSuccessComponent() {
