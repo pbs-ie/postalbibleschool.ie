@@ -23,7 +23,7 @@ export default function EventCardBlock({ Icon = null, title, description, button
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
             {buttonText && buttonLink !== "" &&
                 (isExternal ?
-                    <ButtonAnchor href={buttonLink} newTab>{buttonText}</ButtonAnchor>
+                    <ButtonAnchor href={buttonLink} openNewTab>{buttonText}</ButtonAnchor>
                     :
                     <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
                 )}

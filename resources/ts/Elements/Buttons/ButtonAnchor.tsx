@@ -1,11 +1,11 @@
-import { getButtonClassName } from "@/helper";
+import { getButtonClassNamesAsString } from "@/helper";
 
-export default function ButtonAnchor({ type = "primary", href, newTab = false, children, className = "" }: { type?: "primary" | "secondary", href: string, newTab?: boolean, className?: string, children?: React.ReactNode }) {
+export default function ButtonAnchor({ hierarchy = "primary", href, openNewTab = false, children }: { hierarchy?: "primary" | "secondary", href: string, openNewTab?: boolean, children?: React.ReactNode }) {
     return (
         <a
             href={href}
-            className={getButtonClassName(className, type)}
-            target={newTab ? "_blank" : "_self"}>
+            className={getButtonClassNamesAsString(hierarchy, "medium")}
+            target={openNewTab ? "_blank" : "_self"}>
             {children ?? href}
         </a>
     )
