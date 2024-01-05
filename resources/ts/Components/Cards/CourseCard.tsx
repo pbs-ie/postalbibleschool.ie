@@ -2,7 +2,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 import Heading3 from '@/Components/Typography/Heading3';
 import TagGroupPill from '@/Components/TagGroupPill';
-import ChevronRight from "@/Components/Icons/ChevronRight";
+import ChevronRight from "@/Elements/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
 import ButtonLink from "@/Elements/Buttons/ButtonLink";

@@ -5,7 +5,7 @@ interface ButtonLinkProps {
     size?: Button["size"];
     href: string;
     children: React.ReactNode;
-    Icon?: Icon["regular"];
+    Icon?: Icon["props"];
 }
 
 export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon }: ButtonLinkProps) {

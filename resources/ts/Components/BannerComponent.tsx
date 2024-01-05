@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import CloseIcon from "@/Components/Icons/CloseIcon";
+import CloseIcon from "@/Elements/Icons/CloseIcon";
 
 export default function BannerComponent({ setShowBanner }: { setShowBanner: Dispatch<SetStateAction<boolean>> }) {
 

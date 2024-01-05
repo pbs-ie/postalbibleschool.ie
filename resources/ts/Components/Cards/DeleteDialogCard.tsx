@@ -1,7 +1,7 @@
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import { useEffect, useRef, useState } from "react";
-import CloseX from "@/Components//Icons/CloseX";
+import CloseX from "@/Elements/Icons/CloseX";
 
 interface ModalProps {
     isOpen: boolean;

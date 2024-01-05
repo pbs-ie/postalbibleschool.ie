@@ -1,4 +1,4 @@
-import DownloadIcon from "@/Components/Icons/DownloadIcon";
+import DownloadIcon from "@/Elements/Icons/DownloadIcon";
 
 interface LessonDownloadButton {
     downloadLink?: string;

@@ -107,7 +107,7 @@ declare global {
         tlpOrder: number;
     }
     interface Icon {
-        regular: ({ className }: {
+        props: ({ className }: {
             className?: string;
         }) => JSX.Element
     }

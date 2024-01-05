@@ -3,8 +3,8 @@ import Loader from "@/Components/Loader";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import VideoNavButton from "@/Elements/Buttons/VideoNavButton";
 import VideoCarousalCard from "@/Components/Cards/VideoCarousalCard";
-import ChevronLeft from "@/Components/Icons/ChevronLeft";
-import ChevronRight from "@/Components/Icons/ChevronRight";
+import ChevronLeft from "@/Elements/Icons/ChevronLeft";
+import ChevronRight from "@/Elements/Icons/ChevronRight";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import Heading3 from "../Typography/Heading3";
 

@@ -1,4 +1,4 @@
-import PlayIcon from "@/Components/Icons/PlayIcon";
+import PlayIcon from "@/Elements/Icons/PlayIcon";
 
 interface CarousalCard {
     title: string;

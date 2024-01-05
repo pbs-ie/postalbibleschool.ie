@@ -4,7 +4,7 @@ import TextInput from "../Forms/TextInput";
 import SelectInput from "../Forms/SelectInput";
 import FileInput from "../Forms/FileInput";
 import InputLabel2 from "../Forms/InputLabel2";
-import FileIcon from "../Icons/FileIcon";
+import FileIcon from "../../Elements/Icons/FileIcon";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {

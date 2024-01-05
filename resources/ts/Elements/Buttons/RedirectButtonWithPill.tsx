@@ -1,4 +1,4 @@
-import RightIcon from "@/Components/Icons/ChevronRight";
+import RightIcon from "@/Elements/Icons/ChevronRight";
 
 interface RedirectButton {
     downloadLink?: string;

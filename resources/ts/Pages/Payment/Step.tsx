@@ -6,8 +6,8 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
 
 import StepWrapper from "@/Layouts/StepWrapper";
-import MinusCircle from "@/Components/Icons/MinusCircle";
-import PlusCircle from "@/Components/Icons/PlusCircle";
+import MinusCircle from "@/Elements/Icons/MinusCircle";
+import PlusCircle from "@/Elements/Icons/PlusCircle";
 
 interface Product {
     title: string;

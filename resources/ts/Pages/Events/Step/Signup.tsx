@@ -1,5 +1,5 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import PopoutWindow from "@/Components/Icons/PopoutWindow";
+import PopoutWindow from "@/Elements/Icons/PopoutWindow";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";

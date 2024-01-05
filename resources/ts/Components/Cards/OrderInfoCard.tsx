@@ -1,6 +1,6 @@
-import SchoolIcon from "@/Components/Icons/SchoolIcon";
-import Envelope from "@/Components/Icons/Envelope";
-import Newspaper from "@/Components/Icons/Newspaper";
+import SchoolIcon from "@/Elements/Icons/SchoolIcon";
+import Envelope from "@/Elements/Icons/Envelope";
+import Newspaper from "@/Elements/Icons/Newspaper";
 
 export default function OrderInfoCard({ schoolName, email, level0Order, level1Order, level2Order, level3Order, level4Order, tlpOrder }: { schoolName: string, email: string, level0Order: number, level1Order: number, level2Order: number, level3Order: number, level4Order: number, tlpOrder: number }) {
     const rowStyle = "inline-flex flex-row w-full justify-between gap-5 mb-2 py-2 px-3 rounded-md bg-white border border-gray-800";
