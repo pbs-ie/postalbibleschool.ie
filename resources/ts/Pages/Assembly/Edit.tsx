@@ -241,7 +241,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <ButtonLink type="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
+                        <ButtonLink hierarchy="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
                     </div>
 

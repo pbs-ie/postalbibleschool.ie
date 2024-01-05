@@ -23,7 +23,7 @@ export default function LandingCards({ heading, content, image, buttonText, butt
                         </div>
                         {buttonLink && buttonText &&
                             <div className="flex justify-center w-full md:block">
-                                <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
+                                <ButtonLink size="large" href={buttonLink}>{buttonText}</ButtonLink>
                             </div>
                         }
 

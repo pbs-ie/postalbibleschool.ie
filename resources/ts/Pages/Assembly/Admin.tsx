@@ -79,7 +79,7 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Admin" >
                 <div className="flex justify-end w-full">
-                    <ButtonLink className="w-44" href={route('assembly.create')}>Add video</ButtonLink>
+                    <ButtonLink href={route('assembly.create')}>Add video</ButtonLink>
                 </div>
 
                 <div className="w-full overflow-x-auto">

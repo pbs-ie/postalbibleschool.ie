@@ -66,7 +66,7 @@ export default function Index() {
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
             <EventCardContainer type="step">
-                <ButtonLink className="text-base" href={route('events.step.signup')}>Register Now</ButtonLink>
+                <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
             </EventCardContainer>
             <ExtendScreenWrapper>
                 <section className="pt-4 pb-8 bg-stone-100">

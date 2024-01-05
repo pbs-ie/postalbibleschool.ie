@@ -65,7 +65,7 @@ export default function Home() {
                 </ExtendScreenWrapper>
                 <CardContainer type="reunion">
                     {isSignupActive &&
-                        <ButtonLink className="text-base" href={route('events.camp.signup')}>Register</ButtonLink>
+                        <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
                     }
                 </CardContainer>
                 <Heading2>Camp</Heading2>

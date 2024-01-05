@@ -1,27 +1,25 @@
-import { getButtonClassName } from "@/helper";
+import { getButtonClassNamesAsString } from "@/helper";
 import { Link } from "@inertiajs/react";
-import { HTMLAttributeAnchorTarget } from "react";
-
 interface ButtonLinkProps {
-    type?: "primary" | "secondary";
-    className?: string;
-    target?: HTMLAttributeAnchorTarget;
+    hierarchy?: "primary" | "secondary";
+    size?: Button["size"];
     href: string;
     children: React.ReactNode;
-
+    Icon?: Icon["regular"];
 }
 
-export default function ButtonLink({ type = "primary", className = '', href, target = "_self", children }: ButtonLinkProps) {
+export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon }: ButtonLinkProps) {
     return (
         <>
             <Link
                 as="button"
                 type="button"
-                target={target}
-                className={getButtonClassName(className, type)}
+                className={getButtonClassNamesAsString(hierarchy, size)}
                 href={href}
             >
-                {children}
+                <span className="flex items-center gap-2">
+                    <span>{children}</span>{Icon && <Icon />}
+                </span>
             </Link>
         </>
     );

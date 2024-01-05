@@ -106,7 +106,11 @@ declare global {
         level4Order: number;
         tlpOrder: number;
     }
-
+    interface Icon {
+        regular: ({ className }: {
+            className?: string;
+        }) => JSX.Element
+    }
 }
 
 interface LevelsDescription {

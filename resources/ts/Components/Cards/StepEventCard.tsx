@@ -21,7 +21,7 @@ export default function StepEventCard({ id, heading, imageLink, description, rou
             <p className="px-4 py-1 text-lg font-bold text-blue-900">{date}</p>
             <p className="mb-2 text-left text-gray-800">{description}</p>
             {showDetails === "1" &&
-                <ButtonLink className="text-sm" href={route('events.step.past.show', routename)}>Watch Videos <ChevronRight /></ButtonLink>
+                <ButtonLink Icon={ChevronRight} href={route('events.step.past.show', routename)}>Watch Videos</ButtonLink>
             }
         </div>
     )

@@ -99,7 +99,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                                 </div>
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                                <ButtonLink type="secondary" href={route('orders.index')}>Cancel</ButtonLink>
+                                <ButtonLink hierarchy="secondary" href={route('orders.index')}>Cancel</ButtonLink>
                                 <PrimaryButton type="submit" className="w-1/3" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>

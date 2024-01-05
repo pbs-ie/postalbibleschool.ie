@@ -81,7 +81,7 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
             <ContentWrapper title="Step Admin" >
                 <div className="flex justify-end w-full">
-                    <ButtonLink className="w-44" href={route('events.step.past.create')}>Add video</ButtonLink>
+                    <ButtonLink href={route('events.step.past.create')}>Add video</ButtonLink>
                 </div>
 
                 <div className="w-full overflow-x-auto">
