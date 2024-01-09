@@ -1,5 +1,5 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
 import NumberInput from "@/Components/Forms/NumberInput";
 import TextInput from "@/Components/Forms/TextInput";
@@ -100,7 +100,7 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                            <ButtonLink type="secondary" href={route('orders.index')}>Cancel</ButtonLink>
+                            <ButtonLink hierarchy="secondary" href={route('orders.index')}>Cancel</ButtonLink>
                             <PrimaryButton type="submit" className="w-1/3" processing={processing}>Create</PrimaryButton>
                         </div>
                     </form>

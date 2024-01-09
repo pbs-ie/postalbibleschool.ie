@@ -1,4 +1,4 @@
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import TextInput from "@/Components/Forms/TextInput";
 import { useEffect, useReducer } from "react";
 

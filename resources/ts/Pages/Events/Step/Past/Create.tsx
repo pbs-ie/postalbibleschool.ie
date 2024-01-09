@@ -1,6 +1,6 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import InputLabel2 from "@/Components/Forms/InputLabel2";
@@ -114,7 +114,7 @@ export default function Create() {
                     <VideoEditFormComponent videoContent={data.content} setContent={setContent} mode="create" />                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} mode="create" />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <ButtonLink type="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
+                        <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
                     </div>
 

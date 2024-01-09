@@ -1,11 +1,11 @@
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/react";
 
 import iTeamFlyer from "@images/iteam/iteam_flyer.png"
-import Calendar from "@/Components/Icons/Calendar";
+import Calendar from "@/Elements/Icons/Calendar";
 import EventCardBlock from "@/Components/Cards/EventCardBlock";
 
 export default function ITeam() {

@@ -1,10 +1,10 @@
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import { useReducer, useEffect } from "react";
 import TextInput from "../Forms/TextInput";
 import SelectInput from "../Forms/SelectInput";
 import FileInput from "../Forms/FileInput";
 import InputLabel2 from "../Forms/InputLabel2";
-import FileIcon from "../Icons/FileIcon";
+import File from "../../Elements/Icons/FileIcon";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {
@@ -174,7 +174,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                 <td>
                                     <InputLabel2 forInput={`fileData${idx}`} className="flex items-center gap-1 pr-2 border rounded cursor-pointer border-slate-400">
                                         <FileInput name={"fileData"} id={`fileData${idx}`} className={"overflow-hidden w-0"} handleChange={(e) => handleComplexChange(idx, e)} />
-                                        <FileIcon className="w-4" />
+                                        <File className="w-4" />
                                         {fileData ? fileData.name : "Choose File"}
                                     </InputLabel2>
                                 </td>

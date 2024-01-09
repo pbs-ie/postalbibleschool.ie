@@ -41,13 +41,15 @@ Route::get('/home', function () {
     ]);
 })->name('home');
 
-// Show Contact Us Form
-Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
+Route::get('/designsystem', function() {
+    return Inertia::render('DesignSystem');
+});
 
-// Submit Contact Us Form
+// Contact Us Form
+Route::get('/contactus', [ContactController::class, 'create'])->name('contactus');
 Route::post('/contactus', [ContactController::class, 'store'])->name('contactus.store');
 
-
+// Lesson Request Forms
 Route::prefix('request')->name('request.')->group(function () {
     Route::get('/group', [GroupLessonRequestController::class, 'create'])->name('group');
     Route::post('/group', [GroupLessonRequestController::class, 'store'])->name('group.store');

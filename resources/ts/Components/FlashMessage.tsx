@@ -1,6 +1,6 @@
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import CloseX from "@/Components/Icons/CloseX";
+import CloseX from "@/Elements/Icons/CloseX";
 
 
 export default function FlashMessage() {

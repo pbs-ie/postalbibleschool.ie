@@ -17,7 +17,7 @@ import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
 import { useState } from "react";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 
 export default function Home() {
@@ -65,7 +65,7 @@ export default function Home() {
                 </ExtendScreenWrapper>
                 <CardContainer type="reunion">
                     {isSignupActive &&
-                        <ButtonLink className="text-base" href={route('events.camp.signup')}>Register</ButtonLink>
+                        <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
                     }
                 </CardContainer>
                 <Heading2>Camp</Heading2>

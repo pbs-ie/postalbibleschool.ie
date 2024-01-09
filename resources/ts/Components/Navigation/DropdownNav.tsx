@@ -1,9 +1,15 @@
 import { MenuItems } from "@/Components/Navigation/NavItem";
 import DropdownNavLink from "./DropdownNavLink";
 
-export default function DropdownNav({ submenu }: { submenu: MenuItems[] }) {
+export default function DropdownNav({ submenu, showSubmenu }: { submenu: MenuItems[], showSubmenu: boolean }) {
+    let classList = "absolute z-10 flex-col overflow-hidden transition-opacity duration-200 ease-in-out bg-white divide-y-2 rounded-b-lg text-slate-600 top-full -left-1/2 drop-shadow-lg";
+    if (showSubmenu) {
+        classList += " flex opacity-100 scale-100";
+    } else {
+        classList += " hidden opacity-0  scale-0";
+    }
     return (
-        <ul className="absolute z-10 flex-col hidden overflow-hidden transition-opacity duration-200 ease-in-out scale-0 bg-white divide-y-2 rounded-lg opacity-0 text-slate-600 top-full -left-1/2 group-focus:flex group-hover:flex drop-shadow-lg group-hover:opacity-100 group-focus:opacity-100 group-hover:scale-100 group-focus:scale-100">
+        <ul className={classList}>
             {submenu.map((item) => (
                 <li key={item.name} className="hidden space-x-8 lg:-my-px lg:flex">
                     <DropdownNavLink href={item.href} active={item.active}>{item.name}</DropdownNavLink>

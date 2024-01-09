@@ -2,10 +2,10 @@ import { Link as ScrollLink } from "react-scroll";
 
 import Heading3 from '@/Components/Typography/Heading3';
 import TagGroupPill from '@/Components/TagGroupPill';
-import ChevronRight from "@/Components/Icons/ChevronRight";
+import ChevronRight from "@/Elements/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];
@@ -33,7 +33,7 @@ export default function CourseCard({ heading, image, description, type = "biblet
                     </button>
                 </>
                 :
-                <div className="mt-2"><ButtonLink className="inline-flex gap-2 pr-2 capitalize rounded-lg bg-sky-500" href={route('courses', { type })}>{buttonText ? buttonText : "More details"}<ChevronRight /></ButtonLink></div>
+                <div className="mt-2"><ButtonLink Icon={ChevronRight} href={route('courses', { type })}>{buttonText ? buttonText : "More details"}</ButtonLink></div>
             }
 
         </div>

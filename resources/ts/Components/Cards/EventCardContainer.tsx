@@ -1,14 +1,14 @@
 import CardBlock from "@/Components/Cards/EventCardBlock";
-import Calendar from "@/Components/Icons/Calendar";
-import Location from "@/Components/Icons/Location";
-import Clock from "@/Components/Icons/Clock";
-import Group from "@/Components/Icons/Group";
-import Banknotes from "@/Components/Icons/Banknotes";
-import ChatBubble from "@/Components/Icons/ChatBubble";
+import Calendar from "@/Elements/Icons/Calendar";
+import Location from "@/Elements/Icons/Location";
+import Clock from "@/Elements/Icons/Clock";
+import Group from "@/Elements/Icons/Group";
+import Banknotes from "@/Elements/Icons/Banknotes";
+import ChatBubble from "@/Elements/Icons/ChatBubble";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
-import SchoolIcon from "@/Components/Icons/SchoolIcon";
+import School from "@/Elements/Icons/SchoolIcon";
 
 
 interface CardContainer {
@@ -118,7 +118,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
 
     const reunionCards: CardBlock[] = [
         {
-            Icon: SchoolIcon,
+            Icon: School,
             title: "What",
             description: "Camp Reunion",
             buttonText: "",

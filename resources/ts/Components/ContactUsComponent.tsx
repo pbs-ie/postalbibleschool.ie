@@ -1,7 +1,7 @@
 import ContactUsForm from "@/Components/Forms/ContactUsForm";
-import Location from "@/Components/Icons/Location";
-import Phone from "@/Components/Icons/Phone";
-import Envelope from "@/Components/Icons/Envelope";
+import Location from "@/Elements/Icons/Location";
+import Phone from "@/Elements/Icons/Phone";
+import Envelope from "@/Elements/Icons/Envelope";
 import Paragraph from "@/Components/Typography/Paragraph";
 
 export default function ContactUsComponent() {

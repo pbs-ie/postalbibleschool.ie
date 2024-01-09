@@ -16,7 +16,7 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import Heading2 from "@/Components/Typography/Heading2";
 
 import AnchorLink from "@/Components/Navigation/AnchorLink";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import StepWrapper from "@/Layouts/StepWrapper";
 
 
@@ -66,7 +66,7 @@ export default function Index() {
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
             <EventCardContainer type="step">
-                <ButtonLink className="text-base" href={route('events.step.signup')}>Register Now</ButtonLink>
+                <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
             </EventCardContainer>
             <ExtendScreenWrapper>
                 <section className="pt-4 pb-8 bg-stone-100">

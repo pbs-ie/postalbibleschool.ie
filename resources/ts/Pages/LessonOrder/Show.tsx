@@ -3,7 +3,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import ButtonLink from "@/Components/Buttons/ButtonLink";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, lessonOrder: LessonOrder }) {
 
@@ -19,13 +19,12 @@ export default function Show({ isAdmin, lessonOrder }: { isAdmin?: boolean, less
                         <OrderInfoCard schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
                         <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
                             {isAdmin &&
-                                <ButtonLink type="secondary" href={route('orders.index')}>Back</ButtonLink>
+                                <ButtonLink hierarchy="secondary" href={route('orders.index')}>Back</ButtonLink>
                             }
-                            {
-                                !isAdmin &&
-                                <ButtonLink type="secondary" href="/">Back</ButtonLink>
+                            {!isAdmin &&
+                                <ButtonLink hierarchy="secondary" href="/">Back</ButtonLink>
                             }
-                            <ButtonLink className="w-1/3" href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
+                            <ButtonLink href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
                         </div>
                     </div>
                 </div>

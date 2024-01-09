@@ -1,5 +1,7 @@
 import NavLink from "@/Components/Navigation/NavLink";
 import DropdownNav from "@/Components/Navigation/DropdownNav";
+import { useState } from "react";
+import CaratDown from "@/Elements/Icons/CaratDown";
 
 export interface MenuItems {
     name: string,
@@ -9,15 +11,23 @@ export interface MenuItems {
 }
 
 export default function NavItem({ name, href, active, submenu }: MenuItems) {
+    const [showSubmenu, setShowSubmenu] = useState(false);
     if (submenu) {
         return (
-            <li className="relative hidden space-x-8 group lg:-my-px lg:ml-6 lg:flex">
-                <NavLink href={href} active={active} role="button" ariaHaspopup="menu">{name}
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                        <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
-                    </svg>
+            <li
+                onMouseOver={() => setShowSubmenu(true)}
+                onMouseLeave={() => setTimeout(() => setShowSubmenu(false), 1500)}
+                className="relative hidden space-x-8 group/navitem lg:-my-px lg:ml-6 lg:flex">
+                <NavLink
+                    active={active}
+                    onClick={(event) => { event.preventDefault(); setShowSubmenu(!showSubmenu) }}
+                    href={"#"}
+                    role="button"
+                    aria-haspopup="menu">
+                    {name}
+                    <CaratDown />
                 </NavLink>
-                <DropdownNav submenu={submenu} />
+                <DropdownNav showSubmenu={showSubmenu} submenu={submenu} />
             </li>
         )
     }

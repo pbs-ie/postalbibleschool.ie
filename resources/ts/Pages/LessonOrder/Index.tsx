@@ -1,16 +1,13 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
-import DeleteIcon from "@/Components/Icons/DeleteIcon";
-import EditIcon from "@/Components/Icons/EditIcon";
-import ViewIcon from "@/Components/Icons/ViewIcon";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import EditIcon from "@/Elements/Icons/EditIcon";
+import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { truncateString } from "@/helper";
 import { Link, router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -66,7 +63,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
                     <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><Eye className="w-6 h-6" /> View</Link>
                 </div>
             )
         })

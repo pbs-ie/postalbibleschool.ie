@@ -44,11 +44,21 @@ declare global {
         buttonText?: string;
     }
     interface Button {
-        type?: "submit" | "button" | "reset" | undefined;
-        className?: string;
+        type?: "submit" | "button" | "reset";
+        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
+        size?: "xsmall" | "small" | "medium" | "large";
         processing?: boolean;
+        children: string | React.ReactNode;
+        onClick?: React.MouseEventHandler<HTMLButtonElement>;
+        className?: string;
+    }
+    interface ButtonLinkProps {
+        hierarchy?: "primary" | "secondary";
+        size?: Button["size"];
+        href: string;
         children: React.ReactNode;
-        onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+        Icon?: Icon["props"];
+        isExternalLink?: boolean;
     }
     interface PassedProps extends PageProps {
         errors: Errors & ErrorBag;
@@ -104,7 +114,11 @@ declare global {
         level4Order: number;
         tlpOrder: number;
     }
-
+    interface Icon {
+        props: ({ className }: {
+            className?: string;
+        }) => JSX.Element
+    }
 }
 
 interface LevelsDescription {

@@ -9,17 +9,18 @@ interface NavLinkProps {
     role?: string;
     ariaHaspopup?: AriaAttributes['aria-haspopup'];
     children: React.ReactNode;
+    onClick?: (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => void;
 }
 
-export default function NavLink({ href, active, isCta, isSecondary, role, ariaHaspopup, children }: NavLinkProps) {
+export default function NavLink({ href, active, isCta, isSecondary, role, ariaHaspopup, children, onClick }: NavLinkProps) {
     const getCurrentStyle: () => string = () => {
         let styleValue = 'inline-flex uppercase items-center pt-1 border-b-2 text-sm leading-5 transition duration-150 ease-in-out ';
         if (isCta) {
-            styleValue += ' my-3 rounded-full text-gray-800 px-3 active:border-b-0';
+            styleValue += ' my-2 rounded-md border-2 shadow-[0_1px_0_0_black] border-black text-gray-800 px-3 active:translate-y-px active:shadow-none active:border-b-2';
             if (active) {
-                styleValue += ' text-indigo-700 bg-indigo-50 font-bold'
+                styleValue += ' text-indigo-700 bg-white hover:bg-blue-50 font-bold'
             } else {
-                styleValue += ' bg-cyan-300 hover:bg-cyan-400 font-medium '
+                styleValue += ' bg-blue-200 hover:bg-blue-50 font-medium '
             }
         }
         else if (active) {
@@ -36,6 +37,8 @@ export default function NavLink({ href, active, isCta, isSecondary, role, ariaHa
             className={getCurrentStyle()}
             role={role}
             aria-haspopup={ariaHaspopup}
+            aria-current={active ? "page" : "false"}
+            onClick={onClick}
         >
             {children}
         </Link>

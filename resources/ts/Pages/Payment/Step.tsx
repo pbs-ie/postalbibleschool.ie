@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useReducer, useState } from "react";
 import LogoSmall from '@images/logo-icon.png';
-import PaypalCheckoutButtons, { Cart } from "@/Components/Buttons/PaypalCheckoutButtons";
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import PaypalCheckoutButtons, { Cart } from "@/Elements/Buttons/PaypalCheckoutButtons";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
 
 import StepWrapper from "@/Layouts/StepWrapper";
-import MinusCircle from "@/Components/Icons/MinusCircle";
-import PlusCircle from "@/Components/Icons/PlusCircle";
+import MinusCircle from "@/Elements/Icons/MinusCircle";
+import PlusSolid from "@/Elements/Icons/PlusSolid";
 
 interface Product {
     title: string;
@@ -209,7 +209,7 @@ export default function Step() {
                         <div className="flex items-center ml-2 rounded-full bg-slate-100">
                             <button onClick={() => productDispatch({ type: "decrease", index: activeOption })} className="rounded-full"><MinusCircle className="w-10 h-10" /></button>
                             <p className="px-2">{productState[activeOption].quantity}</p>
-                            <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusCircle className="w-10 h-10" /></button>
+                            <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusSolid className="w-10 h-10" /></button>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-import ButtonLink from "@/Components/Buttons/ButtonLink";
-import PrimaryButton from "@/Components/Buttons/PrimaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import FileInput from "@/Components/Forms/FileInput";
 import InputLabel from "@/Components/Forms/InputLabel";
 import SelectInput from "@/Components/Forms/SelectInput";
@@ -129,7 +129,7 @@ export default function Create() {
                     </table>
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                        <ButtonLink type="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
+                        <ButtonLink hierarchy="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
                         <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
                     </div>
 

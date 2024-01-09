@@ -1,7 +1,7 @@
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, Link } from "@inertiajs/react";
 
-import SecondaryButton from "@/Components/Buttons/SecondaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 
 

@@ -20,7 +20,7 @@ As a charity it aims to distribute and teach God’s word the Bible through dist
 
 ## Upcoming Features
 
-- [ ] Section for historical information of STEP
+- [x] Section for historical information of STEP
 - [x] Filter and search in order form admin panel
 - [x] Gallery interface for 
   - [x] Big Bible Words
