@@ -1,4 +1,4 @@
-import DownloadIcon from "@/Elements/Icons/DownloadIcon";
+import Download from "@/Elements/Icons/Download";
 
 interface LessonDownloadButton {
     downloadLink?: string;
@@ -33,7 +33,7 @@ export default function LessonDownloadButton({ title, infoText, infoSubText = ""
                         <div className="px-4 text-center basis-2/3">{title}</div>
                         {isLinkEnabled() &&
                             <div className="px-3 ml-auto shrink">
-                                <DownloadIcon />
+                                <Download />
                             </div>
                         }
                     </a>
@@ -45,7 +45,7 @@ export default function LessonDownloadButton({ title, infoText, infoSubText = ""
                         <div className="px-4 text-center grow">{title}</div>
                         {isLinkEnabled() &&
                             <div className="hidden px-3 ml-auto md:block">
-                                <DownloadIcon />
+                                <Download />
 
                             </div>
                         }

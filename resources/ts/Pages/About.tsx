@@ -6,6 +6,7 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import ExternalLink from "@/Elements/Icons/ExternalLink";
 
 export default function About() {
     return (
@@ -36,7 +37,7 @@ export default function About() {
                 <ParagraphContainer>
                     <Paragraph>Bible Education Services is the trust which organises the publication of material used by Postal Bible School. PBS and BES began as the same organisation. PBS continues to use the material in Ireland while BES produce the material and encourage the translation and give support to those who make use of this material around the world.</Paragraph>
                     <Paragraph>For more information you can check out their website</Paragraph>
-                    <ButtonAnchor openNewTab href="https://www.besweb.com/"><span className="tracking-wider">BESWEB.ORG</span></ButtonAnchor>
+                    <ButtonAnchor Icon={ExternalLink} isExternalLink href="https://www.besweb.com/"><span className="tracking-wider">BESWEB.ORG</span></ButtonAnchor>
                 </ParagraphContainer>
             </ContentWrapper>
         </WrapperLayout>

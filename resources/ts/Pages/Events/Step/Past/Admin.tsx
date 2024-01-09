@@ -1,9 +1,9 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import { PastEventCardProps } from "@/Components/Cards/StepEventCard";
-import DeleteIcon from "@/Elements/Icons/DeleteIcon";
+import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
-import ViewIcon from "@/Elements/Icons/ViewIcon";
+import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -69,8 +69,8 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
                     <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.show', row.original.routename)}><ViewIcon className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id, row.original.heading)}><DeleteIcon className="w-6 h-6" /> Delete</button>
+                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.show', row.original.routename)}><Eye className="w-6 h-6" /> View</Link>
+                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id, row.original.heading)}><Trash className="w-6 h-6" /> Delete</button>
                 </div>
             )
         })

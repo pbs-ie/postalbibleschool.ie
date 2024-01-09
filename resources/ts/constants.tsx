@@ -52,6 +52,14 @@ declare global {
         onClick?: React.MouseEventHandler<HTMLButtonElement>;
         className?: string;
     }
+    interface ButtonLinkProps {
+        hierarchy?: "primary" | "secondary";
+        size?: Button["size"];
+        href: string;
+        children: React.ReactNode;
+        Icon?: Icon["props"];
+        isExternalLink?: boolean;
+    }
     interface PassedProps extends PageProps {
         errors: Errors & ErrorBag;
         auth: {

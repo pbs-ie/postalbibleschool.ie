@@ -1,12 +1,6 @@
 import { getButtonClassNamesAsString } from "@/helper";
 import { Link } from "@inertiajs/react";
-interface ButtonLinkProps {
-    hierarchy?: "primary" | "secondary";
-    size?: Button["size"];
-    href: string;
-    children: React.ReactNode;
-    Icon?: Icon["props"];
-}
+
 
 export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon }: ButtonLinkProps) {
     return (

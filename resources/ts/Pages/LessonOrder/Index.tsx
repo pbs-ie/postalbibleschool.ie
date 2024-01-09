@@ -1,6 +1,6 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import EditIcon from "@/Elements/Icons/EditIcon";
-import ViewIcon from "@/Elements/Icons/ViewIcon";
+import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -63,7 +63,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
                     <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><ViewIcon className="w-6 h-6" /> View</Link>
+                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><Eye className="w-6 h-6" /> View</Link>
                 </div>
             )
         })

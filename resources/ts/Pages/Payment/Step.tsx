@@ -7,7 +7,7 @@ import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessCompone
 
 import StepWrapper from "@/Layouts/StepWrapper";
 import MinusCircle from "@/Elements/Icons/MinusCircle";
-import PlusCircle from "@/Elements/Icons/PlusCircle";
+import PlusSolid from "@/Elements/Icons/PlusSolid";
 
 interface Product {
     title: string;
@@ -209,7 +209,7 @@ export default function Step() {
                         <div className="flex items-center ml-2 rounded-full bg-slate-100">
                             <button onClick={() => productDispatch({ type: "decrease", index: activeOption })} className="rounded-full"><MinusCircle className="w-10 h-10" /></button>
                             <p className="px-2">{productState[activeOption].quantity}</p>
-                            <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusCircle className="w-10 h-10" /></button>
+                            <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusSolid className="w-10 h-10" /></button>
                         </div>
                     </div>
                 </div>

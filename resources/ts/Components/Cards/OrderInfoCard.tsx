@@ -1,4 +1,4 @@
-import SchoolIcon from "@/Elements/Icons/SchoolIcon";
+import School from "@/Elements/Icons/SchoolIcon";
 import Envelope from "@/Elements/Icons/Envelope";
 import Newspaper from "@/Elements/Icons/Newspaper";
 
@@ -9,7 +9,7 @@ export default function OrderInfoCard({ schoolName, email, level0Order, level1Or
         <div className="flex flex-col items-center max-w-md gap-4 p-6 bg-white border border-gray-800 rounded-md drop-shadow-md">
             <div>
                 <div className={rowStyle}>
-                    <span className="inline-flex gap-2 font-semibold"><SchoolIcon className="w-6 h-6" />School</span>
+                    <span className="inline-flex gap-2 font-semibold"><School className="w-6 h-6" />School</span>
                     <span className="text-gray-800">{schoolName}</span>
                 </div>
                 <div className={rowStyle}>

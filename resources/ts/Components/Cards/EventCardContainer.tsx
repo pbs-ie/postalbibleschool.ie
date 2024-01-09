@@ -8,7 +8,7 @@ import ChatBubble from "@/Elements/Icons/ChatBubble";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
-import SchoolIcon from "@/Elements/Icons/SchoolIcon";
+import School from "@/Elements/Icons/SchoolIcon";
 
 
 interface CardContainer {
@@ -118,7 +118,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
 
     const reunionCards: CardBlock[] = [
         {
-            Icon: SchoolIcon,
+            Icon: School,
             title: "What",
             description: "Camp Reunion",
             buttonText: "",

@@ -1,7 +1,7 @@
 import ResourceCard from "@/Components/Cards/ResourceCard";
 import Group from "@/Elements/Icons/Group";
-import SchoolIcon from "@/Elements/Icons/SchoolIcon";
-import VideoCamera from "@/Elements/Icons/VideoCamera";
+import School from "@/Elements/Icons/SchoolIcon";
+import Video from "@/Elements/Icons/VideoCamera";
 import Heading2 from "@/Components/Typography/Heading2";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -17,8 +17,8 @@ export default function Dashboard() {
                     <Heading2>Resources</Heading2>
                     <div className="flex gap-4">
                         <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
-                        <ResourceCard Icon={VideoCamera} href={route('assembly.bonus.index')} title="Bonus Videos" />
-                        <ResourceCard Icon={SchoolIcon} href={route('orders.index')} title="Monthly Orders" />
+                        <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
+                        <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
                     </div>
                 </div>
             </ContentWrapper>

@@ -1,12 +1,14 @@
 import { getButtonClassNamesAsString } from "@/helper";
 
-export default function ButtonAnchor({ hierarchy = "primary", href, openNewTab = false, children }: { hierarchy?: "primary" | "secondary", href: string, openNewTab?: boolean, children?: React.ReactNode }) {
+export default function ButtonAnchor({ hierarchy = "primary", href, isExternalLink = false, Icon, children }: ButtonLinkProps) {
     return (
         <a
             href={href}
             className={getButtonClassNamesAsString(hierarchy, "medium")}
-            target={openNewTab ? "_blank" : "_self"}>
-            {children ?? href}
+            target={isExternalLink ? "_blank" : "_self"}>
+            <span className="flex items-center gap-2">
+                <span>{children ?? href}</span>{Icon && <Icon />}
+            </span>
         </a>
     )
 }

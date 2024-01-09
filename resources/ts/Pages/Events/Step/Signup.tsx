@@ -1,11 +1,11 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import PopoutWindow from "@/Elements/Icons/PopoutWindow";
 import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import StepBanner from "@images/step/step-current-banner.png";
 
 import StepWrapper from "@/Layouts/StepWrapper";
+import ChevronRight from "@/Elements/Icons/ChevronRight";
 
 export default function Signup() {
     const tableData: TableData[] = [
@@ -37,7 +37,7 @@ export default function Signup() {
 
                 <Paragraph>You can sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. Please fill in the form first before making payment. You can either pay using your card by clicking the button below or at the venue when you arrive.</Paragraph>
 
-                <ButtonLink Icon={PopoutWindow} href={route('payment.step')}>Make Payment</ButtonLink>
+                <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Make Payment</ButtonLink>
 
             </ParagraphContainer>
             <div className="flex items-stretch justify-center my-10">
