@@ -26,6 +26,7 @@ import School from "@/Elements/Icons/SchoolIcon"
 import Video from "@/Elements/Icons/VideoCamera"
 import Eye from "@/Elements/Icons/Eye"
 import ChevronDown from "@/Elements/Icons/ChevronDown"
+import CaratDown from "@/Elements/Icons/CaratDown"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -36,11 +37,17 @@ export default function IconSection() {
             heading: <Calendar />,
             content: "Calendar",
         }, {
+            heading: <CaratDown />,
+            content: "CaratDown",
+        }, {
             heading: <ChatBubble />,
             content: "ChatBubble",
         }, {
             heading: <CheckBadge />,
             content: "CheckBadge",
+        }, {
+            heading: <ChevronDown />,
+            content: "ChevronDown",
         }, {
             heading: <ChevronLeft />,
             content: "ChevronLeft",

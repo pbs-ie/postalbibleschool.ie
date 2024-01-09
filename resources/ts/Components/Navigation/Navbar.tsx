@@ -9,6 +9,7 @@ import { useState } from 'react';
 import AnchorNavLink from './AnchorNavLink';
 import NavItem from './NavItem';
 import AnchorLink from './AnchorLink';
+import CaratDown from '@/Elements/Icons/CaratDown';
 
 export default function Navbar() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
@@ -141,9 +142,7 @@ export default function Navbar() {
                                 (<>
                                     <AnchorNavLink href={'#'}>
                                         <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
-                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                            <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
-                                        </svg>
+                                        <CaratDown />
                                     </AnchorNavLink>
                                     <ul className="absolute right-0 z-10 flex-col hidden transition-opacity duration-200 ease-in-out scale-0 bg-white divide-y-2 rounded-lg opacity-0 text-slate-600 top-full group-focus:flex group-hover:flex drop-shadow-lg group-hover:opacity-100 group-focus:opacity-100 group-hover:scale-100 group-focus:scale-100">
                                         <li className='inline-flex'>
