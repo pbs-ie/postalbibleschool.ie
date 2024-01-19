@@ -30,9 +30,9 @@ export default defineConfig({
         // watch: {
         //     usePolling: true,
         // },
-        https: {
-            key: fs.readFileSync('localhost+2-key.pem'),
-            cert: fs.readFileSync('localhost+2.pem')
-        }
+        // https: {
+        //     key: fs.readFileSync('localhost+2-key.pem'),
+        //     cert: fs.readFileSync('localhost+2.pem')
+        // }
     },
 });
