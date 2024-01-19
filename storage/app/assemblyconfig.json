@@ -84,6 +84,14 @@
             "routename": "b12",
             "id": 9,
             "imageLink": "\/assembly\/image\/b12"
+        },
+        {
+            "monthTitle": "God Helps His People",
+            "month": "January",
+            "series": "C1",
+            "routename": "c01",
+            "id": 10,
+            "imageLink": "\/assembly\/image\/c01"
         }
     ],
     "bonusContent": [
