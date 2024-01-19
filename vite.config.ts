@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import react from "@vitejs/plugin-react";
+import fs from 'fs';
 
 export default defineConfig({
     resolve: {
@@ -29,5 +30,9 @@ export default defineConfig({
         // watch: {
         //     usePolling: true,
         // },
+        https: {
+            key: fs.readFileSync('localhost+2-key.pem'),
+            cert: fs.readFileSync('localhost+2.pem')
+        }
     },
 });
