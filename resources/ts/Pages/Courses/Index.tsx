@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { scroller } from 'react-scroll';
 
 import { courseContent } from '@/constants';
-import { responseLinks, setAllBesLinks } from '@/helper';
+import { responseLinks, setAllBesLinks, useScrollTo } from '@/helper';
 
 import WrapperLayout from '@/Layouts/WrapperLayout';
 
@@ -28,17 +28,11 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
 
     }, [bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads]);
 
-    useEffect(() => {
-        if (queryParams.type) {
-            setTimeout(() => {
-                scroller.scrollTo(queryParams.type, {
-                    duration: 1000,
-                    delay: 100,
-                    smooth: true,
-                })
-            }, 100);
-        }
-    }, [queryParams]);
+    useScrollTo(queryParams?.type ?? "", {
+        duration: 1000,
+        delay: 100,
+        smooth: true
+    });
 
 
     return (
