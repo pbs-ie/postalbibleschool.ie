@@ -73,11 +73,11 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="STEP January 2024"
-                                content="Signups are now open"
+                                heading="Prizegivings 2024"
+                                content="Find dates and locations."
                                 className="border-4"
-                                buttonText="Sign Up"
-                                buttonLink={route('events.step.signup')}
+                                buttonText="Details"
+                                buttonLink={route('events.prizegivings', { 'type': 'prizegivings' })}
                             />
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">

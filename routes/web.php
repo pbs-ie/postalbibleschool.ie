@@ -71,8 +71,10 @@ Route::get('/courses', function (Request $request) {
 
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::get('/prizegivings', function () {
-        return Inertia::render('Events/Prizegivings');
+    Route::get('/prizegivings', function (Request $request) {
+        return Inertia::render('Events/Prizegivings', [
+            'queryParams' => $request->query(),
+        ]);
     })->name('prizegivings');
     Route::get('/shed', function () {
         return Inertia::render('Events/Shed');

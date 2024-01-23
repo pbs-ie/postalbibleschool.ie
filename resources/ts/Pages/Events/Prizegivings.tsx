@@ -15,8 +15,10 @@ import EventsImage from "@images/prizegivings/prizegiving-events.jpg";
 import SchoolsImage from "@images/prizegivings/prizegiving-schools.jpg";
 import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
 import CoffeeImage from "@images/prizegivings/prizegiving-tea-and-coffee.jpg";
+import { useScrollTo } from "@/helper";
 
-export default function Prizegivings() {
+export default function Prizegivings({ queryParams }: { queryParams?: any }) {
+
     const images: Gallery[] = [
         {
             title: "Prizes",
@@ -51,6 +53,14 @@ export default function Prizegivings() {
             imageLink: TeamImage
         }
     ]
+
+    useScrollTo(queryParams?.type ?? "", {
+        duration: 1000,
+        delay: 100,
+        smooth: true,
+        offset: -50
+    });
+
     return (
         <WrapperLayout>
             <EventWrapper title="Prizegivings">
@@ -61,7 +71,9 @@ export default function Prizegivings() {
                     <Paragraph>Throughout the year those who return lessons for marking are allocated marks for their work. The total marks accumulated from January to December each year is totalled and converted to a percentage. This percentage then entitles the student to one of four levels of prize. Each student is invited to attend a prizegiving of their choice to select their prize. A prizegiving will generally take between an hour and an hour and a half depending on the number attending. The evening will begin by students selecting their prizes. This will be followed by a short time of singing songs based on the Bible and an explanation of the Bible for young people. The evening will be concluded by the presentation of the prizes and refreshments.</Paragraph>
                     <Paragraph>Prizegivings are a special time for the staff of Postal Bible School as they get an opportunity to meet students and their families across Ireland.</Paragraph>
                 </ParagraphContainer>
-                <CardContainer type="prizegivings" />
+                <div id="prizegivings">
+                    <CardContainer type="prizegivings" />
+                </div>
             </EventWrapper>
         </WrapperLayout>
     )

@@ -1,4 +1,6 @@
 import { gleanersSeriesNames } from "@/constants";
+import { useEffect } from "react";
+import { scroller } from "react-scroll";
 
 interface propertyItem {
     link: string;
@@ -129,3 +131,13 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
 export const truncateString = (value: string, index: number) => {
     return (value.length > index) ? value.slice(0, index - 1) + '…' : value;
 };
+
+export const useScrollTo = (to: string, props: any) => {
+    useEffect(() => {
+        if (to && to !== "") {
+            setTimeout(() => {
+                scroller.scrollTo(to, props)
+            }, 100);
+        }
+    }, [to]);
+}

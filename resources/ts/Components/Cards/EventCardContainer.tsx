@@ -7,7 +7,7 @@ import Banknotes from "@/Elements/Icons/Banknotes";
 import ChatBubble from "@/Elements/Icons/ChatBubble";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
-import PGSchedule from "@images/PRIZEGIVINGS_2023.pdf";
+import PGSchedule from "@images/Public PRIZEGIVINGS 2024.pdf";
 import School from "@/Elements/Icons/SchoolIcon";
 
 
@@ -24,7 +24,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
             Icon: Calendar,
             title: "When",
             description: "Prizegivings are held each year in a large number of venues across Ireland. They are generally held in the month of February, March and April",
-            buttonText: "2023 Schedule",
+            buttonText: "2024 Schedule",
             buttonLink: PGSchedule,
             isExternal: true
         },
