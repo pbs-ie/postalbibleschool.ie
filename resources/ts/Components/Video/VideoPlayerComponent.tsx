@@ -118,7 +118,7 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
 
 
     return (
-        videoLinks.length > 0 && (
+        videoLinks.length > 0 ? (
             <section className="flex flex-col w-full">
                 <div className="relative justify-center py-5 mx-2 md:mx-auto md:max-w-4xl">
 
@@ -171,6 +171,6 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
                         </div>
                     </div>
                 }
-            </section>)
+            </section>) : null
     )
 }

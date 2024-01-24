@@ -75,7 +75,7 @@ export default function GroupRequest() {
                 <form method="post" onSubmit={handleSubmit} className="justify-center max-w-screen-md mx-auto">
                     <div className="grid mb-5 items-start grid-cols-[1fr_2fr] gap-2">
 
-                        <InputLabel forInput="name" value="Name" required />
+                        <InputLabel id="name" forInput="firstname" value="Name" required />
                         <div className="inline-flex gap-2">
                             <TextInput
                                 type="text"
