@@ -163,6 +163,7 @@ export default function Navbar() {
                         </li>
                         <li className="flex items-center -mr-2 lg:hidden">
                             <button
+                                data-test="menubutton"
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out border-2 border-transparent rounded-md hover:border-gray-100 focus:border-gray-100 "
                             >

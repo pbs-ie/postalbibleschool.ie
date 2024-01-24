@@ -15,7 +15,7 @@ export default function Dashboard() {
             <ContentWrapper title="The Hub">
                 <div className="flex flex-col items-center gap-2">
                     <Heading2>Resources</Heading2>
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-4">
                         <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
                         <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
                         <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
