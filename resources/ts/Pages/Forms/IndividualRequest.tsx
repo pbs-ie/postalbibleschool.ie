@@ -168,7 +168,7 @@ export default function IndividualRequest() {
                         {studentState.map(({ firstname, lastname, day, month, year }, idx) => (
                             <div key={idx} className="flex flex-col gap-2 mb-2">
                                 <div className="flex gap-2">
-                                    <InputLabel forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
+                                    <InputLabel id={"fullname" + (idx + 1)} forInput={`firstname[${idx}]`} value={"Name " + (idx + 1)} className="basis-1/3" required />
                                     <div className="inline-flex gap-2 basis-2/3">
                                         <label htmlFor={`firstname[${idx}]`} className="hidden">First Name for {idx + 1}</label>
                                         <TextInput
@@ -180,6 +180,7 @@ export default function IndividualRequest() {
                                             className="block w-full"
                                             autoComplete="given-name"
                                             handleChange={(e) => handleComplexChange(idx, e)}
+                                            ariaLabelledBy={"fullname" + (idx + 1)}
                                             required
                                         />
                                         <label htmlFor={`lastname[${idx}]`} className="hidden">Last Name for {idx + 1}</label>
@@ -192,6 +193,7 @@ export default function IndividualRequest() {
                                             className="block w-full"
                                             autoComplete="family-name"
                                             handleChange={(e) => handleComplexChange(idx, e)}
+                                            ariaLabelledBy={"fullname" + (idx + 1)}
                                             required
 
                                         />
@@ -199,7 +201,7 @@ export default function IndividualRequest() {
                                     </div>
                                 </div>
                                 <div className="inline-flex flex-wrap items-start gap-2 md:flex-nowrap">
-                                    <InputLabel forInput={`dob[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
+                                    <InputLabel forInput={`day[${idx}]`} value={`Date of Birth ${idx + 1}`} className="basis-1/3" required />
                                     <div className="flex flex-col">
                                         <div className="flex justify-start gap-2 basis-2/3">
                                             <div className="flex flex-col items-start">
@@ -211,7 +213,7 @@ export default function IndividualRequest() {
                                                     value={day}
                                                     className="w-24"
                                                     placeholder="DD"
-                                                    autoComplete=""
+                                                    autoComplete="on"
                                                     handleChange={(e) => handleComplexChange(idx, e)}
                                                     onBlur={(e) => hasDateError(idx)}
                                                     required
@@ -227,7 +229,7 @@ export default function IndividualRequest() {
                                                     value={month}
                                                     className="w-24"
                                                     placeholder="MM"
-                                                    autoComplete=""
+                                                    autoComplete="on"
                                                     handleChange={(e) => handleComplexChange(idx, e)}
                                                     onBlur={(e) => hasDateError(idx)}
                                                     required
@@ -242,7 +244,7 @@ export default function IndividualRequest() {
                                                     value={year}
                                                     className="w-40"
                                                     placeholder="YYYY"
-                                                    autoComplete=""
+                                                    autoComplete="on"
                                                     handleChange={(e) => handleComplexChange(idx, e)}
                                                     onBlur={(e) => hasDateError(idx)}
                                                     required
@@ -338,7 +340,7 @@ export default function IndividualRequest() {
                                 handleChange={handleChange}
                                 ariaLabelledBy="address statelabel"
                             />
-                            <label id="postcode" htmlFor="postcode" className="hidden">Postcode</label>
+                            <label id="postcodelabel" htmlFor="postcode" className="hidden">Postcode</label>
                             <TextInput
                                 type="text"
                                 name="postcode"

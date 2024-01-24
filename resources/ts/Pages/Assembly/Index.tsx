@@ -16,7 +16,7 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
     return (
         <WrapperLayout>
             <Head title="School Assembly" />
-            <main className="flex flex-col items-center px-10 md:my-20 sm:px-20">
+            <section className="flex flex-col items-center px-10 md:mb-10 sm:px-20">
                 <div className="mb-5 md:max-w-4xl">
                     <Heading1Alt>School Assembly Videos</Heading1Alt>
                     {canEdit &&
@@ -41,7 +41,7 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                         ))}
                     </ul>
                 </div>
-            </main>
+            </section>
 
             {auth && auth.user && canViewGallery &&
                 <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>

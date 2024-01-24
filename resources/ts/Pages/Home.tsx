@@ -57,7 +57,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
             <section className="relative flex w-full">
                 <div className={`relative h-fit flex justify-center align-middle bg-sky-100 lg:bg-slate-50/70`}>
                     <div className="absolute">
-                        <img src={BibletimeBanner} alt="" className="relative flex justify-center flex-1 invisible align-middle pointer-events-none -z-50 lg:visible lg:h-screen lg:w-auto lg:aspect-auto lg:-top-20" />
+                        <img src={BibletimeBanner} alt="" className="relative flex justify-center flex-1 invisible align-middle pointer-events-none -z-50 lg:visible lg:h-[calc(100vh+5rem)] lg:w-auto lg:aspect-auto lg:-top-20" />
                     </div>
                     <div className="grid h-full py-5 lg:py-10 w-4/5 grid-cols-1 gap-2 text-blue-900 my-5 lg:grid-cols-[1fr_1fr_20%]">
                         <div className="bg-white bg-clip-content md:col-span-2 md:row-span-2">
