@@ -9,6 +9,7 @@ import GleanersLessons from "@images/lessons/gleaners-lessons.png";
 import Paragraph from "@/Components/Typography/Paragraph";
 import { ErrorBag, Errors, PageProps } from "@inertiajs/core/types/types";
 import { Config } from "ziggy-js";
+import { RefObject } from "react";
 
 declare global {
     interface Window {
@@ -51,9 +52,11 @@ declare global {
         children: string | React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement>;
         className?: string;
+        formMethod?: string;
+        dataTest?: string;
     }
     interface ButtonLinkProps {
-        hierarchy?: "primary" | "secondary";
+        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
         size?: Button["size"];
         href: string;
         children: React.ReactNode;
@@ -73,6 +76,7 @@ declare global {
         flash: {
             success?: string;
             failure?: string;
+            warning?: string;
         }
     }
     interface VideoListMeta {
@@ -118,6 +122,10 @@ declare global {
         props: ({ className }: {
             className?: string;
         }) => JSX.Element
+    }
+    interface ClassroomProps {
+        id: number,
+        name: string
     }
 }
 

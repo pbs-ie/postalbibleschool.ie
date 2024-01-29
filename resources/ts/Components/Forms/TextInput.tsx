@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react';
 
 interface TextInput {
-    type: string,
+    type?: string,
     name: string,
     id: string,
     value: string | number,

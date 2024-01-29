@@ -9,6 +9,8 @@ use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\StepEventController;
+use App\Http\Controllers\ClassroomController;
+use App\Models\Classroom;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
 use Illuminate\Foundation\Application;
@@ -146,8 +148,20 @@ Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return response('You are not logged in.');
     }
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'classrooms' => Classroom::all()
+    ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
+
+Route::prefix('classroom')->name('classroom.')->group(function () {
+    Route::get('/', [ClassroomController::class, 'index'])->name('index');
+    Route::post('/', [ClassroomController::class, 'store'])->name('store');
+    Route::get('/create', [ClassroomController::class, 'create'])->name('create');
+    Route::get('/{classroom}', [ClassroomController::class, 'show'])->name('show');
+    Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
+    Route::put('/{classroom}', [ClassroomController::class, 'update'])->name('update');
+    Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
+});
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
