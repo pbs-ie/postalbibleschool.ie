@@ -7,6 +7,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage } from "@inertiajs/react";
 import ClassroomComponent from "@/Components/ClassroomComponent";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 
 export default function Dashboard({ classrooms }: { classrooms: any }) {
     const { auth } = usePage<PassedProps>().props;
@@ -15,7 +16,7 @@ export default function Dashboard({ classrooms }: { classrooms: any }) {
     return (
         <WrapperLayout>
             <ContentWrapper title="Teachers Hub">
-                <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 lg:gap-2">
+                <TwoColumnLayout>
                     <ClassroomComponent classrooms={classrooms} />
                     <div className="flex flex-col items-start">
                         <Heading2Alt>Additional Resources</Heading2Alt>
@@ -25,7 +26,7 @@ export default function Dashboard({ classrooms }: { classrooms: any }) {
                             <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
                         </div>
                     </div>
-                </div>
+                </TwoColumnLayout>
             </ContentWrapper>
         </WrapperLayout>
     )
