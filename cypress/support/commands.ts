@@ -41,7 +41,6 @@ Cypress.Commands.add('login', (email, password) => {
         cy.get("input#password").type(password);
         cy.get("button[type='submit']").click();
     });
-    cy.visit('/');
     cy.get('h1').should('contain', 'Hub');
 });
 
@@ -62,7 +61,6 @@ Cypress.Commands.add('loginSession', (email, password) => {
             cy.get("input#password").type(password);
             cy.get("button[type='submit']").click();
         });
-        cy.visit('/');
         cy.get('h1').should('contain', 'Hub');
     })
 })
