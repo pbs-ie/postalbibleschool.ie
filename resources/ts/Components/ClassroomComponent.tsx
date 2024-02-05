@@ -1,9 +1,10 @@
 import Group from "@/Elements/Icons/Group";
-import CreateDialogCard from "@/Components/Cards/CreateDialogCard";
 import { useRef } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import DashboardLongCard from "@/Components/Cards/DashboardLongCard";
+import PopupModal from "./Modals/PopupModal";
+import CreateClassroomForm from "./Forms/CreateClassroomForm";
 
 
 export default function ClassroomComponent({ classrooms }: { classrooms: ClassroomProps[] }) {
@@ -12,10 +13,15 @@ export default function ClassroomComponent({ classrooms }: { classrooms: Classro
     const showModal = () => {
         dialogRef.current?.showModal();
     }
+    const closeModal = () => {
+        dialogRef.current?.close();
+    }
 
     return (
         <div className="flex flex-col items-start w-full">
-            <CreateDialogCard innerRef={dialogRef} />
+            <PopupModal innerRef={dialogRef}>
+                <CreateClassroomForm onCancel={() => closeModal()} />
+            </PopupModal>
 
             <Heading2Alt>My Classes</Heading2Alt>
             <div className="grid md:w-3/4 grid-rows-[auto_1fr] self-center gap-2 lg:px-10">

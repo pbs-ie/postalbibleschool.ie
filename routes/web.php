@@ -10,6 +10,7 @@ use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StudentController;
 use App\Models\Classroom;
 use App\Models\DownloadsList;
 use App\Models\LessonOrder;
@@ -153,7 +154,11 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
-Route::prefix('classroom')->name('classroom.')->group(function () {
+Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
+    Route::prefix('students')->name('students.')->group(function () {
+        Route::get('/', [StudentController::class, 'getAllStudents'])->name('all');
+        // Route::get('/add', [StudentController::class, 'addStudents'])->name('add');
+    });
     Route::get('/', [ClassroomController::class, 'index'])->name('index');
     Route::post('/', [ClassroomController::class, 'store'])->name('store');
     Route::get('/create', [ClassroomController::class, 'create'])->name('create');
@@ -161,6 +166,7 @@ Route::prefix('classroom')->name('classroom.')->group(function () {
     Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
     Route::put('/{classroom}', [ClassroomController::class, 'update'])->name('update');
     Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
+    
 });
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {

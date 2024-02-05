@@ -6,6 +6,11 @@ use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Http\Controllers\FilemakerController;
+use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Student;
+
 
 class ClassroomController extends Controller
 {
@@ -16,10 +21,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-
-        return Inertia::render('TeacherHub/Classroom/Index', [
-            "classrooms" => Classroom::all()
-        ]);
+        return redirect('/');
     }
 
     /**
@@ -30,8 +32,10 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
+        $allStudents = Student::where('grade', "Level 2")->toCamelArray();
         return Inertia::render('TeacherHub/Classroom/Show', [
-            "classroom" => $classroom
+            "classroom" => $classroom,
+            "students" => $allStudents
         ]);
     }
 
@@ -54,6 +58,18 @@ class ClassroomController extends Controller
         }
 
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
+
+    }
+
+    
+
+    /**
+     * Add new students to the classroom
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addStudents(Request $request) {
 
     }
 }

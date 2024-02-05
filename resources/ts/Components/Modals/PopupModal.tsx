@@ -1,13 +1,12 @@
-import { RefObject, useEffect } from "react";
 import CloseX from "@/Elements/Icons/CloseX";
-import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
+import { RefObject, useEffect } from "react";
 
 interface ModalProps {
     onClose?: () => void;
     innerRef?: RefObject<HTMLDialogElement> | null;
+    children?: React.ReactNode;
 }
-export default function CreateDialogCard_({ onClose, innerRef = null }: ModalProps) {
-
+export default function PopupModal({ onClose, innerRef = null, children }: ModalProps) {
     const closeModal = () => {
         innerRef?.current?.close();
     }
@@ -44,16 +43,14 @@ export default function CreateDialogCard_({ onClose, innerRef = null }: ModalPro
         }
         return () => modalElement?.removeEventListener('click', handleMouseEvent);
     }, []);
-
     return (
         <dialog onKeyDown={handleKeyDown} ref={innerRef} className="relative z-10 px-5 pt-10 pb-5 mx-auto bg-white border-2 rounded backdrop:bg-gray-800/50 md:w-1/3 min-w-96 h-fit">
             <button data-test="classroom_close_button" onClick={() => handleCloseModal()} className="absolute top-5 right-5">
                 <CloseX className="text-gray-700 w-7 h-7 hover:text-gray-500" />
             </button>
             <div className="mx-3 text-left">
-                <h1 className="mb-4 text-2xl font-semibold uppercase">Create A New Classroom</h1>
-                <CreateClassroomForm onCancel={() => handleCloseModal()} />
+                {children}
             </div>
-        </dialog >
+        </dialog>
     )
 }

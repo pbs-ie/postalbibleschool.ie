@@ -1,3 +1,10 @@
+# 1.2 (2024-02-01)
+- New Hub for teachers with added functionality
+  - Teachers can now view their student list from our database
+  - Teachers can create classrooms to allocate separate students into categories
+  - They can create a custom syllabus for the year
+  - They can allocate the syllabus to classes
+
 # 1.1.6 (2024-01-04)
 - UI changes for buttons and links
 - Codebase refactor to follow atomic design (design inspiration - https://boltdesignsystem.com/pattern-lab/)

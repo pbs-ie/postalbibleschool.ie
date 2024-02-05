@@ -24,6 +24,7 @@ class FilemakerController extends Controller
     private $refreshToken;
 
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
+    const STUDENT_LIST_LAYOUT = 'Student Record API';
 
     public function __construct() 
     {
@@ -96,6 +97,33 @@ class FilemakerController extends Controller
         
     }
 
+    /**
+     * Get list of students for current user from Filemaker
+     * 
+     * @param string $email
+     * @return array
+     */
+    private function getStudentsForAreaRecords(string $email) {
+        $formattedLayout = rawurlencode(self::STUDENT_LIST_LAYOUT);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
+        $queryData = [
+            '_limit' => 10,
+            'script' => 'dapi_student_record',
+            'script.param' => $email
+        ];
+        $query = http_build_query($queryData);
+        $token = $this->getBearerToken();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])
+            ->withBody('', 'application/json')
+            ->get($path.'?'.$query);
+
+        $responseData = json_decode(json_encode($response->json()))->response->data;
+        return $responseData;
+        
+    }
+
     private function runScript($layoutName, $scriptName) {
         $formattedLayout = rawurlencode($layoutName);
         $formattedScript = rawurlencode($scriptName);
@@ -128,14 +156,28 @@ class FilemakerController extends Controller
         return $response->ok();
     }
 
+    // Public Functions
+
     public function getLessonOrders() {
         return $this->getMonthlyOrderRecords();
     }
 
     /**
+     * Update a record for lesson order
+     * 
      * @return boolean
      */
     public function updateLessonOrders(int $recordId, $changedRecord) {
         return $this->updateRecordById(self::MONTHLY_ORDER_LAYOUT, $recordId, $changedRecord);
+    }
+
+    /**
+     * Get list of students for current user from Filemaker
+     * 
+     * @param string $email
+     * @return array
+     */
+    public function getStudents(string $email) {
+        return $this->getStudentsForAreaRecords($email);
     }
 }
