@@ -73,7 +73,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading="Prizegivings 2024"
+                                heading={<p>Prize<wbr></wbr>givings 2024</p>}
                                 content="Find dates and locations."
                                 className="border-4"
                                 buttonText="Details"
