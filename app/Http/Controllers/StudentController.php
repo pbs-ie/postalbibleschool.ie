@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,20 @@ class StudentController extends Controller
             'grade' => 'Grade',
         ];
     }
+
+    /**
+     * Create a map between user email and area code
+     * 
+     * @param string $email
+     * @param string $areaCode
+     */
+    private function mapEmailAreaCode(string $email, string $areaCode) {
+        $mapEntry = MapEmailAreacode::firstOrCreate(
+            ['email'=> $email],
+            ['area_code'=>$areaCode]
+        );
+    } 
+
 
     /**
      * Convert Filemaker object to Laravel database friendly array
@@ -71,10 +86,13 @@ class StudentController extends Controller
     {
         $studentList = [];
         if(auth()->check()) {
-            $currentUserEmail = 'woodns2001@gmail.com'; //auth()->user()->email
+            $currentUserEmail = 'woodns2001@gmail.com'; //TODO:change to //auth()->user()->email
             $studentListFm = (new FilemakerController())->getStudents($currentUserEmail);
 
             $studentList = $this->sanitizeStudentList($studentListFm);
+
+            $this->mapEmailAreaCode($currentUserEmail, $studentList[0]['area_code']);
+
             $this->updateStudents($studentList);
         }
         return back();

@@ -9,11 +9,26 @@ use Inertia\Inertia;
 use App\Http\Controllers\FilemakerController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\MapEmailAreacode;
 use App\Models\Student;
 
 
 class ClassroomController extends Controller
 {
+    /**
+     * Get area code for current user email
+     * 
+     * @param string $email
+     * @return string
+     */
+    private function getStudentsForUser($email) {
+        $areaCode = MapEmailAreacode::firstWhere('email', $email)->area_code;
+        return Student::where('area_code', $areaCode)
+        ->orderBy('grade')
+        ->orderBy('last_name')
+        ->get();
+    }
+
     /**
      * Display listing of the classrooms.
      *
@@ -32,7 +47,8 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        $allStudents = Student::where('grade', "Level 2")->get();
+        $allStudents = $this->getStudentsForUser('woodns2001@gmail.com'); //TODO:change to //auth()->user()->email
+        
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,
             "students" => $allStudents
