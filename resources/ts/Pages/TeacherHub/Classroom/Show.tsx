@@ -11,6 +11,7 @@ import { useRef } from "react"
 
 export interface StudentProps {
     classroom_id: string,
+    fm_student_id: string,
     first_name: string,
     last_name: string,
     area_code: string,

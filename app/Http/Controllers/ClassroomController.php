@@ -32,7 +32,7 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        $allStudents = Student::where('grade', "Level 2")->toCamelArray();
+        $allStudents = Student::where('grade', "Level 2")->get();
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,
             "students" => $allStudents

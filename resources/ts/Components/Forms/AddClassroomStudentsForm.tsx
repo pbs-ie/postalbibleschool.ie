@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 import Heading1Nospace from "../Typography/Heading1Nospace";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import { StudentProps } from "@/Pages/TeacherHub/Classroom/Show";
+import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 
 export default function AddClassroomStudentsForm({ students }: { students: StudentProps[] }) {
     const { data, setData, get, post, processing, errors, reset } = useForm({
@@ -19,6 +20,26 @@ export default function AddClassroomStudentsForm({ students }: { students: Stude
         router.get(route('classroom.students.all'));
     }
 
+    const tableData: TableData = {
+        headings:
+            <>
+                <td>ID</td>
+                <td>First name</td>
+                <td>Last name</td>
+                <td>Grade</td>
+            </>,
+        content: students.map(student => (
+            <>
+                <td> {student.id}</td>
+                <td >{student.first_name} </td>
+                <td> {student.last_name} </td>
+                <td> {student.grade} </td>
+            </>
+        ))
+
+
+    }
+
     return (
         <div>
             <Heading1Nospace>Add Students</Heading1Nospace>
@@ -28,11 +49,7 @@ export default function AddClassroomStudentsForm({ students }: { students: Stude
                 {students.length === 0 ?
                     <p className="text-sm">No students found</p>
                     :
-                    students.map(student => (
-                        <div key={student.first_name} className="flex items-center gap-2">
-                            {student.first_name}
-                        </div>
-                    ))
+                    <ListingTable tableData={tableData} />
                 }
                 <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
             </form>

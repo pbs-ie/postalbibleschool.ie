@@ -22,7 +22,7 @@ As a charity it aims to distribute and teach God’s word the Bible through dist
 
 - [x] Section for historical information of STEP
 - [x] Filter and search in order form admin panel
-- [x] Gallery interface for 
+- [x] Gallery interface for
   - [x] Big Bible Words
   - [x] Bible Books
 - [x] PayPal integration on the website
@@ -32,3 +32,7 @@ As a charity it aims to distribute and teach God’s word the Bible through dist
 [Changelog][]
 
 [changelog]: https://github.com/pbs-ie/laravel-server/blob/main/CHANGELOG.md
+
+----
+
+# Starting a local instance

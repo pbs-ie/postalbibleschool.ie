@@ -71,8 +71,8 @@ class StudentController extends Controller
     {
         $studentList = [];
         if(auth()->check()) {
-            $studentListFm = (new FilemakerController())->getStudents('woodns2001@gmail.com');
-            // $studentList = (new FilemakerController())->getStudents(auth()->user()->email);
+            $currentUserEmail = 'woodns2001@gmail.com'; //auth()->user()->email
+            $studentListFm = (new FilemakerController())->getStudents($currentUserEmail);
 
             $studentList = $this->sanitizeStudentList($studentListFm);
             $this->updateStudents($studentList);

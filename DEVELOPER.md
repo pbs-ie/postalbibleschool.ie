@@ -1,5 +1,7 @@
 # STEP Config Formats
+
 Format for the config JSON file
+
 ```JSON stepconfig.json
 {
     "jsonPath": "video_json\/",
@@ -17,9 +19,11 @@ Format for the config JSON file
     ]
 }
  ```
- Format for the content JSON file
- ```JSON <routename.json>
- {
+
+Format for the content JSON file
+
+```JSON <routename.json>
+{
     "content": [
         {
             "id": "<number>",
@@ -28,5 +32,5 @@ Format for the config JSON file
             "duration": "<video duration>"
         }, ...
     ]
- }
- ```
+}
+```
