@@ -19,7 +19,7 @@ class ClassroomController extends Controller
      * Get area code for current user email
      * 
      * @param string $email
-     * @return string
+     * @return Collection Student
      */
     private function getStudentsForUser($email) {
         $areaCode = MapEmailAreacode::firstWhere('email', $email)->area_code;
@@ -48,10 +48,14 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom)
     {
         $allStudents = $this->getStudentsForUser('woodns2001@gmail.com'); //TODO:change to //auth()->user()->email
-        
+        $filteredStudents = $allStudents->filter(function($student) use ($classroom) {
+            return $student['classroom_id'] === $classroom->id;
+        });
+        $classroomStudents = array_values($filteredStudents->toArray());
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,
-            "students" => $allStudents
+            "students" => $classroomStudents,
+            "allStudents" => $allStudents
         ]);
     }
 

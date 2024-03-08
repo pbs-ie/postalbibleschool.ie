@@ -157,7 +157,8 @@ Route::get('/dashboard', function () {
 Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
     Route::prefix('students')->name('students.')->group(function () {
         Route::get('/', [StudentController::class, 'getAllStudents'])->name('all');
-        // Route::get('/add', [StudentController::class, 'addStudents'])->name('add');
+        Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
+        Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
     });
     Route::get('/', [ClassroomController::class, 'index'])->name('index');
     Route::post('/', [ClassroomController::class, 'store'])->name('store');

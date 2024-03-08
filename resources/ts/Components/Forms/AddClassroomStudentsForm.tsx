@@ -1,57 +1,85 @@
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router, useForm } from "@inertiajs/react";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import Heading1Nospace from "../Typography/Heading1Nospace";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import { StudentProps } from "@/Pages/TeacherHub/Classroom/Show";
 import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
+import CheckboxInput from "./CheckboxInput";
+import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
+import AdvancedTable from "../Tables/AdvancedTable";
 
-export default function AddClassroomStudentsForm({ students }: { students: StudentProps[] }) {
-    const { data, setData, get, post, processing, errors, reset } = useForm({
-        classroom_id: "",
-        student_id: "",
-    });
+export default function AddClassroomStudentsForm({ onClose, classroomId, students }: { onClose: () => void, classroomId: number, students: StudentProps[] }) {
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        onClose();
+        let idSelection = [] as number[];
+        students.map((student, idx) => {
+            if (rowSelection[idx])
+                idSelection.push(student.id)
+        });
+        router.post(route('classroom.students.store'), {
+            classroomId: classroomId,
+            selectedStudentsId: idSelection
+        });
     }
 
+    useEffect(() => {
+        setRowSelection({})
+    }, [students]);
+
     const getStudentList = () => {
+        onClose();
         router.get(route('classroom.students.all'));
     }
 
-    const tableData: TableData = {
-        headings:
-            <>
-                <td>ID</td>
-                <td>First name</td>
-                <td>Last name</td>
-                <td>Grade</td>
-            </>,
-        content: students.map(student => (
-            <>
-                <td> {student.id}</td>
-                <td >{student.first_name} </td>
-                <td> {student.last_name} </td>
-                <td> {student.grade} </td>
-            </>
-        ))
+    const tableDataMemo = useMemo(() => students, [students]);
 
+    const columnHelper = createColumnHelper<StudentProps>();
 
-    }
+    const defaultColumns = [
+        columnHelper.display({
+            id: 'select-col',
+            header: ({ table }) => (
+                <CheckboxInput
+                    id="select-all"
+                    isChecked={table.getIsAllRowsSelected()}
+                    handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
+                />
+            ),
+            cell: ({ row }) => (
+                <CheckboxInput
+                    id={"select" + row.original.id}
+                    isChecked={row.getIsSelected()}
+                    handleChange={row.getToggleSelectedHandler()}
+                />
+            ),
+        }),
+        columnHelper.accessor(row => row.first_name, {
+            header: "First Name"
+        }),
+        columnHelper.accessor(row => row.last_name, {
+            header: "Last Name"
+        }),
+        columnHelper.accessor(row => row.grade, {
+            header: "Grade"
+        })
+    ];
 
     return (
         <div>
             <Heading1Nospace>Add Students</Heading1Nospace>
             <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}>Update student list</BasicButton></div>
-            <hr className="mb-4" />
-            <form name="contactUsForm" aria-label="Contact us form" onSubmit={handleSubmit} method="post">
+            <hr className="mb-4 mt-2" />
+            <form name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
                 {students.length === 0 ?
                     <p className="text-sm">No students found</p>
                     :
-                    <ListingTable tableData={tableData} />
+                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
                 }
-                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
+                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" className="w-1/3 md:w-1/4">Submit</PrimaryButton></div>
             </form>
         </div>
     )

@@ -1,9 +1,16 @@
-import { SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import { ChangeEvent, useState } from "react";
+import { OnChangeFn, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import InputLabel2 from "../Forms/InputLabel2";
 import TextInput from "../Forms/TextInput";
 
-export default function AdvancedTable({ data, columns }: { data: any, columns: any }) {
+interface AdvancedTableProps {
+    data: any,
+    columns: any,
+    enableRowSelection?: boolean,
+    rowSelection?: RowSelectionState
+    setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
+}
+export default function AdvancedTable({ data, columns, enableRowSelection = false, rowSelection, setRowSelection }: AdvancedTableProps) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
 
@@ -15,10 +22,13 @@ export default function AdvancedTable({ data, columns }: { data: any, columns: a
         getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting: sorting,
-            globalFilter: filtering
+            globalFilter: filtering,
+            rowSelection: rowSelection
         },
         onSortingChange: setSorting,
-        onGlobalFilterChange: setFiltering
+        onGlobalFilterChange: setFiltering,
+        enableRowSelection: enableRowSelection,
+        onRowSelectionChange: setRowSelection,
     });
 
     return (

@@ -95,16 +95,43 @@ class StudentController extends Controller
 
             $this->updateStudents($studentList);
         }
-        return back();
+        return redirect()->back()->with('success', 'Student list updated');
     }
 
     /**
      * Add students to the classroom
      * 
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addStudents()
+    public function addStudentsToClassroom(Request $request)
     {
-        
+        $classroomId = $request->classroomId;
+        $studentCollection = collect($request->selectedStudentsId);
+        $studentCollection->each(function($studentId) use ($classroomId) {
+            $studentModel = Student::findOrFail($studentId);
+            $studentModel->classroom_id = $classroomId;
+            $studentModel->save();
+        });
+
+        return redirect()->back()->with('success', 'New students added to classroom');
+    }
+    /**
+     * Remove students to the classroom
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeStudentsFromClassroom(Request $request)
+    {
+
+        $studentCollection = collect($request->selectedStudentsId);
+        $studentCollection->each(function($studentId) {
+            $studentModel = Student::findOrFail($studentId);
+            $studentModel->classroom_id = null;
+            $studentModel->save();
+        });
+
+        return redirect()->back()->with('success', 'Students removed from the classroom');
     }
 }
