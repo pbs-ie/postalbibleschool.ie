@@ -1,5 +1,5 @@
 import { gleanersSeriesNames } from "@/constants";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { scroller } from "react-scroll";
 
 interface propertyItem {
@@ -97,6 +97,9 @@ export const getLastElementsOfArray = (array: any[], number: number) => array.sl
 export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size: Button["size"]) => {
     let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-300".split(' ');
 
+    //Form entry related css
+    classList.push(...("disabled:bg-slate-50 disabled:border-slate-200 disabled:border disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500".split(' ')));
+
     switch (hierarchy) {
         case "primary":
             classList.push(...("drop-shadow-md text-white bg-pbsblue focus:bg-blue-700 focus:drop-shadow-lg  hover:bg-blue-700 hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md active:bg-blue-700".split(' ')));
@@ -140,4 +143,16 @@ export const useScrollTo = (to: string, props: any) => {
             }, 100);
         }
     }, [to]);
+}
+
+export const modalHelper = () => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    const showModal = () => {
+        dialogRef.current?.showModal();
+    }
+    const closeModal = () => {
+        dialogRef.current?.close();
+    }
+    return { dialogRef, showModal, closeModal };
 }

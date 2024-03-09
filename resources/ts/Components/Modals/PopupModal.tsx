@@ -3,10 +3,11 @@ import { RefObject, useEffect } from "react";
 
 interface ModalProps {
     onClose?: () => void;
+    size?: "base" | "large";
     innerRef?: RefObject<HTMLDialogElement> | null;
     children?: React.ReactNode;
 }
-export default function PopupModal({ onClose, innerRef = null, children }: ModalProps) {
+export default function PopupModal({ onClose, innerRef = null, size = "base", children }: ModalProps) {
     const closeModal = () => {
         innerRef?.current?.close();
     }
@@ -22,6 +23,15 @@ export default function PopupModal({ onClose, innerRef = null, children }: Modal
             handleCloseModal();
         }
     };
+
+    const getSizeCss = () => {
+        switch (size) {
+            case "base":
+                return "w-1/3";
+            case "large":
+                return "w-1/2";
+        }
+    }
 
     useEffect(() => {
         const modalElement = innerRef?.current;
@@ -44,7 +54,7 @@ export default function PopupModal({ onClose, innerRef = null, children }: Modal
         return () => modalElement?.removeEventListener('click', handleMouseEvent);
     }, []);
     return (
-        <dialog onKeyDown={handleKeyDown} ref={innerRef} className="relative z-10 px-5 pt-10 pb-5 mx-auto bg-white border-2 rounded backdrop:bg-gray-800/50 md:w-1/3 min-w-96 h-fit">
+        <dialog onKeyDown={handleKeyDown} ref={innerRef} className={"relative z-10 px-5 pt-10 pb-5 mx-auto bg-white border-2 rounded backdrop:bg-gray-800/50 min-w-fit h-fit max-h-screen overflow-y-auto " + "md:" + getSizeCss()}>
             <button data-test="classroom_close_button" onClick={() => handleCloseModal()} className="absolute top-5 right-5">
                 <CloseX className="text-gray-700 w-7 h-7 hover:text-gray-500" />
             </button>

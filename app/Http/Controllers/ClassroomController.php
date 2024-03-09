@@ -77,6 +77,8 @@ class ClassroomController extends Controller
             $classroom->save();
         }
 
+        (new StudentController)->getAllStudents();
+
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
 
     }

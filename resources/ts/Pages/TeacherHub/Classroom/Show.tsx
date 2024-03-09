@@ -3,12 +3,14 @@ import CheckboxInput from "@/Components/Forms/CheckboxInput"
 import PopupModal from "@/Components/Modals/PopupModal"
 import AdvancedTable from "@/Components/Tables/AdvancedTable"
 import Heading1Nospace from "@/Components/Typography/Heading1Nospace"
+import Heading2Nospace from "@/Components/Typography/Heading2Nospace"
 import BasicButton from "@/Elements/Buttons/BasicButton"
 import ButtonLink from "@/Elements/Buttons/ButtonLink"
 import ChevronLeft from "@/Elements/Icons/ChevronLeft"
 import SidebarLayout from "@/Layouts/SidebarLayout"
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout"
 import WrapperLayout from "@/Layouts/WrapperLayout"
+import { modalHelper } from "@/helper"
 import { router, useForm } from "@inertiajs/react"
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -25,15 +27,8 @@ export interface StudentProps {
 
 export default function Show({ classroom, students = [], allStudents = [] }: { classroom: ClassroomProps, students: StudentProps[], allStudents: StudentProps[] }) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const dialogRef = useRef<HTMLDialogElement>(null);
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
-    const showStudentListModal = () => {
-        dialogRef.current?.showModal();
-    }
-
-    const closeStudentListModal = () => {
-        dialogRef.current?.close();
-    }
 
     useEffect(() => {
         setRowSelection({});
@@ -46,9 +41,11 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
             if (rowSelection[idx])
                 idSelection.push(student.id)
         });
-        router.post(route('classroom.students.destroy'), {
-            selectedStudentsId: idSelection
-        });
+        if (Object.keys(rowSelection).length !== 0) {
+            router.post(route('classroom.students.destroy'), {
+                selectedStudentsId: idSelection
+            });
+        }
     }
 
 
@@ -61,18 +58,24 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <CheckboxInput
-                    id="select-all"
-                    isChecked={table.getIsAllRowsSelected()}
-                    handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
-                />
+                <div>
+                    <CheckboxInput
+                        id="checkbox-all"
+                        isChecked={table.getIsAllRowsSelected()}
+                        handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
+                    />
+                    <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
+                </div>
             ),
             cell: ({ row }) => (
-                <CheckboxInput
-                    id={"select" + row.original.id}
-                    isChecked={row.getIsSelected()}
-                    handleChange={row.getToggleSelectedHandler()}
-                />
+                <div className="flex items-center">
+                    <CheckboxInput
+                        id={"checkbox" + row.original.id}
+                        isChecked={row.getIsSelected()}
+                        handleChange={row.getToggleSelectedHandler()}
+                    />
+                    <label htmlFor={"checkbox" + row.original.id} className="sr-only">checkbox</label>
+                </div>
             ),
         }),
         columnHelper.accessor(row => row.first_name, {
@@ -89,14 +92,14 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
 
     const getRemainingStudents = () => {
         return allStudents.filter((student) => {
-            return student.classroom_id !== classroom.id
+            return student.classroom_id === null
         })
     }
 
     return (
         <WrapperLayout>
-            <PopupModal innerRef={dialogRef}>
-                <AddClassroomStudentsForm onClose={closeStudentListModal} classroomId={classroom.id} students={getRemainingStudents()} />
+            <PopupModal size="large" innerRef={dialogRef}>
+                <AddClassroomStudentsForm onClose={closeModal} classroomId={classroom.id} students={getRemainingStudents()} />
             </PopupModal>
             <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Hub"}
@@ -104,18 +107,29 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
             <SidebarLayout>
                 <div></div>
                 <TwoColumnLayout>
-                    <form className="" onSubmit={removeStudentsFromClass}>
+                    <div>
                         <Heading1Nospace>{classroom.name}</Heading1Nospace>
-                        <div className="my-10">
-                            {students.length === 0 ?
-                                <p className="text-sm">No students added</p>
-                                :
-                                <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
-                            }
-                        </div>
-                        <BasicButton onClick={() => showStudentListModal()}>Add Students</BasicButton>
-                        <BasicButton hierarchy="secondary" type="submit">Remove Students</BasicButton>
-                    </form>
+                        <form className="my-10" onSubmit={removeStudentsFromClass}>
+                            <Heading2Nospace>My classroom</Heading2Nospace>
+                            <div className="my-5">
+                                {students.length === 0 ?
+                                    <p className="text-sm">No students added</p>
+                                    :
+                                    <AdvancedTable
+                                        data={tableDataMemo}
+                                        columns={defaultColumns}
+                                        enableGlobalFilter={false}
+                                        enableRowSelection={true}
+                                        rowSelection={rowSelection}
+                                        setRowSelection={setRowSelection} />
+                                }
+                            </div>
+                            <div className="flex gap-2 w-full justify-end">
+                                <BasicButton onClick={() => showModal()}>Add Students</BasicButton>
+                                <BasicButton processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="secondary" type="submit">Remove Students</BasicButton>
+                            </div>
+                        </form>
+                    </div>
                 </TwoColumnLayout>
             </SidebarLayout>
         </WrapperLayout>

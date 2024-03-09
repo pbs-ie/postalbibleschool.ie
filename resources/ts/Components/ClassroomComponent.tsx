@@ -5,17 +5,11 @@ import BasicButton from "@/Elements/Buttons/BasicButton";
 import DashboardLongCard from "@/Components/Cards/DashboardLongCard";
 import PopupModal from "./Modals/PopupModal";
 import CreateClassroomForm from "./Forms/CreateClassroomForm";
+import { modalHelper } from "@/helper";
 
 
 export default function ClassroomComponent({ classrooms }: { classrooms: ClassroomProps[] }) {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
-    const showModal = () => {
-        dialogRef.current?.showModal();
-    }
-    const closeModal = () => {
-        dialogRef.current?.close();
-    }
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
     return (
         <div className="flex flex-col items-start w-full">

@@ -43,18 +43,24 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <CheckboxInput
-                    id="select-all"
-                    isChecked={table.getIsAllRowsSelected()}
-                    handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
-                />
+                <div>
+                    <CheckboxInput
+                        id="checkbox-all"
+                        isChecked={table.getIsAllRowsSelected()}
+                        handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
+                    />
+                    <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
+                </div>
             ),
             cell: ({ row }) => (
-                <CheckboxInput
-                    id={"select" + row.original.id}
-                    isChecked={row.getIsSelected()}
-                    handleChange={row.getToggleSelectedHandler()}
-                />
+                <div className="flex items-center">
+                    <CheckboxInput
+                        id={"checkbox" + row.original.id}
+                        isChecked={row.getIsSelected()}
+                        handleChange={row.getToggleSelectedHandler()}
+                    />
+                    <label htmlFor={"checkbox" + row.original.id} className="sr-only">checkbox</label>
+                </div>
             ),
         }),
         columnHelper.accessor(row => row.first_name, {
@@ -79,7 +85,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
                     :
                     <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
                 }
-                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" className="w-1/3 md:w-1/4">Submit</PrimaryButton></div>
+                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit" className="w-1/3 md:w-1/4">Submit</PrimaryButton></div>
             </form>
         </div>
     )
