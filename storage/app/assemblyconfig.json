@@ -92,6 +92,14 @@
             "routename": "c01",
             "id": 10,
             "imageLink": "\/assembly\/image\/c01"
+        },
+        {
+            "monthTitle": "God Can Do Miracles",
+            "month": "February",
+            "series": "C2",
+            "routename": "c02",
+            "id": 11,
+            "imageLink": "\/assembly\/image\/c02"
         }
     ],
     "bonusContent": [
