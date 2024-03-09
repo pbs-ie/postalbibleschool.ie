@@ -1,13 +1,12 @@
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import { router, useForm } from "@inertiajs/react";
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
-import Heading1Nospace from "../Typography/Heading1Nospace";
+import { router } from "@inertiajs/react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import { StudentProps } from "@/Pages/TeacherHub/Classroom/Show";
-import ListingTable, { TableData } from "@/Components/Tables/ListingTable";
 import CheckboxInput from "./CheckboxInput";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
-import AdvancedTable from "../Tables/AdvancedTable";
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 export default function AddClassroomStudentsForm({ onClose, classroomId, students }: { onClose: () => void, classroomId: number, students: StudentProps[] }) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -75,8 +74,8 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
     ];
 
     return (
-        <div>
-            <Heading1Nospace>Add Students</Heading1Nospace>
+        <article>
+            <Heading2Nospace>Add Students</Heading2Nospace>
             <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}>Update student list</BasicButton></div>
             <hr className="mb-4 mt-2" />
             <form name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
@@ -87,6 +86,6 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
                 }
                 <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit" className="w-1/3 md:w-1/4">Submit</PrimaryButton></div>
             </form>
-        </div>
+        </article>
     )
 }

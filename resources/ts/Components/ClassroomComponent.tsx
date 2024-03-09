@@ -15,7 +15,6 @@ export default function ClassroomComponent({ classrooms }: { classrooms: Classro
     const handleDelete = (event: React.MouseEvent, id: number) => {
         event.preventDefault();
         event.stopPropagation();
-        console.log("Deleting classroom", id);
         router.delete(route('classroom.destroy', id));
     }
 

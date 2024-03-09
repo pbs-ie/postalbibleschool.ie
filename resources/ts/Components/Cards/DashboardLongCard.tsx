@@ -17,7 +17,7 @@ export default function DashboardLongCard({ Icon, title, href, onDelete }: CardP
                 <div className="flex gap-2">
                     <span role="icon" className="p-2 border rounded-full group-hover/card:bg-white "><Icon className="w-8 transition-colors duration-200 group-hover/card:text-pbsblue" /></span>
                     {onDelete &&
-                        <BasicButton onClick={onDelete} hierarchy="delete" size="xsmall"><Trash /></BasicButton>
+                        <BasicButton dataTest="classroom-delete" onClick={onDelete} hierarchy="delete" size="xsmall"><Trash /></BasicButton>
                     }
                 </div>
             </article>
