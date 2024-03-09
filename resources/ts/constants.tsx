@@ -46,7 +46,7 @@ declare global {
     }
     interface Button {
         type?: "submit" | "button" | "reset";
-        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
+        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent" | "delete";
         size?: "xsmall" | "small" | "medium" | "large";
         processing?: boolean;
         children: string | React.ReactNode;

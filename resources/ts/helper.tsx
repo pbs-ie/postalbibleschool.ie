@@ -98,7 +98,7 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
     let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-300".split(' ');
 
     //Form entry related css
-    classList.push(...("disabled:bg-slate-50 disabled:border-slate-200 disabled:border disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500".split(' ')));
+    classList.push(...("disabled:bg-slate-50 disabled:border-slate-200 disabled:border disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500".split(' ')));
 
     switch (hierarchy) {
         case "primary":
@@ -112,6 +112,8 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
             break;
         case "transparent":
             classList.push(...("text-blue-800 bg-transparent focus:underline hover:underline active:underline".split(' ')));
+        case "delete":
+            classList.push(...("bg-transparent hover:text-red-500 hover:underline focus:underline focus:text-red-500 active:underline active:text-red-500".split(' ')));
     }
 
     switch (size) {

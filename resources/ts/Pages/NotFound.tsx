@@ -15,7 +15,7 @@ export default function NotFound() {
 
                     <h1 className="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl">Page not found</h1>
 
-                    <p className="max-w-screen-md mb-12 text-center text-gray-500 md:text-lg">The page you’re looking for doesn’t exist.</p>
+                    <p className="max-w-screen-md mb-12 text-center text-gray-500 md:text-lg">The page you're looking for doesn't exist.</p>
 
                     <a href="/" className="inline-block px-8 py-3 text-sm font-semibold text-center text-gray-500 transition duration-100 bg-gray-200 rounded-lg outline-none hover:bg-gray-300 focus-visible:ring ring-indigo-300 active:text-gray-700 md:text-base">Go home</a>
                 </div>

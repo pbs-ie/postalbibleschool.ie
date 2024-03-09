@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClassroomRequest;
 use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    private function getFmStudentMap() {
+    private function getFmStudentMap()
+    {
         return [
             'fm_student_id' => 'StudentID',
             'first_name' => 'C Name',
@@ -24,12 +26,13 @@ class StudentController extends Controller
      * @param string $email
      * @param string $areaCode
      */
-    private function mapEmailAreaCode(string $email, string $areaCode) {
+    private function mapEmailAreaCode(string $email, string $areaCode)
+    {
         $mapEntry = MapEmailAreacode::firstOrCreate(
-            ['email'=> $email],
-            ['area_code'=>$areaCode]
+            ['email' => $email],
+            ['area_code' => $areaCode]
         );
-    } 
+    }
 
 
     /**
@@ -38,13 +41,14 @@ class StudentController extends Controller
      * @param array $studentList
      * @return array
      */
-    public function sanitizeStudentList(array $studentList) {
+    public function sanitizeStudentList(array $studentList)
+    {
         $studentCollection = collect($studentList);
         $mapValues = $this->getFmStudentMap();
-        
+
         $mappedStudents = $studentCollection->map(function ($student) use ($mapValues) {
             $fieldData = $student->fieldData;
-            return array(
+            return array (
                 'fm_student_id' => trim($fieldData->{$mapValues['fm_student_id']}),
                 'first_name' => trim($fieldData->{$mapValues['first_name']}),
                 'last_name' => trim($fieldData->{$mapValues['last_name']}),
@@ -61,7 +65,8 @@ class StudentController extends Controller
      * @param array $studentList
      * @return void 
      */
-    public function updateStudents(array $studentList) {
+    public function updateStudents(array $studentList)
+    {
         $studentCollection = collect($studentList);
         $studentCollection->each(function ($student) {
             $studentModel = Student::firstWhere('fm_student_id', $student['fm_student_id']);
@@ -80,35 +85,53 @@ class StudentController extends Controller
     /**
      * Get list of students for the current user
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getAllStudents()
     {
-        $studentList = [];
-        if(auth()->check()) {
-            $currentUserEmail = 'woodns2001@gmail.com'; //TODO:change to //auth()->user()->email
-            $studentListFm = (new FilemakerController())->getStudents($currentUserEmail);
-
-            $studentList = $this->sanitizeStudentList($studentListFm);
-
-            $this->mapEmailAreaCode($currentUserEmail, $studentList[0]['area_code']);
-
-            $this->updateStudents($studentList);
+        $studentList = $this->getAllStudentsList();
+        if (sizeof($studentList) > 0) {
+            return redirect()->back()->with('success', 'Student list updated');
         }
-        return redirect()->back()->with('success', 'Student list updated');
+        return redirect()->back()->with('failure', 'Error in retrieving student list');
+
     }
+
+    /**
+     * Get list of students for the current user
+     * 
+     * @return array
+     */
+    public function getAllStudentsList()
+    {
+        $studentList = [];
+        if (auth()->check()) {
+            $currentUserEmail = auth()->user()->email;
+            $studentListFm = (new FilemakerController())->getStudents($currentUserEmail);
+            if (sizeof($studentListFm) > 0) {
+                $studentList = $this->sanitizeStudentList($studentListFm);
+
+                $this->mapEmailAreaCode($currentUserEmail, $studentList[0]['area_code']);
+
+                $this->updateStudents($studentList);
+                return $studentList;
+            }
+        }
+        return [];
+    }
+
 
     /**
      * Add students to the classroom
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function addStudentsToClassroom(Request $request)
     {
         $classroomId = $request->classroomId;
         $studentCollection = collect($request->selectedStudentsId);
-        $studentCollection->each(function($studentId) use ($classroomId) {
+        $studentCollection->each(function ($studentId) use ($classroomId) {
             $studentModel = Student::findOrFail($studentId);
             $studentModel->classroom_id = $classroomId;
             $studentModel->save();
@@ -120,13 +143,13 @@ class StudentController extends Controller
      * Remove students to the classroom
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function removeStudentsFromClassroom(Request $request)
     {
 
         $studentCollection = collect($request->selectedStudentsId);
-        $studentCollection->each(function($studentId) {
+        $studentCollection->each(function ($studentId) {
             $studentModel = Student::findOrFail($studentId);
             $studentModel->classroom_id = null;
             $studentModel->save();

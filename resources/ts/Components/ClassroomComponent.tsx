@@ -6,10 +6,18 @@ import DashboardLongCard from "@/Components/Cards/DashboardLongCard";
 import PopupModal from "./Modals/PopupModal";
 import CreateClassroomForm from "./Forms/CreateClassroomForm";
 import { modalHelper } from "@/helper";
+import { router } from "@inertiajs/react";
 
 
 export default function ClassroomComponent({ classrooms }: { classrooms: ClassroomProps[] }) {
     const { dialogRef, showModal, closeModal } = modalHelper();
+
+    const handleDelete = (event: React.MouseEvent, id: number) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log("Deleting classroom", id);
+        router.delete(route('classroom.destroy', id));
+    }
 
     return (
         <div className="flex flex-col items-start w-full">
@@ -22,7 +30,13 @@ export default function ClassroomComponent({ classrooms }: { classrooms: Classro
                 <ul data-test="classroom_list" className="flex flex-col gap-2">
                     {
                         classrooms.map((classroom: any) =>
-                            <li key={classroom.id} className="flex"><DashboardLongCard Icon={Group} href={route('classroom.show', classroom.id)} title={classroom.name} /></li>
+                            <li key={classroom.id} className="flex">
+                                <DashboardLongCard
+                                    Icon={Group}
+                                    href={route('classroom.show', classroom.id)}
+                                    title={classroom.name}
+                                    onDelete={(event) => handleDelete(event, classroom.id)} />
+                            </li>
                         )
                     }
                 </ul>

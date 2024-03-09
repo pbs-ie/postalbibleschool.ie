@@ -13,6 +13,11 @@ class Classroom extends Model
         'name'
     ];
 
+    public function scopeCurrent($query)
+    {
+        return $query->where('email', auth()->user()->email)->get();
+    }
+
     public function students()
     {
         return $this->hasMany(Student::class);

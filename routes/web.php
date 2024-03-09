@@ -44,7 +44,7 @@ Route::get('/home', function () {
     ]);
 })->name('home');
 
-Route::get('/designsystem', function() {
+Route::get('/designsystem', function () {
     return Inertia::render('DesignSystem');
 });
 
@@ -100,10 +100,10 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', [StepEventController::class, 'index'])->name('index');
 
         Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
-        
+
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
         Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
-        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function() {
+        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function () {
             Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
             Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
             Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
@@ -112,7 +112,7 @@ Route::prefix('events')->name('events.')->group(function () {
             Route::post('/{id}', [StepEventController::class, 'update'])->name('update')->can('create:events');
             Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
         });
-        Route::prefix('past')->name('past.')->group(function() {
+        Route::prefix('past')->name('past.')->group(function () {
             Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
             Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
         });
@@ -150,7 +150,7 @@ Route::get('/dashboard', function () {
         return response('You are not logged in.');
     }
     return Inertia::render('Dashboard', [
-        'classrooms' => Classroom::all()
+        'classrooms' => Classroom::current()
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
@@ -167,7 +167,7 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
     Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
     Route::put('/{classroom}', [ClassroomController::class, 'update'])->name('update');
     Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
-    
+
 });
 
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
