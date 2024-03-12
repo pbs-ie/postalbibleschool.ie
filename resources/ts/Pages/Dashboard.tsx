@@ -20,10 +20,11 @@ export default function Dashboard({ classrooms }: { classrooms: any }) {
                     <ClassroomComponent classrooms={classrooms} />
                     <div className="flex flex-col items-start">
                         <Heading2Alt>Additional Resources</Heading2Alt>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 mx-auto">
                             <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
                             <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
                             <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
+                            <ResourceCard Icon={Group} href={route('curriculum.index')} title="Curriculum" />
                         </div>
                     </div>
                 </TwoColumnLayout>

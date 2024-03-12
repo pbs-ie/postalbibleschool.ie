@@ -51,17 +51,17 @@ declare global {
         processing?: boolean;
         children: string | React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement>;
-        className?: string;
         formMethod?: string;
         dataTest?: string;
     }
     interface ButtonLinkProps {
-        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
+        hierarchy?: Button["hierarchy"];
         size?: Button["size"];
         href: string;
         children: React.ReactNode;
         Icon?: Icon["props"];
         isExternalLink?: boolean;
+        dataTest?: string;
     }
     interface PassedProps extends PageProps {
         errors: Errors & ErrorBag;
@@ -243,7 +243,8 @@ export const bibleTimeLevels = [
         description: <><p>Advanced Bible readings, more complex question and key verses to learn</p></>
     }
 ];
-export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const seriesNames: SeriesName[] = [
     { name: "A series", code: "A", tagClass: "" },
     { name: "B series", code: "B", tagClass: "" },

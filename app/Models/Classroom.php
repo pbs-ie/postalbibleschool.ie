@@ -22,4 +22,9 @@ class Classroom extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function curriculum()
+    {
+        return $this->belongsTo(Curriculum::class);
+    }
 }

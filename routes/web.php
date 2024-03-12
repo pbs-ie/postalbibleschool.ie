@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
@@ -13,13 +12,11 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
 use App\Models\Classroom;
 use App\Models\DownloadsList;
-use App\Models\LessonOrder;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\CurriculumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +167,15 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
 
 });
 
+Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {
+    Route::get('/', [CurriculumController::class, 'index'])->name('index');
+    Route::post('/', [CurriculumController::class, 'store'])->name('store');
+    Route::get('/create', [CurriculumController::class, 'create'])->name('create');
+    Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show');
+    Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit');
+    Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update');
+    Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy');
+});
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync')->can('create:orders');

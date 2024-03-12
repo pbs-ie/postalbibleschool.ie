@@ -14,7 +14,7 @@ interface AdvancedTableProps<TData, TValue> {
     rowSelection?: RowSelectionState
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
 }
-export default function AdvancedTable<TData, TValue>({ data, columns, enableGlobalFilter = true, enableRowSelection = false, rowSelection, setRowSelection }: AdvancedTableProps<TData, TValue>) {
+export default function AdvancedTable<TData, TValue>({ data, columns, enableGlobalFilter = true, enableRowSelection = false, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
 

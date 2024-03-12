@@ -18,7 +18,9 @@ class Student extends BaseModel
     protected $hidden = ['created_at', 'updated_at'];
 
 
-    public function classroom() {
+    public function classroom()
+    {
         return $this->belongsTo(Classroom::class);
     }
+
 }
