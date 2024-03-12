@@ -4,13 +4,13 @@ interface RadioInput {
     name: string,
     id: string,
     value: string,
-    className: string,
+    className?: string,
     required?: boolean | undefined,
     ariaLabelledBy?: string,
     handleChange: ChangeEventHandler<HTMLElement>,
     checked: boolean
 }
-export default function RadioInput({ name, id, value, className, checked, ariaLabelledBy, handleChange }: RadioInput) {
+export default function RadioInput({ name, id, value, className = "", checked, ariaLabelledBy, handleChange }: RadioInput) {
     return (
         <input
             type="radio"

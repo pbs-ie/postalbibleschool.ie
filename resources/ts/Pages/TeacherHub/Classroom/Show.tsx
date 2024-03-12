@@ -6,6 +6,7 @@ import Heading1Nospace from "@/Components/Typography/Heading1Nospace"
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace"
 import BasicButton from "@/Elements/Buttons/BasicButton"
 import ButtonLink from "@/Elements/Buttons/ButtonLink"
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton"
 import ChevronLeft from "@/Elements/Icons/ChevronLeft"
 import SidebarLayout from "@/Layouts/SidebarLayout"
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout"
@@ -14,6 +15,9 @@ import { modalHelper } from "@/helper"
 import { router, useForm } from "@inertiajs/react"
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useRef, useState } from "react"
+import { CurriculumProps } from "../Curriculum/Index"
+import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
+import { monthNames } from "@/constants"
 
 export interface StudentProps {
     classroom_id: number,
@@ -24,10 +28,28 @@ export interface StudentProps {
     grade: string,
     id: number
 }
+interface ClassroomShowProps {
+    classroom: ClassroomProps,
+    students: StudentProps[],
+    allStudents: StudentProps[],
+    curricula?: CurriculumProps[]
+    classCurriculum?: CurriculumProps
+}
+type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
+type MonthKeys = keyof Omit<CreateCurriculumProps, "name" | "email" | "curriculum_type">;
 
-export default function Show({ classroom, students = [], allStudents = [] }: { classroom: ClassroomProps, students: StudentProps[], allStudents: StudentProps[] }) {
+
+
+export default function Show({
+    classroom,
+    students = [],
+    allStudents = [],
+    curricula = [],
+    classCurriculum
+}: ClassroomShowProps) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const { dialogRef, showModal, closeModal } = modalHelper();
+    const { dialogRef: addStudentsDialogRef, showModal: showStudentModal, closeModal: closeStudentModal } = modalHelper();
+    const { dialogRef: addCurriculumDialogRef, showModal: showCurriculumModal, closeModal: closeCurriculumModal } = modalHelper();
 
 
     useEffect(() => {
@@ -95,11 +117,28 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
             return student.classroom_id === null
         })
     }
+    const monthKeys: MonthKeys[] = [
+        "jan_lesson",
+        "feb_lesson",
+        "mar_lesson",
+        "apr_lesson",
+        "may_lesson",
+        "jun_lesson",
+        "jul_lesson",
+        "aug_lesson",
+        "sep_lesson",
+        "oct_lesson",
+        "nov_lesson",
+        "dec_lesson"
+    ]
 
     return (
         <WrapperLayout>
-            <PopupModal size="large" innerRef={dialogRef}>
-                <AddClassroomStudentsForm onClose={closeModal} classroomId={classroom.id} students={getRemainingStudents()} />
+            <PopupModal size="large" innerRef={addStudentsDialogRef}>
+                <AddClassroomStudentsForm onClose={closeStudentModal} classroomId={classroom.id} students={getRemainingStudents()} />
+            </PopupModal>
+            <PopupModal innerRef={addCurriculumDialogRef}>
+                <AddClassroomCurriculumForm onClose={closeCurriculumModal} classroomId={classroom.id} curricula={curricula} />
             </PopupModal>
             <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Hub"}
@@ -125,10 +164,27 @@ export default function Show({ classroom, students = [], allStudents = [] }: { c
                                 }
                             </div>
                             <div className="flex gap-2 w-full justify-end">
-                                <BasicButton onClick={() => showModal()}>Add Students</BasicButton>
+                                <BasicButton onClick={() => showStudentModal()}>Add Students</BasicButton>
                                 <BasicButton processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="secondary" type="submit">Remove Students</BasicButton>
                             </div>
                         </form>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <Heading2Nospace>Curriculum</Heading2Nospace>
+                        <p>Curriculum name : {classCurriculum?.name}</p>
+                        <div>
+                            {classCurriculum && monthKeys.map((month, index) => (
+                                <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
+                                    <div className="inline-block capitalize p-2 text-base rounded bg-sky-100 font-medium md:text-base mb-px text-slate-700">
+                                        {monthNames[index]}
+                                    </div>
+                                    <div className="border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out text-gray-700 focus-within:text-inherit">
+                                        {classCurriculum[month]}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <PrimaryButton dataTest="add_curriculum_btn" onClick={() => showCurriculumModal()}>Add Curriculum to classroom</PrimaryButton>
                     </div>
                 </TwoColumnLayout>
             </SidebarLayout>

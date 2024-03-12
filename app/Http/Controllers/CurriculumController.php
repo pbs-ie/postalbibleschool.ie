@@ -17,27 +17,7 @@ class CurriculumController extends Controller
      */
     public function index()
     {
-        $curricula = Curriculum::all([
-            "id",
-            "name",
-            "email",
-            "curriculum_type",
-            "jan_lesson",
-            "feb_lesson",
-            "mar_lesson",
-            "apr_lesson",
-            "may_lesson",
-            "jun_lesson",
-            "jul_lesson",
-            "aug_lesson",
-            "sep_lesson",
-            "oct_lesson",
-            "nov_lesson",
-            "dec_lesson",
-        ]);
-        $curricula->map(function (Curriculum $curriculum) {
-            $curriculum["digital_count"] = $curriculum->getDigitalMonthsCount();
-        });
+        $curricula = Curriculum::allWithDigitalCount();
 
         return Inertia::render("TeacherHub/Curriculum/Index", [
             "curriculumList" => $curricula

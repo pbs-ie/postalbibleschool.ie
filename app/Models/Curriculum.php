@@ -32,6 +32,15 @@ class Curriculum extends Model
         return $query->where('email', auth()->user()->email)->get();
     }
 
+    public function scopeAllWithDigitalCount($query)
+    {
+        $curricula = $query->get();
+        $curricula->map(function (Curriculum $curriculum) {
+            $curriculum["digital_count"] = $curriculum->getDigitalMonthsCount();
+        });
+        return $curricula;
+    }
+
     public function getDigitalMonthsCount()
     {
         $digitalCount = 0;

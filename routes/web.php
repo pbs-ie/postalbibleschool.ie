@@ -157,6 +157,7 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
         Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
         Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
     });
+    Route::post('curriculum/store', [ClassroomController::class, 'curriculumStore'])->name('curriculum.store');
     Route::get('/', [ClassroomController::class, 'index'])->name('index');
     Route::post('/', [ClassroomController::class, 'store'])->name('store');
     Route::get('/create', [ClassroomController::class, 'create'])->name('create');

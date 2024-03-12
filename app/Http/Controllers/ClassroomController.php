@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
+use App\Models\Curriculum;
 use Inertia\Inertia;
 use App\Http\Controllers\StudentController;
 use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 
 class ClassroomController extends Controller
@@ -54,10 +56,32 @@ class ClassroomController extends Controller
             return $student['classroom_id'] === $classroom->id;
         });
         $classroomStudents = array_values($filteredStudents->toArray());
+
+        $curricula = Curriculum::allWithDigitalCount();
+        $classroomCurriculum = Curriculum::find($classroom->curriculum_id)
+            ->only([
+                "name",
+                "jan_lesson",
+                "feb_lesson",
+                "mar_lesson",
+                "apr_lesson",
+                "may_lesson",
+                "jun_lesson",
+                "jul_lesson",
+                "aug_lesson",
+                "sep_lesson",
+                "oct_lesson",
+                "nov_lesson",
+                "dec_lesson",
+
+            ]);
+
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,
             "students" => $classroomStudents,
-            "allStudents" => $allStudents
+            "allStudents" => $allStudents,
+            "curricula" => $curricula,
+            "classCurriculum" => $classroomCurriculum
         ]);
     }
 
@@ -90,6 +114,24 @@ class ClassroomController extends Controller
 
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
 
+    }
+
+    /**
+     * Add Curriculum Id to Classroom
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function curriculumStore(Request $request)
+    {
+        $classroomId = $request->classroomId;
+        $curriculumId = $request->curriculumId;
+
+        $classroom = Classroom::findOrFail($classroomId);
+        $classroom->curriculum_id = $curriculumId;
+        $classroom->save();
+
+        return redirect()->back()->with("success", "Curriculum added to classroom");
     }
 
     /**
