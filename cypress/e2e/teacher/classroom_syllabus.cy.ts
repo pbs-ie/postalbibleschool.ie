@@ -28,10 +28,10 @@ describe("To add syllabus to a classroom", () => {
         cy.get('button[type="button"').contains(/back to hub/i).click();
         cy.intercept('/*').as('classroom');
 
-        cy.wait('classroom');
+        cy.wait('@classroom');
         cy.getBySel('classroom_list').contains(classroomName, { matchCase: false });
     })
-    it.only('Navigates to classroom and add default curriculum for classroom', () => {
+    it('Navigates to existing classroom and add default curriculum for classroom', () => {
         const curriculumName = "Cypress Test Curriculum #1";
         cy.visit('/');
         cy.getBySel('classroom_list').contains(classroomName, { matchCase: false }).first().click();

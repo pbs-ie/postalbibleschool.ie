@@ -58,23 +58,26 @@ class ClassroomController extends Controller
         $classroomStudents = array_values($filteredStudents->toArray());
 
         $curricula = Curriculum::allWithDigitalCount();
-        $classroomCurriculum = Curriculum::find($classroom->curriculum_id)
-            ->only([
-                "name",
-                "jan_lesson",
-                "feb_lesson",
-                "mar_lesson",
-                "apr_lesson",
-                "may_lesson",
-                "jun_lesson",
-                "jul_lesson",
-                "aug_lesson",
-                "sep_lesson",
-                "oct_lesson",
-                "nov_lesson",
-                "dec_lesson",
+        $classroomCurriculum = [];
+        if (isset ($classroom->curriculum_id)) {
+            $classroomCurriculum = Curriculum::findOrFail($classroom->curriculum_id)
+                ->only([
+                    "name",
+                    "jan_lesson",
+                    "feb_lesson",
+                    "mar_lesson",
+                    "apr_lesson",
+                    "may_lesson",
+                    "jun_lesson",
+                    "jul_lesson",
+                    "aug_lesson",
+                    "sep_lesson",
+                    "oct_lesson",
+                    "nov_lesson",
+                    "dec_lesson",
 
-            ]);
+                ]);
+        }
 
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,

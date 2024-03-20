@@ -6,7 +6,7 @@
         "build:client": "vite build",
         "build:server": "vite build --ssr",
         "test": "jest",
-        "cypress:open": "cypress open"
+        "cypress:open": "npx cypress open"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",

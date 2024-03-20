@@ -28,7 +28,7 @@ describe("Classroom Page tests", () => {
             })
         })
         it('Creates a new classroom', () => {
-            const classroomName = "New Test Classroom";
+            const classroomName = "New #Test Classroom";
             cy.get("h2").eq(0).should('contain.text', "My Classes");
 
             cy.getBySel("classroom_create_button").click();
