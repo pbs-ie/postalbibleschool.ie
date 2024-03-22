@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
-use Aws\CognitoIdentityProvider\CognitoIdentityProviderException;
+use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use stdClass;
+use DateTime;
+
+session_start();
+session_set_cookie_params(3600, "/");
 
 class FilemakerController extends Controller
 {
@@ -20,13 +25,12 @@ class FilemakerController extends Controller
     private $fmVersion;
     private $fmDatabase;
 
-    private $fmidToken;
     private $refreshToken;
 
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
     const STUDENT_LIST_LAYOUT = 'Student Record API';
 
-    public function __construct() 
+    public function __construct()
     {
         $cognitoRegion = config('filemaker.cognitoRegion');
 
@@ -35,12 +39,19 @@ class FilemakerController extends Controller
         $this->fmPassword = config('filemaker.password');
         $this->fmVersion = config('filemaker.version');
         $this->fmDatabase = config('filemaker.database');
-        
+
     }
-    private function getBearerToken() {
+    private function getBearerToken()
+    {
         try {
             if (!$this->fmUser || !$this->fmPassword) {
                 return null;
+            }
+            if (
+                isset ($_SESSION["fmidToken"]) && isset ($_SESSION["tokenGeneratedTime"]) &&
+                $_SESSION["tokenGeneratedTime"]->diff(new DateTime())->format('%i') < 60
+            ) {
+                return $_SESSION["fmidToken"];
             }
             $credentials = new \MSDev\FMCloudAuthenticator\Credentials(
                 $this->fmHost,
@@ -50,9 +61,10 @@ class FilemakerController extends Controller
                 $this->fmDatabase
             );
             $authenticator = new \MSDev\FMCloudAuthenticator\Authenticate();
-            return $authenticator->fetchToken($credentials);
-        }
-        catch(CognitoIdentityProviderException $e) {
+            $_SESSION["tokenGeneratedTime"] = new DateTime();
+            $_SESSION["fmidToken"] = $authenticator->fetchToken($credentials);
+            return $_SESSION["fmidToken"];
+        } catch (CognitoIdentityProviderException $e) {
             Log::error($e);
         }
     }
@@ -61,23 +73,25 @@ class FilemakerController extends Controller
      * Validate session of the current token
      * 
      * @return string
-    */
-    private function validateSession($token) {
+     */
+    private function validateSession($token)
+    {
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/validateSession";
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
             ->get($path);
 
-        if($response->getStatusCode() === 200 && $response->getReasonPhrase() === "OK") {
+        if ($response->getStatusCode() === 200 && $response->getReasonPhrase() === "OK") {
             return $token;
         } else {
             dd($response->json());
         }
     }
 
-    private function getMonthlyOrderRecords() {
+    private function getMonthlyOrderRecords()
+    {
         $formattedLayout = rawurlencode(self::MONTHLY_ORDER_LAYOUT);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
@@ -87,14 +101,14 @@ class FilemakerController extends Controller
         $query = http_build_query($queryData);
         $token = $this->getBearerToken();
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
-            ->get($path.'?'.$query);
+            ->get($path . '?' . $query);
 
         $responseData = json_decode(json_encode($response->json()))->response->data;
         return $responseData;
-        
+
     }
 
     /**
@@ -103,7 +117,8 @@ class FilemakerController extends Controller
      * @param string $email
      * @return array
      */
-    private function getStudentsForAreaRecords(string $email) {
+    private function getStudentsForAreaRecords(string $email)
+    {
         $formattedLayout = rawurlencode(self::STUDENT_LIST_LAYOUT);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
@@ -114,24 +129,25 @@ class FilemakerController extends Controller
         $query = http_build_query($queryData);
         $token = $this->getBearerToken();
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
-            ->get($path.'?'.$query);
+            ->get($path . '?' . $query);
 
         $responseData = json_decode(json_encode($response->json()))->response->data;
         return $responseData;
-        
+
     }
 
-    private function runScript($layoutName, $scriptName) {
+    private function runScript($layoutName, $scriptName)
+    {
         $formattedLayout = rawurlencode($layoutName);
         $formattedScript = rawurlencode($scriptName);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/script/{$formattedScript}";
-        
+
         $token = $this->getBearerToken();
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
             ->get($path);
@@ -139,26 +155,28 @@ class FilemakerController extends Controller
         dd($response->json());
     }
 
-    private function updateRecordById(string $layoutName,int $recordId, $changedRecord) {
+    private function updateRecordById(string $layoutName, int $recordId, $changedRecord)
+    {
         $formattedLayout = rawurlencode($layoutName);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records/{$recordId}";
-        
+
         $token = $this->getBearerToken();
         $body = new stdClass();
         $body->fieldData = $changedRecord;
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer ' . $token
         ])
             ->withBody(json_encode($body), 'application/json')
             ->patch($path);
-        
+
         $responseData = json_decode(json_encode($response->json()))->response;
         return $response->ok();
     }
 
     // Public Functions
 
-    public function getLessonOrders() {
+    public function getLessonOrders()
+    {
         return $this->getMonthlyOrderRecords();
     }
 
@@ -167,7 +185,8 @@ class FilemakerController extends Controller
      * 
      * @return boolean
      */
-    public function updateLessonOrders(int $recordId, $changedRecord) {
+    public function updateLessonOrders(int $recordId, $changedRecord)
+    {
         return $this->updateRecordById(self::MONTHLY_ORDER_LAYOUT, $recordId, $changedRecord);
     }
 
@@ -177,7 +196,8 @@ class FilemakerController extends Controller
      * @param string $email
      * @return array
      */
-    public function getStudents(string $email) {
+    public function getStudents(string $email)
+    {
         return $this->getStudentsForAreaRecords($email);
     }
 }
