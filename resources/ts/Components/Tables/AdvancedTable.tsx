@@ -11,10 +11,11 @@ interface AdvancedTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
     enableGlobalFilter?: boolean,
     enableRowSelection?: boolean,
-    rowSelection?: RowSelectionState
+    rowSelection?: RowSelectionState,
+    searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
 }
-export default function AdvancedTable<TData, TValue>({ data, columns, enableGlobalFilter = true, enableRowSelection = false, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
+export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder = "Search", enableGlobalFilter = true, enableRowSelection = false, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
 
@@ -39,10 +40,10 @@ export default function AdvancedTable<TData, TValue>({ data, columns, enableGlob
     return (
         <>
             {enableGlobalFilter &&
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-2 ">
                     <InputLabel2 forInput={"filter"} value={"Filter :"} />
                     <TextInput
-                        placeholder="Search"
+                        placeholder={searchPlaceholder}
                         type={"text"}
                         name={"filter"}
                         id={"filter"}
@@ -52,64 +53,66 @@ export default function AdvancedTable<TData, TValue>({ data, columns, enableGlob
                     ></TextInput>
                 </div>
             }
-            <table className="min-w-full divide-y divide-gray-200 table-fixed">
-                <thead className="bg-gray-100">
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th scope="col" className="p-2 px-4 text-left" key={header.id}>
-                                    {header.isPlaceholder ? null : (
-                                        <div className={header.column.getCanSort()
-                                            ? 'cursor-pointer select-none inline-flex items-center gap-2'
-                                            : ''}
-                                            onClick={header.column.getToggleSortingHandler()}
-                                        >
-                                            {flexRender(
-                                                header.column.columnDef.header,
+            <div className="h-96 overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                    <thead className="bg-gray-100 sticky top-0">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map(header => (
+                                    <th scope="col" className="p-2 px-4 text-left" key={header.id}>
+                                        {header.isPlaceholder ? null : (
+                                            <div className={header.column.getCanSort()
+                                                ? 'cursor-pointer select-none inline-flex items-center gap-2'
+                                                : ''}
+                                                onClick={header.column.getToggleSortingHandler()}
+                                            >
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {header.column.getCanSort() && {
+                                                    asc: <ChevronUp className="h-4 w-4" />,
+                                                    desc: <ChevronDown className="h-4 w-4" />,
+                                                    none: <ChevronUpDown className="h-4 w-4" />,
+                                                }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
+                                            </div>
+                                        )}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200 max-h-96 overflow-y-auto">
+                        {table.getRowModel().rows.map(row => (
+                            <tr className="hover:bg-gray-100" key={row.id}>
+                                {row.getVisibleCells().map(cell => (
+                                    <td className="p-2 px-4 w-2 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
+                                        <div className="flex items-center">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </div>
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        {table.getFooterGroups().map(footerGroup => (
+                            <tr key={footerGroup.id}>
+                                {footerGroup.headers.map(header => (
+                                    <th key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.footer,
                                                 header.getContext()
                                             )}
-                                            {header.column.getCanSort() && {
-                                                asc: <ChevronUp className="h-4 w-4" />,
-                                                desc: <ChevronDown className="h-4 w-4" />,
-                                                none: <ChevronUpDown className="h-4 w-4" />,
-                                            }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
-                                        </div>
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {table.getRowModel().rows.map(row => (
-                        <tr className="hover:bg-gray-100" key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <td className="p-2 px-4 w-2 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
-                                    <div className="flex items-center">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </div>
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-                <tfoot>
-                    {table.getFooterGroups().map(footerGroup => (
-                        <tr key={footerGroup.id}>
-                            {footerGroup.headers.map(header => (
-                                <th key={header.id}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.footer,
-                                            header.getContext()
-                                        )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </tfoot>
-            </table>
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </tfoot>
+                </table>
+            </div>
         </>
     )
 }

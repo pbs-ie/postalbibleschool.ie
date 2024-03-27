@@ -79,11 +79,13 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
             <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}>Update student list</BasicButton></div>
             <hr className="mb-4 mt-2" />
             <form name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
-                {students.length === 0 ?
-                    <p className="text-sm">No students found</p>
-                    :
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
-                }
+                <div>
+                    {students.length === 0 ?
+                        <p className="text-sm">No students found</p>
+                        :
+                        <AdvancedTable data={tableDataMemo} columns={defaultColumns} searchPlaceholder="Search by Name or Grade" enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
+                    }
+                </div>
                 <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit">Submit</PrimaryButton></div>
             </form>
         </article>

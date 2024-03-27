@@ -121,19 +121,19 @@ class FilemakerController extends Controller
         $formattedLayout = rawurlencode(self::STUDENT_LIST_LAYOUT);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
-            '_limit' => 10,
+            '_limit' => 1000,
             'script' => 'dapi_student_record',
             'script.param' => $email
         ];
         $query = http_build_query($queryData);
         $token = $this->getBearerToken();
-        $response = Http::withHeaders([
+        $promise = Http::async()->withHeaders([
             'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
             ->get($path . '?' . $query);
 
-        $responseData = json_decode(json_encode($response->json()))->response->data;
+        $responseData = json_decode(json_encode($promise->wait()->json()))->response->data;
         return $responseData;
 
     }

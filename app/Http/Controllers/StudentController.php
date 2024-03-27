@@ -28,10 +28,15 @@ class StudentController extends Controller
      */
     private function mapEmailAreaCode(string $email, string $areaCode)
     {
-        $mapEntry = MapEmailAreacode::firstOrCreate(
-            ['email' => $email],
-            ['area_code' => $areaCode]
-        );
+        $areaEntry = MapEmailAreacode::where('area_code', $areaCode)->first();
+        if ($areaEntry) {
+            MapEmailAreacode::where('area_code', $areaCode)->update(['email' => $email]);
+        } else {
+            MapEmailAreacode::firstOrCreate(
+                ['email' => $email],
+                ['area_code' => $areaCode]
+            );
+        }
     }
 
 
