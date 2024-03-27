@@ -40,7 +40,7 @@ export default function CreateClassroomForm({ onCancel }: { onCancel: () => void
                 </div>
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                     <BasicButton type="button" hierarchy="secondary" formMethod="dialog" onClick={onCancel}>Cancel</BasicButton>
-                    <PrimaryButton type="submit">Confirm</PrimaryButton>
+                    <PrimaryButton type="submit">Create</PrimaryButton>
                 </div>
             </form>
         </>

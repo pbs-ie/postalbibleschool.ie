@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 use DateTime;
 
-session_start();
 session_set_cookie_params(3600, "/");
+session_start();
 
 class FilemakerController extends Controller
 {
