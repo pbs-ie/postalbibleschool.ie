@@ -9,7 +9,7 @@ import ClassroomComponent from "@/Components/ClassroomComponent";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 
-export default function Dashboard({ classrooms }: { classrooms: any }) {
+export default function Dashboard({ classrooms, canViewCurriculum = false }: { classrooms: any, canViewCurriculum: boolean }) {
     const { auth } = usePage<PassedProps>().props;
 
 
@@ -24,7 +24,9 @@ export default function Dashboard({ classrooms }: { classrooms: any }) {
                             <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
                             <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
                             <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
-                            <ResourceCard Icon={Group} href={route('curriculum.index')} title="Curriculum" />
+                            {canViewCurriculum &&
+                                <ResourceCard Icon={Group} href={route('curriculum.index')} title="Curriculum" />
+                            }
                         </div>
                     </div>
                 </TwoColumnLayout>

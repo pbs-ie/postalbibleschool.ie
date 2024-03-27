@@ -98,7 +98,7 @@ class StudentController extends Controller
         if (sizeof($studentList) > 0) {
             return redirect()->back()->with('success', 'Student list updated');
         }
-        return redirect()->back()->with('failure', 'Error in retrieving student list');
+        return redirect()->back()->with('failure', 'Could not retrieve student list');
 
     }
 

@@ -147,7 +147,8 @@ Route::get('/dashboard', function () {
         return response('You are not logged in.');
     }
     return Inertia::render('Dashboard', [
-        'classrooms' => Classroom::current()
+        'classrooms' => Classroom::current(),
+        'canViewCurriculum' => Gate::allows('view:curriculum')
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
@@ -165,17 +166,16 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
     Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
     Route::put('/{classroom}', [ClassroomController::class, 'update'])->name('update');
     Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
-
 });
 
 Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {
-    Route::get('/', [CurriculumController::class, 'index'])->name('index');
-    Route::post('/', [CurriculumController::class, 'store'])->name('store');
-    Route::get('/create', [CurriculumController::class, 'create'])->name('create');
-    Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show');
-    Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit');
-    Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update');
-    Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy');
+    Route::get('/', [CurriculumController::class, 'index'])->name('index')->can('view:curriculum');
+    Route::post('/', [CurriculumController::class, 'store'])->name('store')->can('create:curriculum');
+    Route::get('/create', [CurriculumController::class, 'create'])->name('create')->can('create:curriculum');
+    Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show')->can('view:curriculum');
+    Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit')->can('create:curriculum');
+    Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
+    Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');

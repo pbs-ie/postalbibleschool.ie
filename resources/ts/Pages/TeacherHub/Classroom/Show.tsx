@@ -80,24 +80,24 @@ export default function Show({
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <div>
+                <label htmlFor="checkbox-all" className="hover:bg-black/10 rounded">
                     <CheckboxInput
                         id="checkbox-all"
                         isChecked={table.getIsAllRowsSelected()}
                         handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
                     />
                     <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
-                </div>
+                </label>
             ),
             cell: ({ row }) => (
-                <div className="flex items-center">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center hover:bg-black/10 rounded">
                     <CheckboxInput
                         id={"checkbox" + row.original.id}
                         isChecked={row.getIsSelected()}
                         handleChange={row.getToggleSelectedHandler()}
                     />
                     <label htmlFor={"checkbox" + row.original.id} className="sr-only">checkbox</label>
-                </div>
+                </label>
             ),
         }),
         columnHelper.accessor(row => row.first_name, {

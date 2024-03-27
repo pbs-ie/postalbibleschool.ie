@@ -7,6 +7,7 @@ import CheckboxInput from "./CheckboxInput";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
+import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 
 export default function AddClassroomStudentsForm({ onClose, classroomId, students }: { onClose: () => void, classroomId: number, students: StudentProps[] }) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -42,24 +43,24 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <div>
+                <label htmlFor="checkbox-all" className="hover:bg-black/10 rounded">
                     <CheckboxInput
                         id="checkbox-all"
                         isChecked={table.getIsAllRowsSelected()}
                         handleChange={table.getToggleAllRowsSelectedHandler()} //or getToggleAllPageRowsSelectedHandler
                     />
                     <label htmlFor="checkbox-all" className="sr-only">checkbox</label>
-                </div>
+                </label>
             ),
             cell: ({ row }) => (
-                <div className="flex items-center">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center hover:bg-black/10 rounded">
                     <CheckboxInput
                         id={"checkbox" + row.original.id}
                         isChecked={row.getIsSelected()}
                         handleChange={row.getToggleSelectedHandler()}
                     />
                     <label htmlFor={"checkbox" + row.original.id} className="sr-only">checkbox</label>
-                </div>
+                </label>
             ),
         }),
         columnHelper.accessor(row => row.first_name, {
@@ -76,7 +77,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
     return (
         <article>
             <Heading2Nospace>Add Students</Heading2Nospace>
-            <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}>Update student list</BasicButton></div>
+            <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
             <hr className="mb-4 mt-2" />
             <form name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
                 <div>

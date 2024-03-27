@@ -84,7 +84,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 max-h-96 overflow-y-auto">
                         {table.getRowModel().rows.map(row => (
-                            <tr className="hover:bg-gray-100" key={row.id}>
+                            <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
                                     <td className="p-2 px-4 w-2 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
                                         <div className="flex items-center">
