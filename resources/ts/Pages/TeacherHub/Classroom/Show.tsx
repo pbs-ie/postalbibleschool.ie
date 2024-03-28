@@ -12,9 +12,9 @@ import SidebarLayout from "@/Layouts/SidebarLayout"
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { modalHelper } from "@/helper"
-import { router, useForm } from "@inertiajs/react"
+import { router } from "@inertiajs/react"
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
 import { monthMap, monthNames } from "@/constants"
 
@@ -34,10 +34,6 @@ interface ClassroomShowProps {
     curricula?: CurriculumProps[]
     classCurriculum?: CurriculumProps
 }
-type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
-type MonthKeys = keyof Omit<CreateCurriculumProps, "name" | "email" | "curriculum_type">;
-
-
 
 export default function Show({
     classroom,

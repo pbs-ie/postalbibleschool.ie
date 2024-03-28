@@ -36,7 +36,7 @@ class Curriculum extends Model
     {
         $curricula = $query->get();
         $curricula->map(function (Curriculum $curriculum) {
-            $curriculum["digital_count"] = $curriculum->getDigitalMonthsCount();
+            $curriculum->digital_count = $curriculum->getDigitalMonthsCount();
         });
         return $curricula;
     }
