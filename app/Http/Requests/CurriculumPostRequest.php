@@ -26,7 +26,7 @@ class CurriculumPostRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => ["required", "email"],
+            "email" => ["email", "nullable"],
             "name" => [
                 "required",
                 "string",
@@ -38,8 +38,6 @@ class CurriculumPostRequest extends FormRequest
             "apr_lesson" => ["string", "nullable", new CurriculumType],
             "may_lesson" => ["string", "nullable", new CurriculumType],
             "jun_lesson" => ["string", "nullable", new CurriculumType],
-            "jul_lesson" => ["string", "nullable", new CurriculumType],
-            "aug_lesson" => ["string", "nullable", new CurriculumType],
             "sep_lesson" => ["string", "nullable", new CurriculumType],
             "oct_lesson" => ["string", "nullable", new CurriculumType],
             "nov_lesson" => ["string", "nullable", new CurriculumType],
@@ -57,8 +55,6 @@ class CurriculumPostRequest extends FormRequest
                             request()->apr_lesson,
                             request()->may_lesson,
                             request()->jun_lesson,
-                            request()->jul_lesson,
-                            request()->aug_lesson,
                             request()->sep_lesson,
                             request()->oct_lesson,
                             request()->nov_lesson,

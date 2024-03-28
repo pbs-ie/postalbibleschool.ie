@@ -25,8 +25,6 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
         apr_lesson: "paper",
         may_lesson: "paper",
         jun_lesson: "paper",
-        jul_lesson: "paper",
-        aug_lesson: "paper",
         sep_lesson: "paper",
         oct_lesson: "paper",
         nov_lesson: "paper",
@@ -44,8 +42,6 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
             apr_lesson: curriculum.apr_lesson,
             may_lesson: curriculum.may_lesson,
             jun_lesson: curriculum.jun_lesson,
-            jul_lesson: curriculum.jul_lesson,
-            aug_lesson: curriculum.aug_lesson,
             sep_lesson: curriculum.sep_lesson,
             oct_lesson: curriculum.oct_lesson,
             nov_lesson: curriculum.nov_lesson,
@@ -57,20 +53,18 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
         defaultFormObject
     );
 
-    const monthKeys: MonthKeys[] = [
-        "jan_lesson",
-        "feb_lesson",
-        "mar_lesson",
-        "apr_lesson",
-        "may_lesson",
-        "jun_lesson",
-        "jul_lesson",
-        "aug_lesson",
-        "sep_lesson",
-        "oct_lesson",
-        "nov_lesson",
-        "dec_lesson"
-    ]
+    const monthMap = new Map<MonthKeys, number>([
+        ["jan_lesson", 0],
+        ["feb_lesson", 1],
+        ["mar_lesson", 2],
+        ["apr_lesson", 3],
+        ["may_lesson", 4],
+        ["jun_lesson", 5],
+        ["sep_lesson", 8],
+        ["oct_lesson", 9],
+        ["nov_lesson", 10],
+        ["dec_lesson", 11]
+    ]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -82,8 +76,6 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
             case "apr_lesson":
             case "may_lesson":
             case "jun_lesson":
-            case "jul_lesson":
-            case "aug_lesson":
             case "sep_lesson":
             case "oct_lesson":
             case "nov_lesson":
@@ -118,15 +110,14 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                         <InputError message={errors["name"]} />
                     </div>
                     <div className="flex gap-2 items-center">
-                        <InputLabel forInput={"email"} value={"Email"} required />
+                        <InputLabel forInput={"email"} value={"Email"} />
                         <TextInput
                             name={"email"}
                             id={"email"}
                             type={"email"}
                             value={data.email}
                             className={""}
-                            handleChange={handleChange}
-                            required />
+                            handleChange={handleChange} />
                         <InputError message={errors["email"]} />
                     </div>
                     <div className="flex gap-2 items-center">
@@ -150,9 +141,9 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                     <div data-test='curriculum_calender_block' className="flex flex-col gap-1 p-5 w-fit border border-gray-300 rounded-md border-b-4 border-r-2">
                         <Heading3>Calendar</Heading3>
                         <p className="text-gray-500 text-base mb-2">Select a maximum of 5 months for digital lessons</p>
-                        {monthKeys.map((month, index) => (
+                        {[...monthMap.keys()].map((month) => (
                             <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
-                                <InputLabel className="" forInput={month} value={monthNames[index]} />
+                                <InputLabel className="" forInput={month} value={monthNames[monthMap.get(month) ?? 0]} />
                                 <SelectInput
                                     name={month}
                                     id={month}

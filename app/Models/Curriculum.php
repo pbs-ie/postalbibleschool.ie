@@ -18,8 +18,6 @@ class Curriculum extends Model
         "apr_lesson",
         "may_lesson",
         "jun_lesson",
-        "jul_lesson",
-        "aug_lesson",
         "sep_lesson",
         "oct_lesson",
         "nov_lesson",

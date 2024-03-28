@@ -27,8 +27,6 @@ export interface CurriculumProps {
     apr_lesson?: "paper" | "digital",
     may_lesson?: "paper" | "digital",
     jun_lesson?: "paper" | "digital",
-    jul_lesson?: "paper" | "digital",
-    aug_lesson?: "paper" | "digital",
     sep_lesson?: "paper" | "digital",
     oct_lesson?: "paper" | "digital",
     nov_lesson?: "paper" | "digital",
@@ -76,7 +74,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center">
-                        <ButtonLink hierarchy="transparent" size="xsmall" href={route("curriculum.edit", row.original.id)}><EditIcon className="w-6 h-6" key={row.id} /></ButtonLink>
+                        <ButtonLink dataTest="edit_icon" hierarchy="transparent" size="xsmall" href={route("curriculum.edit", row.original.id)}><EditIcon className="w-6 h-6" key={row.id} /></ButtonLink>
                         <BasicButton dataTest="delete_icon" onClick={() => {
                             setIdToDelete(row.original.id);
                             setNameToDelete(row.original.name);
