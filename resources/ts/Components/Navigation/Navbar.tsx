@@ -10,10 +10,12 @@ import AnchorNavLink from './AnchorNavLink';
 import NavItem from './NavItem';
 import AnchorLink from './AnchorLink';
 import CaratDown from '@/Elements/Icons/CaratDown';
+import LogoutIcon from '@/Elements/Icons/LogoutIcon';
 
 export default function Navbar() {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
+    const [showResponsiveNavmenu, setShowResponsiveNavmenu] = useState<boolean>(false);
     const { auth } = usePage<PassedProps>().props;
+    const [showNavmenuDropdown, setShowNavmenuDropdown] = useState(false);
 
     const menuItems = [
         {
@@ -136,21 +138,35 @@ export default function Navbar() {
                         {rightSideMenuItems.map((item) => (
                             <NavItem key={item.name} name={item.name} href={item.href} active={item.active} />
                         ))}
-                        <li className="relative hidden space-x-8 group lg:-my-px lg:ml-10 lg:flex">
+                        <li className="relative hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
 
                             {auth?.user ?
                                 (<>
-                                    <AnchorNavLink href={'#'}>
+                                    <NavLink active={false} href={'#'} onClick={(event) => { event.preventDefault(); setShowNavmenuDropdown(!showNavmenuDropdown) }}>
                                         <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
                                         <CaratDown />
-                                    </AnchorNavLink>
-                                    <ul className="absolute right-0 z-10 flex-col hidden transition-opacity duration-200 ease-in-out scale-0 bg-white divide-y-2 rounded-lg opacity-0 text-slate-600 top-full group-focus:flex group-hover:flex drop-shadow-lg group-hover:opacity-100 group-focus:opacity-100 group-hover:scale-100 group-focus:scale-100">
-                                        <li className='inline-flex'>
-                                            <AnchorNavLink href={route('logout')} isDropdown>
-                                                Logout
-                                            </AnchorNavLink>
-                                        </li>
-                                    </ul>
+                                    </NavLink>
+                                    <div className={"absolute right-0 z-10 overflow-hidden flex-col hidden bg-white divide-y-2 rounded-lg text-slate-600 top-[90%] drop-shadow-lg " + (showNavmenuDropdown ? "lg:flex animate-expand-in" : "lg:invisible")} >
+                                        <div className='grid grid-cols-[2.5rem_1fr] items-center gap-2 p-4'>
+                                            <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
+                                            <div className='flex flex-col p-2'>
+                                                <span className='text-sm font-bold text-slate-900'>{auth?.user?.name}</span>
+                                                <span className=' text-sm rounded-lg'>
+                                                    {auth?.user.email}
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                        <ul className='flex flex-col'>
+                                            <li className='inline-flex hover:bg-black/5'>
+                                                <AnchorNavLink href={route('logout')} isDropdown>
+                                                    <span className="flex gap-2 items-center font-normal">
+                                                        <LogoutIcon /> Log out
+                                                    </span>
+                                                </AnchorNavLink>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </>)
                                 :
                                 (
@@ -164,19 +180,19 @@ export default function Navbar() {
                         <li className="flex items-center -mr-2 lg:hidden">
                             <button
                                 data-test="menubutton"
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
+                                onClick={() => setShowResponsiveNavmenu((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out border-2 border-transparent rounded-md hover:border-gray-100 focus:border-gray-100 "
                             >
                                 <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                        className={!showResponsiveNavmenu ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
+                                        className={showResponsiveNavmenu ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
@@ -188,7 +204,7 @@ export default function Navbar() {
                     </ul>
                 </div>
             </nav>
-            <nav className={(showingNavigationDropdown ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' lg:hidden transition-[transform,opacity] duration-1000 ease-in-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
+            <nav className={(showResponsiveNavmenu ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' lg:hidden transition-[transform,opacity] duration-1000 ease-in-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
                 < ul className="pt-2 pb-3 space-y-1">
                     {auth?.user &&
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
