@@ -8,6 +8,7 @@ import { truncateString } from "@/helper";
 import { Link, router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -20,41 +21,43 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         }
     }
 
-    const tableDataMemo = useMemo(() => lessonOrders, []);
+    const tableDataMemo = useMemo(() => lessonOrders, [lessonOrders]);
 
 
     const columnHelper = createColumnHelper<LessonOrder>();
 
     const defaultColumns = [
         columnHelper.accessor(row => truncateString(row.schoolName, 20), {
+            id: 'schoolName',
             header: 'School Name',
             maxSize: 20
         }),
         columnHelper.accessor(row => getTypeFromDispatchCode(row.schoolType), {
+            id: 'schoolType',
             header: 'School Type',
             minSize: 100,
         }),
-        columnHelper.accessor(row => row.level0Order, {
+        columnHelper.accessor(row => row.level0Order.toString(), {
             id: 'level0Order',
-            header: () => <span className="p-2 text-white bg-bibletime-pink">Level 0</span>,
+            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-pink">Level 0</span>,
         }),
-        columnHelper.accessor(row => row.level1Order, {
+        columnHelper.accessor(row => row.level1Order.toString(), {
             id: 'level1Order',
-            header: () => <span className="p-2 text-white bg-bibletime-orange">Level 1</span>,
+            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-orange">Level 1</span>,
         }),
-        columnHelper.accessor(row => row.level2Order, {
+        columnHelper.accessor(row => row.level2Order.toString(), {
             id: 'level2Order',
-            header: () => <span className="p-2 text-white bg-bibletime-red">Level 2</span>,
+            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-red">Level 2</span>,
         }),
-        columnHelper.accessor(row => row.level3Order, {
+        columnHelper.accessor(row => row.level3Order.toString(), {
             id: 'level3Order',
-            header: () => <span className="p-2 text-white bg-bibletime-green">Level 3</span>,
+            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-green">Level 3</span>,
         }),
-        columnHelper.accessor(row => row.level4Order, {
+        columnHelper.accessor(row => row.level4Order.toString(), {
             id: 'level4Order',
-            header: () => <span className="p-2 text-white bg-bibletime-blue">Level 4</span>,
+            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-blue">Level 4</span>,
         }),
-        columnHelper.accessor(row => row.tlpOrder, {
+        columnHelper.accessor(row => row.tlpOrder.toString(), {
             header: 'TLP',
         }),
         columnHelper.display({
@@ -81,7 +84,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                     <div className="flex justify-between w-full mb-2">
                         <h2 className="p-0 text-xl font-bold text-black">View Schools</h2>
                         <div className="flex gap-2 text-sm">
-                            <SecondaryButton onClick={handleDataSync}>Sync Data</SecondaryButton>
+                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
                         </div>
 
                     </div>
