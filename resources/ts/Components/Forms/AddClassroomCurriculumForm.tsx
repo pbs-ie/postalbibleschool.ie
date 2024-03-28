@@ -1,4 +1,3 @@
-import { CurriculumProps } from "@/Pages/TeacherHub/Curriculum/Index";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import { FormEvent, useMemo, useState } from "react";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
@@ -18,7 +17,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'select-col',
             cell: ({ table, row }) => (
-                <div className="flex items-center">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center p-1 hover:bg-black/10 rounded-full">
                     <RadioInput
                         id={"checkbox" + row.original.id}
                         checked={row.getIsSelected()}
@@ -30,7 +29,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
                         name={"checkbox" + row.original.id}
                         value={row.original.id + ""} />
                     <label htmlFor={"checkbox" + row.original.id} className="sr-only">checkbox</label>
-                </div>
+                </label>
             ),
         }),
         columnHelper.accessor(row => row.name, {
@@ -39,8 +38,45 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.accessor(row => row.curriculum_type, {
             header: "Type"
         }),
-        columnHelper.accessor(row => row.digital_count + "", {
-            header: "Digital months"
+        columnHelper.accessor(row => row.jan_lesson, {
+            header: "Jan",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.feb_lesson, {
+            header: "Feb",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.mar_lesson, {
+            header: "Mar",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.apr_lesson, {
+            header: "Apr",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.may_lesson, {
+            header: "May",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.jun_lesson, {
+            header: "Jun",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.sep_lesson, {
+            header: "Sep",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.oct_lesson, {
+            header: "Oct",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.nov_lesson, {
+            header: "Nov",
+            enableSorting: false
+        }),
+        columnHelper.accessor(row => row.dec_lesson, {
+            header: "Dec",
+            enableSorting: false
         }),
     ]
 
@@ -60,7 +96,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
 
     return (
         <article>
-            <Heading2Nospace>Add Curriculum</Heading2Nospace>
+            <Heading2Nospace className="mb-3">Select Curriculum</Heading2Nospace>
             {curricula.length === 0 ?
                 <p>No curricula found</p>
                 :

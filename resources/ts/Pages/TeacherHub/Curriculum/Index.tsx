@@ -18,23 +18,7 @@ import { router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
-export interface CurriculumProps {
-    name: string,
-    email: string,
-    jan_lesson?: "paper" | "digital",
-    feb_lesson?: "paper" | "digital",
-    mar_lesson?: "paper" | "digital",
-    apr_lesson?: "paper" | "digital",
-    may_lesson?: "paper" | "digital",
-    jun_lesson?: "paper" | "digital",
-    sep_lesson?: "paper" | "digital",
-    oct_lesson?: "paper" | "digital",
-    nov_lesson?: "paper" | "digital",
-    dec_lesson?: "paper" | "digital",
-    curriculum_type: "paper" | "digital",
-    digital_count: number,
-    id: number
-}
+
 
 export default function Index({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
     const { dialogRef, showModal, closeModal } = modalHelper();

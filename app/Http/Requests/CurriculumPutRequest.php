@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\CurriculumType;
-use Illuminate\Validation\Rule;
 
 class CurriculumPutRequest extends FormRequest
 {

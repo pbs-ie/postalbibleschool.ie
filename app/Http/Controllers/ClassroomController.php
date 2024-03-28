@@ -57,9 +57,9 @@ class ClassroomController extends Controller
         });
         $classroomStudents = array_values($filteredStudents->toArray());
 
-        $curricula = Curriculum::allWithDigitalCount();
+        $curricula = Curriculum::current();
         $classroomCurriculum = [];
-        if (isset ($classroom->curriculum_id)) {
+        if (isset($classroom->curriculum_id)) {
             $classroomCurriculum = Curriculum::findOrFail($classroom->curriculum_id)
                 ->only([
                     "name",
@@ -69,8 +69,6 @@ class ClassroomController extends Controller
                     "apr_lesson",
                     "may_lesson",
                     "jun_lesson",
-                    "jul_lesson",
-                    "aug_lesson",
                     "sep_lesson",
                     "oct_lesson",
                     "nov_lesson",

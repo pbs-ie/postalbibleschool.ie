@@ -1,19 +1,15 @@
-import Heading2Nospace from "@/Components/Typography/Heading2Nospace"
-import { CurriculumProps } from "@/Pages/TeacherHub/Curriculum/Index";
 import { useForm } from "@inertiajs/react"
 import TextInput from "./TextInput";
 import InputLabel from "./InputLabel";
 import InputError from "./InputError";
-import { monthNames } from "@/constants";
+import { monthMap, monthNames } from "@/constants";
 import SelectInput from "./SelectInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Heading3 from "../Typography/Heading3";
-import InputLabel2 from "./InputLabel2";
 
 type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
 type EditCurriculumProps = Omit<CurriculumProps, "digital_count">
-type MonthKeys = keyof Omit<CreateCurriculumProps, "name" | "email" | "curriculum_type">;
 
 export default function NewCurriculumForm({ curriculum }: { curriculum?: CurriculumProps }) {
     let defaultFormObject = {
@@ -53,18 +49,7 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
         defaultFormObject
     );
 
-    const monthMap = new Map<MonthKeys, number>([
-        ["jan_lesson", 0],
-        ["feb_lesson", 1],
-        ["mar_lesson", 2],
-        ["apr_lesson", 3],
-        ["may_lesson", 4],
-        ["jun_lesson", 5],
-        ["sep_lesson", 8],
-        ["oct_lesson", 9],
-        ["nov_lesson", 10],
-        ["dec_lesson", 11]
-    ]);
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {

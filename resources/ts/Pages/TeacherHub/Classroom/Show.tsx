@@ -15,9 +15,8 @@ import { modalHelper } from "@/helper"
 import { router, useForm } from "@inertiajs/react"
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { CurriculumProps } from "../Curriculum/Index"
 import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
-import { monthNames } from "@/constants"
+import { monthMap, monthNames } from "@/constants"
 
 export interface StudentProps {
     classroom_id: number,
@@ -117,20 +116,6 @@ export default function Show({
             return student.classroom_id === null
         })
     }
-    const monthKeys: MonthKeys[] = [
-        "jan_lesson",
-        "feb_lesson",
-        "mar_lesson",
-        "apr_lesson",
-        "may_lesson",
-        "jun_lesson",
-        "jul_lesson",
-        "aug_lesson",
-        "sep_lesson",
-        "oct_lesson",
-        "nov_lesson",
-        "dec_lesson"
-    ]
 
     return (
         <WrapperLayout>
@@ -173,10 +158,10 @@ export default function Show({
                         <Heading2Nospace>Curriculum</Heading2Nospace>
                         <p>Curriculum name : {classCurriculum?.name}</p>
                         <div>
-                            {classCurriculum && monthKeys.map((month, index) => (
+                            {classCurriculum && [...monthMap.keys()].map((month) => (
                                 <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
                                     <div className="inline-block capitalize p-2 text-base rounded bg-sky-100 font-medium md:text-base mb-px text-slate-700">
-                                        {monthNames[index]}
+                                        {monthNames[monthMap.get(month) ?? 0]}
                                     </div>
                                     <div className="border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out text-gray-700 focus-within:text-inherit">
                                         {classCurriculum[month]}
@@ -184,7 +169,7 @@ export default function Show({
                                 </div>
                             ))}
                         </div>
-                        <PrimaryButton dataTest="add_curriculum_btn" onClick={() => showCurriculumModal()}>Add Curriculum to classroom</PrimaryButton>
+                        <PrimaryButton dataTest="add_curriculum_btn" onClick={() => showCurriculumModal()}>Select Curriculum for classroom</PrimaryButton>
                     </div>
                 </TwoColumnLayout>
             </SidebarLayout>

@@ -13,6 +13,8 @@ export default defineConfig({
       "auth0Domain": process.env.AUTH0_DOMAIN,
       "loginUser": process.env.LOGIN_USER,
       "loginPass": process.env.LOGIN_PASS,
+      "adminUser": process.env.ADMIN_USER,
+      "adminPass": process.env.ADMIN_PASS,
       "mobileViewportWidthBreakpoint": 640,
       "tabletViewportWidthBreakpoint": 1024
     }

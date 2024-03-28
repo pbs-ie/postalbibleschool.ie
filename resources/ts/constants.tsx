@@ -9,7 +9,6 @@ import GleanersLessons from "@images/lessons/gleaners-lessons.png";
 import Paragraph from "@/Components/Typography/Paragraph";
 import { ErrorBag, Errors, PageProps } from "@inertiajs/core/types/types";
 import { Config } from "ziggy-js";
-import { RefObject } from "react";
 
 declare global {
     interface Window {
@@ -127,14 +126,24 @@ declare global {
         id: number,
         name: string
     }
-}
 
-interface LevelsDescription {
-    tagName: string,
-    tagCode: string,
-    tagColor: string,
-    image: string,
-    title: string
+    interface CurriculumProps {
+        name: string,
+        email: string,
+        jan_lesson?: "paper" | "digital",
+        feb_lesson?: "paper" | "digital",
+        mar_lesson?: "paper" | "digital",
+        apr_lesson?: "paper" | "digital",
+        may_lesson?: "paper" | "digital",
+        jun_lesson?: "paper" | "digital",
+        sep_lesson?: "paper" | "digital",
+        oct_lesson?: "paper" | "digital",
+        nov_lesson?: "paper" | "digital",
+        dec_lesson?: "paper" | "digital",
+        curriculum_type: "paper" | "digital",
+        digital_count: number,
+        id: number
+    }
 }
 
 export interface SeriesName {
@@ -245,6 +254,22 @@ export const bibleTimeLevels = [
 ];
 export type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
+
+export const monthMap = new Map<MonthKeys, number>([
+    ["jan_lesson", 0],
+    ["feb_lesson", 1],
+    ["mar_lesson", 2],
+    ["apr_lesson", 3],
+    ["may_lesson", 4],
+    ["jun_lesson", 5],
+    ["sep_lesson", 8],
+    ["oct_lesson", 9],
+    ["nov_lesson", 10],
+    ["dec_lesson", 11]
+]);
+
 export const seriesNames: SeriesName[] = [
     { name: "A series", code: "A", tagClass: "" },
     { name: "B series", code: "B", tagClass: "" },

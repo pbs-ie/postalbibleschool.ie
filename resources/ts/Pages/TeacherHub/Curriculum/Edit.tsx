@@ -5,7 +5,6 @@ import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { CurriculumProps } from "./Index";
 
 export default function Edit({ curriculum }: { curriculum: CurriculumProps }) {
 

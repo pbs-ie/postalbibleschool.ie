@@ -1,7 +1,7 @@
 describe('Testing curriculum actions', () => {
     beforeEach(() => {
         cy.intercept('GET', '**paypal**', (req) => { });
-        cy.loginSession(Cypress.env("loginUser"), Cypress.env("loginPass"));
+        cy.loginSession(Cypress.env("adminUser"), Cypress.env("adminPass"));
         cy.visit('/');
     })
     describe('Creates a new Curriculum', () => {

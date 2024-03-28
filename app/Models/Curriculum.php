@@ -27,7 +27,9 @@ class Curriculum extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->where('email', auth()->user()->email)->get();
+        return $query->where('email', auth()->user()->email)
+            ->orWhere('email', null)
+            ->get();
     }
 
     public function scopeAllWithDigitalCount($query)
