@@ -6,18 +6,24 @@ import ResponsiveNavLink from '@/Components/Navigation/ResponsiveNavLink';
 import LogoWhite from '@images/Logo-white.png';
 import LogoSmall from '@images/logo-icon.png';
 import { useState } from 'react';
-import AnchorNavLink from './AnchorNavLink';
-import NavItem from './NavItem';
-import AnchorLink from './AnchorLink';
-import CaratDown from '@/Elements/Icons/CaratDown';
-import LogoutIcon from '@/Elements/Icons/LogoutIcon';
+import AnchorNavLink from '@/Components/Navigation/AnchorNavLink';
+import AnchorLink from '@/Components/Navigation/AnchorLink';
+import NavProfileMenuitem from '@/Components/Navigation/NavProfileMenuitem';
+import MenuItems from '@/Components/Navigation/MenuItems';
+import NavMenuButton from '@/Elements/Buttons/NavMenuButton';
+import ResponsiveMenuItems from '@/Components/Navigation/ResponsiveMenuItems';
 
+export interface MenuItemsProps {
+    name: string,
+    href: string,
+    active: boolean,
+    submenu?: MenuItemsProps[]
+}
 export default function Navbar() {
     const [showResponsiveNavmenu, setShowResponsiveNavmenu] = useState<boolean>(false);
     const { auth } = usePage<PassedProps>().props;
-    const [showNavmenuDropdown, setShowNavmenuDropdown] = useState(false);
 
-    const menuItems = [
+    const menuItems: MenuItemsProps[] = [
         {
             name: 'Home',
             href: route('home'),
@@ -89,7 +95,7 @@ export default function Navbar() {
         }
     ]
 
-    const rightSideMenuItems = [
+    const rightSideMenuItems: MenuItemsProps[] = [
         {
             name: 'Payment',
             href: route('payment.index'),
@@ -127,140 +133,41 @@ export default function Navbar() {
                                 </NavLink>
                             </li>
                         }
-                        {
-                            menuItems.map((item, index) => (
-                                <NavItem key={item.name} name={item.name} href={item.href} active={item.active} submenu={item.submenu} />
-                            ))
-                        }
+                        <MenuItems menuItems={menuItems} />
 
                     </ul>
                     <ul className="flex justify-between h-16">
-                        {rightSideMenuItems.map((item) => (
-                            <NavItem key={item.name} name={item.name} href={item.href} active={item.active} />
-                        ))}
-                        <li className="relative hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
+                        <MenuItems menuItems={rightSideMenuItems} />
 
-                            {auth?.user ?
-                                (<>
-                                    <NavLink active={false} href={'#'} onClick={(event) => { event.preventDefault(); setShowNavmenuDropdown(!showNavmenuDropdown) }}>
-                                        <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
-                                        <CaratDown />
-                                    </NavLink>
-                                    <div className={"absolute right-0 z-10 overflow-hidden flex-col hidden bg-white divide-y-2 rounded-lg text-slate-600 top-[90%] drop-shadow-lg " + (showNavmenuDropdown ? "lg:flex animate-expand-in" : "lg:invisible")} >
-                                        <div className='grid grid-cols-[2.5rem_1fr] items-center gap-2 p-4'>
-                                            <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
-                                            <div className='flex flex-col p-2'>
-                                                <span className='text-sm font-bold text-slate-900'>{auth?.user?.name}</span>
-                                                <span className=' text-sm rounded-lg'>
-                                                    {auth?.user.email}
-                                                </span>
+                        <NavProfileMenuitem />
 
-                                            </div>
-                                        </div>
-                                        <ul className='flex flex-col'>
-                                            <li className='inline-flex hover:bg-black/5'>
-                                                <AnchorNavLink href={route('logout')} isDropdown>
-                                                    <span className="flex gap-2 items-center font-normal">
-                                                        <LogoutIcon /> Log out
-                                                    </span>
-                                                </AnchorNavLink>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </>)
-                                :
-                                (
-                                    <AnchorNavLink href={route('login')} >
-                                        Login
-                                    </AnchorNavLink>
-                                )
-                            }
-
-                        </li>
                         <li className="flex items-center -mr-2 lg:hidden">
-                            <button
-                                data-test="menubutton"
-                                onClick={() => setShowResponsiveNavmenu((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 text-gray-100 transition duration-150 ease-in-out border-2 border-transparent rounded-md hover:border-gray-100 focus:border-gray-100 "
-                            >
-                                <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showResponsiveNavmenu ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showResponsiveNavmenu ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                            <NavMenuButton active={showResponsiveNavmenu} onClick={() => setShowResponsiveNavmenu((previousState) => !previousState)} />
                         </li>
                     </ul>
                 </div>
             </nav>
             <nav className={(showResponsiveNavmenu ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' lg:hidden transition-[transform,opacity] duration-1000 ease-in-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
-                < ul className="pt-2 pb-3 space-y-1">
+                <ul className="pt-2 pb-3 space-y-1">
                     {auth?.user &&
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                            The Hub
                         </ResponsiveNavLink>
                     }
-                    {
-                        menuItems.map((item) => {
-                            if (item.submenu) {
-                                return (
-                                    <li key={item.name} >
-                                        <ResponsiveNavLink href={item.href} active={item.active}>{item.name}</ResponsiveNavLink>
-                                        <ul className='ml-6'>
-                                            {item.submenu.map((subitem) => (
-                                                <li className={`relative before:absolute before:text-inherit before:top-1/2 before:-translate-y-1/2  before:content-['—']`} key={subitem.name}>
-                                                    <ResponsiveNavLink key={subitem.name} href={subitem.href} active={subitem.active}>
-                                                        {subitem.name}
-                                                    </ResponsiveNavLink>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
-                                )
-                            }
-                            return (
-                                <li key={item.name}>
-                                    <ResponsiveNavLink href={item.href} active={item.active}>
-                                        {item.name}
-                                    </ResponsiveNavLink>
-                                </li>
-                            )
-                        }
-                        )
-                    }
-                    <div className="pt-2 pb-3 space-y-1 border-t border-gray-200 dark:border-gray-700">
-                        {rightSideMenuItems.map((item) => {
-                            return (
-                                <li key={item.name}>
-                                    <ResponsiveNavLink href={item.href} active={item.active}>
-                                        {item.name}
-                                    </ResponsiveNavLink>
-                                </li>
-                            )
-                        })
+                    <ResponsiveMenuItems menuItems={menuItems} />
 
-                        }
-                        {!auth?.user ?
-                            (<AnchorNavLink href={route('login')} isResponsive>
-                                Login
-                            </AnchorNavLink>)
-                            :
-                            (<AnchorNavLink href={route('logout')} isResponsive>
-                                Logout
-                            </AnchorNavLink>)
-                        }
-                    </div>
+                    <hr className="py-2 border-t border-gray-500 " />
+                    <ResponsiveMenuItems menuItems={rightSideMenuItems} />
+
+                    {!auth?.user ?
+                        (<AnchorNavLink href={route('login')} isResponsive>
+                            Login
+                        </AnchorNavLink>)
+                        :
+                        (<AnchorNavLink href={route('logout')} isResponsive>
+                            Logout
+                        </AnchorNavLink>)
+                    }
                 </ul>
 
             </nav>
