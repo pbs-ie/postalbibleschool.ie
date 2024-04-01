@@ -47,7 +47,7 @@ class FilemakerController extends Controller
                 return null;
             }
             if (
-                isset ($_SESSION["fmidToken"]) && isset ($_SESSION["tokenGeneratedTime"]) &&
+                isset($_SESSION["fmidToken"]) && isset($_SESSION["tokenGeneratedTime"]) &&
                 $_SESSION["tokenGeneratedTime"]->diff(new DateTime())->format('%i') < 60
             ) {
                 return $_SESSION["fmidToken"];
@@ -133,7 +133,11 @@ class FilemakerController extends Controller
             ->withBody('', 'application/json')
             ->get($path . '?' . $query);
 
-        $responseData = json_decode(json_encode($promise->wait()->json()))->response->data;
+        $responseJson = json_decode(json_encode($promise->wait()->json()));
+        if (!isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+            Log::error($responseJson->messages[0]->message);
+        }
+        $responseData = $responseJson->response->data;
         return $responseData;
 
     }

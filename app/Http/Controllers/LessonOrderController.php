@@ -134,7 +134,7 @@ class LessonOrderController extends Controller
         } else {
             $userLesson = $this->getCurrentUserOrder();
             if (!isset($userLesson)) {
-                return Inertia::render('LessonOrder/NotFound')->setStatusCode(404);
+                return Inertia::render('LessonOrder/NotFound');
             }
             $request->session()->reflash();
             return redirect(route('orders.show', $userLesson->id));
