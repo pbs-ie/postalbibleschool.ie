@@ -1,13 +1,12 @@
 import ResourceCard from "@/Components/Cards/ResourceCard";
-import Group from "@/Elements/Icons/Group";
-import School from "@/Elements/Icons/SchoolIcon";
 import Video from "@/Elements/Icons/VideoCamera";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage } from "@inertiajs/react";
 import ClassroomComponent from "@/Components/ClassroomComponent";
+import SidebarLayout from "@/Layouts/SidebarLayout";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
+import Play from "@/Elements/Icons/PlayIcon";
 
 export default function Dashboard({ classrooms, canViewCurriculum = false }: { classrooms: any, canViewCurriculum: boolean }) {
     const { auth } = usePage<PassedProps>().props;
@@ -15,22 +14,18 @@ export default function Dashboard({ classrooms, canViewCurriculum = false }: { c
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="Teachers Hub">
-                <TwoColumnLayout>
-                    <ClassroomComponent classrooms={classrooms} />
-                    <div className="flex flex-col items-start">
-                        <Heading2Alt>Additional Resources</Heading2Alt>
-                        <div className="flex flex-wrap gap-2 mx-auto">
-                            <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
-                            <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
-                            <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
-                            {canViewCurriculum &&
-                                <ResourceCard Icon={Group} href={route('curriculum.index')} title="Curriculum" />
-                            }
-                        </div>
+            <SidebarLayout>
+                <div className="flex flex-col items-center p-10 bg-sky-100 w-full lg:w-72 mx-auto">
+                    <Heading2Alt className="text-center">Additional Resources</Heading2Alt>
+                    <div className="flex flex-wrap lg:flex-col gap-2 mx-auto">
+                        <ResourceCard size="small" Icon={Play} href={route('assembly.index')} title="Assembly Videos" />
+                        <ResourceCard size="small" Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
                     </div>
-                </TwoColumnLayout>
-            </ContentWrapper>
+                </div>
+                <ContentWrapper title="Teachers Hub" className="md:w-full lg:w-full">
+                    <ClassroomComponent canViewCurriculum={canViewCurriculum} classrooms={classrooms} />
+                </ContentWrapper>
+            </SidebarLayout>
         </WrapperLayout>
     )
 }

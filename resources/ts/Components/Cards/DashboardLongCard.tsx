@@ -11,7 +11,7 @@ interface CardProps {
 }
 export default function DashboardLongCard({ Icon, title, href, onDelete }: CardProps) {
     return (
-        <Link className="w-full" href={href} >
+        <Link className="w-full max-w-2xl" href={href} >
             <article className="flex items-center justify-between w-80 md:w-full p-4 transition-colors duration-200 border border-gray-200 rounded-md shadow-md group/card hover:border-pbsblue hover:shadow-lg hover:bg-gray-50 gap-1">
                 <h1 className="font-bold text-left uppercase">{title}</h1>
                 <div className="flex gap-2">
