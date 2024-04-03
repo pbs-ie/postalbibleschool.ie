@@ -96,7 +96,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                             <Heading1Nospace>Manage Curricula</Heading1Nospace>
                             <div>
 
-                                <ButtonLink Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create New Curriculum</ButtonLink>
+                                <ButtonLink Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
                             </div>
 
                         </div>
@@ -109,7 +109,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                                 />
                             </div>
                             :
-                            <p>No curricula created</p>
+                            <p className="text-gray-700">No curricula created</p>
                         }
 
                     </div>

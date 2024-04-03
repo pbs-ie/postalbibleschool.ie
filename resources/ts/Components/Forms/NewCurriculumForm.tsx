@@ -94,16 +94,19 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                             required />
                         <InputError message={errors["name"]} />
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <InputLabel forInput={"email"} value={"Email"} />
-                        <TextInput
-                            name={"email"}
-                            id={"email"}
-                            type={"email"}
-                            value={data.email}
-                            className={""}
-                            handleChange={handleChange} />
-                        <InputError message={errors["email"]} />
+                    <div className="flex-col gap-2">
+                        <div className="flex gap-2 items-center">
+                            <InputLabel forInput={"email"} value={"Email"} />
+                            <TextInput
+                                name={"email"}
+                                id={"email"}
+                                type={"email"}
+                                value={data.email}
+                                className={""}
+                                handleChange={handleChange} />
+                            <InputError message={errors["email"]} />
+                        </div>
+                        <p className="text-gray-600">//Leave blank to be accessible to all schools. Enter school email for specific school</p>
                     </div>
                     <div className="flex gap-2 items-center">
                         <InputLabel forInput={"curriculum_type"} value={"Curriculum Type"} required />
@@ -152,7 +155,7 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                 {curriculum ?
                     <PrimaryButton dataTest="form_submit_btn" processing={processing}>Update</PrimaryButton>
                     :
-                    <PrimaryButton dataTest="form_submit_btn" processing={processing}>Create New</PrimaryButton>
+                    <PrimaryButton dataTest="form_submit_btn" processing={processing}>Create</PrimaryButton>
                 }
             </div>
         </form>

@@ -127,7 +127,7 @@ export default function Show({
             <SidebarLayout>
                 <div></div>
                 <TwoColumnLayout>
-                    <div>
+                    <div className="mx-2">
                         <Heading1Nospace>{classroom.name}</Heading1Nospace>
                         <form className="my-10" onSubmit={removeStudentsFromClass}>
                             <Heading2Nospace>My classroom</Heading2Nospace>
@@ -150,7 +150,7 @@ export default function Show({
                             </div>
                         </form>
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 mb-3 lg:mb-5 mx-2 ">
                         <Heading2Nospace>Curriculum</Heading2Nospace>
                         <p>Curriculum name : {classCurriculum?.name}</p>
                         <div>

@@ -49,7 +49,7 @@ export default function ClassroomComponent({ classrooms, canViewCurriculum = fal
                     }
                 </ul>
                 <div className="flex justify-end">
-                    <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showModal()}>Add Class</BasicButton>
+                    <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showModal()}>Add Classroom</BasicButton>
                 </div>
             </div>
         </div>
