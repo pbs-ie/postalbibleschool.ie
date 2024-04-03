@@ -11,6 +11,27 @@ use Inertia\Inertia;
 class CurriculumController extends Controller
 {
     /**
+     * Change all month values to paper if type is paper
+     * @param mixed $validated
+     * @return mixed
+     */
+    private function resetMonthTypes($validated)
+    {
+        if ($validated["curriculum_type"] === Curriculum::PAPER) {
+            $validated["jan_lesson"] = Curriculum::PAPER;
+            $validated["feb_lesson"] = Curriculum::PAPER;
+            $validated["mar_lesson"] = Curriculum::PAPER;
+            $validated["apr_lesson"] = Curriculum::PAPER;
+            $validated["may_lesson"] = Curriculum::PAPER;
+            $validated["jun_lesson"] = Curriculum::PAPER;
+            $validated["sep_lesson"] = Curriculum::PAPER;
+            $validated["oct_lesson"] = Curriculum::PAPER;
+            $validated["nov_lesson"] = Curriculum::PAPER;
+            $validated["dec_lesson"] = Curriculum::PAPER;
+        }
+        return $validated;
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Inertia\Response
@@ -42,8 +63,9 @@ class CurriculumController extends Controller
      */
     public function store(CurriculumPostRequest $request)
     {
+        $validated = $this->resetMonthTypes($request->validated());
 
-        Curriculum::create($request->validated());
+        Curriculum::create($validated);
         return redirect()->route('curriculum.index')->with('success', 'Curriculum created successfully');
     }
 
@@ -82,7 +104,9 @@ class CurriculumController extends Controller
      */
     public function update(CurriculumPutRequest $request, Curriculum $curriculum)
     {
-        Curriculum::findOrFail($curriculum->id)->update($request->validated());
+        $validated = $this->resetMonthTypes($request->validated());
+
+        Curriculum::findOrFail($curriculum->id)->update($validated);
 
         return redirect()->route('curriculum.index')->with('success', 'Curriculum updated successfully');
     }

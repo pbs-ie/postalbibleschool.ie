@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\CurriculumType;
 use Illuminate\Validation\Rule;
+use App\Models\Curriculum;
 
 class CurriculumPostRequest extends FormRequest
 {
@@ -61,7 +62,7 @@ class CurriculumPostRequest extends FormRequest
                             request()->dec_lesson,
                         );
                         $digitalSelection = array_filter($selectionArray, function ($value) {
-                            return $value === "digital";
+                            return $value === Curriculum::DIGITAL;
                         });
                         if (count($digitalSelection) > 5) {
                             $fail("More than 5 months selected as digital");

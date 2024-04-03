@@ -9,6 +9,9 @@ class Curriculum extends Model
 {
     use HasFactory;
 
+    public const DIGITAL = "digital";
+    public const PAPER = "paper";
+
     protected $fillable = [
         "name",
         "email",
