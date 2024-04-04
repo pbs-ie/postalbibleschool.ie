@@ -35,6 +35,11 @@ class Curriculum extends Model
             ->get();
     }
 
+    public function scopeGetDefaultId($query)
+    {
+        return $query->where('curriculum_type', $this::PAPER)->first()->value('id');
+    }
+
     public function scopeAllWithDigitalCount($query)
     {
         $curricula = $query->get();

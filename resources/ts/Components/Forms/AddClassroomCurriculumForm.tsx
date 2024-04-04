@@ -1,5 +1,5 @@
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import RadioInput from "./RadioInput";
@@ -10,6 +10,9 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
     const tableDataMemo = useMemo(() => curricula, [curricula]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
+    useEffect(() => {
+        setRowSelection({ 0: true });
+    }, [])
 
     const columnHelper = createColumnHelper<CurriculumProps>();
 
@@ -110,7 +113,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
                         setRowSelection={setRowSelection}
                     />
                     <div className="flex w-full justify-end gap-2">
-                        <PrimaryButton processing={Object.keys(rowSelection).length === 0} dataTest="submit_btn" type="submit">Add Selected</PrimaryButton>
+                        <PrimaryButton processing={Object.keys(rowSelection).length === 0} dataTest="submit_btn" type="submit">Set</PrimaryButton>
                     </div>
                 </form>
             }

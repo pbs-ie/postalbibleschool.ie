@@ -114,7 +114,7 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
             classList.push(...("text-blue-800 bg-transparent focus:underline hover:underline active:underline".split(' ')));
             break;
         case "delete":
-            classList.push(...("bg-transparent hover:text-red-500 hover:underline focus:underline focus:text-red-500 active:underline active:text-red-500".split(' ')));
+            classList.push(...("bg-transparent text-red-600 hover:underline focus:underline active:underline ".split(' ')));
     }
 
     switch (size) {

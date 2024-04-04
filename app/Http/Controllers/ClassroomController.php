@@ -52,30 +52,24 @@ class ClassroomController extends Controller
             return Inertia::render('NotFound');
         }
         $allStudents = $this->getStudentsForUser(auth()->user()->email);
-        $filteredStudents = $allStudents->filter(function ($student) use ($classroom) {
-            return $student['classroom_id'] === $classroom->id;
-        });
-        $classroomStudents = array_values($filteredStudents->toArray());
+        $classroomStudents = $classroom->students()->get();
+
 
         $curricula = Curriculum::current();
-        $classroomCurriculum = [];
-        if (isset($classroom->curriculum_id)) {
-            $classroomCurriculum = Curriculum::findOrFail($classroom->curriculum_id)
-                ->only([
-                    "name",
-                    "jan_lesson",
-                    "feb_lesson",
-                    "mar_lesson",
-                    "apr_lesson",
-                    "may_lesson",
-                    "jun_lesson",
-                    "sep_lesson",
-                    "oct_lesson",
-                    "nov_lesson",
-                    "dec_lesson",
-
-                ]);
-        }
+        $classroomCurriculum = $classroom->curriculum()->firstOrFail()
+            ->only([
+                "name",
+                "jan_lesson",
+                "feb_lesson",
+                "mar_lesson",
+                "apr_lesson",
+                "may_lesson",
+                "jun_lesson",
+                "sep_lesson",
+                "oct_lesson",
+                "nov_lesson",
+                "dec_lesson",
+            ]);
 
         return Inertia::render('TeacherHub/Classroom/Show', [
             "classroom" => $classroom,
@@ -107,10 +101,10 @@ class ClassroomController extends Controller
         if (sizeof($returnValue) === 0) {
             return redirect()->back()->with("failure", "No students for current user");
         }
-
         $classroom = new Classroom();
         $classroom->name = strtolower($request->name);
         $classroom->email = auth()->user()->email;
+        $classroom->curriculum_id = Curriculum::getDefaultId();
         $classroom->save();
 
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");

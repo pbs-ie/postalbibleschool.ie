@@ -53,7 +53,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                     ></TextInput>
                 </div>
             }
-            <div className="h-96 overflow-x-auto">
+            <div className="relative h-96 overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead className="bg-gray-100 sticky top-0">
                         {table.getHeaderGroups().map(headerGroup => (
