@@ -37,7 +37,7 @@ class SettingController extends Controller
             Setting::where('key', $key)->update(['value' => $value]);
         }
         Cache::flush();
-        return redirect()->route('events.admin')->with('success', 'Settings updated');
+        return redirect()->route('events.settings.edit')->with('success', 'Settings updated');
     }
 
 }

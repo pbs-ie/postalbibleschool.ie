@@ -1,8 +1,8 @@
-import ShedSettingsComponent from "@/Components/EventAdmin/ShedAdminComponent";
+import ShedSettingsComponent from "@/Components/Settings/ShedSettingsComponent";
 import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
-export default function Settings({ eventSettings }: { eventSettings: Setting[] }) {
+export default function Settings({ eventSettings }: { eventSettings: SettingProps[] }) {
     return (
         <WrapperLayout>
             <EventWrapper title="Event Settings">

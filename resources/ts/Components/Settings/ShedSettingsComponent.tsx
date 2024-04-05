@@ -6,7 +6,7 @@ import InputLabel2 from "../Forms/InputLabel2";
 import RadioInput from "../Forms/RadioInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
-export default function ShedSettingsComponent({ eventSettings }: { eventSettings: Setting[] }) {
+export default function ShedSettingsComponent({ eventSettings }: { eventSettings: SettingProps[] }) {
     const initialFormObject = {} as Record<SettingKeys, string | undefined>;
     eventSettings.forEach(({ key, value }) => {
         initialFormObject[key] = value;

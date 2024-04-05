@@ -1,7 +1,6 @@
 import CardBlock from "@/Components/Cards/EventCardBlock";
 import Calendar from "@/Elements/Icons/Calendar";
 import Location from "@/Elements/Icons/Location";
-import Clock from "@/Elements/Icons/Clock";
 import Group from "@/Elements/Icons/Group";
 import Banknotes from "@/Elements/Icons/Banknotes";
 import ChatBubble from "@/Elements/Icons/ChatBubble";
@@ -9,6 +8,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import PGSchedule from "@images/Public PRIZEGIVINGS 2024.pdf";
 import School from "@/Elements/Icons/SchoolIcon";
+import QuestionMarkCircle from "@/Elements/Icons/QuestionMarkCircle";
 
 
 interface CardContainer {
@@ -39,23 +39,37 @@ export default function EventCardContainer({ type, children }: CardContainer) {
 
     const shedCards: CardBlock[] = [
         {
+            Icon: School,
+            title: "What",
+            description: "SHED Weekend",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
             Icon: Location,
             title: "Where",
-            description: "Gareth and Margaret McMeekin's house",
+            description: "Mullertown House, Annalong, Co. Down",
             buttonText: "",
             buttonLink: ""
         },
         {
             Icon: Calendar,
             title: "When",
-            description: "Last Saturday of each month",
+            description: "3rd-5th May 2024",
             buttonText: "",
             buttonLink: ""
         },
         {
-            Icon: Clock,
-            title: "Time",
-            description: "7:30pm to 10:00pm",
+            Icon: Group,
+            title: "Activities",
+            description: <p>Sports, Games, Good Food, Time with friends, Bible Talks</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: QuestionMarkCircle,
+            title: "Join",
+            description: <p>Click the button below and fill in the form to sign up for this event!</p>,
             buttonText: "",
             buttonLink: ""
         },

@@ -21,6 +21,8 @@ import ShedLogo from "@images/shed/shed-logo.png";
 
 import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
 import { usePage } from "@inertiajs/react";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import ExternalLink from "@/Elements/Icons/ExternalLink";
 
 export default function Shed() {
     const { settings } = usePage<PassedProps>().props;
@@ -70,8 +72,10 @@ export default function Shed() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                {settings?.events && settings.events.shed_upcoming_card === "1" &&
-                    <CardContainer type="shed" />
+                {settings && settings.shed_upcoming_card.value === "1" &&
+                    <CardContainer type="shed" >
+                        <ButtonAnchor href={"https://forms.gle/MmPDKpdHy4mfm1yB9"} isExternalLink={true} Icon={ExternalLink}>Sign up</ButtonAnchor>
+                    </CardContainer>
                 }
                 <div className="mb-10">
                     <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Consent Form" isExternal={true} />

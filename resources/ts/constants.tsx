@@ -71,10 +71,7 @@ declare global {
             };
         };
         settings: {
-            events: {
-                [key in SettingKeys]: string;
-
-            }
+            [key in SettingKeys]: SettingProps;
         }
         flash: {
             success?: string;
@@ -127,7 +124,7 @@ declare global {
     }
 
     type SettingKeys = "shed_upcoming_card";
-    interface Setting {
+    interface SettingProps {
         key: SettingKeys;
         label: string;
         value?: string;
