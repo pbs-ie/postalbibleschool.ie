@@ -3,6 +3,7 @@
     "scripts": {
         "dev": "vite",
         "serve": "php artisan serve",
+        "start:memcached": "memcached start",
         "build:client": "vite build",
         "build:server": "vite build --ssr",
         "test": "jest"

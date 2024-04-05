@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use App\Models\Setting;
+use \Cache;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -34,6 +36,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $eventSettings = Cache::remember("eventSettings", 60, function () {
+            return Setting::all()->keyBy('key');
+        });
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -44,9 +49,12 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'flash' => [
-                'success' => fn () => $request->session()->get('success'),
-                'failure' => fn () => $request->session()->get('failure')
-            ]
+                'success' => fn() => $request->session()->get('success'),
+                'failure' => fn() => $request->session()->get('failure')
+            ],
+            'settings' => fn() => Cache::remember("eventSettings", 60, function () {
+                return Setting::all()->keyBy('key');
+            })
         ]);
     }
 }

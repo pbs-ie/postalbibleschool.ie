@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
@@ -8,14 +7,12 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StepEventController;
 use App\Models\DownloadsList;
-use App\Models\LessonOrder;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Gate;
 
 /*
@@ -41,7 +38,7 @@ Route::get('/home', function () {
     ]);
 })->name('home');
 
-Route::get('/designsystem', function() {
+Route::get('/designsystem', function () {
     return Inertia::render('DesignSystem');
 });
 
@@ -71,6 +68,11 @@ Route::get('/courses', function (Request $request) {
 
 
 Route::prefix('events')->name('events.')->group(function () {
+    Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
+        Route::get('/', [SettingController::class, 'editEvents'])->name('edit');
+        Route::post('/update', [SettingController::class, 'storeEvents'])->name('store');
+    });
+
     Route::get('/prizegivings', function (Request $request) {
         return Inertia::render('Events/Prizegivings', [
             'queryParams' => $request->query(),
@@ -97,10 +99,10 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', [StepEventController::class, 'index'])->name('index');
 
         Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
-        
+
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
         Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
-        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function() {
+        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function () {
             Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
             Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
             Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
@@ -109,7 +111,7 @@ Route::prefix('events')->name('events.')->group(function () {
             Route::post('/{id}', [StepEventController::class, 'update'])->name('update')->can('create:events');
             Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
         });
-        Route::prefix('past')->name('past.')->group(function() {
+        Route::prefix('past')->name('past.')->group(function () {
             Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
             Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
         });
