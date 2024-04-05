@@ -70,6 +70,12 @@ declare global {
                 picture: string;
             };
         };
+        settings: {
+            events: {
+                [key in SettingKeys]: string;
+
+            }
+        }
         flash: {
             success?: string;
             failure?: string;
@@ -118,6 +124,14 @@ declare global {
         props: ({ className }: {
             className?: string;
         }) => JSX.Element
+    }
+
+    type SettingKeys = "shed_upcoming_card";
+    interface Setting {
+        key: SettingKeys;
+        label: string;
+        value?: string;
+        type: string;
     }
 }
 

@@ -20,8 +20,11 @@ import ShedChallenges from "@images/shed/shed-challenges.jpg";
 import ShedLogo from "@images/shed/shed-logo.png";
 
 import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
+import { usePage } from "@inertiajs/react";
 
 export default function Shed() {
+    const { settings } = usePage<PassedProps>().props;
+
     const images: Gallery[] = [
         {
             title: "Games",
@@ -67,7 +70,9 @@ export default function Shed() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer type="shed" />
+                {settings?.events && settings.events.shed_upcoming_card === "1" &&
+                    <CardContainer type="shed" />
+                }
                 <div className="mb-10">
                     <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Consent Form" isExternal={true} />
                 </div>
