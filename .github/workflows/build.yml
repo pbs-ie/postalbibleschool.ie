@@ -1,0 +1,34 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  laravel-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.0'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install Dependencies
+        run: composer install --optimize-autoloader --no-dev
+      - name: Artisan caching
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+      - name: Node installation
+        run: npm install
+      - name: Build steps
+        run: |
+          npm run build:client
+          npm run build:server
