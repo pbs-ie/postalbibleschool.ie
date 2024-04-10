@@ -72,6 +72,9 @@ declare global {
                 picture: string;
             };
         };
+        settings: {
+            [key in SettingKeys]: SettingProps;
+        }
         flash: {
             success?: string;
             failure?: string;
@@ -125,6 +128,14 @@ declare global {
     interface ClassroomProps {
         id: number,
         name: string
+    }
+
+    type SettingKeys = "shed_upcoming_card";
+    interface SettingProps {
+        key: SettingKeys;
+        label: string;
+        value?: string;
+        type: string;
     }
 
     interface CurriculumProps {

@@ -7,6 +7,7 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
@@ -71,6 +72,11 @@ Route::get('/courses', function (Request $request) {
 
 
 Route::prefix('events')->name('events.')->group(function () {
+    Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
+        Route::get('/', [SettingController::class, 'editEvents'])->name('edit');
+        Route::post('/update', [SettingController::class, 'storeEvents'])->name('store');
+    });
+
     Route::get('/prizegivings', function (Request $request) {
         return Inertia::render('Events/Prizegivings', [
             'queryParams' => $request->query(),

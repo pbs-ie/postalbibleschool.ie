@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react"
 
-interface RadioInput {
+export interface RadioInputProps {
     name: string,
     id: string,
     value: string,
@@ -10,7 +10,7 @@ interface RadioInput {
     handleChange: ChangeEventHandler<HTMLElement>,
     checked: boolean
 }
-export default function RadioInput({ name, id, value, className = "", checked, ariaLabelledBy, handleChange }: RadioInput) {
+export default function RadioInput({ name, id, value, className = "", checked, ariaLabelledBy, handleChange }: RadioInputProps) {
     return (
         <input
             type="radio"

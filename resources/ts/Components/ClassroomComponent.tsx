@@ -10,7 +10,7 @@ import ResourceCard from "@/Components/Cards/ResourceCard";
 import Calendar from "@/Elements/Icons/Calendar";
 
 
-export default function ClassroomComponent({ classrooms, canViewCurriculum = false }: { classrooms: ClassroomProps[], canViewCurriculum?: boolean }) {
+export default function ClassroomComponent({ classrooms = [], canViewCurriculum = false }: { classrooms: ClassroomProps[], canViewCurriculum?: boolean }) {
     const { dialogRef, showModal, closeModal } = modalHelper();
 
     const handleDelete = (event: React.MouseEvent, id: number) => {
@@ -25,7 +25,7 @@ export default function ClassroomComponent({ classrooms, canViewCurriculum = fal
                 <CreateClassroomForm onCancel={() => closeModal()} />
             </PopupModal>
 
-            <div className="flex flex-wrap gap-2 mx-auto">
+            <div className="flex flex-wrap gap-2 mx-auto mb-4">
                 <ResourceCard Icon={Calendar} href={route('orders.index')} title="My Monthly Orders" />
                 {canViewCurriculum &&
                     <ResourceCard Icon={Group} href={route('curriculum.index')} title="Curriculum" />
