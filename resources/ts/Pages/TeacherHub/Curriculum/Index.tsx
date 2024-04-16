@@ -4,11 +4,11 @@ import Heading1Nospace from "@/Components/Typography/Heading1Nospace";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import PlusSolid from "@/Elements/Icons/PlusSolid";
+import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import Trash from "@/Elements/Icons/Trash";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
@@ -94,9 +94,10 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                     <div className="mx-10">
                         <div className="flex justify-between">
                             <Heading1Nospace>Manage Curricula</Heading1Nospace>
-                            <div>
+                            <div className="flex gap-2">
 
-                                <ButtonLink Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
+                                <ButtonLink size="small" Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
+                                <ButtonLink size="small" href={route('curriculum.sync')}><span className="flex gap-3 items-center">Update Filemaker <RefreshIcon /></span></ButtonLink>
                             </div>
 
                         </div>

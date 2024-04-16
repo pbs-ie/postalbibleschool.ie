@@ -28,6 +28,28 @@ class Curriculum extends Model
         "curriculum_type"
     ];
 
+
+    public function getDigitalMonthsCount()
+    {
+        $digitalCount = 0;
+        foreach ($this->getAttributes() as $key => $value) {
+            if (str_contains($key, '_lesson') && $value === "digital") {
+                $digitalCount = $digitalCount + 1;
+            }
+        }
+        return $digitalCount;
+    }
+
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
+
+    public function students()
+    {
+        return $this->through('classrooms')->has('students');
+    }
+
     public function scopeCurrent($query)
     {
         return $query->where('email', auth()->user()->email)
@@ -47,21 +69,5 @@ class Curriculum extends Model
             $curriculum->digital_count = $curriculum->getDigitalMonthsCount();
         });
         return $curricula;
-    }
-
-    public function getDigitalMonthsCount()
-    {
-        $digitalCount = 0;
-        foreach ($this->getAttributes() as $key => $value) {
-            if (str_contains($key, '_lesson') && $value === "digital") {
-                $digitalCount = $digitalCount + 1;
-            }
-        }
-        return $digitalCount;
-    }
-
-    public function classroom()
-    {
-        return $this->hasMany(Classroom::class);
     }
 }

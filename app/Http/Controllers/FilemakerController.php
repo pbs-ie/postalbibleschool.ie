@@ -28,6 +28,7 @@ class FilemakerController extends Controller
 
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
     const STUDENT_LIST_LAYOUT = 'Student Record API';
+    const CURRICULUM_LAYOUT = 'Curriculum API';
 
     public function __construct()
     {
@@ -46,9 +47,10 @@ class FilemakerController extends Controller
             if (!$this->fmUser || !$this->fmPassword) {
                 return null;
             }
+            // Time set based on this document https://supergeekery.com/blog/learning-the-filemaker-data-api-by-trial-and-error#:~:text=Timing%20out%20of%20tokens%20%23&text=The%20Javascript%20app%20user%20sessions,last%20use%20of%20the%20token.
             if (
                 isset($_SESSION["fmidToken"]) && isset($_SESSION["tokenGeneratedTime"]) &&
-                $_SESSION["tokenGeneratedTime"]->diff(new DateTime())->format('%i') < 60
+                $_SESSION["tokenGeneratedTime"]->diff(new DateTime())->format('%i') < 15
             ) {
                 return $_SESSION["fmidToken"];
             }
@@ -142,22 +144,74 @@ class FilemakerController extends Controller
 
     }
 
-    private function runScript($layoutName, $scriptName)
+    /**
+     * Run a script on Filemaker
+     * @param string $layoutName
+     * @param string $scriptName
+     * @param string $scriptParam
+     * @return boolean
+     */
+    private function runScript($layoutName, $scriptName, $scriptParam = "")
     {
         $formattedLayout = rawurlencode($layoutName);
         $formattedScript = rawurlencode($scriptName);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/script/{$formattedScript}";
+
+        $queryData = [
+            'script.param' => $scriptParam
+        ];
+        $query = http_build_query($queryData);
 
         $token = $this->getBearerToken();
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token
         ])
             ->withBody('', 'application/json')
-            ->get($path);
+            ->get($path . '?' . $query);
 
-        dd($response->json());
+        if (!$response->ok()) {
+            dd($response->json());
+        }
+        return $response->ok();
     }
 
+    /**
+     * Create a record in the specified layouts
+     * @param string $layoutName
+     * @param mixed $recordData
+     * @return string
+     */
+    private function createRecord(string $layoutName, $recordData)
+    {
+        $formattedLayout = rawurlencode($layoutName);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
+
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body->fieldData = $recordData;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->post($path);
+
+        if ($response->ok()) {
+            $responseData = json_decode(json_encode($response->json()))->response;
+            return $responseData->recordId;
+        } else {
+            Log::error($response->json());
+            return "";
+        }
+    }
+
+    /**
+     * Update filemaker record by its record ID
+     * 
+     * @param string $layoutName
+     * @param int $recordId
+     * @param mixed $changedRecord
+     * @return bool
+     */
     private function updateRecordById(string $layoutName, int $recordId, $changedRecord)
     {
         $formattedLayout = rawurlencode($layoutName);
@@ -186,6 +240,8 @@ class FilemakerController extends Controller
     /**
      * Update a record for lesson order
      * 
+     * @param int $recordId
+     * @param mixed $changedRecord
      * @return boolean
      */
     public function updateLessonOrders(int $recordId, $changedRecord)
@@ -203,4 +259,16 @@ class FilemakerController extends Controller
     {
         return $this->getStudentsForAreaRecords($email);
     }
+
+    /**
+     * Create a new record for Curriculum table
+     * 
+     * @param mixed $newRecord
+     * @return string
+     */
+    public function createCurriculum($newRecord)
+    {
+        return $this->createRecord(self::CURRICULUM_LAYOUT, $newRecord);
+    }
+
 }

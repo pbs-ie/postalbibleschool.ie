@@ -149,9 +149,6 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
 Route::get('/dashboard', function () {
-    if (!auth()->check()) {
-        return response('You are not logged in.');
-    }
     return Inertia::render('Dashboard', [
         'classrooms' => Classroom::current(),
         'canViewCurriculum' => Gate::allows('view:curriculum')
@@ -177,6 +174,7 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
 Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {
     Route::get('/', [CurriculumController::class, 'index'])->name('index')->can('view:curriculum');
     Route::post('/', [CurriculumController::class, 'store'])->name('store')->can('create:curriculum');
+    Route::get('/sync', [SettingController::class, 'updateFMCurriculum'])->name('sync')->can('create:curriculum');
     Route::get('/create', [CurriculumController::class, 'create'])->name('create')->can('create:curriculum');
     Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show')->can('view:curriculum');
     Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit')->can('create:curriculum');

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Setting;
 use \Cache;
+use App\Models\Curriculum;
+use App\Models\Student;
 
 class SettingController extends Controller
 {
@@ -38,6 +40,28 @@ class SettingController extends Controller
         }
         Cache::flush();
         return redirect()->route('events.settings.edit')->with('success', 'Settings updated');
+    }
+
+    /**
+     * Update Curriculum table in Filemaker
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
+    public function updateFMCurriculum(Request $request)
+    {
+        $allCurricula = Curriculum::all();
+        // Get all students for each curriculum
+        foreach ($allCurricula as $curriculum) {
+            $curriculumStudents = Student::whereHas('classroom.curriculum', function ($query) use ($curriculum) {
+                return $query->where('id', $curriculum->id);
+            })->get();
+            foreach ($curriculumStudents as $student) {
+                // Save to FM the curriculum to student map
+                (new CurriculumController)->updateFMCurriculum($student->fm_student_id, $curriculum);
+            }
+        }
+        return $request->session()->flash('success', "Filemaker records updated");
     }
 
 }

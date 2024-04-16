@@ -5,11 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CurriculumPostRequest;
 use App\Http\Requests\CurriculumPutRequest;
 use App\Models\Curriculum;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use stdClass;
 
 class CurriculumController extends Controller
 {
+    private function getFMRecordsMap()
+    {
+        return [
+            "jan_lesson" => "January",
+            "feb_lesson" => "February",
+            "mar_lesson" => "March",
+            "apr_lesson" => "April",
+            "may_lesson" => "May",
+            "jun_lesson" => "June",
+            "sep_lesson" => "September",
+            "oct_lesson" => "October",
+            "nov_lesson" => "November",
+            "dec_lesson" => "December",
+        ];
+    }
+
     /**
      * Change all month values to paper if type is paper
      * @param mixed $validated
@@ -31,6 +47,28 @@ class CurriculumController extends Controller
         }
         return $validated;
     }
+
+    /**
+     * Calls Filemaker API to store new curriculum or update existing one
+     * 
+     * @return string
+     */
+    public function updateFMCurriculum($studentId, $validated)
+    {
+        $fmDataObject = new stdClass();
+        $fmDataObject->{"FKStudentID"} = $studentId;
+        $mapValues = $this->getFMRecordsMap();
+        $keys = array_keys((array) $mapValues);
+        for ($i = 0; $i < count($keys); $i++) {
+            $currentKey = $keys[$i];
+            $fmDataObject->{$mapValues[$currentKey]} = $validated->$currentKey;
+        }
+
+        $recordId = (new FilemakerController)->createCurriculum((object) $fmDataObject);
+
+        return $recordId;
+    }
+
     /**
      * Display a listing of the resource.
      *
