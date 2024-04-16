@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClassroomRequest;
 use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -12,6 +11,7 @@ class StudentController extends Controller
     private function getFmStudentMap()
     {
         return [
+            'fm_record_id' => 'recordId',
             'fm_student_id' => 'StudentID',
             'first_name' => 'C Name',
             'last_name' => 'S Name',
@@ -54,6 +54,7 @@ class StudentController extends Controller
         $mappedStudents = $studentCollection->map(function ($student) use ($mapValues) {
             $fieldData = $student->fieldData;
             return array (
+                'fm_record_id' => trim($student->{$mapValues['fm_record_id']}),
                 'fm_student_id' => trim($fieldData->{$mapValues['fm_student_id']}),
                 'first_name' => trim($fieldData->{$mapValues['first_name']}),
                 'last_name' => trim($fieldData->{$mapValues['last_name']}),
@@ -78,6 +79,7 @@ class StudentController extends Controller
             if (!$studentModel) {
                 $studentModel = new Student();
             }
+            $studentModel->fm_record_id = $student['fm_record_id'];
             $studentModel->fm_student_id = $student['fm_student_id'];
             $studentModel->first_name = $student['first_name'];
             $studentModel->last_name = $student['last_name'];

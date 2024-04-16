@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class BaseModel extends Model
 {
-    public function getAttribute($key) {
+    public function getAttribute($key)
+    {
         if (array_key_exists($key, $this->relations)) {
             return parent::getAttribute($key);
         } else {
@@ -16,7 +16,8 @@ class BaseModel extends Model
         }
     }
 
-    public function setAttribute($key, $value) {
+    public function setAttribute($key, $value)
+    {
         return parent::setAttribute(Str::snake($key), $value);
     }
 }
