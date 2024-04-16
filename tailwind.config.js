@@ -13,9 +13,9 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Roboto", "Nunito", ...defaultTheme.fontFamily.sans],
-                serif: ["Cardo", ...defaultTheme.fontFamily.serif],
+                serif: ["Bitter", ...defaultTheme.fontFamily.serif],
                 subtitle: ["Lato", ...defaultTheme.fontFamily.sans],
-                title: ["Roboto Slab", ...defaultTheme.fontFamily.serif],
+                title: ["Bitter", ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 "bibletime-pink": "#c551b4",
