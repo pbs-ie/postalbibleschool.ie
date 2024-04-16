@@ -36,9 +36,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        $eventSettings = Cache::remember("eventSettings", 60, function () {
-            return Setting::all()->keyBy('key');
-        });
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -53,7 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'failure' => fn() => $request->session()->get('failure'),
                 'warning' => fn() => $request->session()->get('warning')
             ],
-            'settings' => fn() => Cache::remember("eventSettings", 60, function () {
+            'settings' => fn() => Cache::remember("eventSettings", 3600, function () {
                 return Setting::all()->keyBy('key');
             })
         ]);

@@ -16,7 +16,7 @@ class SettingController extends Controller
      */
     public function editEvents()
     {
-        $eventData = Cache::remember("eventSettings", 60, function () {
+        $eventData = Cache::get("eventSettings", function () {
             return Setting::all();
         });
         return Inertia::render('Events/Settings', [
