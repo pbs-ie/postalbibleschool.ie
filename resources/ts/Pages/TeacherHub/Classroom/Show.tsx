@@ -16,16 +16,9 @@ import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useState } from "react"
 import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
 import ClassroomCurriculumCard from "@/Components/Cards/ClassroomCurriculumCard"
+import { StudentProps } from "@/Pages/TeacherHub/Student/Index";
 
-export interface StudentProps {
-    classroom_id: number,
-    fm_student_id: string,
-    first_name: string,
-    last_name: string,
-    area_code: string,
-    grade: string,
-    id: number
-}
+
 interface ClassroomShowProps {
     classroom: ClassroomProps,
     students: StudentProps[],

@@ -1,10 +1,13 @@
 # 1.2 (2024-02-01)
 
 - New Hub for teachers with added functionality
-  - Teachers can now view their student list from our database
-  - Teachers can create classrooms to allocate separate students into categories
-  - They can create a custom curriculum for the year
-  - They can allocate the curriculum to classes
+  - Teachers can now view their student list from internal database
+  - Teachers can create classrooms to allocate and separate students
+  - They can allocate a curriculum to classrooms
+  - Separates school related actions from additional resources on The Hub
+- Admin functionality
+  - CRUD new curriculum
+  - Update internal database with current student-curriculum status
 
 ## 1.1.6 (2024-01-04)
 

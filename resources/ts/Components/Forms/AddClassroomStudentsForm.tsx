@@ -2,12 +2,12 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router } from "@inertiajs/react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import { StudentProps } from "@/Pages/TeacherHub/Classroom/Show";
 import CheckboxInput from "./CheckboxInput";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
+import { StudentProps } from "@/Pages/TeacherHub/Student/Index";
 
 export default function AddClassroomStudentsForm({ onClose, classroomId, students }: { onClose: () => void, classroomId: number, students: StudentProps[] }) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -84,7 +84,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
                     {students.length === 0 ?
                         <p className="text-sm">No students found</p>
                         :
-                        <AdvancedTable data={tableDataMemo} columns={defaultColumns} searchPlaceholder="Search by Name or Grade" enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
+                        <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableGlobalFilter={false} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
                     }
                 </div>
                 <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit">Submit</PrimaryButton></div>

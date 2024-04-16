@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StudentController extends Controller
 {
@@ -46,7 +47,7 @@ class StudentController extends Controller
      * @param array $studentList
      * @return array
      */
-    public function sanitizeStudentList(array $studentList)
+    private function sanitizeStudentList(array $studentList)
     {
         $studentCollection = collect($studentList);
         $mapValues = $this->getFmStudentMap();
@@ -71,7 +72,7 @@ class StudentController extends Controller
      * @param array $studentList
      * @return void 
      */
-    public function updateStudents(array $studentList)
+    private function updateStudents(array $studentList)
     {
         $studentCollection = collect($studentList);
         $studentCollection->each(function ($student) {
@@ -87,6 +88,13 @@ class StudentController extends Controller
             $studentModel->grade = $student['grade'];
             $studentModel->save();
         });
+    }
+
+    public function index()
+    {
+        return Inertia::render("TeacherHub/Student/Index", [
+            'students' => Student::getStudentsForUser(),
+        ]);
     }
 
     /**
