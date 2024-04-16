@@ -15,20 +15,6 @@ use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
 {
-    /**
-     * Get area code for current user email
-     * 
-     * @param string $email
-     * @return Collection Student
-     */
-    private function getStudentsForUser($email)
-    {
-        $mapResult = MapEmailAreacode::select('area_code')->where('email', $email)->first();
-        return Student::where('area_code', $mapResult['area_code'])
-            ->orderBy('grade')
-            ->orderBy('last_name')
-            ->get();
-    }
 
     /**
      * Display listing of the classrooms.
@@ -51,7 +37,7 @@ class ClassroomController extends Controller
         if ($classroom->email !== auth()->user()->email) {
             return Inertia::render('NotFound');
         }
-        $allStudents = $this->getStudentsForUser(auth()->user()->email);
+        $allStudents = Student::getStudentsForUser();
         $classroomStudents = $classroom->students()->get();
 
 

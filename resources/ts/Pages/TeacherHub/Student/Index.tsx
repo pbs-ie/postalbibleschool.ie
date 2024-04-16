@@ -58,7 +58,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
             <SidebarLayout>
                 <div></div>
                 <div className="mx-10 mb-10">
-                    <Heading1>Students List</Heading1>
+                    <Heading1>My Students</Heading1>
 
                     <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
                 </div>

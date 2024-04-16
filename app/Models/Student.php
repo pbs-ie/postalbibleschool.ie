@@ -18,8 +18,6 @@ class Student extends BaseModel
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    protected $appends = ['classroom_name'];
-
     protected function classroomName(): Attribute
     {
         return Attribute::make(
