@@ -2,15 +2,13 @@ import ResourceCard from "@/Components/Cards/ResourceCard";
 import Video from "@/Elements/Icons/VideoCamera";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage } from "@inertiajs/react";
-import ClassroomComponent from "@/Components/ClassroomComponent";
+import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import Play from "@/Elements/Icons/PlayIcon";
+import DashboardResourceSection from "@/Components/Sections/DashboardResourceSection";
 
 export default function Dashboard({ classrooms, canViewCurriculum = false }: { classrooms: any, canViewCurriculum: boolean }) {
-    const { auth } = usePage<PassedProps>().props;
-
 
     return (
         <WrapperLayout>
@@ -23,7 +21,10 @@ export default function Dashboard({ classrooms, canViewCurriculum = false }: { c
                     </div>
                 </div>
                 <ContentWrapper title="Teachers Hub" className="md:w-full lg:w-full">
-                    <ClassroomComponent canViewCurriculum={canViewCurriculum} classrooms={classrooms} />
+                    <div className="flex flex-col items-center w-full lg:max-w-4xl mx-auto">
+                        <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
+                        <ClassroomListSection classrooms={classrooms} />
+                    </div>
                 </ContentWrapper>
             </SidebarLayout>
         </WrapperLayout>

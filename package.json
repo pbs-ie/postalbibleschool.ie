@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "vite",
         "serve": "php artisan serve",
-        "local": "npm-run-all -p -r dev serve",
+        "local": "npm-run-all -p -r dev serve start:memcached",
         "start:memcached": "memcached start",
         "build:client": "vite build",
         "build:server": "vite build --ssr",
