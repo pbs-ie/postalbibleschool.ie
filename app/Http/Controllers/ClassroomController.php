@@ -90,11 +90,22 @@ class ClassroomController extends Controller
         $classroom = new Classroom();
         $classroom->name = strtolower($request->name);
         $classroom->email = auth()->user()->email;
+        $classroom->level_0_order = $request->level_0_order;
+        $classroom->level_1_order = $request->level_1_order;
+        $classroom->level_2_order = $request->level_2_order;
+        $classroom->level_3_order = $request->level_3_order;
+        $classroom->level_4_order = $request->level_4_order;
+        $classroom->tlp_order = $request->tlp_order;
         $classroom->curriculum_id = Curriculum::getDefaultId();
         $classroom->save();
 
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
+    }
 
+    public function update(ClassroomRequest $request, Classroom $classroom)
+    {
+        $validated = $request->validated();
+        dd($validated);
     }
 
     /**

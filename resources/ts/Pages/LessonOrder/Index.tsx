@@ -40,25 +40,31 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         columnHelper.accessor(row => row.level0Order.toString(), {
             id: 'level0Order',
             header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-pink">Level 0</span>,
+            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.level1Order.toString(), {
             id: 'level1Order',
             header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-orange">Level 1</span>,
+            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.level2Order.toString(), {
             id: 'level2Order',
             header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-red">Level 2</span>,
+            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.level3Order.toString(), {
             id: 'level3Order',
             header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-green">Level 3</span>,
+            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.level4Order.toString(), {
             id: 'level4Order',
             header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-blue">Level 4</span>,
+            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.tlpOrder.toString(), {
             header: 'TLP',
+            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'actions',
@@ -88,7 +94,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                         </div>
 
                     </div>
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                    <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
 
                 </div>
             </ContentWrapper>

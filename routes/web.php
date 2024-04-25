@@ -12,6 +12,7 @@ use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
 use App\Models\Classroom;
+use App\Models\Curriculum;
 use App\Models\DownloadsList;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -149,9 +150,15 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
 Route::get('/dashboard', function () {
+    $classroomList = Classroom::current();
+    // $curriculumList = Curriculum::current();
+    $classroomList->each(fn($obj) => (
+        $obj->setAttribute('curriculum_name', $obj->curriculum()->select('name')->find($obj->curriculum_id)->name)
+    ));
     return Inertia::render('Dashboard', [
-        'classrooms' => Classroom::current(),
-        'canViewCurriculum' => Gate::allows('view:curriculum')
+        'classrooms' => $classroomList,
+        'canViewCurriculum' => Gate::allows('view:curriculum'),
+        'curriculumList' => Curriculum::current(),
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 

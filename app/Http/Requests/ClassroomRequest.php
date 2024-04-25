@@ -24,7 +24,13 @@ class ClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required"]
+            "name" => ["required"],
+            "level_0_order" => ["numeric"],
+            "level_1_order" => ["numeric"],
+            "level_2_order" => ["numeric"],
+            "level_3_order" => ["numeric"],
+            "level_4_order" => ["numeric"],
+            "tlp_order" => ["numeric"],
         ];
     }
 }

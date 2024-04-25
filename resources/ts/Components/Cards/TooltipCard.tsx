@@ -52,7 +52,7 @@ export default function TooltipCard({ id, text, direction, children }: TooltipPr
         >
             {showTooltip && (
                 <div
-                    className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 min-w-40 text-sm ${getClassListByDirection()}`}
+                    className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 min-w-80 text-sm ${getClassListByDirection()}`}
                     data-placement={direction}
                     role="tooltip"
                     id={id}

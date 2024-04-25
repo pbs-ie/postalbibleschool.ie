@@ -12,11 +12,12 @@ interface AdvancedTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
     enableGlobalFilter?: boolean,
     enableRowSelection?: boolean,
+    enableSorting?: boolean,
     rowSelection?: RowSelectionState,
     searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
 }
-export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableRowSelection = false, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
+export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableRowSelection = false, enableSorting = true, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -38,6 +39,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
         onGlobalFilterChange: setFiltering,
         enableRowSelection: enableRowSelection,
         enableGlobalFilter: enableGlobalFilter,
+        enableSorting: enableSorting,
         onRowSelectionChange: setRowSelection,
         onColumnFiltersChange: setColumnFilters
     });
@@ -58,13 +60,13 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                     ></TextInput>
                 </div>
             }
-            <div className="relative h-96 overflow-x-auto">
+            <div className="relative overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead className="bg-gray-100 sticky top-0">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (
-                                    <th scope="col" className="p-2 px-4 text-left" key={header.id}>
+                                    <th colSpan={header.colSpan} scope="col" className={"p-2 px-4 text-left " + (header.colSpan > 1 ? "text-center" : "text-left")} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()

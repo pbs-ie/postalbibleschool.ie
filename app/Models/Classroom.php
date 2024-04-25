@@ -10,7 +10,13 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'level_0_order',
+        'level_1_order',
+        'level_2_order',
+        'level_3_order',
+        'level_4_order',
+        'tlp_order',
     ];
 
     public function scopeCurrent($query)
