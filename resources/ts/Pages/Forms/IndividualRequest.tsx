@@ -260,8 +260,8 @@ export default function IndividualRequest() {
                             </div>
                         ))}
                         <div className="flex justify-end gap-2">
-                            <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="my-2 before:content-['+'] before:pr-1 before:text-lg">Add Student</SecondaryButton>
-                            <SecondaryButton onClick={() => dispatch({ type: "removeValue" })} className="my-2 before:content-['-'] before:pr-1 before:text-lg">Remove Student</SecondaryButton>
+                            <SecondaryButton onClick={() => dispatch({ type: "addValue" })} >+ Add Student</SecondaryButton>
+                            <SecondaryButton onClick={() => dispatch({ type: "removeValue" })} >- Remove Student</SecondaryButton>
                         </div>
                     </div>
                     <h2 className="flex mb-4 text-lg font-bold">Contact Details</h2>
@@ -372,7 +372,7 @@ export default function IndividualRequest() {
                     </div>
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
-                        <PrimaryButton type="submit" className="w-1/3" processing={processing || (showDateError.filter((el) => el === true).length > 0)}>Request a Lesson</PrimaryButton>
+                        <PrimaryButton type="submit" processing={processing || (showDateError.filter((el) => el === true).length > 0)}>Request a Lesson</PrimaryButton>
                     </div>
                 </form>
             </div>
