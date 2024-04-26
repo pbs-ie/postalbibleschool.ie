@@ -1,5 +1,4 @@
 import BasicTable from "@/Components/Tables/BasicTable"
-import { Header1 } from "@/Components/Typography/DesignSystemTypography"
 import Banknotes from "@/Elements/Icons/Banknotes"
 import Calendar from "@/Elements/Icons/Calendar"
 import ChatBubble from "@/Elements/Icons/ChatBubble"
@@ -27,6 +26,16 @@ import Video from "@/Elements/Icons/VideoCamera"
 import Eye from "@/Elements/Icons/Eye"
 import ChevronDown from "@/Elements/Icons/ChevronDown"
 import CaratDown from "@/Elements/Icons/CaratDown"
+import ChevronUp from "@/Elements/Icons/ChevronUp"
+import ChevronUpDown from "@/Elements/Icons/ChevronUpDown"
+import HomeIcon from "@/Elements/Icons/HomeIcon"
+import InformationCircle from "@/Elements/Icons/InformationCircle"
+import LogoutIcon from "@/Elements/Icons/LogoutIcon"
+import QuestionMarkCircle from "@/Elements/Icons/QuestionMarkCircle"
+import RefreshIcon from "@/Elements/Icons/RefreshIcon"
+import UserIcon from "@/Elements/Icons/UserIcon"
+import FloppyDisk from "@/Elements/Icons/FloppyDisk"
+import CheckCircle from "@/Elements/Icons/CheckCircle"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -46,6 +55,9 @@ export default function IconSection() {
             heading: <CheckBadge />,
             content: "CheckBadge",
         }, {
+            heading: <CheckCircle />,
+            content: "CheckCircle",
+        }, {
             heading: <ChevronDown />,
             content: "ChevronDown",
         }, {
@@ -54,6 +66,12 @@ export default function IconSection() {
         }, {
             heading: <ChevronRight />,
             content: "ChevronRight",
+        }, {
+            heading: <ChevronUp />,
+            content: "ChevronUp",
+        }, {
+            heading: <ChevronUpDown />,
+            content: "ChevronUpDown",
         }, {
             heading: <Clock />,
             content: "Clock",
@@ -64,14 +82,11 @@ export default function IconSection() {
             heading: <CloseX />,
             content: "CloseX",
         }, {
-            heading: <Trash />,
-            content: "Trash",
-        }, {
             heading: <Download />,
             content: "Download",
         }, {
             heading: <EditIcon />,
-            content: "Edit",
+            content: "EditIcon",
         }, {
             heading: <Envelope />,
             content: "Envelope",
@@ -85,11 +100,23 @@ export default function IconSection() {
             heading: <File />,
             content: "File",
         }, {
+            heading: <FloppyDisk />,
+            content: "FloppyDisk",
+        }, {
             heading: <Group />,
             content: "Group",
         }, {
+            heading: <HomeIcon />,
+            content: "HomeIcon",
+        }, {
+            heading: <InformationCircle />,
+            content: "InformationCircle",
+        }, {
             heading: <Location />,
             content: "Location",
+        }, {
+            heading: <LogoutIcon />,
+            content: "LogoutIcon",
         }, {
             heading: <MinusCircle />,
             content: "MinusCircle",
@@ -106,8 +133,20 @@ export default function IconSection() {
             heading: <PlusSolid />,
             content: "PlusSolid",
         }, {
+            heading: <QuestionMarkCircle />,
+            content: "QuestionMarkCircle",
+        }, {
+            heading: <RefreshIcon />,
+            content: "RefreshIcon",
+        }, {
             heading: <School />,
-            content: "SchoolIcon",
+            content: "School",
+        }, {
+            heading: <Trash />,
+            content: "Trash",
+        }, {
+            heading: <UserIcon />,
+            content: "UserIcon",
         }, {
             heading: <Video />,
             content: "VideoCamera",
