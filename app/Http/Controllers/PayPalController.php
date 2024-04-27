@@ -62,6 +62,10 @@ class PayPalController extends Controller
     {
         return Inertia::render('Payment/Step');
     }
+    public function camp()
+    {
+        return Inertia::render('Payment/Camp');
+    }
 
     public function index()
     {
@@ -86,13 +90,15 @@ class PayPalController extends Controller
         $url = $this->endpointUrl . '/v2/checkout/orders';
         $payload = [
             "intent" => "CAPTURE",
-            "purchase_units" => [[
-                "description" => $description,
-                "amount" => [
-                    "currency_code" => "EUR",
-                    "value" => round($totalPurchaseValue, 2)
+            "purchase_units" => [
+                [
+                    "description" => $description,
+                    "amount" => [
+                        "currency_code" => "EUR",
+                        "value" => round($totalPurchaseValue, 2)
+                    ]
                 ]
-            ]]
+            ]
         ];
 
         $paypalRequestId = $this->guidv4();

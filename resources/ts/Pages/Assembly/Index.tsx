@@ -28,7 +28,7 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                         </div>
                     }
                     <Paragraph>
-                        You will find additional video content for the year 2022/2023 down below. These videos will parallel the BibleTime lessons students are doing for each month of the coming school year. We hope you will find these additional videos helpful.
+                        You will find additional video content for the year 2023/2024 down below. These videos will parallel the BibleTime lessons students are doing for each month of the coming school year. We hope you will find these additional videos helpful.
                     </Paragraph>
                 </div>
 

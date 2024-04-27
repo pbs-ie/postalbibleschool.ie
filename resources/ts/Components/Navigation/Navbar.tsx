@@ -70,8 +70,8 @@ export default function Navbar() {
                 },
                 {
                     name: 'Camp',
-                    href: route('events.camp'),
-                    active: route().current('events.camp')
+                    href: route('events.camp.index'),
+                    active: route().current('events.camp.*')
                 },
                 {
                     name: 'iTeam',

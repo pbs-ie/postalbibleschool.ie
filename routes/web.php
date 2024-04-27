@@ -82,13 +82,13 @@ Route::prefix('events')->name('events.')->group(function () {
         return Inertia::render('Events/Shed');
     })->name('shed');
 
-    Route::prefix('camp')->group(function () {
+    Route::prefix('camp')->name('camp.')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Events/Camp/Home');
-        })->name('camp');
+        })->name('index');
         Route::get('/signup', function () {
             return Inertia::render('Events/Camp/CampSignup');
-        })->name('camp.signup');
+        })->name('signup');
     });
 
     Route::get('/iteam', function () {
@@ -162,4 +162,5 @@ Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function (
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/', [PayPalController::class, 'index'])->name('index');
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
+    Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });

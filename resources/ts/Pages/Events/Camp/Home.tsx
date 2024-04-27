@@ -4,7 +4,6 @@ import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
@@ -19,6 +18,7 @@ import CampBanner from "@images/camp/camp_header.png";
 import { useState } from "react";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import { usePage } from "@inertiajs/react";
+import CampWrapper from "@/Layouts/CampWrapper";
 
 
 export default function Home() {
@@ -59,7 +59,7 @@ export default function Home() {
         }
     ]
     return (
-        <WrapperLayout>
+        <CampWrapper title="">
             <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
             <EventWrapper className="-mt-20 md:-mt-40" title="Summer Camp">
                 <ExtendScreenWrapper>
@@ -82,6 +82,6 @@ export default function Home() {
                     <Paragraph>Summer camp is something that is very special to many of the young people who have had the opportunity for a week of “summer adventure”. PBS camp began in 1963 in Co. Cork and has visited a few locations down through the years. Most recently the Camp has been held at Ovoca Manor in Co. Wicklow. Some of the young people who have attended camp in recent years have parents who also attended PBS camps. Much has changed from some of those early camps. We have proper toilets, showers and dining halls. When we are travelling it's one person to a seat, instead of “how many can you get in”, but the central purpose of camp remains the same. That purpose is the teaching of the Bible to young people.</Paragraph>
                 </ParagraphContainer>
             </EventWrapper>
-        </WrapperLayout>
+        </CampWrapper>
     )
 }
