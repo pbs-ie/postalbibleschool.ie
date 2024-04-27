@@ -21,11 +21,11 @@ export default function Dashboard({ classrooms, canViewCurriculum = false, curri
                         <ResourceCard size="small" Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
                     </div>
                 </div>
-                <ContentWrapper title="School Hub" className="md:w-full lg:w-full">
-                    <div className="flex flex-col items-center w-full lg:max-w-4xl mx-auto">
+                <ContentWrapper title="School Hub" className="w-full">
+                    <div className="flex flex-col lg:max-w-7xl w-full pr-4 mx-auto">
                         <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
                         <CurriculumListSection curriculumList={curriculumList} />
-                        <ClassroomListSection classrooms={classrooms} />
+                        <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
                     </div>
                 </ContentWrapper>
             </SidebarLayout>

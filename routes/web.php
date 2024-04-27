@@ -179,7 +179,7 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
     Route::get('/create', [ClassroomController::class, 'create'])->name('create');
     Route::get('/{classroom}', [ClassroomController::class, 'show'])->name('show');
     Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
-    Route::put('/{classroom}', [ClassroomController::class, 'update'])->name('update');
+    Route::post('/{classroom}', [ClassroomController::class, 'update'])->name('update');
     Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
 });
 

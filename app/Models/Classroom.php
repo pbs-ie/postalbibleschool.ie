@@ -17,6 +17,7 @@ class Classroom extends Model
         'level_3_order',
         'level_4_order',
         'tlp_order',
+        'curriculum_id'
     ];
 
     public function scopeCurrent($query)

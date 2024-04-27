@@ -80,7 +80,7 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
 
     ];
     return (
-        <div className="flex flex-col items-start w-full lg:max-w-4xl">
+        <div className="mb-4">
             <span className="flex items-start gap-2">
                 <Heading2Alt>Curriculum</Heading2Alt>
                 <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
@@ -88,7 +88,7 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
                 </TooltipCard>
             </span>
             {tableDataMemo && tableDataMemo.length > 0 ?
-                <div className="m-5 w-full">
+                <div className="w-full">
                     <AdvancedTable
                         data={tableDataMemo}
                         columns={defaultColumns}

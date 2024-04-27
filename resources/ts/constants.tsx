@@ -51,6 +51,7 @@ declare global {
         children: string | React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement>;
         formMethod?: string;
+        form?: string;
         dataTest?: string;
     }
     interface ButtonLinkProps {
@@ -129,12 +130,13 @@ declare global {
         id: number,
         name: string,
         curriculum_name: string,
-        level_0_order: number;
-        level_1_order: number;
-        level_2_order: number;
-        level_3_order: number;
-        level_4_order: number;
-        tlp_order: number;
+        curriculum_id: number,
+        level_0_order: number,
+        level_1_order: number,
+        level_2_order: number,
+        level_3_order: number,
+        level_4_order: number,
+        tlp_order: number,
     }
 
     type SettingKeys = "shed_upcoming_card";

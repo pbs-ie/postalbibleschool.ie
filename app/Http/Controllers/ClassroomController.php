@@ -7,9 +7,7 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use Inertia\Inertia;
 use App\Http\Controllers\StudentController;
-use App\Models\MapEmailAreacode;
 use App\Models\Student;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 
@@ -102,10 +100,19 @@ class ClassroomController extends Controller
         return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
     }
 
-    public function update(ClassroomRequest $request, Classroom $classroom)
+    /**
+     * Updates individual classroom entry
+     * 
+     * @param \App\Http\Requests\ClassroomRequest $classroomRequest
+     * @param \App\Models\Classroom $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(ClassroomRequest $classroomRequest, Classroom $classroom)
     {
-        $validated = $request->validated();
-        dd($validated);
+        $validated = $classroomRequest->validated();
+        $classroom->updateOrFail($validated);
+
+        return redirect()->route('dashboard')->with('success', "Changes have been updated");
     }
 
     /**
