@@ -117,7 +117,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Calendar,
             title: "When",
-            description: "15th to 22nd July, 2023",
+            description: "13th to 20th July, 2024",
             buttonText: "",
             buttonLink: ""
         },

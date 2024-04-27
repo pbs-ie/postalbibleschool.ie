@@ -6,8 +6,9 @@ import StepNavbar from '@/Components/Navigation/StepNavbar';
 import Navbar from '@/Components/Navigation/Navbar';
 import Footer from '@/Components/Navigation/Footer';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import CampNavbar from '@/Components/Navigation/CampNavbar';
 
-export default function WrapperLayout({ showStepNav = false, children }: { showStepNav?: boolean, children: React.ReactNode }) {
+export default function WrapperLayout({ showStepNav = false, showCampNav = false, children }: { showStepNav?: boolean, showCampNav?: boolean, children: React.ReactNode }) {
     const [showToTopButton, setShowToTopButton] = useState(false);
 
     useEffect(() => {
@@ -40,6 +41,9 @@ export default function WrapperLayout({ showStepNav = false, children }: { showS
                 <Navbar />
                 {showStepNav &&
                     <StepNavbar />
+                }
+                {showCampNav &&
+                    <CampNavbar />
                 }
                 <FlashMessage />
                 <div id="modal"></div>

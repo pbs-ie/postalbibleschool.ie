@@ -34,7 +34,7 @@ class SettingController extends Controller
     {
         $inputData = $request->all();
         foreach ($inputData as $key => $value) {
-            Setting::where('key', $key)->update(['value' => $value]);
+            Setting::where('key', $key)->update(['value' => $value["value"]]);
         }
         Cache::flush();
         return redirect()->route('events.settings.edit')->with('success', 'Settings updated');
