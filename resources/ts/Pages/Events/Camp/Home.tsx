@@ -18,9 +18,11 @@ import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
 import { useState } from "react";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import { usePage } from "@inertiajs/react";
 
 
 export default function Home() {
+    const { settings } = usePage<PassedProps>().props;
     const [isSignupActive, setIsSignupActive] = useState(true);
     const images: Gallery[] = [
         {
@@ -63,11 +65,11 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer type="reunion">
-                    {isSignupActive &&
+                {settings && settings.camp_upcoming_card.value === "1" &&
+                    <CardContainer type="camp">
                         <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
-                    }
-                </CardContainer>
+                    </CardContainer>
+                }
                 <Heading2>Camp</Heading2>
                 <ParagraphContainer>
                     <Paragraph>Camp is held each summer in mid-July and generally fills up extremely quickly after the forms go out in mid-May. Camp is held at Ovoca Manor just outside the village of Avoca and near Arklow in Co. Wicklow. Ovoca Manor is an outdoor adventure centre owned by Scripture Union. It offers accommodation and a whole range of activities. Our week at camp will typically involve some time in activities at the centre and several trips off site for other activities.</Paragraph>

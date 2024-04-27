@@ -87,7 +87,7 @@ Route::prefix('events')->name('events.')->group(function () {
             return Inertia::render('Events/Camp/Home');
         })->name('camp');
         Route::get('/signup', function () {
-            return Inertia::render('Events/Camp/Signup');
+            return Inertia::render('Events/Camp/CampSignup');
         })->name('camp.signup');
     });
 
