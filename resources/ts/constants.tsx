@@ -139,7 +139,7 @@ declare global {
         tlp_order: number,
     }
 
-    type SettingKeys = "shed_upcoming_card";
+    type SettingKeys = "shed_upcoming_card" | "camp_upcoming_card";
     interface SettingProps {
         key: SettingKeys;
         label: string;

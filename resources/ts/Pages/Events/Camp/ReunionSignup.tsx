@@ -2,7 +2,6 @@ import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading2 from "@/Components/Typography/Heading2";
 import Heading3 from "@/Components/Typography/Heading3";
-import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -11,7 +10,7 @@ import CampBanner from "@images/camp/camp_header.png";
 import PaypalQR from "@images/PayPal-QR.png";
 
 
-export default function Signup() {
+export default function ReunionSignup() {
     return (
         <WrapperLayout>
             <div className="absolute w-full h-full -z-30">
