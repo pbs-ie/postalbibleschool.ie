@@ -3,7 +3,6 @@ import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import EventWrapper from "@/Layouts/EventWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import CampBanner from "@images/camp/camp_header.png";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -23,10 +22,10 @@ export default function Signup() {
                     <Heading2>Rules for Application</Heading2>
                     <p className="text-left">In the past demand for places has been so high that many students have been disappointed. So that we can be fair to everyone, the following rules will be strictly applied.</p>
                     <ul className="mb-5 ml-5 text-left list-disc">
-                        <li>The age limit is 10 or over by the 1st January, 2024 and will strictly apply.</li>
+                        <li>The age limit of 10 or over by the 1st January, 2024 will strictly apply. Campers should not be over 17 years old by the end of camp.</li>
                         <li>Places are only available for those who are, and have been, regularly returning PBS lessons for the year 2024</li>
                         <li>Registration may be completed by post, delivery to our office or via the links online. Please do this as soon as possible since priority will be given to those who send their application early.</li>
-                        <li>Online registrations may be paid for through Paypal clicking the below.</li>
+                        <li>Online registrations may be paid for by following the button below. Payments are made through Paypal.</li>
                     </ul>
                     <ButtonLink hierarchy="primary" href={route('payment.camp')} Icon={ExternalLink}>Make Payment</ButtonLink>
 

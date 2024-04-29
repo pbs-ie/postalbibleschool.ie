@@ -33,17 +33,12 @@ const defaultProducts: Product[] = [
     {
         title: "General",
         quantity: 0,
-        price: 180
+        price: 30
     },
     {
         title: "2 in family",
         quantity: 0,
-        price: 350
-    },
-    {
-        title: "3 in family",
-        quantity: 0,
-        price: 520
+        price: 60
     }
 ];
 
@@ -173,11 +168,12 @@ export default function Camp() {
 
     const handleContinueButton = () => {
         setError('');
-        if (activeOption === null) {
+        if ((activeOption === null) || (activeOption === 4 && customPrice === '')) {
             setIsButtonDisabled(true);
             setError("Please select or enter an amount to send");
             return;
         }
+
         if (customPrice !== '') {
             cartDispatch({
                 type: "setItem",
@@ -207,20 +203,20 @@ export default function Camp() {
     }
 
     const displayAdditionalAction = () => {
-        if (activeOption === 0 || activeOption === 1) {
-            return (
-                <div className="w-full h-10 mb-4">
-                    <div className="flex items-center justify-end text-lg">
-                        <p>Select quantity: </p>
-                        <div className="flex items-center ml-2 rounded-full bg-slate-100">
-                            <button onClick={() => productDispatch({ type: "decrease", index: activeOption })} className="rounded-full"><MinusCircle className="w-10 h-10" /></button>
-                            <p className="px-2">{productState[activeOption].quantity}</p>
-                            <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusSolid className="w-10 h-10" /></button>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
+        // if (activeOption === 0) {
+        //     return (
+        //         <div className="w-full h-10 mb-4">
+        //             <div className="flex items-center justify-end text-lg">
+        //                 <p>Select quantity: </p>
+        //                 <div className="flex items-center ml-2 rounded-full bg-slate-100">
+        //                     <button onClick={() => productDispatch({ type: "decrease", index: activeOption })} className="rounded-full"><MinusCircle className="w-10 h-10" /></button>
+        //                     <p className="px-2">{productState[activeOption].quantity}</p>
+        //                     <button onClick={() => productDispatch({ type: "increase", index: activeOption })} className="rounded-full"><PlusSolid className="w-10 h-10" /></button>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     )
+        // }
         if (activeOption === 4) {
             return (
                 <div className="w-full h-10 mb-4">
@@ -266,7 +262,7 @@ export default function Camp() {
                         </div>
                         <h2 className="text-3xl">Postal Bible School</h2>
                         {!isSuccess && <>
-                            <p className="px-10 mb-5 text-xl">You can make payments for Camp to the<br /> Postal Bible School Trust here</p>
+                            <p className="px-10 mb-5 text-xl">You can pay the deposit for Summer Camp 2024 to <br /> Postal Bible School here</p>
                             {isButtonDisabled &&
                                 <div>
                                     <div className="grid grid-cols-3 gap-2 mb-4">
