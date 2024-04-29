@@ -120,7 +120,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         <EventCard title="Prizegivings" image={PrizegivingImage} imageAlt="Prizegiving image" routeName="events.prizegivings" />
                         <EventCard title="The SHED" image={ShedImage} imageAlt="SHED image" routeName="events.shed" />
                         <EventCard title="STEP" image={StepImage} imageAlt="STEP image" routeName="events.step.index" />
-                        <EventCard title="Summer Camp" image={CampImage} imageAlt="Summer Camp image" routeName="events.camp" />
+                        <EventCard title="Summer Camp" image={CampImage} imageAlt="Summer Camp image" routeName="events.camp.index" />
                     </div>
                 </div>
             </section>
