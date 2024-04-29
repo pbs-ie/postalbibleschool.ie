@@ -38,7 +38,7 @@ export default function Signup() {
                     <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdEmA2nUyNVz6Lzb5RxUctJLt3bOBPHp1PG7O-RoP3OCWnCVg/viewform">Loading…</iframe>
                 </div>
                 <ParagraphContainer className="text-right">
-                    <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
+                    <ButtonLink hierarchy="secondary" href={route('events.camp.index')}>Go Back</ButtonLink>
                 </ParagraphContainer>
             </EventWrapper>
         </CampWrapper >
