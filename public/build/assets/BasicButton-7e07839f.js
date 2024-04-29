@@ -1,0 +1,1 @@
+import{a as t,F as o}from"./app-8ad4302f.js";import{n as i}from"./helper-5cdff9d5.js";function c({type:a="button",hierarchy:s="primary",size:r="medium",processing:n=!1,children:e,onClick:m}){return t(o,{children:t("button",{type:a,onClick:m,className:i(s,r),disabled:n,children:e})})}export{c as B};

@@ -1,0 +1,1 @@
+import{a as e,F as t}from"./app-8ad4302f.js";function l({message:r}){return e(t,{children:e("div",{role:"alert",className:"w-full px-8 py-4 mb-2 text-left bg-red-500 rounded text-slate-50",children:e("p",{children:r})})})}export{l as T};

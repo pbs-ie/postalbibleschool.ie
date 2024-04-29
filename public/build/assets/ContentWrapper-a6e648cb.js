@@ -1,0 +1,1 @@
+import{j as s,F as t,a as e,b as m}from"./app-8ad4302f.js";import{H as o}from"./Heading1-dc635c5b.js";function c({title:a,className:r="",children:n}){return s(t,{children:[e(m,{title:a}),s("section",{className:`px-4 py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8 ${r}`,children:[e(o,{children:a}),n]})]})}export{c as C};

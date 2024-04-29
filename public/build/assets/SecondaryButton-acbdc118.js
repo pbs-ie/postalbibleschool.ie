@@ -1,0 +1,1 @@
+import{a as n}from"./app-8ad4302f.js";import{B as s}from"./BasicButton-7e07839f.js";function m({type:o="button",className:c="",processing:r,children:t,onClick:a}){return n(s,{hierarchy:"secondary",type:o,processing:r,onClick:a,children:t})}export{m as S};

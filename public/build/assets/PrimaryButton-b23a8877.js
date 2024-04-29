@@ -1,0 +1,1 @@
+import{a as o}from"./app-8ad4302f.js";import{B as m}from"./BasicButton-7e07839f.js";function e({type:t="submit",className:i="",processing:a=!1,children:r,onClick:s}){return o(m,{type:t,processing:a,onClick:s,children:r})}export{e as P};

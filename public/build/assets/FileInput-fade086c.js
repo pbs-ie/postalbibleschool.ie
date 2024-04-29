@@ -1,0 +1,1 @@
+import{a as r}from"./app-8ad4302f.js";function u({name:n,id:t,className:e,required:i,handleChange:o,accept:p}){return r("input",{type:"file",name:n,id:t,onChange:o,className:e,required:i,accept:p})}export{u as F};

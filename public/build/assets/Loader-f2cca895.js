@@ -1,0 +1,1 @@
+import{j as r,a as e}from"./app-8ad4302f.js";function s(){return r("div",{className:"flex pointer-events-none",children:[e("p",{className:"w-[25px] h-[25px] rounded-full border-4 border-slate-300 border-r-sky-500 animate-spin"}),e("p",{className:"ml-5 text-gray-400",children:"Loading..."})]})}export{s as L};

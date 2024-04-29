@@ -1,0 +1,1 @@
+import{a as m}from"./app-8ad4302f.js";function s({forInput:e,id:a,value:t,required:r,className:n,children:l}){return m("label",{id:a,htmlFor:e,className:`inline-block capitalize p-2 text-base rounded bg-sky-100 font-medium md:text-base mb-px text-slate-700 ${r&&"after:content-['*'] after:ml-1 after:text-red-500"} ${n}`,children:t||l})}export{s as I};

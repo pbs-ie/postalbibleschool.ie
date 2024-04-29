@@ -1,0 +1,1 @@
+import{a as t,F as i}from"./app-8ad4302f.js";function l({className:a="",children:e}){return t(i,{children:t("h3",{className:`leading-tight capitalize text-blue-800 text-2xl font-bold mb-2 mt-0 ${a}`,children:e})})}export{l as H};

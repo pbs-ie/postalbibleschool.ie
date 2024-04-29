@@ -1,0 +1,1 @@
+import{a as s,F as m,d as i,j as o}from"./app-8ad4302f.js";import{n as p}from"./helper-5cdff9d5.js";function c({hierarchy:t="primary",size:e="medium",href:n,children:r,Icon:a}){return s(m,{children:s(i,{as:"button",type:"button",className:p(t,e),href:n,children:o("span",{className:"flex items-center gap-2",children:[s("span",{children:r}),a&&s(a,{})]})})})}export{c as B};

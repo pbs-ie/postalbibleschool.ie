@@ -1,0 +1,1 @@
+import{a as d}from"./app-8ad4302f.js";function g({name:o,id:a,value:e,className:r,rows:n,required:t,handleChange:i}){return d("textarea",{name:o,id:a,value:e,className:"border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out "+r,autoComplete:"off",rows:n,required:t,onChange:s=>i(s)})}export{g as T};

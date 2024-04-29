@@ -1,0 +1,1 @@
+import{a as m}from"./app-8ad4302f.js";function o({forInput:e,value:t,required:a=!1,className:r="",children:l}){return m("label",{htmlFor:e,className:`block capitalize py-1 text-base rounded font-medium md:text-base mb-px text-slate-700 ${a===!0?"after:content-['*'] after:ml-1 after:text-red-500":""} ${r}`,children:t||l})}export{o as I};

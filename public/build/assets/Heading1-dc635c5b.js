@@ -1,0 +1,1 @@
+import{a as t,F as a}from"./app-8ad4302f.js";function l({children:e}){return t(a,{children:t("h1",{className:"p-6 mt-2 mb-4 text-4xl font-bold leading-snug text-blue-800 uppercase md:text-5xl font-title",children:e})})}export{l as H};
