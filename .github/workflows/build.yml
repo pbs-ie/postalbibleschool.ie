@@ -2,7 +2,7 @@ name: Laravel
 
 on:
   push:
-    branches: ["main"]
+    branches: ["staging"]
 
 jobs:
   laravel-deploy:
@@ -26,7 +26,7 @@ jobs:
           php artisan route:cache
           php artisan view:cache
       - name: Node installation
-        run: npm install --production
+        run: npm install
       - name: Build steps
         run: |
           npm run build:client
