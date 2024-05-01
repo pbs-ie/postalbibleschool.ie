@@ -34,9 +34,12 @@ jobs:
       - name: SFTP push to server
         uses: Dylan700/sftp-upload-action@latest
         with:
-          server: sftp.server.com
-          username: jason-bourne
-          key: ${{secrets.SSH_KEY}}
+          server: ${{vars.SSH_HOST}}
+          username: ${{vars.SSH_USER}}
+          password: ${{secrets.SSH_PASS}}
           port: 22
           uploads: |
             ./ => ./
+          ignore: |
+            *.git
+            */**/*git*
