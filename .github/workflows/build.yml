@@ -38,4 +38,4 @@ jobs:
           username: ${{vars.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           uploads: |
-            ./ => ./github-build/
+            ./ => ./
