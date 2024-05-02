@@ -50,7 +50,7 @@ jobs:
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
           local: ${{github.sha}}.tar.gz
-          remote: "~/artifacts"
+          remote: "~/private_html/artifacts"
           host: ${{secrets.SSH_HOST}}
           user: ${{secrets.SSH_USER}}
           port: ${{secrets.SSH_PORT}}
