@@ -5,37 +5,36 @@ on:
     branches: ["staging"]
 
 jobs:
-  laravel-deploy:
+  create-deployment-artifacts:
+    name: Create Deployment artifacts
     runs-on: ubuntu-latest
-
     steps:
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.0"
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install Dependencies
-        run: composer install --optimize-autoloader --no-dev
-      - name: Artisan caching
-        run: |
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
+
       - name: Node installation
         run: npm install
       - name: Build steps
         run: |
           npm run build:client
-          npm run build:server
-      - name: SFTP push to server
-        uses: Dylan700/sftp-upload-action@latest
+      - name: Configure PHP 8.0
+        uses: shivammathur/setup-php@v2
         with:
-          server: ${{vars.SSH_HOST}}
-          username: ${{vars.SSH_USER}}
-          password: ${{secrets.SSH_PASS}}
-          uploads: |
-            ./ => ./
+          php-version: "8.0"
+      - name: Install Composer dependencies
+        run: composer install --optimize-autoloader --no-dev --prefer-dist
+      - name: Artisan caching
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+      - name: Create deployment archive
+        env:
+          GITHUB_SHA: ${{github.sha}}
+        run: tar -czf ${GITHUB_SHA}.tar.gz --exclude=node_modules --exclude=*.git *
+
+      - name: Store artifact for distribution
+        uses: actions/upload-artifacts@v4
+        with:
+          name: app-build
+          path: ${{github.sha}}.tar.gz
