@@ -51,8 +51,9 @@ jobs:
         with:
           local: ${{github.sha}}.tar.gz
           remote: "~/artifacts"
-          host: ${{vars.HOST}}
-          user: ${{vars.USER}}
-          password: ${{secrets.PASS}}
+          host: ${{secrets.SSH_HOST}}
+          user: ${{secrets.SSH_USER}}
+          port: ${{secrets.SSH_PORT}}
+          password: ${{secrets.SSH_PASS}}
           pre_upload: echo "This will be executed before the upload!"
           post_upload: echo "This will be executed after the upload!"
