@@ -46,16 +46,22 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app-build
-      - name: Upload
-        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+      - name: Upload artifact to server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          local: "./${{github.sha}}.tar.gz"
-          remote: "${{secrets.SSH_PATH}}/artifacts"
           host: ${{secrets.SSH_HOST}}
-          user: ${{secrets.SSH_USER}}
-          port: ${{secrets.SSH_PORT}}
+          username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
-          pre_upload: echo "This will be executed before the upload!"
-          post_upload: |
-            mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-            tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}"
+          port: ${{secrets.SSH_PORT}}
+          source: "${{github.sha}}.tar.gz"
+          target: "${{secrets.SSH_PATH}}/artifacts"
+      - name: Extract archive
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USER}}
+          password: ${{secrets.SSH_PASS}}
+          port: ${{secrets.SSH_PORT}}
+          script: |
+            mkdir -p "${{secrets.SSH_PATH}}/releases/${{github.sha}}"
+            tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C ${{secrets.SSH_PATH}}/releases/${{github.sha}}
