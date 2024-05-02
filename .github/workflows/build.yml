@@ -53,8 +53,8 @@ jobs:
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
-          source: "${{github.sha}}.tar.gz"
-          target: "${{secrets.SSH_PATH}}/artifacts"
+          source: ${{github.sha}}.tar.gz
+          target: ${{secrets.SSH_PATH}}/artifacts
       - name: Extract archive
         uses: appleboy/ssh-action@v1.0.3
         with:
