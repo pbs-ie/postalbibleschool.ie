@@ -55,9 +55,7 @@ jobs:
           user: ${{secrets.SSH_USER}}
           port: ${{secrets.SSH_PORT}}
           password: ${{secrets.SSH_PASS}}
-          pre_upload: |
-            mkdir -p ${{secrets.SSH_PATH}}/releases
-            mkdir -p ${{secrets.SSH_PATH}}/artifacts
+          pre_upload: mkdir -p ${{secrets.SSH_PATH}}/artifacts
           post_upload: |
             mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
             tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}"
