@@ -38,3 +38,21 @@ jobs:
         with:
           name: app-build
           path: ${{github.sha}}.tar.gz
+
+  prepare-release-on-server:
+    runs-on: ubuntu-latest
+    needs: [create-deployment-artifacts]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-build
+      - name: Upload
+        uses: mdallasanta/ssh-scp-deploy@1.2.0
+        with:
+          local: ${{github.sha}}.tar.gz
+          remote: "~/artifacts"
+          host: ${{vars.HOST}}
+          user: ${{vars.USER}}
+          password: ${{secrets.PASS}}
+          pre_upload: echo "This will be executed before the upload!"
+          post_upload: echo "This will be executed after the upload!"
