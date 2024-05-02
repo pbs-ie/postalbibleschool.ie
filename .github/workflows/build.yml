@@ -46,7 +46,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app-build
-      - name: Upload
+      - name: Upload artifact to server and extract
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
           local: "./${{github.sha}}.tar.gz"
