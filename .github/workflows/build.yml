@@ -52,7 +52,7 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           user: ${{secrets.SSH_USER}}
           port: ${{secrets.SSH_PORT}}
-          password: ${{secrets.SSH_PASS}}
+          pass: ${{secrets.SSH_PASS}}
           first_ssh: |
             mkdir -p ${{secrets.SSH_PATH}}/artifacts
             mkdir -p ${{secrets.SSH_PATH}}/releases
