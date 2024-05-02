@@ -47,15 +47,17 @@ jobs:
         with:
           name: app-build
       - name: Upload artifact to server and extract
-        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
         with:
-          local: "./${{github.sha}}.tar.gz"
-          remote: "${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz"
           host: ${{secrets.SSH_HOST}}
           user: ${{secrets.SSH_USER}}
           port: ${{secrets.SSH_PORT}}
           password: ${{secrets.SSH_PASS}}
-          pre_upload: mkdir -p ${{secrets.SSH_PATH}}/artifacts
-          post_upload: |
+          first_ssh: |
+            mkdir -p ${{secrets.SSH_PATH}}/artifacts
+            mkdir -p ${{secrets.SSH_PATH}}/releases
+          scp: |
+            ./${{github.sha}}.tar.gz => "${{secrets.SSH_PATH}}/artifacts/"
+          last_ssh: |
             mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
             tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}"
