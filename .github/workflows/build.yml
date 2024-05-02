@@ -47,7 +47,7 @@ jobs:
         with:
           name: app-build
       - name: Upload
-        uses: mdallasanta/ssh-scp-deploy@1.2.0
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
           local: ${{github.sha}}.tar.gz
           remote: "~/artifacts"
