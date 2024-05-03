@@ -87,8 +87,8 @@ jobs:
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
-          envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV
+          envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV, BASE_PATH
           script: |
             printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
-            ln -sf ${BASE_PATH}/.env $RELEASE_PATH
-            ln -snf $RELEASE_PATH ${BASE_PATH}/current
+            ln -sf ${BASE_PATH}/.env ${RELEASE_PATH}
+            ln -snf ${RELEASE_PATH} ${BASE_PATH}/current
