@@ -80,11 +80,15 @@ jobs:
           GITHUB_SHA: ${{github.sha}}
           RELEASE_PATH: ${{secrets.SSH_PATH}}/releases/${{github.sha}}
           ACTIVE_RELEASE_PATH: ~/public_html/current
+          LARAVEL_ENV: ${{secrets.LARAVEL_ENV_STAGING}}
+          BASE_PATH: ~/public_html
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
-          envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH
+          envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV
           script: |
-            ln -snf $RELEASE_PATH ~/public_html/current
+            printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
+            ln -sf ${BASE_PATH}/.env $RELEASE_PATH
+            ln -snf $RELEASE_PATH ${BASE_PATH}/current
