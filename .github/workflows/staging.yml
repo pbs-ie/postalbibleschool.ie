@@ -21,7 +21,7 @@ jobs:
         with:
           php-version: "8.0"
       - name: Install Composer dependencies
-        run: composer install --optimize-autoloader --no-dev --prefer-dist
+        run: composer install --optimize-autoloader --no-dev
       - name: Artisan caching
         run: |
           php artisan config:cache
