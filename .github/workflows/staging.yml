@@ -94,6 +94,6 @@ jobs:
           port: ${{secrets.SSH_PORT}}
           envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV, BASE_PATH
           script: |
-            printf %s $LARAVEL_ENV > ${BASE_PATH}/.env
+            printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
             ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
