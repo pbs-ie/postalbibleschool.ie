@@ -65,7 +65,6 @@ jobs:
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
           script: |
-            mkdir -p ${{secrets.SSH_PATH}}/artifacts
-            mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-            chmod -R 777 ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-            tar -xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}/"
+            mkdir -p ~/private_html/artifacts
+            mkdir -p ~/private_html/releases/${{github.sha}}
+            tar -xzf ~/private_html/artifacts/${{github.sha}}.tar.gz -C ~/private_html/releases/${{github.sha}}/
