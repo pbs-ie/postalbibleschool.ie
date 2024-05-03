@@ -55,6 +55,7 @@ jobs:
           port: ${{secrets.SSH_PORT}}
           source: ${{github.sha}}.tar.gz
           target: ${{secrets.SSH_PATH}}/artifacts
+          tar_tmp_path: ${{secrets.SSH_PATH}}/temp
 
       - name: SSH Extract artifact and create folders
         uses: appleboy/ssh-action@v1.0.3
