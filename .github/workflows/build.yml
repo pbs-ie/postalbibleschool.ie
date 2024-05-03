@@ -55,9 +55,9 @@ jobs:
           pass: ${{secrets.SSH_PASS}}
           first_ssh: |
             mkdir -p ${{secrets.SSH_PATH}}/artifacts
-            mkdir -p ${{secrets.SSH_PATH}}/releases
+            mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
+
           scp: |
             ./${{github.sha}}.tar.gz => "${{secrets.SSH_PATH}}/artifacts/"
           last_ssh: |
-            mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
             tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}"
