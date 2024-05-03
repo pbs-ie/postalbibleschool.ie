@@ -79,7 +79,7 @@ jobs:
         env:
           GITHUB_SHA: ${{github.sha}}
           RELEASE_PATH: ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-          ACTIVE_RELEASE_PATH: ~/public_html/current/
+          ACTIVE_RELEASE_PATH: ~/public_html/current
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
@@ -87,4 +87,4 @@ jobs:
           port: ${{secrets.SSH_PORT}}
           envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH
           script: |
-            ln -s -n -f $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            ln -snf $RELEASE_PATH ~/public_html/current
