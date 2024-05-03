@@ -54,20 +54,25 @@ jobs:
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
           source: ${{github.sha}}.tar.gz
-          target: ${{secrets.SSH_PATH}}/artifacts
-          tar_tmp_path: ${{secrets.SSH_PATH}}/temp
+          target: ${{secrets.SSH_PATH}}/private_html/artifacts
+          tar_tmp_path: ${{secrets.SSH_PATH}}/private_html/temp
 
       - name: SSH Extract artifact and create folders
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GITHUB_SHA: ${{github.sha}}
+          RELEASE_PATH: ${{secrets.SSH_PATH}}/private_html/releases/${{github.sha}}
+          ARTIFACTS_PATH: ${{secrets.SSH_PATH}}/private_html/artifacts
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
+          envs: RELEASE_PATH, ARTIFACTS_PATH, GITHUB_SHA
           script: |
-            mkdir -p ${{secrets.SSH_PATH}}/artifacts
-            mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-            tar -xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C ${{secrets.SSH_PATH}}/releases/${{github.sha}}/
+            mkdir -p $ARTIFACTS_PATH
+            mkdir -p $RELEASE_PATH
+            tar -xzf ${ARTIFACTS_PATH}/${GITHUB_SHA}.tar.gz -C $RELEASE_PATH
 
   activate-release:
     name: "Activate release"
@@ -78,10 +83,10 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         env:
           GITHUB_SHA: ${{github.sha}}
-          RELEASE_PATH: ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-          ACTIVE_RELEASE_PATH: $HOME/public_html/current
+          RELEASE_PATH: ${{secrets.SSH_PATH}}/private_html/releases/${{github.sha}}
+          ACTIVE_RELEASE_PATH: ${{secrets.SSH_PATH}}/public_html/current
           LARAVEL_ENV: ${{secrets.LARAVEL_ENV_STAGING}}
-          BASE_PATH: $HOME/public_html
+          BASE_PATH: ${{secrets.SSH_PATH}}/public_html
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
@@ -91,4 +96,4 @@ jobs:
           script: |
             printf %s $LARAVEL_ENV > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
-            ln -snf $RELEASE_PATH ${BASE_PATH}/current
+            ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
