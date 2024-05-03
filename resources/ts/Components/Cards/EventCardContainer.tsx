@@ -124,7 +124,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Location,
             title: "Where",
-            description: "Avoca Manor, Avoca, Co Wicklow",
+            description: "Ovoca Manor, Avoca, Co Wicklow",
             buttonText: "",
             buttonLink: ""
         }
