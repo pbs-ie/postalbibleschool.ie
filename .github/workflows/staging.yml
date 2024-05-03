@@ -116,7 +116,7 @@ jobs:
           username: ${{secrets.SSH_USER}}
           password: ${{secrets.SSH_PASS}}
           port: ${{secrets.SSH_PORT}}
-          envs: RELEASE_PATH, ARTIFACTS_PATH
+          envs: RELEASES_PATH, ARTIFACTS_PATH
           script: |
-            cd $RELEASE_PATH && ls -t -1 | tail -n +6 | xargs echo 
+            cd $RELEASES_PATH && ls -t -1 | tail -n +6 | xargs echo 
             cd $ARTIFACTS_PATH && ls -t -1 | tail -n +6 | xargs echo
