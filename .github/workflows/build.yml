@@ -67,4 +67,4 @@ jobs:
           script: |
             mkdir -p ${{secrets.SSH_PATH}}/artifacts
             mkdir -p ${{secrets.SSH_PATH}}/releases/${{github.sha}}
-            tar xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}/"
+            tar -xzf ${{secrets.SSH_PATH}}/artifacts/${{github.sha}}.tar.gz -C "${{secrets.SSH_PATH}}/releases/${{github.sha}}/"
