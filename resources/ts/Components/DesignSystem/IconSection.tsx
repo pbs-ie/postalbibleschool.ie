@@ -36,6 +36,7 @@ import RefreshIcon from "@/Elements/Icons/RefreshIcon"
 import UserIcon from "@/Elements/Icons/UserIcon"
 import FloppyDisk from "@/Elements/Icons/FloppyDisk"
 import CheckCircle from "@/Elements/Icons/CheckCircle"
+import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -81,6 +82,9 @@ export default function IconSection() {
         }, {
             heading: <CloseX />,
             content: "CloseX",
+        }, {
+            heading: <DeviceTabletIcon />,
+            content: "DeviceTabletIcon",
         }, {
             heading: <Download />,
             content: "Download",

@@ -4,6 +4,8 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import TooltipCard from "../Cards/TooltipCard";
 import Heading2Alt from "../Typography/Heading2Alt";
+import Newspaper from "@/Elements/Icons/Newspaper";
+import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon";
 
 export default function CurriculumListSection({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
     const columnHeaderMap = {
@@ -21,6 +23,22 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
 
+    const mapLessonTypeToIcon = {
+        paper: <span title="paper">
+            <Newspaper />
+        </span>,
+        digital: <span title="digital">
+            <DeviceTabletIcon className="w-6 h-6 text-blue-800" />
+        </span>
+    }
+
+    const getIconForLessonType = (lessonType?: "paper" | "digital") => {
+        if (lessonType) {
+            return mapLessonTypeToIcon[lessonType]
+        }
+        return "";
+    }
+
     const defaultColumns = [
         columnHelper.display({
             id: 'select-col',
@@ -37,45 +55,85 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
             header: "Name",
             enableColumnFilter: false
         }),
-        columnHelper.accessor(row => row.sep_lesson + "", {
+        columnHelper.display({
+            id: 'sep-lesson',
             header: columnHeaderMap.sep_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.sep_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.oct_lesson + "", {
+        columnHelper.display({
+            id: 'oct-lesson',
             header: columnHeaderMap.oct_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.oct_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.nov_lesson + "", {
+        columnHelper.display({
+            id: 'nov-lesson',
             header: columnHeaderMap.nov_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.nov_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.dec_lesson + "", {
+        columnHelper.display({
+            id: 'dec-lesson',
             header: columnHeaderMap.dec_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.dec_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.jan_lesson + "", {
+        columnHelper.display({
+            id: 'jan-lesson',
             header: columnHeaderMap.jan_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jan_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.feb_lesson + "", {
+        columnHelper.display({
+            id: 'feb-lesson',
             header: columnHeaderMap.feb_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.feb_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.mar_lesson + "", {
+        columnHelper.display({
+            id: 'mar-lesson',
             header: columnHeaderMap.mar_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.mar_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.apr_lesson + "", {
+        columnHelper.display({
+            id: 'apr-lesson',
             header: columnHeaderMap.apr_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.apr_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.may_lesson + "", {
+        columnHelper.display({
+            id: 'may-lesson',
             header: columnHeaderMap.may_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.may_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.jun_lesson + "", {
+        columnHelper.display({
+            id: 'jun-lesson',
             header: columnHeaderMap.jun_lesson,
-            enableColumnFilter: false
+            enableColumnFilter: false,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jun_lesson)
+            ),
         }),
 
     ];
