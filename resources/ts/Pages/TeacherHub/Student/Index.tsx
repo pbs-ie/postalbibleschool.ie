@@ -16,7 +16,10 @@ export interface StudentProps {
     area_code: string,
     grade: string,
     id: number,
-    classroom_name?: string;
+    classroom?: {
+        id: number,
+        name: string
+    };
 }
 
 export default function Index({ students }: { students: StudentProps[] }) {
@@ -44,7 +47,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
         columnHelper.accessor(row => row.grade, {
             header: "Level"
         }),
-        columnHelper.accessor(row => row.classroom_name, {
+        columnHelper.accessor(row => row.classroom?.name, {
             header: "Classroom",
         })
     ];

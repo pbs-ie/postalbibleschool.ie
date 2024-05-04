@@ -93,7 +93,7 @@ class StudentController extends Controller
     public function index()
     {
         return Inertia::render("TeacherHub/Student/Index", [
-            'students' => Student::getStudentsForUser()->append('classroom_name'),
+            'students' => Student::with('classroom:id,name')->getStudentsForUser(),
         ]);
     }
 

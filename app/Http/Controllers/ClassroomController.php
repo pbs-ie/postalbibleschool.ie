@@ -102,7 +102,7 @@ class ClassroomController extends Controller
         $classroom->curriculum_id = Curriculum::getDefaultId();
         $classroom->save();
 
-        return redirect()->route('classroom.show', $classroom->id)->with('success', "New classroom created");
+        return redirect()->route('dashboard', $classroom->id)->with('success', "New classroom created");
     }
 
     /**

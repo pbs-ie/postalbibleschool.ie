@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Str;
 
 class Classroom extends Model
 {
@@ -23,6 +25,14 @@ class Classroom extends Model
     public function scopeCurrent($query)
     {
         return $query->where('email', auth()->user()->email)->get();
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value) =>
+            Str::headline($value),
+        );
     }
 
     public function students()
