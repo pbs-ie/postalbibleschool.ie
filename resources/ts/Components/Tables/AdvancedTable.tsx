@@ -66,7 +66,8 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (
-                                    <th colSpan={header.colSpan} scope="col" className={"p-2 px-4 text-left " + (header.colSpan > 1 ? "text-center" : "text-left")} key={header.id}>
+                                    // @ts-ignore Meta may have className
+                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 px-4 text-left"} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()
@@ -110,9 +111,9 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                     </tbody>
                     <tfoot>
                         {table.getFooterGroups().map(footerGroup => (
-                            <tr key={footerGroup.id}>
+                            <tr className="bg-gray-100" key={footerGroup.id}>
                                 {footerGroup.headers.map(header => (
-                                    <th key={header.id}>
+                                    <th className={header.column.columnDef.footer ? "text-left p-2 px-4" : ""} key={header.id}>
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(

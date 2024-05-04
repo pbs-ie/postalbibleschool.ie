@@ -88,10 +88,10 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
 
     const setRowEditMode = (idx: number) => {
         resetEditState();
-        const returnArray = defaultEditingArray;
-        returnArray[idx] = true;
+        const editArray = defaultEditingArray;
+        editArray[idx] = true;
         setData({ ...classrooms[idx] });
-        setIsEditing(returnArray);
+        setIsEditing(editArray);
     }
 
     const editableCell = ({ row, column }: { row: Row<ClassroomProps>, column: Column<ClassroomProps, string> }) => {
@@ -162,6 +162,33 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         )
     }
 
+    // ****************TABLE SECTION ***********************
+    const defaultTotals = {
+        level_0_totals: 0,
+        level_1_totals: 0,
+        level_2_totals: 0,
+        level_3_totals: 0,
+        level_4_totals: 0,
+        tlp_totals: 0,
+        all_totals: 0
+    };
+    const [columnTotals, setColumnTotals] = useState(defaultTotals);
+
+    useEffect(() => {
+        let totals = { ...defaultTotals };
+        classrooms.forEach((value) => {
+            totals.level_0_totals += value.level_0_order;
+            totals.level_1_totals += value.level_1_order;
+            totals.level_2_totals += value.level_2_order;
+            totals.level_3_totals += value.level_3_order;
+            totals.level_4_totals += value.level_4_order;
+            totals.tlp_totals += value.tlp_order;
+            totals.all_totals += value.level_0_order + value.level_1_order + value.level_2_order + value.level_3_order + value.level_4_order + value.tlp_order;
+        });
+        setColumnTotals(totals);
+
+    }, [classrooms]);
+
     const tableDataMemo = useMemo(() => classrooms, [classrooms]);
     const columnHelper = createColumnHelper<ClassroomProps>();
 
@@ -176,6 +203,9 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     {Number(row.id) + 1}
                 </div>
             ),
+            footer: () => (
+                <p>Totals</p>
+            )
         }),
         columnHelper.accessor(row => row.name, {
             id: "name",
@@ -192,42 +222,64 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         columnHelper.accessor(row => row.level_0_order + "", {
             id: "level_0_order",
             header: () => <span className="text-nowrap">Level 0</span>,
+            footer: () => <span className="text-left">{columnTotals.level_0_totals}</span>,
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            meta: {
+                className: "bg-bibletime-pink text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level_1_order + "", {
             id: "level_1_order",
             header: () => <span className="text-nowrap">Level 1</span>,
+            footer: () => <span className="text-left">{columnTotals.level_1_totals}</span>,
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            meta: {
+                className: "bg-bibletime-orange text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level_2_order + "", {
             id: "level_2_order",
             header: () => <span className="text-nowrap">Level 2</span>,
+            footer: () => <span className="text-left">{columnTotals.level_2_totals}</span>,
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            meta: {
+                className: "bg-bibletime-red text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level_3_order + "", {
             id: "level_3_order",
             header: () => <span className="text-nowrap">Level 3</span>,
+            footer: () => <span className="text-left">{columnTotals.level_3_totals}</span>,
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            meta: {
+                className: "bg-bibletime-green text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level_4_order + "", {
             id: "level_4_order",
             header: () => <span className="text-nowrap">Level 4</span>,
+            footer: () => <span className="text-left">{columnTotals.level_4_totals}</span>,
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            meta: {
+                className: "bg-bibletime-blue text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.tlp_order + "", {
             id: "tlp_order",
             header: () => <span className="text-nowrap">TLP</span>,
+            footer: () => <span className="text-left">{columnTotals.tlp_totals}</span>,
             enableColumnFilter: false,
             cell: editableCell
         }),
         columnHelper.display({
             id: 'actions',
             header: () => "Actions",
+            footer: () => <span>All: {columnTotals.all_totals}</span>,
             cell: ({ row }) => {
                 return (
                     <div key={'actions' + row.id} className="flex items-center">
@@ -263,6 +315,8 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             }
         })
     ];
+    // ****************END TABLE SECTION ***********************
+
 
     return (
         <div className="flex flex-col">
