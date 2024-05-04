@@ -1,6 +1,8 @@
 import { gleanersSeriesNames } from "@/constants";
 import { useEffect, useRef } from "react";
 import { scroller } from "react-scroll";
+import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon";
+import Newspaper from "@/Elements/Icons/Newspaper";
 
 interface propertyItem {
     link: string;
@@ -158,4 +160,21 @@ export const modalHelper = () => {
         dialogRef.current?.close();
     }
     return { dialogRef, showModal, closeModal };
+}
+
+// ************* Curriculum Helper ************
+const mapLessonTypeToIcon = {
+    paper: <span title="paper">
+        <Newspaper />
+    </span>,
+    digital: <span title="digital">
+        <DeviceTabletIcon className="w-6 h-6 text-blue-800" />
+    </span>
+}
+
+export const getIconForLessonType = (lessonType?: "paper" | "digital") => {
+    if (lessonType) {
+        return mapLessonTypeToIcon[lessonType]
+    }
+    return "";
 }

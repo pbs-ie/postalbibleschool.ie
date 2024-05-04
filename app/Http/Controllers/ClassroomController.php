@@ -36,7 +36,12 @@ class ClassroomController extends Controller
             return Inertia::render('NotFound');
         }
         $allStudents = Student::getStudentsForUser();
-        $classroomStudents = $classroom->students()->get();
+        $classroomStudents = $classroom
+            ->students()
+            ->orderBy('grade')
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get();
 
 
         $curricula = Curriculum::current();
@@ -88,12 +93,12 @@ class ClassroomController extends Controller
         $classroom = new Classroom();
         $classroom->name = strtolower($request->name);
         $classroom->email = auth()->user()->email;
-        $classroom->level_0_order = $request->level_0_order;
-        $classroom->level_1_order = $request->level_1_order;
-        $classroom->level_2_order = $request->level_2_order;
-        $classroom->level_3_order = $request->level_3_order;
-        $classroom->level_4_order = $request->level_4_order;
-        $classroom->tlp_order = $request->tlp_order;
+        $classroom->level_0_order = 0;
+        $classroom->level_1_order = 0;
+        $classroom->level_2_order = 0;
+        $classroom->level_3_order = 0;
+        $classroom->level_4_order = 0;
+        $classroom->tlp_order = 0;
         $classroom->curriculum_id = Curriculum::getDefaultId();
         $classroom->save();
 

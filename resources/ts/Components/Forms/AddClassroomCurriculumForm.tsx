@@ -5,6 +5,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import RadioInput from "./RadioInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router } from "@inertiajs/react";
+import { getIconForLessonType } from "@/helper";
 
 export default function AddClassroomCurriculumForm({ curricula, classroomId, onClose }: { curricula: CurriculumProps[], classroomId: number, onClose: () => void }) {
     const tableDataMemo = useMemo(() => curricula, [curricula]);
@@ -36,51 +37,100 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
             ),
         }),
         columnHelper.accessor(row => row.name, {
-            header: "Name"
+            header: "Name",
+            enableColumnFilter: false,
         }),
-        columnHelper.accessor(row => row.curriculum_type, {
-            header: "Type"
-        }),
-        columnHelper.accessor(row => row.jan_lesson, {
-            header: "Jan",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.feb_lesson, {
-            header: "Feb",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.mar_lesson, {
-            header: "Mar",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.apr_lesson, {
-            header: "Apr",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.may_lesson, {
-            header: "May",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.jun_lesson, {
-            header: "Jun",
-            enableSorting: false
-        }),
-        columnHelper.accessor(row => row.sep_lesson, {
+        columnHelper.display({
+            id: 'sep-lesson',
             header: "Sep",
-            enableSorting: false
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.sep_lesson)
+            }
         }),
-        columnHelper.accessor(row => row.oct_lesson, {
+        columnHelper.display({
+            id: 'oct-lesson',
             header: "Oct",
-            enableSorting: false
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.oct_lesson)
+            }
         }),
-        columnHelper.accessor(row => row.nov_lesson, {
+        columnHelper.display({
+            id: 'nov-lesson',
             header: "Nov",
-            enableSorting: false
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.nov_lesson)
+            }
         }),
-        columnHelper.accessor(row => row.dec_lesson, {
+        columnHelper.display({
+            id: 'dec-lesson',
             header: "Dec",
-            enableSorting: false
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.dec_lesson)
+            }
         }),
+        columnHelper.display({
+            id: 'jan-lesson',
+            header: "Jan",
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.jan_lesson)
+            },
+            enableColumnFilter: false
+        }),
+        columnHelper.display({
+            id: 'feb-lesson',
+            header: "Feb",
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.feb_lesson)
+            },
+            enableColumnFilter: false
+        }),
+        columnHelper.display({
+            id: 'mar-lesson',
+            header: "Mar",
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.mar_lesson)
+            },
+            enableColumnFilter: false,
+        }),
+        columnHelper.display({
+            id: 'apr-lesson',
+            header: "Apr",
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.apr_lesson)
+            }
+        }),
+        columnHelper.display({
+            id: 'may-lesson',
+            header: "May",
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.may_lesson)
+            }
+        }),
+        columnHelper.display({
+            id: 'jun-lesson',
+            header: "Jun",
+            enableColumnFilter: false,
+            enableSorting: false,
+            cell: ({ row }) => {
+                return getIconForLessonType(row.original.jun_lesson)
+            }
+        }),
+
     ]
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

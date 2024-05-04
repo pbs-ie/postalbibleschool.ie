@@ -46,7 +46,6 @@ export default function Index({ students }: { students: StudentProps[] }) {
         }),
         columnHelper.accessor(row => row.classroom_name, {
             header: "Classroom",
-            enableColumnFilter: false
         })
     ];
 
@@ -59,8 +58,10 @@ export default function Index({ students }: { students: StudentProps[] }) {
                 <div></div>
                 <div className="mx-10 mb-10">
                     <Heading1>My Students</Heading1>
-
-                    <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                    <p>View all the students for your school and their assigned classrooms in one view here</p>
+                    <div className="mt-5">
+                        <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                    </div>
                 </div>
             </SidebarLayout>
         </WrapperLayout>

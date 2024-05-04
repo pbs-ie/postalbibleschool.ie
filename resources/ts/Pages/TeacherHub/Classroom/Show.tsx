@@ -111,7 +111,7 @@ export default function Show({
                 <AddClassroomStudentsForm onClose={closeStudentModal} classroomId={classroom.id} students={getRemainingStudents()} />
             </PopupModal>
 
-            <PopupModal innerRef={addCurriculumDialogRef}>
+            <PopupModal size="large" innerRef={addCurriculumDialogRef}>
                 <AddClassroomCurriculumForm onClose={closeCurriculumModal} classroomId={classroom.id} curricula={curricula} />
             </PopupModal>
 

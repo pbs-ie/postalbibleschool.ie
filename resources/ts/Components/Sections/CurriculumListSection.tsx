@@ -6,6 +6,7 @@ import TooltipCard from "../Cards/TooltipCard";
 import Heading2Alt from "../Typography/Heading2Alt";
 import Newspaper from "@/Elements/Icons/Newspaper";
 import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon";
+import { getIconForLessonType } from "@/helper";
 
 export default function CurriculumListSection({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
     const columnHeaderMap = {
@@ -23,21 +24,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
 
-    const mapLessonTypeToIcon = {
-        paper: <span title="paper">
-            <Newspaper />
-        </span>,
-        digital: <span title="digital">
-            <DeviceTabletIcon className="w-6 h-6 text-blue-800" />
-        </span>
-    }
-
-    const getIconForLessonType = (lessonType?: "paper" | "digital") => {
-        if (lessonType) {
-            return mapLessonTypeToIcon[lessonType]
-        }
-        return "";
-    }
 
     const defaultColumns = [
         columnHelper.display({
