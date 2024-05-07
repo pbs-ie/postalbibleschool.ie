@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     if (mode === "production" || mode === "staging") {
         Object.keys(process.env).forEach((key) => {
             if (key.startsWith(`VITE_`)) {
-                viteEnv[`import.meta.env.${key}`] = process.env[key];  // <-
+                viteEnv[`import.meta.env.${key}`] = JSON.stringify(process.env[key]);
             }
         });
     }
