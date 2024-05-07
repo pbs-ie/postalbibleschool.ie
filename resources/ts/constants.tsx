@@ -272,23 +272,34 @@ export const bibleTimeLevels = [
         description: <><p>Advanced Bible readings, more complex question and key verses to learn</p></>
     }
 ];
-export type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
-
-export const monthMap = new Map<MonthKeys, number>([
-    ["jan_lesson", 0],
-    ["feb_lesson", 1],
-    ["mar_lesson", 2],
-    ["apr_lesson", 3],
-    ["may_lesson", 4],
-    ["jun_lesson", 5],
-    ["sep_lesson", 8],
-    ["oct_lesson", 9],
-    ["nov_lesson", 10],
-    ["dec_lesson", 11]
-]);
+export type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
+export const monthLessonMap: { [key in MonthKeys]: string } = {
+    "jan_lesson": "A1",
+    "feb_lesson": "A2",
+    "mar_lesson": "A3",
+    "apr_lesson": "A4",
+    "may_lesson": "A5",
+    "jun_lesson": "A6",
+    "sep_lesson": "C9",
+    "oct_lesson": "C10",
+    "nov_lesson": "C11",
+    "dec_lesson": "C12",
+}
+export const monthMap: { [key in MonthKeys]: MonthNames[number] } = {
+    "sep_lesson": monthNames[8],
+    "oct_lesson": monthNames[9],
+    "nov_lesson": monthNames[10],
+    "dec_lesson": monthNames[11],
+    "jan_lesson": monthNames[0],
+    "feb_lesson": monthNames[1],
+    "mar_lesson": monthNames[2],
+    "apr_lesson": monthNames[3],
+    "may_lesson": monthNames[4],
+    "jun_lesson": monthNames[5],
+}
 
 export const seriesNames: SeriesName[] = [
     { name: "A series", code: "A", tagClass: "" },

@@ -183,7 +183,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             totals.level_3_totals += value.level_3_order;
             totals.level_4_totals += value.level_4_order;
             totals.tlp_totals += value.tlp_order;
-            totals.all_totals += value.level_0_order + value.level_1_order + value.level_2_order + value.level_3_order + value.level_4_order + value.tlp_order;
+            totals.all_totals += value.level_0_order + value.level_1_order + value.level_2_order + value.level_3_order + value.level_4_order;
         });
         setColumnTotals(totals);
 
@@ -279,7 +279,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         columnHelper.display({
             id: 'actions',
             header: () => "Actions",
-            footer: () => <span>All: {columnTotals.all_totals}</span>,
+            footer: () => <span>Students: {columnTotals.all_totals}</span>,
             cell: ({ row }) => {
                 return (
                     <div key={'actions' + row.id} className="flex items-center">
