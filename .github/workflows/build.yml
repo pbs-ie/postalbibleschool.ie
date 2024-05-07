@@ -8,15 +8,17 @@ jobs:
   create-deployment-artifacts:
     name: Create Deployment artifacts
     runs-on: ubuntu-latest
+    environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
     steps:
       - uses: actions/checkout@v4
 
       - name: Node installation
         run: npm install
+      - name: Create .env file for build
+        run: printf "%s" "${{secrets.LARAVEL_ENV}}" > .env
       - name: Build steps
         run: |
-          npm run build:client
-          npm run build:server
+          npm run build
       - name: Configure PHP 8.0
         uses: shivammathur/setup-php@v2
         with:
@@ -98,7 +100,6 @@ jobs:
           envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV, BASE_PATH
           script: |
             printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
-            ln -sf ${BASE_PATH}/.env $RELEASE_PATH
             ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
             cd $ACTIVE_RELEASE_PATH && php artisan optimize:clear
             php artisan config:cache
