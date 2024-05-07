@@ -7,6 +7,8 @@
         "start:memcached": "memcached start",
         "build:client": "vite build",
         "build:server": "vite build --ssr",
+        "build": "npm run build:client && npm run build:server",
+        "preview": "vite preview",
         "test": "jest",
         "cypress:open": "npx cypress open"
     },
