@@ -102,10 +102,8 @@ jobs:
             printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
             ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
-            cd $ACTIVE_RELEASE_PATH && php artisan optimize:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
+            cd $ACTIVE_RELEASE_PATH
+            composer install --optimize-autoloader --no-dev
   clean-up:
     name: "Clean up"
     runs-on: ubuntu-latest
