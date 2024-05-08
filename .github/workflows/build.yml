@@ -102,7 +102,7 @@ jobs:
             ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
             cd $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
-            php artisan migrate
+            php artisan migrate --force
 
   clean-up:
     name: "Clean up"
