@@ -6,11 +6,13 @@ use App\Http\Controllers\StudentController;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Auth0\Laravel\Events\AuthenticationSucceeded;
-use App\Http\Controllers\FilemakerController;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
-class UpdateStudentListFm
+class UpdateStudentListFm implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     /**
      * Create the event listener.
      *
@@ -34,5 +36,28 @@ class UpdateStudentListFm
         } catch (\Exception $e) {
             Log::notice($e->getMessage());
         }
+    }
+
+    /**
+     * Determine whether the listener should be queued.
+     *
+     * @param \Auth0\Laravel\Events\AuthenticationSucceeded $event
+     * @return bool
+     */
+    public function shouldQueue(AuthenticationSucceeded $event)
+    {
+        return Gate::denies('create:curriculum');
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Auth0\Laravel\Events\AuthenticationSucceeded $event
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    public function failed(AuthenticationSucceeded $event, $exception)
+    {
+        Log::warning($exception->getMessage(), ['user' => $event->user]);
     }
 }
