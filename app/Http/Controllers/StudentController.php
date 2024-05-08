@@ -104,35 +104,31 @@ class StudentController extends Controller
      */
     public function getAllStudents()
     {
-        $studentList = $this->getAllStudentsList();
-        if (sizeof($studentList) > 0) {
-            return redirect()->back()->with('success', 'Student list updated');
+        $studentList = Student::getStudentsForUser();
+        if ($studentList->isEmpty()) {
+            return redirect()->back()->with('failure', 'No students found');
         }
-        return redirect()->back()->with('failure', 'Could not retrieve student list');
+        return redirect()->back()->with('success', 'Student list updated');
 
     }
 
     /**
-     * Get list of students for the current user
+     * Store Student list in Database from FileMaker for user
      * 
-     * @return array
+     * @param string $userEmail
+     * @return void
      */
-    public function getAllStudentsList()
+    public function storeStudentsListForUser($userEmail)
     {
-        $studentList = [];
-        if (auth()->check()) {
-            $currentUserEmail = auth()->user()->email;
-            $studentListFm = (new FilemakerController())->getStudents($currentUserEmail);
-            if (sizeof($studentListFm) > 0) {
-                $studentList = $this->sanitizeStudentList($studentListFm);
-
-                $this->mapEmailAreaCode($currentUserEmail, $studentList[0]['area_code']);
-
-                $this->updateStudents($studentList);
-                return $studentList;
-            }
+        $studentListFm = (new FilemakerController())->getStudentsByUser($userEmail);
+        if (sizeof($studentListFm) === 0) {
+            throw new \Exception("No students found for user");
         }
-        return [];
+        $studentList = $this->sanitizeStudentList($studentListFm);
+
+        $this->mapEmailAreaCode($userEmail, $studentList[0]['area_code']);
+
+        $this->updateStudents($studentList);
     }
 
 

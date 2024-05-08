@@ -13,6 +13,7 @@ class Classroom extends Model
 
     protected $fillable = [
         'name',
+        'email',
         'level_0_order',
         'level_1_order',
         'level_2_order',

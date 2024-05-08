@@ -6,7 +6,7 @@ use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use Inertia\Inertia;
-use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Log;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -83,26 +83,33 @@ class ClassroomController extends Controller
             ->whereRaw("LOWER(name) = ?", [strtolower($request->name)])
             ->first();
         if ($classroom) {
-            return $request->session()->flash('warning', "Classroom already exists");
+            return redirect()->route('dashboard')->with('warning', "Classroom already exists");
         }
 
-        $returnValue = (new StudentController)->getAllStudentsList();
-        if (sizeof($returnValue) === 0) {
-            return redirect()->back()->with("failure", "No students for current user");
+        if (Student::getStudentsForUser()->isEmpty()) {
+            return redirect()->route('dashboard')->with("failure", "No students for current user");
         }
         $classroom = new Classroom();
-        $classroom->name = strtolower($request->name);
-        $classroom->email = auth()->user()->email;
-        $classroom->level_0_order = 0;
-        $classroom->level_1_order = 0;
-        $classroom->level_2_order = 0;
-        $classroom->level_3_order = 0;
-        $classroom->level_4_order = 0;
-        $classroom->tlp_order = 0;
-        $classroom->curriculum_id = Curriculum::getDefaultId();
-        $classroom->save();
+        $classroom->fill([
+            'name' => strtolower($request->name),
+            'email' => auth()->user()->email,
+            'level_0_order' => 0,
+            'level_1_order' => 0,
+            'level_2_order' => 0,
+            'level_3_order' => 0,
+            'level_4_order' => 0,
+            'tlp_order' => 0,
+            'curriculum_id' => Curriculum::getDefaultId(),
+        ]);
 
-        return redirect()->route('dashboard', $classroom->id)->with('success', "New classroom created");
+        try {
+            $classroom->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->route('dashboard')->with('failure', 'Something went wrong');
+        }
+
+        return redirect()->route('dashboard')->with('success', "New classroom created");
     }
 
     /**

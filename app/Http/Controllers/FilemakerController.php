@@ -255,7 +255,7 @@ class FilemakerController extends Controller
      * @param string $email
      * @return array
      */
-    public function getStudents(string $email)
+    public function getStudentsByUser(string $email)
     {
         return $this->getStudentsForAreaRecords($email);
     }
