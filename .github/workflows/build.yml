@@ -15,7 +15,7 @@ jobs:
       - name: Node installation
         run: npm install
       - name: Create .env file for build
-        run: printf "%s" "${{secrets.LARAVEL_ENV}}" > .env
+        run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
       - name: Build steps
         run: |
           npm run build
@@ -27,9 +27,7 @@ jobs:
         run: composer install --optimize-autoloader --no-dev
       - name: Artisan caching
         run: |
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
+          php artisan optimize
 
       - name: Create deployment archive
         env:
@@ -99,11 +97,13 @@ jobs:
           port: ${{secrets.SSH_PORT}}
           envs: GITHUB_SHA, RELEASE_PATH, ACTIVE_RELEASE_PATH, LARAVEL_ENV, BASE_PATH
           script: |
-            printf "%s" "$LARAVEL_ENV" > ${BASE_PATH}/.env
+            printf "%s\n" "$LARAVEL_ENV" > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
             ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
             cd $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
+            php artisan migrate --force
+
   clean-up:
     name: "Clean up"
     runs-on: ubuntu-latest
