@@ -45,7 +45,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
             filterFn: 'includesString'
         }),
         columnHelper.accessor(row => row.grade, {
-            header: "Level"
+            header: "Grade"
         }),
         columnHelper.accessor(row => row.classroom?.name, {
             header: "Classroom",

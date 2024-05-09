@@ -87,7 +87,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
                         <AdvancedTable data={tableDataMemo} columns={defaultColumns} enableGlobalFilter={false} enableRowSelection={true} rowSelection={rowSelection} setRowSelection={setRowSelection} />
                     }
                 </div>
-                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit">Submit</PrimaryButton></div>
+                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton processing={Object.keys(rowSelection).length === 0} type="submit">Add</PrimaryButton></div>
             </form>
         </article>
     )

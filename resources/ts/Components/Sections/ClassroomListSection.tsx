@@ -202,16 +202,16 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                 <div className="flex items-center">
                     {Number(row.id) + 1}
                 </div>
-            ),
-            footer: () => (
-                <p>Totals</p>
             )
         }),
         columnHelper.accessor(row => row.name, {
             id: "name",
             header: "Name",
             enableColumnFilter: false,
-            cell: editableCell
+            cell: editableCell,
+            footer: () => (
+                <p>Totals:</p>
+            )
         }),
         columnHelper.accessor(row => row.curriculum_name, {
             id: "curriculum_id",
@@ -271,7 +271,13 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         }),
         columnHelper.accessor(row => row.tlp_order + "", {
             id: "tlp_order",
-            header: () => <span className="text-nowrap">TLP</span>,
+            header: () =>
+                <span className="text-nowrap">
+                    TLP
+                    <TooltipCard id={"tlp-tip"} text={"Teacher Lesson Plans"} direction={"bottom"} size="xsmall">
+                        <a href="#" className="pointer-events-none" aria-describedby="tlp-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                    </TooltipCard>
+                </span>,
             footer: () => <span className="text-left">{columnTotals.tlp_totals}</span>,
             enableColumnFilter: false,
             cell: editableCell
@@ -279,7 +285,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         columnHelper.display({
             id: 'actions',
             header: () => "Actions",
-            footer: () => <span>Students: {columnTotals.all_totals}</span>,
+            footer: () => <span>All students: {columnTotals.all_totals}</span>,
             cell: ({ row }) => {
                 return (
                     <div key={'actions' + row.id} className="flex items-center">
@@ -310,11 +316,11 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                                     </span></ButtonLink>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <BasicButton processing={processing} dataTest="delete_icon" onClick={() => {
+                                    <BasicButton processing={processing} dataTest="delete_icon" hierarchy="transparent" size="xsmall" onClick={() => {
                                         setIdToDelete(row.original.id);
                                         setNameToDelete(row.original.name);
                                         showDeleteModal();
-                                    }} hierarchy="delete" size="xsmall"><span className="flex flex-col items-center">
+                                    }}><span className="flex flex-col items-center text-red-500">
                                             <Trash key={row.id} />Delete
                                         </span></BasicButton>
                                 </IconHoverSpan>
@@ -338,8 +344,8 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
                 <article className="flex flex-col gap-4 lg:max-w-screen-lg max-w-screen-sm">
                     <Heading2Nospace>Delete Classroom?</Heading2Nospace>
-                    <p>Are you sure you want to delete the classroom :</p>
-                    <p className="font-bold">{nameToDelete}</p>
+                    <p>The classroom and all its related data will be removed. Are you sure you want to delete this classroom:</p>
+                    <p className="font-bold">{`"${nameToDelete}"`}</p>
                     <div className="w-full flex justify-end gap-2">
                         <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
                         <BasicButton dataTest="confirm_delete_btn" hierarchy="delete" onClick={() => {
@@ -353,7 +359,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             <div className="flex items-start gap-2 w-full pb-2">
                 <span className="flex items-start gap-2">
                     <Heading2Alt>My Classes</Heading2Alt>
-                    <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum."} direction={"top"}>
+                    <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students by their levels in each class."} direction={"top"}>
                         <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                     </TooltipCard>
                 </span>

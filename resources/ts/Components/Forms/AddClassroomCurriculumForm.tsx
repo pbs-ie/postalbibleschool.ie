@@ -163,7 +163,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
                         setRowSelection={setRowSelection}
                     />
                     <div className="flex w-full justify-end gap-2">
-                        <PrimaryButton processing={Object.keys(rowSelection).length === 0} dataTest="submit_btn" type="submit">Set</PrimaryButton>
+                        <PrimaryButton processing={Object.keys(rowSelection).length === 0} dataTest="submit_btn" type="submit">Save</PrimaryButton>
                     </div>
                 </form>
             }
