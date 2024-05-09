@@ -47,8 +47,15 @@ export default function Index({ students }: { students: StudentProps[] }) {
         columnHelper.accessor(row => row.grade, {
             header: "Grade"
         }),
-        columnHelper.accessor(row => row.classroom?.name, {
+        columnHelper.accessor(row => row.classroom?.name ?? "", {
+            id: 'classroom-name',
             header: "Classroom",
+            filterFn: (row, columnId, filterValue) => {
+                if (filterValue === "-empty-") {
+                    return row.getValue<String>(columnId).toString() === "";
+                }
+                return row.getValue<String>(columnId).toString().toLowerCase().trim().includes(filterValue.toLowerCase());
+            }
         })
     ];
 
@@ -61,7 +68,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
                 <div></div>
                 <div className="mx-10 mb-10">
                     <Heading1>My Students</Heading1>
-                    <p>View all the students for your school and their assigned classrooms in one view here</p>
+                    <p>View all the students for your school and their assigned classrooms in one view here.</p>
                     <div className="mt-5">
                         <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
                     </div>
