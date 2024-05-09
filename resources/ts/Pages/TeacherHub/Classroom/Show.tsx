@@ -107,11 +107,11 @@ export default function Show({
 
     return (
         <WrapperLayout>
-            <PopupModal size="large" innerRef={addStudentsDialogRef}>
+            <PopupModal onClose={closeStudentModal} size="large" innerRef={addStudentsDialogRef}>
                 <AddClassroomStudentsForm onClose={closeStudentModal} classroomId={classroom.id} students={getRemainingStudents()} />
             </PopupModal>
 
-            <PopupModal size="large" innerRef={addCurriculumDialogRef}>
+            <PopupModal onClose={closeCurriculumModal} size="large" innerRef={addCurriculumDialogRef}>
                 <AddClassroomCurriculumForm onClose={closeCurriculumModal} classroomId={classroom.id} curricula={curricula} />
             </PopupModal>
 

@@ -17,7 +17,9 @@ export default function CreateClassroomForm({ onCancel }: { onCancel: () => void
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onCancel();
-        post(route('classroom.store'));
+        post(route('classroom.store'), {
+            preserveScroll: true
+        });
     }
 
     return (

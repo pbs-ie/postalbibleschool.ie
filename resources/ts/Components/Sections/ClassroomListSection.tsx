@@ -16,7 +16,6 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
-import Eye from "@/Elements/Icons/Eye";
 import FloppyDisk from "@/Elements/Icons/FloppyDisk";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import CloseX from "@/Elements/Icons/CloseX";
@@ -25,6 +24,7 @@ import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
 import SelectInput from "@/Components/Forms/SelectInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
+import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name">;
 
@@ -286,26 +286,37 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                         {isEditing[+row.id] ?
                             <>
                                 <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" size="xsmall" dataTest="save_icon" type="submit" form="classroom_form" processing={processing}><FloppyDisk className="w-5 h-5 text-emerald-700" /></BasicButton>
+                                    <BasicButton hierarchy="transparent" size="xsmall" dataTest="save_icon" type="submit" form="classroom_form" processing={processing}>
+                                        <span className="flex flex-col items-center">
+                                            <FloppyDisk className="w-5 h-5 m-0.5 text-emerald-700" />Save
+                                        </span></BasicButton>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" size="xsmall" onClick={() => resetEditState()} ><CloseX className="w-6 h-6 text-gray-600" /></BasicButton>
+                                    <BasicButton hierarchy="transparent" size="xsmall" onClick={() => resetEditState()} >
+                                        <span className="flex flex-col items-center">
+                                            <CloseX className="w-6 h-6 text-gray-600" />Close
+                                        </span></BasicButton>
                                 </IconHoverSpan>
                             </>
                             : <>
                                 <IconHoverSpan>
-                                    <ButtonLink dataTest="view_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><Eye className="w-6 h-6" key={row.id} /></ButtonLink>
+                                    <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest="edit_icon" onClick={() => setRowEditMode(+row.id)}><span className="flex flex-col items-center">
+                                        <EditIcon />Edit
+                                    </span></BasicButton>
                                 </IconHoverSpan>
-
                                 <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest="edit_icon" onClick={() => setRowEditMode(+row.id)}><EditIcon /></BasicButton>
+                                    <ButtonLink dataTest="view_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><span className="flex flex-col items-center">
+                                        <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
+                                    </span></ButtonLink>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
                                     <BasicButton processing={processing} dataTest="delete_icon" onClick={() => {
                                         setIdToDelete(row.original.id);
                                         setNameToDelete(row.original.name);
                                         showDeleteModal();
-                                    }} hierarchy="delete" size="xsmall"><Trash key={row.id} /></BasicButton>
+                                    }} hierarchy="delete" size="xsmall"><span className="flex flex-col items-center">
+                                            <Trash key={row.id} />Delete
+                                        </span></BasicButton>
                                 </IconHoverSpan>
                             </>
                         }
@@ -320,11 +331,11 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
 
     return (
         <div className="flex flex-col">
-            <PopupModal innerRef={dialogRefCreate}>
+            <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
                 <CreateClassroomForm onCancel={() => closeCreateModal()} />
             </PopupModal>
 
-            <PopupModal innerRef={dialogRefDelete} onClose={closeDeleteModal}>
+            <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
                 <article className="flex flex-col gap-4 lg:max-w-screen-lg max-w-screen-sm">
                     <Heading2Nospace>Delete Classroom?</Heading2Nospace>
                     <p>Are you sure you want to delete the classroom :</p>

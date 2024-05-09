@@ -1,4 +1,4 @@
-import BasicTable from "@/Components/Tables/BasicTable"
+import BasicTable, { TableData } from "@/Components/Tables/BasicTable"
 import Banknotes from "@/Elements/Icons/Banknotes"
 import Calendar from "@/Elements/Icons/Calendar"
 import ChatBubble from "@/Elements/Icons/ChatBubble"
@@ -37,6 +37,7 @@ import UserIcon from "@/Elements/Icons/UserIcon"
 import FloppyDisk from "@/Elements/Icons/FloppyDisk"
 import CheckCircle from "@/Elements/Icons/CheckCircle"
 import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon"
+import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -107,6 +108,10 @@ export default function IconSection() {
             heading: <FloppyDisk />,
             content: "FloppyDisk",
         }, {
+            heading: <FolderOpenIcon />,
+            content: "FolderOpenIcon"
+        },
+        {
             heading: <Group />,
             content: "Group",
         }, {
@@ -155,7 +160,7 @@ export default function IconSection() {
             heading: <Video />,
             content: "VideoCamera",
         }
-        ]
+        ] as TableData[]
     }
     return (
         <section className="text-green-900 md:max-w-3xl">

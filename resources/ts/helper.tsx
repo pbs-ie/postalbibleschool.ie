@@ -1,6 +1,6 @@
 import { gleanersSeriesNames } from "@/constants";
-import { useEffect, useRef } from "react";
-import { scroller } from "react-scroll";
+import { useEffect, useRef, useState } from "react";
+import { animateScroll, scroller } from "react-scroll";
 import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon";
 import Newspaper from "@/Elements/Icons/Newspaper";
 
@@ -152,12 +152,22 @@ export const useScrollTo = (to: string, props: any) => {
 
 export const modalHelper = () => {
     const dialogRef = useRef<HTMLDialogElement>(null);
-
+    const [currentY, setCurrentY] = useState(0);
     const showModal = () => {
+        let tempY = Math.round(window.scrollY);
+        setCurrentY(tempY);
         dialogRef.current?.showModal();
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${tempY}px`;
     }
     const closeModal = () => {
         dialogRef.current?.close();
+        document.body.style.overflow = "unset";
+        document.body.style.position = '';
+        document.body.style.top = '';
+        animateScroll.scrollTo(currentY || 0, {
+            duration: 0,
+        });
     }
     return { dialogRef, showModal, closeModal };
 }
