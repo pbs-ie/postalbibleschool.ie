@@ -79,7 +79,7 @@ export default function EventCardContainer({ type, children }: CardContainer) {
         {
             Icon: Calendar,
             title: "When",
-            description: <p className="text-lg font-bold">13th June - 15th June, 2024</p>,
+            description: <p className="text-lg font-bold">14th June - 16th June, 2024</p>,
             buttonText: "",
             buttonLink: ""
         },
