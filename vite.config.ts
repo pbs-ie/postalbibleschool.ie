@@ -5,6 +5,7 @@ import react from "@vitejs/plugin-react";
 import fs from 'fs';
 
 export default defineConfig({
+    base: './',
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./resources/ts", import.meta.url)),
