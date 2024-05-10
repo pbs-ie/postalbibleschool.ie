@@ -19,7 +19,7 @@ export default function Signup() {
         },
         {
             heading: "Dates",
-            content: "13th June - 15th June, 2024"
+            content: "14th June - 16th June, 2024"
         },
         {
             heading: "Cost",
@@ -30,7 +30,7 @@ export default function Signup() {
         <StepWrapper heading="Registration" title={"Sign Up"}>
             <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
                 <BasicTable tableData={tableData}></BasicTable>
-                <img className="h-64 md:h-72" src={StepBanner} alt="Step June 2024 banner - Nehemiah" />
+                <img className="max-h-64 md:max-h-72 aspect-video" src={StepBanner} alt="Step June 2024 banner - Nehemiah" />
             </div>
             <ParagraphContainer>
                 <Paragraph>Join us for the upcoming STEP in June 2024 where we go through the book of Nehemiah led by Noel McMeekin. We would encourage you to read/study chapters in the book of Nehemiah beforehand. As always, new faces are welcome!</Paragraph>
