@@ -101,7 +101,7 @@ jobs:
           script: |
             printf "%s\n" "$LARAVEL_ENV" > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
-            ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            cd $BASE_PATH && ln -snf $RELEASE_PATH ./current
             cd $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
             php artisan migrate --force
