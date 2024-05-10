@@ -11,6 +11,7 @@ composer.lock
 ### Temp files ###
 *-lock.*
 *-lock.json
+!package-lock.json
 
 .env
 .env.backup

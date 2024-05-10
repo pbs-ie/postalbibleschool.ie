@@ -11,9 +11,11 @@ jobs:
     environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
     steps:
       - uses: actions/checkout@v4
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Node installation
-        run: npm install
+        run: npm ci
       - name: Create .env file for build
         run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
       - name: Build steps
@@ -99,7 +101,7 @@ jobs:
           script: |
             printf "%s\n" "$LARAVEL_ENV" > ${BASE_PATH}/.env
             ln -sf ${BASE_PATH}/.env $RELEASE_PATH
-            ln -snf $RELEASE_PATH $ACTIVE_RELEASE_PATH
+            cd $BASE_PATH && ln -snf $RELEASE_PATH ./current
             cd $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
             php artisan migrate --force
