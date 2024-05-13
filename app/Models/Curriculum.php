@@ -59,7 +59,22 @@ class Curriculum extends Model
 
     public function scopeGetDefaultId($query)
     {
-        return $query->where('curriculum_type', $this::PAPER)->first()->value('id');
+        return $query->firstOrCreate(
+            ['curriculum_type' => $this::PAPER],
+            [
+                "name" => 'Default',
+                "jan_lesson" => $this::PAPER,
+                "feb_lesson" => $this::PAPER,
+                "mar_lesson" => $this::PAPER,
+                "apr_lesson" => $this::PAPER,
+                "may_lesson" => $this::PAPER,
+                "jun_lesson" => $this::PAPER,
+                "sep_lesson" => $this::PAPER,
+                "oct_lesson" => $this::PAPER,
+                "nov_lesson" => $this::PAPER,
+                "dec_lesson" => $this::PAPER
+            ]
+        )->value('id');
     }
 
     public function scopeAllWithDigitalCount($query)
