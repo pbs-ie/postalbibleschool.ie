@@ -1,16 +1,17 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
-        "serve": "php artisan serve",
-        "local": "npm-run-all -p -r dev serve start:memcached",
-        "start:memcached": "memcached start",
-        "build:client": "vite build",
-        "build:server": "vite build --ssr",
-        "build": "npm run build:client && npm run build:server",
-        "preview": "vite preview",
+        "vite": "vite",
+        "serve": "run-p artisan-serve start-memcached artisan-queue",
+        "artisan-serve": "php artisan serve",
+        "start-memcached": "memcached start",
+        "artisan-queue": "php artisan queue:work",
+        "build-client": "vite build",
+        "build-server": "vite build --ssr",
+        "build": "run-s build-*",
         "test": "jest",
-        "cypress:open": "npx cypress open"
+        "cypress-open": "npx cypress open",
+        "dev-local": "npm-run-all -p -r vite serve"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",

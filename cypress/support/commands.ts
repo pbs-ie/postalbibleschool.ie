@@ -1,8 +1,5 @@
 
-/// <reference types="cypress" />
-
 // https://stackoverflow.com/questions/57132428/augmentations-for-the-global-scope-can-only-be-directly-nested-in-external-modul
-export { }
 import { isTablet } from "./utils";
 
 declare global {
@@ -36,7 +33,7 @@ Cypress.Commands.add('login', (email, password) => {
         cy.get("a[href*='login']").should('contain.text', 'Login').first().click();
 
     }
-    cy.origin(Cypress.env('auth0Domain'), { args: [email, password] }, ([email, password]) => {
+    cy.origin(Cypress.env('auth0Domain'), { args: { email, password } }, ({ email, password }) => {
         cy.get("input#username").type(email);
         cy.get("input#password").type(password);
         cy.get("button[type='submit']").click();
@@ -56,7 +53,7 @@ Cypress.Commands.add('loginSession', (email, password) => {
             cy.get("a[href*='login']").should('contain.text', 'Login').first().click();
 
         }
-        cy.origin(Cypress.env('auth0Domain'), { args: [email, password] }, ([email, password]) => {
+        cy.origin(Cypress.env('auth0Domain'), { args: { email, password } }, ({ email, password }) => {
             cy.get("input#username").type(email);
             cy.get("input#password").type(password);
             cy.get("button[type='submit']").click();

@@ -1,22 +1,33 @@
 import { defineConfig } from "cypress";
-import 'dotenv/config';
 
 export default defineConfig({
+  chromeWebSecurity: false,
+  defaultCommandTimeout: 5000,
+  retries: 2,
+  watchForFileChanges: true,
+  videosFolder: "cypress/videos",
+  screenshotsFolder: "cypress/screenshots",
+  fixturesFolder: "cypress/fixture",
+
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      return require("./cypress/plugins/index.ts")(on, config);
     },
+    specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     baseUrl: "http://localhost:8000",
     viewportHeight: 800,
     viewportWidth: 1020,
+    supportFile: "cypress/support/index.ts",
     env: {
-      "auth0Domain": process.env.AUTH0_DOMAIN,
-      "loginUser": process.env.LOGIN_USER,
-      "loginPass": process.env.LOGIN_PASS,
-      "adminUser": process.env.ADMIN_USER,
-      "adminPass": process.env.ADMIN_PASS,
-      "mobileViewportWidthBreakpoint": 640,
-      "tabletViewportWidthBreakpoint": 1024
-    }
+      mobileViewportWidthBreakpoint: 640,
+      tabletViewportWidthBreakpoint: 1024,
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
   },
 });
