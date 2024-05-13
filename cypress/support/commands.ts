@@ -43,6 +43,7 @@ Cypress.Commands.add('login', (email, password) => {
 
 Cypress.Commands.add('loginSession', (email, password) => {
     cy.session([email, password], () => {
+        cy.refreshDatabase();
         cy.visit('/');
         if (isTablet()) {
             cy.getBySel("menubutton").should('be.visible').click();

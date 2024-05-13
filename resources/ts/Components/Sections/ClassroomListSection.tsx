@@ -292,7 +292,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                         {isEditing[+row.id] ?
                             <>
                                 <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" size="xsmall" dataTest="save_icon" type="submit" form="classroom_form" processing={processing}>
+                                    <BasicButton hierarchy="transparent" size="xsmall" dataTest="classroom_save_icon" type="submit" form="classroom_form" processing={processing}>
                                         <span className="flex flex-col items-center">
                                             <FloppyDisk className="w-5 h-5 m-0.5 text-emerald-700" />Save
                                         </span></BasicButton>
@@ -306,7 +306,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             </>
                             : <>
                                 <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest="edit_icon" onClick={() => setRowEditMode(+row.id)}><span className="flex flex-col items-center">
+                                    <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest={"classroom_edit_icon_" + row.id} onClick={() => setRowEditMode(+row.id)}><span className="flex flex-col items-center">
                                         <EditIcon />Edit
                                     </span></BasicButton>
                                 </IconHoverSpan>
@@ -316,7 +316,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                                     </span></ButtonLink>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <BasicButton processing={processing} dataTest="classroom_delete_icon" hierarchy="transparent" size="xsmall" onClick={() => {
+                                    <BasicButton processing={processing} dataTest={"classroom_delete_icon_" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
                                         setIdToDelete(row.original.id);
                                         setNameToDelete(row.original.name);
                                         showDeleteModal();

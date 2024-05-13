@@ -5,7 +5,7 @@
         "serve": "run-p artisan-serve start-memcached artisan-queue",
         "artisan-serve": "php artisan serve",
         "start-memcached": "memcached start",
-        "artisan-queue": "php artisan queue:work",
+        "artisan-queue": "php artisan queue:listen",
         "build-client": "vite build",
         "build-server": "vite build --ssr",
         "build": "run-s build-*",
