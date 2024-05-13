@@ -4,7 +4,6 @@ import { Column, Row, createColumnHelper } from "@tanstack/react-table";
 import { modalHelper } from "@/helper";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
@@ -25,6 +24,7 @@ import SelectInput from "@/Components/Forms/SelectInput";
 import TextInput from "@/Components/Forms/TextInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
 import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon";
+import Heading2Nospace from "../Typography/Heading2Nospace";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name">;
 
@@ -316,7 +316,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                                     </span></ButtonLink>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <BasicButton processing={processing} dataTest="delete_icon" hierarchy="transparent" size="xsmall" onClick={() => {
+                                    <BasicButton processing={processing} dataTest="classroom_delete_icon" hierarchy="transparent" size="xsmall" onClick={() => {
                                         setIdToDelete(row.original.id);
                                         setNameToDelete(row.original.name);
                                         showDeleteModal();
@@ -348,7 +348,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     <p className="font-bold">{`"${nameToDelete}"`}</p>
                     <div className="w-full flex justify-end gap-2">
                         <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
-                        <BasicButton dataTest="confirm_delete_btn" hierarchy="delete" onClick={() => {
+                        <BasicButton dataTest="confirm_delete_button" hierarchy="delete" onClick={() => {
                             router.delete(route('classroom.destroy', idToDelete));
                             closeDeleteModal();
                         }}>Delete</BasicButton>

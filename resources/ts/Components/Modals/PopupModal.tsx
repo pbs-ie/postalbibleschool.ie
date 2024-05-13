@@ -50,7 +50,7 @@ export default function PopupModal({ onClose, innerRef = null, size = "base", ch
     }, []);
     return (
         <dialog onKeyDown={handleKeyDown} ref={innerRef} className={"relative z-10 px-5 pt-10 pb-5 mx-auto bg-white border-2 rounded backdrop:bg-gray-800/50 w-full h-fit " + "md:" + getSizeCss()}>
-            <button data-test="classroom_close_button" onClick={() => handleCloseModal()} className="absolute top-4 right-4 hover:bg-gray-200 rounded-full p-1">
+            <button data-test="modal_close_button" onClick={() => handleCloseModal()} className="absolute top-4 right-4 hover:bg-gray-200 rounded-full p-1">
                 <CloseX className="text-gray-700 w-7 h-7" />
             </button>
             <div className="mx-3 text-left">
