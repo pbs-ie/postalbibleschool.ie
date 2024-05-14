@@ -108,6 +108,22 @@
             "routename": "c03",
             "id": 12,
             "imageLink": "\/assembly\/image\/c03"
+        },
+        {
+            "monthTitle": "The Easter Story",
+            "month": "April",
+            "series": "C4",
+            "routename": "c04",
+            "id": 13,
+            "imageLink": "\/assembly\/image\/c04"
+        },
+        {
+            "monthTitle": "Stories of Ruth and Samuel",
+            "month": "May",
+            "series": "C5",
+            "routename": "c05",
+            "id": 14,
+            "imageLink": "\/assembly\/image\/c05"
         }
     ],
     "bonusContent": [
