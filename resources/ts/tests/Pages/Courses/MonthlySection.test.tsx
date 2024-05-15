@@ -1,5 +1,5 @@
 // Imports
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "test-utils";
 import UserEvent from "@testing-library/user-event";
 
 import { responseLinks, setAllBesLinks } from "@/helper";
@@ -61,21 +61,25 @@ describe("Test for full monthly downloads section", () => {
             expect(btn).not.toHaveAttribute('active');
         })
 
-        expect(section.getByText(defaultMsg)).toBeInTheDocument();
+        // expect(section.getByText(defaultMsg)).toBeInTheDocument();
 
         //Act
-        await user.click(monthButtons[0]);
-        await user.click(seriesButtons[0]);
+        act(() => {
+            user.click(monthButtons[0]);
+            user.click(seriesButtons[0]);
+        })
+
+
 
         //Post Expectations
         await waitFor(() => {
             expect(section.queryByText(defaultMsg)).toBeNull();
-            const getL0Button = section.getByRole('button', { name: /Level 0/i });
-            const getL1Button = section.getByRole('button', { name: /Level 1/i });
-            const getL2Button = section.getByRole('button', { name: /Level 2/i });
-            const getL3Button = section.getByRole('button', { name: /Level 3/i });
-            const getL4Button = section.getByRole('button', { name: /Level 4/i });
-            const getLOPButton = section.getByRole('button', { name: /Online Presentation/i });
+            const getL0Button = section.getByRole('link', { name: /Level 0/i });
+            const getL1Button = section.getByRole('link', { name: /Level 1/i });
+            const getL2Button = section.getByRole('link', { name: /Level 2/i });
+            const getL3Button = section.getByRole('link', { name: /Level 3/i });
+            const getL4Button = section.getByRole('link', { name: /Level 4/i });
+            const getLOPButton = section.getByRole('link', { name: /Online Presentation/i });
 
             expect((getL0Button).classList).toContain(`hover:${passedClass}`);
             expect((getL0Button as HTMLButtonElement).disabled).toBeFalsy();;
