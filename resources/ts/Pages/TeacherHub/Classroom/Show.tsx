@@ -123,11 +123,11 @@ export default function Show({
                 <TwoColumnLayout>
                     <div className="mx-2">
                         <Heading1Nospace>{classroom.name}</Heading1Nospace>
-                        <form className="my-10" onSubmit={removeStudentsFromClass}>
+                        <form id="classroom_student_list" className="my-10" onSubmit={removeStudentsFromClass}>
                             <Heading2Nospace>My classroom</Heading2Nospace>
                             <div className="my-5">
                                 {students.length === 0 ?
-                                    <p className="text-sm">No students added</p>
+                                    <p className="text-gray-500 italic">No students found. Add students by clicking the button below.</p>
                                     :
                                     <AdvancedTable
                                         data={tableDataMemo}
@@ -139,8 +139,8 @@ export default function Show({
                                 }
                             </div>
                             <div className="flex gap-2 w-full justify-end">
-                                <BasicButton onClick={() => showStudentModal()}>Add Students</BasicButton>
-                                <BasicButton processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="secondary" type="submit">Remove Students</BasicButton>
+                                <BasicButton dataTest="classroom_add_students_button" onClick={() => showStudentModal()}>Add Students</BasicButton>
+                                <BasicButton dataTest="classroom_remove_students_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="secondary" type="submit">Remove Students</BasicButton>
                             </div>
                         </form>
                     </div>

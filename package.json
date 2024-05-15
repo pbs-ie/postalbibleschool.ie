@@ -2,7 +2,6 @@
     "private": true,
     "scripts": {
         "vite": "vite",
-        "serve": "run-p artisan-serve start-memcached artisan-queue",
         "artisan-serve": "php artisan serve",
         "start-memcached": "memcached start",
         "artisan-queue": "php artisan queue:listen",
@@ -11,7 +10,7 @@
         "build": "run-s build-*",
         "test": "jest",
         "cypress-open": "npx cypress open",
-        "dev-local": "npm-run-all -p -r vite serve"
+        "dev-local": "npm-run-all -p -r vite artisan-serve start-memcached"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",

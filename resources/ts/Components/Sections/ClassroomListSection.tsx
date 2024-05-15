@@ -311,12 +311,12 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                                     </span></BasicButton>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <ButtonLink dataTest="view_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><span className="flex flex-col items-center">
+                                    <ButtonLink dataTest="classroom_open_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><span className="flex flex-col items-center">
                                         <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
                                     </span></ButtonLink>
                                 </IconHoverSpan>
                                 <IconHoverSpan>
-                                    <BasicButton processing={processing} dataTest={"classroom_delete_icon_" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
+                                    <BasicButton processing={processing} dataTest={"classroom_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
                                         setIdToDelete(row.original.id);
                                         setNameToDelete(row.original.name);
                                         showDeleteModal();
@@ -356,35 +356,35 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                 </article>
             </PopupModal>
 
-            <div className="flex items-start gap-2 w-full pb-2">
-                <span className="flex items-start gap-2">
-                    <Heading2Alt>My Classes</Heading2Alt>
-                    <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students by their levels in each class."} direction={"top"}>
-                        <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
-                    </TooltipCard>
-                </span>
-            </div>
-            <div className="space-y-2">
-                {errors && Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (
-                    <ErrorBanner key={'error_banner' + idx} message={errors[key]} />
-                ))
-                }
-                {classrooms.length === 0 ?
-                    <p className="text-gray-500 italic">No classroom found. Create a new one by clicking the button below.</p>
-                    :
-                    <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
+            <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
+                <div className="flex items-start gap-2 w-full pb-2">
+                    <span className="flex items-start gap-2">
+                        <Heading2Alt>My Classes</Heading2Alt>
+                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students by their levels in each class."} direction={"top"}>
+                            <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                        </TooltipCard>
+                    </span>
+                </div>
+                <div className="space-y-2">
+                    {errors && Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (
+                        <ErrorBanner key={'error_banner' + idx} message={errors[key]} />
+                    ))
+                    }
+                    {classrooms.length === 0 ?
+                        <p className="text-gray-500 italic">No classroom found. Create a new one by clicking the button below.</p>
+                        :
                         <AdvancedTable
                             data={tableDataMemo}
                             columns={viewColumns}
                             enableGlobalFilter={false}
                             enableSorting={false}
                         />
-                    </form>
-                }
-                <div className="flex justify-end">
-                    <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}>Create Classroom</BasicButton>
+                    }
+                    <div className="flex justify-end">
+                        <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}>Create Classroom</BasicButton>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

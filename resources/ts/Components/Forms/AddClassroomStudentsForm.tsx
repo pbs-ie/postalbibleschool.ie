@@ -79,7 +79,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
             <Heading2Nospace>Add Students</Heading2Nospace>
             <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
             <hr className="mb-4 mt-2" />
-            <form name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
+            <form id="add_classroom_students_form" name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
                 <div>
                     {students.length === 0 ?
                         <p className="text-sm">No students found</p>
