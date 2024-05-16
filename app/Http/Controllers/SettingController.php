@@ -40,4 +40,8 @@ class SettingController extends Controller
         return redirect()->route('events.settings.edit')->with('success', 'Settings updated');
     }
 
+    public function step()
+    {
+        return Inertia::render('Settings/Step');
+    }
 }

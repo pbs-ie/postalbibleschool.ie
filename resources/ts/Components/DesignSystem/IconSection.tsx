@@ -27,6 +27,7 @@ import Video from "@/Elements/Icons/VideoCamera"
 import Eye from "@/Elements/Icons/Eye"
 import ChevronDown from "@/Elements/Icons/ChevronDown"
 import CaratDown from "@/Elements/Icons/CaratDown"
+import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -64,6 +65,10 @@ export default function IconSection() {
             heading: <CloseX />,
             content: "CloseX",
         }, {
+            heading: <Cog6Tooth />,
+            content: "Cog6Tooth",
+        },
+        {
             heading: <Trash />,
             content: "Trash",
         }, {

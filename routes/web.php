@@ -65,7 +65,9 @@ Route::get('/courses', function (Request $request) {
     ]);
 })->name('courses');
 
-
+Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
+    Route::get('step', [SettingController::class, 'step'])->name('step');
+});
 
 Route::prefix('events')->name('events.')->group(function () {
     Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
