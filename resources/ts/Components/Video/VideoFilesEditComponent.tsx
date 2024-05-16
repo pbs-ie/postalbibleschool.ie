@@ -1,10 +1,10 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import { useReducer, useEffect } from "react";
-import TextInput from "../Forms/TextInput";
-import SelectInput from "../Forms/SelectInput";
-import FileInput from "../Forms/FileInput";
-import InputLabel2 from "../Forms/InputLabel2";
-import File from "../../Elements/Icons/FileIcon";
+import TextInput from "@/Elements/Forms/TextInput";
+import SelectInput from "@/Elements/Forms/SelectInput";
+import FileInput from "@/Elements/Forms/FileInput";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import File from "@/Elements/Icons/FileIcon";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {

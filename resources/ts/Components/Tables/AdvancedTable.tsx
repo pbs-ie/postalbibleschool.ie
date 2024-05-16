@@ -1,7 +1,7 @@
 import { SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { ChangeEvent, useState } from "react";
-import InputLabel2 from "../Forms/InputLabel2";
-import TextInput from "../Forms/TextInput";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import TextInput from "@/Elements/Forms/TextInput";
 
 export default function AdvancedTable({ data, columns }: { data: any, columns: any }) {
     const [sorting, setSorting] = useState<SortingState>([]);

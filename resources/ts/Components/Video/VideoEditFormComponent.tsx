@@ -1,5 +1,5 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
-import TextInput from "@/Components/Forms/TextInput";
+import TextInput from "@/Elements/Forms/TextInput";
 import { useEffect, useReducer } from "react";
 
 export default function VideoEditFormComponent({ videoContent, setContent, mode = "edit" }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void, mode?: "create" | "edit" }) {
