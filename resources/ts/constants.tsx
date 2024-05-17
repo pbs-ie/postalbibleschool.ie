@@ -70,9 +70,6 @@ declare global {
                 picture: string;
             };
         };
-        settings: {
-            [key in SettingKeys]: SettingProps;
-        }
         flash: {
             success?: string;
             failure?: string;
@@ -129,6 +126,16 @@ declare global {
         label: string;
         value?: string;
         type: string;
+    }
+
+    interface StepSettings {
+        dates: string;
+        topic: string;
+        standardCost: string;
+        concessionCost: string;
+        speaker: string;
+        embedLink: string;
+        isActive: boolean;
     }
 }
 

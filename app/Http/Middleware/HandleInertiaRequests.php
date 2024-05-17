@@ -48,10 +48,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => fn() => $request->session()->get('success'),
                 'failure' => fn() => $request->session()->get('failure')
-            ],
-            'settings' => fn() => Cache::remember("eventSettings", 60, function () {
-                return Setting::all()->keyBy('key');
-            })
+            ]
         ]);
     }
 }

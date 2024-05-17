@@ -2,46 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateStepSettingRequest;
+use App\Settings\StepSettings;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Setting;
 use \Cache;
 
 class SettingController extends Controller
 {
-    /**
-     * Show Edit Event settings page
-     * 
-     * @return \Inertia\Response
-     */
-    public function editEvents()
+    public function index()
     {
-        $eventData = Cache::remember("eventSettings", 60, function () {
-            return Setting::all();
-        });
-        return Inertia::render('Events/Settings', [
-            'eventSettings' => $eventData
+        return redirect()->route('settings.step');
+    }
+    public function step(StepSettings $settings)
+    {
+        return Inertia::render('Settings/Step', [
+            'stepSettings' => [
+                'dates' => $settings->dates,
+                'topic' => $settings->topic,
+                'standardCost' => $settings->standardCost,
+                'concessionCost' => $settings->concessionCost,
+                'speaker' => $settings->speaker,
+                'embedLink' => $settings->embedLink,
+                'isActive' => $settings->isActive,
+            ]
         ]);
     }
 
-    /**
-     * Call to change event settings
-     * 
-     * @param \Illuminate\Http\Request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeEvents(Request $request)
+    public function stepUpdate(StepSettings $settings, UpdateStepSettingRequest $request)
     {
-        $inputData = $request->all();
-        foreach ($inputData as $key => $value) {
-            Setting::where('key', $key)->update(['value' => $value["value"]]);
-        }
-        Cache::flush();
-        return redirect()->route('events.settings.edit')->with('success', 'Settings updated');
-    }
+        $settings->dates = $request->input('dates');
+        $settings->topic = $request->input('topic');
+        $settings->standardCost = $request->input('standardCost');
+        $settings->concessionCost = $request->input('concessionCost');
+        $settings->speaker = $request->input('speaker');
+        $settings->embedLink = $request->input('embedLink');
+        $settings->isActive = $request->boolean('isActive');
 
-    public function step()
-    {
-        return Inertia::render('Settings/Step');
+        $settings->save();
+
+        return redirect()->route('settings.step')->with('success', 'STEP settings updated successfully');
     }
 }
