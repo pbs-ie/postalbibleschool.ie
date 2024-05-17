@@ -5,7 +5,7 @@ interface TextInput {
     className?: string,
     autoComplete?: string,
     isFocused?: boolean | undefined,
-    handleChange: ChangeEventHandler<HTMLElement>,
+    handleChange: ChangeEventHandler<HTMLInputElement>,
     ariaLabelledBy?: string
 }
 

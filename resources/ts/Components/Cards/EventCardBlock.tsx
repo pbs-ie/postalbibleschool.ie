@@ -11,6 +11,7 @@ declare global {
         buttonText?: string | undefined
         buttonLink?: string;
         isExternal?: boolean;
+        isHighlighted?: "0" | "1";
     }
 }
 

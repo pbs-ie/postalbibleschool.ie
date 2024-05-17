@@ -1,12 +1,12 @@
-import InputLabel2 from "@/Components/Forms/InputLabel2";
-import RadioInput from "@/Components/Forms/RadioInput";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import RadioInput from "@/Elements/Forms/RadioInput";
 
-export default function SettingsRow({ title, name, value = "", handleChange }: { title: string, name: string, value?: string, handleChange: React.ChangeEventHandler<HTMLElement> }) {
+export default function SettingsRadio({ title, name, value = "", handleChange }: { title: string, name: string, value?: string, handleChange: React.ChangeEventHandler<HTMLInputElement> }) {
 
     return (
 
 
-        <div className="flex justify-center border border-gray-200 w-3/4 p-5 rounded-md mb-2">
+        <div className="flex justify-center border border-gray-200 p-5 rounded-md mb-2">
             <fieldset className="inline-flex justify-between items-center gap-10 w-full">
                 <legend className="float-left font-bold">{title}</legend>
                 <div className="inline-flex">

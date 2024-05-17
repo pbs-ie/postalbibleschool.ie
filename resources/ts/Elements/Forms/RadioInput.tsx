@@ -3,7 +3,7 @@ import { ChangeEventHandler } from "react"
 export interface RadioInputProps {
     className?: string,
     ariaLabelledBy?: string,
-    handleChange: ChangeEventHandler<HTMLElement>,
+    handleChange: ChangeEventHandler<HTMLInputElement>,
     checked: boolean
 }
 export default function RadioInput({ className = "", checked, ariaLabelledBy, handleChange, ...props }: RadioInputProps & React.InputHTMLAttributes<HTMLInputElement>) {

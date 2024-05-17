@@ -36,9 +36,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        $eventSettings = Cache::remember("eventSettings", 60, function () {
-            return Setting::all()->keyBy('key');
-        });
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),

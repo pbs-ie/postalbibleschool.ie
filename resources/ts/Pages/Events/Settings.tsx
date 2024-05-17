@@ -1,4 +1,4 @@
-import SettingsRow from "@/Components/Settings/SettingsRow";
+import SettingsRadio from "@/Components/Settings/SettingsRadio";
 import EventWrapper from "@/Layouts/EventWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { useForm } from "@inertiajs/react";
@@ -32,9 +32,9 @@ export default function Settings({ eventSettings }: { eventSettings: { [K in Set
                 <form onSubmit={handleSubmit} >
                     <div className="grid grid-cols-[auto_1fr] gap-2 text-left items-center">
                         <Heading2Nospace>The SHED</Heading2Nospace>
-                        <SettingsRow value={data.shed_upcoming_card.value} title={"Show SHED Upcoming Card"} name={data.shed_upcoming_card.key} handleChange={handleChange} />
+                        <SettingsRadio value={data.shed_upcoming_card.value} title={"Show SHED Upcoming Card"} name={data.shed_upcoming_card.key} handleChange={handleChange} />
                         <Heading2Nospace>Summer Camp</Heading2Nospace>
-                        <SettingsRow value={data.camp_upcoming_card.value} title={"Show Camp Upcoming Card"} name={data.camp_upcoming_card.key} handleChange={handleChange} />
+                        <SettingsRadio value={data.camp_upcoming_card.value} title={"Show Camp Upcoming Card"} name={data.camp_upcoming_card.key} handleChange={handleChange} />
                     </div>
                     <div className="flex justify-end">
                         <PrimaryButton>Submit</PrimaryButton>
