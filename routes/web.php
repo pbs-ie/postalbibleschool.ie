@@ -104,6 +104,10 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', [StepEventController::class, 'index'])->name('index');
 
         Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
+        // Fix for bad link that has a . at the end of /signup -> /signup.
+        Route::get('/signup.', function () {
+            return redirect()->route('events.step.signup');
+        });
 
         Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
         Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
