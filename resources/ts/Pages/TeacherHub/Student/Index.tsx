@@ -1,11 +1,13 @@
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading1 from "@/Components/Typography/Heading1";
+import BasicButton from "@/Elements/Buttons/BasicButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
+import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
+import { router } from "@inertiajs/react";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Row, createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 
 export interface StudentProps {
@@ -59,6 +61,10 @@ export default function Index({ students }: { students: StudentProps[] }) {
         })
     ];
 
+    const getStudentList = () => {
+        router.get(route('students.all'));
+    }
+
     return (
         <WrapperLayout>
             <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
@@ -69,8 +75,13 @@ export default function Index({ students }: { students: StudentProps[] }) {
                 <div className="mx-10 mb-10">
                     <Heading1>My Students</Heading1>
                     <p>View all the students for your school and their assigned classrooms in one view here.</p>
+                    <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
                     <div className="mt-5">
-                        <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                        {students.length > 0 ?
+                            <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                            :
+                            <p className="text-gray-500 italic">No students found for your account. If this is a mistake please contact the administrator.</p>
+                        }
                     </div>
                 </div>
             </SidebarLayout>

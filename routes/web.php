@@ -168,12 +168,12 @@ Route::get('/dashboard', function () {
 
 Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('index');
+    Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
 });
 
 
 Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
     Route::prefix('students')->name('students.')->group(function () {
-        Route::get('/', [StudentController::class, 'getAllStudents'])->name('all');
         Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
         Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
     });

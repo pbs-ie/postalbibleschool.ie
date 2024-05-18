@@ -104,12 +104,12 @@ class StudentController extends Controller
      */
     public function getAllStudents()
     {
+        $this->storeStudentsListForUser(auth()->user()->email);
         $studentList = Student::getStudentsForUser();
         if ($studentList->isEmpty()) {
             return redirect()->back()->with('failure', 'No students found');
         }
         return redirect()->back()->with('success', 'Student list updated');
-
     }
 
     /**

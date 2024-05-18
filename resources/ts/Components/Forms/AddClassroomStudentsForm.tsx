@@ -32,7 +32,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
 
     const getStudentList = () => {
         onClose();
-        router.get(route('classroom.students.all'));
+        router.get(route('students.all'));
     }
 
     const tableDataMemo = useMemo(() => students, [students]);
