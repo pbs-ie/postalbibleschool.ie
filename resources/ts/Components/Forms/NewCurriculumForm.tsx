@@ -2,7 +2,7 @@ import { useForm } from "@inertiajs/react"
 import TextInput from "./TextInput";
 import InputLabel from "./InputLabel";
 import InputError from "./InputError";
-import { monthMap, monthNames } from "@/constants";
+import { MonthKeys, monthLessonMap, monthMap } from "@/constants";
 import SelectInput from "./SelectInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -129,22 +129,25 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                     <div data-test='curriculum_calender_block' className="flex flex-col gap-1 p-5 w-fit border border-gray-300 rounded-md border-b-4 border-r-2">
                         <Heading3>Calendar</Heading3>
                         <p className="text-gray-500 text-base mb-2">Select a maximum of 5 months for digital lessons</p>
-                        {[...monthMap.keys()].map((month) => (
-                            <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
-                                <InputLabel className="" forInput={month} value={monthNames[monthMap.get(month) ?? 0]} />
-                                <SelectInput
-                                    name={month}
-                                    id={month}
-                                    value={data[month] ?? ""}
-                                    defaultValue="paper"
-                                    className={""}
-                                    handleChange={handleChange} >
-                                    <option value="paper">Paper Lesson</option>
-                                    <option value="digital">Digital Lesson</option>
-                                </SelectInput>
-                                <InputError className="col-span-2" message={errors[month]} />
-                            </div>
-                        ))}
+                        {Object.keys(monthMap).map((value) => {
+                            const month = value as MonthKeys;
+                            return (
+                                <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
+                                    <InputLabel className="" forInput={month} value={monthLessonMap[month as MonthKeys]} />
+                                    <SelectInput
+                                        name={month}
+                                        id={month}
+                                        value={data[month] ?? ""}
+                                        defaultValue="paper"
+                                        className={""}
+                                        handleChange={handleChange} >
+                                        <option value="paper">Paper Lesson</option>
+                                        <option value="digital">Digital Lesson</option>
+                                    </SelectInput>
+                                    <InputError className="col-span-2" message={errors[month]} />
+                                </div>
+                            )
+                        })}
                     </div>
                 }
             </div>

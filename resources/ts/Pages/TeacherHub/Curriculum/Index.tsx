@@ -10,6 +10,7 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import PlusSolid from "@/Elements/Icons/PlusSolid";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import Trash from "@/Elements/Icons/Trash";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
@@ -58,12 +59,16 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center">
-                        <ButtonLink dataTest="edit_icon" hierarchy="transparent" size="xsmall" href={route("curriculum.edit", row.original.id)}><EditIcon className="w-6 h-6" key={row.id} /></ButtonLink>
-                        <BasicButton dataTest="delete_icon" onClick={() => {
-                            setIdToDelete(row.original.id);
-                            setNameToDelete(row.original.name);
-                            showModal();
-                        }} hierarchy="delete" size="xsmall"><Trash key={row.id} /></BasicButton>
+                        <IconHoverSpan>
+                            <ButtonLink dataTest="edit_icon" hierarchy="transparent" size="xsmall" href={route("curriculum.edit", row.original.id)}><EditIcon className="w-6 h-6" key={row.id} /></ButtonLink>
+                        </IconHoverSpan>
+                        <IconHoverSpan>
+                            <BasicButton dataTest="delete_icon" onClick={() => {
+                                setIdToDelete(row.original.id);
+                                setNameToDelete(row.original.name);
+                                showModal();
+                            }} hierarchy="transparent" size="xsmall"><Trash className="w-6 h-6 text-red-500" key={row.id} /></BasicButton>
+                        </IconHoverSpan>
                     </div>
                 )
             }
