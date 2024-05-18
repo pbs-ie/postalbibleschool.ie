@@ -2,7 +2,6 @@ import { Column, Table } from "@tanstack/react-table"
 import DebouncedInput from "../Forms/DebouncedInput"
 import { useMemo } from "react"
 import CloseSolid from "@/Elements/Icons/CloseSolid";
-import CloseX from "@/Elements/Icons/CloseX";
 
 export default function Filter<TData>({ column }: { column: Column<TData, unknown> }) {
 
@@ -31,7 +30,7 @@ export default function Filter<TData>({ column }: { column: Column<TData, unknow
                 className="w-36 font-normal border rounded-md text-sm pr-5"
                 list={column.id + 'list'}
             />
-            <button title="Clear filter" className="absolute right-2" onClick={() => column.setFilterValue("")}><CloseSolid className="w-4 h-4" /></button>
+            <button type="button" title="Clear filter" className="absolute right-2" onClick={() => column.setFilterValue("")}><CloseSolid className="w-4 h-4" /></button>
         </div>
     )
 }
