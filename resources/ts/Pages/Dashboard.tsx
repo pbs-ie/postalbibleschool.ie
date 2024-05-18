@@ -4,7 +4,6 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import Play from "@/Elements/Icons/PlayIcon";
 import DashboardResourceSection from "@/Components/Sections/DashboardResourceSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";

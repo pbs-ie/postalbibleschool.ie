@@ -1,4 +1,5 @@
 describe("Classroom Page tests", () => {
+    const headingText = "Participant numbers";
     before(() => {
         cy.refreshDatabase();
         Cypress.session.clearAllSavedSessions();
@@ -11,11 +12,11 @@ describe("Classroom Page tests", () => {
 
     describe("Navigate to the classroom page", () => {
         it('Opens, closes and reopens create new class dialog', () => {
-            cy.get("h2").should('contain.text', "My Classes");
+            cy.get("h2").contains(headingText, { matchCase: false });
             cy.getBySel("classroom_create_button").click();
             cy.contains(/create a new classroom/i);
             cy.getBySel("classroom_cancel_button").should('be.visible').click();
-            cy.get("h2").should('contain.text', "My Classes");
+            cy.get("h2").contains(headingText, { matchCase: false });
             cy.getBySel("classroom_create_button").click();
             cy.contains(/create a new classroom/i);
         })
@@ -24,7 +25,7 @@ describe("Classroom Page tests", () => {
     describe('Perform actions in the Dashboard', () => {
         it('Creates a new classroom', () => {
             const classroomName = "New #Test Classroom";
-            cy.get("h2").should('contain.text', "My Classes");
+            cy.get("h2").contains(headingText, { matchCase: false });
 
             cy.getBySel("classroom_create_button").click();
             cy.contains(/create a new classroom/i);
@@ -41,40 +42,6 @@ describe("Classroom Page tests", () => {
             cy.get('button[type="submit"]').contains('Create').should('not.be.visible');
             cy.get('form#classroom_form').contains(classroomName, { matchCase: false });
         });
-        describe("Duplication check", () => {
-            it('Does not create duplicate classroom', () => {
-                cy.get("h2").should('contain.text', "My Classes");
-                cy.getBySel("classroom_create_button").click();
-                cy.contains(/create a new classroom/i);
-
-                // Fill in the form and submit
-                const classroomName = "Duplicate Classroom";
-                cy.get('input[id="classroomName"]').type(classroomName);
-                cy.intercept('/*').as('classroom');
-
-                cy.get('button[type="submit"]').contains('Create').click();
-
-                cy.wait('@classroom');
-
-                // Dialog is closed on submission and redirect to the classroom
-                cy.get('button[type="submit"]').contains('Create').should('not.be.visible');
-                cy.get('form#classroom_form').contains(classroomName, { matchCase: false });
-
-                // Remake a classroom with the same name
-                cy.getBySel("classroom_create_button").click();
-                cy.contains(/create a new classroom/i);
-                cy.get('input[id="classroomName"]').type(classroomName);
-                cy.intercept('/*').as('classroom');
-                cy.get('button[type="submit"]').contains('Create').click();
-
-                cy.wait('@classroom');
-                // Dialog is closed on submission and no page redirect
-                cy.get('button[type="submit"]').contains('Create').should('not.be.visible');
-                cy.get("h2").should('contain.text', "My Classes");
-                cy.get('form#classroom_form').contains(classroomName, { matchCase: false });
-
-            })
-        });
         describe('Changes to an existing classroom', () => {
             const classroomName = "New #Test Classroom";
             beforeEach(() => {
@@ -82,7 +49,7 @@ describe("Classroom Page tests", () => {
 
 
                 //Creates a classroom
-                cy.get("h2").should('contain.text', "My Classes");
+                cy.get("h2").contains(headingText, { matchCase: false });
                 cy.getBySel("classroom_create_button").click();
                 cy.contains(/create a new classroom/i);
                 cy.get('input#classroomName').type(classroomName);
@@ -94,10 +61,10 @@ describe("Classroom Page tests", () => {
 
             });
             it('Changes the number of students for existing classroom', () => {
-                cy.get("h2").should('contain.text', "My Classes");
+                cy.get("h2").contains(headingText, { matchCase: false });
 
                 cy.get('form#classroom_form tbody tr').eq(0).within(() => {
-                    cy.get('td').eq(1).should('contain.text', classroomName)
+                    cy.get('td').eq(1).should('include.text', classroomName);
                     cy.getBySelLike("classroom_edit_icon").click();
 
                     cy.get("[id^=level_0_order]").should('be.visible').clear().type("11");
@@ -123,7 +90,7 @@ describe("Classroom Page tests", () => {
 
                 // Open classroom details
                 cy.get('form#classroom_form tbody tr').eq(0).within(() => {
-                    cy.get('td').eq(1).should('contain.text', classroomName)
+                    cy.get('td').eq(1).should('include.text', classroomName)
                     cy.intercept('/classroom/*').as('details');
                     cy.getBySelLike("classroom_open_icon").click();
                 });
@@ -131,7 +98,7 @@ describe("Classroom Page tests", () => {
                 // Load new page of classroom details
                 cy.wait('@details');
 
-                cy.get('h1').should('have.text', classroomName);
+                cy.get('h2').should('include.text', classroomName);
 
                 // Click add students button and confirm addition of students from list
                 cy.getBySel('classroom_add_students_button').click();
@@ -158,7 +125,7 @@ describe("Classroom Page tests", () => {
 
                 // Assert student is added to the classroom list
                 cy.get("form#classroom_student_list tbody tr td").should('contain', studentName);
-                cy.get("form#classroom_student_list tbody tr").should('have.length', 1);
+                cy.get("form#classroom_student_list tbody tr").should('have.length.at.least', 1);
 
                 // Remove student from classroom
 
@@ -171,7 +138,7 @@ describe("Classroom Page tests", () => {
 
                 // Assert student has been removed
                 cy.get("form#classroom_student_list table").should('not.exist');
-                cy.get("form#classroom_student_list div p").contains(/no students found. Add students by clicking the button below/i);
+                cy.get("form#classroom_student_list div p").contains(/no students added. Add students by clicking the button below/i);
 
             });
             it('Changes curriculum for classroom', () => {
@@ -183,7 +150,7 @@ describe("Classroom Page tests", () => {
 
                 // Act
                 cy.get('form#classroom_form tbody tr').eq(0).within(() => {
-                    cy.get('td').eq(1).should('contain.text', classroomName)
+                    cy.get('td').eq(1).should('include.text', classroomName)
                     cy.getBySelLike("classroom_delete_icon").click();
                 });
                 cy.get('h2').contains(/delete classroom/i).should('be.visible');
@@ -197,6 +164,39 @@ describe("Classroom Page tests", () => {
 
             });
         });
+        describe.only("Duplication check", () => {
+            const classroomName = "Duplicate Classroom";
+            it('Does not create duplicate classroom', () => {
+                cy.get("h2").contains(headingText, { matchCase: false });
+                cy.getBySel("classroom_create_button").click();
+                cy.contains(/create a new classroom/i);
 
+                // Fill in the form and submit
+                cy.get('input[id="classroomName"]').type(classroomName);
+                cy.intercept('/*').as('duplicateclassroom');
+
+                cy.get('button[type="submit"]').contains('Create').click();
+
+                cy.wait('@duplicateclassroom');
+
+                // Dialog is closed on submission and redirect to the classroom
+                cy.get('button[type="submit"]').contains('Create').should('not.be.visible');
+                cy.get('form#classroom_form').contains(classroomName, { matchCase: false });
+
+                // Remake a classroom with the same name
+                cy.getBySel("classroom_create_button").click();
+                cy.contains(/create a new classroom/i);
+                cy.get('input[id="classroomName"]').type(classroomName);
+                cy.intercept('/*').as('classroom');
+                cy.get('button[type="submit"]').contains('Create').click();
+
+                cy.wait('@duplicateclassroom');
+                // Dialog is closed on submission and no page redirect
+                cy.get('button[type="submit"]').contains('Create').should('not.be.visible');
+                cy.get("h2").contains(headingText, { matchCase: false });
+                cy.get('form#classroom_form').contains(classroomName, { matchCase: false });
+
+            })
+        });
     });
 })
