@@ -12,7 +12,7 @@ export default function ClassroomCurriculumCard({ classCurriculum, showCurriculu
 
     return (
         <div className="flex flex-col gap-2 mb-3 lg:mb-5 mx-2 border border-gray-200 rounded-lg shadow-md p-5">
-            <Heading2Nospace>{`Current Curriculum - "${classCurriculum?.name}"`}</Heading2Nospace>
+            <Heading2Nospace className="capitalize">{`Current Curriculum - "${classCurriculum?.name}"`}</Heading2Nospace>
             <div>
                 {classCurriculum && Object.keys(monthMap).map((value) => {
                     const month = value as MonthKeys;

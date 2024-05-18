@@ -112,7 +112,7 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
 
     ];
     return (
-        <div className="mb-4">
+        <div className="mb-4 lg:mb-10">
             <span className="flex items-start gap-2">
                 <Heading2Alt>Curriculum</Heading2Alt>
                 <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>

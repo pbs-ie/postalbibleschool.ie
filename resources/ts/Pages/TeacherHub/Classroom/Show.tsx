@@ -2,7 +2,6 @@ import AddClassroomStudentsForm from "@/Components/Forms/AddClassroomStudentsFor
 import CheckboxInput from "@/Components/Forms/CheckboxInput"
 import PopupModal from "@/Components/Modals/PopupModal"
 import AdvancedTable from "@/Components/Tables/AdvancedTable"
-import Heading1Nospace from "@/Components/Typography/Heading1Nospace"
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace"
 import BasicButton from "@/Elements/Buttons/BasicButton"
 import ButtonLink from "@/Elements/Buttons/ButtonLink"
@@ -17,6 +16,7 @@ import { useEffect, useMemo, useState } from "react"
 import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
 import ClassroomCurriculumCard from "@/Components/Cards/ClassroomCurriculumCard"
 import { StudentProps } from "@/Pages/TeacherHub/Student/Index";
+import Heading1 from "@/Components/Typography/Heading1"
 
 
 interface ClassroomShowProps {
@@ -122,12 +122,13 @@ export default function Show({
                 <div></div>
                 <TwoColumnLayout>
                     <div className="mx-2">
-                        <Heading1Nospace>{classroom.name}</Heading1Nospace>
+                        <Heading1>My classroom</Heading1>
+                        <p className="my-4">Add student names here that should follow the curriculum set for this classroom. These students will be added to our digital app.</p>
                         <form id="classroom_student_list" className="my-10" onSubmit={removeStudentsFromClass}>
-                            <Heading2Nospace>My classroom</Heading2Nospace>
+                            <Heading2Nospace>{classroom.name}</Heading2Nospace>
                             <div className="my-5">
                                 {students.length === 0 ?
-                                    <p className="text-gray-500 italic">No students found. Add students by clicking the button below.</p>
+                                    <p className="text-gray-500 italic">No students added. Add students by clicking the button below.</p>
                                     :
                                     <AdvancedTable
                                         data={tableDataMemo}

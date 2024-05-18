@@ -52,23 +52,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
     }
     const { data, setData, post, processing, reset } = useForm<ClassroomForm>(defaultData);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        switch (event.target.name) {
-            case "name":
-                setData(event.target.name, event.target.value);
-                break;
-            case "curriculum_id":
-            case "level_0_order":
-            case "level_1_order":
-            case "level_2_order":
-            case "level_3_order":
-            case "level_4_order":
-            case "tlp_order":
-                setData(event.target.name, +event.target.value);
-                break;
-        }
-    }
-
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -206,7 +189,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         }),
         columnHelper.accessor(row => row.name, {
             id: "name",
-            header: "Name",
+            header: "Classroom Name",
             enableColumnFilter: false,
             cell: editableCell,
             footer: () => (
@@ -359,8 +342,8 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
                 <div className="flex items-start gap-2 w-full pb-2">
                     <span className="flex items-start gap-2">
-                        <Heading2Alt>My Classes</Heading2Alt>
-                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students by their levels in each class."} direction={"top"}>
+                        <Heading2Alt>Participant numbers</Heading2Alt>
+                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"top"}>
                             <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                         </TooltipCard>
                     </span>
