@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use stdClass;
 use Illuminate\Support\Arr;
-use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Models\AssemblyVideo;
 use Illuminate\Support\Facades\Gate;
+use stdClass;
 
 
 class AssemblyController extends Controller
@@ -59,7 +56,7 @@ class AssemblyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -87,7 +84,7 @@ class AssemblyController extends Controller
     /**
      * Display admin panel for the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function admin()
     {
@@ -100,7 +97,7 @@ class AssemblyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -112,7 +109,7 @@ class AssemblyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -141,7 +138,7 @@ class AssemblyController extends Controller
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
         $assemblyInfo['id'] = count($assemblyConfig->content);
         $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
-        array_push($assemblyConfig->content, (object)$assemblyInfo);
+        array_push($assemblyConfig->content, (object) $assemblyInfo);
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -177,7 +174,7 @@ class AssemblyController extends Controller
      * Display the specified resource.
      *
      * @param  string  $series
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(string $series)
     {
@@ -190,7 +187,7 @@ class AssemblyController extends Controller
                 return $value['routename'] == $series;
             });
             if (count($seriesExists) == 0) {
-                return Inertia::render('NotFound');
+                return abort(404);
             }
         }
         $jsonContent = new stdClass();
@@ -203,7 +200,7 @@ class AssemblyController extends Controller
             $jsonContent = json_decode($content, false);
         }
         if ($jsonContent == new stdClass()) {
-            return Inertia::render('NotFound');
+            return abort(404);
         }
 
         return Inertia::render('Assembly/Show', [
@@ -215,7 +212,7 @@ class AssemblyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit(int $id)
     {
@@ -237,7 +234,7 @@ class AssemblyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, int $id)
     {
@@ -272,7 +269,7 @@ class AssemblyController extends Controller
             }
         }
 
-        $assemblyConfig->content[$id] = (object)$assemblyInfo;
+        $assemblyConfig->content[$id] = (object) $assemblyInfo;
 
         // Storing updated video config file for the month
         $videoConfig = new stdClass();
@@ -281,10 +278,10 @@ class AssemblyController extends Controller
         $videoConfig->content = $videoInfo['content'];
 
         usort($videoConfig->content, function ($a, $b) {
-            if ((int)$a['id'] === (int)$b['id']) {
+            if ((int) $a['id'] === (int) $b['id']) {
                 return 0;
             }
-            return (int)$a['id'] < (int)$b['id'] ? -1 : 1;
+            return (int) $a['id'] < (int) $b['id'] ? -1 : 1;
         });
         for ($i = 0; $i < count($videoConfig->content); $i++) {
             $videoConfig->content[$i]['id'] = $i;
@@ -312,7 +309,7 @@ class AssemblyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {

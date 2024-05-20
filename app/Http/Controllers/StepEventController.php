@@ -109,7 +109,7 @@ class StepEventController extends Controller
             $jsonContent = json_decode($content, false);
         }
         if ($jsonContent == new stdClass()) {
-            return Inertia::render('NotFound');
+            return abort(404);
         }
 
         return Inertia::render('Events/Step/Past/Show', [
