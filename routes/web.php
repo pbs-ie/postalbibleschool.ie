@@ -104,6 +104,10 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', 'index')->name('index');
 
         Route::get('/signup', 'signup')->name('signup');
+        // Fix for bad link that has a . at the end of /signup -> /signup.
+        Route::get('/signup.', function () {
+            return redirect()->route('events.step.signup');
+        });
 
         Route::get('/image/{imageId}', 'getImage')->name('image');
         Route::get('/file/{routename}/{filename}', 'getFile')->name('file');
