@@ -6,6 +6,8 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
+import { useState } from "react";
+
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
 import CampFriends from "@images/camp/camp-friends-min.jpg";
 import CampBeach from "@images/camp/camp-beach-min.jpg";
@@ -15,9 +17,10 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import { useState } from "react";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import CampWrapper from "@/Layouts/CampWrapper";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import Calendar from "@/Elements/Icons/Calendar";
+import Location from "@/Elements/Icons/Location";
 
 
 export default function Home() {
@@ -56,6 +59,23 @@ export default function Home() {
             imageLink: CampAdventure
         }
     ]
+
+    const campCards: CardBlock[] = [
+        {
+            Icon: Calendar,
+            title: "When",
+            description: "13th to 20th July, 2024",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Ovoca Manor, Avoca, Co Wicklow",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
     return (
         <CampWrapper title="">
             <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
@@ -63,7 +83,7 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer type="camp">
+                <CardContainer cards={campCards}>
                     <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
                 </CardContainer>
                 <Heading2>Camp</Heading2>

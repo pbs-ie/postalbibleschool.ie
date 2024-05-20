@@ -8,16 +8,21 @@ import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
 
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
+import StepWrapper from "@/Layouts/StepWrapper";
 
 import EventCardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import Heading2 from "@/Components/Typography/Heading2";
-
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import StepWrapper from "@/Layouts/StepWrapper";
+import Banknotes from "@/Elements/Icons/Banknotes";
+import Calendar from "@/Elements/Icons/Calendar";
+import ChatBubble from "@/Elements/Icons/ChatBubble";
+import Group from "@/Elements/Icons/Group";
+import Location from "@/Elements/Icons/Location";
 
 
 
@@ -55,7 +60,46 @@ export default function Index() {
             title: "Bible Study",
             imageLink: StudyImage
         }
-    ]
+    ];
+
+    const stepCards: CardBlock[] = [
+        {
+            Icon: Calendar,
+            title: "When",
+            description: <p className="text-lg font-bold">14th June - 16th June, 2024</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: <p className="text-lg font-bold">Castledaly Manor, Athlone,<br /> Co Westmeath</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: ChatBubble,
+            title: "Topic",
+            description: <p className="text-lg font-bold">Book of Nehemiah</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Group,
+            title: "Who can attend",
+            description: "Teens and Young Adults 16+",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Banknotes,
+            title: "Cost",
+            description: <p>Standard €65<br />Student €50</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+    ];
+
     return (
         <StepWrapper heading="STEP" title="">
             <ParagraphContainer className="mt-5 mb-10 lg:mt-10">
@@ -65,7 +109,7 @@ export default function Index() {
             <ExtendScreenWrapper>
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
-            <EventCardContainer type="step">
+            <EventCardContainer cards={stepCards}>
                 <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
             </EventCardContainer>
             <ExtendScreenWrapper>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Settings\StepSettings;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -13,22 +14,26 @@ use stdClass;
 
 class StepEventController extends Controller
 {
-    private function sortArrayByParam($array, string $byParam) {
+    private function sortArrayByParam($array, string $byParam)
+    {
         usort($array, function ($a, $b) use ($byParam) {
-            if ((int)$a[$byParam] === (int)$b[$byParam]) {
+            if ((int) $a[$byParam] === (int) $b[$byParam]) {
                 return 0;
             }
-            return (int)$a[$byParam] < (int)$b[$byParam] ? -1 : 1;
+            return (int) $a[$byParam] < (int) $b[$byParam] ? -1 : 1;
         });
     }
-    private function getStepConfig() {
+    private function getStepConfig()
+    {
         return json_decode(Storage::get('stepconfig.json'), false);
     }
-    private function getUploadedFilesPath(string $routename, string $filename) {
+    private function getUploadedFilesPath(string $routename, string $filename)
+    {
 
         return 'video_files/' . $routename . '/' . $filename;
     }
-    private function getRules() {
+    private function getRules()
+    {
         return [
             'date' => ['required'],
             'description' => ['required'],
@@ -42,7 +47,8 @@ class StepEventController extends Controller
         ];
     }
 
-    private function getCustomAttributes() {
+    private function getCustomAttributes()
+    {
         return [
             'content' => 'Video information',
             'content.*.externalUrl' => 'External Url',
@@ -54,36 +60,43 @@ class StepEventController extends Controller
         ];
     }
 
-    private function searchMatchingContent($value, $parameter,$content) {
-        foreach($content as $event) {
+    private function searchMatchingContent($value, $parameter, $content)
+    {
+        foreach ($content as $event) {
             $eventArray = (array) $event;
-            if($eventArray[$parameter] === $value) {
+            if ($eventArray[$parameter] === $value) {
                 return $event;
             }
         }
         return null;
     }
 
-    public function index() {
+    public function index()
+    {
         return Inertia::render('Events/Step/Index');
     }
 
-    public function signup() {
-        return Inertia::render('Events/Step/Signup');
+    public function signup(StepSettings $stepSettings)
+    {
+        return Inertia::render('Events/Step/Signup', [
+            'stepSettings' => $stepSettings
+        ]);
     }
 
-    public function gallery() {
+    public function gallery()
+    {
         $config = $this->getStepConfig();
         return Inertia::render('Events/Step/Past/Gallery', [
             'content' => $config->content
         ]);
     }
 
-    public function show(string $eventName) {
+    public function show(string $eventName)
+    {
         $config = $this->getStepConfig();
         $content = $config->content;
         $event = $this->searchMatchingContent($eventName, 'routename', $content);
-        
+
         $jsonContent = new stdClass();
 
         $fileName = strtolower($eventName);
@@ -105,7 +118,7 @@ class StepEventController extends Controller
     /**
      * Display admin panel for the past resources.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function admin()
     {
@@ -118,7 +131,7 @@ class StepEventController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -128,24 +141,24 @@ class StepEventController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $rules = $this->getRules();
         $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
-        
+
         $videoData = $validator->safe()->only(['content']);
         $imageData = $validator->safe()->only(['imageFile']);
         $fileData = $validator->safe()->only(['fileContent']);
         $configData = $validator->safe()->except(['content', 'imageFile', 'fileContent']);
-        
-        $configData['routename'] = Str::kebab("step ".$configData["date"]);
+
+        $configData['routename'] = Str::kebab("step " . $configData["date"]);
         // Storing updated step config file
         $stepConfig = json_decode(Storage::get('stepconfig.json'), false);
         $configData['id'] = count($stepConfig->content);
         $configData['imageLink'] = $stepConfig->imagePath . $configData['routename'];
-        array_push($stepConfig->content, (object)$configData);
+        array_push($stepConfig->content, (object) $configData);
         // Storing image for the month
         $imageFile = $imageData["imageFile"];
 
@@ -194,7 +207,7 @@ class StepEventController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse | \Inertia\Response
      */
     public function edit(int $id)
     {
@@ -207,11 +220,11 @@ class StepEventController extends Controller
 
         $filePath = $stepConfig->jsonPath . $fileName . '.json';
         $fileData = (json_decode(Storage::get($filePath), false));
-        
-        if(isset($fileData->content)) {
+
+        if (isset($fileData->content)) {
             $event->content = $fileData->content;
         }
-        if(isset($fileData->fileContent)) {
+        if (isset($fileData->fileContent)) {
             $event->fileContent = $fileData->fileContent;
         }
 
@@ -225,7 +238,7 @@ class StepEventController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, int $id)
     {
@@ -233,12 +246,12 @@ class StepEventController extends Controller
         $rules['imageLink'] = [];
         $rules['imageFile'] = ['nullable'];
         $validator = Validator::make($request->all(), $rules, [], $this->getCustomAttributes());
-        
+
         $videoData = $validator->safe(['content']);
         $imageData = $validator->safe(['imageFile']);
         $fileData = $validator->safe(['fileContent']);
         $configData = $validator->safe()->except(['imageFile', 'content', 'fileContent']);
-        
+
         $stepConfig = $this->getStepConfig();
 
         $currentEvent = $this->searchMatchingContent($id, 'id', $stepConfig->content);
@@ -246,7 +259,7 @@ class StepEventController extends Controller
             return redirect()->route('events.step.past.admin')->with('failure', 'Missing event in system');
         }
         $fileName = strtolower($currentEvent->routename);
-        
+
 
         $eventConfigPath = $stepConfig->jsonPath . $fileName . '.json';
         if (!Storage::exists($eventConfigPath)) {
@@ -263,8 +276,8 @@ class StepEventController extends Controller
         }
 
         // Updating step config content
-        foreach($stepConfig->content as $event) {
-            if($event->id === $id) {
+        foreach ($stepConfig->content as $event) {
+            if ($event->id === $id) {
                 $event->date = $configData['date'];
                 $event->heading = $configData['heading'];
                 $event->description = $configData['description'];
@@ -290,20 +303,18 @@ class StepEventController extends Controller
         $this->sortArrayByParam($eventConfig->fileContent, 'id');
         for ($i = 0; $i < count($eventConfig->fileContent); $i++) {
             $eventConfig->fileContent[$i]['id'] = $i;
-            
+
             if (array_key_exists('fileData', $eventConfig->fileContent[$i]) && isset($eventConfig->fileContent[$i]['fileData'])) {
                 $uploadedFile = $eventConfig->fileContent[$i]['fileData'];
-                $newFilePath = $uploadedFile->storeAs('public/video_files/'.$currentEvent->routename, $currentEvent->routename . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
+                $newFilePath = $uploadedFile->storeAs('public/video_files/' . $currentEvent->routename, $currentEvent->routename . '_' . strtolower(Str::random(9)) . '.' . strtolower($uploadedFile->getClientOriginalExtension()));
                 $eventConfig->fileContent[$i]['filePath'] = $stepConfig->filePath . $currentEvent->routename . '/' . basename($newFilePath);
                 unset($eventConfig->fileContent[$i]['fileData']);
-            }
-            else if (array_key_exists('filePath', $eventConfig->fileContent[$i])) {
+            } else if (array_key_exists('filePath', $eventConfig->fileContent[$i])) {
                 $fileName = Str::after($eventConfig->fileContent[$i]['filePath'], $stepConfig->filePath . $currentEvent->routename);
                 $filePath = $this->getUploadedFilesPath($currentEvent->routename, $fileName);
-                if(Storage::disk('public')->exists($filePath)) {
+                if (Storage::disk('public')->exists($filePath)) {
                     continue;
-                }
-                else {
+                } else {
                     Log::warning("Could not find file in system : " . $fileName, [$filePath, $currentEvent->routename]);
                 }
             } else {
@@ -335,7 +346,7 @@ class StepEventController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
@@ -346,25 +357,25 @@ class StepEventController extends Controller
         $filePath = $stepConfig->jsonPath . $fileName . '.json';
 
         $allVideoImages = Storage::disk('public')->files('video_images/');
-        $matchingImages = array_values(array_filter($allVideoImages, function($image) use ($fileName) {
+        $matchingImages = array_values(array_filter($allVideoImages, function ($image) use ($fileName) {
             return Str::startsWith(basename($image), $fileName);
         }));
-        
+
         $allSavedFiles = Storage::disk('public')->allFiles('video_files/');
-        $associatedFiles = array_values(array_filter($allSavedFiles, function($file) use ($fileName) {
+        $associatedFiles = array_values(array_filter($allSavedFiles, function ($file) use ($fileName) {
             return Str::startsWith(basename($file), $fileName);
         }));
 
 
         // TODO: This check does not need to prevent the deletion
-        if (!Storage::disk('local')->exists($filePath) ) {
+        if (!Storage::disk('local')->exists($filePath)) {
             return redirect()->route('events.step.past.admin')->with('failure', 'Missing file in system');
         }
 
         try {
             // Destroy the .json file for the event
             Storage::disk('local')->delete($filePath);
-            
+
             // Destroy associated files uploaded for the event
             Storage::disk('public')->delete($associatedFiles);
 
@@ -377,18 +388,20 @@ class StepEventController extends Controller
             });
             $stepConfig->content = array_values($filteredContent);
             Storage::put('stepconfig.json', json_encode($stepConfig, JSON_PRETTY_PRINT));
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             Log::error($ex->getMessage());
         }
 
         return redirect()->route('events.step.past.admin')->with('success', 'Video removed successfully');
     }
 
-    public function schedule( ) {
-            return Inertia::render('Events/Step/Index');
+    public function schedule()
+    {
+        return Inertia::render('Events/Step/Index');
     }
 
-    public function getImage($imageId) {
+    public function getImage($imageId)
+    {
         $fileName = strtolower($imageId);
         $filePathJpg = 'video_images/' . $fileName . '.jpg';
         $filePathPng = 'video_images/' . $fileName . '.png';
@@ -396,17 +409,18 @@ class StepEventController extends Controller
 
         if (Storage::disk('public')->exists($filePathPng)) {
             return response()->file(Storage::disk('public')->path($filePathPng), ['Content-type' => 'image/png']);
-        } else if(Storage::disk('public')->exists($filePathJpg)) {
+        } else if (Storage::disk('public')->exists($filePathJpg)) {
             return response()->file(Storage::disk('public')->path($filePathJpg), ['Content-type' => 'image/jpg']);
         }
     }
 
-    public function getFile(string $routename,string $filename) {
+    public function getFile(string $routename, string $filename)
+    {
         $fileName = strtolower($filename);
         $filePath = $this->getUploadedFilesPath($routename, $fileName);
 
         if (Storage::disk('public')->exists($filePath)) {
             return response()->file(Storage::disk('public')->path($filePath), ['Content-type' => 'application/pdf']);
-        } 
+        }
     }
 }

@@ -22,6 +22,11 @@ import ShedLogo from "@images/shed/shed-logo.png";
 import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
+import Calendar from "@/Elements/Icons/Calendar";
+import Group from "@/Elements/Icons/Group";
+import QuestionMarkCircle from "@/Elements/Icons/QuestionMarkCircle";
+import School from "@/Elements/Icons/SchoolIcon";
+import Location from "@/Elements/Icons/Location";
 
 export default function Shed() {
 
@@ -58,7 +63,46 @@ export default function Shed() {
             title: "Challenges",
             imageLink: ShedChallenges
         }
-    ]
+    ];
+
+    const shedCards: CardBlock[] = [
+        {
+            Icon: School,
+            title: "What",
+            description: "SHED Weekend",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Mullertown House, Annalong, Co. Down",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Calendar,
+            title: "When",
+            description: "3rd-5th May 2024",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Group,
+            title: "Activities",
+            description: <p>Sports, Games, Good Food, Time with friends, Bible Talks</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: QuestionMarkCircle,
+            title: "Join",
+            description: <p>Click the button below and fill in the form to sign up for this event!</p>,
+            buttonText: "",
+            buttonLink: ""
+        },
+    ];
+
     const descriptionText = <ParagraphContainer className="w-fit"><Paragraph className="mb-2 text-center">Postal Bible School - 049 555 2915</Paragraph><Paragraph className="mb-2 text-center">Gareth McMeekin - 047 56969/086 8519047</Paragraph><Paragraph className="mt-10 text-center">If you need directions or a lift, give us a call</Paragraph></ParagraphContainer>
     return (
         <WrapperLayout>
@@ -70,7 +114,7 @@ export default function Shed() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer type="shed" >
+                <CardContainer cards={shedCards} >
                     <ButtonAnchor href={"https://forms.gle/MmPDKpdHy4mfm1yB9"} isExternalLink={true} Icon={ExternalLink}>Sign up</ButtonAnchor>
                 </CardContainer>
                 <div className="mb-10">
