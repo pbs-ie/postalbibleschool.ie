@@ -7,23 +7,23 @@ import StepBanner from "@images/step/step-current-banner.png";
 import StepWrapper from "@/Layouts/StepWrapper";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
 
-export default function Signup() {
+export default function Signup({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const tableData: TableData[] = [
         {
             heading: "Topic",
-            content: <><p className="font-normal">Book of <b>Nehemiah</b></p></>
+            content: <><p className="font-normal">{stepSettings.topic}</p></>
         },
         {
             heading: "Speaker",
-            content: "Noel McMeekin"
+            content: <>{stepSettings.speaker}</>
         },
         {
             heading: "Dates",
-            content: "14th June - 16th June, 2024"
+            content: <>{stepSettings.dates}</>
         },
         {
             heading: "Cost",
-            content: <p className="text-base">Standard - €65<br />Student - €50</p>
+            content: <p className="text-base">Standard - €{stepSettings.standardCost}<br />Student - €{stepSettings.concessionCost}</p>
         }
     ]
     return (
@@ -41,7 +41,7 @@ export default function Signup() {
 
             </ParagraphContainer>
             <div className="flex items-stretch justify-center my-10">
-                <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSfRva_FHWeXVNXSj3i-HItkQ997atTb1m-DY9AmAbo5t7wpoA/viewform?usp=sf_link">Loading…</iframe>
+                <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src={stepSettings.embedLink}>Loading…</iframe>
             </div>
         </StepWrapper>
     )

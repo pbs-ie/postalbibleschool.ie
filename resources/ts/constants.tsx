@@ -128,7 +128,7 @@ declare global {
         type: string;
     }
 
-    interface StepSettings {
+    interface StepSettingsProps {
         dates: string;
         topic: string;
         standardCost: string;

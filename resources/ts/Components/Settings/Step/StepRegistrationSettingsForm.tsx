@@ -5,7 +5,7 @@ import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Components/Forms/InputError";
 
-export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettings }) {
+export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const defaultData = {
         "topic": stepSettings.topic,
         "speaker": stepSettings.speaker,

@@ -4,7 +4,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 
 
-export default function Step({ stepSettings }: { stepSettings: StepSettings }) {
+export default function Step({ stepSettings }: { stepSettings: StepSettingsProps }) {
     return (
         <SettingsLayout title={"STEP Settings"}>
             <SettingsSidebar />
