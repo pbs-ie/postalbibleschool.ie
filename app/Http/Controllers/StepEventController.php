@@ -80,6 +80,9 @@ class StepEventController extends Controller
 
     public function signup(StepSettings $stepSettings)
     {
+        if (!$stepSettings->isActive) {
+            return abort(404);
+        }
         return Inertia::render('Events/Step/Signup', [
             'stepSettings' => $stepSettings
         ]);

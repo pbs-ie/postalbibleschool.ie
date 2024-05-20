@@ -36,6 +36,6 @@ class StepSettingController extends Controller
 
         $settings->save();
 
-        return redirect()->route('settings.step')->with('success', 'STEP settings updated successfully');
+        return redirect()->route('settings.step.index')->with('success', 'STEP settings updated successfully');
     }
 }

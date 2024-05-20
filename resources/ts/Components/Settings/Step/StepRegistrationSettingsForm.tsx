@@ -34,7 +34,6 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(data);
         put(route('settings.step.update'));
     }
     return (
