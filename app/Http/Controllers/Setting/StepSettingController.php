@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Setting;
 
 use App\Http\Requests\UpdateStepSettingRequest;
 use App\Settings\StepSettings;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Inertia\Inertia;
-use \Cache;
 
-class SettingController extends Controller
+class StepSettingController extends Controller
 {
-    public function index()
-    {
-        return redirect()->route('settings.step');
-    }
-    public function step(StepSettings $settings)
+    public function index(StepSettings $settings)
     {
         return Inertia::render('Settings/Step', [
             'stepSettings' => [
@@ -29,7 +24,7 @@ class SettingController extends Controller
         ]);
     }
 
-    public function stepUpdate(StepSettings $settings, UpdateStepSettingRequest $request)
+    public function update(StepSettings $settings, UpdateStepSettingRequest $request)
     {
         $settings->dates = $request->input('dates');
         $settings->topic = $request->input('topic');

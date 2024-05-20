@@ -9,7 +9,7 @@ export default function SettingsSidebar() {
             <nav>
                 <List>
                     <ListItem>
-                        <SidebarLink href={route('settings.step')} isActive={route().current('settings.step')}>
+                        <SidebarLink href={route('settings.step.index')} isActive={route().current('settings.step.*')}>
                             STEP
                         </SidebarLink>
                     </ListItem>

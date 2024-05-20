@@ -7,7 +7,7 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Models\DownloadsList;
 use Illuminate\Support\Facades\Route;
@@ -65,18 +65,19 @@ Route::get('/courses', function (Request $request) {
     ]);
 })->name('courses');
 
+// ************** SETTINGS ********************
+
 Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
-    Route::get('/', [SettingController::class, 'index'])->name('index');
-    Route::get('step', [SettingController::class, 'step'])->name('step');
-    Route::put('step/update', [SettingController::class, 'stepUpdate'])->name('step.update');
+    Route::get('/', function () {
+        return redirect()->route('settings.step.index');
+    })->name('index');
+    Route::controller(StepSettingController::class)->name('step.')->prefix('step')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('update', 'update')->name('update');
+    });
 });
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
-        Route::get('/', [SettingController::class, 'editEvents'])->name('edit');
-        Route::post('/update', [SettingController::class, 'storeEvents'])->name('store');
-    });
-
     Route::get('/prizegivings', function (Request $request) {
         return Inertia::render('Events/Prizegivings', [
             'queryParams' => $request->query(),
@@ -99,25 +100,25 @@ Route::prefix('events')->name('events.')->group(function () {
         return Inertia::render('Events/ITeam');
     })->name('iteam');
 
-    Route::prefix('step')->name('step.')->group(function () {
-        Route::get('/', [StepEventController::class, 'index'])->name('index');
+    Route::prefix('step')->controller(StepEventController::class)->name('step.')->group(function () {
+        Route::get('/', 'index')->name('index');
 
-        Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
+        Route::get('/signup', 'signup')->name('signup');
 
-        Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
-        Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
+        Route::get('/image/{imageId}', 'getImage')->name('image');
+        Route::get('/file/{routename}/{filename}', 'getFile')->name('file');
         Route::prefix('past')->name('past.')->middleware(['auth'])->group(function () {
-            Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
-            Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
-            Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
-            Route::get('/{id}/edit', [StepEventController::class, 'edit'])->name('edit')->can('create:events');
+            Route::post('/', 'store')->name('store')->can('create:events');
+            Route::get('/admin', 'admin')->name('admin')->can('create:events');
+            Route::get('/create', 'create')->name('create')->can('create:events');
+            Route::get('/{id}/edit', 'edit')->name('edit')->can('create:events');
             // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-            Route::post('/{id}', [StepEventController::class, 'update'])->name('update')->can('create:events');
-            Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
+            Route::post('/{id}', 'update')->name('update')->can('create:events');
+            Route::delete('/{id}', 'destroy')->name('destroy')->can('create:events');
         });
         Route::prefix('past')->name('past.')->group(function () {
-            Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
-            Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
+            Route::get('/', 'gallery')->name('gallery');
+            Route::get('/{eventName}', 'show')->name('show');
         });
     });
 });
@@ -148,6 +149,7 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy')->middleware(['auth'])->can('create:assembly');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
+
 Route::get('/dashboard', function () {
     if (!auth()->check()) {
         return response('You are not logged in.');
@@ -163,6 +165,7 @@ Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function (
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
 });
 
+// ************* PAYMENT ROUTES *****************
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/', [PayPalController::class, 'index'])->name('index');
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
