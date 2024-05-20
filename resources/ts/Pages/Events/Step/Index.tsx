@@ -26,7 +26,7 @@ import Location from "@/Elements/Icons/Location";
 
 
 
-export default function Index() {
+export default function Index({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const images: Gallery[] = [
         {
             title: "Teaching",
@@ -66,7 +66,7 @@ export default function Index() {
         {
             Icon: Calendar,
             title: "When",
-            description: <p className="text-lg font-bold">14th June - 16th June, 2024</p>,
+            description: <p className="text-lg font-bold">{stepSettings.dates}</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -80,7 +80,7 @@ export default function Index() {
         {
             Icon: ChatBubble,
             title: "Topic",
-            description: <p className="text-lg font-bold">Book of Nehemiah</p>,
+            description: <p className="text-lg font-bold">{stepSettings.topic}</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -94,7 +94,7 @@ export default function Index() {
         {
             Icon: Banknotes,
             title: "Cost",
-            description: <p>Standard €65<br />Student €50</p>,
+            description: <p>Standard €{stepSettings.standardCost}<br />Student €{stepSettings.concessionCost}</p>,
             buttonText: "",
             buttonLink: ""
         },
@@ -109,9 +109,11 @@ export default function Index() {
             <ExtendScreenWrapper>
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
-            <EventCardContainer cards={stepCards}>
-                <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
-            </EventCardContainer>
+            {stepSettings.isActive &&
+                <EventCardContainer cards={stepCards}>
+                    <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
+                </EventCardContainer>
+            }
             <ExtendScreenWrapper>
                 <section className="pt-4 pb-8 bg-stone-100">
                     <Heading2>What to expect</Heading2>

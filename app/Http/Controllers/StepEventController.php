@@ -71,9 +71,11 @@ class StepEventController extends Controller
         return null;
     }
 
-    public function index()
+    public function index(StepSettings $stepSettings)
     {
-        return Inertia::render('Events/Step/Index');
+        return Inertia::render('Events/Step/Index', [
+            'stepSettings' => $stepSettings
+        ]);
     }
 
     public function signup(StepSettings $stepSettings)
