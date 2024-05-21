@@ -6,26 +6,25 @@ use App\Http\Requests\UpdateStepSettingRequest;
 use App\Settings\StepSettings;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
+use Storage;
 
 class StepSettingController extends Controller
 {
     public function index(StepSettings $settings)
     {
         return Inertia::render('Settings/Step', [
-            'stepSettings' => [
-                'dates' => $settings->dates,
-                'topic' => $settings->topic,
-                'standardCost' => $settings->standardCost,
-                'concessionCost' => $settings->concessionCost,
-                'speaker' => $settings->speaker,
-                'embedLink' => $settings->embedLink,
-                'isActive' => $settings->isActive,
-            ]
+            'stepSettings' => $settings
         ]);
     }
 
     public function update(StepSettings $settings, UpdateStepSettingRequest $request)
     {
+        // Storing image
+        if ($request->hasFile('eventImage')) {
+            $storagePath = Storage::disk('public')->put('/event_files', $request->file('eventImage'));
+            $settings->eventImageLink = $storagePath;
+        }
+
         $settings->dates = $request->input('dates');
         $settings->topic = $request->input('topic');
         $settings->standardCost = $request->input('standardCost');

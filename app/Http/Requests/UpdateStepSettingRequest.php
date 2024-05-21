@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class UpdateStepSettingRequest extends FormRequest
 {
@@ -30,7 +31,12 @@ class UpdateStepSettingRequest extends FormRequest
             "concessionCost" => ['required', 'string'],
             "speaker" => ['required', 'string'],
             "embedLink" => ['required', 'string'],
-            "isActive" => ['required']
+            "isActive" => ['required'],
+            'eventImage' => [
+                File::image()
+                    ->types(['png', 'jpg'])
+                    ->max(15 * 1024)
+            ],
         ];
     }
 }

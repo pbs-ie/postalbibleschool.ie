@@ -14,6 +14,7 @@ return new class extends SettingsMigration {
             $blueprint->add('speaker', "Noel McMeekin");
             $blueprint->add('embedLink', "https://docs.google.com/forms/d/e/1FAIpQLSfRva_FHWeXVNXSj3i-HItkQ997atTb1m-DY9AmAbo5t7wpoA/viewform?usp=sf_link");
             $blueprint->add('isActive', true);
+            $blueprint->add('eventImageLink', "");
         });
     }
 
@@ -26,6 +27,7 @@ return new class extends SettingsMigration {
         $this->migrator->delete('step.speaker');
         $this->migrator->delete('step.embedLink');
         $this->migrator->delete('step.isActive');
+        $this->migrator->delete('step.eventImageLink');
 
     }
 };

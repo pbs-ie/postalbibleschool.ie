@@ -136,6 +136,8 @@ declare global {
         speaker: string;
         embedLink: string;
         isActive: boolean;
+        eventImage?: File | null;
+        eventImageLink?: string,
     }
 }
 

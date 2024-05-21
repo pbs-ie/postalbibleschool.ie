@@ -4,6 +4,8 @@ import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Components/Forms/InputError";
+import SelectInput from "@/Elements/Forms/SelectInput";
+import FileInput from "@/Elements/Forms/FileInput";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const defaultData = {
@@ -14,10 +16,12 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         "concessionCost": stepSettings.concessionCost,
         "embedLink": stepSettings.embedLink,
         "isActive": stepSettings.isActive,
+        "eventImage": stepSettings.eventImage,
+        "eventImageLink": stepSettings.eventImageLink
     }
-    const { data, setData, put, errors } = useForm(defaultData);
+    const { data, setData, post, errors } = useForm(defaultData);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "topic":
             case "speaker":
@@ -30,11 +34,15 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                 break;
         }
     };
-
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.name === "eventImage" && event.target.files) {
+            setData(event.target.name, event.target.files[0]);
+        }
+    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        put(route('settings.step.update'));
+        post(route('settings.step.update'));
     }
     return (
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
@@ -74,10 +82,19 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     </div>
                     <div>
                         <InputLabel2 forInput={"isActive"} value={"Is Registration Active?"} />
-                        <TextInput name={"isActive"} id={"isActive"} value={data.isActive + ""} handleChange={handleChange} />
+                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </SelectInput>
                         <InputError message={errors.isActive} />
                     </div>
                 </div>
+                <div className="inline-flex gap-2 mt-4">
+                    <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
+                    <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
+                    <InputError message={errors.eventImage} />
+                </div>
+                <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('assets.show', data.eventImageLink)} />
             </div>
             <div>
                 <PrimaryButton>Update</PrimaryButton>

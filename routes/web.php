@@ -73,7 +73,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     })->name('index');
     Route::controller(StepSettingController::class)->name('step.')->prefix('step')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::put('update', 'update')->name('update');
+        Route::post('update', 'update')->name('update');
     });
 });
 
@@ -175,3 +175,8 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
     Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });
+
+Route::get('/assets/{file}', function ($file) {
+    error_log("Asset Get Call " . $file);
+    return response()->file(public_path('storage/' . $file));
+})->where('file', '.*')->name('assets.show');
