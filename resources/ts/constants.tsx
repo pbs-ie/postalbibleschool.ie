@@ -69,6 +69,7 @@ declare global {
                 nickname: string;
                 picture: string;
             };
+            canViewSettings: boolean;
         };
         flash: {
             success?: string;

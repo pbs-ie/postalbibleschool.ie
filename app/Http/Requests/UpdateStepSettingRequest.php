@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Gate;
 
 class UpdateStepSettingRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class UpdateStepSettingRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Gate::allows('create:events');
     }
 
     /**

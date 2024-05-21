@@ -10,6 +10,7 @@ import AnchorNavLink from './AnchorNavLink';
 import NavItem from './NavItem';
 import AnchorLink from './AnchorLink';
 import CaratDown from '@/Elements/Icons/CaratDown';
+import Cog6Tooth from '@/Elements/Icons/Cog6Tooth';
 
 export default function Navbar() {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState<boolean>(false);
@@ -136,6 +137,13 @@ export default function Navbar() {
                         {rightSideMenuItems.map((item) => (
                             <NavItem key={item.name} name={item.name} href={item.href} active={item.active} />
                         ))}
+                        {auth.canViewSettings &&
+                            <li className="hidden space-x-8 lg:-my-px lg:ml-6 lg:flex">
+                                <NavLink href={route('settings.index')} active={route().current('settings.*')} >
+                                    <Cog6Tooth />
+                                </NavLink>
+                            </li>
+                        }
                         <li className="relative hidden space-x-8 group lg:-my-px lg:ml-10 lg:flex">
 
                             {auth?.user ?
@@ -231,8 +239,13 @@ export default function Navbar() {
                                     </ResponsiveNavLink>
                                 </li>
                             )
-                        })
-
+                        })}
+                        {auth.canViewSettings &&
+                            <li>
+                                <ResponsiveNavLink href={route('settings.index')} active={route().current('settings.*')}>
+                                    Settings
+                                </ResponsiveNavLink>
+                            </li>
                         }
                         {!auth?.user ?
                             (<AnchorNavLink href={route('login')} isResponsive>
