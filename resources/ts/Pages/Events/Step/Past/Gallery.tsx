@@ -7,7 +7,7 @@ export default function Gallery({ content }: { content: PastEventCardProps[] }) 
         const firstEvent = content[0];
         return (
             <div className="flex justify-center w-full">
-                <StepEventCard id={firstEvent.id} heading={firstEvent.heading} imageLink={firstEvent.imageLink} description={firstEvent.description} date={firstEvent.date} showDetails={firstEvent.showDetails} routename={firstEvent.routename} />
+                <StepEventCard id={firstEvent.id} heading={firstEvent.heading} imageLink={firstEvent.imageLink} description={firstEvent.description} date={firstEvent.date} showDetails={firstEvent.showDetails} routename={firstEvent.routename} size="large" />
             </div>
         );
     }

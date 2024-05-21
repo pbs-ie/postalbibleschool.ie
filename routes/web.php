@@ -111,14 +111,14 @@ Route::prefix('events')->name('events.')->group(function () {
 
         Route::get('/image/{imageId}', 'getImage')->name('image');
         Route::get('/file/{routename}/{filename}', 'getFile')->name('file');
-        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function () {
-            Route::post('/', 'store')->name('store')->can('create:events');
-            Route::get('/admin', 'admin')->name('admin')->can('create:events');
-            Route::get('/create', 'create')->name('create')->can('create:events');
-            Route::get('/{id}/edit', 'edit')->name('edit')->can('create:events');
+        Route::prefix('past')->name('past.')->middleware(['auth', 'can:create:events'])->group(function () {
+            Route::post('/', 'store')->name('store');
+            Route::get('/admin', 'admin')->name('admin');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/{id}/edit', 'edit')->name('edit');
             // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-            Route::post('/{id}', 'update')->name('update')->can('create:events');
-            Route::delete('/{id}', 'destroy')->name('destroy')->can('create:events');
+            Route::post('/{id}', 'update')->name('update');
+            Route::delete('/{id}', 'destroy')->name('destroy');
         });
         Route::prefix('past')->name('past.')->group(function () {
             Route::get('/', 'gallery')->name('gallery');

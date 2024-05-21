@@ -11,6 +11,7 @@ import { router } from "@inertiajs/core";
 import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import Heading2 from "@/Components/Typography/Heading2";
 
 
 export default function Admin({ videoList }: { videoList: PastEventCardProps[] }) {
@@ -79,7 +80,8 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
     return (
         <WrapperLayout>
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
-            <ContentWrapper title="Step Admin" >
+            <ContentWrapper title="Step Management" >
+                <Heading2>Past Events</Heading2>
                 <div className="flex justify-end w-full">
                     <ButtonLink href={route('events.step.past.create')}>Add video</ButtonLink>
                 </div>
