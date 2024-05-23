@@ -40,11 +40,6 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'canViewSettings' => Gate::allows('create:events')
             ],
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
-                ]);
-            },
             'flash' => [
                 'success' => fn() => $request->session()->get('success'),
                 'failure' => fn() => $request->session()->get('failure')
