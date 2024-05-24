@@ -73,7 +73,9 @@ class StoreStepPastRequest extends FormRequest
     {
         foreach ($this->get('videoContent') as $key => $val) {
             $url = $val['externalUrl'];
-            $messages["videoContent.$key.externalUrl"] = "$url is not a valid url";
+            $messages["videoContent.$key.externalUrl"] = [
+                'url' => "$url is not a valid url"
+            ];
         }
         return $messages;
     }

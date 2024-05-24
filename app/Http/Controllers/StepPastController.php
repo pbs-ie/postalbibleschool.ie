@@ -51,11 +51,11 @@ class StepPastController extends Controller
     public function store(StoreStepPastRequest $request)
     {
         $stepEvent = new StepPast;
+        $stepEvent->fill($request->validated());
 
         // Storing image and saving image link to request
         $stepEvent->imageLink = $request->file('imageFile')->store('/', 'images');
 
-        $stepEvent->fill($request->validated());
         $stepEvent->save();
 
         return redirect()->route('events.step.past.admin')->with('success', 'New event created');
@@ -84,6 +84,15 @@ class StepPastController extends Controller
             }
             $event->imageLink = $request->file('imageFile')->store('/', 'images');
         }
+
+        //Store additional files
+        $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
+        $fileContent = $fileCollection->map(function ($item, $key) {
+            $item['filePath'] = $item['fileData']->store('video_files', 'public');
+            unset ($item['fileData']);
+            return $item;
+        });
+        $event->fileContent = $fileContent;
 
         $event->save();
 
