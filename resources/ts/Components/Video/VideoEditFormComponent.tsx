@@ -1,8 +1,11 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import TextInput from "@/Elements/Forms/TextInput";
+import { usePage } from "@inertiajs/react";
 import { useEffect, useReducer } from "react";
 
-export default function VideoEditFormComponent({ videoContent, setContent, mode = "edit" }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void, mode?: "create" | "edit" }) {
+export default function VideoEditFormComponent({ videoContent, setContent, mode = "edit" }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void, mode?: "create" | "edit" },) {
+    const { errors } = usePage().props;
+
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
@@ -90,7 +93,7 @@ export default function VideoEditFormComponent({ videoContent, setContent, mode 
                 </thead>
                 <tbody>
                     {videoState.map(({ title, externalUrl, duration, id }, idx) => (
-                        <tr key={"contenttable" + idx}>
+                        <tr className={Object.keys(errors).some(key => key.includes('videoContent.' + idx)) ? "border-2 border-red-500" : ""} key={"contenttable" + idx}>
                             <td>
                                 {mode === "edit" ?
                                     <TextInput

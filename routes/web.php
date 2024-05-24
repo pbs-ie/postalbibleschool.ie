@@ -9,6 +9,7 @@ use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
+use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -111,18 +112,18 @@ Route::prefix('events')->name('events.')->group(function () {
 
         Route::get('/image/{imageId}', 'getImage')->name('image');
         Route::get('/file/{routename}/{filename}', 'getFile')->name('file');
-        Route::prefix('past')->name('past.')->middleware(['auth', 'can:create:events'])->group(function () {
-            Route::post('/', 'store')->name('store');
-            Route::get('/admin', 'admin')->name('admin');
-            Route::get('/create', 'create')->name('create');
-            Route::get('/{id}/edit', 'edit')->name('edit');
-            // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-            Route::post('/{id}', 'update')->name('update');
-            Route::delete('/{id}', 'destroy')->name('destroy');
-        });
-        Route::prefix('past')->name('past.')->group(function () {
-            Route::get('/', 'gallery')->name('gallery');
-            Route::get('/{eventName}', 'show')->name('show');
+        Route::prefix('past')->name('past.')->controller(StepPastController::class)->group(function () {
+            Route::middleware(['auth', 'can:create:events'])->group(function () {
+                Route::post('/', 'store')->name('store');
+                Route::get('/admin', 'admin')->name('admin');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/{event}/edit', 'edit')->name('edit');
+                // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+                Route::post('/{event}', 'update')->name('update');
+                Route::delete('/{event}', 'destroy')->name('destroy');
+            });
+            Route::get('/', 'index')->name('gallery');
+            Route::get('/{event}', 'show')->name('show');
         });
     });
 });
@@ -177,6 +178,9 @@ Route::prefix('payment')->name('payment.')->group(function () {
 });
 
 Route::get('/assets/{file}', function ($file) {
-    error_log("Asset Get Call " . $file);
     return response()->file(public_path('storage/' . $file));
 })->where('file', '.*')->name('assets.show');
+
+Route::get('/images/{file}', function ($image) {
+    return response()->file(Storage::url($image));
+})->name('images.show');

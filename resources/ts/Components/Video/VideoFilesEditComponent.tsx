@@ -5,9 +5,11 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import File from "@/Elements/Icons/FileIcon";
+import { usePage } from "@inertiajs/react";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {
+    const { errors } = usePage().props;
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
@@ -121,11 +123,12 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                         </tr>
                     </thead>
                     <tbody>
-                        {fileState.map(({ title, name, type, fileData, id }, idx) => (
-                            <tr key={"filetable" + idx}>
+                        {fileState && fileState.map(({ title, name, type, fileData, id }, idx) => (
+                            <tr className={Object.keys(errors).some(key => key.includes('fileContent.' + idx)) ? "border-2 border-red-500" : ""} key={"filetable" + idx}>
                                 <td>
                                     {mode === "edit" ?
                                         <TextInput
+                                            hasError={!!errors.fileContent}
                                             type={"text"}
                                             name={"id"}
                                             id={`fileid${idx}`}
@@ -140,6 +143,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                 </td>
                                 <td>
                                     <TextInput
+                                        hasError={!!errors.fileContent}
                                         type={"text"}
                                         name={"name"}
                                         id={`filename${idx}`}
@@ -150,6 +154,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                 </td>
                                 <td>
                                     <TextInput
+                                        hasError={!!errors.fileContent}
                                         type={"text"}
                                         name={"title"}
                                         id={`filetitle${idx}`}
