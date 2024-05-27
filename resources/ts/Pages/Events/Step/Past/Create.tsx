@@ -15,12 +15,13 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { useForm } from "@inertiajs/react";
 import { FormEvent } from "react";
 import { StepPastProps } from "./Edit";
+import DateInput from "@/Elements/Forms/DateInput";
 
 type StepPastCreateProps = Omit<StepPastProps, "id" | "imageLink">;
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm<StepPastCreateProps>({
-        date: "",
+        date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}`,
         title: "",
         description: "",
         imageFile: null as File | null,
@@ -76,7 +77,7 @@ export default function Create() {
                     <div className="flex flex-col gap-4 mb-4">
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"date"} value={"Date"} required />
-                            <TextInput hasError={!!errors.date} type={"text"} name={"date"} id={"date"} value={data.date} className={""} handleChange={handleChange} required />
+                            <DateInput type={'month'} hasError={!!errors.date} name={"date"} id={"date"} value={data.date} className={""} handleChange={handleChange} required />
                             <p className="text-gray-600">//Full month name and Year. E.g. "January 2023"</p>
                         </div>
                         <div className="inline-flex gap-2">

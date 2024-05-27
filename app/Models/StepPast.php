@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\StoreStepPastRequest;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -29,6 +30,8 @@ class StepPast extends Model
         'fileContent' => 'array'
     ];
 
+    protected $dates = ['date'];
+
     protected static function booted(): void
     {
         self::deleting(function (StepPast $stepPast) {
@@ -36,9 +39,16 @@ class StepPast extends Model
         });
     }
 
-    public function __construct(array $attributes = [])
+    /**
+     * Get the Event date string.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function date(): Attribute
     {
-        parent::__construct($attributes);
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('F Y')
+        );
     }
 
     public function storeFiles(StoreStepPastRequest $request)
