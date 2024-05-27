@@ -19,9 +19,12 @@ class StepSettingController extends Controller
 
     public function update(StepSettings $settings, UpdateStepSettingRequest $request)
     {
-        // Storing image
+        // Replacing stored image
         if ($request->hasFile('eventImage')) {
-            $storagePath = Storage::disk('public')->put('/event_files', $request->file('eventImage'));
+            if (Storage::disk('images')->exists($settings->eventImageLink)) {
+                Storage::disk('images')->delete($settings->eventImageLink);
+            }
+            $storagePath = Storage::disk('images')->put('/event_images', $request->file('eventImage'));
             $settings->eventImageLink = $storagePath;
         }
 

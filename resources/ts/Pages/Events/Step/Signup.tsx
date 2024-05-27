@@ -29,7 +29,7 @@ export default function Signup({ stepSettings }: { stepSettings: StepSettingsPro
         <StepWrapper heading="Registration" title={"Sign Up"}>
             <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
                 <BasicTable tableData={tableData}></BasicTable>
-                <img className="max-h-64 md:max-h-72 aspect-video" src={route('assets.show', stepSettings.eventImageLink)} alt="Step June 2024 banner - Nehemiah" />
+                <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', stepSettings.eventImageLink)} alt="Step June 2024 banner - Nehemiah" />
             </div>
             <ParagraphContainer>
                 <Paragraph>Join us for the upcoming STEP in June 2024 where we go through the book of Nehemiah led by Noel McMeekin. We would encourage you to read/study chapters in the book of Nehemiah beforehand. As always, new faces are welcome!</Paragraph>

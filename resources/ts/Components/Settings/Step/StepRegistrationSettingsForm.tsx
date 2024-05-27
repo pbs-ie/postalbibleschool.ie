@@ -94,7 +94,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
                     <InputError message={errors.eventImage} />
                 </div>
-                <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('assets.show', data.eventImageLink)} />
+                <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
             </div>
             <div>
                 <PrimaryButton>Update</PrimaryButton>
