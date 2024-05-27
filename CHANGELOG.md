@@ -1,4 +1,8 @@
-# 1.2.1 (2024-05-27)
+# 1.2.2 (2024-05-27)
+
+- iTeam 2024 event update
+
+## 1.2.1 (2024-05-27)
 
 - STEP event changes
   - Settings page for setting current event details

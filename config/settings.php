@@ -1,4 +1,5 @@
 <?php
+use App\Settings\ITeamSettings;
 use App\Settings\StepSettings;
 
 return [
@@ -8,7 +9,8 @@ return [
      * put them (manually) here.
      */
     'settings' => [
-        StepSettings::class
+        StepSettings::class,
+        ITeamSettings::class
     ],
 
     /*

@@ -7,10 +7,12 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
+use App\Settings\ITeamSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -76,6 +78,10 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
     });
+    Route::controller(ITeamSettingController::class)->name('iteam.')->prefix('iteam')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+    });
 });
 
 Route::prefix('events')->name('events.')->group(function () {
@@ -97,8 +103,10 @@ Route::prefix('events')->name('events.')->group(function () {
         })->name('signup');
     });
 
-    Route::get('/iteam', function () {
-        return Inertia::render('Events/ITeam');
+    Route::get('/iteam', function (ITeamSettings $iteamSettings) {
+        return Inertia::render('Events/ITeam', [
+            'iteamSettings' => $iteamSettings
+        ]);
     })->name('iteam');
 
     Route::prefix('step')->controller(StepEventController::class)->name('step.')->group(function () {
