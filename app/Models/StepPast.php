@@ -46,7 +46,7 @@ class StepPast extends Model
         $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
         $fileContent = $fileCollection->map(function ($item, $key) {
             if (isset ($item['fileData'])) {
-                if (Storage::disk('public')->exists($item['filePath'])) {
+                if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
                     Storage::disk('public')->delete($item['filePath']);
                 }
                 $item['filePath'] = $item['fileData']->store('video_files', 'public');

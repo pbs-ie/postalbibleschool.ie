@@ -13,7 +13,7 @@ import Trash from "@/Elements/Icons/Trash"
 import Download from "@/Elements/Icons/Download"
 import EditIcon from "@/Elements/Icons/EditIcon"
 import Envelope from "@/Elements/Icons/Envelope"
-import File from "@/Elements/Icons/FileIcon"
+import FileIcon from "@/Elements/Icons/FileIcon"
 import Group from "@/Elements/Icons/Group"
 import Location from "@/Elements/Icons/Location"
 import MinusCircle from "@/Elements/Icons/MinusCircle"
@@ -87,7 +87,7 @@ export default function IconSection() {
             heading: <Eye />,
             content: "Eye",
         }, {
-            heading: <File />,
+            heading: <FileIcon />,
             content: "File",
         }, {
             heading: <Group />,

@@ -45,7 +45,7 @@ class StoreStepPastRequest extends FormRequest
             'fileContent.*.name' => ['required_with:fileContent', 'string'],
             'fileContent.*.filePath' => ['string'],
             'fileContent.*.type' => ['required_with:fileContent'],
-            'fileContent.*.fileData' => ['nullable', 'mimes:pdf'],
+            'fileContent.*.fileData' => ['required_without:fileContent.*.filePath', 'nullable', 'mimes:pdf'],
         ];
     }
 
@@ -75,6 +75,11 @@ class StoreStepPastRequest extends FormRequest
             $url = $val['externalUrl'];
             $messages["videoContent.$key.externalUrl"] = [
                 'url' => "$url is not a valid url"
+            ];
+        }
+        foreach ($this->get('fileContent') as $key => $val) {
+            $messages["fileContent.$key.fileData"] = [
+                'required_without' => "Uploaded file is required for new file"
             ];
         }
         return $messages;

@@ -132,6 +132,10 @@ export const truncateString = (value: string, index: number) => {
     return (value.length > index) ? value.slice(0, index - 1) + '…' : value;
 };
 
+export const truncateStringEnd = (value: string, showLength: number) => {
+    return (value.length > showLength) ? '…' + value.slice(-1 * showLength) : value;
+};
+
 export const useScrollTo = (to: string, props: any) => {
     useEffect(() => {
         if (to && to !== "") {
