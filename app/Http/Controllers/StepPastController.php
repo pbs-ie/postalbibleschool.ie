@@ -21,14 +21,14 @@ class StepPastController extends Controller
     public function admin()
     {
         return Inertia::render('Events/Step/Past/Admin', [
-            'pastEvents' => StepPast::latest()->get()
+            'pastEvents' => StepPast::orderByDesc('date')->get()
         ]);
     }
 
     public function index()
     {
         return Inertia::render('Events/Step/Past/Gallery', [
-            'pastEvents' => StepPast::latest()->get()
+            'pastEvents' => StepPast::orderByDesc('date')->get()
         ]);
     }
 
