@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\StoreStepPastRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -38,5 +39,21 @@ class StepPast extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+    }
+
+    public function storeFiles(StoreStepPastRequest $request)
+    {
+        $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
+        $fileContent = $fileCollection->map(function ($item, $key) {
+            if (isset ($item['fileData'])) {
+                if (Storage::disk('public')->exists($item['filePath'])) {
+                    Storage::disk('public')->delete($item['filePath']);
+                }
+                $item['filePath'] = $item['fileData']->store('video_files', 'public');
+                unset ($item['fileData']);
+            }
+            return $item;
+        });
+        return $fileContent;
     }
 }
