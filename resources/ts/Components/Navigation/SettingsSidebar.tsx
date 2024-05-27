@@ -14,8 +14,8 @@ export default function SettingsSidebar() {
                         </SidebarLink>
                     </ListItem>
                     <ListItem>
-                        <SidebarLink href={'#'} isActive={false}>
-                            Camp
+                        <SidebarLink href={route('settings.iteam.index')} isActive={route().current('settings.iteam.*')}>
+                            iTeam
                         </SidebarLink>
                     </ListItem>
                 </List>
