@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStepPastRequest;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\StepPast;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class StepPastController extends Controller
 {
@@ -25,6 +21,11 @@ class StepPastController extends Controller
         ]);
     }
 
+    /**
+     * Display the past events gallery for STEP events
+     * 
+     * @return \Inertia\Response
+     */
     public function index()
     {
         return Inertia::render('Events/Step/Past/Gallery', [
@@ -32,6 +33,12 @@ class StepPastController extends Controller
         ]);
     }
 
+    /**
+     * Show details for one Past Event
+     * 
+     * @param \App\Models\StepPast $event
+     * @return \Inertia\Response
+     */
     public function show(StepPast $event)
     {
         return Inertia::render('Events/Step/Past/Show', [
@@ -40,7 +47,7 @@ class StepPastController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new event.
      *
      * @return \Inertia\Response
      */
@@ -48,6 +55,13 @@ class StepPastController extends Controller
     {
         return Inertia::render('Events/Step/Past/Create');
     }
+
+    /**
+     * Store a new past STEP event
+     * 
+     * @param \App\Http\Requests\StoreStepPastRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(StoreStepPastRequest $request)
     {
         $stepEvent = new StepPast;
@@ -66,10 +80,10 @@ class StepPastController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified event.
      *
      * @param  \App\Models\StepPast
-     * @return \Illuminate\Http\RedirectResponse | \Inertia\Response
+     * @return \Inertia\Response
      */
     public function edit(StepPast $event)
     {
@@ -78,6 +92,13 @@ class StepPastController extends Controller
         ]);
     }
 
+    /**
+     * Update an existing past event
+     * 
+     * @param \App\Http\Requests\StoreStepPastRequest $request
+     * @param \App\Models\StepPast $event
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(StoreStepPastRequest $request, StepPast $event)
     {
         $event->fill($request->validated());
@@ -108,7 +129,7 @@ class StepPastController extends Controller
     {
         $event->delete();
 
-        return redirect()->route('events.step.past.admin')->with('success', 'Video removed successfully');
+        return redirect()->route('events.step.past.admin')->with('success', 'Event removed successfully');
     }
 
 }
