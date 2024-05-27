@@ -1,8 +1,21 @@
-# 1.1.6 (2024-01-04)
+# 1.2.1 (2024-05-27)
+
+- STEP event changes
+  - Settings page for setting current event details
+  - Admin panel for managing past events
+
+## 1.2.0 (2024-05-10)
+
+- Updated vite.config.ts with base path for better build
+- Github Actions build processes made
+
+## 1.1.6 (2024-01-04)
+
 - UI changes for buttons and links
-- Codebase refactor to follow atomic design (design inspiration - https://boltdesignsystem.com/pattern-lab/)
+- Codebase refactor to follow atomic design (design inspiration - [Bold Design system](https://boltdesignsystem.com/pattern-lab/))
 
 ## 1.1.5 (2023-12-18)
+
 - School Assembly page changes
   - JSON file now saves with new line formatting for human readability
   - Loading the right links for default 2 videos fixed.
@@ -11,20 +24,24 @@
   - Editing function for created events
 
 ## 1.1.4 (2023-12-06)
+
 - STEP Events page updates
   - Past events now show up as a gallery with an admin panel for managing CRUD operations.
   - Signups for January 2024 added
 
 ## 1.1.3 (2023-11-03)
+
 - Bug fixes
   - Form Submissions not working on production - Environment variable being directly used instead of from config
 
 ## 1.1.2 (2023-10-18)
+
 - New Assembly for October B10
 - Change SHED logo
 - Change background image of Bibletime lessons to the new lessons
 
 ## 1.1.1 (2023-10-10)
+
 - Updated STEP information and signup for November 2023
   - Paypal payment page for STEP November 2023
 - Minor improvements to UI and backend refactoring

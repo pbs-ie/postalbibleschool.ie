@@ -1,13 +1,17 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import { useReducer, useEffect } from "react";
-import TextInput from "../Forms/TextInput";
-import SelectInput from "../Forms/SelectInput";
-import FileInput from "../Forms/FileInput";
-import InputLabel2 from "../Forms/InputLabel2";
-import File from "../../Elements/Icons/FileIcon";
+import TextInput from "@/Elements/Forms/TextInput";
+import SelectInput from "@/Elements/Forms/SelectInput";
+import FileInput from "@/Elements/Forms/FileInput";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import FileIcon from "@/Elements/Icons/FileIcon";
+import { usePage } from "@inertiajs/react";
+import EditIcon from "@/Elements/Icons/EditIcon";
+import { truncateStringEnd } from "@/helper";
 
 
 export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {
+    const { errors } = usePage().props;
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
@@ -121,11 +125,12 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                         </tr>
                     </thead>
                     <tbody>
-                        {fileState.map(({ title, name, type, fileData, id }, idx) => (
-                            <tr key={"filetable" + idx}>
+                        {fileState && fileState.map(({ title, name, type, fileData, filePath, id }, idx) => (
+                            <tr className={Object.keys(errors).some(key => key.includes('fileContent.' + idx)) ? "border-2 border-red-500" : ""} key={"filetable" + idx}>
                                 <td>
                                     {mode === "edit" ?
                                         <TextInput
+                                            hasError={!!errors.fileContent}
                                             type={"text"}
                                             name={"id"}
                                             id={`fileid${idx}`}
@@ -140,22 +145,26 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                 </td>
                                 <td>
                                     <TextInput
+                                        hasError={!!errors.fileContent}
                                         type={"text"}
                                         name={"name"}
                                         id={`filename${idx}`}
                                         value={name}
                                         className={""}
                                         handleChange={(e) => handleComplexChange(idx, e)}
+                                        required
                                     />
                                 </td>
                                 <td>
                                     <TextInput
+                                        hasError={!!errors.fileContent}
                                         type={"text"}
                                         name={"title"}
                                         id={`filetitle${idx}`}
                                         value={title}
                                         className={""}
                                         handleChange={(e) => handleComplexChange(idx, e)}
+                                        required
                                     />
                                 </td>
                                 <td>
@@ -172,10 +181,12 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                     </SelectInput>
                                 </td>
                                 <td>
-                                    <InputLabel2 forInput={`fileData${idx}`} className="flex items-center gap-1 pr-2 border rounded cursor-pointer border-slate-400">
+                                    <InputLabel2 title={fileData ? fileData.name : ""} forInput={`fileData${idx}`} className="flex items-center justify-center p-1 border hover:ring-1 hover:text-pbsblue ring-pbsblue active:ring-2 rounded-md cursor-pointer border-slate-400">
                                         <FileInput name={"fileData"} id={`fileData${idx}`} className={"overflow-hidden w-0"} handleChange={(e) => handleComplexChange(idx, e)} />
-                                        <File className="w-4" />
-                                        {fileData ? fileData.name : "Choose File"}
+                                        {fileData ?
+                                            <span className="lowercase text-sm">{truncateStringEnd(fileData.name, 14)}</span>
+                                            : filePath ? <span className="flex gap-1"><EditIcon />Change File</span>
+                                                : <span className="flex gap-1"><FileIcon />Choose File</span>}
                                     </InputLabel2>
                                 </td>
                                 <td>

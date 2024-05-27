@@ -2,9 +2,9 @@ import { useForm } from "@inertiajs/react";
 import React, { FormEvent, useEffect } from "react";
 
 import InputError from "@/Components/Forms/InputError";
-import InputLabel from "@/Components/Forms/InputLabel";
-import TextAreaInput from "@/Components/Forms/TextAreaInput";
-import TextInput from "@/Components/Forms/TextInput";
+import InputLabel from "@/Elements/Forms/InputLabel";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import TextInput from "@/Elements/Forms/TextInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 export default function ContactUsForm() {

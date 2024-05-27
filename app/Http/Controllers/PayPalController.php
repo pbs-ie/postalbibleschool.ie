@@ -3,10 +3,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Settings\StepSettings;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class PayPalController extends Controller
 {
@@ -58,9 +58,11 @@ class PayPalController extends Controller
         return $data['access_token'];
     }
 
-    public function step()
+    public function step(StepSettings $stepSettings)
     {
-        return Inertia::render('Payment/Step');
+        return Inertia::render('Payment/Step', [
+            'stepSettings' => $stepSettings
+        ]);
     }
     public function camp()
     {

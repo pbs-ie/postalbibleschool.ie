@@ -12,7 +12,7 @@ export default function FlashMessage() {
         setTimeout(() => {
             setShowNotifs(false);
         }, 10000);
-    }, [])
+    }, [flash]);
 
     return (
         <div className="relative">

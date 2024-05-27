@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { allCountries, Region } from "country-region-data";
-import SelectInput from "@/Components/Forms/SelectInput";
+import SelectInput from "@/Elements/Forms/SelectInput";
 
 export default function RegionDropdown({ value, handleChange, country }: { value: string, handleChange: ChangeEventHandler<HTMLElement>, country: string }) {
     const [regionList, setRegionList] = useState<Region[]>([]);

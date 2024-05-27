@@ -1,8 +1,8 @@
 import CountryDropdown from "@/Components/Forms/CountryDropdown";
-import GroupLabel from "@/Components/Forms/GroupLabel";
-import InputLabel from "@/Components/Forms/InputLabel";
-import TextAreaInput from "@/Components/Forms/TextAreaInput";
-import TextInput from "@/Components/Forms/TextInput";
+import GroupLabel from "@/Elements/Forms/GroupLabel";
+import InputLabel from "@/Elements/Forms/InputLabel";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import TextInput from "@/Elements/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
@@ -86,7 +86,7 @@ export default function IndividualRequest() {
         reset();
     }, []);
 
-    const handleChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         switch (event.target.name) {
             case "email":
             case "phone":
@@ -128,7 +128,7 @@ export default function IndividualRequest() {
         } else {
             isShowing[idx] = false;
         }
-        console.log("Setting showDateError", showDateError[idx]);
+        console.error("Setting showDateError", showDateError[idx]);
         setShowDateError(isShowing);
 
 

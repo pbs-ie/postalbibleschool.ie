@@ -14,6 +14,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
         "matatirosoln/fm-cloud-authentication": "^0.2.0",
+        "spatie/laravel-settings": "^3.3",
         "symfony/http-client": "^6.0",
         "symfony/sendinblue-mailer": "^6.0",
         "tightenco/ziggy": "^1.0"

@@ -1,47 +1,50 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
-import FileInput from "@/Components/Forms/FileInput";
-import InputLabel from "@/Components/Forms/InputLabel";
-import InputLabel2 from "@/Components/Forms/InputLabel2";
-import Legend from "@/Components/Forms/Legend";
-import RadioInput from "@/Components/Forms/RadioInput";
-import TextAreaInput from "@/Components/Forms/TextAreaInput";
-import TextInput from "@/Components/Forms/TextInput";
+import FileInput from "@/Elements/Forms/FileInput";
+import InputLabel from "@/Elements/Forms/InputLabel";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import Legend from "@/Elements/Forms/Legend";
+import RadioInput from "@/Elements/Forms/RadioInput";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import TextInput from "@/Elements/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
 import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage, useForm } from "@inertiajs/react";
-import { FormEvent, useEffect } from "react";
+import { useForm } from "@inertiajs/react";
+import { FormEvent } from "react";
+import { StepPastProps } from "./Edit";
+import DateInput from "@/Elements/Forms/DateInput";
 
+type StepPastCreateProps = Omit<StepPastProps, "id" | "imageLink">;
 
 export default function Create() {
-
-    const { errors } = usePage().props;
-    const { data, setData, post, reset, processing } = useForm({
-        date: "",
-        heading: "",
+    const { data, setData, post, processing, errors } = useForm<StepPastCreateProps>({
+        date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}`,
+        title: "",
         description: "",
         imageFile: null as File | null,
-        showDetails: "0",
-        content: [{
+        showDetails: false,
+        videoContent: [{
             title: "",
             externalUrl: "",
             duration: "",
             id: 0
-        }] as VideoMeta[],
-        fileContent: [] as FileMeta[]
+        }],
+        fileContent: []
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         switch (event.target.name) {
             case "date":
-            case "heading":
+            case "title":
             case "description":
-            case "showDetails":
                 setData(event.target.name, event.target.value);
+                break;
+            case "showDetails":
+                setData(event.target.name, event.target.value === "true");
+                break;
         }
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +57,8 @@ export default function Create() {
         post(route('events.step.past.store'));
     }
 
-    useEffect(() => {
-        reset();
-    }, []);
-
-
     const setContent = (newContent: VideoMeta[]) => {
-        setData('content', [...newContent]);
+        setData('videoContent', [...newContent]);
     }
     const setFileContent = (newContent: FileMeta[]) => {
         setData('fileContent', [...newContent]);
@@ -71,7 +69,7 @@ export default function Create() {
             <ContentWrapper title="Create New STEP event">
                 {errors &&
                     Object.keys(errors).map((key) =>
-                        <ToastBanner key={key} message={errors[key]} />
+                        <ToastBanner key={key} message={errors[key as keyof typeof errors] ?? ""} />
                     )
                 }
                 <form method="post" onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
@@ -79,12 +77,12 @@ export default function Create() {
                     <div className="flex flex-col gap-4 mb-4">
                         <div className="inline-flex gap-2">
                             <InputLabel forInput={"date"} value={"Date"} required />
-                            <TextInput type={"text"} name={"date"} id={"date"} value={data.date} className={""} handleChange={handleChange} required />
+                            <DateInput type={'month'} hasError={!!errors.date} name={"date"} id={"date"} value={data.date} className={""} handleChange={handleChange} required />
                             <p className="text-gray-600">//Full month name and Year. E.g. "January 2023"</p>
                         </div>
                         <div className="inline-flex gap-2">
-                            <InputLabel forInput={"heading"} value={"Heading"} required />
-                            <TextInput type={"text"} name={"heading"} id={"heading"} value={data.heading} className={""} handleChange={handleChange} required />
+                            <InputLabel forInput={"title"} value={"Title"} required />
+                            <TextInput hasError={!!errors.title} type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
                         </div>
                         <div className="inline-flex items-start gap-2">
                             <InputLabel forInput={"description"} value={"Description"} required />
@@ -94,11 +92,11 @@ export default function Create() {
                             <fieldset className="inline-flex">
                                 <Legend required value="Show Details" />
                                 <InputLabel2 className="mr-2" forInput="true">
-                                    <RadioInput name={"showDetails"} id={"true"} value={"1"} className={""} handleChange={handleChange} checked={data.showDetails === "1"} />
+                                    <RadioInput name={"showDetails"} id={"true"} value={"true"} className={""} handleChange={handleChange} checked={data.showDetails} />
                                     Yes
                                 </InputLabel2>
                                 <InputLabel2 forInput="false">
-                                    <RadioInput name={"showDetails"} id={"false"} value={"0"} className={""} handleChange={handleChange} checked={data.showDetails === "0"} />
+                                    <RadioInput name={"showDetails"} id={"false"} value={"false"} className={""} handleChange={handleChange} checked={!data.showDetails} />
                                     No
                                 </InputLabel2>
                             </fieldset>
@@ -111,7 +109,8 @@ export default function Create() {
                         <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : ""} />
                     </div>
 
-                    <VideoEditFormComponent videoContent={data.content} setContent={setContent} mode="create" />                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} mode="create" />
+                    <VideoEditFormComponent videoContent={data.videoContent} setContent={setContent} mode="create" />
+                    <VideoFilesEditComponent fileContent={data.fileContent} setContent={setFileContent} mode="create" />
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>

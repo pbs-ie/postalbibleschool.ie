@@ -13,7 +13,7 @@ import Trash from "@/Elements/Icons/Trash"
 import Download from "@/Elements/Icons/Download"
 import EditIcon from "@/Elements/Icons/EditIcon"
 import Envelope from "@/Elements/Icons/Envelope"
-import File from "@/Elements/Icons/FileIcon"
+import FileIcon from "@/Elements/Icons/FileIcon"
 import Group from "@/Elements/Icons/Group"
 import Location from "@/Elements/Icons/Location"
 import MinusCircle from "@/Elements/Icons/MinusCircle"
@@ -27,6 +27,7 @@ import Video from "@/Elements/Icons/VideoCamera"
 import Eye from "@/Elements/Icons/Eye"
 import ChevronDown from "@/Elements/Icons/ChevronDown"
 import CaratDown from "@/Elements/Icons/CaratDown"
+import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -64,6 +65,10 @@ export default function IconSection() {
             heading: <CloseX />,
             content: "CloseX",
         }, {
+            heading: <Cog6Tooth />,
+            content: "Cog6Tooth",
+        },
+        {
             heading: <Trash />,
             content: "Trash",
         }, {
@@ -82,7 +87,7 @@ export default function IconSection() {
             heading: <Eye />,
             content: "Eye",
         }, {
-            heading: <File />,
+            heading: <FileIcon />,
             content: "File",
         }, {
             heading: <Group />,

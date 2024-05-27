@@ -17,6 +17,10 @@ import TeamImage from "@images/prizegivings/prizegiving-team.jpg";
 import CoffeeImage from "@images/prizegivings/prizegiving-tea-and-coffee.jpg";
 import { useScrollTo } from "@/helper";
 
+import Calendar from "@/Elements/Icons/Calendar";
+import PGSchedule from "@images/Public PRIZEGIVINGS 2024.pdf";
+import Location from "@/Elements/Icons/Location";
+
 export default function Prizegivings({ queryParams }: { queryParams?: any }) {
 
     const images: Gallery[] = [
@@ -61,6 +65,24 @@ export default function Prizegivings({ queryParams }: { queryParams?: any }) {
         offset: -50
     });
 
+    const prizegivingCards: CardBlock[] = [
+        {
+            Icon: Calendar,
+            title: "When",
+            description: "Prizegivings are held each year in a large number of venues across Ireland. They are generally held in the month of February, March and April",
+            buttonText: "2024 Schedule",
+            buttonLink: PGSchedule,
+            isExternal: true
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "We seek to make prizegiving easily accessible to as many of our students as possible. It is also possible that prizegivings be held in schools during school hours. Please contact us if you wish to discuss this",
+            buttonText: "Contact Us",
+            buttonLink: route('contactus')
+        },
+    ];
+
     return (
         <WrapperLayout>
             <EventWrapper title="Prizegivings">
@@ -72,7 +94,7 @@ export default function Prizegivings({ queryParams }: { queryParams?: any }) {
                     <Paragraph>Prizegivings are a special time for the staff of Postal Bible School as they get an opportunity to meet students and their families across Ireland.</Paragraph>
                 </ParagraphContainer>
                 <div id="prizegivings">
-                    <CardContainer type="prizegivings" />
+                    <CardContainer cards={prizegivingCards} />
                 </div>
             </EventWrapper>
         </WrapperLayout>

@@ -11,9 +11,10 @@ import { router } from "@inertiajs/core";
 import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import Heading2 from "@/Components/Typography/Heading2";
 
 
-export default function Admin({ videoList }: { videoList: PastEventCardProps[] }) {
+export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardProps[] }) {
     const [toggleModal, setToggleModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<null | number>(null);
     const [nameToDelete, setNameToDelete] = useState<null | string>(null);
@@ -39,7 +40,7 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
         setToggleModal(false);
     }
 
-    const tableDataMemo = useMemo(() => videoList, [videoList]);
+    const tableDataMemo = useMemo(() => pastEvents, [pastEvents]);
 
     const columnHelper = createColumnHelper<PastEventCardProps>();
 
@@ -51,10 +52,10 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
             id: 'Image',
             header: 'Thumbnail',
             cell: ({ row }) => (
-                <img className="w-40" src={row.original.imageLink} alt={"Image for " + row.original.heading} />
+                <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Image for " + row.original.title} />
             )
         }),
-        columnHelper.accessor(row => row.heading, {
+        columnHelper.accessor(row => row.title, {
             header: 'Title',
         }),
         columnHelper.accessor(row => row.date, {
@@ -69,8 +70,8 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 py-2">
                     <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.show', row.original.routename)}><Eye className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id, row.original.heading)}><Trash className="w-6 h-6" /> Delete</button>
+                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.show', row.original.id)}><Eye className="w-6 h-6" /> View</Link>
+                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id, row.original.title)}><Trash className="w-6 h-6" /> Delete</button>
                 </div>
             )
         })
@@ -79,14 +80,19 @@ export default function Admin({ videoList }: { videoList: PastEventCardProps[] }
     return (
         <WrapperLayout>
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
-            <ContentWrapper title="Step Admin" >
+            <ContentWrapper title="Step Management" >
+                <Heading2>Past Events</Heading2>
                 <div className="flex justify-end w-full">
                     <ButtonLink href={route('events.step.past.create')}>Add video</ButtonLink>
                 </div>
 
-                <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
-                </div>
+                {pastEvents.length === 0 ?
+                    <div className="w-full">No videos added</div>
+                    :
+                    <div className="w-full overflow-x-auto">
+                        <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                    </div>
+                }
             </ContentWrapper>
         </WrapperLayout>
     )
