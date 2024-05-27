@@ -152,6 +152,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                         value={name}
                                         className={""}
                                         handleChange={(e) => handleComplexChange(idx, e)}
+                                        required
                                     />
                                 </td>
                                 <td>
@@ -163,6 +164,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                         value={title}
                                         className={""}
                                         handleChange={(e) => handleComplexChange(idx, e)}
+                                        required
                                     />
                                 </td>
                                 <td>

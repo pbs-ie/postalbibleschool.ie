@@ -14,12 +14,11 @@ return new class extends Migration {
     {
         Schema::create('step_pasts', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
+            $table->string('date')->unique();
             $table->longText('description');
             $table->string('title');
             $table->boolean('showDetails');
             $table->string('imageLink')->nullable();
-            $table->string('routename')->unique()->nullable();
             $table->json('videoContent')->nullable();
             $table->json('fileContent')->nullable();
             $table->timestamps();

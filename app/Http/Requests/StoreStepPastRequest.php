@@ -28,7 +28,7 @@ class StoreStepPastRequest extends FormRequest
     {
         //Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
         return [
-            'date' => ['required', 'string'],
+            'date' => ['required', 'string', 'unique:step_pasts,date'],
             'description' => ['required', 'string'],
             'title' => ['required', 'string'],
             'showDetails' => ['required', 'boolean'],
@@ -71,16 +71,14 @@ class StoreStepPastRequest extends FormRequest
 
     public function messages(): array
     {
-        foreach ($this->get('videoContent') as $key => $val) {
+        foreach ($this->input('videoContent') as $key => $val) {
             $url = $val['externalUrl'];
-            $messages["videoContent.$key.externalUrl"] = [
-                'url' => "$url is not a valid url"
-            ];
+            $messages["videoContent.$key.externalUrl.url"] = "$url is not a valid url";
         }
-        foreach ($this->get('fileContent') as $key => $val) {
-            $messages["fileContent.$key.fileData"] = [
-                'required_without' => "Uploaded file is required for new file"
-            ];
+        if ($this->input('fileContent')) {
+            foreach ($this->input('fileContent') as $key => $val) {
+                $messages["fileContent.$key.fileData.required_without"] = "Uploaded file is required for new file";
+            }
         }
         return $messages;
     }

@@ -35,7 +35,17 @@ class StepPast extends Model
     protected static function booted(): void
     {
         self::deleting(function (StepPast $stepPast) {
-            Storage::disk('images')->delete($stepPast->imageLink);
+            // Deleting thumbnail image file
+            if (Storage::disk('images')->exists($stepPast->imageLink)) {
+                Storage::disk('images')->delete($stepPast->imageLink);
+            }
+
+            // Deleting stored files
+            collect($stepPast->fileContent)->each(function ($item, $key) {
+                if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
+                    Storage::disk('public')->delete($item['filePath']);
+                }
+            });
         });
     }
 
@@ -53,15 +63,19 @@ class StepPast extends Model
 
     public function storeFiles(StoreStepPastRequest $request)
     {
+        if (!$request->input('fileContent')) {
+            return null;
+        }
         $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
         $fileContent = $fileCollection->map(function ($item, $key) {
-            if (isset ($item['fileData'])) {
-                if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
-                    Storage::disk('public')->delete($item['filePath']);
-                }
-                $item['filePath'] = $item['fileData']->store('video_files', 'public');
-                unset ($item['fileData']);
+            if (!isset ($item['fileData'])) {
+                return $item;
             }
+            if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
+                Storage::disk('public')->delete($item['filePath']);
+            }
+            $item['filePath'] = $item['fileData']->store('video_files', 'public');
+            unset ($item['fileData']);
             return $item;
         });
         return $fileContent;
