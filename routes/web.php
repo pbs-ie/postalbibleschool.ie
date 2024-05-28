@@ -190,14 +190,16 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
         Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
         Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
     });
-    Route::post('curriculum/store', [ClassroomController::class, 'curriculumStore'])->name('curriculum.store');
-    Route::get('/', [ClassroomController::class, 'index'])->name('index');
-    Route::post('/', [ClassroomController::class, 'store'])->name('store');
-    Route::get('/create', [ClassroomController::class, 'create'])->name('create');
-    Route::get('/{classroom}', [ClassroomController::class, 'show'])->name('show');
-    Route::get('/{classroom}/edit', [ClassroomController::class, 'edit'])->name('edit');
-    Route::post('/{classroom}', [ClassroomController::class, 'update'])->name('update');
-    Route::delete('/{classroom}', [ClassroomController::class, 'destroy'])->name('destroy');
+    Route::controller(ClassroomController::class)->group(function () {
+        Route::post('curriculum/store', 'curriculumStore')->name('curriculum.store');
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/create', 'create')->name('create');
+        // Route::get('/{classroom}', 'show')->name('show');
+        Route::get('/{classroom}/edit', 'edit')->name('edit');
+        Route::post('/{classroom}', 'update')->name('update');
+        Route::delete('/{classroom}', 'destroy')->name('destroy');
+    });
 });
 
 Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {

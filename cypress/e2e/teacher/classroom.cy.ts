@@ -164,7 +164,7 @@ describe("Classroom Page tests", () => {
 
             });
         });
-        describe.only("Duplication check", () => {
+        describe("Duplication check", () => {
             const classroomName = "Duplicate Classroom";
             it('Does not create duplicate classroom', () => {
                 cy.get("h2").contains(headingText, { matchCase: false });

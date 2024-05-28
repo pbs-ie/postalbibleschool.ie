@@ -293,11 +293,11 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                                         <EditIcon />Edit
                                     </span></BasicButton>
                                 </IconHoverSpan>
-                                <IconHoverSpan>
+                                {/* <IconHoverSpan>
                                     <ButtonLink dataTest="classroom_open_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><span className="flex flex-col items-center">
                                         <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
                                     </span></ButtonLink>
-                                </IconHoverSpan>
+                                </IconHoverSpan> */}
                                 <IconHoverSpan>
                                     <BasicButton processing={processing} dataTest={"classroom_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
                                         setIdToDelete(row.original.id);

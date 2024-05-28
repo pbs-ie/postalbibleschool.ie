@@ -2,7 +2,7 @@
 
 - New Hub for teachers with added functionality
   - Teachers can now view their student list from internal database
-  - Teachers can create classrooms to allocate and separate students
+  - Teachers can create classrooms to add order numbers based on classrooms
   - They can allocate a curriculum to classrooms
   - Separates school related actions from additional resources on The Hub
 - Admin functionality
