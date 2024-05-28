@@ -126,18 +126,19 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             onBlur={onBlur}
                         />
                         : (currentProperty === "curriculum_id") ?
-                            <SelectInput
-                                key={`${currentProperty}[${row.id}]`}
-                                name={currentProperty}
-                                id={`${currentProperty}[${row.id}]`}
-                                handleChange={(e: ChangeEvent<HTMLSelectElement>) => setData(currentProperty, +e.target.value)}
-                                className={"text-sm w-24 p-1"}
-                                value={data[currentProperty] + ""}
-                            >
-                                {curriculumList.map(({ name, id }) => (
-                                    <option key={name + id} value={id}>{name}</option>
-                                ))}
-                            </SelectInput>
+                            // <SelectInput
+                            //     key={`${currentProperty}[${row.id}]`}
+                            //     name={currentProperty}
+                            //     id={`${currentProperty}[${row.id}]`}
+                            //     handleChange={(e: ChangeEvent<HTMLSelectElement>) => setData(currentProperty, +e.target.value)}
+                            //     className={"text-sm w-24 p-1"}
+                            //     value={data[currentProperty] + ""}
+                            // >
+                            //     {curriculumList.map(({ name, id }) => (
+                            //         <option key={name + id} value={id}>{name}</option>
+                            //     ))}
+                            // </SelectInput>
+                            <span>{classrooms[+row.id]["curriculum_name"]}</span>
                             :
                             null
                     }

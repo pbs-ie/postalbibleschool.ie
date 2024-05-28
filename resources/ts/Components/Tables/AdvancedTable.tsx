@@ -67,7 +67,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
-                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 px-4 text-left"} key={header.id}>
+                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 pl-4"} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()

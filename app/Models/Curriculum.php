@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Curriculum extends Model
 {
@@ -33,7 +34,7 @@ class Curriculum extends Model
     {
         $digitalCount = 0;
         foreach ($this->getAttributes() as $key => $value) {
-            if (str_contains($key, '_lesson') && $value === "digital") {
+            if (str_contains($key, '_lesson') && $value === Curriculum::DIGITAL) {
                 $digitalCount = $digitalCount + 1;
             }
         }
@@ -52,9 +53,17 @@ class Curriculum extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->where('email', auth()->user()->email)
+        $curricula = $query->where('email', auth()->user()->email)
             ->orWhere('email', null)
             ->get();
+        // To mask additional curricula till new features are released
+        $curricula = $curricula->map(function ($item) {
+            if (Str::lower($item->curriculum_type) === Curriculum::DIGITAL) {
+                $item->name = 'COMING SOON';
+            }
+            return $item;
+        });
+        return $curricula;
     }
 
     public function scopeGetDefaultId($query)
