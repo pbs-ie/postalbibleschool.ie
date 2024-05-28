@@ -1,6 +1,4 @@
 *
 !.gitignore
-!video_files
-!video_files/**
 !video_images
 !video_images/*

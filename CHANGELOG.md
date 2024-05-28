@@ -1,4 +1,4 @@
-# 1.2 (2024-02-01)
+# 1.3.0 (2024-02-01)
 
 - New Hub for teachers with added functionality
   - Teachers can now view their student list from internal database
@@ -9,10 +9,25 @@
   - CRUD new curriculum
   - Update internal database with current student-curriculum status
 
+## 1.2.2 (2024-05-27)
+
+- iTeam 2024 event update
+
+## 1.2.1 (2024-05-27)
+
+- STEP event changes
+  - Settings page for setting current event details
+  - Admin panel for managing past events
+
+## 1.2.0 (2024-05-10)
+
+- Updated vite.config.ts with base path for better build
+- Github Actions build processes made
+
 ## 1.1.6 (2024-01-04)
 
 - UI changes for buttons and links
-- Codebase refactor to follow atomic design (design inspiration - https://boltdesignsystem.com/pattern-lab/)
+- Codebase refactor to follow atomic design (design inspiration - [Bold Design system](https://boltdesignsystem.com/pattern-lab/))
 
 ## 1.1.5 (2023-12-18)
 

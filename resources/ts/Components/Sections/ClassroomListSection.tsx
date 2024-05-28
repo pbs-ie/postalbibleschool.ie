@@ -20,11 +20,11 @@ import InformationCircle from "@/Elements/Icons/InformationCircle";
 import CloseX from "@/Elements/Icons/CloseX";
 
 import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
-import SelectInput from "@/Components/Forms/SelectInput";
-import TextInput from "@/Components/Forms/TextInput";
+import SelectInput from "@/Elements/Forms/SelectInput";
+import TextInput from "@/Elements/Forms/TextInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
 import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon";
-import Heading2Nospace from "../Typography/Heading2Nospace";
+import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name">;
 

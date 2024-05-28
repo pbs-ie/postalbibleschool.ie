@@ -12,6 +12,9 @@ import NavProfileMenuitem from '@/Components/Navigation/NavProfileMenuitem';
 import MenuItems from '@/Components/Navigation/MenuItems';
 import NavMenuButton from '@/Elements/Buttons/NavMenuButton';
 import ResponsiveMenuItems from '@/Components/Navigation/ResponsiveMenuItems';
+import NavItem from './NavItem';
+import CaratDown from '@/Elements/Icons/CaratDown';
+import Cog6Tooth from '@/Elements/Icons/Cog6Tooth';
 
 export interface MenuItemsProps {
     name: string,
@@ -139,6 +142,14 @@ export default function Navbar() {
                     <ul className="flex justify-between h-16">
                         <MenuItems menuItems={rightSideMenuItems} />
 
+                        {auth.canViewSettings &&
+                            <li className="hidden space-x-8 lg:-my-px lg:ml-6 lg:flex">
+                                <NavLink href={route('settings.index')} active={route().current('settings.*')} >
+                                    <Cog6Tooth />
+                                </NavLink>
+                            </li>
+                        }
+
                         <NavProfileMenuitem />
 
                         <li className="flex items-center -mr-2 lg:hidden">
@@ -158,7 +169,13 @@ export default function Navbar() {
 
                     <hr className="py-2 border-t border-gray-500 " />
                     <ResponsiveMenuItems menuItems={rightSideMenuItems} />
-
+                    {auth.canViewSettings &&
+                        <li>
+                            <ResponsiveNavLink href={route('settings.index')} active={route().current('settings.*')}>
+                                Settings
+                            </ResponsiveNavLink>
+                        </li>
+                    }
                     {!auth?.user ?
                         (<AnchorNavLink href={route('login')} isResponsive>
                             Login

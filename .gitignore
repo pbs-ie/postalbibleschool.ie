@@ -4,6 +4,7 @@
 /workbench
 
 /public/build
+/public/images
 /public/hot
 /public/storage
 /storage/*.key

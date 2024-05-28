@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CurriculumPostRequest;
 use App\Http\Requests\CurriculumPutRequest;
 use App\Models\Curriculum;
+use Illuminate\Http\Request;
+use App\Models\Student;
 use Inertia\Inertia;
 use stdClass;
 
@@ -46,6 +48,27 @@ class CurriculumController extends Controller
             $validated["dec_lesson"] = Curriculum::PAPER;
         }
         return $validated;
+    }
+    /**
+     * Update Curriculum table in Filemaker
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
+    public function updateCurriculumTable(Request $request)
+    {
+        $allCurricula = Curriculum::all();
+        // Get all students for each curriculum
+        foreach ($allCurricula as $curriculum) {
+            $curriculumStudents = Student::whereHas('classroom.curriculum', function ($query) use ($curriculum) {
+                return $query->where('id', $curriculum->id);
+            })->get();
+            foreach ($curriculumStudents as $student) {
+                // Save to FM the curriculum to student map
+                $this->updateFMCurriculum($student->fm_student_id, $curriculum);
+            }
+        }
+        return $request->session()->flash('success', "Filemaker records updated");
     }
 
     /**

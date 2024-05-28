@@ -12,7 +12,7 @@ import Trash from "@/Elements/Icons/Trash"
 import Download from "@/Elements/Icons/Download"
 import EditIcon from "@/Elements/Icons/EditIcon"
 import Envelope from "@/Elements/Icons/Envelope"
-import File from "@/Elements/Icons/FileIcon"
+import FileIcon from "@/Elements/Icons/FileIcon"
 import Group from "@/Elements/Icons/Group"
 import Location from "@/Elements/Icons/Location"
 import MinusCircle from "@/Elements/Icons/MinusCircle"
@@ -38,6 +38,7 @@ import FloppyDisk from "@/Elements/Icons/FloppyDisk"
 import CheckCircle from "@/Elements/Icons/CheckCircle"
 import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon"
 import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon"
+import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -87,6 +88,13 @@ export default function IconSection() {
             heading: <DeviceTabletIcon />,
             content: "DeviceTabletIcon",
         }, {
+            heading: <Cog6Tooth />,
+            content: "Cog6Tooth",
+        },
+        {
+            heading: <Trash />,
+            content: "Trash",
+        }, {
             heading: <Download />,
             content: "Download",
         }, {
@@ -102,7 +110,7 @@ export default function IconSection() {
             heading: <Eye />,
             content: "Eye",
         }, {
-            heading: <File />,
+            heading: <FileIcon />,
             content: "File",
         }, {
             heading: <FloppyDisk />,

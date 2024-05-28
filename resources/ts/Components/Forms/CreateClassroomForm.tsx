@@ -1,5 +1,5 @@
-import InputLabel2 from "@/Components/Forms/InputLabel2";
-import TextInput from "@/Components/Forms/TextInput";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import TextInput from "@/Elements/Forms/TextInput";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { useForm, usePage } from "@inertiajs/react"

@@ -11,7 +11,7 @@ export default function VideoAdditionalFilesComponent({ worksheetFiles = [], sli
                 <div className="flex flex-col gap-1 md:gap-2 md:w-3/4">
                     <Heading3>Worksheets</Heading3>
                     {worksheetFiles.map((file) => (
-                        <LessonDownloadButton key={file.title} title={file.title} downloadLink={file.filePath} />
+                        <LessonDownloadButton key={file.title} title={file.title} downloadLink={route('assets.show', file.filePath)} />
                     ))
                     }
                 </div>
@@ -20,7 +20,7 @@ export default function VideoAdditionalFilesComponent({ worksheetFiles = [], sli
                 <div className="flex flex-col gap-1 md:gap-2 md:w-3/4">
                     <Heading3>Slides</Heading3>
                     {slideFiles.map((file) => (
-                        <LessonDownloadButton key={file.title} title={file.title} downloadLink={file.filePath} />
+                        <LessonDownloadButton key={file.title} title={file.title} downloadLink={route('assets.show', file.filePath)} />
                     ))
                     }
                 </div>

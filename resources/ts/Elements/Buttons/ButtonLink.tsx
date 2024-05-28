@@ -2,7 +2,7 @@ import { getButtonClassNamesAsString } from "@/helper";
 import { Link } from "@inertiajs/react";
 
 
-export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon, dataTest }: ButtonLinkProps) {
+export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon, dataTest }: Omit<ButtonLinkProps, "isExternalLink">) {
     return (
         <>
             <Link

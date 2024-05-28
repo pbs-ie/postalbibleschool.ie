@@ -105,6 +105,7 @@ jobs:
             cd $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
             php artisan migrate --force
+            php artisan storage:link
 
   clean-up:
     name: "Clean up"

@@ -4,18 +4,22 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head } from "@inertiajs/react";
 
-import iTeamFlyer from "@images/iteam/iteam_flyer.png"
 import Calendar from "@/Elements/Icons/Calendar";
 import EventCardBlock from "@/Components/Cards/EventCardBlock";
 
-export default function ITeam() {
+export interface ITeamSettingProps {
+    dates: string;
+    embedLink: string;
+    isActive: boolean;
+    eventImage?: File | null;
+    eventImageLink?: string,
+}
+export default function ITeam({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     const iTeamCards: CardBlock[] = [
         {
             Icon: Calendar,
             title: "Event Dates",
-            description: "Sunday, 30th July - Saturday, 5th August, 2023",
-            buttonText: "",
-            buttonLink: ""
+            description: <p>{iteamSettings.dates}</p>
         }
     ]
     const title = "iTeam";
@@ -25,7 +29,7 @@ export default function ITeam() {
             <section className={"py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8"}>
                 <h1 className="p-6 mt-2 mb-4 font-sans text-5xl font-bold leading-snug text-blue-800">{title}</h1>
                 <div className="grid gap-5 px-5 mb-5 md:grid-cols-2 md:gap-10 md:mb-10">
-                    <img src={iTeamFlyer} alt="iTeam flyer" className="md:order-last" />
+                    <img src={route('images.show', iteamSettings.eventImageLink)} alt="iTeam flyer" className="md:order-last" />
                     <div className="md:px-10">
                         <Paragraph>
                             iTeam is a new event which intends to encourage those with an interest in producing digital educational resources to teach the bible to work together within a defined project for PBS. It is hoped that each contributor benefits personally in developing their own skillset by working along with complimentary skills while the group as a whole brings a whole year of bible lessons to be "click ready" for the classroom.
@@ -55,7 +59,7 @@ export default function ITeam() {
                     </ul>
                 </ParagraphContainer>
                 <div className="flex items-stretch justify-center my-10">
-                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScmiVmc6UyVxgOFiT-hGU393EWaDwq8_H7O4FW8DJk0yBbfBw/viewform" className="w-full max-w-4xl h-[35rem] border border-y-2 py-1 border-x-0 border-gray-400 m-1">Loading…</iframe>
+                    <iframe src={iteamSettings.embedLink} className="w-full max-w-4xl h-[35rem] border border-y-2 py-1 border-x-0 border-gray-400 m-1">Loading…</iframe>
                 </div>
                 <ParagraphContainer>
                     <Paragraph><em>

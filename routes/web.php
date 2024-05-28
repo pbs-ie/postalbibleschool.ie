@@ -7,13 +7,16 @@ use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\Setting\ITeamSettingController;
+use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
 use App\Models\Classroom;
 use App\Models\Curriculum;
+use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
+use App\Settings\ITeamSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -70,14 +73,23 @@ Route::get('/courses', function (Request $request) {
     ]);
 })->name('courses');
 
+// ************** SETTINGS ********************
 
+Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('settings.step.index');
+    })->name('index');
+    Route::controller(StepSettingController::class)->name('step.')->prefix('step')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+    });
+    Route::controller(ITeamSettingController::class)->name('iteam.')->prefix('iteam')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+    });
+});
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:events'])->group(function () {
-        Route::get('/', [SettingController::class, 'editEvents'])->name('edit');
-        Route::post('/update', [SettingController::class, 'storeEvents'])->name('store');
-    });
-
     Route::get('/prizegivings', function (Request $request) {
         return Inertia::render('Events/Prizegivings', [
             'queryParams' => $request->query(),
@@ -96,33 +108,33 @@ Route::prefix('events')->name('events.')->group(function () {
         })->name('signup');
     });
 
-    Route::get('/iteam', function () {
-        return Inertia::render('Events/ITeam');
+    Route::get('/iteam', function (ITeamSettings $iteamSettings) {
+        return Inertia::render('Events/ITeam', [
+            'iteamSettings' => $iteamSettings
+        ]);
     })->name('iteam');
 
-    Route::prefix('step')->name('step.')->group(function () {
-        Route::get('/', [StepEventController::class, 'index'])->name('index');
+    Route::prefix('step')->controller(StepEventController::class)->name('step.')->group(function () {
+        Route::get('/', 'index')->name('index');
 
-        Route::get('/signup', [StepEventController::class, 'signup'])->name('signup');
+        Route::get('/signup', 'signup')->name('signup');
         // Fix for bad link that has a . at the end of /signup -> /signup.
         Route::get('/signup.', function () {
             return redirect()->route('events.step.signup');
         });
 
-        Route::get('/image/{imageId}', [StepEventController::class, 'getImage'])->name('image');
-        Route::get('/file/{routename}/{filename}', [StepEventController::class, 'getFile'])->name('file');
-        Route::prefix('past')->name('past.')->middleware(['auth'])->group(function () {
-            Route::post('/', [StepEventController::class, 'store'])->name('store')->can('create:events');
-            Route::get('/admin', [StepEventController::class, 'admin'])->name('admin')->can('create:events');
-            Route::get('/create', [StepEventController::class, 'create'])->name('create')->can('create:events');
-            Route::get('/{id}/edit', [StepEventController::class, 'edit'])->name('edit')->can('create:events');
-            // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-            Route::post('/{id}', [StepEventController::class, 'update'])->name('update')->can('create:events');
-            Route::delete('/{id}', [StepEventController::class, 'destroy'])->name('destroy')->can('create:events');
-        });
-        Route::prefix('past')->name('past.')->group(function () {
-            Route::get('/', [StepEventController::class, 'gallery'])->name('gallery');
-            Route::get('/{eventName}', [StepEventController::class, 'show'])->name('show');
+        Route::prefix('past')->name('past.')->controller(StepPastController::class)->group(function () {
+            Route::middleware(['auth', 'can:create:events'])->group(function () {
+                Route::post('/', 'store')->name('store');
+                Route::get('/admin', 'admin')->name('admin');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/{event}/edit', 'edit')->name('edit');
+                // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+                Route::post('/{event}', 'update')->name('update');
+                Route::delete('/{event}', 'destroy')->name('destroy');
+            });
+            Route::get('/', 'index')->name('gallery');
+            Route::get('/{event}', 'show')->name('show');
         });
     });
 });
@@ -153,6 +165,7 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::delete('/{id}', [AssemblyController::class, 'destroy'])->name('destroy')->middleware(['auth'])->can('create:assembly');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
 });
+
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
     // $curriculumList = Curriculum::current();
@@ -190,7 +203,7 @@ Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(func
 Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {
     Route::get('/', [CurriculumController::class, 'index'])->name('index')->can('view:curriculum');
     Route::post('/', [CurriculumController::class, 'store'])->name('store')->can('create:curriculum');
-    Route::get('/sync', [SettingController::class, 'updateFMCurriculum'])->name('sync')->can('create:curriculum');
+    Route::get('/sync', [CurriculumController::class, 'updateCurriculumTable'])->name('sync')->can('create:curriculum');
     Route::get('/create', [CurriculumController::class, 'create'])->name('create')->can('create:curriculum');
     Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show')->can('view:curriculum');
     Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit')->can('create:curriculum');
@@ -205,8 +218,17 @@ Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function (
     // Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
 });
 
+// ************* PAYMENT ROUTES *****************
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/', [PayPalController::class, 'index'])->name('index');
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
     Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });
+
+Route::get('/assets/{file}', function ($file) {
+    return response()->file(public_path('storage/' . $file));
+})->where('file', '.*')->name('assets.show');
+
+Route::get('/images/{file}', function ($image) {
+    return response()->file(Storage::url($image));
+})->name('images.show');

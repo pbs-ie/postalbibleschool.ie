@@ -1,11 +1,11 @@
 import { ColumnDef, ColumnFiltersState, OnChangeFn, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import InputLabel2 from "../Forms/InputLabel2";
-import TextInput from "../Forms/TextInput";
 import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
 import ChevronUp from "@/Elements/Icons/ChevronUp";
 import ChevronDown from "@/Elements/Icons/ChevronDown";
 import Filter from "./Filter";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import TextInput from "@/Elements/Forms/TextInput";
 
 interface AdvancedTableProps<TData, TValue> {
     data: TData[],

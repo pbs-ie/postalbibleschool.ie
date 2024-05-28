@@ -3,12 +3,12 @@ import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFil
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";
 
-export default function Show({ videoData }: { videoData: { title: string, date: string, imageId: string, content: VideoMeta[], fileContent?: FileMeta[] } }) {
-    let worksheetFiles = videoData.fileContent?.filter((fileData) => fileData.type === "document");
-    let slideFiles = videoData.fileContent?.filter((fileData) => fileData.type === "slide");
+export default function Show({ pastEvent }: { pastEvent: { title: string, date: string, imageLink: string, videoContent: VideoMeta[], fileContent?: FileMeta[] } }) {
+    let worksheetFiles = pastEvent.fileContent?.filter((fileData) => fileData.type === "document");
+    let slideFiles = pastEvent.fileContent?.filter((fileData) => fileData.type === "slide");
     return (
-        <StepWrapper title={videoData.title} heading={videoData.date}>
-            <VideoPlayerComponent title={videoData.title} imageLink={route('events.step.image', videoData.imageId)} content={videoData.content} />
+        <StepWrapper title={pastEvent.title} heading={pastEvent.date}>
+            <VideoPlayerComponent title={pastEvent.title} imageLink={route('images.show', pastEvent.imageLink)} content={pastEvent.videoContent} />
             <VideoAdditionalFilesComponent worksheetFiles={worksheetFiles} slideFiles={slideFiles} />
             <div className="mt-4">
                 <ButtonLink hierarchy="secondary" href={route('events.step.past.gallery')}>Back to All</ButtonLink>

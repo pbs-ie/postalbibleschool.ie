@@ -6,6 +6,8 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
+import { useState } from "react";
+
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
 import CampFriends from "@images/camp/camp-friends-min.jpg";
 import CampBeach from "@images/camp/camp-beach-min.jpg";
@@ -15,14 +17,13 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import { useState } from "react";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import { usePage } from "@inertiajs/react";
 import CampWrapper from "@/Layouts/CampWrapper";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import Calendar from "@/Elements/Icons/Calendar";
+import Location from "@/Elements/Icons/Location";
 
 
 export default function Home() {
-    const { settings } = usePage<PassedProps>().props;
     const [isSignupActive, setIsSignupActive] = useState(true);
     const images: Gallery[] = [
         {
@@ -58,6 +59,23 @@ export default function Home() {
             imageLink: CampAdventure
         }
     ]
+
+    const campCards: CardBlock[] = [
+        {
+            Icon: Calendar,
+            title: "When",
+            description: "13th to 20th July, 2024",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Ovoca Manor, Avoca, Co Wicklow",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
     return (
         <CampWrapper title="">
             <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
@@ -65,11 +83,9 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                {settings && settings.camp_upcoming_card.value === "1" &&
-                    <CardContainer type="camp">
-                        <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
-                    </CardContainer>
-                }
+                <CardContainer cards={campCards}>
+                    <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
+                </CardContainer>
                 <Heading2>Camp</Heading2>
                 <ParagraphContainer>
                     <Paragraph>Camp is held each summer in mid-July and generally fills up extremely quickly after the forms go out in mid-May. Camp is held at Ovoca Manor just outside the village of Avoca and near Arklow in Co. Wicklow. Ovoca Manor is an outdoor adventure centre owned by Scripture Union. It offers accommodation and a whole range of activities. Our week at camp will typically involve some time in activities at the centre and several trips off site for other activities.</Paragraph>

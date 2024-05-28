@@ -28,18 +28,6 @@ interface ProductAction {
     index: number;
 }
 
-const defaultProducts: Product[] = [
-    {
-        title: "General",
-        quantity: 0,
-        price: 65
-    },
-    {
-        title: "Student",
-        quantity: 0,
-        price: 50
-    }
-];
 
 const productReducer = (state: Product[], action: ProductAction) => {
     let newState = [];
@@ -129,7 +117,20 @@ const cartReducer = (state: Cart[], action: CartAction) => {
     }
 }
 
-export default function Step() {
+export default function Step({ stepSettings }: { stepSettings: StepSettingsProps }) {
+    const defaultProducts: Product[] = [
+        {
+            title: "General",
+            quantity: 0,
+            price: +stepSettings.standardCost
+        },
+        {
+            title: "Student",
+            quantity: 0,
+            price: +stepSettings.concessionCost
+        }
+    ];
+
     const [activeOption, setActiveOption] = useState<number | null>(null);
     const [customPrice, setCustomPrice] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
