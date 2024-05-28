@@ -1,12 +1,12 @@
 import { useForm } from "@inertiajs/react"
-import TextInput from "./TextInput";
-import InputLabel from "./InputLabel";
-import InputError from "./InputError";
+import TextInput from "@/Elements/Forms/TextInput";
+import InputLabel from "@/Elements/Forms/InputLabel";
+import InputError from "@/Elements/Forms/InputError";
 import { MonthKeys, monthLessonMap, monthMap } from "@/constants";
-import SelectInput from "./SelectInput";
+import SelectInput from "@/Elements/Forms/SelectInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import Heading3 from "../Typography/Heading3";
+import Heading3 from "@/Components/Typography/Heading3";
 
 type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
 type EditCurriculumProps = Omit<CurriculumProps, "digital_count">

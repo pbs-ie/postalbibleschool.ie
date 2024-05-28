@@ -5,7 +5,6 @@ import { modalHelper } from "@/helper";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import PopupModal from "@/Components/Modals/PopupModal";
 import TooltipCard from "@/Components/Cards/TooltipCard";
@@ -20,10 +19,8 @@ import InformationCircle from "@/Elements/Icons/InformationCircle";
 import CloseX from "@/Elements/Icons/CloseX";
 
 import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
-import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
-import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name">;

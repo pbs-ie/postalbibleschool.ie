@@ -3,7 +3,7 @@ import { FormEvent } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import InputError from "@/Components/Forms/InputError";
+import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import { ITeamSettingProps } from "@/Pages/Events/ITeam";

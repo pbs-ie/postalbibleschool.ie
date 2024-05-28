@@ -10,7 +10,7 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import React, { FormEvent, useEffect, useReducer, useState } from "react";
-import InputError from "@/Components/Forms/InputError";
+import InputError from "@/Elements/Forms/InputError";
 
 export interface Student {
     firstname: string;

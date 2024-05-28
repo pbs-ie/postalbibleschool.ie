@@ -4,7 +4,6 @@ import Heading1Nospace from "@/Components/Typography/Heading1Nospace"
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 export default function Create() {
