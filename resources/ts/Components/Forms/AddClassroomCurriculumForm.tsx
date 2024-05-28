@@ -2,7 +2,7 @@ import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import RadioInput from "./RadioInput";
+import RadioInput from "@/Elements/Forms/RadioInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router } from "@inertiajs/react";
 import { getIconForLessonType } from "@/helper";
