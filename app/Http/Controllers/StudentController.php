@@ -6,6 +6,7 @@ use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -104,7 +105,12 @@ class StudentController extends Controller
      */
     public function getAllStudents()
     {
-        $this->storeStudentsListForUser(auth()->user()->email);
+        try {
+            $this->storeStudentsListForUser(auth()->user()->email);
+        } catch (\Exception $e) {
+            Log::warning($e);
+            return redirect()->back()->with('failure', 'No students found');
+        }
         $studentList = Student::getStudentsForUser();
         if ($studentList->isEmpty()) {
             return redirect()->back()->with('failure', 'No students found');
@@ -122,7 +128,7 @@ class StudentController extends Controller
     {
         $studentListFm = (new FilemakerController())->getStudentsByUser($userEmail);
         if (sizeof($studentListFm) === 0) {
-            throw new \Exception("No students found for user");
+            throw new \Exception("No students found for user : " . $userEmail);
         }
         $studentList = $this->sanitizeStudentList($studentListFm);
 
