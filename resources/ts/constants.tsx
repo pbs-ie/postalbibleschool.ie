@@ -121,14 +121,6 @@ declare global {
         }) => JSX.Element
     }
 
-    type SettingKeys = "shed_upcoming_card" | "camp_upcoming_card";
-    interface SettingProps {
-        key: SettingKeys;
-        label: string;
-        value?: string;
-        type: string;
-    }
-
     interface StepSettingsProps {
         dates: string;
         topic: string;
@@ -140,14 +132,6 @@ declare global {
         eventImage?: File | null;
         eventImageLink?: string,
     }
-}
-
-interface LevelsDescription {
-    tagName: string,
-    tagCode: string,
-    tagColor: string,
-    image: string,
-    title: string
 }
 
 export interface SeriesName {

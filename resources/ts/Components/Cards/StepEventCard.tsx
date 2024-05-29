@@ -21,8 +21,9 @@ export default function StepEventCard({ id, title, imageLink, description, date,
             <img className={"object-cover aspect-video " + (isLargeSize ? "h-64 " : "h-32")} src={route('images.show', imageLink)} alt={"image thumbnail for STEP - " + title} />
             <p className="py-1 text-lg font-bold text-blue-900">{date}</p>
             <p className={"mb-2 text-left text-gray-800 " + (isLargeSize ? "text-base" : "text-base")}>{description}</p>
-            {showDetails &&
+            {showDetails ?
                 <ButtonLink Icon={ChevronRight} href={route('events.step.past.show', id)}>Watch Videos</ButtonLink>
+                : null
             }
         </div>
     )

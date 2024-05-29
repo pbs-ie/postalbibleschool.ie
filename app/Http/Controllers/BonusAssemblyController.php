@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\VideoService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -103,7 +104,7 @@ class BonusAssemblyController extends Controller
         // Storing updated assembly config file
 
         $assemblyInfo['imageLink'] = $assemblyConfig->imagesPath . $assemblyInfo['routename'];
-        array_push($videoList, (object)$assemblyInfo);
+        array_push($videoList, (object) $assemblyInfo);
 
         $assemblyConfig->bonusContent = $videoList;
 
@@ -114,7 +115,7 @@ class BonusAssemblyController extends Controller
 
         $videoConfig->content[0]['id'] = 0;
         $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
-        $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
+        $videoConfig->content[0]['externalUrl'] = (new VideoService)->parseExternalUrl($videoInfo['externalUrl']);
         $videoConfig->content[0]['duration'] = $videoInfo['duration'];
 
         $storeConfigSuccess = Storage::put(
@@ -213,7 +214,7 @@ class BonusAssemblyController extends Controller
 
         $videoConfig->content[0]['id'] = 0;
         $videoConfig->content[0]['title'] = $videoInfo['videoTitle'];
-        $videoConfig->content[0]['externalUrl'] = (new AssemblyController)->parseExternalUrl($videoInfo['externalUrl']);
+        $videoConfig->content[0]['externalUrl'] = (new VideoService)->parseExternalUrl($videoInfo['externalUrl']);
         $videoConfig->content[0]['duration'] = $videoInfo['duration'];
 
         $storeConfigSuccess = Storage::put(
