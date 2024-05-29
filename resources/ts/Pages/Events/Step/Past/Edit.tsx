@@ -13,6 +13,7 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 
 
 export interface StepPastProps {
@@ -93,9 +94,9 @@ export default function Edit({ pastEvent }: { pastEvent: StepPastProps }) {
                             <InputLabel forInput={"title"} value={"Title"} required />
                             <TextInput type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
                         </div>
-                        <div className="inline-flex items-end gap-2">
+                        <div className="inline-flex items-start gap-2">
                             <InputLabel forInput={"description"} value={"Description"} required />
-                            <TextInput type={"text"} name={"description"} id={"description"} value={data.description} className={""} handleChange={handleChange} required />
+                            <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
                         </div>
                         <div className="inline-flex items-end gap-2">
                             <fieldset className="inline-flex">

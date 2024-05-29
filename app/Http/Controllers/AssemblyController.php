@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\VideoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -19,18 +20,6 @@ class AssemblyController extends Controller
         $year = date('Y');
 
         return chr(97 + (($year - 2022) % 3));
-    }
-
-    public function parseExternalUrl($externalUrl)
-    {
-        preg_match('/\/(\d{5,})\??/', $externalUrl, $numCode, PREG_UNMATCHED_AS_NULL);
-        if (count($numCode) < 1 || is_null($numCode[1])) {
-            return "";
-        } else {
-
-            $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-            return $assemblyConfig->externalPlayer->path . $numCode[1] . $assemblyConfig->externalPlayer->params;
-        }
     }
 
     private function getRules()
@@ -150,7 +139,7 @@ class AssemblyController extends Controller
             $videoConfig->content[$i]['id'] = $i;
             $videoConfig->content[$i]['title'] = $videoInfo['content'][$i]['videoTitle'];
             unset($videoConfig->content[$i]['videoTitle']);
-            $videoConfig->content[$i]['externalUrl'] = $this->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
+            $videoConfig->content[$i]['externalUrl'] = (new VideoService)->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
         }
 
         $storeConfigSuccess = Storage::put(
@@ -285,7 +274,7 @@ class AssemblyController extends Controller
         });
         for ($i = 0; $i < count($videoConfig->content); $i++) {
             $videoConfig->content[$i]['id'] = $i;
-            $videoConfig->content[$i]['externalUrl'] = $this->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
+            $videoConfig->content[$i]['externalUrl'] = (new VideoService)->parseExternalUrl($videoConfig->content[$i]['externalUrl']);
         }
 
         $storeConfigSuccess = Storage::put(

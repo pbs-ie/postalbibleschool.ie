@@ -77,6 +77,9 @@ class StepPastController extends Controller
         //Store additional files
         $stepEvent->fileContent = $stepEvent->storeFiles($request);
 
+        // Convert submitted vimeo links
+        $stepEvent->videoContent = $stepEvent->parseVideoLinks($request);
+
 
         $stepEvent->save();
 
@@ -116,6 +119,9 @@ class StepPastController extends Controller
 
         //Store additional files
         $event->fileContent = $event->storeFiles($request);
+
+        // Convert submitted vimeo links
+        $event->videoContent = $event->parseVideoLinks($request);
 
         $event->save();
 
