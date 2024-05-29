@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Http\Requests\StoreStepPastRequest;
+use App\Services\VideoService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class StepPast extends Model
 {
@@ -42,7 +42,7 @@ class StepPast extends Model
 
             // Deleting stored files
             collect($stepPast->fileContent)->each(function ($item, $key) {
-                if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
+                if (isset($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
                     Storage::disk('public')->delete($item['filePath']);
                 }
             });
@@ -68,16 +68,27 @@ class StepPast extends Model
         }
         $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
         $fileContent = $fileCollection->map(function ($item, $key) {
-            if (!isset ($item['fileData'])) {
+            if (!isset($item['fileData'])) {
                 return $item;
             }
-            if (isset ($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
+            if (isset($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
                 Storage::disk('public')->delete($item['filePath']);
             }
             $item['filePath'] = $item['fileData']->store('video_files', 'public');
-            unset ($item['fileData']);
+            unset($item['fileData']);
             return $item;
         });
         return $fileContent;
+    }
+
+    public function parseVideoLinks(StoreStepPastRequest $request)
+    {
+        $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
+        $videoContent = $videoCollection->map(function ($item) {
+            $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+            return $item;
+        });
+
+        return $videoContent;
     }
 }
