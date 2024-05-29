@@ -38,12 +38,10 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         }),
         columnHelper.accessor(row => row.name, {
             header: "Name",
-            enableColumnFilter: false,
         }),
         columnHelper.display({
             id: 'sep-lesson',
             header: "Sep",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.sep_lesson)
@@ -52,7 +50,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'oct-lesson',
             header: "Oct",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.oct_lesson)
@@ -61,7 +58,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'nov-lesson',
             header: "Nov",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.nov_lesson)
@@ -70,7 +66,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'dec-lesson',
             header: "Dec",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.dec_lesson)
@@ -83,7 +78,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.jan_lesson)
             },
-            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'feb-lesson',
@@ -92,7 +86,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.feb_lesson)
             },
-            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'mar-lesson',
@@ -101,12 +94,10 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.mar_lesson)
             },
-            enableColumnFilter: false,
         }),
         columnHelper.display({
             id: 'apr-lesson',
             header: "Apr",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.apr_lesson)
@@ -115,7 +106,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'may-lesson',
             header: "May",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.may_lesson)
@@ -124,7 +114,6 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'jun-lesson',
             header: "Jun",
-            enableColumnFilter: false,
             enableSorting: false,
             cell: ({ row }) => {
                 return getIconForLessonType(row.original.jun_lesson)

@@ -11,13 +11,14 @@ interface AdvancedTableProps<TData, TValue> {
     data: TData[],
     columns: ColumnDef<TData, TValue>[],
     enableGlobalFilter?: boolean,
+    enableColumnFilters?: boolean,
     enableRowSelection?: boolean,
     enableSorting?: boolean,
     rowSelection?: RowSelectionState,
     searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
 }
-export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableRowSelection = false, enableSorting = true, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
+export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableColumnFilters = false, enableRowSelection = false, enableSorting = true, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -40,6 +41,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
         enableRowSelection: enableRowSelection,
         enableGlobalFilter: enableGlobalFilter,
         enableSorting: enableSorting,
+        enableColumnFilters: enableColumnFilters,
         onRowSelectionChange: setRowSelection,
         onColumnFiltersChange: setColumnFilters
     });

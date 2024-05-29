@@ -188,7 +188,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         columnHelper.accessor(row => row.name, {
             id: "name",
             header: "Classroom Name",
-            enableColumnFilter: false,
             cell: editableCell,
             footer: () => (
                 <p>Totals:</p>
@@ -197,14 +196,12 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
         columnHelper.accessor(row => row.curriculum_name, {
             id: "curriculum_id",
             header: "Curriculum",
-            enableColumnFilter: false,
             cell: editableCell
         }),
         columnHelper.accessor(row => row.level_0_order + "", {
             id: "level_0_order",
             header: () => <span className="text-nowrap">Level 0</span>,
             footer: () => <span className="text-left">{columnTotals.level_0_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell,
             meta: {
                 className: "bg-bibletime-pink text-gray-50"
@@ -214,7 +211,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             id: "level_1_order",
             header: () => <span className="text-nowrap">Level 1</span>,
             footer: () => <span className="text-left">{columnTotals.level_1_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell,
             meta: {
                 className: "bg-bibletime-orange text-gray-50"
@@ -224,7 +220,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             id: "level_2_order",
             header: () => <span className="text-nowrap">Level 2</span>,
             footer: () => <span className="text-left">{columnTotals.level_2_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell,
             meta: {
                 className: "bg-bibletime-red text-gray-50"
@@ -234,7 +229,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             id: "level_3_order",
             header: () => <span className="text-nowrap">Level 3</span>,
             footer: () => <span className="text-left">{columnTotals.level_3_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell,
             meta: {
                 className: "bg-bibletime-green text-gray-50"
@@ -244,7 +238,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             id: "level_4_order",
             header: () => <span className="text-nowrap">Level 4</span>,
             footer: () => <span className="text-left">{columnTotals.level_4_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell,
             meta: {
                 className: "bg-bibletime-blue text-gray-50"
@@ -260,7 +253,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     </TooltipCard>
                 </span>,
             footer: () => <span className="text-left">{columnTotals.tlp_totals}</span>,
-            enableColumnFilter: false,
             cell: editableCell
         }),
         columnHelper.display({

@@ -48,7 +48,6 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
     const defaultColumns = [
         columnHelper.accessor(row => row.id + "", {
             header: 'ID',
-            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'image',
@@ -59,16 +58,13 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
         }),
         columnHelper.accessor(row => row.title, {
             header: 'Title',
-            enableColumnFilter: false
         }),
         columnHelper.accessor(row => row.date, {
             header: 'Date',
-            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'description',
             header: 'Description',
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 <p title={row.original.description} className="font-normal whitespace-normal w-40 lg:w-80">{truncateString(row.original.description, 40)}</p>
             )

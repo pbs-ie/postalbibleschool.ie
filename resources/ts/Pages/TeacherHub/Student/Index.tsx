@@ -44,10 +44,12 @@ export default function Index({ students }: { students: StudentProps[] }) {
         }),
         columnHelper.accessor(row => `${row.first_name} ${row.last_name}`, {
             header: "Full Name",
-            filterFn: 'includesString'
+            filterFn: 'includesString',
+            enableColumnFilter: true,
         }),
         columnHelper.accessor(row => row.grade, {
-            header: "Grade"
+            header: "Grade",
+            enableColumnFilter: true,
         }),
         columnHelper.accessor(row => row.classroom?.name ?? "", {
             id: 'classroom-name',
@@ -57,7 +59,8 @@ export default function Index({ students }: { students: StudentProps[] }) {
                     return row.getValue<String>(columnId).toString() === "";
                 }
                 return row.getValue<String>(columnId).toString().toLowerCase().trim().includes(filterValue.toLowerCase());
-            }
+            },
+            enableColumnFilter: true,
         })
     ];
 
@@ -78,7 +81,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
                     <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
                     <div className="mt-5">
                         {students.length > 0 ?
-                            <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                            <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
                             :
                             <p className="text-gray-500 italic">No students found for your account. If this is a mistake please contact the administrator.</p>
                         }

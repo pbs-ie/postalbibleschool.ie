@@ -27,12 +27,10 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         }),
         columnHelper.accessor(row => row.name, {
             header: "Name",
-            enableColumnFilter: false
         }),
         columnHelper.display({
             id: 'sep-lesson',
             header: monthLessonMap.sep_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.sep_lesson)
             ),
@@ -40,7 +38,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'oct-lesson',
             header: monthLessonMap.oct_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.oct_lesson)
             ),
@@ -48,7 +45,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'nov-lesson',
             header: monthLessonMap.nov_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.nov_lesson)
             ),
@@ -56,7 +52,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'dec-lesson',
             header: monthLessonMap.dec_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.dec_lesson)
             ),
@@ -64,7 +59,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'jan-lesson',
             header: monthLessonMap.jan_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jan_lesson)
             ),
@@ -72,7 +66,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'feb-lesson',
             header: monthLessonMap.feb_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.feb_lesson)
             ),
@@ -80,7 +73,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'mar-lesson',
             header: monthLessonMap.mar_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.mar_lesson)
             ),
@@ -88,7 +80,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'apr-lesson',
             header: monthLessonMap.apr_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.apr_lesson)
             ),
@@ -96,7 +87,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'may-lesson',
             header: monthLessonMap.may_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.may_lesson)
             ),
@@ -104,7 +94,6 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
         columnHelper.display({
             id: 'jun-lesson',
             header: monthLessonMap.jun_lesson,
-            enableColumnFilter: false,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jun_lesson)
             ),

@@ -1,26 +1,17 @@
-import ResourceCard from "@/Components/Cards/ResourceCard";
-import Video from "@/Elements/Icons/VideoCamera";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import Play from "@/Elements/Icons/PlayIcon";
 import DashboardResourceSection from "@/Components/Sections/DashboardResourceSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
-import Heading1Alt from "@/Components/Typography/Heading1Alt";
+import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
 
 export default function Dashboard({ classrooms, canViewCurriculum = false, curriculumList }: { classrooms: any, canViewCurriculum: boolean, curriculumList?: CurriculumProps[] }) {
 
     return (
         <WrapperLayout>
             <SidebarLayout>
-                <div className="flex flex-col items-center p-10 bg-sky-100 w-full lg:w-72 mx-auto">
-                    <Heading1Alt>Additional Resources</Heading1Alt>
-                    <div className="flex flex-wrap lg:flex-col gap-2 mx-auto">
-                        <ResourceCard size="small" Icon={Play} href={route('assembly.index')} title="Assembly Videos" />
-                        <ResourceCard size="small" Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
-                    </div>
-                </div>
+                <DashboardSidebar />
                 <ContentWrapper title="School Hub" className="w-full">
                     <div className="flex flex-col lg:max-w-7xl w-full pr-4 mx-auto">
                         <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
