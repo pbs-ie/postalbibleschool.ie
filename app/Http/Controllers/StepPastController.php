@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStepPastRequest;
 use Inertia\Inertia;
 use App\Models\StepPast;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class StepPastController extends Controller
 {
@@ -41,6 +42,9 @@ class StepPastController extends Controller
      */
     public function show(StepPast $event)
     {
+        if (Gate::denies('create:events') && !$event['showDetails']) {
+            return abort(404);
+        }
         return Inertia::render('Events/Step/Past/Show', [
             'pastEvent' => $event
         ]);
