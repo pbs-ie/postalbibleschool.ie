@@ -67,6 +67,7 @@ jobs:
           GITHUB_SHA: ${{github.sha}}
           RELEASE_PATH: ${{secrets.SSH_PATH}}/private_html/releases/${{github.sha}}
           ARTIFACTS_PATH: ${{secrets.SSH_PATH}}/private_html/artifacts
+          SERVER_PATH: ${{secrets.SSH_PATH}}/private_html
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
@@ -74,9 +75,14 @@ jobs:
           port: ${{secrets.SSH_PORT}}
           envs: RELEASE_PATH, ARTIFACTS_PATH, GITHUB_SHA
           script: |
-            mkdir -p $ARTIFACTS_PATH
             mkdir -p $RELEASE_PATH
             tar -xzf ${ARTIFACTS_PATH}/${GITHUB_SHA}.tar.gz -C $RELEASE_PATH
+
+            cp -R ${RELEASE_PATH}/storage ${SERVER_PATH}/storage
+            rm -rf ${RELEASE_PATH}/storage
+            # mkdir -p ${SERVER_PATH}/storage/{app,public,framework,logs}
+            # mkdir -p ${SERVER_PATH}/storage/framework/{cache,session,testing,views}
+            chmod -R 0777 ${SERVER_PATH}/storage
 
   activate-release:
     name: "Activate release"
@@ -92,6 +98,7 @@ jobs:
           ACTIVE_RELEASE_PATH: ${{secrets.SSH_PATH}}/public_html/current
           LARAVEL_ENV: ${{secrets.LARAVEL_ENV}}
           BASE_PATH: ${{secrets.SSH_PATH}}/public_html
+          STORAGE_PATH: ${{secrets.SSH_PATH}}/private_html/storage
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USER}}
@@ -105,6 +112,7 @@ jobs:
             cp -r $RELEASE_PATH ./current
             cd $ACTIVE_RELEASE_PATH
             ln -sf ${BASE_PATH}/.env $ACTIVE_RELEASE_PATH
+            ln -sf $STORAGE_PATH $ACTIVE_RELEASE_PATH
             composer install --optimize-autoloader --no-dev
             php artisan migrate --force
             php artisan storage:link
