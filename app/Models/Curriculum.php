@@ -34,7 +34,7 @@ class Curriculum extends Model
     {
         $digitalCount = 0;
         foreach ($this->getAttributes() as $key => $value) {
-            if (str_contains($key, '_lesson') && $value === Curriculum::DIGITAL) {
+            if (str_contains($key, '_lesson') && $value === $this::DIGITAL) {
                 $digitalCount = $digitalCount + 1;
             }
         }
@@ -56,13 +56,10 @@ class Curriculum extends Model
         $curricula = $query->where('email', auth()->user()->email)
             ->orWhere('email', null)
             ->get();
-        // To mask additional curricula till new features are released
-        $curricula = $curricula->map(function ($item) {
-            if (Str::lower($item->curriculum_type) === Curriculum::DIGITAL) {
-                $item->name = 'COMING SOON';
-            }
-            return $item;
-        });
+        // TODO: To filter additional curricula till new features are released
+        $curricula = $curricula->filter(
+            fn($item) => Str::lower($item->curriculum_type) === $this::PAPER
+        );
         return $curricula;
     }
 
@@ -71,7 +68,7 @@ class Curriculum extends Model
         return $query->firstOrCreate(
             ['curriculum_type' => $this::PAPER],
             [
-                "name" => 'Default',
+                "name" => 'Paper Only',
                 "jan_lesson" => $this::PAPER,
                 "feb_lesson" => $this::PAPER,
                 "mar_lesson" => $this::PAPER,

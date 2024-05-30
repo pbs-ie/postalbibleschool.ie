@@ -11,7 +11,7 @@ use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
-use App\Http\Controllers\StudentController;
+// use App\Http\Controllers\StudentController;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
@@ -179,17 +179,18 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
-Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
-    Route::get('/', [StudentController::class, 'index'])->name('index');
-    Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
-});
+// TODO: Revealed route with Digital lessons features 
+// Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
+//     Route::get('/', [StudentController::class, 'index'])->name('index');
+//     Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
+// });
 
 
 Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
-    Route::prefix('students')->name('students.')->group(function () {
-        Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
-        Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
-    });
+    // Route::prefix('students')->name('students.')->group(function () {
+    //     Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
+    //     Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
+    // });
     Route::controller(ClassroomController::class)->group(function () {
         Route::post('curriculum/store', 'curriculumStore')->name('curriculum.store');
         Route::get('/', 'index')->name('index');

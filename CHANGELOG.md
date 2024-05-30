@@ -1,4 +1,10 @@
-# 1.3.0 (2024-02-01)
+# 1.3.1 (2024-05-30)
+
+- Disabled student related functionality for first release
+  - Teachers can create classrooms and modify participation numbers
+  - One default curriculum that cannot be changed
+
+## 1.3.0 (2024-02-01)
 
 - New Hub for teachers with added functionality
   - Teachers can now view their student list from internal database
