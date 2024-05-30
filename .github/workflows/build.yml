@@ -78,6 +78,7 @@ jobs:
             mkdir -p $RELEASE_PATH
             tar -xzf ${ARTIFACTS_PATH}/${GITHUB_SHA}.tar.gz -C $RELEASE_PATH
 
+            mkdir -p ${SERVER_PATH}/storage
             cp -R ${RELEASE_PATH}/storage ${SERVER_PATH}/storage
             rm -rf ${RELEASE_PATH}/storage
             # mkdir -p ${SERVER_PATH}/storage/{app,public,framework,logs}
