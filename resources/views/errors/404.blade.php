@@ -40,7 +40,7 @@
 
         <p>Could not find the page you are looking for</p>
 
-        <a href="/"
+        <a href="/home"
             style="display: inline-block; padding: 0.75rem 1.5rem; font-size: 1rem; line-height: 1.25rem; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05rem; border-radius: 5rem; border: 1px solid; transition: all 300ms ease;"
             className="inline-block px-8 py-3 text-sm font-semibold text-center text-gray-500 transition duration-100 bg-gray-200 rounded-lg outline-none hover:bg-gray-300 focus-visible:ring ring-indigo-300 active:text-gray-700 md:text-base">
             Go home
