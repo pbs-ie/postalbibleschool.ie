@@ -16,6 +16,7 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
+use App\Models\FmLessonOrder;
 use App\Settings\ITeamSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -176,6 +177,7 @@ Route::get('/dashboard', function () {
         'classrooms' => $classroomList,
         'canViewCurriculum' => Gate::allows('view:curriculum'),
         'curriculumList' => Curriculum::current(),
+        'lessonOrder' => FmLessonOrder::where('email', auth()->user()->email)->first()
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 

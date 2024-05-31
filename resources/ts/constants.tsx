@@ -112,12 +112,14 @@ declare global {
         email: string;
         schoolName: string;
         schoolType: string;
+        contactName: string;
         level0Order: number;
         level1Order: number;
         level2Order: number;
         level3Order: number;
         level4Order: number;
         tlpOrder: number;
+        address: string;
     }
     interface Icon {
         props: ({ className }: {
@@ -135,6 +137,7 @@ declare global {
         level_3_order: number,
         level_4_order: number,
         tlp_order: number,
+        updated_at: string
     }
 
     interface StepSettingsProps {

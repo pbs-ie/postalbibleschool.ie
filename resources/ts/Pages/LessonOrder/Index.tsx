@@ -9,6 +9,8 @@ import { Link, router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -41,37 +43,62 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         }),
         columnHelper.accessor(row => row.level0Order.toString(), {
             id: 'level0Order',
-            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-pink">Level 0</span>,
+            header: () => <span className="text-nowrap">Level 0</span>,
+            enableColumnFilter: false,
+            meta: {
+                className: "bg-bibletime-pink text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level1Order.toString(), {
             id: 'level1Order',
-            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-orange">Level 1</span>,
+            header: () => <span className="text-nowrap">Level 1</span>,
+            enableColumnFilter: false,
+            meta: {
+                className: "bg-bibletime-orange text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level2Order.toString(), {
             id: 'level2Order',
-            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-red">Level 2</span>,
+            header: () => <span className="text-nowrap">Level 2</span>,
+            enableColumnFilter: false,
+            meta: {
+                className: "bg-bibletime-red text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level3Order.toString(), {
             id: 'level3Order',
-            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-green">Level 3</span>,
+            header: () => <span className="text-nowrap">Level 3</span>,
+            enableColumnFilter: false,
+            meta: {
+                className: "bg-bibletime-green text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.level4Order.toString(), {
             id: 'level4Order',
-            header: () => <span className="p-2 text-white text-sm text-nowrap bg-bibletime-blue">Level 4</span>,
+            header: () => <span className="text-nowrap">Level 4</span>,
+            enableColumnFilter: false,
+            meta: {
+                className: "bg-bibletime-blue text-gray-50"
+            }
         }),
         columnHelper.accessor(row => row.tlpOrder.toString(), {
             header: 'TLP',
+            enableColumnFilter: false,
         }),
-        columnHelper.display({
-            id: 'actions',
-            header: 'Actions',
-            cell: ({ row }) => (
-                <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id + "/edit"}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={"/orders/" + row.original.id}><Eye className="w-6 h-6" /> View</Link>
-                </div>
-            )
-        })
+        // columnHelper.display({
+        //     id: 'actions',
+        //     header: 'Actions',
+        //     cell: ({ row }) => (
+        //         <div className="flex w-full gap-2 py-2 text-sm">
+        //             <IconHoverSpan>
+        //                 <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.edit', row.original.id)}><EditIcon /> Edit</ButtonLink>
+        //             </IconHoverSpan>
+        //             <IconHoverSpan>
+        //                 <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
+        //             </IconHoverSpan>
+        //         </div>
+        //     )
+        // })
     ];
 
 

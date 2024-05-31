@@ -3,6 +3,7 @@
 - Disabled student related functionality for first release
   - Teachers can create classrooms and modify participation numbers
   - One default curriculum that cannot be changed
+- Dashboard updated to show school contact information and old order details
 
 ## 1.3.0 (2024-02-01)
 

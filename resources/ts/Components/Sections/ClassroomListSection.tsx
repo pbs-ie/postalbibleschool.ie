@@ -23,7 +23,7 @@ import TextInput from "@/Elements/Forms/TextInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
-type ClassroomForm = Omit<ClassroomProps, "curriculum_name">;
+type ClassroomForm = Omit<ClassroomProps, "curriculum_name" | "updated_at">;
 
 export default function ClassroomListSection({ classrooms = [], curriculumList = [] }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[] }) {
     const defaultEditingArray = Array(classrooms.length).fill(false);
@@ -34,6 +34,16 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
     const { dialogRef: dialogRefCreate, showModal: showCreateModal, closeModal: closeCreateModal } = modalHelper();
     const { dialogRef: dialogRefDelete, showModal: showDeleteModal, closeModal: closeDeleteModal } = modalHelper();
 
+    const getUpdatedAtDate = () => {
+        if (classrooms.length === 0) {
+            return "";
+        }
+        return new Date(classrooms[0].updated_at).toLocaleString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })
+    }
 
     // ****************FORM SECTION ***********************
     const defaultData: ClassroomForm = {
@@ -330,13 +340,18 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             </PopupModal>
 
             <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
-                <div className="flex items-start gap-2 w-full pb-2">
+                <div className="flex items-center justify-between gap-2 w-full pb-2">
                     <span className="flex items-start gap-2">
                         <Heading2Alt>Participant numbers</Heading2Alt>
                         <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"top"}>
                             <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                         </TooltipCard>
                     </span>
+                    {classrooms.length !== 0 &&
+                        <p className="align-bottom">
+                            <span className="font-bold">Last updated at :</span> {getUpdatedAtDate()}
+                        </p>
+                    }
                 </div>
                 <div className="space-y-2">
                     {errors && Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (

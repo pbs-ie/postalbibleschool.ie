@@ -6,7 +6,16 @@ import DashboardResourceSection from "@/Components/Sections/DashboardResourceSec
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
 import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
 
-export default function Dashboard({ classrooms, canViewCurriculum = false, curriculumList }: { classrooms: any, canViewCurriculum: boolean, curriculumList?: CurriculumProps[] }) {
+import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
+
+
+interface DashboardProps {
+    classrooms: any,
+    canViewCurriculum: boolean,
+    curriculumList?: CurriculumProps[],
+    lessonOrder: LessonOrder,
+}
+export default function Dashboard({ classrooms, canViewCurriculum = false, curriculumList, lessonOrder }: DashboardProps) {
 
     return (
         <WrapperLayout>
@@ -14,6 +23,7 @@ export default function Dashboard({ classrooms, canViewCurriculum = false, curri
                 <DashboardSidebar />
                 <ContentWrapper title="School Hub" className="w-full">
                     <div className="flex flex-col lg:max-w-7xl w-full pr-4 mx-auto">
+                        <SchoolInformationSection lessonOrder={lessonOrder} />
                         <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
                         <CurriculumListSection curriculumList={curriculumList} />
                         <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
