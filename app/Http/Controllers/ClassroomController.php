@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use App\Models\Curriculum;
+use App\Models\FmLessonOrder;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Mail\ClassroomOrderChanged;
+use Illuminate\Support\Facades\Mail;
 
 
 class ClassroomController extends Controller
@@ -122,7 +125,20 @@ class ClassroomController extends Controller
     public function update(ClassroomRequest $classroomRequest, Classroom $classroom)
     {
         $validated = $classroomRequest->validated();
-        $classroom->updateOrFail($validated);
+
+        $oldClassroom = $classroom->replicate();
+        $classroom->fill($validated);
+
+        if ($classroom->isDirty()) {
+            $classroom->save();
+            $classroom->refresh();
+            $schoolName = FmLessonOrder::where('email', $classroom->email)->get()->value('schoolName');
+            try {
+                Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($oldClassroom, $classroom, $schoolName));
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
+        }
 
         return redirect()->route('dashboard')->with('success', "Changes have been updated");
     }
