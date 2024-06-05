@@ -11,6 +11,7 @@ import { modalHelper } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+import route from "ziggy-js";
 
 export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();

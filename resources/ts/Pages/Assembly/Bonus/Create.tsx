@@ -5,12 +5,10 @@ import InputLabel from "@/Elements/Forms/InputLabel";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
-
+import route from "ziggy-js";
 
 export default function Create() {
 

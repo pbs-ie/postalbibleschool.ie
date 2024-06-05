@@ -1,5 +1,6 @@
 import Heading3 from "@/Components/Typography/Heading3";
 import LessonDownloadButton from "@/Elements/Buttons/LessonDownloadButton";
+import route from "ziggy-js";
 
 export default function VideoAdditionalFilesComponent({ worksheetFiles = [], slideFiles = [] }: { worksheetFiles?: FileMeta[], slideFiles?: FileMeta[] }) {
     if (worksheetFiles.length === 0 && slideFiles.length === 0) {

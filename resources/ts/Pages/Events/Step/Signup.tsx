@@ -5,6 +5,7 @@ import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import StepWrapper from "@/Layouts/StepWrapper";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
+import route from "ziggy-js";
 
 export default function Signup({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const tableData: TableData[] = [

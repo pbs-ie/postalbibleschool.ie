@@ -15,6 +15,7 @@ import ResponsiveMenuItems from '@/Components/Navigation/ResponsiveMenuItems';
 import NavItem from './NavItem';
 import CaratDown from '@/Elements/Icons/CaratDown';
 import Cog6Tooth from '@/Elements/Icons/Cog6Tooth';
+import route from 'ziggy-js';
 
 export interface MenuItemsProps {
     name: string,

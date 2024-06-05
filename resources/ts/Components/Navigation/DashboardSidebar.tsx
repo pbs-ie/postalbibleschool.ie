@@ -4,14 +4,15 @@ import ResourceCard from "@/Components/Cards/ResourceCard";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import List from "@/Elements/Lists/List";
 import ListItem from "@/Elements/Lists/ListItem";
+import route from "ziggy-js";
 
 export default function DashboardSidebar() {
     return (
-        <div className="flex flex-col items-center p-10 bg-sky-100 w-full lg:w-72 mx-auto">
+        <div className="flex flex-col items-center w-full p-10 mx-auto bg-sky-100 lg:w-72">
             <span className="text-center">
                 <Heading2Alt>Additional Resources</Heading2Alt>
             </span>
-            {/* <div className="flex flex-wrap lg:flex-col gap-2 mx-auto"> */}
+            {/* <div className="flex flex-wrap gap-2 mx-auto lg:flex-col"> */}
             <List>
                 <ListItem>
                     <ResourceCard size="small" Icon={Play} href={route('assembly.index')} title="Assembly Videos" />

@@ -6,6 +6,7 @@ import ChevronRight from "@/Elements/Icons/ChevronRight";
 
 import { groupThemes } from '@/constants';
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import route from 'ziggy-js';
 
 export default function CourseCard({ heading, image, description, type = "bibletime", scrollTo, buttonText }: CourseContent) {
     const levelGroup = groupThemes[type];

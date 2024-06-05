@@ -1,4 +1,3 @@
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
@@ -8,6 +7,7 @@ import CampBanner from "@images/camp/camp_header.png";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import CampWrapper from "@/Layouts/CampWrapper";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
+import route from "ziggy-js";
 
 
 export default function Signup() {
@@ -34,7 +34,7 @@ export default function Signup() {
                 <ParagraphContainer className="mt-5">
                     <Paragraph className="text-left text-black">If you don't know anyone coming to camp, don't worry, we will do our best to introduce you to groups your own age, but if you do know others coming please don't forget to name on the Booking Form one person (not a leader) you would like to share a room with. If you list any more than one, it can make arranging the rooms very difficult. Further details about Holiday Week will be sent to you nearer the time, and you will be sent a receipt for your deposit.</Paragraph>
                 </ParagraphContainer>
-                <div className="flex items-stretch justify-center my-10 p-2 md:p-0">
+                <div className="flex items-stretch justify-center p-2 my-10 md:p-0">
                     <iframe className="w-full md:w-3/4 max-w-7xl h-[35rem]" src="https://docs.google.com/forms/d/e/1FAIpQLSdEmA2nUyNVz6Lzb5RxUctJLt3bOBPHp1PG7O-RoP3OCWnCVg/viewform">Loading…</iframe>
                 </div>
                 <ParagraphContainer className="text-right">

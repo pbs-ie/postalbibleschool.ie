@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { modalHelper } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import route from "ziggy-js";
 
 export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();

@@ -20,6 +20,7 @@ import { useScrollTo } from "@/helper";
 import Calendar from "@/Elements/Icons/Calendar";
 import PGSchedule from "@images/Public PRIZEGIVINGS 2024.pdf";
 import Location from "@/Elements/Icons/Location";
+import route from "ziggy-js";
 
 export default function Prizegivings({ queryParams }: { queryParams?: any }) {
 

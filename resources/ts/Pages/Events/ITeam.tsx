@@ -6,6 +6,7 @@ import { Head } from "@inertiajs/react";
 
 import Calendar from "@/Elements/Icons/Calendar";
 import EventCardBlock from "@/Components/Cards/EventCardBlock";
+import route from "ziggy-js";
 
 export interface ITeamSettingProps {
     dates: string;

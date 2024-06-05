@@ -1,4 +1,5 @@
 import NavLink from "@/Components/Navigation/NavLink";
+import route from "ziggy-js";
 
 export default function CampNavbar() {
     return (

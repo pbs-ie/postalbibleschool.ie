@@ -4,6 +4,7 @@ import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+import route from "ziggy-js";
 
 export default function NotFound() {
     return (

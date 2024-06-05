@@ -1,6 +1,7 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
+import route from "ziggy-js";
 
 export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwList: VideoListMeta[], bbooksList: VideoListMeta[], canEdit: boolean }) {
     return (

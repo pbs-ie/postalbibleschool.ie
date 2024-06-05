@@ -9,7 +9,7 @@ export default function ITeam({ iteamSettings }: { iteamSettings: ITeamSettingPr
     return (
         <SettingsLayout title={"iTeam Settings"}>
             <SettingsSidebar />
-            <section className="px-4 py-4 sm:px-6 lg:px-12 space-y-8">
+            <section className="px-4 py-4 space-y-8 sm:px-6 lg:px-12">
 
                 <div>
                     <Heading2Alt>Registration Details</Heading2Alt>

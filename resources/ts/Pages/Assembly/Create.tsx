@@ -11,6 +11,7 @@ import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer } from "react";
 import PlusHollow from "@/Elements/Icons/PlusHollow";
 import MinusCircle from "@/Elements/Icons/MinusCircle";
+import route from "ziggy-js";
 
 export interface AssemblyVideo {
     videoTitle: string,
@@ -163,7 +164,7 @@ export default function Create() {
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
-                                <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })}><span className="inline-flex gap-2 items-center">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
+                                <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })}><span className="inline-flex items-center gap-2">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -206,7 +207,7 @@ export default function Create() {
                                                 type: "removeValue",
                                                 idx: idx
                                             })}>
-                                            <span className="inline-flex gap-2 items-center">Remove Row <MinusCircle className="w-5 h-5" /></span>
+                                            <span className="inline-flex items-center gap-2">Remove Row <MinusCircle className="w-5 h-5" /></span>
                                         </SecondaryButton>
                                     </td>
                                 </tr>

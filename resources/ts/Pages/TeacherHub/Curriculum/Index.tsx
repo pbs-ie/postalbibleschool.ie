@@ -18,7 +18,7 @@ import { modalHelper } from "@/helper";
 import { router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-
+import route from "ziggy-js";
 
 
 export default function Index({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
@@ -77,14 +77,14 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
     return (
         <WrapperLayout>
             <PopupModal innerRef={dialogRef} onClose={closeModal}>
-                <article className="flex flex-col gap-4 lg:max-w-screen-lg max-w-screen-sm">
+                <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
                     <Heading2Nospace>Delete Curriculum?</Heading2Nospace>
                     <p>Are you sure you want to delete the curriculum :</p>
                     <p className="font-bold">{nameToDelete}</p>
-                    <div className="w-full flex justify-end gap-2">
+                    <div className="flex justify-end w-full gap-2">
                         <SecondaryButton onClick={() => closeModal()}>Cancel</SecondaryButton>
                         <BasicButton dataTest="confirm_delete_btn" hierarchy="delete" onClick={() => {
-                            router.delete(route('curriculum.destroy', idToDelete));
+                            router.delete(route('curriculum.destroy', idToDelete + ""));
                             closeModal();
                         }}>Delete</BasicButton>
                     </div>
@@ -102,7 +102,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                             <div className="flex gap-2">
 
                                 <ButtonLink size="small" Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
-                                <ButtonLink size="small" href={route('curriculum.sync')}><span className="flex gap-3 items-center">Update Filemaker <RefreshIcon /></span></ButtonLink>
+                                <ButtonLink size="small" href={route('curriculum.sync')}><span className="flex items-center gap-3">Update Filemaker <RefreshIcon /></span></ButtonLink>
                             </div>
 
                         </div>

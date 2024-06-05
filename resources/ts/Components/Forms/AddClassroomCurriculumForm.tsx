@@ -6,6 +6,7 @@ import RadioInput from "@/Elements/Forms/RadioInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router } from "@inertiajs/react";
 import { getIconForLessonType } from "@/helper";
+import route from "ziggy-js";
 
 export default function AddClassroomCurriculumForm({ curricula, classroomId, onClose }: { curricula: CurriculumProps[], classroomId: number, onClose: () => void }) {
     const tableDataMemo = useMemo(() => curricula, [curricula]);

@@ -6,6 +6,7 @@ import InputLabel from "@/Elements/Forms/InputLabel";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import route from "ziggy-js";
 
 export default function ContactUsForm() {
     const { data, setData, post, processing, errors, reset } = useForm({

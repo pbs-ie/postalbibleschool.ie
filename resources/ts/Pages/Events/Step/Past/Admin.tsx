@@ -14,6 +14,7 @@ import Heading2 from "@/Components/Typography/Heading2";
 import { modalHelper, truncateString } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import route from "ziggy-js";
 
 
 export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardProps[] }) {

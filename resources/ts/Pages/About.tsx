@@ -7,6 +7,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
+import route from "ziggy-js";
 
 export default function About() {
     return (

@@ -1,6 +1,6 @@
 import NavLink from "@/Components/Navigation/NavLink";
 import LogoWhite from "@images/step/step_logo.png";
-
+import route from "ziggy-js";
 
 export default function StepNavbar() {
     return (

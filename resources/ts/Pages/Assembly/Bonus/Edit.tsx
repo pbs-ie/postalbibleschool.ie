@@ -8,6 +8,7 @@ import ToastBanner from "@/Components/Forms/ToastBanner";
 import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
+import route from "ziggy-js";
 
 interface FullBonusVideo {
     id: number,

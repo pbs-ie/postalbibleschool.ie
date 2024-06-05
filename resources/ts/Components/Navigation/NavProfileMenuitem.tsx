@@ -4,6 +4,7 @@ import AnchorNavLink from "@/Components/Navigation/AnchorNavLink";
 import NavLink from "@/Components/Navigation/NavLink";
 import { useEffect, useRef, useState } from "react";
 import { usePage } from "@inertiajs/react";
+import route from "ziggy-js";
 
 export default function NavProfileMenuitem() {
     const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -55,7 +56,7 @@ export default function NavProfileMenuitem() {
                                 <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
                                 <div className='flex flex-col p-2'>
                                     <span className='text-sm font-bold text-slate-900'>{auth?.user?.name}</span>
-                                    <span className=' text-sm rounded-lg'>
+                                    <span className='text-sm rounded-lg '>
                                         {auth?.user.email}
                                     </span>
 
@@ -64,7 +65,7 @@ export default function NavProfileMenuitem() {
                             <ul className='flex flex-col'>
                                 <li className='inline-flex hover:bg-black/5'>
                                     <AnchorNavLink href={route('logout')} isDropdown>
-                                        <span className="flex gap-2 items-center font-normal">
+                                        <span className="flex items-center gap-2 font-normal">
                                             <LogoutIcon /> Log out
                                         </span>
                                     </AnchorNavLink>

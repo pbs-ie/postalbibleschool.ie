@@ -1,5 +1,6 @@
 import VideoGalleryCard from "@/Components/Cards/VideoGalleryCard";
 import Heading2 from "@/Components/Typography/Heading2";
+import route from "ziggy-js";
 
 export default function GalleryAssembly({ headingText, videoList }: { headingText?: string, videoList: VideoListMeta[] }) {
     const totalVideos = videoList.length;

@@ -11,6 +11,7 @@ import TooltipCard from "@/Components/Cards/TooltipCard";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 
+import route from "ziggy-js";
 
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
@@ -325,14 +326,14 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             </PopupModal>
 
             <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
-                <article className="flex flex-col gap-4 lg:max-w-screen-lg max-w-screen-sm">
+                <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
                     <Heading2Nospace>Delete Classroom?</Heading2Nospace>
                     <p>The classroom and all its related data will be removed. Are you sure you want to delete this classroom:</p>
                     <p className="font-bold">{`"${nameToDelete}"`}</p>
-                    <div className="w-full flex justify-end gap-2">
+                    <div className="flex justify-end w-full gap-2">
                         <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
                         <BasicButton dataTest="confirm_delete_button" hierarchy="delete" onClick={() => {
-                            router.delete(route('classroom.destroy', idToDelete));
+                            router.delete(route('classroom.destroy', idToDelete + ""));
                             closeDeleteModal();
                         }}>Delete</BasicButton>
                     </div>
@@ -340,7 +341,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             </PopupModal>
 
             <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
-                <div className="flex items-center justify-between gap-2 w-full pb-2">
+                <div className="flex items-center justify-between w-full gap-2 pb-2">
                     <span className="flex items-start gap-2">
                         <Heading2Alt>Participant numbers</Heading2Alt>
                         <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"top"}>
@@ -359,7 +360,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     ))
                     }
                     {classrooms.length === 0 ?
-                        <p className="text-gray-500 italic">No classroom found. Create a new one by clicking the button below.</p>
+                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button below.</p>
                         :
                         <AdvancedTable
                             data={tableDataMemo}

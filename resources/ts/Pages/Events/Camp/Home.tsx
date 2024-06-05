@@ -7,6 +7,7 @@ import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import { useState } from "react";
+import route from "ziggy-js";
 
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
 import CampFriends from "@images/camp/camp-friends-min.jpg";

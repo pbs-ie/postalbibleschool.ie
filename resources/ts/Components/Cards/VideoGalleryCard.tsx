@@ -1,4 +1,4 @@
-import Play from "@/Elements/Icons/PlayIcon";
+import route from "ziggy-js";
 
 interface GalleryCard {
     title: string;

@@ -2,6 +2,7 @@ import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFilesComponent";
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";
+import route from "ziggy-js";
 
 export default function Show({ pastEvent }: { pastEvent: { title: string, date: string, imageLink: string, videoContent: VideoMeta[], fileContent?: FileMeta[] } }) {
     let worksheetFiles = pastEvent.fileContent?.filter((fileData) => fileData.type === "document");

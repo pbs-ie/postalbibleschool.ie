@@ -6,8 +6,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-
-
+import route from "ziggy-js";
 
 export default function Index({ videoList, canViewGallery = false, canEdit = false }: { videoList: VideoListMeta[], canViewGallery: boolean, canEdit?: boolean }) {
     const { auth } = usePage<PassedProps>().props;

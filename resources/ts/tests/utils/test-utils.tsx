@@ -6,13 +6,13 @@ import route from "@ziggy/dist";
 
 const WrapperProviders = ({ children }: { children: React.ReactNode }) => {
 
-    globalThis.route = (name?: string | undefined, params?: any) => {
-        if (name === undefined) {
-            return route(undefined, params, undefined, Ziggy);
-        } else {
-            return route(name, params, undefined, Ziggy);
-        }
-    };
+    // globalThis.route = (name?: string | undefined, params?: any) => {
+    //     if (name === undefined) {
+    //         return route(undefined, params, undefined, Ziggy);
+    //     } else {
+    //         return route(name, params, undefined, Ziggy);
+    //     }
+    // };
     return (
         <>
             {children}

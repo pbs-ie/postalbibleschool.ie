@@ -1,6 +1,5 @@
-import { Link } from "@inertiajs/react";
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import route from "ziggy-js";
 
 export default function RequestLessonBanner() {
     return (

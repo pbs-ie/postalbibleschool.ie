@@ -1,6 +1,7 @@
 import List from "@/Elements/Lists/List";
 import ListItem from "@/Elements/Lists/ListItem";
 import SidebarLink from "@/Elements/Links/SidebarLink";
+import route from "ziggy-js";
 
 export default function SettingsSidebar() {
     return (

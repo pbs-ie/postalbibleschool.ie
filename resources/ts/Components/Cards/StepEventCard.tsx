@@ -1,6 +1,7 @@
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import route from "ziggy-js";
 
 export interface PastEventCardProps {
     id: number;
