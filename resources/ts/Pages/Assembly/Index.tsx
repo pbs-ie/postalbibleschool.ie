@@ -48,11 +48,11 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                         ))}
                     </ul>
                 </div>
-            </section>
 
-            {auth && auth.user && canViewGallery &&
-                <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
-            }
+                {auth && auth.user && canViewGallery &&
+                    <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
+                }
+            </section>
 
         </WrapperLayout>
     )
