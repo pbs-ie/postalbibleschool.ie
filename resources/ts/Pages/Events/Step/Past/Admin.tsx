@@ -12,6 +12,7 @@ import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import Heading2 from "@/Components/Typography/Heading2";
+import { truncateString } from "@/helper";
 
 
 export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardProps[] }) {
@@ -45,11 +46,11 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
     const columnHelper = createColumnHelper<PastEventCardProps>();
 
     const defaultColumns = [
-        columnHelper.accessor(row => row.id, {
-            header: 'ID'
+        columnHelper.accessor(row => row.id + "", {
+            header: 'ID',
         }),
         columnHelper.display({
-            id: 'Image',
+            id: 'image',
             header: 'Thumbnail',
             cell: ({ row }) => (
                 <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Image for " + row.original.title} />
@@ -61,8 +62,12 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
         columnHelper.accessor(row => row.date, {
             header: 'Date',
         }),
-        columnHelper.accessor(row => row.description, {
+        columnHelper.display({
+            id: 'description',
             header: 'Description',
+            cell: ({ row }) => (
+                <p title={row.original.description} className="font-normal whitespace-normal w-40 lg:w-80">{truncateString(row.original.description, 40)}</p>
+            )
         }),
         columnHelper.display({
             id: 'actions',
@@ -75,7 +80,7 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
                 </div>
             )
         })
-    ]
+    ];
 
     return (
         <WrapperLayout>

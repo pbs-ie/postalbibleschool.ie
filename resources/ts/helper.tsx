@@ -1,6 +1,8 @@
 import { gleanersSeriesNames } from "@/constants";
-import { useEffect } from "react";
-import { scroller } from "react-scroll";
+import { useEffect, useRef, useState } from "react";
+import { animateScroll, scroller } from "react-scroll";
+import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon";
+import Newspaper from "@/Elements/Icons/Newspaper";
 
 interface propertyItem {
     link: string;
@@ -97,6 +99,9 @@ export const getLastElementsOfArray = (array: any[], number: number) => array.sl
 export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size: Button["size"]) => {
     let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-300".split(' ');
 
+    //Form entry related css
+    classList.push(...("disabled:bg-slate-50 disabled:border-slate-200 disabled:border disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500".split(' ')));
+
     switch (hierarchy) {
         case "primary":
             classList.push(...("drop-shadow-md text-white bg-pbsblue focus:bg-blue-700 focus:drop-shadow-lg  hover:bg-blue-700 hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md active:bg-blue-700".split(' ')));
@@ -109,6 +114,9 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
             break;
         case "transparent":
             classList.push(...("text-blue-800 bg-transparent focus:underline hover:underline active:underline".split(' ')));
+            break;
+        case "delete":
+            classList.push(...("drop-shadow-md text-white bg-red-500 focus:bg-red-700 focus:drop-shadow-lg  hover:bg-red-700 hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md active:bg-red-700".split(' ')));
     }
 
     switch (size) {
@@ -144,4 +152,43 @@ export const useScrollTo = (to: string, props: any) => {
             }, 100);
         }
     }, [to]);
+}
+
+export const modalHelper = () => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const [currentY, setCurrentY] = useState(0);
+    const showModal = () => {
+        let tempY = Math.round(window.scrollY);
+        setCurrentY(tempY);
+        dialogRef.current?.showModal();
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${tempY}px`;
+    }
+    const closeModal = () => {
+        dialogRef.current?.close();
+        document.body.style.overflow = "unset";
+        document.body.style.position = '';
+        document.body.style.top = '';
+        animateScroll.scrollTo(currentY || 0, {
+            duration: 0,
+        });
+    }
+    return { dialogRef, showModal, closeModal };
+}
+
+// ************* Curriculum Helper ************
+const mapLessonTypeToIcon = {
+    paper: <span title="paper">
+        <Newspaper />
+    </span>,
+    digital: <span title="digital">
+        <DeviceTabletIcon className="w-6 h-6 text-blue-800" />
+    </span>
+}
+
+export const getIconForLessonType = (lessonType?: "paper" | "digital") => {
+    if (lessonType) {
+        return mapLessonTypeToIcon[lessonType]
+    }
+    return "";
 }

@@ -2,7 +2,7 @@ import { getButtonClassNamesAsString } from "@/helper";
 import { Link } from "@inertiajs/react";
 
 
-export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon }: Omit<ButtonLinkProps, "isExternalLink">) {
+export default function ButtonLink({ hierarchy = "primary", size = "medium", href, children, Icon, dataTest }: Omit<ButtonLinkProps, "isExternalLink">) {
     return (
         <>
             <Link
@@ -10,6 +10,7 @@ export default function ButtonLink({ hierarchy = "primary", size = "medium", hre
                 type="button"
                 className={getButtonClassNamesAsString(hierarchy, size)}
                 href={href}
+                data-test={dataTest}
             >
                 <span className="flex items-center gap-2">
                     <span>{children}</span>{Icon && <Icon />}

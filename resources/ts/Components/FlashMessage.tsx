@@ -7,6 +7,15 @@ export default function FlashMessage() {
     const [showNotifs, setShowNotifs] = useState(false);
     const { flash } = usePage<PassedProps>().props;
 
+    const getBgColor = () => {
+        if (flash.failure)
+            return "bg-red-700"
+        if (flash.warning)
+            return "bg-orange-500"
+        if (flash.success)
+            return "bg-green-600";
+    }
+
     useEffect(() => {
         setShowNotifs(true);
         setTimeout(() => {
@@ -16,9 +25,9 @@ export default function FlashMessage() {
 
     return (
         <div className="relative">
-            {(flash.success || flash.failure) &&
+            {(flash.success || flash.failure || flash.warning) &&
                 <div className={`fixed ${showNotifs ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0 pointer-events-none"} transition-[opacity,transform] duration-1000 ease-in top-10 md:top-auto right-2 md:right-6 md:bottom-10 z-30`}>
-                    <div className={`max-w-80 w-full  ml-2 md:ml-0 overflow-auto bg-blue-500 text-gray-50 ${flash.failure ? "bg-red-700" : "bg-green-600"} rounded py-4 px-6 relative`}>
+                    <div className={`max-w-80 w-full  ml-2 md:ml-0 overflow-auto bg-blue-500 text-gray-50 ${getBgColor()} rounded py-4 px-6 relative`}>
                         <button className="absolute right-2" onClick={() => setShowNotifs(false)}><CloseX className="w-6 h-6" /></button>
                         {flash.success &&
                             <div className="flex items-center gap-5 mr-10">
@@ -43,9 +52,22 @@ export default function FlashMessage() {
                                 </div>
                             </div>
                         }
+                        {
+                            flash.warning &&
+                            <div className="flex items-center gap-5 mr-10">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                    <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+                                </svg>
+                                <div>
+                                    <h3 className="text-lg">Warning</h3>
+                                    <p className="text-sm">{flash.warning}</p>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </div >
+                </div>
             }
-        </div >
+        </div>
     )
 }

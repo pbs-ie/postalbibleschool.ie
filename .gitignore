@@ -15,8 +15,8 @@ composer.lock
 !package-lock.json
 
 .env
-.env.backup
-.env.production
+.env.*
+!.env.example
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -32,3 +32,6 @@ yarn-error.log
 
 ### Localhost SSL files ###
 *.pem
+
+### Cypress files ###
+cypress.env.json

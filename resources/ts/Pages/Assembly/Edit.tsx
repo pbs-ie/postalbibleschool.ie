@@ -9,6 +9,8 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm, Link } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer, useRef } from "react";
+import PlusHollow from "@/Elements/Icons/PlusHollow";
+import MinusCircle from "@/Elements/Icons/MinusCircle";
 
 interface VideoEdit {
     title: string,
@@ -175,7 +177,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
-                                <th><SecondaryButton onClick={() => handleRowChange({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
+                                <th><SecondaryButton onClick={() => handleRowChange({ type: "addValue" })} ><span className="inline-flex gap-2 items-center">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -231,8 +233,8 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                                 type: "removeValue",
                                                 idx: idx
                                             })}
-                                            className="bg-red-200 before:content-['-'] before:pr-1 before:text-lg">
-                                            Remove Row
+                                        >
+                                            <span className="inline-flex gap-2 items-center">Remove Row <MinusCircle className="w-5 h-5" /></span>
                                         </SecondaryButton>
                                     </td>
                                 </tr>
@@ -242,7 +244,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink hierarchy="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
+                        <PrimaryButton type="submit" processing={processing}>Update</PrimaryButton>
                     </div>
 
                 </form>

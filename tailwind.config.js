@@ -13,9 +13,9 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Roboto", "Nunito", ...defaultTheme.fontFamily.sans],
-                serif: ["Cardo", ...defaultTheme.fontFamily.serif],
+                serif: ["Bitter", ...defaultTheme.fontFamily.serif],
                 subtitle: ["Lato", ...defaultTheme.fontFamily.sans],
-                title: ["Roboto Slab", ...defaultTheme.fontFamily.serif],
+                title: ["Bitter", ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 "bibletime-pink": "#c551b4",
@@ -27,6 +27,15 @@ module.exports = {
                 teenspace: "#f07878",
                 lifespace: "#6edcc8",
                 pbsblue: "#2A62E7",
+            },
+            animation: {
+                "expand-in": "expand-in 0.2s ease-in-out 1",
+            },
+            keyframes: {
+                "expand-in": {
+                    "0%": { transform: "translateY(-10%)", opacity: 0 },
+                    "100%": { transform: "translateY(0%)", opacity: 1 },
+                },
             },
         },
     },

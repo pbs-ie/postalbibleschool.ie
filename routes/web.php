@@ -10,13 +10,19 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
+use App\Http\Controllers\ClassroomController;
+// use App\Http\Controllers\StudentController;
+use App\Models\Classroom;
+use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
+use App\Models\FmLessonOrder;
 use App\Settings\ITeamSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\CurriculumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,18 +168,59 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
 });
 
 Route::get('/dashboard', function () {
-    if (!auth()->check()) {
-        return response('You are not logged in.');
-    }
-    return Inertia::render('Dashboard');
+    $classroomList = Classroom::current();
+    // $curriculumList = Curriculum::current();
+    $classroomList->each(fn($obj) => (
+        $obj->setAttribute('curriculum_name', $obj->curriculum()->select('name')->find($obj->curriculum_id)->name)
+    ));
+    return Inertia::render('Dashboard', [
+        'classrooms' => $classroomList,
+        'canViewCurriculum' => Gate::allows('view:curriculum'),
+        'curriculumList' => Curriculum::current(),
+        'lessonOrder' => FmLessonOrder::where('email', auth()->user()->email)->first()
+    ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
+// TODO: Revealed route with Digital lessons features 
+// Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
+//     Route::get('/', [StudentController::class, 'index'])->name('index');
+//     Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
+// });
+
+
+Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
+    // Route::prefix('students')->name('students.')->group(function () {
+    //     Route::post('/add', [StudentController::class, 'addStudentsToClassroom'])->name('store');
+    //     Route::post('/remove', [StudentController::class, 'removeStudentsFromClassroom'])->name('destroy');
+    // });
+    Route::controller(ClassroomController::class)->group(function () {
+        Route::post('curriculum/store', 'curriculumStore')->name('curriculum.store');
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/create', 'create')->name('create');
+        // Route::get('/{classroom}', 'show')->name('show');
+        Route::get('/{classroom}/edit', 'edit')->name('edit');
+        Route::post('/{classroom}', 'update')->name('update');
+        Route::delete('/{classroom}', 'destroy')->name('destroy');
+    });
+});
+
+Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(function () {
+    Route::get('/', [CurriculumController::class, 'index'])->name('index')->can('view:curriculum');
+    Route::post('/', [CurriculumController::class, 'store'])->name('store')->can('create:curriculum');
+    Route::get('/sync', [CurriculumController::class, 'updateCurriculumTable'])->name('sync')->can('create:curriculum');
+    Route::get('/create', [CurriculumController::class, 'create'])->name('create')->can('create:curriculum');
+    Route::get('/{curriculum}', [CurriculumController::class, 'show'])->name('show')->can('view:curriculum');
+    Route::get('/{curriculum}/edit', [CurriculumController::class, 'edit'])->name('edit')->can('create:curriculum');
+    Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
+    Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
+});
 Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync')->can('create:orders');
-    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show')->can('view:orders');
-    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
-    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
+    // Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show')->can('view:orders');
+    // Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
+    // Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
 });
 
 // ************* PAYMENT ROUTES *****************

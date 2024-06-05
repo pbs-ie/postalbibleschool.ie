@@ -15,7 +15,12 @@ const jestConfig: JestConfigWithTsJest = {
     transformIgnorePatterns: [
         "/vendor/tightenco/ziggy"
     ],
-    setupFilesAfterEnv: ["./jest-setup.ts"]
+    setupFilesAfterEnv: ["./jest-setup.ts"],
+    moduleDirectories: [
+        'node_modules',
+        'tests/utils',
+        __dirname
+    ]
 };
 
 export default jestConfig;

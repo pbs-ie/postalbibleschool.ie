@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Http\Services\LessonOrderService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +17,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            (new LessonOrderService)->populateOrdersFromFilemaker();
+        })->daily()->onFailure(function () {
+            Log::alert("Populate Orders from Filemaker failed");
+        });
     }
 
     /**
@@ -25,7 +31,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

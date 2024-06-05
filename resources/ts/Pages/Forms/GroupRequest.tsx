@@ -38,7 +38,7 @@ export default function GroupRequest() {
     }, []);
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLFormElement | HTMLSelectElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "firstname":
             case "lastname":
@@ -240,7 +240,7 @@ export default function GroupRequest() {
                     </div>
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <SecondaryButton onClick={() => window.history.back()}>Go Back</SecondaryButton>
-                        <PrimaryButton type="submit" className="w-1/3" processing={processing}>Request a Lesson</PrimaryButton>
+                        <PrimaryButton type="submit" processing={processing}>Request a Lesson</PrimaryButton>
                     </div>
                 </form>
             </div>

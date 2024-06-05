@@ -1,6 +1,6 @@
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col max-w-30 p-2 m-2">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(5rem,auto)_1fr]">
             {children}
         </div>
     )

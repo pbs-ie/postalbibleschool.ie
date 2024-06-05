@@ -18,7 +18,8 @@
         "paths": {
             "@/*": ["resources/ts/*"],
             "@images/*": ["resources/images/*"],
-            "@ziggy/*": ["vendor/tightenco/ziggy/*"]
+            "@ziggy/*": ["vendor/tightenco/ziggy/*"],
+            "test-utils": ["resources/ts/tests/utils/test-utils"]
         },
         "types": ["vite/client", "jest"],
         "esModuleInterop": true,
@@ -32,5 +33,5 @@
         "jest-setup.ts",
         "vendor/tightenco/**/*"
     ],
-    "exclude": ["node_modules", "public"]
+    "exclude": ["cypress.config.ts", "cypress", "node_modules", "public"]
 }

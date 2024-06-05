@@ -1,7 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import React, { FormEvent, useEffect } from "react";
 
-import InputError from "@/Components/Forms/InputError";
+import InputError from "@/Elements/Forms/InputError";
 import InputLabel from "@/Elements/Forms/InputLabel";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 import TextInput from "@/Elements/Forms/TextInput";
@@ -20,7 +20,7 @@ export default function ContactUsForm() {
     }, [])
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         switch (event.target.name) {
             case "name":
             case "contactName":
@@ -81,7 +81,7 @@ export default function ContactUsForm() {
                     />
                     <InputError message={errors.contactDescription} className="mt-2" />
                 </div>
-                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" className="w-1/3 md:w-1/4" processing={processing}>Submit</PrimaryButton></div>
+                <div className="inline-flex justify-end w-full mt-4"><PrimaryButton type="submit" processing={processing}>Submit</PrimaryButton></div>
             </form>
         </div>
     )

@@ -1,27 +1,35 @@
-import ResourceCard from "@/Components/Cards/ResourceCard";
-import Group from "@/Elements/Icons/Group";
-import School from "@/Elements/Icons/SchoolIcon";
-import Video from "@/Elements/Icons/VideoCamera";
-import Heading2 from "@/Components/Typography/Heading2";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { usePage } from "@inertiajs/react";
+import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
+import SidebarLayout from "@/Layouts/SidebarLayout";
+import DashboardResourceSection from "@/Components/Sections/DashboardResourceSection";
+import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
+import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
 
-export default function Dashboard() {
-    const { auth } = usePage<PassedProps>().props;
+import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
+
+
+interface DashboardProps {
+    classrooms: any,
+    canViewCurriculum: boolean,
+    curriculumList?: CurriculumProps[],
+    lessonOrder: LessonOrder,
+}
+export default function Dashboard({ classrooms, canViewCurriculum = false, curriculumList, lessonOrder }: DashboardProps) {
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="The Hub">
-                <div className="flex flex-col items-center gap-2">
-                    <Heading2>Resources</Heading2>
-                    <div className="flex gap-4">
-                        <ResourceCard Icon={Group} href={route('assembly.index')} title="Assembly Videos" />
-                        <ResourceCard Icon={Video} href={route('assembly.bonus.index')} title="Bonus Videos" />
-                        <ResourceCard Icon={School} href={route('orders.index')} title="Monthly Orders" />
+            <SidebarLayout>
+                <DashboardSidebar />
+                <ContentWrapper title="School Hub" className="w-full">
+                    <div className="flex flex-col lg:max-w-7xl w-full pr-4 mx-auto">
+                        <SchoolInformationSection lessonOrder={lessonOrder} />
+                        <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
+                        <CurriculumListSection curriculumList={curriculumList} />
+                        <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
                     </div>
-                </div>
-            </ContentWrapper>
+                </ContentWrapper>
+            </SidebarLayout>
         </WrapperLayout>
     )
 }

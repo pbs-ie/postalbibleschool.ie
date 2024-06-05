@@ -12,7 +12,7 @@ export default function RadioInput({ className = "", checked, ariaLabelledBy, ha
             {...props}
             type="radio"
             className={
-                `border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out mr-1 ` +
+                `border-gray-400 bg-clip-padding focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm transition ease-in-out ` +
                 className
             }
             checked={checked}

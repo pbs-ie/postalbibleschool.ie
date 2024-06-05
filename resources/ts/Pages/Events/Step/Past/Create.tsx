@@ -114,7 +114,7 @@ export default function Create() {
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Create</PrimaryButton>
+                        <PrimaryButton type="submit" processing={processing}>Create</PrimaryButton>
                     </div>
 
                 </form>

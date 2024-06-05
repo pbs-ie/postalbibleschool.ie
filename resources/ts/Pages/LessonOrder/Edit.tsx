@@ -3,7 +3,6 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import NumberInput from "@/Elements/Forms/NumberInput";
-import TextInput from "@/Elements/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
@@ -100,7 +99,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
                                 <ButtonLink hierarchy="secondary" href={route('orders.index')}>Cancel</ButtonLink>
-                                <PrimaryButton type="submit" className="w-1/3" processing={processing}>Update</PrimaryButton>
+                                <PrimaryButton type="submit" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>
                     </div>

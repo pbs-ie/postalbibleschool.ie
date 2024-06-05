@@ -1,11 +1,27 @@
-import { SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import { ChangeEvent, useState } from "react";
+import { ColumnDef, ColumnFiltersState, OnChangeFn, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
+import ChevronUp from "@/Elements/Icons/ChevronUp";
+import ChevronDown from "@/Elements/Icons/ChevronDown";
+import Filter from "./Filter";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 
-export default function AdvancedTable({ data, columns }: { data: any, columns: any }) {
+interface AdvancedTableProps<TData, TValue> {
+    data: TData[],
+    columns: ColumnDef<TData, TValue>[],
+    enableGlobalFilter?: boolean,
+    enableColumnFilters?: boolean,
+    enableRowSelection?: boolean,
+    enableSorting?: boolean,
+    rowSelection?: RowSelectionState,
+    searchPlaceholder?: string,
+    setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
+}
+export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableColumnFilters = false, enableRowSelection = false, enableSorting = true, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const table = useReactTable({
         data: data,
@@ -13,84 +29,106 @@ export default function AdvancedTable({ data, columns }: { data: any, columns: a
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getFacetedUniqueValues: getFacetedUniqueValues(),
         state: {
             sorting: sorting,
-            globalFilter: filtering
+            globalFilter: filtering,
+            rowSelection: rowSelection,
+            columnFilters: columnFilters
         },
         onSortingChange: setSorting,
-        onGlobalFilterChange: setFiltering
+        onGlobalFilterChange: setFiltering,
+        enableRowSelection: enableRowSelection,
+        enableGlobalFilter: enableGlobalFilter,
+        enableSorting: enableSorting,
+        enableColumnFilters: enableColumnFilters,
+        onRowSelectionChange: setRowSelection,
+        onColumnFiltersChange: setColumnFilters
     });
 
     return (
         <>
-            <div className="flex items-center gap-2 mb-2">
-                <InputLabel2 forInput={"filter"} value={"Filter :"} />
-                <TextInput
-                    placeholder="Search"
-                    type={"text"}
-                    name={"filter"}
-                    id={"filter"}
-                    value={filtering}
-                    className={""}
-                    handleChange={(e: ChangeEvent<HTMLInputElement>) => setFiltering(e.target.value)}
-                ></TextInput>
-            </div>
-            <table className="w-full text-base text-left border border-black table-auto">
-                <thead className="font-normal text-gray-500 border-b border-gray-400">
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th className="p-2" key={header.id}>
-                                    {header.isPlaceholder ? null : (
-                                        <div className={header.column.getCanSort()
-                                            ? 'cursor-pointer select-none'
-                                            : ''}
-                                            onClick={header.column.getToggleSortingHandler()}
-                                        >
-                                            {flexRender(
-                                                header.column.columnDef.header,
+            {enableGlobalFilter &&
+                <div className="flex items-center gap-2 mb-2 ">
+                    <InputLabel2 forInput={"filter"} value={"Filter :"} />
+                    <TextInput
+                        placeholder={searchPlaceholder ?? "Search all columns..."}
+                        type={"text"}
+                        name={"filter"}
+                        id={"filter"}
+                        value={filtering}
+                        className={""}
+                        handleChange={(e: ChangeEvent<HTMLInputElement>) => setFiltering(e.target.value)}
+                    ></TextInput>
+                </div>
+            }
+            <div className="relative overflow-auto max-h-96">
+                <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                    <thead className="bg-gray-100 sticky top-0">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map(header => (
+                                    // @ts-ignore Meta may have className
+                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 pl-4"} key={header.id}>
+                                        {header.isPlaceholder ? null : (
+                                            <div className="flex flex-col">
+                                                <div className={header.column.getCanSort()
+                                                    ? 'cursor-pointer select-none inline-flex items-center gap-2'
+                                                    : ''}
+                                                    onClick={header.column.getToggleSortingHandler()}
+                                                >
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                    {header.column.getCanSort() && {
+                                                        asc: <ChevronUp className="h-4 w-4" />,
+                                                        desc: <ChevronDown className="h-4 w-4" />,
+                                                        none: <ChevronUpDown className="h-4 w-4" />,
+                                                    }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
+                                                </div>
+                                                {header.column.getCanFilter() && (
+                                                    <Filter column={header.column} />
+                                                )
+                                                }
+                                            </div>
+                                        )}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200 max-h-96 overflow-y-auto">
+                        {table.getRowModel().rows.map(row => (
+                            <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
+                                {row.getVisibleCells().map(cell => (
+                                    <td className="p-2 px-4 w-2 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
+                                        <div className="flex items-center">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </div>
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        {table.getFooterGroups().map(footerGroup => (
+                            <tr className="bg-gray-100" key={footerGroup.id}>
+                                {footerGroup.headers.map(header => (
+                                    <th className={header.column.columnDef.footer ? "text-left p-2 px-4" : ""} key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.footer,
                                                 header.getContext()
                                             )}
-                                            {header.column.getCanSort() && {
-                                                asc: ' 🔼',
-                                                desc: ' 🔽',
-                                                none: ' ↕️',
-                                            }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
-                                        </div>
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => (
-                        <tr className="even:bg-gray-100" key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <td className="px-2 min-w-[50px]" key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-                <tfoot>
-                    {table.getFooterGroups().map(footerGroup => (
-                        <tr key={footerGroup.id}>
-                            {footerGroup.headers.map(header => (
-                                <th key={header.id}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.footer,
-                                            header.getContext()
-                                        )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </tfoot>
-            </table>
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </tfoot>
+                </table>
+            </div>
         </>
     )
 }

@@ -1,4 +1,22 @@
-# 1.2.2 (2024-05-27)
+# 1.3.1 (2024-05-30)
+
+- Disabled student related functionality for first release
+  - Teachers can create classrooms and modify participation numbers
+  - One default curriculum that cannot be changed
+- Dashboard updated to show school contact information and old order details
+
+## 1.3.0 (2024-02-01)
+
+- New Hub for teachers with added functionality
+  - Teachers can now view their student list from internal database
+  - Teachers can create classrooms to add order numbers based on classrooms
+  - They can allocate a curriculum to classrooms
+  - Separates school related actions from additional resources on The Hub
+- Admin functionality
+  - CRUD new curriculum
+  - Update internal database with current student-curriculum status
+
+## 1.2.2 (2024-05-27)
 
 - iTeam 2024 event update
 

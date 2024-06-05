@@ -140,7 +140,7 @@ export default function Edit({ videoData }: { videoData: FullBonusVideo }) {
 
                     <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                         <ButtonLink hierarchy="secondary" href={route('assembly.bonus.admin')}>Cancel</ButtonLink>
-                        <PrimaryButton type="submit" className="w-60" processing={processing}>Update</PrimaryButton>
+                        <PrimaryButton type="submit" processing={processing}>Update</PrimaryButton>
                     </div>
 
                 </form>

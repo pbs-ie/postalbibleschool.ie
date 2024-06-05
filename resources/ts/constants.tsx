@@ -45,20 +45,23 @@ declare global {
     }
     interface Button {
         type?: "submit" | "button" | "reset";
-        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent";
+        hierarchy?: "primary" | "secondary" | "tertiary" | "transparent" | "delete";
         size?: "xsmall" | "small" | "medium" | "large";
         processing?: boolean;
         children: string | React.ReactNode;
         onClick?: React.MouseEventHandler<HTMLButtonElement>;
-        className?: string;
+        formMethod?: string;
+        form?: string;
+        dataTest?: string;
     }
     interface ButtonLinkProps {
-        hierarchy?: "primary" | "secondary";
+        hierarchy?: Button["hierarchy"];
         size?: Button["size"];
         href: string;
         children: React.ReactNode;
         Icon?: Icon["props"];
         isExternalLink?: boolean;
+        dataTest?: string;
     }
     interface PassedProps extends PageProps {
         errors: Errors & ErrorBag;
@@ -74,6 +77,7 @@ declare global {
         flash: {
             success?: string;
             failure?: string;
+            warning?: string;
         }
     }
     interface VideoListMeta {
@@ -108,17 +112,32 @@ declare global {
         email: string;
         schoolName: string;
         schoolType: string;
+        contactName: string;
         level0Order: number;
         level1Order: number;
         level2Order: number;
         level3Order: number;
         level4Order: number;
         tlpOrder: number;
+        address: string;
     }
     interface Icon {
         props: ({ className }: {
             className?: string;
         }) => JSX.Element
+    }
+    interface ClassroomProps {
+        id: number,
+        name: string,
+        curriculum_name: string,
+        curriculum_id: number,
+        level_0_order: number,
+        level_1_order: number,
+        level_2_order: number,
+        level_3_order: number,
+        level_4_order: number,
+        tlp_order: number,
+        updated_at: string
     }
 
     interface StepSettingsProps {
@@ -131,6 +150,24 @@ declare global {
         isActive: boolean;
         eventImage?: File | null;
         eventImageLink?: string,
+    }
+
+    interface CurriculumProps {
+        name: string,
+        email: string,
+        jan_lesson?: "paper" | "digital",
+        feb_lesson?: "paper" | "digital",
+        mar_lesson?: "paper" | "digital",
+        apr_lesson?: "paper" | "digital",
+        may_lesson?: "paper" | "digital",
+        jun_lesson?: "paper" | "digital",
+        sep_lesson?: "paper" | "digital",
+        oct_lesson?: "paper" | "digital",
+        nov_lesson?: "paper" | "digital",
+        dec_lesson?: "paper" | "digital",
+        curriculum_type: "paper" | "digital",
+        digital_count: number,
+        id: number
     }
 }
 
@@ -240,7 +277,35 @@ export const bibleTimeLevels = [
         description: <><p>Advanced Bible readings, more complex question and key verses to learn</p></>
     }
 ];
-export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+export type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
+export const monthLessonMap: { [key in MonthKeys]: string } = {
+    "jan_lesson": "A1",
+    "feb_lesson": "A2",
+    "mar_lesson": "A3",
+    "apr_lesson": "A4",
+    "may_lesson": "A5",
+    "jun_lesson": "A6",
+    "sep_lesson": "C9",
+    "oct_lesson": "C10",
+    "nov_lesson": "C11",
+    "dec_lesson": "C12",
+}
+export const monthMap: { [key in MonthKeys]: MonthNames[number] } = {
+    "sep_lesson": monthNames[8],
+    "oct_lesson": monthNames[9],
+    "nov_lesson": monthNames[10],
+    "dec_lesson": monthNames[11],
+    "jan_lesson": monthNames[0],
+    "feb_lesson": monthNames[1],
+    "mar_lesson": monthNames[2],
+    "apr_lesson": monthNames[3],
+    "may_lesson": monthNames[4],
+    "jun_lesson": monthNames[5],
+}
+
 export const seriesNames: SeriesName[] = [
     { name: "A series", code: "A", tagClass: "" },
     { name: "B series", code: "B", tagClass: "" },
