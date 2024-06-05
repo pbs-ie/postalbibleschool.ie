@@ -1,40 +1,21 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import { router } from "@inertiajs/core";
-import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
+import { modalHelper } from "@/helper";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 
 export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }) {
-    const [toggleModal, setToggleModal] = useState(false);
-    const [idToDelete, setIdToDelete] = useState<null | number>(null);
-    const [nameToDelete, setNameToDelete] = useState<null | string>(null);
-
-
-    const showModal = (id: number) => {
-        setIdToDelete(id);
-        setToggleModal(true);
-        setNameToDelete(videoList[id].monthTitle);
-    }
-
-    const handleOnClose = () => {
-        setIdToDelete(null);
-        setToggleModal(false);
-    }
-
-    const handleSubmit = () => {
-        if (idToDelete !== null) {
-            router.delete(route('assembly.bonus.destroy', idToDelete));
-        } else {
-            console.error('Could not find that entry. Please contact administrator');
-        }
-        setToggleModal(false);
-    }
+    const [idToDelete, setIdToDelete] = useState<number>();
+    const [nameToDelete, setNameToDelete] = useState<string>();
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
     const tableDataMemo = useMemo(() => videoList, [videoList]);
 
@@ -45,7 +26,7 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
             id: 'Image',
             header: 'Thumbnail',
             cell: ({ row }) => (
-                <img className="w-40" src={row.original.imageLink} alt={"Image for " + row.original.monthTitle} />
+                <img className="w-40" src={row.original.imageLink} alt={"Thumbnail for " + row.original.monthTitle} />
             )
         }),
         columnHelper.accessor(row => row.monthTitle, {
@@ -62,10 +43,22 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
             id: 'actions',
             header: 'Actions',
             cell: ({ row }) => (
-                <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id)}><Trash className="w-6 h-6" /> Delete</button>
+                <div className="flex items-center">
+                    <IconHoverSpan>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <BasicButton dataTest={"bonus_assembly_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
+                            setIdToDelete(row.original.id);
+                            setNameToDelete(row.original.monthTitle);
+                            showModal();
+                        }}><span className="flex flex-col items-center text-red-500">
+                                <Trash key={row.id} />Delete
+                            </span></BasicButton>
+                    </IconHoverSpan>
                 </div>
             )
         })
@@ -73,7 +66,17 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
 
     return (
         <BonusAssemblyWrapper title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
-            <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
+            <DeleteDialogCard
+                dialogRef={dialogRef}
+                closeModal={closeModal}
+                onSubmit={() => {
+                    router.delete(route('assembly.bonus.destroy', idToDelete));
+                    closeModal();
+                }}
+                title="Delete Bonus Video?"
+                message="Are you sure you want to delete this video:"
+                nameToDelete={nameToDelete}
+            />
             <div className="flex justify-end w-full">
                 <ButtonLink href={route('assembly.bonus.create')}>Add video</ButtonLink>
             </div>
