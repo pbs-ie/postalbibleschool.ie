@@ -27,7 +27,7 @@ declare global {
     //     absolute?: boolean,
     //     config?: Config,
     // ): string;
-    function route(name?: string, params?: any): any;
+    function route(name?: string, params?: any): string;
 
     interface GroupThemes {
         tagCode: string;

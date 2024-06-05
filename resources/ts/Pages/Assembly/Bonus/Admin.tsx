@@ -4,12 +4,11 @@ import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
 import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
 
 export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }) {
     const [toggleModal, setToggleModal] = useState(false);
@@ -73,17 +72,15 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
     ]
 
     return (
-        <WrapperLayout>
+        <BonusAssemblyWrapper title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
             <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
-            <ContentWrapper title="Admin - Bonus Videos" >
-                <div className="flex justify-end w-full">
-                    <ButtonLink href={route('assembly.bonus.create')}>Add video</ButtonLink>
-                </div>
+            <div className="flex justify-end w-full">
+                <ButtonLink href={route('assembly.bonus.create')}>Add video</ButtonLink>
+            </div>
 
-                <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
-                </div>
-            </ContentWrapper>
-        </WrapperLayout>
+            <div className="w-full overflow-x-auto">
+                <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+            </div>
+        </BonusAssemblyWrapper>
     )
 }
