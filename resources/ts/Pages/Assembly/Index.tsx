@@ -29,7 +29,7 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                     {canViewGallery &&
                         <div className="flex justify-end w-full mb-5">
                             <div className="inline-flex gap-2 rounded-md">
-                                <ButtonLink href={route('assembly.bonus.index')}>View Bonus Videos</ButtonLink>
+                                <ButtonLink dataTest="link_bonus_gallery" href={route('assembly.bonus.index')}>View Bonus Videos</ButtonLink>
                             </div>
                         </div>
                     }
@@ -49,7 +49,7 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                 </div>
 
                 {auth && auth.user && canViewGallery &&
-                    <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
+                    <GalleryAssembly headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></GalleryAssembly>
                 }
             </section>
 

@@ -46,10 +46,10 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
             cell: ({ row }) => (
                 <div className="flex items-center">
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
+                        <ButtonLink dataTest="bonus_assembly_edit_icon" size="xsmall" hierarchy="transparent" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                        <ButtonLink dataTest="bonus_assembly_view_icon" size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
                         <BasicButton dataTest={"bonus_assembly_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
@@ -79,7 +79,7 @@ export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }
                 nameToDelete={nameToDelete}
             />
             <div className="flex justify-end w-full">
-                <ButtonLink href={route('assembly.bonus.create')}>Add video</ButtonLink>
+                <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add video</ButtonLink>
             </div>
 
             <div className="w-full overflow-x-auto">

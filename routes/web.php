@@ -144,15 +144,6 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::prefix('assembly')->name('assembly.')->controller(AssemblyController::class)->middleware(['auth', 'can:create:assembly'])->group(function () {
-    Route::post('/', 'store')->name('store');
-    Route::get('/admin', 'admin')->name('admin');
-    Route::get('/create', 'create')->name('create');
-    Route::get('/{id}/edit', 'edit')->name('edit');
-    // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-    Route::post('/{id}', 'update')->name('update');
-    Route::delete('/{id}', 'destroy')->name('destroy');
-});
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::prefix('bonus')->controller(BonusAssemblyController::class)->name('bonus.')->middleware(['auth'])->group(function () {
@@ -168,6 +159,16 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::get('/', [AssemblyController::class, 'index'])->name('index');
     Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
     Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
+});
+
+Route::prefix('assembly')->name('assembly.')->controller(AssemblyController::class)->middleware(['auth', 'can:create:assembly'])->group(function () {
+    Route::post('/', 'store')->name('store');
+    Route::get('/admin', 'admin')->name('admin');
+    Route::get('/create', 'create')->name('create');
+    Route::get('/{id}/edit', 'edit')->name('edit');
+    // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+    Route::post('/{id}', 'update')->name('update');
+    Route::delete('/{id}', 'destroy')->name('destroy');
 });
 
 Route::get('/dashboard', function () {

@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
-use App\Http\Controllers\AssemblyController;
 use Illuminate\Support\Facades\Validator;
 use StdClass;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class BonusAssemblyController extends Controller
 {
@@ -120,11 +120,11 @@ class BonusAssemblyController extends Controller
 
         $storeConfigSuccess = Storage::put(
             'assemblyconfig.json',
-            json_encode($assemblyConfig)
+            json_encode($assemblyConfig, JSON_PRETTY_PRINT)
         );
         $videoConfigSuccess = Storage::put(
             $assemblyConfig->jsonPath . strtolower($assemblyInfo['routename']) . '.json',
-            json_encode($videoConfig)
+            json_encode($videoConfig, JSON_PRETTY_PRINT)
         );
 
 
@@ -139,7 +139,7 @@ class BonusAssemblyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
      */
     public function edit(int $id)
     {
@@ -148,7 +148,7 @@ class BonusAssemblyController extends Controller
         if ($videoList === false) {
             return redirect()->route('assembly.bonus.admin')->with('failure', 'Missing file in system');
         }
-        $videoData = $videoList[$id];
+        $videoData = $videoList[$id - 1];
         $fileName = strtolower($videoData->routename);
 
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
@@ -165,7 +165,7 @@ class BonusAssemblyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, int $id)
     {
@@ -219,12 +219,12 @@ class BonusAssemblyController extends Controller
 
         $storeConfigSuccess = Storage::put(
             'assemblyconfig.json',
-            json_encode($assemblyConfig)
+            json_encode($assemblyConfig, JSON_PRETTY_PRINT)
         );
 
         $videoConfigSuccess = Storage::put(
             $videoConfigPath,
-            json_encode($videoConfig)
+            json_encode($videoConfig, JSON_PRETTY_PRINT)
         );
 
 
@@ -242,12 +242,12 @@ class BonusAssemblyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)
     {
         $assemblyConfig = json_decode(Storage::get('assemblyconfig.json'), false);
-        $fileName = strtolower($assemblyConfig->bonusContent[$id]->routename);
+        $fileName = strtolower($assemblyConfig->bonusContent[$id - 1]->routename);
 
         $filePath = $assemblyConfig->jsonPath . $fileName . '.json';
         $pngPath = 'video_images/' . $fileName . '.png';
@@ -269,8 +269,8 @@ class BonusAssemblyController extends Controller
                 return $item->id !== $id;
             });
             $assemblyConfig->bonusContent = array_values($filteredContent);
-            Storage::put('assemblyconfig.json', json_encode($assemblyConfig));
-        } catch (Exception $ex) {
+            Storage::put('assemblyconfig.json', json_encode($assemblyConfig, JSON_PRETTY_PRINT));
+        } catch (\Exception $ex) {
             Log::error($ex->getMessage());
         }
 

@@ -56,7 +56,7 @@ export default function Create() {
                     <ToastBanner key={key} message={errors[key]} />
                 )
             }
-            <form method="post" onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
+            <form onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
                 <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
                 <div className="flex flex-col gap-4 mb-4">
                     <div className="inline-flex gap-2">
@@ -127,7 +127,7 @@ export default function Create() {
                 </table>
 
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                    <ButtonLink hierarchy="secondary" href={route('assembly.admin')}>Cancel</ButtonLink>
+                    <ButtonLink hierarchy="secondary" href={route('assembly.bonus.admin')}>Cancel</ButtonLink>
                     <PrimaryButton type="submit" processing={processing}>Create</PrimaryButton>
                 </div>
 

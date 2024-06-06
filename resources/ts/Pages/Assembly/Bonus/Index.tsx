@@ -9,7 +9,7 @@ export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwL
             {canEdit &&
                 <div className="flex justify-end w-full gap-2">
                     <ButtonLink href={route('assembly.bonus.admin')}>Admin Panel</ButtonLink>
-                    <ButtonLink href={route('assembly.bonus.create')}>Add New Video</ButtonLink>
+                    <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add New Video</ButtonLink>
                 </div>
             }
             <GalleryAssembly headingText="Big Bible Words" videoList={bbwList}></GalleryAssembly>
