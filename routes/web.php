@@ -5,6 +5,7 @@ use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\BonusAssemblyController;
+use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
@@ -146,11 +147,12 @@ Route::get('/about', function () {
 
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
-    Route::prefix('bonus')->controller(BonusAssemblyController::class)->name('bonus.')->middleware(['auth'])->group(function () {
+    Route::prefix('bonus')->controller(BonusVideoController::class)->name('bonus.')->middleware(['auth'])->group(function () {
         Route::get('/', 'index')->name('index')->can('view:assembly');
         Route::post('/', 'store')->name('store')->can('create:assembly');
         Route::get('/admin', 'admin')->name('admin')->can('create:assembly');
         Route::get('/create', 'create')->name('create')->can('create:assembly');
+        Route::get('/{id}', 'show')->name('show')->withoutMiddleware(['auth']);
         Route::get('/{id}/edit', 'edit')->name('edit')->can('create:assembly');
         // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
         Route::post('/{id}', 'update')->name('update')->middleware(['auth'])->can('create:assembly');
