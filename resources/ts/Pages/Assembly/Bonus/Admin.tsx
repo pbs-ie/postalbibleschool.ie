@@ -60,7 +60,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
                         <ButtonLink dataTest="bonus_assembly_view_icon" size="xsmall" hierarchy="transparent" href={route('assembly.bonus.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <BasicButton dataTest={"bonus_assembly_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
+                        <BasicButton dataTest={"bonus_video_delete_icon"} hierarchy="transparent" size="xsmall" onClick={() => {
                             setIdToDelete(row.original.id);
                             setNameToDelete(row.original.title);
                             showModal();

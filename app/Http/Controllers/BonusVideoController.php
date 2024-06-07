@@ -65,7 +65,7 @@ class BonusVideoController extends Controller
 
         $bonusVideo->save();
 
-        return redirect()->route('assembly.bonus.index')->with('success', 'Video added successfully');
+        return redirect()->route('assembly.bonus.admin')->with('success', 'Video added successfully');
     }
 
     /**

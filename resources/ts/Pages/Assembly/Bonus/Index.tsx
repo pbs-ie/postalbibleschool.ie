@@ -20,7 +20,7 @@ export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwL
         <BonusAssemblyWrapper title={"Bonus Videos"} navBackText={"Back to Assembly Videos"} navBackRoute={route('assembly.index')}>
             {canEdit &&
                 <div className="flex justify-end w-full gap-2">
-                    <ButtonLink href={route('assembly.bonus.admin')}>Admin Panel</ButtonLink>
+                    <ButtonLink dataTest="bonus_admin_button" href={route('assembly.bonus.admin')}>Admin Panel</ButtonLink>
                     <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add New Video</ButtonLink>
                 </div>
             }
