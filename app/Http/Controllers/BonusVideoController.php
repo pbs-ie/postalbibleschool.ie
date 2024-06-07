@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBonusVideoRequest;
 use App\Models\BonusVideo;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Services\VideoService;
-use Illuminate\Support\Str;
 
 class BonusVideoController extends Controller
 {
@@ -102,11 +99,29 @@ class BonusVideoController extends Controller
      *
      * @param  \App\Http\Requests\StoreBonusVideoRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreBonusVideoRequest $request, $id)
     {
-        // $video = BonusVideo::find($id, BonusVideo::columnsAsCamel);
+        $video = BonusVideo::find($id, BonusVideo::columnsAsCamel);
+        $video->fill($request->validated());
+
+        if ($request->file('imageFile')) {
+            if (Storage::disk('images')->exists($video->imageLink)) {
+                Storage::disk('images')->delete($video->imageLink);
+            }
+            $video->imageLink = $request->file('imageFile')->store('/bonus_videos', 'images');
+        }
+
+        if ($video->isDirty('external_url')) {
+            $video->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
+        }
+
+        $video->save();
+
+        return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
+
+
     }
 
     /**

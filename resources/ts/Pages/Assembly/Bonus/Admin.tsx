@@ -45,7 +45,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
             id: 'externalUrl',
             header: 'External Url',
             cell: ({ row }) => (
-                <p title={row.original.externalUrl} className="w-40 font-normal whitespace-normal lg:w-80">{truncateString(row.original.externalUrl, 40)}</p>
+                <p title={row.original.externalUrl} className="w-40 font-normal whitespace-normal lg:w-80 overflow-clip">{truncateString(row.original.externalUrl, 40)}</p>
             )
         }),
         columnHelper.display({
