@@ -1,4 +1,8 @@
-# 1.3.1 (2024-05-30)
+# 1.3.2 (2024-06-10)
+
+- BACKEND - Refactor for Bonus assembly videos storage to DB instead of JSON files
+
+## 1.3.1 (2024-05-30)
 
 - Disabled student related functionality for first release
   - Teachers can create classrooms and modify participation numbers
