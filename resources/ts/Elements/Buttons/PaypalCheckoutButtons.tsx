@@ -1,6 +1,7 @@
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import React, { useEffect, useState } from "react";
-import Loader from "../../Components/Loader";
+import Loader from "@/Components/Loader";
+import route from "ziggy-js";
 
 export interface Cart {
     id: number;

@@ -8,7 +8,7 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEvent } from "react";
-
+import route from "ziggy-js";
 
 export default function Create() {
     const { errors } = usePage().props;

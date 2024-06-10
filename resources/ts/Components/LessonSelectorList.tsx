@@ -3,6 +3,7 @@ import { bibleTimeLevels, monthNames } from "@/constants";
 import { getDownloadLink } from "@/helper";
 import LessonDownloadButton from "@/Elements/Buttons/LessonDownloadButton";
 import RedirectButtonWithPill from "@/Elements/Buttons/RedirectButtonWithPill";
+import route from "ziggy-js";
 
 interface Overview {
     selectedMonth: number;

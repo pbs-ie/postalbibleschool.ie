@@ -11,6 +11,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import React, { FormEvent, useEffect, useReducer, useState } from "react";
 import InputError from "@/Elements/Forms/InputError";
+import route from "ziggy-js";
 
 export interface Student {
     firstname: string;

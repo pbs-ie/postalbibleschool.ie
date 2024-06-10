@@ -16,6 +16,7 @@ import { useForm } from "@inertiajs/react";
 import { FormEvent } from "react";
 import { StepPastProps } from "./Edit";
 import DateInput from "@/Elements/Forms/DateInput";
+import route from "ziggy-js";
 
 type StepPastCreateProps = Omit<StepPastProps, "id" | "imageLink">;
 

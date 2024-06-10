@@ -1,9 +1,5 @@
 describe("Classroom Page tests", () => {
     const headingText = "Participant numbers";
-    before(() => {
-        cy.refreshDatabase();
-        Cypress.session.clearAllSavedSessions();
-    })
     beforeEach(() => {
         cy.intercept('GET', '**paypal**', (req) => { });
         cy.loginSession(Cypress.env("loginUser"), Cypress.env("loginPass"));

@@ -4,6 +4,7 @@ import { Head, Link } from "@inertiajs/react";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 
+import route from "ziggy-js";
 
 export default function Show({ videoData }: { videoData: { title: string, imageId: string, content: VideoMeta[] } }) {
     return (

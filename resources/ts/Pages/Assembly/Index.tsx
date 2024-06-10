@@ -6,8 +6,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
 import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-
-
+import route from "ziggy-js";
 
 export default function Index({ videoList, canViewGallery = false, canEdit = false }: { videoList: VideoListMeta[], canViewGallery: boolean, canEdit?: boolean }) {
     const { auth } = usePage<PassedProps>().props;
@@ -27,6 +26,13 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                             </div>
                         </div>
                     }
+                    {canViewGallery &&
+                        <div className="flex justify-end w-full mb-5">
+                            <div className="inline-flex gap-2 rounded-md">
+                                <ButtonLink dataTest="link_bonus_gallery" href={route('assembly.bonus.index')}>View Bonus Videos</ButtonLink>
+                            </div>
+                        </div>
+                    }
                     <Paragraph>
                         You will find additional video content for the year 2023/2024 down below. These videos will parallel the BibleTime lessons students are doing for each month of the coming school year. We hope you will find these additional videos helpful.
                     </Paragraph>
@@ -41,11 +47,11 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                         ))}
                     </ul>
                 </div>
-            </section>
 
-            {auth && auth.user && canViewGallery &&
-                <GalleryAssembly videoList={sortArrayById(videoList)}></GalleryAssembly>
-            }
+                {auth && auth.user && canViewGallery &&
+                    <GalleryAssembly headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></GalleryAssembly>
+                }
+            </section>
 
         </WrapperLayout>
     )

@@ -9,6 +9,7 @@ import { router } from "@inertiajs/react";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
+import route from "ziggy-js";
 
 export interface StudentProps {
     classroom_id: number,
@@ -78,12 +79,12 @@ export default function Index({ students }: { students: StudentProps[] }) {
                 <div className="mx-10 mb-10">
                     <Heading1>My Students</Heading1>
                     <p>View all the students for your school and their assigned classrooms in one view here.</p>
-                    <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
+                    <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></BasicButton></div>
                     <div className="mt-5">
                         {students.length > 0 ?
                             <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
                             :
-                            <p className="text-gray-500 italic">No students found for your account. If this is a mistake please contact the administrator.</p>
+                            <p className="italic text-gray-500">No students found for your account. If this is a mistake please contact the administrator.</p>
                         }
                     </div>
                 </div>

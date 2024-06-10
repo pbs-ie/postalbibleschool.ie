@@ -7,6 +7,7 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Heading3 from "@/Components/Typography/Heading3";
+import route from "ziggy-js";
 
 type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
 type EditCurriculumProps = Omit<CurriculumProps, "digital_count">
@@ -81,9 +82,9 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
     return (
         <form className="lg:my-10" onSubmit={handleSubmit}>
 
-            <div className="flex flex-col lg:flex-row gap-4 lg:gap-10">
+            <div className="flex flex-col gap-4 lg:flex-row lg:gap-10">
                 <div className="flex flex-col gap-4 mb-2">
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                         <InputLabel forInput={"name"} value={"Curriculum Name"} required />
                         <TextInput
                             name={"name"}
@@ -95,7 +96,7 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                         <InputError message={errors["name"]} />
                     </div>
                     <div className="flex-col gap-2">
-                        <div className="flex gap-2 items-center">
+                        <div className="flex items-center gap-2">
                             <InputLabel forInput={"email"} value={"Email"} />
                             <TextInput
                                 name={"email"}
@@ -108,7 +109,7 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                         </div>
                         <p className="text-gray-600">//Leave blank to be accessible to all schools. Enter school email for specific school</p>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                         <InputLabel forInput={"curriculum_type"} value={"Curriculum Type"} required />
                         <SelectInput
                             name={"curriculum_type"}
@@ -126,9 +127,9 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                 </div>
 
                 {data.curriculum_type === "digital" &&
-                    <div data-test='curriculum_calender_block' className="flex flex-col gap-1 p-5 w-fit border border-gray-300 rounded-md border-b-4 border-r-2">
+                    <div data-test='curriculum_calender_block' className="flex flex-col gap-1 p-5 border border-b-4 border-r-2 border-gray-300 rounded-md w-fit">
                         <Heading3>Calendar</Heading3>
-                        <p className="text-gray-500 text-base mb-2">Select a maximum of 5 months for digital lessons</p>
+                        <p className="mb-2 text-base text-gray-500">Select a maximum of 5 months for digital lessons</p>
                         {Object.keys(monthMap).map((value) => {
                             const month = value as MonthKeys;
                             return (

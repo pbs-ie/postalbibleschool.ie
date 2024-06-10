@@ -17,6 +17,7 @@ import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculu
 import ClassroomCurriculumCard from "@/Components/Cards/ClassroomCurriculumCard"
 import { StudentProps } from "@/Pages/TeacherHub/Student/Index";
 import Heading1 from "@/Components/Typography/Heading1"
+import route from "ziggy-js";
 
 
 interface ClassroomShowProps {
@@ -67,7 +68,7 @@ export default function Show({
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <label htmlFor="checkbox-all" className="hover:bg-black/10 rounded">
+                <label htmlFor="checkbox-all" className="rounded hover:bg-black/10">
                     <CheckboxInput
                         id="checkbox-all"
                         isChecked={table.getIsAllRowsSelected()}
@@ -77,7 +78,7 @@ export default function Show({
                 </label>
             ),
             cell: ({ row }) => (
-                <label htmlFor={"checkbox" + row.original.id} className="flex items-center hover:bg-black/10 rounded">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center rounded hover:bg-black/10">
                     <CheckboxInput
                         id={"checkbox" + row.original.id}
                         isChecked={row.getIsSelected()}
@@ -128,7 +129,7 @@ export default function Show({
                             <Heading2Nospace>{classroom.name}</Heading2Nospace>
                             <div className="my-5">
                                 {students.length === 0 ?
-                                    <p className="text-gray-500 italic">No students added. Add students by clicking the button below.</p>
+                                    <p className="italic text-gray-500">No students added. Add students by clicking the button below.</p>
                                     :
                                     <AdvancedTable
                                         data={tableDataMemo}
@@ -139,7 +140,7 @@ export default function Show({
                                         setRowSelection={setRowSelection} />
                                 }
                             </div>
-                            <div className="flex gap-2 w-full justify-end">
+                            <div className="flex justify-end w-full gap-2">
                                 <BasicButton dataTest="classroom_add_students_button" onClick={() => showStudentModal()}>Add Students</BasicButton>
                                 <BasicButton dataTest="classroom_remove_students_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="secondary" type="submit">Remove Students</BasicButton>
                             </div>

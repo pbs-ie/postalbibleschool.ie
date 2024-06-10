@@ -3,6 +3,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout"
 import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import { Head, usePage } from "@inertiajs/react";
+import route from "ziggy-js";
 
 import LessonsImage from "@images/lessons/lessons-fan-english.jpg";
 import PrizegivingImage from "@images/events/prizegiving.jpg";

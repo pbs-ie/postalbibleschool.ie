@@ -5,6 +5,7 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { useForm, usePage } from "@inertiajs/react"
 import { FormEvent } from "react";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
+import route from "ziggy-js";
 
 interface ClassroomProps {
     name: string

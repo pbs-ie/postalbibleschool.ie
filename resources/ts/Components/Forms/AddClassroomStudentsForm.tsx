@@ -8,6 +8,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import { StudentProps } from "@/Pages/TeacherHub/Student/Index";
+import route from "ziggy-js";
 
 export default function AddClassroomStudentsForm({ onClose, classroomId, students }: { onClose: () => void, classroomId: number, students: StudentProps[] }) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -43,7 +44,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
         columnHelper.display({
             id: 'select-col',
             header: ({ table }) => (
-                <label htmlFor="checkbox-all" className="hover:bg-black/10 rounded">
+                <label htmlFor="checkbox-all" className="rounded hover:bg-black/10">
                     <CheckboxInput
                         id="checkbox-all"
                         isChecked={table.getIsAllRowsSelected()}
@@ -53,7 +54,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
                 </label>
             ),
             cell: ({ row }) => (
-                <label htmlFor={"checkbox" + row.original.id} className="flex items-center hover:bg-black/10 rounded">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center rounded hover:bg-black/10">
                     <CheckboxInput
                         id={"checkbox" + row.original.id}
                         isChecked={row.getIsSelected()}
@@ -77,8 +78,8 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
     return (
         <article>
             <Heading2Nospace>Add Students</Heading2Nospace>
-            <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex gap-3 items-center">Refresh List <RefreshIcon /></span></BasicButton></div>
-            <hr className="mb-4 mt-2" />
+            <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></BasicButton></div>
+            <hr className="mt-2 mb-4" />
             <form id="add_classroom_students_form" name="addStudentForm" aria-label="Add Student to Classroom form" onSubmit={handleSubmit} method="post">
                 <div>
                     {students.length === 0 ?

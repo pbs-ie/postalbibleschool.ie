@@ -14,7 +14,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { usePage, useForm } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
-
+import route from "ziggy-js";
 
 export interface StepPastProps {
     id: number,

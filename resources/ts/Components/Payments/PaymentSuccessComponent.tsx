@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
-import CheckBadge from "../../Elements/Icons/CheckBadge";
+import CheckBadge from "@/Elements/Icons/CheckBadge";
+import route from "ziggy-js";
 
 export default function PaymentSuccessComponent() {
     return (

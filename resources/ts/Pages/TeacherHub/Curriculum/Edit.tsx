@@ -5,6 +5,7 @@ import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
+import route from "ziggy-js";
 
 export default function Edit({ curriculum }: { curriculum: CurriculumProps }) {
 

@@ -1,89 +1,98 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
-import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
+import { modalHelper, truncateString } from "@/helper";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+import route from "ziggy-js";
+import { BonusVideoProps } from "./Index";
 
-export default function BonusAdmin({ videoList }: { videoList: VideoListMeta[] }) {
-    const [toggleModal, setToggleModal] = useState(false);
-    const [idToDelete, setIdToDelete] = useState<null | number>(null);
-    const [nameToDelete, setNameToDelete] = useState<null | string>(null);
-
-
-    const showModal = (id: number) => {
-        setIdToDelete(id);
-        setToggleModal(true);
-        setNameToDelete(videoList[id].monthTitle);
-    }
-
-    const handleOnClose = () => {
-        setIdToDelete(null);
-        setToggleModal(false);
-    }
-
-    const handleSubmit = () => {
-        if (idToDelete !== null) {
-            router.delete(route('assembly.bonus.destroy', idToDelete));
-        } else {
-            console.error('Could not find that entry. Please contact administrator');
-        }
-        setToggleModal(false);
-    }
+export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[] }) {
+    const [idToDelete, setIdToDelete] = useState<number>();
+    const [nameToDelete, setNameToDelete] = useState<string>();
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
     const tableDataMemo = useMemo(() => videoList, [videoList]);
 
-    const columnHelper = createColumnHelper<VideoListMeta>();
+    const columnHelper = createColumnHelper<BonusVideoProps>();
 
     const defaultColumns = [
         columnHelper.display({
             id: 'Image',
             header: 'Thumbnail',
             cell: ({ row }) => (
-                <img className="w-40" src={row.original.imageLink} alt={"Image for " + row.original.monthTitle} />
+                <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Thumbnail for " + row.original.title} />
             )
         }),
-        columnHelper.accessor(row => row.monthTitle, {
+        columnHelper.accessor(row => row.title, {
             header: 'Title',
         }),
 
-        columnHelper.accessor(row => row.routename, {
-            header: 'Routename',
+        columnHelper.accessor(row => row.videoTitle, {
+            header: 'Video title',
         }),
         columnHelper.accessor(row => row.category, {
             header: 'Category',
         }),
         columnHelper.display({
+            id: 'externalUrl',
+            header: 'External Url',
+            cell: ({ row }) => (
+                <p title={row.original.externalUrl} className="w-40 font-normal whitespace-normal lg:w-80 overflow-clip">{truncateString(row.original.externalUrl, 40)}</p>
+            )
+        }),
+        columnHelper.display({
             id: 'actions',
             header: 'Actions',
             cell: ({ row }) => (
-                <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id)}><Trash className="w-6 h-6" /> Delete</button>
+                <div className="flex items-center">
+                    <IconHoverSpan>
+                        <ButtonLink dataTest="bonus_assembly_edit_icon" size="xsmall" hierarchy="transparent" href={route('assembly.bonus.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <ButtonLink dataTest="bonus_assembly_view_icon" size="xsmall" hierarchy="transparent" href={route('assembly.bonus.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <BasicButton dataTest={"bonus_video_delete_icon"} hierarchy="transparent" size="xsmall" onClick={() => {
+                            setIdToDelete(row.original.id);
+                            setNameToDelete(row.original.title);
+                            showModal();
+                        }}><span className="flex flex-col items-center text-red-500">
+                                <Trash key={row.id} />Delete
+                            </span></BasicButton>
+                    </IconHoverSpan>
                 </div>
             )
         })
     ]
 
     return (
-        <WrapperLayout>
-            <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
-            <ContentWrapper title="Admin - Bonus Videos" >
-                <div className="flex justify-end w-full">
-                    <ButtonLink href={route('assembly.bonus.create')}>Add video</ButtonLink>
-                </div>
+        <BonusAssemblyWrapper title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
+            <DeleteDialogCard
+                dialogRef={dialogRef}
+                closeModal={closeModal}
+                onSubmit={() => {
+                    router.delete(route('assembly.bonus.destroy', idToDelete));
+                    closeModal();
+                }}
+                title="Delete Bonus Video?"
+                message="Are you sure you want to delete this video:"
+                nameToDelete={nameToDelete}
+            />
+            <div className="flex justify-end w-full">
+                <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add video</ButtonLink>
+            </div>
 
-                <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
-                </div>
-            </ContentWrapper>
-        </WrapperLayout>
+            <div className="w-full overflow-x-auto">
+                <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+            </div>
+        </BonusAssemblyWrapper>
     )
 }

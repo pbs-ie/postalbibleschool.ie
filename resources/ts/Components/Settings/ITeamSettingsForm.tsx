@@ -7,6 +7,7 @@ import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import { ITeamSettingProps } from "@/Pages/Events/ITeam";
+import route from "ziggy-js";
 
 export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     const defaultData = {
@@ -40,8 +41,8 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
     return (
         <form name="iteamSettingsForm" aria-label="iTeam Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <hr />
-            <div className=" my-4">
-                <div className=" grid grid-cols-2">
+            <div className="my-4 ">
+                <div className="grid grid-cols-2 ">
 
                     <div>
                         <InputLabel2 forInput={"dates"} value={"Dates"} />

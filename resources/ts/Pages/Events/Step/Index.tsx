@@ -24,7 +24,7 @@ import ChatBubble from "@/Elements/Icons/ChatBubble";
 import Group from "@/Elements/Icons/Group";
 import Location from "@/Elements/Icons/Location";
 
-
+import route from "ziggy-js";
 
 export default function Index({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const images: Gallery[] = [

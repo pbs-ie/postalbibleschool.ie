@@ -12,6 +12,7 @@ import Heading1Alt from "@/Components/Typography/Heading1Alt";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { FormEvent, useEffect } from "react";
+import route from "ziggy-js";
 
 
 export default function GroupRequest() {

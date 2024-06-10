@@ -6,6 +6,7 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
+import route from "ziggy-js";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const defaultData = {
@@ -47,8 +48,8 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
     return (
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <hr />
-            <div className=" my-4">
-                <div className=" grid grid-cols-2">
+            <div className="my-4 ">
+                <div className="grid grid-cols-2 ">
                     <div>
                         <InputLabel2 forInput={"topic"} value={"Topic"} />
                         <TextInput name={"topic"} id={"topic"} value={data.topic} handleChange={handleChange} />

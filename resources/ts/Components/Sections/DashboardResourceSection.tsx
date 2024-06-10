@@ -3,6 +3,7 @@ import ResourceCard from "@/Components/Cards/ResourceCard";
 import Calendar from "@/Elements/Icons/Calendar";
 import UserIcon from "@/Elements/Icons/UserIcon";
 import Newspaper from "@/Elements/Icons/Newspaper";
+import route from "ziggy-js";
 
 export default function DashboardResourceSection({ canViewCurriculum = false }) {
     return (

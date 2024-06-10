@@ -8,38 +8,20 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
-import { Link } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import Heading2 from "@/Components/Typography/Heading2";
-import { truncateString } from "@/helper";
+import { modalHelper, truncateString } from "@/helper";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import route from "ziggy-js";
 
 
 export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardProps[] }) {
-    const [toggleModal, setToggleModal] = useState(false);
-    const [idToDelete, setIdToDelete] = useState<null | number>(null);
-    const [nameToDelete, setNameToDelete] = useState<null | string>(null);
+    const [idToDelete, setIdToDelete] = useState<number>();
+    const [nameToDelete, setNameToDelete] = useState<string>();
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
-
-    const showModal = (id: number, heading: string) => {
-        setIdToDelete(id);
-        setNameToDelete(heading);
-        setToggleModal(true);
-    }
-
-    const handleOnClose = () => {
-        setIdToDelete(null);
-        setToggleModal(false);
-    }
-
-    const handleSubmit = () => {
-        if (idToDelete) {
-            router.delete(route('events.step.past.destroy', idToDelete));
-        } else {
-            console.error('Could not find that entry. Please contact administrator');
-        }
-        setToggleModal(false);
-    }
 
     const tableDataMemo = useMemo(() => pastEvents, [pastEvents]);
 
@@ -66,17 +48,29 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
             id: 'description',
             header: 'Description',
             cell: ({ row }) => (
-                <p title={row.original.description} className="font-normal whitespace-normal w-40 lg:w-80">{truncateString(row.original.description, 40)}</p>
+                <p title={row.original.description} className="w-40 font-normal whitespace-normal lg:w-80">{truncateString(row.original.description, 40)}</p>
             )
         }),
         columnHelper.display({
             id: 'actions',
             header: 'Actions',
             cell: ({ row }) => (
-                <div className="flex w-full gap-2 py-2">
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</Link>
-                    <Link className="text-blue-500 underline hover:no-underline" href={route('events.step.past.show', row.original.id)}><Eye className="w-6 h-6" /> View</Link>
-                    <button className="text-blue-500 underline hover:no-underline" onClick={() => showModal(row.original.id, row.original.title)}><Trash className="w-6 h-6" /> Delete</button>
+                <div className="flex items-center">
+                    <IconHoverSpan>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('events.step.past.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('events.step.past.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <BasicButton dataTest={"step_past_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
+                            setIdToDelete(row.original.id);
+                            setNameToDelete(row.original.title);
+                            showModal();
+                        }}><span className="flex flex-col items-center text-red-500">
+                                <Trash key={row.id} />Delete
+                            </span></BasicButton>
+                    </IconHoverSpan>
                 </div>
             )
         })
@@ -84,7 +78,17 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
 
     return (
         <WrapperLayout>
-            <DeleteDialogCard isOpen={toggleModal} message={`Are you sure you want to delete "${nameToDelete}?"`} onClose={handleOnClose} onSubmit={handleSubmit} hasCloseButton={true} />
+            <DeleteDialogCard
+                dialogRef={dialogRef}
+                closeModal={closeModal}
+                onSubmit={() => {
+                    router.delete(route('events.step.past.destroy', idToDelete));
+                    closeModal();
+                }}
+                title="Delete Event?"
+                message="Are you sure you want to delete:"
+                nameToDelete={nameToDelete}
+            />
             <ContentWrapper title="Step Management" >
                 <Heading2>Past Events</Heading2>
                 <div className="flex justify-end w-full">

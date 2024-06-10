@@ -125,49 +125,5 @@
             "id": 14,
             "imageLink": "\/assembly\/image\/c05"
         }
-    ],
-    "bonusContent": [
-        {
-            "monthTitle": "Bible Books with Chris",
-            "category": "bbooks",
-            "id": 1,
-            "routename": "bonus1",
-            "imageLink": "\/assembly\/image\/bonus1"
-        },
-        {
-            "monthTitle": "Prophet",
-            "category": "bbw",
-            "id": 2,
-            "routename": "bonus2",
-            "imageLink": "\/assembly\/image\/bonus2"
-        },
-        {
-            "monthTitle": "Substitute",
-            "category": "bbw",
-            "id": 3,
-            "routename": "bonus3",
-            "imageLink": "\/assembly\/image\/bonus3"
-        },
-        {
-            "monthTitle": "Holiness",
-            "category": "bbw",
-            "id": 4,
-            "routename": "bonus4",
-            "imageLink": "\/assembly\/image\/bonus4"
-        },
-        {
-            "monthTitle": "Exodus",
-            "category": "bbooks",
-            "id": 5,
-            "routename": "bonus5",
-            "imageLink": "\/assembly\/image\/bonus5"
-        },
-        {
-            "monthTitle": "Numbers",
-            "category": "bbooks",
-            "id": 6,
-            "routename": "bonus6",
-            "imageLink": "\/assembly\/image\/bonus6"
-        }
     ]
 }

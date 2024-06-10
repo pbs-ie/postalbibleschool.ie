@@ -123,9 +123,7 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
                 <div className="relative justify-center py-5 mx-2 md:mx-auto md:max-w-4xl">
 
                     <div className="flex flex-col items-center w-full gap-2">
-                        <Heading2Nospace>{title}</Heading2Nospace>
-
-                        <div className="self-start"><Heading3>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading3></div>
+                        <div className="self-start"><Heading2Nospace>{videoState.isLoading ? <p>&hellip;</p> : videoState.title}</Heading2Nospace></div>
                         <div className="relative self-stretch md:self-center">
                             {videoState.isLoading ?
                                 <div className="absolute bottom-0 mb-5 text-2xl right-5">
@@ -139,7 +137,7 @@ export default function VideoPlayerComponent({ title, imageLink, content }: Vide
                 </div>
                 {isCarousalActive() &&
                     <div className="w-full px-2 mx-auto md:px-20 xl:px-40">
-                        <div className="flex gap-10 w-full justify-center">
+                        <div className="flex justify-center w-full gap-10">
                             <VideoNavButton
                                 className="md:float-left"
                                 disabled={+videoState.id === 0}

@@ -11,6 +11,7 @@ import { usePage, useForm, Link } from "@inertiajs/react";
 import { FormEvent, useEffect, useReducer, useRef } from "react";
 import PlusHollow from "@/Elements/Icons/PlusHollow";
 import MinusCircle from "@/Elements/Icons/MinusCircle";
+import route from "ziggy-js";
 
 interface VideoEdit {
     title: string,
@@ -177,7 +178,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                 <th>External URL</th>
                                 <th>Title</th>
                                 <th>Duration</th>
-                                <th><SecondaryButton onClick={() => handleRowChange({ type: "addValue" })} ><span className="inline-flex gap-2 items-center">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
+                                <th><SecondaryButton onClick={() => handleRowChange({ type: "addValue" })} ><span className="inline-flex items-center gap-2">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -234,7 +235,7 @@ export default function Edit({ videoData }: { videoData: FullAssemblyVideo }) {
                                                 idx: idx
                                             })}
                                         >
-                                            <span className="inline-flex gap-2 items-center">Remove Row <MinusCircle className="w-5 h-5" /></span>
+                                            <span className="inline-flex items-center gap-2">Remove Row <MinusCircle className="w-5 h-5" /></span>
                                         </SecondaryButton>
                                     </td>
                                 </tr>

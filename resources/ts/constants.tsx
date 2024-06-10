@@ -14,20 +14,7 @@ declare global {
     interface Window {
         Ziggy: Config
     }
-    // function route(
-    //     name?: undefined,
-    //     params?: RouteParamsWithQueryOverload | RouteParam,
-    //     absolute?: boolean,
-    //     config?: Config,
-    // ): Router;
-
-    // function route(
-    //     name: string,
-    //     params?: RouteParamsWithQueryOverload | RouteParam,
-    //     absolute?: boolean,
-    //     config?: Config,
-    // ): string;
-    function route(name?: string, params?: any): any;
+    // function route(name?: string, params?: any): string;
 
     interface GroupThemes {
         tagCode: string;
