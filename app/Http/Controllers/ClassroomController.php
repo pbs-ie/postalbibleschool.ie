@@ -89,9 +89,9 @@ class ClassroomController extends Controller
             return redirect()->route('dashboard')->with('warning', "Classroom already exists");
         }
 
-        if (Student::getStudentsForUser()->isEmpty()) {
-            return redirect()->route('dashboard')->with("failure", "No students for current user");
-        }
+        // if (Student::getStudentsForUser()->isEmpty()) {
+        //     return redirect()->route('dashboard')->with("failure", "No students for current user");
+        // }
         $classroom = new Classroom();
         $classroom->fill([
             'name' => strtolower($request->name),
