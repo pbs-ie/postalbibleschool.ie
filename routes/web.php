@@ -4,7 +4,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
 use App\Http\Controllers\AssemblyController;
-use App\Http\Controllers\BonusAssemblyController;
 use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
