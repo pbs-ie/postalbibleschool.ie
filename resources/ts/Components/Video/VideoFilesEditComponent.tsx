@@ -10,8 +10,10 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import { truncateStringEnd } from "@/helper";
 
 
-export default function VideoFilesEditComponent({ fileContent, setContent, mode = "edit" }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void, mode?: "create" | "edit" }) {
+export default function VideoFilesEditComponent({ fileContent = [], setContent }: { fileContent: FileMeta[], setContent: (a: FileMeta[]) => void }) {
     const { errors } = usePage().props;
+    const isEditMode = fileContent.length !== 0;
+
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
     }
@@ -111,7 +113,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
             <h2 className="p-0 text-xl font-bold text-black">File Information</h2>
             <p className="p-0 mb-2 text-base text-gray-600">Only supporting .pdf files at the moment.</p>
             {(fileState && fileState.length === 0) ?
-                <SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton>
+                <SecondaryButton onClick={() => dispatch({ type: "addValue" })}>Add Row</SecondaryButton>
                 :
                 <table>
                     <thead>
@@ -121,14 +123,14 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                             <th>Title</th>
                             <th>Type</th>
                             <th>File</th>
-                            <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
+                            <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })}>Add Row</SecondaryButton></th>
                         </tr>
                     </thead>
                     <tbody>
                         {fileState && fileState.map(({ title, name, type, fileData, filePath, id }, idx) => (
                             <tr className={Object.keys(errors).some(key => key.includes('fileContent.' + idx)) ? "border-2 border-red-500" : ""} key={"filetable" + idx}>
                                 <td>
-                                    {mode === "edit" ?
+                                    {isEditMode ?
                                         <TextInput
                                             hasError={!!errors.fileContent}
                                             type={"text"}
@@ -181,10 +183,10 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                     </SelectInput>
                                 </td>
                                 <td>
-                                    <InputLabel2 title={fileData ? fileData.name : ""} forInput={`fileData${idx}`} className="flex items-center justify-center p-1 border hover:ring-1 hover:text-pbsblue ring-pbsblue active:ring-2 rounded-md cursor-pointer border-slate-400">
+                                    <InputLabel2 title={fileData ? fileData.name : ""} forInput={`fileData${idx}`} className="flex items-center justify-center p-1 border rounded-md cursor-pointer hover:ring-1 hover:text-pbsblue ring-pbsblue active:ring-2 border-slate-400">
                                         <FileInput name={"fileData"} id={`fileData${idx}`} className={"overflow-hidden w-0"} handleChange={(e) => handleComplexChange(idx, e)} />
                                         {fileData ?
-                                            <span className="lowercase text-sm">{truncateStringEnd(fileData.name, 14)}</span>
+                                            <span className="text-sm lowercase">{truncateStringEnd(fileData.name, 14)}</span>
                                             : filePath ? <span className="flex gap-1"><EditIcon />Change File</span>
                                                 : <span className="flex gap-1"><FileIcon />Choose File</span>}
                                     </InputLabel2>
@@ -194,8 +196,7 @@ export default function VideoFilesEditComponent({ fileContent, setContent, mode 
                                         onClick={() => dispatch({
                                             type: "removeValue",
                                             idx: idx
-                                        })}
-                                        className="bg-red-200 before:content-['-'] before:pr-1 before:text-lg">
+                                        })}>
                                         Remove Row
                                     </SecondaryButton>
                                 </td>

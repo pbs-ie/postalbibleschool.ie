@@ -32,7 +32,7 @@ class StoreStepPastRequest extends FormRequest
             'description' => ['required', 'string'],
             'title' => ['required', 'string'],
             'showDetails' => ['required', 'boolean'],
-            'imageLink' => ['string'],
+            'imageLink' => ['string', "nullable"],
             'routename' => [],
             'videoContent' => ['array', 'max:20', 'min:1'],
             'videoContent.*.id' => ['required_with:videoContent'],
