@@ -1,6 +1,5 @@
 import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 import Heading2 from "@/Components/Typography/Heading2";
-import VideoGalleryCard from "@/Components/Cards/VideoGalleryCard";
 import route from "ziggy-js";
 import BonusVideoGalleryCard from "@/Components/Cards/BonusVideoGalleryCard";
 
