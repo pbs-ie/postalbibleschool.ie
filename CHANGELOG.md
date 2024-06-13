@@ -1,6 +1,7 @@
 # 1.3.2 (2024-06-10)
 
 - BACKEND - Refactor for Bonus assembly videos storage to DB instead of JSON files
+- Refactor of assembly videos to DB instead of JSON files
 
 ## 1.3.1 (2024-05-30)
 
