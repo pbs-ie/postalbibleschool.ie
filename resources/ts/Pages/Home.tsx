@@ -37,12 +37,12 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
 
 
     useEffect(() => {
-
-        const searchedAssembly = videoList.find((vid) => vid.series === getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber()) + (getCurrentMonthNumber() + 1));
+        const currentSeries = getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber()) + (getCurrentMonthNumber() + 1);
+        const searchedAssembly = videoList.find((vid) => vid.series === currentSeries);
         if (searchedAssembly) {
             setCurrentAssembly(searchedAssembly);
         } else {
-            setCurrentAssembly(videoList[videoList.length - 1]);
+            setCurrentAssembly(videoList[0]);
         }
     }, [videoList]);
 
