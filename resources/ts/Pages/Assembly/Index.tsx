@@ -18,7 +18,7 @@ export interface AssemblyVideoProps {
     videoContent: VideoMeta[]
 }
 
-export default function Index({ videoList, canViewGallery = false, canEdit = false }: { videoList: AssemblyVideoProps[], canViewGallery: boolean, canEdit?: boolean }) {
+export default function Index({ videoList = [], canViewGallery = false, canEdit = false }: { videoList: AssemblyVideoProps[], canViewGallery: boolean, canEdit?: boolean }) {
     const { auth } = usePage<PassedProps>().props;
 
 
@@ -48,18 +48,23 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                     </Paragraph>
                 </div>
 
-                <div className="mx-auto">
-                    <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
-                        {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
-                            <li key={index}>
-                                <VideoHeroCard buttonLink={route('assembly.show', value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                {videoList.length > 0 ?
+                    <><div className="mx-auto">
+                        <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
+                            {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
+                                <li key={index}>
+                                    <VideoHeroCard buttonLink={route('assembly.show', value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {auth && auth.user && canViewGallery &&
-                    <AssemblyGallery headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></AssemblyGallery>
+                        {auth && auth.user && canViewGallery &&
+                            <AssemblyGallery headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></AssemblyGallery>
+                        }
+                    </>
+                    :
+                    <div className="italic text-gray-500">No videos added yet.</div>
                 }
             </section>
 

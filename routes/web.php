@@ -3,7 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
-use App\Http\Controllers\AssemblyController;
+// use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\LessonOrderController;
@@ -13,6 +13,7 @@ use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 // use App\Http\Controllers\StudentController;
+use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
@@ -43,7 +44,7 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
-        'videoList' => (new AssemblyController)->getAssemblyList(),
+        'videoList' => AssemblyVideo::latest()->get(AssemblyVideo::columnsAsCamel),
         'canViewGallery' => Gate::check('view:assembly'),
     ]);
 })->name('home');

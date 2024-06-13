@@ -21,8 +21,9 @@ import Heading2 from "@/Components/Typography/Heading2";
 import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BannerComponent from "@/Components/BannerComponent";
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
 
-export default function Home({ bibleTimeDownloads, videoList, canViewGallery = false }: { bibleTimeDownloads: responseLinks, videoList: VideoListMeta[], canViewGallery: boolean }): JSX.Element {
+export default function Home({ bibleTimeDownloads, videoList = [], canViewGallery = false }: { bibleTimeDownloads: responseLinks, videoList: AssemblyVideoProps[], canViewGallery: boolean }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
@@ -84,9 +85,9 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
                                 heading="School Assembly Video"
-                                content={`is now available for ${currentAssembly.month}`}
-                                buttonText="Show Me"
-                                buttonLink={route('assembly.show', { 'series': currentAssembly.routename })}
+                                content={videoList.length > 0 ? `is now available for ${currentAssembly.month}` : "will be available soon"}
+                                buttonText={videoList.length > 0 ? "Show Me" : ""}
+                                buttonLink={videoList.length > 0 ? route('assembly.show', currentAssembly.id) : ""}
                                 className="border-4"
                             />
                         </div>
@@ -100,7 +101,7 @@ export default function Home({ bibleTimeDownloads, videoList, canViewGallery = f
                         <Heading2Alt>{`${seriesNames[getCurrentSeriesNumber()].code}${getCurrentMonthNumber() + 1} - ${monthNames[getCurrentMonthNumber()]}`}</Heading2Alt>
                         <div className="h-full overflow-clip"><img className="object-cover w-4/5 h-auto mx-auto my-auto bg-left-top md:scale-150 md:-translate-x-32 md:translate-y-28" src={LessonsImage} alt="Lessons fanned" /></div>
                     </div>
-                    <LessonSelectorList assemblySeries={currentAssembly.series} assemblyTitle={currentAssembly.monthTitle} assemblyLink={route('assembly.show', { 'series': currentAssembly.routename })} selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} assemblyImageLink={currentAssembly.routename} />
+                    <LessonSelectorList selectedMonth={getCurrentMonthNumber()} selectedSeriesAlphabet={getUpperCaseAlphabetFromNumber(getCurrentSeriesNumber())} />
                 </div>
             </section>
             <RequestLessonBanner />
