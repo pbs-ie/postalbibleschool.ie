@@ -8,14 +8,10 @@ import route from "ziggy-js";
 interface Overview {
     selectedMonth: number;
     selectedSeriesAlphabet: string;
-    assemblyTitle?: string;
-    assemblyLink?: string;
-    assemblySeries?: string;
-    assemblyImageLink?: string;
 }
 
 const monthLessons = bibleTimeLevels;
-export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphabet, assemblyTitle = "", assemblyLink = "", assemblySeries = "", assemblyImageLink = "" }: Overview) {
+export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphabet }: Overview) {
 
     return (
         <div className="flex flex-col justify-center px-2 md:px-0">
@@ -29,17 +25,11 @@ export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphab
                     }
                 </div>
             </div>
-            {(assemblyTitle && assemblyTitle !== "") ?
-                <div className="mb-2">
-                    <Heading3>School Assembly Video</Heading3>
-                    <RedirectButtonWithPill title={`${assemblySeries} ${assemblyTitle}`} pillText="Latest Video" pillClass="bg-blue-500" downloadLink={assemblyLink} imageLink={assemblyImageLink}></RedirectButtonWithPill>
-                </div>
-                :
-                <div className="mb-2">
-                    <Heading3>School Assembly Video</Heading3>
-                    <RedirectButtonWithPill title="Go to Assembly Videos" pillText="Online Presentation" pillClass="bg-blue-500" downloadLink={route('assembly.index')}></RedirectButtonWithPill>
-                </div>
-            }
+
+            <div className="mb-2">
+                <Heading3>School Assembly Video</Heading3>
+                <RedirectButtonWithPill title="Go to Assembly Videos" pillText="Online Presentation" pillClass="bg-blue-500" downloadLink={route('assembly.index')}></RedirectButtonWithPill>
+            </div>
         </div>
     );
 }

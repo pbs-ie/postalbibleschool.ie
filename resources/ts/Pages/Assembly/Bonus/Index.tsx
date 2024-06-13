@@ -1,5 +1,4 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
 import route from "ziggy-js";
 import BonusVideoGallery from "@/Components/Gallery/BonusVideoGallery";

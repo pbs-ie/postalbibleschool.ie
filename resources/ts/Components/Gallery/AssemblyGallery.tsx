@@ -1,8 +1,9 @@
 import VideoGalleryCard from "@/Components/Cards/VideoGalleryCard";
 import Heading2 from "@/Components/Typography/Heading2";
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
 import route from "ziggy-js";
 
-export default function GalleryAssembly({ headingText, videoList = [] }: { headingText: string, videoList: VideoListMeta[] }) {
+export default function AssemblyGallery({ headingText, videoList = [] }: { headingText: string, videoList: AssemblyVideoProps[] }) {
     const totalVideos = videoList.length;
     return (
         <section>
@@ -13,8 +14,8 @@ export default function GalleryAssembly({ headingText, videoList = [] }: { headi
 
                     <div className="flex flex-wrap gap-2 lg:grid lg:gap-4 lg:grid-cols-4 w-fit lg:max-w-6xl">
                         {
-                            videoList.map(({ monthTitle, month, routename, imageLink, id, series }, index) => (
-                                <VideoGalleryCard key={monthTitle + index} clickLink={route('assembly.show', { 'series': routename })} active={false} title={monthTitle} series={series} month={month} total={totalVideos} imageLink={routename} idx={index} ></VideoGalleryCard>
+                            videoList.map(({ title, month, imageLink, id, series }, index) => (
+                                <VideoGalleryCard key={title + index} clickLink={route('assembly.show', id)} active={false} title={title} series={series} month={month} total={totalVideos} imageLink={imageLink} idx={index} ></VideoGalleryCard>
                             ))
                         }
                     </div>

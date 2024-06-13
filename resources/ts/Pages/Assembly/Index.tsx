@@ -4,11 +4,21 @@ import VideoHeroCard from "@/Components/Cards/VideoHeroCard";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { getLastElementsOfArray, sortArrayById } from "@/helper";
-import GalleryAssembly from "@/Components/Gallery/GalleryAssembly";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import route from "ziggy-js";
+import AssemblyGallery from "@/Components/Gallery/AssemblyGallery";
 
-export default function Index({ videoList, canViewGallery = false, canEdit = false }: { videoList: VideoListMeta[], canViewGallery: boolean, canEdit?: boolean }) {
+export interface AssemblyVideoProps {
+    id: number,
+    title: string,
+    month: string,
+    series: string,
+    imageFile?: File | null,
+    imageLink: string,
+    videoContent: VideoMeta[]
+}
+
+export default function Index({ videoList = [], canViewGallery = false, canEdit = false }: { videoList: AssemblyVideoProps[], canViewGallery: boolean, canEdit?: boolean }) {
     const { auth } = usePage<PassedProps>().props;
 
 
@@ -38,18 +48,23 @@ export default function Index({ videoList, canViewGallery = false, canEdit = fal
                     </Paragraph>
                 </div>
 
-                <div className="mx-auto">
-                    <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
-                        {getLastElementsOfArray(sortArrayById(videoList), 2).map((value, index) => (
-                            <li key={index}>
-                                <VideoHeroCard buttonLink={route('assembly.show', { 'series': value.routename })} title={(value.monthTitle && value.monthTitle !== "") ? value.monthTitle : value.month} series={value.series} imageLink={value.routename} idx={value.id}></VideoHeroCard>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                {videoList.length > 0 ?
+                    <><div className="mx-auto">
+                        <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
+                            {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
+                                <li key={index}>
+                                    <VideoHeroCard buttonLink={route('assembly.show', value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {auth && auth.user && canViewGallery &&
-                    <GalleryAssembly headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></GalleryAssembly>
+                        {auth && auth.user && canViewGallery &&
+                            <AssemblyGallery headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></AssemblyGallery>
+                        }
+                    </>
+                    :
+                    <div className="italic text-gray-500">No videos added yet.</div>
                 }
             </section>
 

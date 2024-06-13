@@ -13,8 +13,10 @@ import { modalHelper } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import route from "ziggy-js";
+import { AssemblyVideoProps } from "./Index";
 
-export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
+
+export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -22,17 +24,17 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
 
     const tableDataMemo = useMemo(() => videoList, [videoList]);
 
-    const columnHelper = createColumnHelper<VideoListMeta>();
+    const columnHelper = createColumnHelper<AssemblyVideoProps>();
 
     const defaultColumns = [
         columnHelper.display({
             id: 'Image',
             header: 'Thumbnail',
             cell: ({ row }) => (
-                <img className="w-40" src={row.original.imageLink} alt={"Image for " + row.original.monthTitle} />
+                <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Image for " + row.original.title} />
             )
         }),
-        columnHelper.accessor(row => row.monthTitle, {
+        columnHelper.accessor(row => row.title, {
             header: 'Title',
         }),
         columnHelper.accessor(row => row.month, {
@@ -40,9 +42,6 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
         }),
         columnHelper.accessor(row => row.series, {
             header: 'Series',
-        }),
-        columnHelper.accessor(row => row.routename, {
-            header: 'Routename',
         }),
         columnHelper.display({
             id: 'actions',
@@ -53,12 +52,12 @@ export default function Admin({ videoList }: { videoList: VideoListMeta[] }) {
                         <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.routename)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
                         <BasicButton dataTest={"assembly_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
                             setIdToDelete(row.original.id);
-                            setNameToDelete(row.original.monthTitle);
+                            setNameToDelete(row.original.title);
                             showModal();
                         }}><span className="flex flex-col items-center text-red-500">
                                 <Trash key={row.id} />Delete

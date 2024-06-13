@@ -3,7 +3,8 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\GroupLessonRequestController;
-use App\Http\Controllers\AssemblyController;
+// use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 // use App\Http\Controllers\StudentController;
+use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
@@ -42,7 +44,7 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
-        'videoList' => (new AssemblyController)->getAssemblyList(),
+        'videoList' => AssemblyVideo::latest()->get(AssemblyVideo::columnsAsCamel),
         'canViewGallery' => Gate::check('view:assembly'),
     ]);
 })->name('home');
@@ -157,20 +159,23 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
         Route::post('/{id}', 'update')->name('update')->middleware(['auth'])->can('create:assembly');
         Route::delete('/{id}', 'destroy')->name('destroy')->can('create:assembly');
     });
-    Route::get('/', [AssemblyController::class, 'index'])->name('index');
-    Route::get('/{series}', [AssemblyController::class, 'show'])->name('show');
-    Route::get('/image/{imageId}', [AssemblyController::class, 'image'])->name('image');
+
+    Route::controller(AssemblyVideoController::class)->middleware(['auth', 'can:create:assembly'])->group(function () {
+        Route::post('/', 'store')->name('store');
+        Route::get('/admin', 'admin')->name('admin');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
+        Route::post('/{video}', 'update')->name('update');
+        Route::delete('/{video}', 'destroy')->name('destroy');
+    });
+
+    Route::controller(AssemblyVideoController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+    });
 });
 
-Route::prefix('assembly')->name('assembly.')->controller(AssemblyController::class)->middleware(['auth', 'can:create:assembly'])->group(function () {
-    Route::post('/', 'store')->name('store');
-    Route::get('/admin', 'admin')->name('admin');
-    Route::get('/create', 'create')->name('create');
-    Route::get('/{id}/edit', 'edit')->name('edit');
-    // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
-    Route::post('/{id}', 'update')->name('update');
-    Route::delete('/{id}', 'destroy')->name('destroy');
-});
 
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();

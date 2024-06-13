@@ -17,7 +17,7 @@ export default function VideoGalleryCard({ title, clickLink, month, series = "",
         <article>
             <a href={clickLink} className={"inline-flex flex-col items-center gap-2 p-2 md:p-4 overflow-hidden rounded-lg drop-shadow-lg " + (active ? "bg-pbsblue text-slate-50" : "bg-stone-100 text-gray-600")}>
                 <div className="relative">
-                    <img src={route('assembly.image', imageLink)} alt={"Video " + idx} className="block object-cover w-full h-40 bg-top rounded md:h-44 aspect-video" />
+                    <img src={route('images.show', imageLink)} alt={"Video " + idx} className="block object-cover w-full h-40 bg-top rounded md:h-44 aspect-video" />
                 </div>
                 <div className="text-center">
                     <h1 className="text-sm font-bold uppercase md:text-base">{series ? month + " — " + series : month}</h1>

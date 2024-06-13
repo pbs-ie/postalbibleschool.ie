@@ -1,10 +1,14 @@
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import TextInput from "@/Elements/Forms/TextInput";
+import MinusCircle from "@/Elements/Icons/MinusCircle";
+import PlusHollow from "@/Elements/Icons/PlusHollow";
 import { usePage } from "@inertiajs/react";
 import { useEffect, useReducer } from "react";
 
-export default function VideoEditFormComponent({ videoContent, setContent, mode = "edit" }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void, mode?: "create" | "edit" },) {
+export default function VideoEditFormComponent({ videoContent = [], setContent }: { videoContent: VideoMeta[], setContent: (newContent: VideoMeta[]) => void }) {
     const { errors } = usePage().props;
+
+    const isEditMode = videoContent.length !== 0;
 
     interface Action {
         type: "changeValue" | "addValue" | "removeValue";
@@ -15,13 +19,13 @@ export default function VideoEditFormComponent({ videoContent, setContent, mode 
         idx: number;
     }
 
-    const initialState: VideoMeta[] = videoContent;
     const blankState: VideoMeta[] = [{
         title: "",
         externalUrl: "",
         duration: "",
         id: 0
     }];
+    const initialState: VideoMeta[] = isEditMode ? [...videoContent] : blankState;
 
 
     const reducer = (state: VideoMeta[], action: ChangeAction | Action) => {
@@ -78,7 +82,7 @@ export default function VideoEditFormComponent({ videoContent, setContent, mode 
     return (
         <>
             <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
-            {mode === "edit" &&
+            {isEditMode &&
                 <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
             }
             <table>
@@ -88,14 +92,14 @@ export default function VideoEditFormComponent({ videoContent, setContent, mode 
                         <th>External URL</th>
                         <th>Title</th>
                         <th>Duration</th>
-                        <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })} className="before:content-['+'] before:pr-1 before:text-lg bg-green-200">Add Row</SecondaryButton></th>
+                        <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })}><span className="inline-flex items-center gap-2">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
                     </tr>
                 </thead>
                 <tbody>
                     {videoState.map(({ title, externalUrl, duration, id }, idx) => (
                         <tr className={Object.keys(errors).some(key => key.includes('videoContent.' + idx)) ? "border-2 border-red-500" : ""} key={"contenttable" + idx}>
                             <td>
-                                {mode === "edit" ?
+                                {isEditMode ?
                                     <TextInput
                                         type={"text"}
                                         name={"id"}
@@ -144,9 +148,8 @@ export default function VideoEditFormComponent({ videoContent, setContent, mode 
                                     onClick={() => dispatch({
                                         type: "removeValue",
                                         idx: idx
-                                    })}
-                                    className="bg-red-200 before:content-['-'] before:pr-1 before:text-lg">
-                                    Remove Row
+                                    })}>
+                                    <span className="inline-flex items-center gap-2">Remove Row <MinusCircle className="w-5 h-5" /></span>
                                 </SecondaryButton>
                             </td>
                         </tr>
