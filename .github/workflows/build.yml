@@ -18,6 +18,7 @@ jobs:
         run: npm ci
       - name: Create .env file for build
         run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
+
       - name: Build steps
         run: |
           npm run build
@@ -30,6 +31,7 @@ jobs:
       - name: Artisan caching
         run: |
           php artisan optimize
+          php artisan migrate --force
 
       - name: Create deployment archive
         env:
