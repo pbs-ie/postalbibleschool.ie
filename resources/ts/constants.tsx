@@ -137,6 +137,8 @@ declare global {
         isActive: boolean;
         eventImage?: File | null;
         eventImageLink?: string,
+        scheduleFile?: File | null;
+        scheduleFileLink?: string;
     }
 
     interface CurriculumProps {

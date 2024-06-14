@@ -18,7 +18,9 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         "embedLink": stepSettings.embedLink,
         "isActive": stepSettings.isActive,
         "eventImage": stepSettings.eventImage,
-        "eventImageLink": stepSettings.eventImageLink
+        "eventImageLink": stepSettings.eventImageLink,
+        "scheduleFile": stepSettings.scheduleFile,
+        "scheduleFileLink": stepSettings.scheduleFileLink
     }
     const { data, setData, post, errors } = useForm(defaultData);
 
@@ -36,7 +38,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         }
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.name === "eventImage" && event.target.files) {
+        if ((event.target.name === "eventImage" || event.target.name === "scheduleFile") && event.target.files) {
             setData(event.target.name, event.target.files[0]);
         }
     }
@@ -90,16 +92,31 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <InputError message={errors.isActive} />
                     </div>
                 </div>
-                <div className="inline-flex gap-2 mt-4">
-                    <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
-                    <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
-                    <InputError message={errors.eventImage} />
+                <div>
+                    <div className="inline-flex gap-2 mt-4">
+                        <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
+                        <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
+                        <InputError message={errors.eventImage} />
+                    </div>
+                    <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
                 </div>
-                <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
+                <div className="h-full">
+                    <div className="inline-flex gap-2 mt-4">
+                        <InputLabel2 forInput={"scheduleFile"} value={"Schedule File (PDF)"} />
+                        <FileInput name={"scheduleFile"} id={"scheduleFile"} className={""} handleChange={handleFileChange} accept="application/pdf" />
+                        <InputError message={errors.scheduleFile} />
+                    </div>
+                    {data.scheduleFileLink &&
+                        // <iframe className="w-full h-52" src={route('assets.show', data.scheduleFileLink)} ></iframe>
+                        <object height={"500px"} data={data.scheduleFile ? URL.createObjectURL(data.scheduleFile) : route('assets.show', data.scheduleFileLink)} type="application/pdf">
+                            <p>Schedule for current STEP <a href={route('assets.show', data.scheduleFileLink)}>PDF file link</a></p>
+                        </object>
+                    }
+                </div>
             </div>
             <div>
                 <PrimaryButton>Update</PrimaryButton>
             </div>
-        </form>
+        </form >
     )
 }

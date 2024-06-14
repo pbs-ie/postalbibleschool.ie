@@ -27,6 +27,14 @@ class StepSettingController extends Controller
             $storagePath = Storage::disk('images')->put('/event_images', $request->file('eventImage'));
             $settings->eventImageLink = $storagePath;
         }
+        // Replacing stored file
+        if ($request->hasFile('scheduleFile')) {
+            if (Storage::disk('public')->exists($settings->scheduleFileLink)) {
+                Storage::disk('public')->delete($settings->scheduleFileLink);
+            }
+            $storagePath = Storage::disk('public')->put('/files', $request->file('scheduleFile'));
+            $settings->scheduleFileLink = $storagePath;
+        }
 
         $settings->dates = $request->input('dates');
         $settings->topic = $request->input('topic');

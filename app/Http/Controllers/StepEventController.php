@@ -24,9 +24,11 @@ class StepEventController extends Controller
         ]);
     }
 
-    // public function schedule()
-    // {
-    //     return Inertia::render('Events/Step/Index');
-    // }
+    public function schedule(StepSettings $stepSettings)
+    {
+        return Inertia::render('Events/Step/Schedule', [
+            'stepSettings' => $stepSettings
+        ]);
+    }
 
 }

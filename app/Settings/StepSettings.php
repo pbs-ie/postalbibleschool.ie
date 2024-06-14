@@ -15,6 +15,7 @@ class StepSettings extends Settings
     public string $embedLink;
     public bool $isActive;
     public string $eventImageLink;
+    public string $scheduleFileLink;
 
     public static function group(): string
     {
