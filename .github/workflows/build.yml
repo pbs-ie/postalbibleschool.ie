@@ -18,7 +18,6 @@ jobs:
         run: npm ci
       - name: Create .env file for build
         run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
-
       - name: Build steps
         run: |
           npm run build
