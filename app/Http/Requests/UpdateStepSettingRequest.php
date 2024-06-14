@@ -36,8 +36,13 @@ class UpdateStepSettingRequest extends FormRequest
             'eventImage' => [
                 File::image()
                     ->types(['png', 'jpg'])
-                    ->max(15 * 1024)
+                    ->max(15 * 1024),
+                'nullable'
             ],
+            'scheduleFile' => [
+                File::types('pdf'),
+                'nullable'
+            ]
         ];
     }
 }

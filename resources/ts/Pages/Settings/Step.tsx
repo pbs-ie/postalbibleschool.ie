@@ -12,7 +12,7 @@ export default function Step({ stepSettings }: { stepSettings: StepSettingsProps
             <section className="px-4 py-4 space-y-8 sm:px-6 lg:px-12">
 
                 <div>
-                    <Heading2Alt>Registration Details</Heading2Alt>
+                    <Heading2Alt>Active Event</Heading2Alt>
                     <hr />
                     <StepRegistrationSettingsForm stepSettings={stepSettings} />
                 </div>

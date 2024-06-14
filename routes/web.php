@@ -126,6 +126,8 @@ Route::prefix('events')->name('events.')->group(function () {
             return redirect()->route('events.step.signup');
         });
 
+        Route::get('/schedule', 'schedule')->name('schedule');
+
         Route::prefix('past')->name('past.')->controller(StepPastController::class)->group(function () {
             Route::middleware(['auth', 'can:create:events'])->group(function () {
                 Route::post('/', 'store')->name('store');
