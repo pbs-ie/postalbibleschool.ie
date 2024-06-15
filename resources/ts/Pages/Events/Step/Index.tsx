@@ -6,6 +6,7 @@ import GamesImage from "@images/step/step-games.jpg";
 import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
+import StepScheduleFile from "@images/step/step_tt_june_24.pdf"
 
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import StepWrapper from "@/Layouts/StepWrapper";
@@ -25,6 +26,8 @@ import Group from "@/Elements/Icons/Group";
 import Location from "@/Elements/Icons/Location";
 
 import route from "ziggy-js";
+import Download from "@/Elements/Icons/Download";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 
 export default function Index({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const images: Gallery[] = [
@@ -111,7 +114,10 @@ export default function Index({ stepSettings }: { stepSettings: StepSettingsProp
             </ExtendScreenWrapper>
             {stepSettings.isActive &&
                 <EventCardContainer cards={stepCards}>
-                    <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
+                    <div className="flex justify-center w-full gap-2">
+                        <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
+                        <ButtonAnchor Icon={Download} href={StepScheduleFile}>Download Schedule</ButtonAnchor>
+                    </div>
                 </EventCardContainer>
             }
             <ExtendScreenWrapper>
