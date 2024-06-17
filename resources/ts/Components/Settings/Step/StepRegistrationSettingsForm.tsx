@@ -7,11 +7,13 @@ import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import route from "ziggy-js";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const defaultData = {
         "topic": stepSettings.topic,
         "speaker": stepSettings.speaker,
+        "description": stepSettings.description,
         "dates": stepSettings.dates,
         "standardCost": stepSettings.standardCost,
         "concessionCost": stepSettings.concessionCost,
@@ -22,12 +24,13 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         "scheduleFile": stepSettings.scheduleFile,
         "scheduleFileLink": stepSettings.scheduleFileLink
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors } = useForm<StepSettingsProps>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "topic":
             case "speaker":
+            case "description":
             case "dates":
             case "standardCost":
             case "concessionCost":
@@ -51,7 +54,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <hr />
             <div className="my-4 ">
-                <div className="grid grid-cols-2 ">
+                <div className="grid grid-cols-1 md:grid-cols-2">
                     <div>
                         <InputLabel2 forInput={"topic"} value={"Topic"} />
                         <TextInput name={"topic"} id={"topic"} value={data.topic} handleChange={handleChange} />
@@ -61,6 +64,11 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <InputLabel2 forInput={"speaker"} value={"Speaker"} />
                         <TextInput name={"speaker"} id={"speaker"} value={data.speaker} handleChange={handleChange} />
                         <InputError message={errors.speaker} />
+                    </div>
+                    <div className="md:col-span-2">
+                        <InputLabel2 forInput={"description"} value={"Description"} />
+                        <TextAreaInput rows={4} className="w-full" name={"description"} id={"description"} value={data.description} handleChange={handleChange} />
+                        <InputError message={errors.description} />
                     </div>
                     <div>
                         <InputLabel2 forInput={"dates"} value={"Dates"} />
@@ -84,13 +92,14 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <InputError message={errors.embedLink} />
                     </div>
                     <div>
-                        <InputLabel2 forInput={"isActive"} value={"Is Registration Active?"} />
+                        <InputLabel2 forInput={"isActive"} value={"Is Event Active?"} />
                         <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
                             <option value="true">True</option>
                             <option value="false">False</option>
                         </SelectInput>
                         <InputError message={errors.isActive} />
                     </div>
+
                 </div>
                 <div>
                     <div className="inline-flex gap-2 mt-4">

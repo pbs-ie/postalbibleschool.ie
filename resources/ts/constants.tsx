@@ -130,6 +130,7 @@ declare global {
     interface StepSettingsProps {
         dates: string;
         topic: string;
+        description: string;
         standardCost: string;
         concessionCost: string;
         speaker: string;

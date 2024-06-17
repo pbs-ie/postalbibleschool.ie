@@ -38,6 +38,7 @@ class StepSettingController extends Controller
 
         $settings->dates = $request->input('dates');
         $settings->topic = $request->input('topic');
+        $settings->description = $request->input('description');
         $settings->standardCost = $request->input('standardCost');
         $settings->concessionCost = $request->input('concessionCost');
         $settings->speaker = $request->input('speaker');
