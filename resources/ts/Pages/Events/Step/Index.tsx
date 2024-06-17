@@ -6,7 +6,6 @@ import GamesImage from "@images/step/step-games.jpg";
 import BunsImage from "@images/step/step-buns.jpg";
 import StudyImage from "@images/step/step-study.jpg";
 import MeetingImage from "@images/step/step-meeting.jpg";
-import StepScheduleFile from "@images/step/step_tt_june_24.pdf"
 
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import StepWrapper from "@/Layouts/StepWrapper";
@@ -116,7 +115,7 @@ export default function Index({ stepSettings }: { stepSettings: StepSettingsProp
                 <EventCardContainer cards={stepCards}>
                     <div className="flex justify-center w-full gap-2">
                         <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
-                        <ButtonAnchor Icon={Download} href={StepScheduleFile}>Download Schedule</ButtonAnchor>
+                        <ButtonAnchor Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule</ButtonAnchor>
                     </div>
                 </EventCardContainer>
             }

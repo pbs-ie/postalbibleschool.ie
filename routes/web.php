@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\CurriculumController;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,6 +243,11 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
     Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });
+
+Route::get('/assets/download/{file}', function ($file) {
+    $filename = Carbon::now()->format('Y-m-d-H-i-s') . ' Postal Bible School download.' . Str::afterLast($file, '.');
+    return Storage::disk('public')->download($file, Str::kebab($filename));
+})->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
     return response()->file(public_path('storage/' . $file));
