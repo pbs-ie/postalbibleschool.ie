@@ -37,22 +37,21 @@ class StepSettingController extends Controller
                 $storagePath = Storage::disk('public')->put('/files', $request->file('scheduleFile'));
                 $settings->scheduleFileLink = $storagePath;
             }
+
+            $settings->dates = $request->input('dates');
+            $settings->topic = $request->input('topic');
+            $settings->description = $request->input('description');
+            $settings->standardCost = $request->input('standardCost');
+            $settings->concessionCost = $request->input('concessionCost');
+            $settings->speaker = $request->input('speaker');
+            $settings->embedLink = $request->input('embedLink');
+            $settings->isActive = $request->boolean('isActive');
+
+            $settings->save();
         } catch (\Exception $exception) {
             Log::error($exception);
             return redirect()->route('settings.step.index')->with('failure', 'STEP settings could not update');
         }
-
-        $settings->dates = $request->input('dates');
-        $settings->topic = $request->input('topic');
-        $settings->description = $request->input('description');
-        $settings->standardCost = $request->input('standardCost');
-        $settings->concessionCost = $request->input('concessionCost');
-        $settings->speaker = $request->input('speaker');
-        $settings->embedLink = $request->input('embedLink');
-        $settings->isActive = $request->boolean('isActive');
-
-        $settings->save();
-
         return redirect()->route('settings.step.index')->with('success', 'STEP settings updated successfully');
     }
 }
