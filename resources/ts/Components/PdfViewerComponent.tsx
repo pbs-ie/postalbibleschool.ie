@@ -5,8 +5,9 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import BasicButton from '@/Elements/Buttons/BasicButton';
 import ChevronLeft from '@/Elements/Icons/ChevronLeft';
 import ChevronRight from '@/Elements/Icons/ChevronRight';
-
 import { pdfjs } from 'react-pdf';
+
+// TODO: The oddest bug I can't find the solution to. When this component is loaded into view, a logged in user is logged out.
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PdfViewerComponent({ file, ...props }: { file: string } & DocumentProps) {
