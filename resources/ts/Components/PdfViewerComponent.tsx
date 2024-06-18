@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Document, Outline, Page } from 'react-pdf';
+import { Document, DocumentProps, Outline, Page } from 'react-pdf';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import { pdfjs } from 'react-pdf';
@@ -12,7 +12,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url,
 ).toString();
 
-export default function PdfViewerComponent({ file }: { file: string }) {
+export default function PdfViewerComponent({ file, ...props }: { file: string } & DocumentProps) {
     const [numPages, setNumPages] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState(1);
 
@@ -42,7 +42,7 @@ export default function PdfViewerComponent({ file }: { file: string }) {
         <div>
             {numPages && numPages > 1 &&
                 <div className='flex items-center justify-around w-full p-2 bg-gray-800 drop-shadow-lg'>
-                    <p className='text-sm'>
+                    <p className='text-sm text-white'>
                         Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
                     </p>
                     <div className='flex gap-2'>
@@ -72,6 +72,7 @@ export default function PdfViewerComponent({ file }: { file: string }) {
             <Document
                 file={cachedFile}
                 onLoadSuccess={onDocumentLoadSuccess}
+                {...props}
             >
                 <Outline onItemClick={onItemClick} />
                 <Page pageNumber={pageNumber} />

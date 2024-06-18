@@ -1,5 +1,5 @@
 import { useForm } from "@inertiajs/react"
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
@@ -8,8 +8,11 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import route from "ziggy-js";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import PdfViewerComponent from "@/Components/PdfViewerComponent";
+import NumberInput from "@/Elements/Forms/NumberInput";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
+    const [localScheduleFileLink, setLocalScheduleFileLink] = useState<string>();
     const defaultData = {
         "topic": stepSettings.topic,
         "speaker": stepSettings.speaker,
@@ -46,6 +49,13 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         }
     }
 
+    const handleLocalFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if ((event.target.name === "scheduleFile") && event.target.files) {
+            setData(event.target.name, event.target.files[0]);
+            setLocalScheduleFileLink(URL.createObjectURL(event.target.files[0]));
+        }
+    }
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('settings.step.update'));
@@ -77,13 +87,13 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     </div>
                     <div>
                         <InputLabel2 forInput={"standardCost"} value={"Standard Cost"} />
-                        <TextInput name={"standardCost"} id={"standardCost"} value={data.standardCost + ""} handleChange={handleChange} />
+                        <NumberInput name={"standardCost"} id={"standardCost"} value={data.standardCost + ""} handleChange={handleChange} />
                         <InputError message={errors.standardCost} />
                     </div>
 
                     <div>
                         <InputLabel2 forInput={"concessionCost"} value={"Concession/Student Cost"} />
-                        <TextInput name={"concessionCost"} id={"concessionCost"} value={data.concessionCost + ""} handleChange={handleChange} />
+                        <NumberInput name={"concessionCost"} id={"concessionCost"} value={data.concessionCost + ""} handleChange={handleChange} />
                         <InputError message={errors.concessionCost} />
                     </div>
                     <div>
@@ -104,7 +114,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                 <div>
                     <div className="inline-flex gap-2 mt-4">
                         <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
-                        <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
+                        <FileInput name={"eventImage"} id={"eventImage"} handleChange={handleFileChange} accept="image/png, image/jpeg" />
                         <InputError message={errors.eventImage} />
                     </div>
                     <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
@@ -112,15 +122,13 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                 <div className="h-full">
                     <div className="inline-flex gap-2 mt-4">
                         <InputLabel2 forInput={"scheduleFile"} value={"Schedule File (PDF)"} />
-                        <FileInput name={"scheduleFile"} id={"scheduleFile"} className={""} handleChange={handleFileChange} accept="application/pdf" />
+                        <FileInput name={"scheduleFile"} id={"scheduleFile"} handleChange={handleLocalFileChange} accept="application/pdf" />
                         <InputError message={errors.scheduleFile} />
                     </div>
-                    {data.scheduleFileLink &&
-                        // <iframe className="w-full h-52" src={route('assets.show', data.scheduleFileLink)} ></iframe>
-                        <object height={"500px"} data={data.scheduleFile ? URL.createObjectURL(data.scheduleFile) : route('assets.show', data.scheduleFileLink)} type="application/pdf">
-                            <p>Schedule for current STEP <a href={route('assets.show', data.scheduleFileLink)}>PDF file link</a></p>
-                        </object>
-                    }
+                    <div>
+                        <p>File Preview:</p>
+                        <PdfViewerComponent file={localScheduleFileLink ? localScheduleFileLink : route('assets.show', data.scheduleFileLink)} className={"h-52 overflow-auto"} />
+                    </div>
                 </div>
             </div>
             <div>
