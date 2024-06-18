@@ -5,8 +5,11 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
+import { pdfjs } from 'react-pdf';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'PBS';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 createInertiaApp({
     title: (title) => `${title} | ${appName}`,

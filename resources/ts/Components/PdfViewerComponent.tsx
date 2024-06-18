@@ -2,12 +2,10 @@ import { useMemo, useState } from 'react';
 import { Document, DocumentProps, Outline, Page } from 'react-pdf';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
-import { pdfjs } from 'react-pdf';
 import BasicButton from '@/Elements/Buttons/BasicButton';
 import ChevronLeft from '@/Elements/Icons/ChevronLeft';
 import ChevronRight from '@/Elements/Icons/ChevronRight';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PdfViewerComponent({ file, ...props }: { file: string } & DocumentProps) {
     const [numPages, setNumPages] = useState<number | null>(null);
