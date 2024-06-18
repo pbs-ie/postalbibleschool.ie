@@ -240,7 +240,7 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });
 
-Route::get('/assets/download/{file}', function ($file) {
+Route::get('/download/{file}', function ($file) {
     $filename = Str::kebab(Carbon::now()->format('YmdHi') . ' Postal Bible School download.' . Str::afterLast($file, '.'));
     $headers = [
         'Content-Type' => 'application/pdf',

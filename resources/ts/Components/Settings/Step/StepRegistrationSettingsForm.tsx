@@ -1,5 +1,5 @@
 import { useForm } from "@inertiajs/react"
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
@@ -13,7 +13,7 @@ import NumberInput from "@/Elements/Forms/NumberInput";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [localScheduleFileLink, setLocalScheduleFileLink] = useState<string>();
-    const defaultData = {
+    const [defaultData, setDefaultData] = useState({
         "topic": stepSettings.topic,
         "speaker": stepSettings.speaker,
         "description": stepSettings.description,
@@ -26,7 +26,25 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
         "eventImageLink": stepSettings.eventImageLink,
         "scheduleFile": stepSettings.scheduleFile,
         "scheduleFileLink": stepSettings.scheduleFileLink
-    }
+    });
+    useEffect(() => {
+        setDefaultData({
+            "topic": stepSettings.topic,
+            "speaker": stepSettings.speaker,
+            "description": stepSettings.description,
+            "dates": stepSettings.dates,
+            "standardCost": stepSettings.standardCost,
+            "concessionCost": stepSettings.concessionCost,
+            "embedLink": stepSettings.embedLink,
+            "isActive": stepSettings.isActive,
+            "eventImage": stepSettings.eventImage,
+            "eventImageLink": stepSettings.eventImageLink,
+            "scheduleFile": stepSettings.scheduleFile,
+            "scheduleFileLink": stepSettings.scheduleFileLink
+        });
+
+    }, [stepSettings])
+
     const { data, setData, post, errors } = useForm<StepSettingsProps>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
