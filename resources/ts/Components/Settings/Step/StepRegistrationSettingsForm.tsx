@@ -143,10 +143,6 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <FileInput name={"scheduleFile"} id={"scheduleFile"} handleChange={handleLocalFileChange} accept="application/pdf" />
                         <InputError message={errors.scheduleFile} />
                     </div>
-                    <div>
-                        <p>File Preview:</p>
-                        <PdfViewerComponent file={localScheduleFileLink ? localScheduleFileLink : route('assets.show', data.scheduleFileLink)} className={"h-52 overflow-auto"} />
-                    </div>
                 </div>
             </div>
             <div>
