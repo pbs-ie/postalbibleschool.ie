@@ -241,8 +241,11 @@ Route::prefix('payment')->name('payment.')->group(function () {
 });
 
 Route::get('/assets/download/{file}', function ($file) {
-    $filename = Carbon::now()->format('Y-m-d-H-i-s') . ' Postal Bible School download.' . Str::afterLast($file, '.');
-    return Storage::disk('public')->download($file, Str::kebab($filename));
+    $filename = Str::kebab(Carbon::now()->format('YmdHi') . ' Postal Bible School download.' . Str::afterLast($file, '.'));
+    $headers = [
+        'Content-Type' => 'application/pdf',
+    ];
+    return response()->download(public_path('storage/' . $file), $filename, $headers);
 })->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
