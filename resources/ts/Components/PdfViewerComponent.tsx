@@ -6,6 +6,8 @@ import BasicButton from '@/Elements/Buttons/BasicButton';
 import ChevronLeft from '@/Elements/Icons/ChevronLeft';
 import ChevronRight from '@/Elements/Icons/ChevronRight';
 
+import { pdfjs } from 'react-pdf';
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PdfViewerComponent({ file, ...props }: { file: string } & DocumentProps) {
     const [numPages, setNumPages] = useState<number | null>(null);
