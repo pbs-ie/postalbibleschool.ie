@@ -39,6 +39,7 @@ import CheckCircle from "@/Elements/Icons/CheckCircle"
 import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon"
 import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon"
 import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
+import CloudArrowUp from "@/Elements/Icons/CloudArrowUp"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -84,6 +85,9 @@ export default function IconSection() {
         }, {
             heading: <CloseX />,
             content: "CloseX",
+        }, {
+            heading: <CloudArrowUp />,
+            content: "CloudArrowUp",
         }, {
             heading: <DeviceTabletIcon />,
             content: "DeviceTabletIcon",

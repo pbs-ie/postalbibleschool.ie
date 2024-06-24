@@ -8,11 +8,12 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import route from "ziggy-js";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
-import PdfViewerComponent from "@/Components/PdfViewerComponent";
 import NumberInput from "@/Elements/Forms/NumberInput";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import Download from "@/Elements/Icons/Download";
+import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
-    const [localScheduleFileLink, setLocalScheduleFileLink] = useState<string>();
     const [defaultData, setDefaultData] = useState({
         "topic": stepSettings.topic,
         "speaker": stepSettings.speaker,
@@ -64,13 +65,6 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if ((event.target.name === "eventImage" || event.target.name === "scheduleFile") && event.target.files) {
             setData(event.target.name, event.target.files[0]);
-        }
-    }
-
-    const handleLocalFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if ((event.target.name === "scheduleFile") && event.target.files) {
-            setData(event.target.name, event.target.files[0]);
-            setLocalScheduleFileLink(URL.createObjectURL(event.target.files[0]));
         }
     }
 
@@ -137,12 +131,20 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     </div>
                     <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
                 </div>
-                <div className="h-full">
+                <div className="flex flex-col w-full h-full">
                     <div className="inline-flex gap-2 mt-4">
-                        <InputLabel2 forInput={"scheduleFile"} value={"Schedule File (PDF)"} />
-                        <FileInput name={"scheduleFile"} id={"scheduleFile"} onChange={handleFileChange} accept="application/pdf" />
+                        <FileUploadDropzone name={"scheduleFile"} labelText="Schedule File (PDF)" onChange={handleFileChange} accept="application/pdf" />
                         <InputError message={errors.scheduleFile} />
                     </div>
+                    {data.scheduleFile &&
+                        <p><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</p>
+                    }
+                    {stepSettings.scheduleFileLink &&
+                        <div className="w-fit">
+                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Existing File</ButtonAnchor>
+                        </div>
+                    }
+
                 </div>
             </div>
             <div>
