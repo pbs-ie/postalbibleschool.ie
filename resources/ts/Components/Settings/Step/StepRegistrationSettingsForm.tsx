@@ -132,7 +132,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                 <div>
                     <div className="inline-flex gap-2 mt-4">
                         <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
-                        <FileInput name={"eventImage"} id={"eventImage"} handleChange={handleFileChange} accept="image/png, image/jpeg" />
+                        <FileInput name={"eventImage"} id={"eventImage"} onChange={handleFileChange} accept="image/png, image/jpeg" />
                         <InputError message={errors.eventImage} />
                     </div>
                     <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
@@ -140,7 +140,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                 <div className="h-full">
                     <div className="inline-flex gap-2 mt-4">
                         <InputLabel2 forInput={"scheduleFile"} value={"Schedule File (PDF)"} />
-                        <FileInput name={"scheduleFile"} id={"scheduleFile"} handleChange={handleLocalFileChange} accept="application/pdf" />
+                        <FileInput name={"scheduleFile"} id={"scheduleFile"} onChange={handleFileChange} accept="application/pdf" />
                         <InputError message={errors.scheduleFile} />
                     </div>
                 </div>

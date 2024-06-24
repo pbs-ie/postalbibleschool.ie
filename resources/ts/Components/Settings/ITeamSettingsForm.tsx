@@ -66,7 +66,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
                 </div>
                 <div className="inline-flex gap-2 mt-4">
                     <InputLabel2 forInput={"eventImage"} value={"Banner Image"} />
-                    <FileInput name={"eventImage"} id={"eventImage"} className={""} handleChange={handleFileChange} accept="image/png, image/jpeg" />
+                    <FileInput name={"eventImage"} id={"eventImage"} className={""} onChange={handleFileChange} accept="image/png, image/jpeg" />
                     <InputError message={errors.eventImage} />
                 </div>
                 <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />

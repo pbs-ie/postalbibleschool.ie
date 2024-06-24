@@ -184,7 +184,7 @@ export default function VideoFilesEditComponent({ fileContent = [], setContent }
                                 </td>
                                 <td>
                                     <InputLabel2 title={fileData ? fileData.name : ""} forInput={`fileData${idx}`} className="flex items-center justify-center p-1 border rounded-md cursor-pointer hover:ring-1 hover:text-pbsblue ring-pbsblue active:ring-2 border-slate-400">
-                                        <FileInput name={"fileData"} id={`fileData${idx}`} className={"overflow-hidden w-0"} handleChange={(e) => handleComplexChange(idx, e)} />
+                                        <FileInput name={"fileData"} id={`fileData${idx}`} className={"overflow-hidden w-0"} onChange={(e) => handleComplexChange(idx, e)} />
                                         {fileData ?
                                             <span className="text-sm lowercase">{truncateStringEnd(fileData.name, 14)}</span>
                                             : filePath ? <span className="flex gap-1"><EditIcon />Change File</span>
