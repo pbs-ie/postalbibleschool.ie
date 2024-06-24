@@ -17,6 +17,11 @@ export default function SettingsSidebar() {
                         iTeam
                     </SidebarLink>
                 </ListItem>
+                <ListItem>
+                    <SidebarLink href={route('settings.sunscool.index')} isActive={route().current('settings.sunscool.*')}>
+                        Sunscool
+                    </SidebarLink>
+                </ListItem>
             </List>
         </nav>
     )

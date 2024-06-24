@@ -1,6 +1,7 @@
 import SettingsSidebar from "@/Components/Navigation/SettingsSidebar";
 import ITeamSettingsForm from "@/Components/Settings/ITeamSettingsForm";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 import { ITeamSettingProps } from "@/Pages/Events/ITeam";
 
@@ -9,14 +10,14 @@ export default function ITeam({ iteamSettings }: { iteamSettings: ITeamSettingPr
     return (
         <SettingsLayout title={"iTeam Settings"}>
             <SettingsSidebar />
-            <section className="px-4 py-4 space-y-8 sm:px-6 lg:px-12">
+            <SettingsSection>
 
                 <div>
                     <Heading2Alt>Registration Details</Heading2Alt>
                     <hr />
                     <ITeamSettingsForm iteamSettings={iteamSettings} />
                 </div>
-            </section>
+            </SettingsSection>
         </SettingsLayout>
     )
 }
