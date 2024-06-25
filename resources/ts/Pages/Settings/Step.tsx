@@ -1,4 +1,3 @@
-import SettingsSidebar from "@/Components/Navigation/SettingsSidebar";
 import StepRegistrationSettingsForm from "@/Components/Settings/Step/StepRegistrationSettingsForm";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -7,10 +6,8 @@ import route from "ziggy-js";
 
 export default function Step({ stepSettings }: { stepSettings: StepSettingsProps }) {
     return (
-        <SettingsLayout title={"STEP Settings"}>
-            <SettingsSidebar />
+        <SettingsLayout title={"STEP Settings"} pageRoute={route('events.step.signup')}>
             <section className="px-4 py-4 space-y-8 sm:px-6 lg:px-12">
-
                 <div>
                     <Heading2Alt>Active Event</Heading2Alt>
                     <hr />

@@ -1,8 +1,10 @@
 import NavLink from "@/Components/Navigation/NavLink";
 import LogoWhite from "@images/step/step_logo.png";
+import { usePage } from "@inertiajs/react";
 import route from "ziggy-js";
 
 export default function StepNavbar() {
+    const stepSettings = usePage().props.stepSettings as StepSettingsProps;
     return (
         <div role="navigation" className="w-full text-blue-900 bg-sky-300">
             {LogoWhite && (
@@ -20,15 +22,19 @@ export default function StepNavbar() {
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.past.*')} href={route('events.step.past.gallery')}>Past Events</NavLink>
                 </li>
-                <li className="flex -my-px">
-                    <NavLink isSecondary={true} active={route().current('events.step.signup')} href={route('events.step.signup')}>Sign Up</NavLink>
-                </li>
-                <li className="flex -my-px">
-                    <NavLink isSecondary={true} active={route().current('events.step.schedule')} href={route('events.step.schedule')}>Schedule</NavLink>
-                </li>
-                <li className="flex -my-px">
-                    <NavLink isSecondary={true} active={route().current('payment.step')} href={route('payment.step')}>Payment</NavLink>
-                </li>
+                {stepSettings?.isActive &&
+                    <>
+                        <li className="flex -my-px">
+                            <NavLink isSecondary={true} active={route().current('events.step.signup')} href={route('events.step.signup')}>Sign Up</NavLink>
+                        </li>
+                        <li className="flex -my-px">
+                            <NavLink isSecondary={true} active={route().current('events.step.schedule')} href={route('events.step.schedule')}>Schedule</NavLink>
+                        </li>
+                        <li className="flex -my-px">
+                            <NavLink isSecondary={true} active={route().current('payment.step')} href={route('payment.step')}>Payment</NavLink>
+                        </li>
+                    </>
+                }
 
             </ul>
         </div>

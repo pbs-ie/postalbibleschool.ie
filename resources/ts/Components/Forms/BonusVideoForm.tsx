@@ -92,7 +92,7 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
                     </div>
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required={!videoData} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} required={!videoData} accept="image/png" />
+                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} required={!videoData} accept="image/png" />
                     </div>
                     <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : videoData ? route('images.show', data.imageLink) : ""} />
                 </div>

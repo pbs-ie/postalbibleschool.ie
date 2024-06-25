@@ -1,15 +1,11 @@
 import { ChangeEventHandler } from "react"
 
-interface FileInput {
-    handleChange: ChangeEventHandler<HTMLElement>
-}
 
-export default function FileInput({ handleChange, ...props }: FileInput & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "type">) {
+export default function FileInput({ ...props }: Omit<React.InputHTMLAttributes<HTMLInputElement>, "type">) {
     return (
         <input
             {...props}
             type="file"
-            onChange={handleChange}
         />
     )
 }

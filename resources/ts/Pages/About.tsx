@@ -17,7 +17,7 @@ export default function About() {
                     <Heading2>Who We Are</Heading2>
                     <ParagraphContainer>
                         <Paragraph>Postal Bible School is a registered charity in Ireland and is closely linked with the work of BES (Bible Educational Services) which grew out of the same seed work and now connects it to other PBS centres across the world.</Paragraph>
-                        <Paragraph>As a charity our aims are the distribution and teaching of God’s word the bible through distribution of educational resources and the hosting of events.</Paragraph>
+                        <Paragraph>As a charity our aims are the distribution and teaching of God's word the bible through distribution of educational resources and the hosting of events.</Paragraph>
                     </ParagraphContainer>
                 </header>
 

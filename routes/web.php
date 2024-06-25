@@ -25,6 +25,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\CurriculumController;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,10 +123,6 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', 'index')->name('index');
 
         Route::get('/signup', 'signup')->name('signup');
-        // Fix for bad link that has a . at the end of /signup -> /signup.
-        Route::get('/signup.', function () {
-            return redirect()->route('events.step.signup');
-        });
 
         Route::get('/schedule', 'schedule')->name('schedule');
 
@@ -241,6 +239,14 @@ Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('/step', [PayPalController::class, 'step'])->name('step');
     Route::get('/camp', [PayPalController::class, 'camp'])->name('camp');
 });
+
+Route::get('/download/{file}', function ($file) {
+    $filename = Str::kebab(Carbon::now()->format('YmdHi') . ' Postal Bible School download.' . Str::afterLast($file, '.'));
+    $headers = [
+        'Content-Type' => 'application/pdf',
+    ];
+    return response()->download(public_path('storage/' . $file), $filename, $headers);
+})->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
     return response()->file(public_path('storage/' . $file));

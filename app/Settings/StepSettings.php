@@ -9,6 +9,7 @@ class StepSettings extends Settings
 
     public string $dates;
     public string $topic;
+    public string $description;
     public string $standardCost;
     public string $concessionCost;
     public string $speaker;
