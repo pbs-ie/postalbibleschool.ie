@@ -5,13 +5,13 @@ import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
-import FileInput from "@/Elements/Forms/FileInput";
 import route from "ziggy-js";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 import NumberInput from "@/Elements/Forms/NumberInput";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
+import LabelSpan from "@/Components/Typography/LabelSpan";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -67,6 +67,13 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
             setData(event.target.name, event.target.files[0]);
         }
     }
+    const handleDrop = (event: React.DragEvent, name: string) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if ((name === "eventImage" || name === "scheduleFile") && (droppedFiles.length > 0)) {
+            setData(name, droppedFiles[0]);
+        }
+    };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -123,28 +130,27 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     </div>
 
                 </div>
-                <div>
-                    <div className="inline-flex gap-2 mt-4">
-                        <InputLabel2 forInput={"eventImage"} value={"Thumbnail Image"} />
-                        <FileInput name={"eventImage"} id={"eventImage"} onChange={handleFileChange} accept="image/png, image/jpeg" />
+                <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
+                    <div className="inline-flex flex-col gap-2">
+                        <FileUploadDropzone name={"eventImage"} labelText={"Thumbnail Image"} onDrop={(e) => handleDrop(e, 'eventImage')} onChange={handleFileChange} accept="image/png, image/jpeg" />
                         <InputError message={errors.eventImage} />
                     </div>
-                    <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
-                </div>
-                <div className="flex flex-col w-full h-full">
-                    <div className="inline-flex gap-2 mt-4">
-                        <FileUploadDropzone name={"scheduleFile"} labelText="Schedule File (PDF)" onChange={handleFileChange} accept="application/pdf" />
-                        <InputError message={errors.scheduleFile} />
+                    <div>
+                        <LabelSpan>Preview</LabelSpan>
+                        <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
                     </div>
+                </div>
+                <div className="flex flex-col h-full w-fit">
+                    <FileUploadDropzone name={"scheduleFile"} labelText="Schedule File (PDF)" onDrop={(e) => handleDrop(e, 'scheduleFile')} onChange={handleFileChange} accept="application/pdf" />
+                    <InputError message={errors.scheduleFile} />
                     {data.scheduleFile &&
-                        <p><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</p>
+                        <div><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</div>
                     }
                     {stepSettings.scheduleFileLink &&
                         <div className="w-fit">
-                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Existing File</ButtonAnchor>
+                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Old Schedule</ButtonAnchor>
                         </div>
                     }
-
                 </div>
             </div>
             <div>
