@@ -53,7 +53,7 @@ export default function Index({ videoList = [], canViewGallery = false, canEdit 
                         <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
                             {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
                                 <li key={index}>
-                                    <VideoHeroCard buttonLink={route('assembly.show', value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
+                                    <VideoHeroCard buttonLink={route('assembly.show', +value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
                                 </li>
                             ))}
                         </ul>
