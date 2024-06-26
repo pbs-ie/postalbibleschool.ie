@@ -15,7 +15,7 @@ export default function AssemblyGallery({ headingText, videoList = [] }: { headi
                     <div className="flex flex-wrap gap-2 lg:grid lg:gap-4 lg:grid-cols-4 w-fit lg:max-w-6xl">
                         {
                             videoList.map(({ title, month, imageLink, id, series }, index) => (
-                                <VideoGalleryCard key={title + index} clickLink={route('assembly.show', id)} active={false} title={title} series={series} month={month} total={totalVideos} imageLink={imageLink} idx={index} ></VideoGalleryCard>
+                                <VideoGalleryCard key={title + index} clickLink={route('assembly.show', +id)} active={false} title={title} series={series} month={month} total={totalVideos} imageLink={imageLink} idx={index} ></VideoGalleryCard>
                             ))
                         }
                     </div>
