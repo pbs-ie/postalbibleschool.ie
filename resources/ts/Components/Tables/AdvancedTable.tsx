@@ -3,7 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
 import ChevronUp from "@/Elements/Icons/ChevronUp";
 import ChevronDown from "@/Elements/Icons/ChevronDown";
-import Filter from "./Filter";
+import TableColumnFilter from "@/Components/Tables/TableColumnFilter";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 
@@ -64,7 +64,7 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
             }
             <div className="relative overflow-auto max-h-96">
                 <table className="min-w-full divide-y divide-gray-200 table-fixed">
-                    <thead className="bg-gray-100 sticky top-0">
+                    <thead className="sticky top-0 bg-gray-100">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (
@@ -82,13 +82,13 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                                                         header.getContext()
                                                     )}
                                                     {header.column.getCanSort() && {
-                                                        asc: <ChevronUp className="h-4 w-4" />,
-                                                        desc: <ChevronDown className="h-4 w-4" />,
-                                                        none: <ChevronUpDown className="h-4 w-4" />,
+                                                        asc: <ChevronUp className="w-4 h-4" />,
+                                                        desc: <ChevronDown className="w-4 h-4" />,
+                                                        none: <ChevronUpDown className="w-4 h-4" />,
                                                     }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
                                                 </div>
                                                 {header.column.getCanFilter() && (
-                                                    <Filter column={header.column} />
+                                                    <TableColumnFilter column={header.column} />
                                                 )
                                                 }
                                             </div>
@@ -98,11 +98,11 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
                             </tr>
                         ))}
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200 max-h-96 overflow-y-auto">
+                    <tbody className="overflow-y-auto bg-white divide-y divide-gray-200 max-h-96">
                         {table.getRowModel().rows.map(row => (
                             <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
-                                    <td className="p-2 px-4 w-2 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
+                                    <td className="w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
                                         <div className="flex items-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </div>
