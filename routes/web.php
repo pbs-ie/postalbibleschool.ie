@@ -225,12 +225,12 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
     Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
     Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
-Route::prefix('orders')->name('orders.')->middleware(['auth'])->group(function () {
-    Route::get('/', [LessonOrderController::class, 'index'])->name('index')->can('view:orders');
-    Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync')->can('create:orders');
-    // Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show')->can('view:orders');
-    // Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit')->can('view:orders');
-    // Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update')->can('view:orders');
+Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders'])->group(function () {
+    Route::get('/', [LessonOrderController::class, 'index'])->name('index');
+    Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
+    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
+    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
+    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
 });
 
 // ************* PAYMENT ROUTES *****************

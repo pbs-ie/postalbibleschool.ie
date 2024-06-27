@@ -7,6 +7,7 @@ export default function OrderInfoCard({ schoolName, email, level0Order, level1Or
 
     return (
         <div className="flex flex-col items-center max-w-md gap-4 p-6 bg-white border border-gray-800 rounded-md drop-shadow-md">
+            <h3 className="w-full text-lg font-bold text-left lg:text-xl">Filemaker Data</h3>
             <div>
                 <div className={rowStyle}>
                     <span className="inline-flex gap-2 font-semibold"><School className="w-6 h-6" />School</span>
