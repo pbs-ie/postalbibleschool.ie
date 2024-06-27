@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\LessonOrderService;
+use App\Services\LessonOrderService;
 use App\Models\LessonOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
