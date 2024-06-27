@@ -26,7 +26,10 @@ export default function Show({ lessonOrder, schoolsList, classroomOrder }: { les
             <ContentWrapper title="School Lesson Order">
                 <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
                 <SchoolOrderSection lessonOrder={lessonOrder} classroomOrder={classroomOrder} />
-
+                <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
+                    <ButtonLink hierarchy="secondary" href={route('orders.index')}>Back</ButtonLink>
+                    <ButtonLink href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
+                </div>
             </ContentWrapper>
         </WrapperLayout>
     )

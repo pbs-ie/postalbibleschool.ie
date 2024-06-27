@@ -17,7 +17,23 @@ use DB;
 
 class LessonOrderController extends Controller
 {
-
+    private function getFmOrderRecordsMap()
+    {
+        return [
+            'fmRecordId' => 'recordId',
+            'email' => 'Contact Email',
+            'schoolName' => 'Area',
+            'schoolType' => 'Dispatch Code',
+            'level0Order' => 'L0 Ord',
+            'level1Order' => 'L1 Ord',
+            'level2Order' => 'L2 Ord',
+            'level3Order' => 'L3 Ord',
+            'level4Order' => 'L4 Ord',
+            'tlpOrder' => 'TLP Ord',
+            'goingDeeperOrder' => 'NL Ord',
+            'gleanersOrder' => 'Adv Ord'
+        ];
+    }
     function getCurrentUserOrder()
     {
         return FmLessonOrder::where('email', auth()->user()->email)->get()?->first();
@@ -108,8 +124,19 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
+        $classroomOrder = Classroom::where('email', $lessonOrder->email)->first(
+            [
+                DB::raw('SUM(level_0_order) as level_0_order_total'),
+                DB::raw('SUM(level_1_order) as level_1_order_total'),
+                DB::raw('SUM(level_2_order) as level_2_order_total'),
+                DB::raw('SUM(level_3_order) as level_3_order_total'),
+                DB::raw('SUM(level_4_order) as level_4_order_total'),
+                DB::raw('SUM(tlp_order) as tlp_order_total'),
+            ]
+        );
         return Inertia::render('SchoolOrder/Edit', [
-            'lessonOrder' => $lessonOrder
+            'lessonOrder' => $lessonOrder,
+            'classroomOrder' => fn() => $classroomOrder
         ]);
     }
 
@@ -155,12 +182,11 @@ class LessonOrderController extends Controller
                 $lessonOrder->refresh();
             }
             // Send mail to admin
-            Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
+            // Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
         }
 
-        // Redirect the user
-        $request->session()->flash('success', "Updated order for school successfully");
-        return redirect(route('orders.index'));
+        // Redirect back
+        return redirect()->route('orders.show', $lessonOrder->id)->with('success', "Updated order for school successfully");
     }
 
     /**

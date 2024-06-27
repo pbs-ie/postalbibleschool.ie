@@ -11,9 +11,11 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEvent } from "react";
 import route from "ziggy-js";
+import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
+import { ClassroomOrderAggregates } from "./Show";
 
 
-export default function Edit({ lessonOrder }: { lessonOrder: LessonOrder }) {
+export default function Edit({ lessonOrder, classroomOrder }: { lessonOrder: LessonOrder, classroomOrder: ClassroomOrderAggregates }) {
     const { errors } = usePage().props;
     const { data, setData, processing, reset, put } = useForm({
         schoolName: lessonOrder.schoolName,
@@ -53,13 +55,15 @@ export default function Edit({ lessonOrder }: { lessonOrder: LessonOrder }) {
             <ContentWrapper title="Edit Order">
 
                 <ParagraphContainer>
-                    <Paragraph className="text-left">View and update your monthly orders of BibleTime lessons here. Please note, changes are made effective only from the following month. If you wish for the changes to take effect immediately, please contact us.</Paragraph>
+                    <Paragraph className="text-left">View and update monthly orders of BibleTime lessons here. Please note, changes are made effective directly on Filemaker.</Paragraph>
                 </ParagraphContainer>
-                <div className="flex justify-center">
+                <div className="flex flex-col items-center">
+                    <div>
+                        <SchoolOrderSection lessonOrder={lessonOrder} classroomOrder={classroomOrder} />
+                    </div>
                     <div className="flex flex-col items-start gap-4 py-5 md:px-10">
-                        <h2 className="p-0 mb-2 text-xl font-bold text-black capitalize">Current information</h2>
-                        <OrderInfoCard contactName={lessonOrder.contactName} schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
-                        <h2 className="p-0 mb-2 text-xl font-bold text-black">Update Information</h2>
+
+                        <h2 className="p-0 mb-2 text-xl font-bold text-black">Update Filemaker Data</h2>
                         {errors &&
                             Object.keys(errors).map((key) => {
                                 if (key === "tlpOrder") {

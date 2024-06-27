@@ -47,14 +47,10 @@ export default function SchoolOrderSection({ lessonOrder, classroomOrder }: { le
         },
     ]
     return (
-        <div>
+        <>
             <div className="flex flex-col items-start justify-center w-full gap-4 p-4 mx-auto lg:flex-row">
                 <div className="text-left">
                     <OrderInfoCard contactName={lessonOrder.contactName} schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
-                    <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                        <ButtonLink hierarchy="secondary" href={route('orders.index')}>Back</ButtonLink>
-                        <ButtonLink href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
-                    </div>
                 </div>
                 {_.isNull(classroomOrder.level_0_order_total) ?
                     <p className="w-full text-red-800 bg-red-200 lg:w-1/2">No classrooms created for this school</p>
@@ -62,6 +58,6 @@ export default function SchoolOrderSection({ lessonOrder, classroomOrder }: { le
                     <SchoolInformationCard heading={"Classroom Data"} rows={schoolCardData} />
                 }
             </div>
-        </div>
+        </>
     )
 }
