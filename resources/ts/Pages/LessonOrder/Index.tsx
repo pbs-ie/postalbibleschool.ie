@@ -112,9 +112,10 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                         <div className="flex gap-2 text-sm">
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
                         </div>
-
                     </div>
-                    <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                    <div className="w-full">
+                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                    </div>
 
                 </div>
             </ContentWrapper>

@@ -58,7 +58,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
                 <div className="flex justify-center">
                     <div className="flex flex-col items-start gap-4 py-5 md:px-10">
                         <h2 className="p-0 mb-2 text-xl font-bold text-black capitalize">Current information</h2>
-                        <OrderInfoCard schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
+                        <OrderInfoCard contactName={lessonOrder.contactName} schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Update Information</h2>
                         {errors &&
                             Object.keys(errors).map((key) => {
