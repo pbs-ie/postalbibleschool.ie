@@ -169,8 +169,6 @@ class LessonOrderController extends Controller
         ]);
         // };
 
-        $oldOrder = $lessonOrder->replicate();
-
         $lessonOrder->fill($validated);
 
         if ($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
@@ -181,8 +179,6 @@ class LessonOrderController extends Controller
                 $lessonOrder->save();
                 $lessonOrder->refresh();
             }
-            // Send mail to admin
-            // Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
         }
 
         // Redirect back

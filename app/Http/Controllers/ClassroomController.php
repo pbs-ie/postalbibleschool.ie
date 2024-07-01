@@ -126,7 +126,7 @@ class ClassroomController extends Controller
     {
         $validated = $classroomRequest->validated();
 
-        $oldClassroom = $classroom->replicate();
+        // $oldClassroom = $classroom->replicate();
         $classroom->fill($validated);
 
         if ($classroom->isDirty()) {
@@ -136,7 +136,7 @@ class ClassroomController extends Controller
             try {
                 Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
             } catch (\Exception $e) {
-                Log::error($e);
+                Log::error("Could not send email for classroom order upadte", [$e]);
             }
         }
 
@@ -174,7 +174,7 @@ class ClassroomController extends Controller
         try {
             Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
         } catch (\Exception $e) {
-            Log::error($e);
+            Log::error("Could not send email for classroom deletion", [$e]);
         }
 
         return redirect()->back()->with('success', "Classroom deleted successfully");
