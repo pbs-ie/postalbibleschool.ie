@@ -5,8 +5,6 @@ import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessComponent";
 
-import MinusCircle from "@/Elements/Icons/MinusCircle";
-import PlusSolid from "@/Elements/Icons/PlusSolid";
 import CampWrapper from "@/Layouts/CampWrapper";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
 
@@ -31,14 +29,14 @@ interface ProductAction {
 
 const defaultProducts: Product[] = [
     {
-        title: "General",
+        title: "EUR",
         quantity: 0,
-        price: 30
+        price: 150
     },
     {
-        title: "2 in family",
+        title: "EUR",
         quantity: 0,
-        price: 60
+        price: 170
     }
 ];
 
@@ -255,14 +253,14 @@ export default function Camp() {
         <CampWrapper title="Payment">
             <div className="mx-auto">
                 <Heading1Alt>Summer Camp Payment</Heading1Alt>
-                <div className="flex justify-center flex-col w-3/4 mx-auto my-10">
-                    <div className="flex flex-col items-center mx-auto w-full gap-2 p-8 mb-5 border border-gray-300 rounded-md lg:w-2/3">
+                <div className="flex flex-col justify-center mx-auto lg:my-10 lg:w-3/4">
+                    <div className="flex flex-col items-center w-full gap-2 p-8 mx-auto mb-5 border border-gray-300 rounded-md lg:w-2/3">
                         <div className="inline-flex justify-center w-full px-6">
                             <img src={LogoSmall} alt="Postal Bible School Logo" className="my-4 h-14"></img>
                         </div>
                         <h2 className="text-3xl">Postal Bible School</h2>
                         {!isSuccess && <>
-                            <p className="px-10 mb-5 text-xl">You can pay the deposit for Summer Camp 2024 to <br /> Postal Bible School here</p>
+                            <p className="px-2 mb-5 text-xl lg:px-10">You can pay for Summer Camp 2024 to <br /> Postal Bible School here</p>
                             {isButtonDisabled &&
                                 <div>
                                     <div className="grid grid-cols-3 gap-2 mb-4">
