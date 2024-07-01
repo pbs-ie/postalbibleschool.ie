@@ -7,7 +7,6 @@
         "start-memcached": "memcached start",
         "artisan-queue": "php artisan queue:listen",
         "build-client": "vite build",
-        "build-server": "vite build --ssr",
         "build": "run-s build-*",
         "test": "jest",
         "cypress-open": "npx cypress open"
