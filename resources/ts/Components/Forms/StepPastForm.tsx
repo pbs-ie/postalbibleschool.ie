@@ -125,7 +125,7 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
 
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} accept="image/png" />
+                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} accept="image/png" />
                     </div>
                     <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : pastEvent ? route('images.show', data.imageLink) : ""} />
                 </div>

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\LessonOrderService;
+use App\Models\Classroom;
+use App\Services\LessonOrderService;
 use App\Models\LessonOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,12 +12,28 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Gate;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Carbon;
-use stdClass;
+use DB;
 
 
 class LessonOrderController extends Controller
 {
-
+    private function getFmOrderRecordsMap()
+    {
+        return [
+            'fmRecordId' => 'recordId',
+            'email' => 'Contact Email',
+            'schoolName' => 'Area',
+            'schoolType' => 'Dispatch Code',
+            'level0Order' => 'L0 Ord',
+            'level1Order' => 'L1 Ord',
+            'level2Order' => 'L2 Ord',
+            'level3Order' => 'L3 Ord',
+            'level4Order' => 'L4 Ord',
+            'tlpOrder' => 'TLP Ord',
+            'goingDeeperOrder' => 'NL Ord',
+            'gleanersOrder' => 'Adv Ord'
+        ];
+    }
     function getCurrentUserOrder()
     {
         return FmLessonOrder::where('email', auth()->user()->email)->get()?->first();
@@ -51,14 +68,14 @@ class LessonOrderController extends Controller
     {
         $isAdmin = Gate::check('create:orders');
         if ($isAdmin) {
-            $lessonOrders = FmLessonOrder::all();
-            return Inertia::render('LessonOrder/Index', [
+            $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+            return Inertia::render('SchoolOrder/Index', [
                 'lessonOrders' => $lessonOrders,
             ]);
         } else {
             $userLesson = $this->getCurrentUserOrder();
             if (!isset($userLesson)) {
-                return Inertia::render('LessonOrder/NotFound');
+                return Inertia::render('SchoolOrder/NotFound');
             }
             $request->session()->reflash();
             return redirect(route('orders.show', $userLesson->id));
@@ -73,14 +90,24 @@ class LessonOrderController extends Controller
      */
     public function show(FmLessonOrder $lessonOrder)
     {
-        $isAdmin = Gate::check('create:orders');
         if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
-        return Inertia::render('LessonOrder/Show', [
-            'isAdmin' => $isAdmin,
-            'lessonOrder' => $lessonOrder
+        $classroomOrder = Classroom::where('email', $lessonOrder->email)->first(
+            [
+                DB::raw('SUM(level_0_order) as level_0_order_total'),
+                DB::raw('SUM(level_1_order) as level_1_order_total'),
+                DB::raw('SUM(level_2_order) as level_2_order_total'),
+                DB::raw('SUM(level_3_order) as level_3_order_total'),
+                DB::raw('SUM(level_4_order) as level_4_order_total'),
+                DB::raw('SUM(tlp_order) as tlp_order_total'),
+            ]
+        );
+        return Inertia::render('SchoolOrder/Show', [
+            'lessonOrder' => $lessonOrder,
+            'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
+            'classroomOrder' => fn() => $classroomOrder
         ]);
     }
 
@@ -97,9 +124,19 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
-        return Inertia::render('LessonOrder/Edit', [
+        $classroomOrder = Classroom::where('email', $lessonOrder->email)->first(
+            [
+                DB::raw('SUM(level_0_order) as level_0_order_total'),
+                DB::raw('SUM(level_1_order) as level_1_order_total'),
+                DB::raw('SUM(level_2_order) as level_2_order_total'),
+                DB::raw('SUM(level_3_order) as level_3_order_total'),
+                DB::raw('SUM(level_4_order) as level_4_order_total'),
+                DB::raw('SUM(tlp_order) as tlp_order_total'),
+            ]
+        );
+        return Inertia::render('SchoolOrder/Edit', [
             'lessonOrder' => $lessonOrder,
-            'isAdmin' => $isAdmin
+            'classroomOrder' => fn() => $classroomOrder
         ]);
     }
 
@@ -132,8 +169,6 @@ class LessonOrderController extends Controller
         ]);
         // };
 
-        $oldOrder = $lessonOrder->replicate();
-
         $lessonOrder->fill($validated);
 
         if ($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
@@ -144,13 +179,10 @@ class LessonOrderController extends Controller
                 $lessonOrder->save();
                 $lessonOrder->refresh();
             }
-            // Send mail to admin
-            Mail::to(config('mail.admin.address'))->send(new OrderChanged($oldOrder, $lessonOrder));
         }
 
-        // Redirect the user
-        $request->session()->flash('success', "Updated order for school successfully");
-        return redirect(route('orders.index'));
+        // Redirect back
+        return redirect()->route('orders.show', $lessonOrder->id)->with('success', "Updated order for school successfully");
     }
 
     /**

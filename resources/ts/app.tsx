@@ -8,6 +8,7 @@ import { StrictMode } from 'react';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'PBS';
 
+
 createInertiaApp({
     title: (title) => `${title} | ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
@@ -21,7 +22,9 @@ createInertiaApp({
         );
     },
     progress: {
-        color: '#ffffff',
-        showSpinner: true
+        includeCSS: true,
+        color: '#29d',
+        showSpinner: true,
+        delay: 250
     }
 });

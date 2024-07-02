@@ -87,7 +87,7 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
                                 heading="School Assembly Video"
                                 content={videoList.length > 0 ? `is now available for ${currentAssembly.month}` : "will be available soon"}
                                 buttonText={videoList.length > 0 ? "Show Me" : ""}
-                                buttonLink={videoList.length > 0 ? route('assembly.show', currentAssembly.id) : ""}
+                                buttonLink={videoList.length > 0 ? route('assembly.show', +currentAssembly.id) : ""}
                                 className="border-4"
                             />
                         </div>

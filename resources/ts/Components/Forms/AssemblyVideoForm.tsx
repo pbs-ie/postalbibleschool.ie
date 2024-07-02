@@ -103,7 +103,7 @@ export default function AssemblyVideoForm({ videoData }: { videoData?: AssemblyV
 
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required={!videoData} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} handleChange={handleFileChange} accept="image/png" required={!videoData} />
+                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} accept="image/png" required={!videoData} />
                     </div>
                     <ImagePreviewComponent imageFile={data.imageFile} imageLink={data.imageLink} />
                 </div>

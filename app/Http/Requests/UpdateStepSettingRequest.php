@@ -28,8 +28,8 @@ class UpdateStepSettingRequest extends FormRequest
         return [
             "dates" => ['required', 'string'],
             "topic" => ['required', 'string'],
-            "standardCost" => ['required', 'string'],
-            "concessionCost" => ['required', 'string'],
+            "standardCost" => ['required', 'numeric'],
+            "concessionCost" => ['required', 'numeric'],
             "speaker" => ['required', 'string'],
             "embedLink" => ['required', 'string'],
             "isActive" => ['required'],

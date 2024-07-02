@@ -33,9 +33,9 @@ export default function Signup({ stepSettings }: { stepSettings: StepSettingsPro
                 <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', stepSettings.eventImageLink)} alt="Step June 2024 banner - Nehemiah" />
             </div>
             <ParagraphContainer>
-                <Paragraph>Join us for the upcoming STEP in June 2024 where we go through the book of Nehemiah led by Noel McMeekin. We would encourage you to read/study chapters in the book of Nehemiah beforehand. As always, new faces are welcome!</Paragraph>
+                <Paragraph>{stepSettings.description}</Paragraph>
 
-                <Paragraph>You can sign up using the form below. To cover the cost of your stay, the price for the weekend will be €65 for regular attendees and €50 for students. Please fill in the form first before making payment. You can either pay using your card by clicking the button below or at the venue when you arrive.</Paragraph>
+                <Paragraph>You can sign up using the form below. To cover the cost of your stay, the price for the weekend will be €{stepSettings.standardCost} for regular attendees and €{stepSettings.concessionCost} for students. Please fill in the form first before making payment. You can either pay using your card by clicking the button below or at the venue when you arrive.</Paragraph>
 
                 <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Make Payment</ButtonLink>
 

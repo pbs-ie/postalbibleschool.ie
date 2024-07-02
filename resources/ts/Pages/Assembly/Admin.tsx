@@ -49,10 +49,10 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
             cell: ({ row }) => (
                 <div className="flex items-center">
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.edit', +row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('assembly.show', +row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
                         <BasicButton dataTest={"assembly_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {

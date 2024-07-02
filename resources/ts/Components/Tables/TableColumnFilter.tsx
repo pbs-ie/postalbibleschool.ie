@@ -1,9 +1,9 @@
-import { Column, Table } from "@tanstack/react-table"
-import DebouncedInput from "../Forms/DebouncedInput"
-import { useMemo } from "react"
+import { Column, Table } from "@tanstack/react-table";
+import DebouncedInput from "@/Components/Forms/DebouncedInput";
+import { useMemo } from "react";
 import CloseSolid from "@/Elements/Icons/CloseSolid";
 
-export default function Filter<TData>({ column }: { column: Column<TData, unknown> }) {
+export default function TableColumnFilter<TData>({ column }: { column: Column<TData, unknown> }) {
 
     const columnFilterValue = column.getFilterValue();
 
@@ -13,8 +13,8 @@ export default function Filter<TData>({ column }: { column: Column<TData, unknow
     )
 
     return (
-        <div className="flex relative w-fit items-center">
-            <datalist className="bg-white text-black" id={column.id + 'list'}>
+        <div className="relative flex items-center w-fit">
+            <datalist className="text-black bg-white" id={column.id + 'list'}>
                 {["classroom-name"].includes(column.id) &&
                     <option value="-empty-" />
                 }
@@ -27,7 +27,7 @@ export default function Filter<TData>({ column }: { column: Column<TData, unknow
                 value={(columnFilterValue ?? '') as string}
                 onChange={value => column.setFilterValue(value)}
                 placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-                className="w-36 font-normal border rounded-md text-sm pr-5"
+                className="pr-5 text-sm font-normal border rounded-md w-36"
                 list={column.id + 'list'}
             />
             <button type="button" title="Clear filter" className="absolute right-2" onClick={() => column.setFilterValue("")}><CloseSolid className="w-4 h-4" /></button>

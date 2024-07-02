@@ -126,17 +126,17 @@ class ClassroomController extends Controller
     {
         $validated = $classroomRequest->validated();
 
-        $oldClassroom = $classroom->replicate();
+        // $oldClassroom = $classroom->replicate();
         $classroom->fill($validated);
 
         if ($classroom->isDirty()) {
             $classroom->save();
             $classroom->refresh();
-            $schoolName = FmLessonOrder::where('email', $classroom->email)->get()->value('schoolName');
+            $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
             try {
-                Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($oldClassroom, $classroom, $schoolName));
+                Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
             } catch (\Exception $e) {
-                Log::error($e);
+                Log::error("Could not send email for classroom order upadte", [$e]);
             }
         }
 
@@ -164,13 +164,18 @@ class ClassroomController extends Controller
     /**
      * Remove the classroom from storage.
      *
-     * @param  int $id
+     * @param \App\Models\Classroom $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(int $id)
+    public function destroy(Classroom $classroom)
     {
-        $classroom = Classroom::findOrFail($id);
+        $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
         $classroom->delete();
+        try {
+            Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
+        } catch (\Exception $e) {
+            Log::error("Could not send email for classroom deletion", [$e]);
+        }
 
         return redirect()->back()->with('success', "Classroom deleted successfully");
     }

@@ -2,15 +2,20 @@ import School from "@/Elements/Icons/SchoolIcon";
 import Envelope from "@/Elements/Icons/Envelope";
 import Newspaper from "@/Elements/Icons/Newspaper";
 
-export default function OrderInfoCard({ schoolName, email, level0Order, level1Order, level2Order, level3Order, level4Order, tlpOrder }: { schoolName: string, email: string, level0Order: number, level1Order: number, level2Order: number, level3Order: number, level4Order: number, tlpOrder: number }) {
+export default function OrderInfoCard({ schoolName, email, level0Order, level1Order, level2Order, level3Order, level4Order, tlpOrder, contactName }: Omit<LessonOrder, "id" | "fmRecordId" | "address" | "schoolType">) {
     const rowStyle = "inline-flex flex-row w-full justify-between gap-5 mb-2 py-2 px-3 rounded-md bg-white border border-gray-800";
 
     return (
         <div className="flex flex-col items-center max-w-md gap-4 p-6 bg-white border border-gray-800 rounded-md drop-shadow-md">
+            <h3 className="w-full text-lg font-bold text-left lg:text-xl">Filemaker Data</h3>
             <div>
                 <div className={rowStyle}>
                     <span className="inline-flex gap-2 font-semibold"><School className="w-6 h-6" />School</span>
                     <span className="text-gray-800">{schoolName}</span>
+                </div>
+                <div className={rowStyle}>
+                    <span className="inline-flex gap-2 font-semibold"><Envelope className="w-6 h-6" />Contact Name</span>
+                    <span className="text-gray-800">{contactName}</span>
                 </div>
                 <div className={rowStyle}>
                     <span className="inline-flex gap-2 font-semibold"><Envelope className="w-6 h-6" />Email</span>

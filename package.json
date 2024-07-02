@@ -7,7 +7,6 @@
         "start-memcached": "memcached start",
         "artisan-queue": "php artisan queue:listen",
         "build-client": "vite build",
-        "build-server": "vite build --ssr",
         "build": "run-s build-*",
         "test": "jest",
         "cypress-open": "npx cypress open"
@@ -49,6 +48,7 @@
     },
     "dependencies": {
         "@paypal/react-paypal-js": "^8.1.3",
-        "@tanstack/react-table": "^8.10.0"
+        "@tanstack/react-table": "^8.10.0",
+        "react-pdf": "^9.0.0"
     }
 }
