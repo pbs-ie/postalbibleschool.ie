@@ -52,6 +52,11 @@
                 font-weight: 600;
             }
 
+            .message {
+                word-wrap: normal;
+                max-width: 100ch;
+            }
+
             .home-button {
                 display: inline-block;
                 padding: 0.75rem 1.5rem;
@@ -104,10 +109,14 @@
                 </a>
 
                 <h1>@yield('code')</h1>
-                <h2>@yield('message')</h2>
-
-                <a href="/home" class="home-button" className="bg-pbsblue">
-                    Go home</a>
+                <div class="message">
+                    <h2>@yield('message')</h2>
+                </div>
+                <div>
+                    <a href="/home" class="home-button"
+                        className="bg-pbsblue">
+                        Go home</a>
+                </div>
             </div>
         </div>
     </body>

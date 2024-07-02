@@ -8,6 +8,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import route from "ziggy-js";
+import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import EditIcon from "@/Elements/Icons/EditIcon";
+import Eye from "@/Elements/Icons/Eye";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -82,20 +87,20 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             header: 'TLP',
             enableColumnFilter: false,
         }),
-        // columnHelper.display({
-        //     id: 'actions',
-        //     header: 'Actions',
-        //     cell: ({ row }) => (
-        //         <div className="flex w-full gap-2 py-2 text-sm">
-        //             <IconHoverSpan>
-        //                 <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.edit', row.original.id)}><EditIcon /> Edit</ButtonLink>
-        //             </IconHoverSpan>
-        //             <IconHoverSpan>
-        //                 <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
-        //             </IconHoverSpan>
-        //         </div>
-        //     )
-        // })
+        columnHelper.display({
+            id: 'actions',
+            header: 'Actions',
+            cell: ({ row }) => (
+                <div className="flex w-full gap-2 text-sm">
+                    <IconHoverSpan>
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.edit', row.original.id)}><EditIcon /> Edit</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
+                    </IconHoverSpan>
+                </div>
+            )
+        })
     ];
 
 

@@ -19,7 +19,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(protected Classroom $oldClassroom, protected Classroom $classroom, protected string $schoolName)
+    public function __construct(protected string $schoolName, protected int $orderId)
     {
         //
     }
@@ -48,8 +48,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
             markdown: 'emails.classroom-order-changed',
             with: [
                 'schoolName' => $this->schoolName,
-                'oldClassroom' => $this->oldClassroom,
-                'newClassroom' => $this->classroom
+                'url' => route('orders.show', $this->orderId)
             ]
         );
     }
