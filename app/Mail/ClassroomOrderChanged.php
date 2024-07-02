@@ -21,7 +21,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
      */
     public function __construct(protected string $schoolName, protected int $orderId)
     {
-        //
+        $this->onQueue('emails');
     }
 
     /**
