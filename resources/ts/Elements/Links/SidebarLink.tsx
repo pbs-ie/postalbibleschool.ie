@@ -7,19 +7,13 @@ interface SidebarLinkProps {
 }
 
 export default function SidebarLink({ isActive, isSecondary, children, ...props }: SidebarLinkProps & Omit<InertiaLinkProps, "className" | "aria-current">) {
-    const getCurrentStyle: () => string = () => {
-        let styleValue = 'w-full capitalize items-center p-2 rounded text-sm leading-5 transition duration- ease-in-out ';
-        if (isActive) {
-            styleValue += ` font-bold bg-gray-200 `
-        } else {
-            styleValue += ` `
-        }
-        return styleValue;
-    }
     return (
         <Link
             {...props}
-            className={getCurrentStyle()}
+            className={'w-full capitalize items-center hover:bg-white hover:text-black p-2 rounded-t lg:rounded-l lg:rounded-t-none text-sm leading-5 ' +
+                (isActive ? 'font-bold bg-white text-black'
+                    : '')
+            }
             aria-current={isActive ? "true" : "false"}
         >
             {children}
