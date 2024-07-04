@@ -95,7 +95,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     });
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
+        // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
         Route::get('/{schoolId}', 'classes')->name('classes');
     });
 });

@@ -1,53 +1,36 @@
-import SettingsSidebar from "@/Components/Navigation/SettingsSidebar";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import SunscoolSchoolsTable from "@/Components/Tables/SunscoolSchoolsTable";
+import StudentMarksSection from "@/Components/Sunscool/StudentMarksSection";
+import ClassroomSelectSection from "@/Components/Sunscool/ClassroomSelectSection";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
-import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import SettingsLayout from "@/Layouts/SettingsLayout";
-import { SunscoolClassProps, SunscoolSchoolProps } from "@/Pages/Settings/Sunscool/Index";
-import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo } from "react";
+import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
+import { SunscoolSchoolProps } from "@/Pages/Settings/Sunscool/Index";
+import { useState } from "react";
 import route from "ziggy-js";
 
 export default function Classes({ school }: { school: SunscoolSchoolProps }) {
-    const tableDataMemo = useMemo(() => school.classes, [school.classes]);
-
-    const columnHelper = createColumnHelper<SunscoolClassProps>();
-
-    const defaultColumns = [
-        columnHelper.accessor(row => row.id + "", {
-            header: "Class ID",
-        }), columnHelper.accessor(row => row.name, {
-            header: "Class Name",
-        }),
-        columnHelper.display({
-            id: 'actions',
-            header: () => "Actions",
-            cell: ({ row }) => {
-                return (
-                    <div key={'actions' + row.id} className="flex items-center">
-                        <>
-                            <IconHoverSpan>
-                                <ButtonLink dataTest="school_open_icon" hierarchy="transparent" size="xsmall" href={route("settings.sunscool.students", row.original.id)}><span className="flex flex-col items-center">
-                                    <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
-                                </span></ButtonLink>
-                            </IconHoverSpan>
-                        </>
-                    </div>
-                )
-            }
-        })
-    ];
+    const [currentClass, setCurrentClass] = useState(school.classes[0]);
     return (
         <SettingsLayout title={"Sunscool Settings"}>
             <SettingsSection>
                 <div>
-                    <Heading2Alt>All Classrooms</Heading2Alt>
+                    <div className="flex justify-between">
+                        <Heading2Alt>All Classrooms</Heading2Alt>
+                    </div>
                     <hr />
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+
+                    <TwoColumnLayout>
+                        <div className="order-2 lg:order-1">
+                            <StudentMarksSection students={currentClass.students} />
+                        </div>
+                        <div className="order-1 lg:order-2">
+                            <ClassroomSelectSection
+                                classrooms={school.classes}
+                                currentClass={currentClass}
+                                setCurrentClass={setCurrentClass} />
+                        </div>
+                    </TwoColumnLayout>
                 </div>
             </SettingsSection>
         </SettingsLayout>

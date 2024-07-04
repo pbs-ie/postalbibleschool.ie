@@ -4,11 +4,21 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 
+export interface SunscoolLessonProps {
+    id: number;
+    done: boolean;
+    progress: number;
+    title: string;
+    bibletime: string;
+}
 export interface SunscoolStudentProps {
     id: number,
     levels: [number],
     name: string,
-    ts: number
+    ts: number,
+    lessons?: [
+        SunscoolLessonProps
+    ]
 }
 export interface SunscoolClassProps {
     id: number,
