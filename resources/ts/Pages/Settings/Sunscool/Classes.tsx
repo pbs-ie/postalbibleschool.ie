@@ -43,7 +43,6 @@ export default function Classes({ school }: { school: SunscoolSchoolProps }) {
     ];
     return (
         <SettingsLayout title={"Sunscool Settings"}>
-            <SettingsSidebar />
             <SettingsSection>
                 <div>
                     <Heading2Alt>All Classrooms</Heading2Alt>

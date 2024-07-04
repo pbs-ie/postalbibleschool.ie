@@ -9,7 +9,6 @@ import { ITeamSettingProps } from "@/Pages/Events/ITeam";
 export default function ITeam({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     return (
         <SettingsLayout title={"iTeam Settings"}>
-            <SettingsSidebar />
             <SettingsSection>
 
                 <div>

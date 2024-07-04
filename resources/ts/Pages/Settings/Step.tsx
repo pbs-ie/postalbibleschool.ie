@@ -9,7 +9,6 @@ import route from "ziggy-js";
 export default function Step({ stepSettings }: { stepSettings: StepSettingsProps }) {
     return (
         <SettingsLayout title={"STEP Settings"}>
-            <SettingsSidebar />
             <SettingsSection>
                 <div>
                     <Heading2Alt>Active Event</Heading2Alt>

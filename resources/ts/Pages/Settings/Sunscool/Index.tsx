@@ -31,7 +31,6 @@ export interface SunscoolSchoolProps {
 export default function Index({ schools }: { schools: SunscoolSchoolProps[] }) {
     return (
         <SettingsLayout title={"Sunscool Settings"}>
-            <SettingsSidebar />
             <SettingsSection>
                 <div>
                     <Heading2Alt>All Classrooms</Heading2Alt>
