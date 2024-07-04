@@ -1,10 +1,10 @@
 <x-mail::message>
 
-# Order changes made for {{ $schoolName }}
+# {{ $schoolName }} has made changes to their order
 
-View updates made to the order
+View updates by clicking the button below
 
-<x-mail::button :url="$url">
+<x-mail::button :url="$url" color="primary">
 View Order
 </x-mail::button>
 

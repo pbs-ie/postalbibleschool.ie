@@ -136,7 +136,7 @@ class ClassroomController extends Controller
             try {
                 Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
             } catch (\Exception $e) {
-                Log::error("Could not send email for classroom order upadte", [$e]);
+                Log::error("Could not send email for classroom order update", [$e]);
             }
         }
 
