@@ -6,11 +6,11 @@ interface ListProps {
 export default function List({ type = "unordered", children }: ListProps) {
     return (
         (type === "ordered") ?
-            <ol>
+            <ol className="flex gap-2 lg:gap-1 lg:flex-col">
                 {children}
             </ol >
             :
-            <ul>
+            <ul className="flex gap-2 lg:gap-1 lg:flex-col">
                 {children}
             </ul>
     )

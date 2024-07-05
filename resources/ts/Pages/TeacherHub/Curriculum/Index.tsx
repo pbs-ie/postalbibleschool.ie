@@ -95,31 +95,29 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
             </span></ButtonLink>
             <SidebarLayout>
                 <div></div>
-                <TwoColumnLayout>
-                    <div className="mx-10">
-                        <div className="flex justify-between">
-                            <Heading1Nospace>Manage Curricula</Heading1Nospace>
-                            <div className="flex gap-2">
+                <div className="mx-10 lg:max-w-5xl">
+                    <div className="flex justify-between">
+                        <Heading1Nospace>Manage Curricula</Heading1Nospace>
+                        <div className="flex gap-2">
 
-                                <ButtonLink size="small" Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
-                                <ButtonLink size="small" href={route('curriculum.sync')}><span className="flex items-center gap-3">Update Filemaker <RefreshIcon /></span></ButtonLink>
-                            </div>
-
+                            <ButtonLink size="small" Icon={PlusSolid} dataTest="create_curriculum_btn" href={route('curriculum.create')} >Create Curriculum</ButtonLink>
+                            <ButtonLink size="small" href={route('curriculum.sync')}><span className="flex items-center gap-3">Update Filemaker <RefreshIcon /></span></ButtonLink>
                         </div>
-                        {tableDataMemo && tableDataMemo.length > 0 ?
-                            <div className="m-5 overflow-auto lg:max-w-5xl">
-                                <AdvancedTable
-                                    data={tableDataMemo}
-                                    columns={defaultColumns}
-                                    enableGlobalFilter={true}
-                                />
-                            </div>
-                            :
-                            <p className="text-gray-700">No curricula created</p>
-                        }
 
                     </div>
-                </TwoColumnLayout>
+                    {tableDataMemo && tableDataMemo.length > 0 ?
+                        <div className="m-5 overflow-auto">
+                            <AdvancedTable
+                                data={tableDataMemo}
+                                columns={defaultColumns}
+                                enableGlobalFilter={true}
+                            />
+                        </div>
+                        :
+                        <p className="text-gray-700">No curricula created</p>
+                    }
+
+                </div>
             </SidebarLayout>
         </WrapperLayout>
     )

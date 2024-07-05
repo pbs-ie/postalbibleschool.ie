@@ -22,7 +22,7 @@ import Play from "@/Elements/Icons/PlayIcon"
 import PlusSolid from "@/Elements/Icons/PlusSolid"
 import ExternalLink from "@/Elements/Icons/ExternalLink"
 import School from "@/Elements/Icons/SchoolIcon"
-import Video from "@/Elements/Icons/VideoCamera"
+import VideoCamera from "@/Elements/Icons/VideoCamera"
 import Eye from "@/Elements/Icons/Eye"
 import ChevronDown from "@/Elements/Icons/ChevronDown"
 import CaratDown from "@/Elements/Icons/CaratDown"
@@ -40,6 +40,8 @@ import DeviceTabletIcon from "@/Elements/Icons/DeviceTabletIcon"
 import FolderOpenIcon from "@/Elements/Icons/FolderOpenIcon"
 import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp"
+import SunIcon from "@/Elements/Icons/SunIcon"
+import PresentationChart from "@/Elements/Icons/PresentationChart"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -154,6 +156,9 @@ export default function IconSection() {
             heading: <PlusSolid />,
             content: "PlusSolid",
         }, {
+            heading: <PresentationChart />,
+            content: "PresenationChart",
+        }, {
             heading: <QuestionMarkCircle />,
             content: "QuestionMarkCircle",
         }, {
@@ -163,13 +168,16 @@ export default function IconSection() {
             heading: <School />,
             content: "School",
         }, {
+            heading: <SunIcon />,
+            content: "SunIcon",
+        }, {
             heading: <Trash />,
             content: "Trash",
         }, {
             heading: <UserIcon />,
             content: "UserIcon",
         }, {
-            heading: <Video />,
+            heading: <VideoCamera />,
             content: "VideoCamera",
         }
         ] as TableData[]

@@ -10,6 +10,7 @@ use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
+use App\Http\Controllers\SunscoolApiController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
 // use App\Http\Controllers\StudentController;
@@ -91,6 +92,11 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     Route::controller(ITeamSettingController::class)->name('iteam.')->prefix('iteam')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
+    });
+    Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
+        Route::get('/', 'index')->name('index');
+        // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
+        Route::get('/{schoolId}', 'classes')->name('classes');
     });
 });
 
