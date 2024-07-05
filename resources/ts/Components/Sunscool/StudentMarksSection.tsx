@@ -27,7 +27,9 @@ export default function StudentMarksSection({ students }: { students: SunscoolSt
 
     const averagedProgress = Object.values(result).map(item => ({
         name: item.name,
-        averageProgress: item.totalProgress / item.count,
+        totalAverage: item.totalProgress / 4,
+        attemptedAverage: item.totalProgress / item.count,
+        itemCount: item.count,
         bibletime: item.bibletime
     }));
 
@@ -36,12 +38,25 @@ export default function StudentMarksSection({ students }: { students: SunscoolSt
     const columnHelper = createColumnHelper<typeof averagedProgress[0]>();
 
     const defaultColumns = [
+        columnHelper.display({
+            id: "Sr",
+            header: "No.",
+            cell: ({ row }) => (
+                <span>{(+row.id + 1)}</span>
+            )
+        }),
         columnHelper.accessor(row => row.name + "", {
             header: "Student",
         }), columnHelper.accessor(row => row.bibletime ?? "" + "", {
             header: "BibleTime"
-        }), columnHelper.accessor(row => Math.round(row.averageProgress * 100) / 100 + "", {
-            header: "Progress (%)",
+        }), columnHelper.accessor(row => row.itemCount + "", {
+            header: "Stories Attempted",
+            enableColumnFilter: false
+        }), columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
+            header: "Attempted Avg (%)",
+            enableColumnFilter: false
+        }), columnHelper.accessor(row => Math.round(row.totalAverage * 100) / 100 + "", {
+            header: "Total Avg (%)",
             enableColumnFilter: false
         }),
     ]
