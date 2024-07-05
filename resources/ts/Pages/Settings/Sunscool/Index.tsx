@@ -1,4 +1,3 @@
-import SettingsSidebar from "@/Components/Navigation/SettingsSidebar";
 import SunscoolSchoolsTable from "@/Components/Tables/SunscoolSchoolsTable";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
@@ -16,7 +15,7 @@ export interface SunscoolStudentProps {
     levels: [number],
     name: string,
     ts: number,
-    lessons?: [
+    lessons: [
         SunscoolLessonProps
     ]
 }
@@ -32,8 +31,6 @@ export interface SunscoolSchoolProps {
     id: number;
     name: string;
     org_id: number;
-    school_id: number;
-    school_name: string;
     classes: [
         SunscoolClassProps
     ]
@@ -43,7 +40,7 @@ export default function Index({ schools }: { schools: SunscoolSchoolProps[] }) {
         <SettingsLayout title={"Sunscool Settings"}>
             <SettingsSection>
                 <div>
-                    <Heading2Alt>All Classrooms</Heading2Alt>
+                    <Heading2Alt>Schools List</Heading2Alt>
                     <hr />
                     <SunscoolSchoolsTable schools={schools} />
                 </div>
