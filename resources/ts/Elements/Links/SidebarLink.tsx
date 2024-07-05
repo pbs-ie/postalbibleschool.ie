@@ -10,7 +10,7 @@ export default function SidebarLink({ isActive, isSecondary, children, ...props 
     return (
         <Link
             {...props}
-            className={'w-full capitalize items-center hover:bg-white hover:text-black p-2 rounded-t lg:rounded-l lg:rounded-t-none text-sm leading-5 ' +
+            className={'w-full capitalize items-center hover:bg-white hover:text-black p-2 rounded-t lg:rounded text-sm leading-5 ' +
                 (isActive ? 'font-bold bg-white text-black'
                     : '')
             }
