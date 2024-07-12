@@ -1,8 +1,10 @@
-import { SchoolsList } from "@/Pages/SchoolOrder/Show";
-import { useState } from "react";
-import SelectInput from "@/Elements/Forms/SelectInput";
 import { router } from "@inertiajs/react";
 import route from "ziggy-js";
+import { useState } from "react";
+
+import SelectInput from "@/Elements/Forms/SelectInput";
+
+export type SchoolsList = Pick<LessonOrder, "id" | "schoolName">;
 
 export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: { currentSchoolId: number, schoolsList: SchoolsList[] }) {
     const [inputValue, setInputValue] = useState(currentSchoolId);
@@ -11,13 +13,13 @@ export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: {
         router.visit(
             route('orders.show', event.target.value),
             {
-                only: ['lessonOrder', 'classroomOrder'],
+                only: ['lessonOrder', 'classrooms'],
                 preserveScroll: true
             });
     }
 
     return (
-        <div className="relative flex items-center p-2 bg-gray-100 rounded w-fit lg:w-1/2">
+        <div className="relative flex items-baseline p-2 w-fit lg:w-1/2">
             <span className="w-full font-bold">Select School: </span>
             <SelectInput
                 handleChange={handleChange}
