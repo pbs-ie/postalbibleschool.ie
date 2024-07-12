@@ -26,7 +26,7 @@ import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name" | "updated_at">;
 
-export default function ClassroomListSection({ classrooms = [], curriculumList = [] }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[] }) {
+export default function ClassroomListSection({ classrooms = [], curriculumList = [], viewOnly = false }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[], viewOnly?: boolean }) {
     const defaultEditingArray = Array(classrooms.length).fill(false);
     const [isEditing, setIsEditing] = useState<boolean[]>(defaultEditingArray);
     const { errors } = usePage().props;
@@ -272,46 +272,50 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             footer: () => <span>All students: {columnTotals.all_totals}</span>,
             cell: ({ row }) => {
                 return (
-                    <div key={'actions' + row.id} className="flex items-center">
-                        {isEditing[+row.id] ?
-                            <>
-                                <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" size="xsmall" dataTest="classroom_save_icon" type="submit" form="classroom_form" processing={processing}>
-                                        <span className="flex flex-col items-center">
-                                            <FloppyDisk className="w-5 h-5 m-0.5 text-emerald-700" />Save
-                                        </span></BasicButton>
-                                </IconHoverSpan>
-                                <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" size="xsmall" onClick={() => resetEditState()} >
-                                        <span className="flex flex-col items-center">
-                                            <CloseX className="w-6 h-6 text-gray-600" />Close
-                                        </span></BasicButton>
-                                </IconHoverSpan>
-                            </>
-                            : <>
-                                <IconHoverSpan>
-                                    <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest={"classroom_edit_icon_" + row.id} onClick={() => setRowEditMode(+row.id)}><span className="flex flex-col items-center">
-                                        <EditIcon />Edit
-                                    </span></BasicButton>
-                                </IconHoverSpan>
-                                {/* <IconHoverSpan>
+                    <>
+                        {(viewOnly) ? null :
+                            <div key={'actions' + row.id} className="flex items-center">
+                                {isEditing[+row.id] ?
+                                    <>
+                                        <IconHoverSpan>
+                                            <BasicButton hierarchy="transparent" size="xsmall" dataTest="classroom_save_icon" type="submit" form="classroom_form" processing={processing}>
+                                                <span className="flex flex-col items-center">
+                                                    <FloppyDisk className="w-5 h-5 m-0.5 text-emerald-700" />Save
+                                                </span></BasicButton>
+                                        </IconHoverSpan>
+                                        <IconHoverSpan>
+                                            <BasicButton hierarchy="transparent" size="xsmall" onClick={() => resetEditState()} >
+                                                <span className="flex flex-col items-center">
+                                                    <CloseX className="w-6 h-6 text-gray-600" />Close
+                                                </span></BasicButton>
+                                        </IconHoverSpan>
+                                    </>
+                                    : <>
+                                        <IconHoverSpan>
+                                            <BasicButton hierarchy="transparent" processing={processing} size="xsmall" dataTest={"classroom_edit_icon_" + row.id} onClick={() => setRowEditMode(+row.id)}><span className="flex flex-col items-center">
+                                                <EditIcon />Edit
+                                            </span></BasicButton>
+                                        </IconHoverSpan>
+                                        {/* <IconHoverSpan>
                                     <ButtonLink dataTest="classroom_open_icon" hierarchy="transparent" size="xsmall" href={route("classroom.show", row.original.id)}><span className="flex flex-col items-center">
                                         <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
                                     </span></ButtonLink>
                                 </IconHoverSpan> */}
-                                <IconHoverSpan>
-                                    <BasicButton processing={processing} dataTest={"classroom_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
-                                        setIdToDelete(row.original.id);
-                                        setNameToDelete(row.original.name);
-                                        showDeleteModal();
-                                    }}><span className="flex flex-col items-center text-red-500">
-                                            <Trash key={row.id} />Delete
-                                        </span></BasicButton>
-                                </IconHoverSpan>
-                            </>
-                        }
+                                        <IconHoverSpan>
+                                            <BasicButton processing={processing} dataTest={"classroom_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
+                                                setIdToDelete(row.original.id);
+                                                setNameToDelete(row.original.name);
+                                                showDeleteModal();
+                                            }}><span className="flex flex-col items-center text-red-500">
+                                                    <Trash key={row.id} />Delete
+                                                </span></BasicButton>
+                                        </IconHoverSpan>
+                                    </>
+                                }
 
-                    </div>
+                            </div>
+                        }
+                    </>
                 )
             }
         })
@@ -321,24 +325,27 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
 
     return (
         <div className="flex flex-col">
-            <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
-                <CreateClassroomForm onCancel={() => closeCreateModal()} />
-            </PopupModal>
-
-            <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
-                <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
-                    <Heading2Nospace>Delete Classroom?</Heading2Nospace>
-                    <p>The classroom and all its related data will be removed. Are you sure you want to delete this classroom:</p>
-                    <p className="font-bold">{`"${nameToDelete}"`}</p>
-                    <div className="flex justify-end w-full gap-2">
-                        <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
-                        <BasicButton dataTest="confirm_delete_button" hierarchy="delete" onClick={() => {
-                            router.delete(route('classroom.destroy', idToDelete + ""));
-                            closeDeleteModal();
-                        }}>Delete</BasicButton>
-                    </div>
-                </article>
-            </PopupModal>
+            {!viewOnly &&
+                <>
+                    <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
+                        <CreateClassroomForm onCancel={() => closeCreateModal()} />
+                    </PopupModal>
+                    <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
+                        <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
+                            <Heading2Nospace>Delete Classroom?</Heading2Nospace>
+                            <p>The classroom and all its related data will be removed. Are you sure you want to delete this classroom:</p>
+                            <p className="font-bold">{`"${nameToDelete}"`}</p>
+                            <div className="flex justify-end w-full gap-2">
+                                <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
+                                <BasicButton dataTest="confirm_delete_button" hierarchy="delete" onClick={() => {
+                                    router.delete(route('classroom.destroy', idToDelete + ""));
+                                    closeDeleteModal();
+                                }}>Delete</BasicButton>
+                            </div>
+                        </article>
+                    </PopupModal>
+                </>
+            }
 
             <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-between w-full gap-2 pb-2">
@@ -369,9 +376,11 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             enableSorting={false}
                         />
                     }
-                    <div className="flex justify-end">
-                        <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}>Create Classroom</BasicButton>
-                    </div>
+                    {viewOnly ? null :
+                        <div className="flex justify-end">
+                            <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}>Create Classroom</BasicButton>
+                        </div>
+                    }
                 </div>
             </form>
         </div>

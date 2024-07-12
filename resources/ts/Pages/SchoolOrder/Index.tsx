@@ -1,18 +1,20 @@
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import { router } from "@inertiajs/react";
+import { useMemo } from "react";
+import route from "ziggy-js";
+
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { truncateString } from "@/helper";
-import { router } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo } from "react";
-import RefreshIcon from "@/Elements/Icons/RefreshIcon";
-import route from "ziggy-js";
-import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+
+import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
-import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -110,10 +112,10 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
 
     return (
         <WrapperLayout>
-            <ContentWrapper title="Monthly Lesson Order">
+            <ContentWrapper title="Filemaker Lesson Order">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex justify-between w-full mb-2">
-                        <h2 className="p-0 text-xl font-bold text-black">View Schools</h2>
+                        <h2 className="p-0 text-xl font-bold text-black lg:text-2xl">Schools List</h2>
                         <div className="flex gap-2 text-sm">
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
                         </div>

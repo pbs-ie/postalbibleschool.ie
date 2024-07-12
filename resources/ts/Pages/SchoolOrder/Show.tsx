@@ -2,21 +2,15 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
-import SchoolSelectDropdown from "@/Components/SchoolOrders/SchoolSelectDropdown";
+import SchoolSelectDropdown, { SchoolsList } from "@/Components/SchoolOrders/SchoolSelectDropdown";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
+import EditIcon from "@/Elements/Icons/EditIcon";
+
 import route from "ziggy-js";
 
-export type SchoolsList = Pick<LessonOrder, "id" | "schoolName">;
-export interface ClassroomOrderAggregates {
-    level_0_order_total: number;
-    level_1_order_total: number;
-    level_2_order_total: number;
-    level_3_order_total: number;
-    level_4_order_total: number;
-    tlp_order_total: number;
-}
-export default function Show({ lessonOrder, schoolsList, classroomOrder }: { lessonOrder: LessonOrder, schoolsList: SchoolsList[], classroomOrder: ClassroomOrderAggregates }) {
+
+export default function Show({ lessonOrder, schoolsList, classrooms, curriculumList }: { lessonOrder: LessonOrder, schoolsList: SchoolsList[], classrooms: ClassroomProps[], curriculumList?: CurriculumProps[] }) {
 
     return (
         <WrapperLayout>
@@ -24,12 +18,13 @@ export default function Show({ lessonOrder, schoolsList, classroomOrder }: { les
                 <ChevronLeft />{"Back to List"}
             </span></ButtonLink>
             <ContentWrapper title="School Lesson Order">
-                <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
-                <SchoolOrderSection lessonOrder={lessonOrder} classroomOrder={classroomOrder} />
-                <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                    <ButtonLink hierarchy="secondary" href={route('orders.index')}>Back</ButtonLink>
-                    <ButtonLink href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
+                <div className="flex items-baseline gap-2 bg-gray-100 rounded ">
+
+                    <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
+                    <ButtonLink Icon={EditIcon} href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
                 </div>
+                <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} curriculumList={curriculumList} />
+
             </ContentWrapper>
         </WrapperLayout>
     )

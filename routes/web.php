@@ -186,9 +186,6 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
     // $curriculumList = Curriculum::current();
-    $classroomList->each(fn($obj) => (
-        $obj->setAttribute('curriculum_name', $obj->curriculum()->select('name')->find($obj->curriculum_id)->name)
-    ));
     return Inertia::render('Dashboard', [
         'classrooms' => $classroomList,
         'canViewCurriculum' => Gate::allows('view:curriculum'),
