@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Curriculum;
 use App\Services\LessonOrderService;
-use App\Models\LessonOrder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Mail\OrderChanged;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Gate;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Carbon;
@@ -86,7 +84,7 @@ class LessonOrderController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\FmLessonOrder  $lessonOrder
-     * @return \Inertia\Response
+     * @return \Inertia\Response | void
      */
     public function show(FmLessonOrder $lessonOrder)
     {
@@ -94,20 +92,11 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
-        $classroomOrder = Classroom::where('email', $lessonOrder->email)->first(
-            [
-                DB::raw('SUM(level_0_order) as level_0_order_total'),
-                DB::raw('SUM(level_1_order) as level_1_order_total'),
-                DB::raw('SUM(level_2_order) as level_2_order_total'),
-                DB::raw('SUM(level_3_order) as level_3_order_total'),
-                DB::raw('SUM(level_4_order) as level_4_order_total'),
-                DB::raw('SUM(tlp_order) as tlp_order_total'),
-            ]
-        );
         return Inertia::render('SchoolOrder/Show', [
             'lessonOrder' => $lessonOrder,
             'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
-            'classroomOrder' => fn() => $classroomOrder
+            'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
+            'curriculumList' => Curriculum::current()
         ]);
     }
 
@@ -115,28 +104,18 @@ class LessonOrderController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\FmLessonOrder  $lessonOrder
-     * @return \Inertia\Response
+     * @return \Inertia\Response | void
      */
     public function edit(FmLessonOrder $lessonOrder)
     {
-        $isAdmin = Gate::check('create:orders');
         if ($this->isCurrentOrderUser($lessonOrder)) {
             return abort(404);
         }
 
-        $classroomOrder = Classroom::where('email', $lessonOrder->email)->first(
-            [
-                DB::raw('SUM(level_0_order) as level_0_order_total'),
-                DB::raw('SUM(level_1_order) as level_1_order_total'),
-                DB::raw('SUM(level_2_order) as level_2_order_total'),
-                DB::raw('SUM(level_3_order) as level_3_order_total'),
-                DB::raw('SUM(level_4_order) as level_4_order_total'),
-                DB::raw('SUM(tlp_order) as tlp_order_total'),
-            ]
-        );
         return Inertia::render('SchoolOrder/Edit', [
             'lessonOrder' => $lessonOrder,
-            'classroomOrder' => fn() => $classroomOrder
+            'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
+            'curriculumList' => Curriculum::current()
         ]);
     }
 
@@ -145,7 +124,7 @@ class LessonOrderController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\FmLessonOrder  $lessonOrder
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse | void
      */
     public function update(Request $request, FmLessonOrder $lessonOrder)
     {
@@ -154,9 +133,6 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
-        // if ($isAdmin) {
-        //     $validated = $request->validate($this->getRules());
-        // } else {
         $validated = $request->validate([
             'level0Order' => ['numeric', 'max_digits:3'],
             'level1Order' => ['numeric', 'max_digits:3'],

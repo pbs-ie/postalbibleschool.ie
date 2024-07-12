@@ -23,6 +23,21 @@ class Classroom extends Model
         'curriculum_id'
     ];
 
+    protected $appends = ['curriculum_name'];
+
+    /**
+     * Add curriculum name to parameters.
+     *
+     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function curriculumName(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) =>
+            $this->curriculum()->find($attributes['curriculum_id'])->name
+        );
+    }
+
     public function scopeCurrent($query)
     {
         return $query->where('email', auth()->user()->email)->get();

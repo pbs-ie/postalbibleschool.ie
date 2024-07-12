@@ -1,21 +1,21 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
-import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import NumberInput from "@/Elements/Forms/NumberInput";
+import { FormEvent } from "react";
+import route from "ziggy-js";
+import { useForm, usePage } from "@inertiajs/react";
+
+import ContentWrapper from "@/Layouts/ContentWrapper";
+import WrapperLayout from "@/Layouts/WrapperLayout";
+
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { useForm, usePage } from "@inertiajs/react";
-import { FormEvent } from "react";
-import route from "ziggy-js";
 import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
-import { ClassroomOrderAggregates } from "./Show";
 
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import InputLabel2 from "@/Elements/Forms/InputLabel2";
+import NumberInput from "@/Elements/Forms/NumberInput";
 
-export default function Edit({ lessonOrder, classroomOrder }: { lessonOrder: LessonOrder, classroomOrder: ClassroomOrderAggregates }) {
+export default function Edit({ lessonOrder, classrooms, curriculumList }: { lessonOrder: LessonOrder, classrooms: ClassroomProps[], curriculumList?: CurriculumProps[] }) {
     const { errors } = usePage().props;
     const { data, setData, processing, reset, put } = useForm({
         schoolName: lessonOrder.schoolName,
@@ -57,11 +57,8 @@ export default function Edit({ lessonOrder, classroomOrder }: { lessonOrder: Les
                 <ParagraphContainer>
                     <Paragraph className="text-left">View and update monthly orders of BibleTime lessons here. Please note, changes are made effective directly on Filemaker.</Paragraph>
                 </ParagraphContainer>
-                <div className="flex flex-col items-center">
-                    <div>
-                        <SchoolOrderSection lessonOrder={lessonOrder} classroomOrder={classroomOrder} />
-                    </div>
-                    <div className="flex flex-col items-start gap-4 py-5 md:px-10">
+                <div className="">
+                    <div className="flex flex-col items-start gap-4 p-5 bg-gray-100 rounded w-fit lg:px-10">
 
                         <h2 className="p-0 mb-2 text-xl font-bold text-black">Update Filemaker Data</h2>
                         {errors &&
@@ -82,31 +79,34 @@ export default function Edit({ lessonOrder, classroomOrder }: { lessonOrder: Les
                             <h3 className="p-0 mb-2 font-bold text-black text-l">Lesson Order Numbers</h3>
                             <div className="flex flex-wrap gap-4 mb-4">
                                 <div>
-                                    <InputLabel2 forInput={"level0Order"} value={"Level 0"} />
+                                    <InputLabel2 forInput={"level0Order"}><span className="p-1 text-center text-white rounded bg-bibletime-pink">Level 0</span></InputLabel2>
                                     <NumberInput name={"level0Order"} id={"level0Order"} value={data.level0Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                                 </div>
                                 <div>
-                                    <InputLabel2 forInput={"level1Order"} value={"Level 1"} />
+                                    <InputLabel2 forInput={"level1Order"} ><span className="p-1 text-center text-white rounded bg-bibletime-orange">Level 1</span></InputLabel2>
                                     <NumberInput name={"level1Order"} id={"level1Order"} value={data.level1Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                                 </div>
                                 <div>
-                                    <InputLabel2 forInput={"level2Order"} value={"Level 2"} />
+                                    <InputLabel2 forInput={"level2Order"} ><span className="p-1 text-center text-white rounded bg-bibletime-red">Level 2</span></InputLabel2>
                                     <NumberInput name={"level2Order"} id={"level2Order"} value={data.level2Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                                 </div>
                                 <div>
-                                    <InputLabel2 forInput={"level3Order"} value={"Level 3"} />
+                                    <InputLabel2 forInput={"level3Order"} ><span className="p-1 text-center text-white rounded bg-bibletime-green">Level 3</span></InputLabel2>
                                     <NumberInput name={"level3Order"} id={"level3Order"} value={data.level3Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                                 </div>
                                 <div>
-                                    <InputLabel2 forInput={"level4Order"} value={"Level 4"} />
+                                    <InputLabel2 forInput={"level4Order"}><span className="p-1 text-center text-white rounded bg-bibletime-blue">Level 4</span></InputLabel2>
                                     <NumberInput name={"level4Order"} id={"level4Order"} value={data.level4Order} className={""} autoComplete={"off"} handleChange={handleChange} />
                                 </div>
                             </div>
                             <div className="inline-flex justify-end w-full gap-2 mt-5 md:justify-end">
-                                <ButtonLink hierarchy="secondary" href={route('orders.index')}>Cancel</ButtonLink>
+                                <ButtonLink hierarchy="secondary" href={route('orders.show', lessonOrder.id)}>Cancel</ButtonLink>
                                 <PrimaryButton type="submit" processing={processing}>Update</PrimaryButton>
                             </div>
                         </form>
+                    </div>
+                    <div>
+                        <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} curriculumList={curriculumList ?? []} />
                     </div>
                 </div>
             </ContentWrapper>
