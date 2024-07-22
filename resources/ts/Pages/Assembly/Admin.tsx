@@ -14,6 +14,7 @@ import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import route from "ziggy-js";
 import { AssemblyVideoProps } from "./Index";
+import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 
 
 export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }) {
@@ -70,6 +71,9 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
 
     return (
         <WrapperLayout>
+            <ButtonLink hierarchy="transparent" href={route('assembly.index')}><span className="flex items-center gap-2">
+                <ChevronLeft />{"Back to Assembly Videos"}
+            </span></ButtonLink>
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
