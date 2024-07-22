@@ -25,7 +25,7 @@ export default function Index({ videoList = [], canViewGallery = false, canEdit 
     return (
         <WrapperLayout>
             <Head title="School Assembly" />
-            <section className="flex flex-col items-center px-10 md:mb-10 sm:px-20">
+            <section className="flex flex-col items-center px-10 md:mb-10">
                 <div className="mb-5 md:max-w-4xl">
                     <Heading1Alt>School Assembly Videos</Heading1Alt>
                     {canEdit &&
@@ -46,26 +46,26 @@ export default function Index({ videoList = [], canViewGallery = false, canEdit 
                     <Paragraph>
                         You will find additional video content for the year 2023/2024 down below. These videos will parallel the BibleTime lessons students are doing for each month of the coming school year. We hope you will find these additional videos helpful.
                     </Paragraph>
+
+                    {videoList.length > 0 ?
+                        <>
+                            <ul className="grid justify-center grid-cols-1 gap-2 md:grid-cols-2">
+                                {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
+                                    <li key={index}>
+                                        <VideoHeroCard buttonLink={route('assembly.show', +value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            {auth && auth.user && canViewGallery &&
+                                <AssemblyGallery headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></AssemblyGallery>
+                            }
+                        </>
+                        :
+                        <div className="italic text-gray-500">No videos added yet.</div>
+                    }
                 </div>
 
-                {videoList.length > 0 ?
-                    <><div className="mx-auto">
-                        <ul className="flex flex-col gap-4 md:gap-2 md:flex-row">
-                            {getLastElementsOfArray(sortArrayById(videoList), 2).map((value: AssemblyVideoProps, index) => (
-                                <li key={index}>
-                                    <VideoHeroCard buttonLink={route('assembly.show', +value.id)} title={(value.title && value.title !== "") ? value.title : value.month} series={value.series} imageLink={value.imageLink} idx={value.id}></VideoHeroCard>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                        {auth && auth.user && canViewGallery &&
-                            <AssemblyGallery headingText="Previous Assembly Videos" videoList={sortArrayById(videoList)}></AssemblyGallery>
-                        }
-                    </>
-                    :
-                    <div className="italic text-gray-500">No videos added yet.</div>
-                }
             </section>
 
         </WrapperLayout>

@@ -14,14 +14,14 @@ interface GalleryCard {
 
 export default function VideoGalleryCard({ title, clickLink, month, series = "", active = false, total, imageLink, idx }: GalleryCard) {
     return (
-        <article>
-            <a href={clickLink} className={"inline-flex flex-col items-center gap-2 p-2 md:p-4 overflow-hidden rounded-lg drop-shadow-lg " + (active ? "bg-pbsblue text-slate-50" : "bg-stone-100 text-gray-600")}>
-                <div className="relative">
-                    <img src={route('images.show', imageLink)} alt={"Video " + idx} className="block object-cover w-full h-40 bg-top rounded md:h-44 aspect-video" />
+        <article className="mx-auto">
+            <a href={clickLink} className={"inline-flex flex-col text-left gap-1 p-2 overflow-hidden " + (active ? "text-pbsblue" : " text-gray-800")}>
+                <div className="relative min-h-28">
+                    <img src={route('images.show', imageLink)} alt={"Video " + idx} className="object-fill object-left w-full h-40 rounded-xl aspect-video" />
                 </div>
-                <div className="text-center">
-                    <h1 className="text-sm font-bold uppercase md:text-base">{series ? month + " — " + series : month}</h1>
-                    <h2 className={"text-sm md:text-base italic text-gray-600 uppercase"}>{title === "" ? `Title ${idx}` : title}</h2>
+                <div>
+                    <h1 className="text-sm font-bold uppercase md:text-base">{title === "" ? `Title ${idx}` : title}</h1>
+                    <h2 className={"text-sm text-gray-600 uppercase"}>{series ? month + " — " + series : month}</h2>
                 </div>
 
             </a>
