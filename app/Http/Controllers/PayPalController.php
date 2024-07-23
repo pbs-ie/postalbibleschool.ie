@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Settings\CampSettings;
 use App\Settings\StepSettings;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -64,9 +65,11 @@ class PayPalController extends Controller
             'stepSettings' => $stepSettings
         ]);
     }
-    public function camp()
+    public function camp(CampSettings $campSettings)
     {
-        return Inertia::render('Payment/Camp');
+        return Inertia::render('Payment/Camp', [
+            'campSettings' => $campSettings
+        ]);
     }
 
     public function index()

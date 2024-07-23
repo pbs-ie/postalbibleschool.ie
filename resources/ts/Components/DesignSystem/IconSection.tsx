@@ -42,6 +42,7 @@ import Cog6Tooth from "@/Elements/Icons/Cog6Tooth"
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp"
 import SunIcon from "@/Elements/Icons/SunIcon"
 import PresentationChart from "@/Elements/Icons/PresentationChart"
+import PuzzleIcon from "@/Elements/Icons/PuzzleIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -158,6 +159,9 @@ export default function IconSection() {
         }, {
             heading: <PresentationChart />,
             content: "PresenationChart",
+        }, {
+            heading: <PuzzleIcon />,
+            content: "PuzzleIcon",
         }, {
             heading: <QuestionMarkCircle />,
             content: "QuestionMarkCircle",

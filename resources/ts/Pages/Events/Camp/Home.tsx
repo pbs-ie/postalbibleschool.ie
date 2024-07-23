@@ -21,9 +21,10 @@ import CampWrapper from "@/Layouts/CampWrapper";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Calendar from "@/Elements/Icons/Calendar";
 import Location from "@/Elements/Icons/Location";
+import { CampSettingProps } from "@/Pages/Settings/Camp";
 
 
-export default function Home() {
+export default function Home({ campSettings }: { campSettings: CampSettingProps }) {
     const images: Gallery[] = [
         {
             title: "Bible Teaching",
@@ -63,7 +64,7 @@ export default function Home() {
         {
             Icon: Calendar,
             title: "When",
-            description: "13th to 20th July, 2024",
+            description: campSettings?.dates,
             buttonText: "",
             buttonLink: ""
         },
@@ -82,9 +83,11 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer cards={campCards}>
-                    <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
-                </CardContainer>
+                {campSettings?.isActive &&
+                    <CardContainer cards={campCards}>
+                        <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
+                    </CardContainer>
+                }
                 <Heading2>Camp</Heading2>
                 <ParagraphContainer>
                     <Paragraph>Camp is held each summer in mid-July and generally fills up extremely quickly after the forms go out in mid-May. Camp is held at Ovoca Manor just outside the village of Avoca and near Arklow in Co. Wicklow. Ovoca Manor is an outdoor adventure centre owned by Scripture Union. It offers accommodation and a whole range of activities. Our week at camp will typically involve some time in activities at the centre and several trips off site for other activities.</Paragraph>
