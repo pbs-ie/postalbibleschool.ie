@@ -18,7 +18,7 @@ import Location from "@/Elements/Icons/Location"
 import MinusCircle from "@/Elements/Icons/MinusCircle"
 import Newspaper from "@/Elements/Icons/Newspaper"
 import Phone from "@/Elements/Icons/Phone"
-import Play from "@/Elements/Icons/PlayIcon"
+import PlayIcon from "@/Elements/Icons/PlayIcon"
 import PlusSolid from "@/Elements/Icons/PlusSolid"
 import ExternalLink from "@/Elements/Icons/ExternalLink"
 import School from "@/Elements/Icons/SchoolIcon"
@@ -150,7 +150,7 @@ export default function IconSection() {
             heading: <Phone />,
             content: "Phone",
         }, {
-            heading: <Play />,
+            heading: <PlayIcon />,
             content: "PlayIcon",
         }, {
             heading: <PlusSolid />,
