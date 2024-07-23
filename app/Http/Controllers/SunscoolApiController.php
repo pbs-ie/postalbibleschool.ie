@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSunscoolStudentMarksRequest;
 use App\Services\SunscoolApiService;
 use Inertia\Inertia;
 
@@ -36,5 +37,16 @@ class SunscoolApiController extends Controller
         return Inertia::render('Settings/Sunscool/Students', [
             'classroom' => $class
         ]);
+    }
+
+    /**
+     * Store student marks to Filemaker Database
+     * @param \App\Http\Requests\StoreSunscoolStudentMarksRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreSunscoolStudentMarksRequest $request)
+    {
+        dd($request->validated());
+        return redirect()->route('settings.sunscool.index')->with('success', 'Values stored in Database');
     }
 }

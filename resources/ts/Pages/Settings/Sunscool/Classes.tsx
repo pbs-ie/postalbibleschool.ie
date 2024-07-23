@@ -28,7 +28,7 @@ export default function Classes({ school }: { school: SunscoolSchoolProps }) {
                             classrooms={school.classes}
                             currentClass={currentClass}
                             setCurrentClass={setCurrentClass} />
-                        <StudentMarksSection students={currentClass.students} />
+                        <StudentMarksSection schoolId={school.id} students={currentClass.students} />
                     </div>
                 </div>
             </SettingsSection>

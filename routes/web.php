@@ -97,6 +97,8 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/', 'index')->name('index');
         // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
         Route::get('/{schoolId}', 'classes')->name('classes');
+
+        Route::post('/', 'store')->name('store');
     });
 });
 
