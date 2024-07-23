@@ -151,11 +151,11 @@ export default function Navbar() {
                             </li>
                         }
 
-                        <NavProfileMenuitem />
 
                         <li className="flex items-center -mr-2 lg:hidden">
                             <NavMenuButton active={showResponsiveNavmenu} onClick={() => setShowResponsiveNavmenu((previousState) => !previousState)} />
                         </li>
+                        <NavProfileMenuitem />
                     </ul>
                 </div>
             </nav>
