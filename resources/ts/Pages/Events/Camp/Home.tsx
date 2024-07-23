@@ -6,7 +6,6 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
-import { useState } from "react";
 import route from "ziggy-js";
 
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
@@ -25,7 +24,6 @@ import Location from "@/Elements/Icons/Location";
 
 
 export default function Home() {
-    const [isSignupActive, setIsSignupActive] = useState(true);
     const images: Gallery[] = [
         {
             title: "Bible Teaching",
