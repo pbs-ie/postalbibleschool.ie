@@ -24,7 +24,7 @@ export default function SidebarComponent({ Icon, title, listItems }: SidebarProp
             <nav className="w-full text-white">
                 <List>
                     {listItems.map(({ routeString, name, isActive, Icon }) => (
-                        <SidebarLink href={routeString} isActive={isActive}>
+                        <SidebarLink key={routeString} href={routeString} isActive={isActive}>
                             <ListItem Icon={Icon}>
                                 {name}
                             </ListItem>

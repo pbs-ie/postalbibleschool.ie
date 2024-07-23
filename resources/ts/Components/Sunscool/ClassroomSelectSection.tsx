@@ -8,7 +8,7 @@ export default function ClassroomSelectSection({ classrooms, currentClass, setCu
         return "";
     };
     return (
-        <div className="mb-4">
+        <div className="">
             <ul className="flex gap-2 border-b border-gray-200">
                 {classrooms.map((classroom) => (
                     <li className="w-fit hover:bg-gray-100" key={classroom.id}>
