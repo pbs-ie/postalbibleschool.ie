@@ -13,7 +13,7 @@ class CampSettingController extends Controller
     public function index(CampSettings $settings)
     {
         return Inertia::render('Settings/Camp', [
-            'campSettings' => $settings
+            'campSettings' => fn() => $settings
         ]);
     }
 
@@ -51,5 +51,18 @@ class CampSettingController extends Controller
         $settings->save();
 
         return redirect()->route('settings.camp.index')->with('success', 'Camp Reunion settings updated successfully');
+    }
+
+    public function updatePayment(CampSettings $settings, Request $request)
+    {
+        $request->validate([
+            "paymentPrices" => ['required', 'array', 'max:3']
+        ]);
+        $filteredPrices = array_values(array_filter($request->input('paymentPrices')));
+        $settings->paymentPrices = $filteredPrices;
+
+        $settings->save();
+
+        return redirect()->route('settings.camp.index')->with('success', 'Payment values updated successfully');
     }
 }

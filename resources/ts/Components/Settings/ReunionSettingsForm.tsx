@@ -30,10 +30,12 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
     };
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.camp.reunion.update'));
+        post(route('settings.camp.reunion.update'), {
+            preserveScroll: true
+        });
     }
     return (
-        <form name="campSettingsForm" aria-label="Camp Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md mt-4">
+        <form name="reunionSettingsForm" aria-label="Camp Reunion Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md mt-4">
             <Heading2Alt>Reunion Settings</Heading2Alt>
             <hr />
             <div className="my-4 ">

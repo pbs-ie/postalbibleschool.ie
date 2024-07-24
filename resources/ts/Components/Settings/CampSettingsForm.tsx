@@ -10,7 +10,7 @@ import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
 
-export default function CampSettingsForm({ campSettings }: { campSettings: CampSettingProps }) {
+export default function CampSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "dates" | "year" | "embedLink" | "isActive"> }) {
     const defaultData = {
         "dates": campSettings.dates,
         "year": campSettings.year,
@@ -31,12 +31,14 @@ export default function CampSettingsForm({ campSettings }: { campSettings: CampS
     };
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.camp.update'));
+        post(route('settings.camp.update'), {
+            preserveScroll: true
+        });
     }
     return (
         <form name="campSettingsForm" aria-label="Camp Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <div className="my-4 ">
-                <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-2 ">
+                <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-2">
 
                     <div>
                         <InputLabel2 forInput={"dates"} value={"Dates"} />

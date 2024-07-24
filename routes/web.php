@@ -99,6 +99,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
         Route::post('reunion/update', 'updateReunion')->name('reunion.update');
+        Route::post('payment/update', 'updatePayment')->name('payment.update');
     });
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');

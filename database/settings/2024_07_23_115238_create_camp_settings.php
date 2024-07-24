@@ -14,6 +14,8 @@ return new class extends SettingsMigration {
             $blueprint->add('reunionDates', "2nd to 4th October, 2024");
             $blueprint->add('reunionIsActive', true);
             $blueprint->add('reunionFormEmbedLink', 'https://docs.google.com/forms/d/e/1FAIpQLSfnEcphksxb_7x9BHYUTwrRxnSdzJ88qEGiO8mShYiZkC2R4w/viewform?usp=sf_link');
+            $blueprint->add('paymentDescription', "You can pay for Summer Camp 2024 to Postal Bible School here");
+            $blueprint->add('paymentPrices', ['150', '170']);
         });
     }
     public function down(): void
@@ -25,5 +27,7 @@ return new class extends SettingsMigration {
         $this->migrator->delete('camp.reunionDates');
         $this->migrator->delete('camp.reunionIsActive');
         $this->migrator->delete('camp.reunionFormEmbedLink');
+        $this->migrator->delete('camp.paymentDescription');
+        $this->migrator->delete('camp.paymentPrices');
     }
 };

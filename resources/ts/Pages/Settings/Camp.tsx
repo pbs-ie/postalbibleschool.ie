@@ -1,3 +1,4 @@
+import CampPaymentSettingsForm from "@/Components/Settings/CampPaymentSettingsForm";
 import CampSettingsForm from "@/Components/Settings/CampSettingsForm";
 import ReunionSettingsForm from "@/Components/Settings/ReunionSettingsForm";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
@@ -12,6 +13,8 @@ export interface CampSettingProps {
     reunionDates: string;
     reunionIsActive: boolean;
     reunionFormEmbedLink: string;
+    paymentDescription: string;
+    paymentPrices: string[];
 }
 export default function Camp({ campSettings }: { campSettings: CampSettingProps }) {
     return (
@@ -23,6 +26,7 @@ export default function Camp({ campSettings }: { campSettings: CampSettingProps 
                     <hr />
                     <CampSettingsForm campSettings={campSettings} />
                     <ReunionSettingsForm campSettings={campSettings} />
+                    <CampPaymentSettingsForm campSettings={campSettings} />
                 </div>
             </SettingsSection>
         </SettingsLayout>
