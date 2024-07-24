@@ -35,7 +35,6 @@ export default function CampSettingsForm({ campSettings }: { campSettings: CampS
     }
     return (
         <form name="campSettingsForm" aria-label="Camp Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
-            <hr />
             <div className="my-4 ">
                 <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-2 ">
 
@@ -57,9 +56,9 @@ export default function CampSettingsForm({ campSettings }: { campSettings: CampS
                     </div>
                     <div>
                         <InputLabel2 forInput={"isActive"} value={"Is Registration Active?"} />
-                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
+                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive ? 1 : 0}>
+                            <option value={1}>True</option>
+                            <option value={0}>False</option>
                         </SelectInput>
                         <InputError message={errors.isActive} />
                     </div>

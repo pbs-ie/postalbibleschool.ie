@@ -11,6 +11,9 @@ return new class extends SettingsMigration {
             $blueprint->add('year', '2024');
             $blueprint->add('embedLink', "https://docs.google.com/forms/d/e/1FAIpQLSdEmA2nUyNVz6Lzb5RxUctJLt3bOBPHp1PG7O-RoP3OCWnCVg/viewform");
             $blueprint->add('isActive', true);
+            $blueprint->add('reunionDates', "2nd to 4th October, 2024");
+            $blueprint->add('reunionIsActive', true);
+            $blueprint->add('reunionFormEmbedLink', 'https://docs.google.com/forms/d/e/1FAIpQLSfnEcphksxb_7x9BHYUTwrRxnSdzJ88qEGiO8mShYiZkC2R4w/viewform?usp=sf_link');
         });
     }
     public function down(): void
@@ -19,5 +22,8 @@ return new class extends SettingsMigration {
         $this->migrator->delete('camp.year');
         $this->migrator->delete('camp.embedLink');
         $this->migrator->delete('camp.isActive');
+        $this->migrator->delete('camp.reunionDates');
+        $this->migrator->delete('camp.reunionIsActive');
+        $this->migrator->delete('camp.reunionFormEmbedLink');
     }
 };

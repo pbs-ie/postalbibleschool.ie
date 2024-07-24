@@ -1,9 +1,6 @@
 import CardBlock from "@/Components/Cards/EventCardBlock";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
-import Calendar from "@/Elements/Icons/Calendar";
-import Location from "@/Elements/Icons/Location";
-import School from "@/Elements/Icons/SchoolIcon";
 
 
 interface CardContainer {
@@ -14,32 +11,9 @@ interface CardContainer {
 
 export default function EventCardContainer({ cards, children }: CardContainer) {
 
-    const reunionCards: CardBlock[] = [
-        {
-            Icon: School,
-            title: "What",
-            description: "Camp Reunion",
-            buttonText: "",
-            buttonLink: ""
-        },
-        {
-            Icon: Calendar,
-            title: "When",
-            description: "6th to 8th October, 2023",
-            buttonText: "",
-            buttonLink: ""
-        },
-        {
-            Icon: Location,
-            title: "Where",
-            description: "Castledaly Manor, Moate, Athlone, Co. Westmeath",
-            buttonText: "",
-            buttonLink: ""
-        }
-    ]
 
     return (
-        <div className="p-6 mx-auto mt-10 mb-20 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
+        <div className="p-6 mx-auto my-10 rounded-lg drop-shadow-lg bg-sky-100 sm:w-4/5">
 
             <div className="mt-2 mb-5">
                 <Heading2Alt>Upcoming Event</Heading2Alt>

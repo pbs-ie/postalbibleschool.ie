@@ -98,6 +98,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     Route::controller(CampSettingController::class)->name('camp.')->prefix('camp')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
+        Route::post('reunion/update', 'updateReunion')->name('reunion.update');
     });
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -105,6 +106,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/{schoolId}', 'classes')->name('classes');
     });
 });
+// ************** END SETTINGS ********************
 
 Route::prefix('events')->name('events.')->group(function () {
     Route::get('/prizegivings', function (Request $request) {
@@ -127,6 +129,11 @@ Route::prefix('events')->name('events.')->group(function () {
                 'campSettings' => $settings
             ]);
         })->name('signup');
+        Route::get('/reunion', function (CampSettings $campSettings) {
+            return Inertia::render('Events/Camp/ReunionSignup', [
+                'campSettings' => $campSettings
+            ]);
+        })->name('reunion');
     });
 
     Route::get('/iteam', function (ITeamSettings $iteamSettings) {

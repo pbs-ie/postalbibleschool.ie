@@ -16,6 +16,11 @@ export default function CampNavbar() {
                         <NavLink isSecondary={true} active={route().current('events.camp.signup')} href={route('events.camp.signup')}>Register</NavLink>
                     </li>
                 }
+                {campSettings?.reunionIsActive &&
+                    <li className="flex -my-px">
+                        <NavLink isSecondary={true} active={route().current('events.camp.reunion')} href={route('events.camp.reunion')}>Reunion</NavLink>
+                    </li>
+                }
                 {/* TODO: Create page */}
                 {/* <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.camp.schedule')} href={route('events.camp.schedule')}>Schedule</NavLink>

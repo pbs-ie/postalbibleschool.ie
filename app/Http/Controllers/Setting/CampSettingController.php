@@ -23,8 +23,7 @@ class CampSettingController extends Controller
             "dates" => ['required', 'string'],
             "year" => ['required', 'string'],
             "embedLink" => ['required', 'string'],
-            "isActive" => ['required'],
-
+            "isActive" => ['required', 'boolean'],
         ]);
 
         $settings->dates = $request->input('dates');
@@ -35,5 +34,22 @@ class CampSettingController extends Controller
         $settings->save();
 
         return redirect()->route('settings.camp.index')->with('success', 'Camp settings updated successfully');
+    }
+
+    public function updateReunion(CampSettings $settings, Request $request)
+    {
+        $request->validate([
+            "reunionDates" => ['required', 'string'],
+            "reunionIsActive" => ['required', 'boolean'],
+            "reunionFormEmbedLink" => ['required', 'string'],
+        ]);
+
+        $settings->reunionDates = $request->input('reunionDates');
+        $settings->reunionFormEmbedLink = $request->input('reunionFormEmbedLink');
+        $settings->reunionIsActive = $request->boolean('reunionIsActive');
+
+        $settings->save();
+
+        return redirect()->route('settings.camp.index')->with('success', 'Camp Reunion settings updated successfully');
     }
 }

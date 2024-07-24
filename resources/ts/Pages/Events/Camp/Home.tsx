@@ -2,9 +2,11 @@ import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
+import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+
 import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
-import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
+import CampWrapper from "@/Layouts/CampWrapper";
 
 import route from "ziggy-js";
 
@@ -17,10 +19,13 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import CampWrapper from "@/Layouts/CampWrapper";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Calendar from "@/Elements/Icons/Calendar";
 import Location from "@/Elements/Icons/Location";
+import School from "@/Elements/Icons/SchoolIcon";
+import SparkesIcon from "@/Elements/Icons/SparklesIcon";
+
 import { CampSettingProps } from "@/Pages/Settings/Camp";
 
 
@@ -62,6 +67,12 @@ export default function Home({ campSettings }: { campSettings: CampSettingProps 
 
     const campCards: CardBlock[] = [
         {
+            Icon: SparkesIcon,
+            title: "What",
+            description: "Summer Camp",
+            buttonText: "",
+            buttonLink: ""
+        }, {
             Icon: Calendar,
             title: "When",
             description: campSettings?.dates,
@@ -76,6 +87,29 @@ export default function Home({ campSettings }: { campSettings: CampSettingProps 
             buttonLink: ""
         }
     ]
+    const reunionCards: CardBlock[] = [
+        {
+            Icon: School,
+            title: "What",
+            description: "Camp Reunion",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Calendar,
+            title: "When",
+            description: campSettings?.reunionDates,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Castledaly Manor, Moate, Athlone, Co. Westmeath",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
     return (
         <CampWrapper title="">
             <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
@@ -86,6 +120,11 @@ export default function Home({ campSettings }: { campSettings: CampSettingProps 
                 {campSettings?.isActive &&
                     <CardContainer cards={campCards}>
                         <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
+                    </CardContainer>
+                }
+                {campSettings?.reunionIsActive &&
+                    <CardContainer cards={reunionCards}>
+                        <ButtonLink href={route('events.camp.reunion')}>Register</ButtonLink>
                     </CardContainer>
                 }
                 <Heading2>Camp</Heading2>

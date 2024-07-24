@@ -43,6 +43,7 @@ import CloudArrowUp from "@/Elements/Icons/CloudArrowUp"
 import SunIcon from "@/Elements/Icons/SunIcon"
 import PresentationChart from "@/Elements/Icons/PresentationChart"
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon"
+import SparkesIcon from "@/Elements/Icons/SparklesIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -171,6 +172,9 @@ export default function IconSection() {
         }, {
             heading: <School />,
             content: "School",
+        }, {
+            heading: <SparkesIcon />,
+            content: "SparklesIcon",
         }, {
             heading: <SunIcon />,
             content: "SunIcon",
