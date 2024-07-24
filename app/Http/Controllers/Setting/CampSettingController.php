@@ -56,10 +56,12 @@ class CampSettingController extends Controller
     public function updatePayment(CampSettings $settings, Request $request)
     {
         $request->validate([
+            "paymentDescription" => ['required', 'string'],
             "paymentPrices" => ['required', 'array', 'max:3']
         ]);
         $filteredPrices = array_values(array_filter($request->input('paymentPrices')));
         $settings->paymentPrices = $filteredPrices;
+        $settings->paymentDescription = $request->input("paymentDescription");
 
         $settings->save();
 

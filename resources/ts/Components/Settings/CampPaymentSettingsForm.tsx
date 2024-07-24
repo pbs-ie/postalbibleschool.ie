@@ -2,17 +2,20 @@ import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import NumberInput from "@/Elements/Forms/NumberInput";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 
 import { CampSettingProps } from "@/Pages/Settings/Camp";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import Heading3 from "@/Components/Typography/Heading3";
 
 import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
 
-export default function CampPaymentSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "paymentPrices"> }) {
+export default function CampPaymentSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "paymentPrices" | "paymentDescription"> }) {
     const defaultData = {
+        "paymentDescription": campSettings.paymentDescription,
         "paymentPrices": campSettings.paymentPrices.concat(Array(3 - campSettings.paymentPrices.length).fill("")).slice(0, 3)
     }
     const { data, setData, post, errors } = useForm(defaultData);
@@ -35,6 +38,19 @@ export default function CampPaymentSettingsForm({ campSettings }: { campSettings
             </div>
             <hr />
             <div className="my-4">
+                <div className="mb-2">
+                    <InputLabel2 forInput={"paymentDescription"} value={"Description"} />
+                    <TextAreaInput
+                        className="w-full"
+                        name={"paymentDescription"}
+                        id={"paymentDescription"}
+                        value={data.paymentDescription + ""}
+                        handleChange={(event) => {
+                            setData("paymentDescription", event.target.value)
+                        }} />
+                    <InputError message={errors.paymentDescription} />
+                </div>
+                <Heading3>Custom Prices</Heading3>
                 <p className="py-2 pl-4 text-gray-700 border-l-2 border-gray-400">Leave fields blank for fewer choices or only custom option</p>
                 <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-3">
                     <div>
