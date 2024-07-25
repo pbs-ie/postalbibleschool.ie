@@ -151,15 +151,15 @@ export default function Navbar() {
                             </li>
                         }
 
-                        <NavProfileMenuitem />
 
                         <li className="flex items-center -mr-2 lg:hidden">
                             <NavMenuButton active={showResponsiveNavmenu} onClick={() => setShowResponsiveNavmenu((previousState) => !previousState)} />
                         </li>
+                        <NavProfileMenuitem />
                     </ul>
                 </div>
             </nav>
-            <nav className={(showResponsiveNavmenu ? 'block opacity-100 translate-y-0' : 'hidden opacity-0 -translate-y-full -z-1') + ' lg:hidden transition-[transform,opacity] duration-1000 ease-in-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
+            <nav className={(showResponsiveNavmenu ? 'block opacity-100 translate-y-0 z-10' : 'invisible opacity-10 -translate-y-20 -z-10') + ' w-full absolute lg:hidden transition-[transform,opacity] duration-200 ease-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
                 <ul className="pt-2 pb-3 space-y-1">
                     {auth?.user &&
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>

@@ -54,7 +54,7 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
     }
     const { data, setData, post, reset, processing } = useForm(defaultFormObject);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "date":
             case "title":

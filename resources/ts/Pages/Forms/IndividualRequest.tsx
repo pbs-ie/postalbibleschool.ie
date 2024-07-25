@@ -87,7 +87,7 @@ export default function IndividualRequest() {
         reset();
     }, []);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "email":
             case "phone":

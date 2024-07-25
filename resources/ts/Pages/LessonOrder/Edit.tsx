@@ -27,7 +27,7 @@ export default function Edit({ isAdmin, lessonOrder }: { isAdmin: boolean, lesso
         tlpOrder: lessonOrder.tlpOrder
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLFormElement | HTMLSelectElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "schoolName":
             case "schoolType":

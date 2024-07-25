@@ -41,19 +41,19 @@ export default function NavProfileMenuitem() {
     }, [menuIsOpen]);
 
     return (
-        <li className="relative hidden space-x-8 lg:-my-px lg:ml-10 lg:flex">
+        <li className="relative flex ml-3 -my-px space-x-8 lg:ml-10">
 
             {auth?.user ?
                 (
                     <>
                         <NavLink innerRef={buttonRef} active={false} href={'#'} onClick={(event) => { event.preventDefault(); setMenuIsOpen(!menuIsOpen) }}>
-                            <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
-                            <CaratDown />
+                            <img src={auth?.user.picture} alt={auth?.user.nickname} className='w-10 rounded-full' />
+                            <CaratDown className="hidden w-2 ml-2 lg:block" />
                         </NavLink>
 
-                        <div ref={menuRef} className={"absolute right-0 z-10 overflow-hidden flex-col hidden bg-white divide-y-2 rounded-lg text-slate-600 top-[90%] drop-shadow-lg " + (menuIsOpen ? "lg:flex animate-expand-in" : "lg:invisible")} >
+                        <div ref={menuRef} className={"absolute right-0 z-20 overflow-hidden flex-col bg-white divide-y-2 rounded-lg text-slate-600 top-[90%] drop-shadow-lg " + (menuIsOpen ? "flex animate-expand-in" : "invisible")} >
                             <div className='grid grid-cols-[2.5rem_1fr] items-center gap-2 p-4'>
-                                <img src={auth?.user.picture} alt="User picture" className='w-10 rounded-full' />
+                                <img src={auth?.user.picture} alt={auth?.user.nickname} className='w-10 rounded-full' />
                                 <div className='flex flex-col p-2'>
                                     <span className='text-sm font-bold text-slate-900'>{auth?.user?.name}</span>
                                     <span className='text-sm rounded-lg '>

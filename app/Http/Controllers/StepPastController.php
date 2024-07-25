@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStepPastRequest;
 use Inertia\Inertia;
 use App\Models\StepPast;
 use Illuminate\Support\Facades\Storage;
+use App\Settings\StepSettings;
 use Illuminate\Support\Facades\Gate;
 
 class StepPastController extends Controller
@@ -25,12 +26,14 @@ class StepPastController extends Controller
     /**
      * Display the past events gallery for STEP events
      * 
+     * @param \App\Settings\StepSettings $stepSettings
      * @return \Inertia\Response
      */
-    public function index()
+    public function index(StepSettings $stepSettings)
     {
         return Inertia::render('Events/Step/Past/Gallery', [
-            'pastEvents' => StepPast::orderByDesc('date')->get()
+            'pastEvents' => fn() => StepPast::orderByDesc('date')->get(),
+            'stepSettings' => fn() => $stepSettings
         ]);
     }
 
@@ -38,7 +41,7 @@ class StepPastController extends Controller
      * Show details for one Past Event
      * 
      * @param \App\Models\StepPast $event
-     * @return \Inertia\Response
+     * @return \Inertia\Response | void
      */
     public function show(StepPast $event)
     {

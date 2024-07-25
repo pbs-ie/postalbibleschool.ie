@@ -9,6 +9,7 @@ use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
+use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\SunscoolApiController;
 use App\Http\Controllers\StepEventController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
 use App\Models\FmLessonOrder;
 use App\Settings\ITeamSettings;
+use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -93,6 +95,12 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
     });
+    Route::controller(CampSettingController::class)->name('camp.')->prefix('camp')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+        Route::post('reunion/update', 'updateReunion')->name('reunion.update');
+        Route::post('payment/update', 'updatePayment')->name('payment.update');
+    });
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');
         // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
@@ -101,6 +109,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::post('/', 'store')->name('store');
     });
 });
+// ************** END SETTINGS ********************
 
 Route::prefix('events')->name('events.')->group(function () {
     Route::get('/prizegivings', function (Request $request) {
@@ -113,12 +122,21 @@ Route::prefix('events')->name('events.')->group(function () {
     })->name('shed');
 
     Route::prefix('camp')->name('camp.')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Events/Camp/Home');
+        Route::get('/', function (CampSettings $campSettings) {
+            return Inertia::render('Events/Camp/Home', [
+                'campSettings' => $campSettings
+            ]);
         })->name('index');
-        Route::get('/signup', function () {
-            return Inertia::render('Events/Camp/CampSignup');
+        Route::get('/signup', function (CampSettings $settings) {
+            return Inertia::render('Events/Camp/CampSignup', [
+                'campSettings' => $settings
+            ]);
         })->name('signup');
+        Route::get('/reunion', function (CampSettings $campSettings) {
+            return Inertia::render('Events/Camp/ReunionSignup', [
+                'campSettings' => $campSettings
+            ]);
+        })->name('reunion');
     });
 
     Route::get('/iteam', function (ITeamSettings $iteamSettings) {
