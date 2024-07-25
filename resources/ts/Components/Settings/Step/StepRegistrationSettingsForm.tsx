@@ -48,7 +48,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     const { data, setData, post, errors } = useForm<StepSettingsProps>(defaultData);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "topic":
             case "speaker":

@@ -39,7 +39,7 @@ export default function GroupRequest() {
     }, []);
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "firstname":
             case "lastname":

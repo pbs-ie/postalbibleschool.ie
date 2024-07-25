@@ -2,11 +2,12 @@ import CardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Heading2 from "@/Components/Typography/Heading2";
 import Paragraph from "@/Components/Typography/Paragraph";
-import EventWrapper from "@/Layouts/EventWrapper";
-import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
-import { useState } from "react";
+import EventWrapper from "@/Layouts/EventWrapper";
+import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
+import CampWrapper from "@/Layouts/CampWrapper";
+
 import route from "ziggy-js";
 
 import CampTeaching from "@images/camp/camp-teaching-min.jpg";
@@ -18,14 +19,17 @@ import CampGames from "@images/camp/camp-games-min.jpg";
 import CampCraft from "@images/camp/camp-craft-min.jpg";
 import CampAdventure from "@images/camp/camp-adventure-min.jpg";
 import CampBanner from "@images/camp/camp_header.png";
-import CampWrapper from "@/Layouts/CampWrapper";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Calendar from "@/Elements/Icons/Calendar";
 import Location from "@/Elements/Icons/Location";
+import School from "@/Elements/Icons/SchoolIcon";
+import SparkesIcon from "@/Elements/Icons/SparklesIcon";
+
+import { CampSettingProps } from "@/Pages/Settings/Camp";
 
 
-export default function Home() {
-    const [isSignupActive, setIsSignupActive] = useState(true);
+export default function Home({ campSettings }: { campSettings: CampSettingProps }) {
     const images: Gallery[] = [
         {
             title: "Bible Teaching",
@@ -63,9 +67,15 @@ export default function Home() {
 
     const campCards: CardBlock[] = [
         {
+            Icon: SparkesIcon,
+            title: "What",
+            description: "Summer Camp",
+            buttonText: "",
+            buttonLink: ""
+        }, {
             Icon: Calendar,
             title: "When",
-            description: "13th to 20th July, 2024",
+            description: campSettings?.dates,
             buttonText: "",
             buttonLink: ""
         },
@@ -77,6 +87,29 @@ export default function Home() {
             buttonLink: ""
         }
     ]
+    const reunionCards: CardBlock[] = [
+        {
+            Icon: School,
+            title: "What",
+            description: "Camp Reunion",
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Calendar,
+            title: "When",
+            description: campSettings?.reunionDates,
+            buttonText: "",
+            buttonLink: ""
+        },
+        {
+            Icon: Location,
+            title: "Where",
+            description: "Castledaly Manor, Moate, Athlone, Co. Westmeath",
+            buttonText: "",
+            buttonLink: ""
+        }
+    ]
     return (
         <CampWrapper title="">
             <img src={CampBanner} alt="" className="w-full aspect-auto md:-mt-40" />
@@ -84,9 +117,16 @@ export default function Home() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer cards={campCards}>
-                    <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
-                </CardContainer>
+                {campSettings?.isActive &&
+                    <CardContainer cards={campCards}>
+                        <ButtonLink href={route('events.camp.signup')}>Register</ButtonLink>
+                    </CardContainer>
+                }
+                {campSettings?.reunionIsActive &&
+                    <CardContainer cards={reunionCards}>
+                        <ButtonLink href={route('events.camp.reunion')}>Register</ButtonLink>
+                    </CardContainer>
+                }
                 <Heading2>Camp</Heading2>
                 <ParagraphContainer>
                     <Paragraph>Camp is held each summer in mid-July and generally fills up extremely quickly after the forms go out in mid-May. Camp is held at Ovoca Manor just outside the village of Avoca and near Arklow in Co. Wicklow. Ovoca Manor is an outdoor adventure centre owned by Scripture Union. It offers accommodation and a whole range of activities. Our week at camp will typically involve some time in activities at the centre and several trips off site for other activities.</Paragraph>

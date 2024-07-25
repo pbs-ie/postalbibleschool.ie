@@ -1,4 +1,5 @@
 <?php
+use App\Settings\CampSettings;
 use App\Settings\ITeamSettings;
 use App\Settings\StepSettings;
 
@@ -10,7 +11,8 @@ return [
      */
     'settings' => [
         StepSettings::class,
-        ITeamSettings::class
+        ITeamSettings::class,
+        CampSettings::class
     ],
 
     /*

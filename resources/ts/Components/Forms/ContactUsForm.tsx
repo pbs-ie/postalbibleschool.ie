@@ -21,7 +21,7 @@ export default function ContactUsForm() {
     }, [])
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "name":
             case "contactName":

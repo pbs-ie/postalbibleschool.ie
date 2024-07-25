@@ -4,7 +4,7 @@ interface NumberInput {
     min?: number;
     max?: number;
     className?: string;
-    handleChange: ChangeEventHandler<HTMLElement>;
+    handleChange: ChangeEventHandler<HTMLInputElement>;
     ariaLabelledBy?: string;
 }
 

@@ -6,6 +6,7 @@
         "artisan-serve": "php artisan serve",
         "start-memcached": "memcached start",
         "artisan-queue": "php artisan queue:listen",
+        "artisan-settings-clear": "php artisan settings:clear-cache",
         "build-client": "vite build",
         "build": "run-s build-*",
         "test": "jest",

@@ -2,7 +2,7 @@ import { ChangeEventHandler } from 'react';
 
 interface TextAreaInput {
     className?: string,
-    handleChange: ChangeEventHandler<HTMLElement>
+    handleChange: ChangeEventHandler<HTMLTextAreaElement>
 }
 
 export default function TextAreaInput({ className, handleChange, ...props }: TextAreaInput & React.TextareaHTMLAttributes<HTMLTextAreaElement>) {

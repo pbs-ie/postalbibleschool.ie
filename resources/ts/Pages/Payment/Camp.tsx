@@ -7,6 +7,7 @@ import PaymentSuccessComponent from "@/Components/Payments/PaymentSuccessCompone
 
 import CampWrapper from "@/Layouts/CampWrapper";
 import Heading1Alt from "@/Components/Typography/Heading1Alt";
+import { CampSettingProps } from "../Settings/Camp";
 
 interface Product {
     title: string;
@@ -27,18 +28,7 @@ interface ProductAction {
     index: number;
 }
 
-const defaultProducts: Product[] = [
-    {
-        title: "EUR",
-        quantity: 0,
-        price: 150
-    },
-    {
-        title: "EUR",
-        quantity: 0,
-        price: 170
-    }
-];
+
 
 const productReducer = (state: Product[], action: ProductAction) => {
     let newState = [];
@@ -128,7 +118,12 @@ const cartReducer = (state: Cart[], action: CartAction) => {
     }
 }
 
-export default function Camp() {
+export default function Camp({ campSettings }: { campSettings: Pick<CampSettingProps, "paymentPrices" | "paymentDescription"> }) {
+    const defaultProducts: Product[] = campSettings.paymentPrices.map((value) => ({
+        title: "EUR",
+        quantity: 0,
+        price: +value
+    }))
     const [activeOption, setActiveOption] = useState<number | null>(null);
     const [customPrice, setCustomPrice] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -260,7 +255,7 @@ export default function Camp() {
                         </div>
                         <h2 className="text-3xl">Postal Bible School</h2>
                         {!isSuccess && <>
-                            <p className="px-2 mb-5 text-xl lg:px-10">You can pay for Summer Camp 2024 to <br /> Postal Bible School here</p>
+                            <p className="px-2 mb-5 text-xl text-left lg:w-2/3 lg:px-10 text-pretty">{campSettings.paymentDescription}</p>
                             {isButtonDisabled &&
                                 <div>
                                     <div className="grid grid-cols-3 gap-2 mb-4">
