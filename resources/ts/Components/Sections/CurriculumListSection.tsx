@@ -6,8 +6,11 @@ import TooltipCard from "../Cards/TooltipCard";
 import Heading2Alt from "../Typography/Heading2Alt";
 import { getIconForLessonType } from "@/helper";
 import { monthLessonMap } from "@/constants";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import route from "ziggy-js";
 
-export default function CurriculumListSection({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
+export default function CurriculumListSection({ curriculumList, canViewCurriculum = false }: { curriculumList?: CurriculumProps[], canViewCurriculum?: boolean }) {
 
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
@@ -102,12 +105,17 @@ export default function CurriculumListSection({ curriculumList }: { curriculumLi
     ];
     return (
         <div className="mb-4 lg:mb-10">
-            <span className="flex items-start gap-2">
-                <Heading2Alt>Curriculum</Heading2Alt>
-                <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
-                    <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
-                </TooltipCard>
-            </span>
+            <div className="flex justify-between mb-1">
+                <span className="flex items-start gap-2">
+                    <Heading2Alt>Curriculum</Heading2Alt>
+                    <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
+                        <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                    </TooltipCard>
+                </span>
+                {canViewCurriculum &&
+                    <ButtonLink href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
+                }
+            </div>
             {tableDataMemo && tableDataMemo.length > 0 ?
                 <div className="w-full">
                     <AdvancedTable

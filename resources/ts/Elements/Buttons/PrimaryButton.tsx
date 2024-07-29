@@ -1,7 +1,7 @@
 import BasicButton from "@/Elements/Buttons/BasicButton";
 
-export default function PrimaryButton({ type = 'submit', processing = false, children, onClick, dataTest }: Button) {
+export default function PrimaryButton({ type = 'submit', children, ...props }: Omit<Button, "hierarchy">) {
     return (
-        <BasicButton dataTest={dataTest} type={type} processing={processing} onClick={onClick}>{children}</BasicButton>
+        <BasicButton {...props} hierarchy="primary" type={type}>{children}</BasicButton>
     );
 }
