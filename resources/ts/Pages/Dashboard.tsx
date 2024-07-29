@@ -20,11 +20,10 @@ export default function Dashboard({ classrooms, canViewCurriculum = false, curri
     return (
         <WrapperLayout>
             <SidebarLayout>
-                <DashboardSidebar />
+                <DashboardSidebar canViewCurriculum={canViewCurriculum} />
                 <ContentWrapper title="School Hub" className="w-full">
                     <div className="flex flex-col w-full pr-4 mx-auto lg:max-w-7xl">
                         <SchoolInformationSection lessonOrder={lessonOrder} />
-                        <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
                         <CurriculumListSection curriculumList={curriculumList} />
                         <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
                     </div>
