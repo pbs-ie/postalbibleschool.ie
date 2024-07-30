@@ -1,14 +1,16 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import InformationCircle from "@/Elements/Icons/InformationCircle";
-import TooltipCard from "../Cards/TooltipCard";
-import Heading2Alt from "../Typography/Heading2Alt";
-import { getIconForLessonType } from "@/helper";
-import { monthLessonMap } from "@/constants";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import route from "ziggy-js";
+
+import { getCurrentMonthNumber, monthLessonMap } from "@/constants";
+import { getIconForLessonType } from "@/helper";
+
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import TooltipCard from "@/Components/Cards/TooltipCard";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
+
+import InformationCircle from "@/Elements/Icons/InformationCircle";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
 export default function CurriculumListSection({ curriculumList, canViewCurriculum = false }: { curriculumList?: CurriculumProps[], canViewCurriculum?: boolean }) {
 
@@ -37,6 +39,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.sep_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 9 }
         }),
         columnHelper.display({
             id: 'oct-lesson',
@@ -44,6 +47,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.oct_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 10 }
         }),
         columnHelper.display({
             id: 'nov-lesson',
@@ -51,6 +55,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.nov_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 11 }
         }),
         columnHelper.display({
             id: 'dec-lesson',
@@ -58,6 +63,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.dec_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 12 }
         }),
         columnHelper.display({
             id: 'jan-lesson',
@@ -65,6 +71,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jan_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 1 }
         }),
         columnHelper.display({
             id: 'feb-lesson',
@@ -72,6 +79,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.feb_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 2 }
         }),
         columnHelper.display({
             id: 'mar-lesson',
@@ -79,6 +87,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.mar_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 3 }
         }),
         columnHelper.display({
             id: 'apr-lesson',
@@ -86,6 +95,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.apr_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 4 }
         }),
         columnHelper.display({
             id: 'may-lesson',
@@ -93,6 +103,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.may_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 5 }
         }),
         columnHelper.display({
             id: 'jun-lesson',
@@ -100,6 +111,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jun_lesson)
             ),
+            meta: { highlightColumn: getCurrentMonthNumber() + 1 === 6 }
         }),
 
     ];
@@ -123,6 +135,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
                         columns={defaultColumns}
                         enableGlobalFilter={false}
                         enableSorting={false}
+                        enableHighlightedColumns
                     />
                 </div>
                 :
