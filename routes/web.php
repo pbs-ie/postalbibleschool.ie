@@ -212,10 +212,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 // TODO: Revealed route with Digital lessons features 
-Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
-    Route::get('/', [StudentController::class, 'index'])->name('index');
-    Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
-});
+// Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
+//     Route::get('/', [StudentController::class, 'index'])->name('index');
+//     Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
+// });
 
 
 Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
