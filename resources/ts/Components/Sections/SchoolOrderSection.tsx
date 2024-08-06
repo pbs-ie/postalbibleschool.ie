@@ -8,9 +8,10 @@ interface SchoolOrderProps {
     lessonOrder: LessonOrder;
     classrooms: ClassroomProps[];
     projectedOrders: ProjectedOrders[];
+    curricula: CurriculumProps[];
 }
 
-export default function SchoolOrderSection({ lessonOrder, classrooms, projectedOrders }: SchoolOrderProps) {
+export default function SchoolOrderSection({ lessonOrder, classrooms, projectedOrders, curricula }: SchoolOrderProps) {
     return (
         <div className="w-full gap-2 p-4 space-y-4">
             <div className="shrink-0">
@@ -20,7 +21,7 @@ export default function SchoolOrderSection({ lessonOrder, classrooms, projectedO
                 <p className="w-full text-red-800 bg-red-200 lg:w-1/2">No classrooms created for this school</p>
                 :
                 <>
-                    <CurriculumListSection curriculumList={[]} />
+                    <CurriculumListSection curriculumList={curricula} />
                     <ProjectedOrdersSection projectedOrders={projectedOrders} />
                 </>
             }

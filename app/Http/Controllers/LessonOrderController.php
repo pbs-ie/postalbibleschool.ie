@@ -99,6 +99,7 @@ class LessonOrderController extends Controller
             'lessonOrder' => $lessonOrder,
             'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
             'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
+            'curricula' => fn() => Curriculum::all(),
             'projectedOrders' => fn() => $projectedOrders
         ]);
     }

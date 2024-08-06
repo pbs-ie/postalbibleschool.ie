@@ -11,7 +11,7 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import route from "ziggy-js";
 
 
-export default function Show({ lessonOrder, schoolsList, classrooms, projectedOrders = [] }: { lessonOrder: LessonOrder, schoolsList: SchoolsList[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[] }) {
+export default function Show({ lessonOrder, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { lessonOrder: LessonOrder, schoolsList: SchoolsList[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
 
     return (
         <WrapperLayout>
@@ -24,7 +24,7 @@ export default function Show({ lessonOrder, schoolsList, classrooms, projectedOr
                     <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
                     <ButtonLink Icon={EditIcon} href={route('orders.edit', lessonOrder.id)}>Edit</ButtonLink>
                 </div>
-                <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} projectedOrders={projectedOrders} />
+                <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} projectedOrders={projectedOrders} curricula={curricula} />
 
             </ContentWrapper>
         </WrapperLayout>
