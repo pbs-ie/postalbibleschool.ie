@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { useMemo } from "react";
+import { createColumnHelper } from "@tanstack/react-table";
 
 import { MonthKeys, monthLessonMap, monthMap } from "@/constants";
 
@@ -20,21 +20,11 @@ export interface ProjectedOrders {
     "level": string
 }
 export default function ProjectedOrdersSection({ projectedOrders = [] }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean }) {
-    // ****************TABLE SECTION ***********************
-    const defaultTotals = {
-        level_0_totals: 0,
-        level_1_totals: 0,
-        level_2_totals: 0,
-        level_3_totals: 0,
-        level_4_totals: 0,
-        tlp_totals: 0,
-        all_totals: 0
-    };
 
     const tableDataMemo = useMemo(() => projectedOrders, [projectedOrders]);
     const columnHelper = createColumnHelper<ProjectedOrders>();
 
-    const defaultColumns: ColumnDef<ProjectedOrders, string>[] = [
+    const defaultColumns = [
         columnHelper.display({
             id: 'select-col',
             header: () => (
@@ -61,7 +51,7 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
     })
 
     return (
-        <div className="pt-10 text-left">
+        <div className="pt-5 text-left">
             <Heading2Alt>Projected Orders</Heading2Alt>
             <AdvancedTable
                 data={tableDataMemo}
