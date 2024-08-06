@@ -15,6 +15,7 @@ import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
+import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -112,6 +113,9 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
 
     return (
         <WrapperLayout>
+            <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
+                <ChevronLeft />{"Back to Hub"}
+            </span></ButtonLink>
             <ContentWrapper title="Filemaker Lesson Order">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex justify-between w-full mb-2">

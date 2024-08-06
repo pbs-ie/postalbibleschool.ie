@@ -11,22 +11,23 @@ import SchoolInformationSection from "@/Components/Sections/SchoolInformationSec
 
 interface DashboardProps {
     classrooms: ClassroomProps[],
-    canViewCurriculum: boolean,
+    canManageCurriculum: boolean,
     curriculumList?: CurriculumProps[],
     lessonOrder: LessonOrder,
 }
-export default function Dashboard({ classrooms, canViewCurriculum = false, curriculumList, lessonOrder }: DashboardProps) {
+export default function Dashboard({ classrooms, canManageCurriculum = false, curriculumList, lessonOrder }: DashboardProps) {
 
     return (
         <WrapperLayout>
             <SidebarLayout>
-                <DashboardSidebar />
+                <DashboardSidebar canManageCurriculum={canManageCurriculum} />
                 <ContentWrapper title="School Hub" className="w-full">
                     <div className="flex flex-col w-full pr-4 mx-auto lg:max-w-7xl">
                         <SchoolInformationSection lessonOrder={lessonOrder} />
-                        <DashboardResourceSection canViewCurriculum={canViewCurriculum} />
-                        <CurriculumListSection curriculumList={curriculumList} />
-                        <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
+                        <CurriculumListSection curriculumList={curriculumList ?? []} canManageCurriculum={canManageCurriculum} />
+                        {!canManageCurriculum &&
+                            <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
+                        }
                     </div>
                 </ContentWrapper>
             </SidebarLayout>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Models\Curriculum;
+use App\Services\ClassroomService;
 use App\Services\LessonOrderService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -92,11 +93,14 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
+        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($lessonOrder->email);
+
         return Inertia::render('SchoolOrder/Show', [
             'lessonOrder' => $lessonOrder,
             'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
             'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
-            'curriculumList' => Curriculum::current()
+            'curricula' => fn() => Curriculum::all(),
+            'projectedOrders' => fn() => $projectedOrders
         ]);
     }
 

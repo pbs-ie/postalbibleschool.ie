@@ -88,10 +88,11 @@ class ClassroomController extends Controller
         if ($classroom) {
             return redirect()->route('dashboard')->with('warning', "Classroom already exists");
         }
-
+        $schoolOrder = FmLessonOrder::where('email', auth()->user()->email)->first();
         // if (Student::getStudentsForUser()->isEmpty()) {
-        //     return redirect()->route('dashboard')->with("failure", "No students for current user");
-        // }
+        if (!isset($schoolOrder)) {
+            return redirect()->route('dashboard')->with("failure", "No students found for current user");
+        }
         $classroom = new Classroom();
         $classroom->fill([
             'name' => strtolower($request->name),

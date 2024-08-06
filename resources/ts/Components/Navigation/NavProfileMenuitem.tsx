@@ -5,6 +5,8 @@ import NavLink from "@/Components/Navigation/NavLink";
 import { useEffect, useRef, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import route from "ziggy-js";
+import Group from "@/Elements/Icons/Group";
+import Newspaper from "@/Elements/Icons/Newspaper";
 
 export default function NavProfileMenuitem() {
     const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -40,6 +42,21 @@ export default function NavProfileMenuitem() {
         return () => document.removeEventListener('mousedown', handleMouseEvent);
     }, [menuIsOpen]);
 
+    const adminMenuItems = [
+        {
+            routeString: route('curriculum.index'),
+            isActive: route().current('curriculum.*'),
+            Icon: Group,
+            name: "Manage Curriculum"
+        },
+        {
+            routeString: route('orders.index'),
+            isActive: route().current('orders.index'),
+            Icon: Newspaper,
+            name: "Manage School Orders"
+        }
+    ]
+
     return (
         <li className="relative flex ml-3 -my-px space-x-8 lg:ml-10">
 
@@ -63,7 +80,18 @@ export default function NavProfileMenuitem() {
                                 </div>
                             </div>
                             <ul className='flex flex-col'>
-                                <li className='inline-flex hover:bg-black/5'>
+                                {auth.canViewSettings &&
+                                    adminMenuItems.map((item) => (
+                                        <li key={item.name} className='inline-flex hover:bg-black/5'>
+                                            <AnchorNavLink href={item.routeString} isDropdown>
+                                                <span className="flex items-center gap-2 font-normal">
+                                                    <item.Icon /> {item.name}
+                                                </span>
+                                            </AnchorNavLink>
+                                        </li>
+                                    ))
+                                }
+                                <li className='inline-flex border-t hover:bg-black/5'>
                                     <AnchorNavLink href={route('logout')} isDropdown>
                                         <span className="flex items-center gap-2 font-normal">
                                             <LogoutIcon /> Log out
