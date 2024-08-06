@@ -4,12 +4,12 @@ import { Column, Row, createColumnHelper } from "@tanstack/react-table";
 import { modalHelper } from "@/helper";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import BasicButton from "@/Elements/Buttons/BasicButton";
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import PopupModal from "@/Components/Modals/PopupModal";
 import TooltipCard from "@/Components/Cards/TooltipCard";
-import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
+import ErrorBanner from "@/Components/Forms/ErrorBanner";
+import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 
 import route from "ziggy-js";
 
@@ -19,10 +19,12 @@ import FloppyDisk from "@/Elements/Icons/FloppyDisk";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import CloseX from "@/Elements/Icons/CloseX";
 
-import CreateClassroomForm from "@/Components/Forms/CreateClassroomForm";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
-import ErrorBanner from "@/Components/Forms/ErrorBanner";
-import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
+
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name" | "updated_at">;
 
@@ -134,19 +136,19 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             onBlur={onBlur}
                         />
                         : (currentProperty === "curriculum_id") ?
-                            // <SelectInput
-                            //     key={`${currentProperty}[${row.id}]`}
-                            //     name={currentProperty}
-                            //     id={`${currentProperty}[${row.id}]`}
-                            //     handleChange={(e: ChangeEvent<HTMLSelectElement>) => setData(currentProperty, +e.target.value)}
-                            //     className={"text-sm w-24 p-1"}
-                            //     value={data[currentProperty] + ""}
-                            // >
-                            //     {curriculumList.map(({ name, id }) => (
-                            //         <option key={name + id} value={id}>{name}</option>
-                            //     ))}
-                            // </SelectInput>
-                            <span>{classrooms[+row.id]["curriculum_name"]}</span>
+                            <SelectInput
+                                key={`${currentProperty}[${row.id}]`}
+                                name={currentProperty}
+                                id={`${currentProperty}[${row.id}]`}
+                                handleChange={(e: ChangeEvent<HTMLSelectElement>) => setData(currentProperty, +e.target.value)}
+                                className={"text-sm w-24 p-1"}
+                                value={data[currentProperty] + ""}
+                            >
+                                {curriculumList.map(({ name, id }) => (
+                                    <option key={name + id} value={id}>{name}</option>
+                                ))}
+                            </SelectInput>
+                            // <span>{classrooms[+row.id]["curriculum_name"]}</span>
                             :
                             null
                     }

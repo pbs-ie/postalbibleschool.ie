@@ -18,7 +18,6 @@ export default function StepNavbar() {
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.index')} href={route('events.step.index')}>About</NavLink>
                 </li>
-                {/* TODO: Create page */}
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.past.*')} href={route('events.step.past.gallery')}>Past Events</NavLink>
                 </li>

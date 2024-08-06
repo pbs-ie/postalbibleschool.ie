@@ -17,8 +17,20 @@ interface AdvancedTableProps<TData, TValue> {
     rowSelection?: RowSelectionState,
     searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
+    enableHighlightedColumns?: boolean
 }
-export default function AdvancedTable<TData, TValue>({ data, columns, searchPlaceholder, enableGlobalFilter = true, enableColumnFilters = false, enableRowSelection = false, enableSorting = true, rowSelection = {}, setRowSelection = () => { } }: AdvancedTableProps<TData, TValue>) {
+export default function AdvancedTable<TData, TValue>({
+    data,
+    columns,
+    searchPlaceholder,
+    enableGlobalFilter = true,
+    enableColumnFilters = false,
+    enableRowSelection = false,
+    enableSorting = true,
+    rowSelection = {},
+    setRowSelection = () => { },
+    enableHighlightedColumns = false
+}: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -64,6 +76,19 @@ export default function AdvancedTable<TData, TValue>({ data, columns, searchPlac
             }
             <div className="relative overflow-auto max-h-96 lg:max-h-[75dvh]">
                 <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                    {enableHighlightedColumns &&
+                        <colgroup>
+                            {table.getFlatHeaders().map((header, index) => (
+                                // @ts-ignore Meta may have highlightColumn
+                                header.column.columnDef.meta?.highlightColumn ?? false ?
+                                    <col
+                                        key={index}
+                                        className="border-2 border-blue-500"
+                                    /> :
+                                    <col key={index} />
+                            ))}
+                        </colgroup>
+                    }
                     <thead className="sticky top-0 bg-gray-100">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>

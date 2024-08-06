@@ -57,9 +57,9 @@ class Curriculum extends Model
             ->orWhere('email', null)
             ->get();
         // TODO: To filter additional curricula till new features are released
-        $curricula = $curricula->filter(
-            fn($item) => Str::lower($item->curriculum_type) === $this::PAPER
-        );
+        // $curricula = $curricula->filter(
+        //     fn($item) => Str::lower($item->curriculum_type) === $this::PAPER
+        // );
         return $curricula;
     }
 

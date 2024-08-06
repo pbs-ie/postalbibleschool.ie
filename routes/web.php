@@ -14,7 +14,7 @@ use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\SunscoolApiController;
 use App\Http\Controllers\StepEventController;
 use App\Http\Controllers\ClassroomController;
-// use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentController;
 use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
@@ -205,12 +205,11 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
 
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
-    // $curriculumList = Curriculum::current();
     return Inertia::render('Dashboard', [
-        'classrooms' => $classroomList,
-        'canViewCurriculum' => Gate::allows('view:curriculum'),
-        'curriculumList' => Curriculum::current(),
-        'lessonOrder' => FmLessonOrder::where('email', auth()->user()->email)->first()
+        'classrooms' => fn() => $classroomList,
+        'canManageCurriculum' => Gate::allows('view:curriculum'),
+        'curriculumList' => fn() => Curriculum::current(),
+        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first()
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
