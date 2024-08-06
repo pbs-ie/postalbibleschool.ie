@@ -12,7 +12,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
-export default function CurriculumListSection({ curriculumList, canViewCurriculum = false }: { curriculumList?: CurriculumProps[], canViewCurriculum?: boolean }) {
+export default function CurriculumListSection({ curriculumList, canViewCurriculum = false }: { curriculumList: CurriculumProps[], canViewCurriculum?: boolean }) {
 
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();

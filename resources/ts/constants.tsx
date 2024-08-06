@@ -268,7 +268,7 @@ export const bibleTimeLevels = [
     }
 ];
 type MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
 
 export type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
 export const monthLessonMap: { [key in MonthKeys]: string } = {
