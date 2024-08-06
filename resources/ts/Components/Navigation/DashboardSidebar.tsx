@@ -6,7 +6,7 @@ import Cog6Tooth from "@/Elements/Icons/Cog6Tooth";
 import Group from "@/Elements/Icons/Group";
 import Newspaper from "@/Elements/Icons/Newspaper";
 
-export default function DashboardSidebar({ canViewCurriculum = false }: { canViewCurriculum?: boolean }) {
+export default function DashboardSidebar({ canManageCurriculum = false }: { canManageCurriculum?: boolean }) {
     let sidebarListItems: SidebarProps["listItems"] = [
         {
             routeString: route('assembly.index'),
@@ -22,7 +22,7 @@ export default function DashboardSidebar({ canViewCurriculum = false }: { canVie
         },
     ];
 
-    if (canViewCurriculum) {
+    if (canManageCurriculum) {
         sidebarListItems.unshift(...[
             {
                 routeString: route('curriculum.index'),

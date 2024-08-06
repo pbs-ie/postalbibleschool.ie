@@ -203,12 +203,11 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
 
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
-    // $curriculumList = Curriculum::current();
     return Inertia::render('Dashboard', [
-        'classrooms' => $classroomList,
-        'canViewCurriculum' => Gate::allows('view:curriculum'),
-        'curriculumList' => Curriculum::current(),
-        'lessonOrder' => FmLessonOrder::where('email', auth()->user()->email)->first()
+        'classrooms' => fn() => $classroomList,
+        'canManageCurriculum' => Gate::allows('view:curriculum'),
+        'curriculumList' => fn() => Curriculum::current(),
+        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first()
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 

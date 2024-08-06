@@ -12,7 +12,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 
-export default function CurriculumListSection({ curriculumList, canViewCurriculum = false }: { curriculumList: CurriculumProps[], canViewCurriculum?: boolean }) {
+export default function CurriculumListSection({ curriculumList, canManageCurriculum = false }: { curriculumList: CurriculumProps[], canManageCurriculum?: boolean }) {
 
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
@@ -124,7 +124,7 @@ export default function CurriculumListSection({ curriculumList, canViewCurriculu
                         <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                     </TooltipCard>
                 </span>
-                {canViewCurriculum &&
+                {canManageCurriculum &&
                     <ButtonLink href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
                 }
             </div>
