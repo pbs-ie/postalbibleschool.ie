@@ -47,21 +47,23 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         const result = flattenedStudentMarks.reduce((acc, curr) => {
             let lessonCodeRegex = /([a-zA-z]\d+)-/.exec(curr.bibletime);
             let currentBibletime = lessonCodeRegex !== null ? lessonCodeRegex[1] : "";
-            if (!acc[curr.name + currentBibletime]) {
-                acc[curr.name + currentBibletime] = { studentId: curr.studentId, name: curr.name, totalProgress: 0, count: 0, bibletime: currentBibletime };
+            const accumulatorParam = curr.name + currentBibletime + curr.level;
+            if (!acc[accumulatorParam]) {
+                acc[accumulatorParam] = { studentId: curr.studentId, name: curr.name, totalProgress: 0, count: 0, bibletime: currentBibletime, level: curr.level };
             }
-            acc[curr.name + currentBibletime].totalProgress += curr.progress;
-            acc[curr.name + currentBibletime].count += 1;
+            acc[accumulatorParam].totalProgress += curr.progress;
+            acc[accumulatorParam].count += 1;
             return acc;
-        }, {} as Record<string, { studentId: number, name: string, totalProgress: number, count: number, bibletime: string }>);
+        }, {} as Record<string, { studentId: number, name: string, totalProgress: number, count: number, bibletime: string, level: string }>);
 
         const averagedProgress = Object.values(result).map((item) => ({
             studentId: item.studentId,
             name: item.name,
             totalAverage: item.totalProgress / 4,
             attemptedAverage: item.totalProgress / item.count,
-            itemCount: item.count,
-            bibletime: item.bibletime
+            itemCount: item.count + "/4",
+            bibletime: item.bibletime,
+            level: item.level
         }));
 
         return averagedProgress;
@@ -106,17 +108,26 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }),
         columnHelper.accessor(row => row.name + "", {
             header: "Student",
-        }), columnHelper.accessor(row => row.bibletime ?? "" + "", {
+        }),
+        columnHelper.accessor(row => row.level + "", {
+            header: "Level",
+        }),
+        columnHelper.accessor(row => row.bibletime ?? "" + "", {
             header: "BibleTime"
-        }), columnHelper.accessor(row => row.itemCount + "", {
-            header: "Stories Attempted",
-            enableColumnFilter: false
-        }), columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
-            header: "Attempted Avg (%)",
-            enableColumnFilter: false
-        }), columnHelper.accessor(row => Math.round(row.totalAverage * 100) / 100 + "", {
-            header: "Total Avg (%)",
-            enableColumnFilter: false
+        }),
+        columnHelper.accessor(row => row.itemCount + "", {
+            header: "Stories Attempted (of 4)",
+            enableColumnFilter: false,
+            enableSorting: false
+        }),
+        // columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
+        //     header: "Attempted Avg (%)",
+        //     enableColumnFilter: false
+        // }),
+        columnHelper.accessor(row => Math.round(row.totalAverage * 100) / 100 + "", {
+            header: "Avg Score (%)",
+            enableColumnFilter: false,
+            enableSorting: false
         }),
     ]
     return (
