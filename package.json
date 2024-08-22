@@ -27,7 +27,7 @@
         "@types/react-scroll": "^1.8.5",
         "@vitejs/plugin-react": "^3.0.0",
         "autoprefixer": "^10.4.12",
-        "axios": "^1.1.2",
+        "axios": ">=1.7.4",
         "country-region-data": "^2.7.0",
         "cypress": "^13.6.3",
         "dotenv": "^16.3.2",
