@@ -36,7 +36,7 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
                 </div>
             ),
         }),
-        columnHelper.accessor(row => row.level, {
+        columnHelper.accessor(row => row.level.split("_").join(" "), {
             header: "Level",
         }),
     ];
@@ -52,7 +52,7 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
 
     return (
         <div className="pt-5 text-left">
-            <Heading2Alt>Projected Orders</Heading2Alt>
+            <Heading2Alt>Projected Orders for Year</Heading2Alt>
             <AdvancedTable
                 data={tableDataMemo}
                 columns={defaultColumns}

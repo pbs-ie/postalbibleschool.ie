@@ -61,24 +61,36 @@ class LessonOrderController extends Controller
      * Display a listing of the resource.
      *
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Inertia\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
-        $isAdmin = Gate::check('create:orders');
-        if ($isAdmin) {
-            $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
-            return Inertia::render('SchoolOrder/Index', [
-                'lessonOrders' => $lessonOrders,
-            ]);
-        } else {
-            $userLesson = $this->getCurrentUserOrder();
-            if (!isset($userLesson)) {
-                return Inertia::render('SchoolOrder/NotFound');
-            }
-            $request->session()->reflash();
-            return redirect(route('orders.show', $userLesson->id));
+        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        return Inertia::render('SchoolOrder/Index', [
+            'lessonOrders' => $lessonOrders
+        ]);
+    }
+
+    /**
+     * Show list of schools with projections per $month
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param string $month
+     * @return \Inertia\Response|\Illuminate\Http\RedirectResponse
+     */
+    public function projections($month = "sep")
+    {
+        if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
+            return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
+        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        $projectedOrders = $lessonOrders->map(function ($order, $key) use ($month) {
+            return (new ClassroomService)->getProjectedOrdersByMonth($order, $month);
+        });
+        return Inertia::render('SchoolOrder/Projections', [
+            'projectedOrders' => fn() => $projectedOrders,
+            'currentMonth' => $month
+        ]);
     }
 
     /**

@@ -4,13 +4,43 @@ namespace App\Services;
 
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ClassroomService
 {
+    /**
+     * Returns the projected order values for paper lessons based on the curriculum set for each class
+     * 
+     * @param \App\Models\FmLessonOrder $orderDetails
+     * @param string $month
+     * @return mixed
+     */
+    public function getProjectedOrdersByMonth($orderDetails, $month)
+    {
+        $allClassrooms = Classroom::where('email', $orderDetails->email)->get();
+        $levelSums = (object) [
+            "id" => $orderDetails->id,
+            "schoolName" => $orderDetails->schoolName,
+            "schoolType" => $orderDetails->schoolType,
+            "level_0" => 0,
+            "level_1" => 0,
+            "level_2" => 0,
+            "level_3" => 0,
+            "level_4" => 0,
+            "tlp" => 0,
+        ];
+        $property = "{$month}_lesson";
+        foreach ($allClassrooms as $classroom) {
+            $classroomCurriculum = Curriculum::find($classroom->curriculum_id);
+            foreach (["level_0", "level_1", "level_2", "level_3", "level_4", "tlp"] as $levelString) {
+                if ($classroomCurriculum->$property === Curriculum::PAPER) {
+                    $levelSums->$levelString += $classroom->{"{$levelString}_order"};
+                }
+            }
+        }
+        return $levelSums;
+    }
     public function getProjectedMonthlyOrders($schoolEmail)
     {
-        $allCurriculum = Curriculum::get();
         $allClassrooms = Classroom::where('email', $schoolEmail)->get();
         $allSums = [
             "level_0",
@@ -23,7 +53,7 @@ class ClassroomService
         $orderObject = [];
 
         foreach ($allClassrooms as $classroom) {
-            $classroomCurriculum = $allCurriculum->find($classroom->curriculum_id);
+            $classroomCurriculum = Curriculum::find($classroom->curriculum_id);
             foreach ($allSums as $index => $levelString) {
                 if (!isset($orderObject[$index])) {
                     $orderObject[] = (object) [
