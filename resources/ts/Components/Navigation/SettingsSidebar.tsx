@@ -5,6 +5,7 @@ import VideoCamera from "@/Elements/Icons/VideoCamera";
 import SunIcon from "@/Elements/Icons/SunIcon";
 import SidebarComponent, { SidebarProps } from "./SidebarComponent";
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon";
+import Newspaper from "@/Elements/Icons/Newspaper";
 
 export default function SettingsSidebar() {
     const settingsMenuList: SidebarProps["listItems"] = [
@@ -31,6 +32,12 @@ export default function SettingsSidebar() {
             isActive: route().current('settings.sunscool.*'),
             Icon: SunIcon,
             name: "Sunscool"
+        },
+        {
+            routeString: route('settings.lesson.index'),
+            isActive: route().current('settings.lesson.*'),
+            Icon: Newspaper,
+            name: "Lesson"
         }
     ]
     return (

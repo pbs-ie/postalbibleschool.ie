@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import route from "ziggy-js";
 
-import { getCurrentMonthNumber, monthLessonMap } from "@/constants";
+import { getCurrentMonthNumber } from "@/constants";
 import { getIconForLessonType } from "@/helper";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
@@ -11,9 +11,10 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import { usePage } from "@inertiajs/react";
 
 export default function CurriculumListSection({ curriculumList, canManageCurriculum = false }: { curriculumList: CurriculumProps[], canManageCurriculum?: boolean }) {
-
+    const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
 
@@ -35,7 +36,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'sep-lesson',
-            header: monthLessonMap.sep_lesson,
+            header: currentMonthToSeries.sep_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.sep_lesson)
             ),
@@ -43,7 +44,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'oct-lesson',
-            header: monthLessonMap.oct_lesson,
+            header: currentMonthToSeries.oct_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.oct_lesson)
             ),
@@ -51,7 +52,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'nov-lesson',
-            header: monthLessonMap.nov_lesson,
+            header: currentMonthToSeries.nov_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.nov_lesson)
             ),
@@ -59,7 +60,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'dec-lesson',
-            header: monthLessonMap.dec_lesson,
+            header: currentMonthToSeries.dec_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.dec_lesson)
             ),
@@ -67,7 +68,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'jan-lesson',
-            header: monthLessonMap.jan_lesson,
+            header: currentMonthToSeries.jan_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jan_lesson)
             ),
@@ -75,7 +76,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'feb-lesson',
-            header: monthLessonMap.feb_lesson,
+            header: currentMonthToSeries.feb_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.feb_lesson)
             ),
@@ -83,7 +84,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'mar-lesson',
-            header: monthLessonMap.mar_lesson,
+            header: currentMonthToSeries.mar_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.mar_lesson)
             ),
@@ -91,7 +92,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'apr-lesson',
-            header: monthLessonMap.apr_lesson,
+            header: currentMonthToSeries.apr_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.apr_lesson)
             ),
@@ -99,7 +100,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'may-lesson',
-            header: monthLessonMap.may_lesson,
+            header: currentMonthToSeries.may_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.may_lesson)
             ),
@@ -107,7 +108,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         }),
         columnHelper.display({
             id: 'jun-lesson',
-            header: monthLessonMap.jun_lesson,
+            header: currentMonthToSeries.jun_lesson,
             cell: ({ row }) => (
                 getIconForLessonType(row.original.jun_lesson)
             ),

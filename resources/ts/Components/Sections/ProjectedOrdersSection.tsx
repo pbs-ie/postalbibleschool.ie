@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 
-import { MonthKeys, monthLessonMap, monthMap } from "@/constants";
+import { MonthKeys, monthMap } from "@/constants";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import { usePage } from "@inertiajs/react";
 
 export interface ProjectedOrders {
     "jan_lesson": number
@@ -20,7 +21,7 @@ export interface ProjectedOrders {
     "level": string
 }
 export default function ProjectedOrdersSection({ projectedOrders = [] }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean }) {
-
+    const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => projectedOrders, [projectedOrders]);
     const columnHelper = createColumnHelper<ProjectedOrders>();
 
@@ -44,7 +45,7 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
         const monthKey = month as MonthKeys;
         defaultColumns.push(
             columnHelper.accessor(row => row[monthKey] + "", {
-                header: `${monthMap[monthKey].substring(0, 3)}(${monthLessonMap[monthKey]})`,
+                header: `${monthMap[monthKey].substring(0, 3)}(${currentMonthToSeries[monthKey]})`,
                 enableSorting: false
             })
         );

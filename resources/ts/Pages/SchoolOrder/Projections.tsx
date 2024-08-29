@@ -14,7 +14,7 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import MonthSelectDropdown from "@/Components/SchoolOrders/MonthSelectDropdown";
-import { MonthKeys, monthLessonMap } from "@/constants";
+import { MonthKeys, MonthToSeriesMap } from "@/constants";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -28,12 +28,12 @@ interface ProjectedOrdersProps {
     level_4: number;
     tlp: number;
 }
-export default function Index({ projectedOrders, currentMonth }: { projectedOrders: ProjectedOrdersProps[], currentMonth: string }) {
+export default function Index({ projectedOrders, currentMonth, currentMonthToSeries }: { projectedOrders: ProjectedOrdersProps[], currentMonth: string, currentMonthToSeries: MonthToSeriesMap }) {
     const monthNames = ['sep', 'oct', 'nov', 'dec', 'jan', 'feb', 'mar', 'apr', 'may', 'jun'];
 
     const monthList = monthNames.map(name => ({
         name,
-        series: monthLessonMap[`${name}_lesson` as MonthKeys]
+        series: currentMonthToSeries[`${name}_lesson` as MonthKeys]
     }));
     const getTypeFromDispatchCode = (code: string) => {
         switch (code) {
