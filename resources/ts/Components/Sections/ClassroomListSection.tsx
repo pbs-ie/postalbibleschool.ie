@@ -340,7 +340,11 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             <div className="flex justify-end w-full gap-2">
                                 <SecondaryButton onClick={() => closeDeleteModal()}>Cancel</SecondaryButton>
                                 <BasicButton dataTest="confirm_delete_button" hierarchy="delete" onClick={() => {
-                                    router.delete(route('classroom.destroy', idToDelete + ""));
+                                    router.delete(route('classroom.destroy', idToDelete + ""),
+                                        {
+                                            preserveScroll: true
+                                        }
+                                    );
                                     closeDeleteModal();
                                 }}>Delete</BasicButton>
                             </div>

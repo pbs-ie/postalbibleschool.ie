@@ -28,7 +28,7 @@ export default function SchoolInformationSection({ lessonOrder }: { lessonOrder:
             },
             {
                 title: 'Address',
-                value: <div className="whitespace-pre-line text-left w-full">{lessonOrder.address.replaceAll('\\n', '\n')}</div>,
+                value: <div className="w-full text-left whitespace-pre-line">{lessonOrder.address.replaceAll('\\n', '\n')}</div>,
                 Icon: HomeIcon
             }
         ]
@@ -74,9 +74,9 @@ export default function SchoolInformationSection({ lessonOrder }: { lessonOrder:
     return (
         _.isEmpty(lessonOrder) ? null
             :
-            <div className="flex justify-around flex-wrap gap-2 items-start mb-5">
+            <div className="flex flex-wrap items-start justify-around gap-2 mb-5">
                 <SchoolInformationCard heading="School Information" helpText="If any of the details mentioned is incorrect, please send us an email with the correction." rows={cardRows} />
-                <SchoolInformationCard heading="Current Order Numbers" rows={lessonRows} />
+                <SchoolInformationCard heading="Your orders from last year" rows={lessonRows} />
             </div>
 
     )

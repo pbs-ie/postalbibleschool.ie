@@ -1,4 +1,3 @@
-import { router } from "@inertiajs/react";
 import { useMemo } from "react";
 import route from "ziggy-js";
 
@@ -9,16 +8,33 @@ import { truncateString } from "@/helper";
 import { createColumnHelper } from "@tanstack/react-table";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 
-import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
-import ChevronRight from "@/Elements/Icons/ChevronRight";
+import MonthSelectDropdown from "@/Components/SchoolOrders/MonthSelectDropdown";
+import { MonthKeys, MonthToSeriesMap } from "@/constants";
 
-export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
+interface ProjectedOrdersProps {
+    id: number;
+    schoolName: string;
+    schoolType: string;
+    contactName: string;
+    level_0: number;
+    level_1: number;
+    level_2: number;
+    level_3: number;
+    level_4: number;
+    tlp: number;
+}
+export default function Index({ projectedOrders, currentMonth, currentMonthToSeries }: { projectedOrders: ProjectedOrdersProps[], currentMonth: string, currentMonthToSeries: MonthToSeriesMap }) {
+    const monthNames = ['sep', 'oct', 'nov', 'dec', 'jan', 'feb', 'mar', 'apr', 'may', 'jun'];
+
+    const monthList = monthNames.map(name => ({
+        name,
+        series: currentMonthToSeries[`${name}_lesson` as MonthKeys]
+    }));
     const getTypeFromDispatchCode = (code: string) => {
         switch (code) {
             case "DL": return "Donegal";
@@ -29,10 +45,10 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         }
     }
 
-    const tableDataMemo = useMemo(() => lessonOrders, [lessonOrders]);
+    const tableDataMemo = useMemo(() => projectedOrders, [projectedOrders]);
 
 
-    const columnHelper = createColumnHelper<LessonOrder>();
+    const columnHelper = createColumnHelper<ProjectedOrdersProps>();
 
     const defaultColumns = [
         columnHelper.accessor(row => truncateString(row.schoolName, 20), {
@@ -47,7 +63,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
             minSize: 100,
             enableColumnFilter: true
         }),
-        columnHelper.accessor(row => row.level0Order.toString(), {
+        columnHelper.accessor(row => row.level_0.toString(), {
             id: 'level0Order',
             header: () => <span className="text-nowrap">Level 0</span>,
             enableColumnFilter: false,
@@ -55,7 +71,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 className: "bg-bibletime-pink text-gray-50"
             }
         }),
-        columnHelper.accessor(row => row.level1Order.toString(), {
+        columnHelper.accessor(row => row.level_1.toString(), {
             id: 'level1Order',
             header: () => <span className="text-nowrap">Level 1</span>,
             enableColumnFilter: false,
@@ -63,7 +79,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 className: "bg-bibletime-orange text-gray-50"
             }
         }),
-        columnHelper.accessor(row => row.level2Order.toString(), {
+        columnHelper.accessor(row => row.level_2.toString(), {
             id: 'level2Order',
             header: () => <span className="text-nowrap">Level 2</span>,
             enableColumnFilter: false,
@@ -71,7 +87,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 className: "bg-bibletime-red text-gray-50"
             }
         }),
-        columnHelper.accessor(row => row.level3Order.toString(), {
+        columnHelper.accessor(row => row.level_3.toString(), {
             id: 'level3Order',
             header: () => <span className="text-nowrap">Level 3</span>,
             enableColumnFilter: false,
@@ -79,7 +95,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 className: "bg-bibletime-green text-gray-50"
             }
         }),
-        columnHelper.accessor(row => row.level4Order.toString(), {
+        columnHelper.accessor(row => row.level_4.toString(), {
             id: 'level4Order',
             header: () => <span className="text-nowrap">Level 4</span>,
             enableColumnFilter: false,
@@ -87,7 +103,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                 className: "bg-bibletime-blue text-gray-50"
             }
         }),
-        columnHelper.accessor(row => row.tlpOrder.toString(), {
+        columnHelper.accessor(row => row.tlp.toString(), {
             header: 'TLP',
             enableColumnFilter: false,
         }),
@@ -107,23 +123,16 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
         })
     ];
 
-
-    const handleDataSync = () => {
-        router.get(route('orders.sync'));
-    }
-
     return (
         <WrapperLayout>
-            <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
-                <ChevronLeft />{"Back to Hub"}
+            <ButtonLink hierarchy="transparent" href={route('orders.index')}><span className="flex items-center gap-2">
+                <ChevronLeft />{"Back to Filemaker Orders"}
             </span></ButtonLink>
-            <ContentWrapper title="Filemaker Lesson Order">
+            <ContentWrapper title="Lesson Order Projections">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
-                    <div className="flex justify-between w-full mb-2">
-                        <h2 className="p-0 text-xl font-bold text-black lg:text-2xl">Schools List</h2>
-                        <div className="flex gap-2 text-sm">
-                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
-                            <SecondaryButton onClick={() => router.get(route('orders.projections'))}><span className="flex items-center gap-1">Show Projections <ChevronRight /></span></SecondaryButton>
+                    <div className="flex items-center w-full mb-2">
+                        <div className="w-64">
+                            <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
                     </div>
                     <div className="w-full">

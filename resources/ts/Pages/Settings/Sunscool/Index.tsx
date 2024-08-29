@@ -9,6 +9,7 @@ export interface SunscoolLessonProps {
     progress: number;
     title: string;
     bibletime: string;
+    level: string;
 }
 export interface SunscoolStudentProps {
     id: number,

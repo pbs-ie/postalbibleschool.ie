@@ -65,7 +65,8 @@ declare global {
             success?: string;
             failure?: string;
             warning?: string;
-        }
+        };
+        currentMonthToSeries: MonthToSeriesMap
     }
     interface VideoListMeta {
         monthTitle: string,
@@ -271,18 +272,8 @@ type MonthNames = ["January", "February", "March", "April", "May", "June", "July
 export const monthNames: MonthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] as const;
 
 export type MonthKeys = keyof Pick<CurriculumProps, "jan_lesson" | "feb_lesson" | "mar_lesson" | "apr_lesson" | "may_lesson" | "jun_lesson" | "sep_lesson" | "oct_lesson" | "nov_lesson" | "dec_lesson">;
-export const monthLessonMap: { [key in MonthKeys]: string } = {
-    "jan_lesson": "A1",
-    "feb_lesson": "A2",
-    "mar_lesson": "A3",
-    "apr_lesson": "A4",
-    "may_lesson": "A5",
-    "jun_lesson": "A6",
-    "sep_lesson": "C9",
-    "oct_lesson": "C10",
-    "nov_lesson": "C11",
-    "dec_lesson": "C12",
-}
+export type MonthToSeriesMap = { [key in MonthKeys]: string };
+
 export const monthMap: { [key in MonthKeys]: MonthNames[number] } = {
     "sep_lesson": monthNames[8],
     "oct_lesson": monthNames[9],

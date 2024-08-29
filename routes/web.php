@@ -10,6 +10,7 @@ use App\Http\Controllers\LessonOrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\CampSettingController;
+use App\Http\Controllers\Setting\LessonSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
 use App\Http\Controllers\SunscoolApiController;
 use App\Http\Controllers\StepEventController;
@@ -105,6 +106,12 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/', 'index')->name('index');
         // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
         Route::get('/{schoolId}', 'classes')->name('classes');
+
+        Route::post('/', 'store')->name('store');
+    });
+    Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
     });
 });
 // ************** END SETTINGS ********************
@@ -247,6 +254,7 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
 });
 Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders'])->group(function () {
     Route::get('/', [LessonOrderController::class, 'index'])->name('index');
+    Route::get('/projections/{month?}', [LessonOrderController::class, 'projections'])->name('projections');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
     Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
     Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');

@@ -1,8 +1,8 @@
-import { useForm } from "@inertiajs/react"
+import { useForm, usePage } from "@inertiajs/react"
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel from "@/Elements/Forms/InputLabel";
 import InputError from "@/Elements/Forms/InputError";
-import { MonthKeys, monthLessonMap, monthMap } from "@/constants";
+import { MonthKeys, monthMap } from "@/constants";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -13,6 +13,7 @@ type CreateCurriculumProps = Omit<CurriculumProps, "id" | "digital_count">;
 type EditCurriculumProps = Omit<CurriculumProps, "digital_count">
 
 export default function NewCurriculumForm({ curriculum }: { curriculum?: CurriculumProps }) {
+    const { currentMonthToSeries } = usePage<PassedProps>().props;
     let defaultFormObject = {
         name: "",
         email: "",
@@ -134,7 +135,7 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                             const month = value as MonthKeys;
                             return (
                                 <div key={month} className="grid grid-cols-[1fr_2fr] items-center gap-2">
-                                    <InputLabel className="" forInput={month} value={monthLessonMap[month as MonthKeys]} />
+                                    <InputLabel className="" forInput={month} value={currentMonthToSeries[month as MonthKeys]} />
                                     <SelectInput
                                         name={month}
                                         id={month}
