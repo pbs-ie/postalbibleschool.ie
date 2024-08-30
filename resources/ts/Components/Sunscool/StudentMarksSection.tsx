@@ -47,6 +47,9 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         const result = flattenedStudentMarks.reduce((acc, curr) => {
             let lessonCodeRegex = /([a-zA-z]\d+)-/.exec(curr.bibletime);
             let currentBibletime = lessonCodeRegex !== null ? lessonCodeRegex[1] : "";
+            if (currentBibletime.startsWith("G")) {
+                return acc;
+            }
             const accumulatorParam = curr.name + currentBibletime + curr.level;
             if (!acc[accumulatorParam]) {
                 acc[accumulatorParam] = { studentId: curr.studentId, name: curr.name, totalProgress: 0, count: 0, bibletime: currentBibletime, level: curr.level };
@@ -112,7 +115,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         columnHelper.accessor(row => row.level + "", {
             header: "Level",
         }),
-        columnHelper.accessor(row => row.bibletime ?? "" + "", {
+        columnHelper.accessor(row => row.bibletime ?? "", {
             header: "BibleTime"
         }),
         columnHelper.accessor(row => row.itemCount + "", {
