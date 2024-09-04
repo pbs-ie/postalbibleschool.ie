@@ -132,10 +132,17 @@ Route::prefix('events')->name('events.')->group(function () {
                 'campSettings' => $campSettings
             ]);
         })->name('index');
+        // Signup form has /signup for reunion so temporarily redirecting to the same for now
         Route::get('/signup', function (CampSettings $settings) {
-            return Inertia::render('Events/Camp/CampSignup', [
-                'campSettings' => $settings
-            ]);
+            if ($settings->isActive) {
+                return Inertia::render('Events/Camp/CampSignup', [
+                    'campSettings' => $settings
+                ]);
+
+            } else if ($settings->reunionIsActive) {
+                return redirect()->route('events.camp.reunion');
+            }
+            return redirect()->route('home');
         })->name('signup');
         Route::get('/reunion', function (CampSettings $campSettings) {
             return Inertia::render('Events/Camp/ReunionSignup', [
