@@ -115,7 +115,9 @@ export default function Index({ stepSettings }: { stepSettings: StepSettingsProp
                 <EventCardContainer cards={stepCards}>
                     <div className="flex justify-center w-full gap-2">
                         <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
-                        <ButtonAnchor Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule</ButtonAnchor>
+                        {stepSettings.scheduleFileLink &&
+                            <ButtonAnchor Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule</ButtonAnchor>
+                        }
                     </div>
                 </EventCardContainer>
             }

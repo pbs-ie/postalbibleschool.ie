@@ -54,4 +54,18 @@ class StepSettingController extends Controller
         }
         return redirect()->route('settings.step.index')->with('success', 'STEP settings updated successfully');
     }
+
+    public function destroyFile(StepSettings $settings)
+    {
+        if (Storage::disk('public')->exists($settings->scheduleFileLink)) {
+            Storage::disk('public')->delete($settings->scheduleFileLink);
+
+            $settings->scheduleFileLink = "";
+            $settings->save();
+
+            return redirect()->route('settings.step.index')->with('success', 'Schedule file removed');
+        }
+        return redirect()->route('settings.step.index')->with('warning', 'File not found');
+
+    }
 }

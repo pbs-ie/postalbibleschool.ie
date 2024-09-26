@@ -91,6 +91,7 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     Route::controller(StepSettingController::class)->name('step.')->prefix('step')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
+        Route::delete('destroy', 'destroyFile')->name('destroyFile');
     });
     Route::controller(ITeamSettingController::class)->name('iteam.')->prefix('iteam')->group(function () {
         Route::get('/', 'index')->name('index');

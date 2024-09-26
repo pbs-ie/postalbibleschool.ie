@@ -1,4 +1,4 @@
-import { useForm } from "@inertiajs/react"
+import { router, useForm } from "@inertiajs/react"
 import { FormEvent, useEffect, useState } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
@@ -12,6 +12,8 @@ import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import LabelSpan from "@/Components/Typography/LabelSpan";
+import Trash from "@/Elements/Icons/Trash";
+import BasicButton from "@/Elements/Buttons/BasicButton";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -147,8 +149,11 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <div><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</div>
                     }
                     {stepSettings.scheduleFileLink &&
-                        <div className="w-fit">
-                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Old Schedule</ButtonAnchor>
+                        <div className="flex gap-2 w-fit">
+                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</ButtonAnchor>
+                            <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.step.destroyFile'))}>
+                                <span className="flex items-center gap-2"><Trash />Remove File</span>
+                            </BasicButton>
                         </div>
                     }
                 </div>
