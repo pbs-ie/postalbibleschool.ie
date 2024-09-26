@@ -9,7 +9,7 @@ import { CampSettingProps } from "@/Pages/Settings/Camp";
 import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
-import Heading2Alt from "../Typography/Heading2Alt";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 export default function ReunionSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, 'reunionDates' | 'reunionIsActive' | 'reunionFormEmbedLink'> }) {
     const defaultData = {
@@ -48,8 +48,8 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
                     </div>
 
                     <div>
-                        <InputLabel2 forInput={"reunionEmbedLink"} value={"Google Form Embed Link"} />
-                        <TextInput name={"reunionEmbedLink"} id={"reunionEmbedLink"} value={data.reunionFormEmbedLink} handleChange={handleChange} />
+                        <InputLabel2 forInput={"reunionFormEmbedLink"} value={"Google Form Embed Link"} />
+                        <TextInput name={"reunionFormEmbedLink"} id={"reunionFormEmbedLink"} value={data.reunionFormEmbedLink} handleChange={handleChange} />
                         <InputError message={errors.reunionFormEmbedLink} />
                     </div>
                     <div>
