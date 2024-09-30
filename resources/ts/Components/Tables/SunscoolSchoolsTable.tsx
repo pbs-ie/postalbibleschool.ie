@@ -1,7 +1,7 @@
 import { SunscoolSchoolProps } from "@/Pages/Settings/Sunscool/Index";
 import AdvancedTable from "./AdvancedTable";
 import { useMemo } from "react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import route from "ziggy-js";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -13,9 +13,9 @@ export default function SunscoolSchoolsTable({ schools }: { schools: SunscoolSch
     const columnHelper = createColumnHelper<SunscoolSchoolProps>();
 
     const defaultColumns = [
-        columnHelper.accessor(row => row.school_id + "", {
+        columnHelper.accessor(row => row.id + "", {
             header: "School ID",
-        }), columnHelper.accessor(row => row.school_name, {
+        }), columnHelper.accessor(row => row.name, {
             header: "School Name",
         }),
         columnHelper.display({
@@ -37,6 +37,6 @@ export default function SunscoolSchoolsTable({ schools }: { schools: SunscoolSch
         })
     ];
     return (
-        <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+        <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<SunscoolSchoolProps>[]} />
     )
 }

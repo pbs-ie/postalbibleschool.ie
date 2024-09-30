@@ -6,7 +6,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { truncateString } from "@/helper";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
@@ -127,7 +127,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                         </div>
                     </div>
                     <div className="w-full">
-                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<LessonOrder>[]} />
                     </div>
 
                 </div>

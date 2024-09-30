@@ -4,7 +4,7 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import { router } from "@inertiajs/core";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
 import { modalHelper, truncateString } from "@/helper";
@@ -91,7 +91,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
             </div>
 
             <div className="w-full overflow-x-auto">
-                <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
             </div>
         </BonusAssemblyWrapper>
     )

@@ -4,7 +4,7 @@ import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { truncateString } from "@/helper";
 import { router } from "@inertiajs/react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import route from "ziggy-js";
@@ -114,7 +114,7 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                         </div>
                     </div>
                     <div className="w-full">
-                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<LessonOrder>[]} />
                     </div>
 
                 </div>

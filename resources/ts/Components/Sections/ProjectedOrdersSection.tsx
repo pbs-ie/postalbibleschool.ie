@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import { MonthKeys, monthMap } from "@/constants";
 
@@ -56,7 +56,7 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
             <Heading2Alt>Projected Orders for Year</Heading2Alt>
             <AdvancedTable
                 data={tableDataMemo}
-                columns={defaultColumns}
+                columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
                 enableGlobalFilter={false}
             />
         </div>

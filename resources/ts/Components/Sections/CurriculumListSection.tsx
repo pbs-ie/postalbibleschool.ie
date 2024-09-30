@@ -1,4 +1,4 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import route from "ziggy-js";
 
@@ -115,7 +115,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
             meta: { highlightColumn: getCurrentMonthNumber() + 1 === 6 }
         }),
 
-    ];
+    ] as ColumnDef<CurriculumProps>[];
     return (
         <div className="mb-4 lg:mb-10">
             <div className="flex justify-between mb-1">

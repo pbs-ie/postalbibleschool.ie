@@ -5,7 +5,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { truncateString } from "@/helper";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
@@ -136,7 +136,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                         </div>
                     </div>
                     <div className="w-full">
-                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<ProjectedOrdersProps>[]} />
                     </div>
 
                 </div>
