@@ -12,16 +12,16 @@ import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import Trash from "@/Elements/Icons/Trash";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { modalHelper } from "@/helper";
-import { router } from "@inertiajs/react";
+import { getIconForLessonType, modalHelper } from "@/helper";
+import { router, usePage } from "@inertiajs/react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import route from "ziggy-js";
 
 
 export default function Index({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
+    const { currentMonthToSeries } = usePage<PassedProps>().props;
     const { dialogRef, showModal, closeModal } = modalHelper();
     const [idToDelete, setIdToDelete] = useState<Number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
@@ -47,35 +47,75 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
         columnHelper.accessor(row => row.email, {
             header: "Email"
         }),
-        columnHelper.accessor(row => row.sep_lesson, {
-            header: "Sep"
+        columnHelper.display({
+            id: 'sep-lesson',
+            header: currentMonthToSeries.sep_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.sep_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.oct_lesson, {
-            header: "Oct"
+        columnHelper.display({
+            id: 'oct-lesson',
+            header: currentMonthToSeries.oct_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.oct_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.nov_lesson, {
-            header: "Nov"
+        columnHelper.display({
+            id: 'nov-lesson',
+            header: currentMonthToSeries.nov_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.nov_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.dec_lesson, {
-            header: "Dec"
+        columnHelper.display({
+            id: 'dec-lesson',
+            header: currentMonthToSeries.dec_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.dec_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.jan_lesson, {
-            header: "Jan"
+        columnHelper.display({
+            id: 'jan-lesson',
+            header: currentMonthToSeries.jan_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jan_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.feb_lesson, {
-            header: "Feb"
+        columnHelper.display({
+            id: 'feb-lesson',
+            header: currentMonthToSeries.feb_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.feb_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.mar_lesson, {
-            header: "Mar"
+        columnHelper.display({
+            id: 'mar-lesson',
+            header: currentMonthToSeries.mar_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.mar_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.apr_lesson, {
-            header: "Apr"
+        columnHelper.display({
+            id: 'apr-lesson',
+            header: currentMonthToSeries.apr_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.apr_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.may_lesson, {
-            header: "May"
+        columnHelper.display({
+            id: 'may-lesson',
+            header: currentMonthToSeries.may_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.may_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.jun_lesson, {
-            header: "Jun"
+        columnHelper.display({
+            id: 'jun-lesson',
+            header: currentMonthToSeries.jun_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jun_lesson)
+            ),
         }),
         columnHelper.display({
             id: 'actions',
