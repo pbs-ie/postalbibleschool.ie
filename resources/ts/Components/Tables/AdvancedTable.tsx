@@ -58,6 +58,15 @@ export default function AdvancedTable<TData, TValue>({
         onColumnFiltersChange: setColumnFilters
     });
 
+    const getPinnedStyling = (isPinned: "left" | "right" | "") => {
+        if (isPinned === "")
+            return "";
+        else if (isPinned === "right")
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] z-20 bg-gray-100";
+        else if (isPinned === "left")
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] z-20 bg-gray-100";
+    }
+
     return (
         <>
             {enableGlobalFilter &&
@@ -94,7 +103,7 @@ export default function AdvancedTable<TData, TValue>({
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
-                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 pl-4"} key={header.id}>
+                                    <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStyling(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()
@@ -127,7 +136,8 @@ export default function AdvancedTable<TData, TValue>({
                         {table.getRowModel().rows.map(row => (
                             <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
-                                    <td className="w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
+                                    // @ts-ignore Meta may have className
+                                    <td className={`${cell.column.columnDef.meta?.className ?? ""} ${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap bg-white`} key={cell.id}>
                                         <div className="flex items-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </div>

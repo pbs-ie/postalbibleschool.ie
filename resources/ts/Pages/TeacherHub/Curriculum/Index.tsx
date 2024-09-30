@@ -16,7 +16,7 @@ import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { modalHelper } from "@/helper";
 import { router } from "@inertiajs/react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import route from "ziggy-js";
 
@@ -47,11 +47,35 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
         columnHelper.accessor(row => row.email, {
             header: "Email"
         }),
-        columnHelper.accessor(row => row.curriculum_type, {
-            header: "Curriculum Type"
+        columnHelper.accessor(row => row.sep_lesson, {
+            header: "Sep"
         }),
-        columnHelper.accessor(row => row.digital_count + "", {
-            header: "Digital Months"
+        columnHelper.accessor(row => row.oct_lesson, {
+            header: "Oct"
+        }),
+        columnHelper.accessor(row => row.nov_lesson, {
+            header: "Nov"
+        }),
+        columnHelper.accessor(row => row.dec_lesson, {
+            header: "Dec"
+        }),
+        columnHelper.accessor(row => row.jan_lesson, {
+            header: "Jan"
+        }),
+        columnHelper.accessor(row => row.feb_lesson, {
+            header: "Feb"
+        }),
+        columnHelper.accessor(row => row.mar_lesson, {
+            header: "Mar"
+        }),
+        columnHelper.accessor(row => row.apr_lesson, {
+            header: "Apr"
+        }),
+        columnHelper.accessor(row => row.may_lesson, {
+            header: "May"
+        }),
+        columnHelper.accessor(row => row.jun_lesson, {
+            header: "Jun"
         }),
         columnHelper.display({
             id: 'actions',
@@ -71,9 +95,12 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                         </IconHoverSpan>
                     </div>
                 )
+            },
+            meta: {
+                isPinned: "right"
             }
         })
-    ];
+    ] as ColumnDef<CurriculumProps>[];
     return (
         <WrapperLayout>
             <PopupModal innerRef={dialogRef} onClose={closeModal}>
