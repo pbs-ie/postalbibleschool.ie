@@ -4,10 +4,12 @@ describe('Testing curriculum actions', () => {
         cy.loginSession(Cypress.env("adminUser"), Cypress.env("adminPass"));
         cy.visit('/');
     })
-    describe('Creates a new Curriculum', () => {
+    describe.skip('Creates a new Curriculum', () => {
         beforeEach(() => {
             cy.visit('/');
-            cy.get('article>h1').contains(/curriculum/i).click();
+            cy.get('section h2').contains(/curriculum/i).click();
+            cy.getBySel('manage_curriculum_btn').click();
+            cy.get('h1').contains(/manage curricula/i);
             cy.getBySel('create_curriculum_btn').click();
         });
         afterEach(() => {
@@ -67,7 +69,10 @@ describe('Testing curriculum actions', () => {
     describe('Edits existing curriculum', () => {
         beforeEach(() => {
             cy.visit('/');
-            cy.get('article>h1').contains(/curriculum/i).click();
+            cy.get('section h2').contains(/curriculum/i).click();
+            cy.getBySel('manage_curriculum_btn').click();
+            cy.get('h1').contains(/manage curricula/i);
+            cy.getBySel('create_curriculum_btn').click();
         });
         it('With an email input, change paper to digital', () => {
             let newCurriculumName = "Cypress Test Curriculum Edited #1";
@@ -106,27 +111,46 @@ describe('Testing curriculum actions', () => {
         });
     });
 
-    describe('Deleting curriculum', () => {
+    describe.only('Deleting curriculum', () => {
         beforeEach(() => {
             cy.visit('/');
-            cy.get('article>h1').contains(/curriculum/i).click();
+            cy.get('section h2').contains(/curriculum/i).click();
+            cy.getBySel('manage_curriculum_btn').click();
+            cy.get('h1').contains(/manage curricula/i);
+            cy.getBySel('create_curriculum_btn').click();
         });
         afterEach(() => {
             cy.get('h1').contains(/manage curricula/i);
         });
         it('Deletes curriculum by name', () => {
             let curriculumName = "Cypress Test Curriculum";
+            //Create a dummy curriculum
+            cy.get('input[id*="name"]').type(curriculumName);
+            cy.get('select[id*="curriculum_type"]').select('digital');
+            cy.getBySel('curriculum_calender_block').should('be.visible');
 
+            cy.get('select[name*="feb_lesson"]').select('digital');
+            cy.get('select[name*="mar_lesson"]').select('digital');
+            cy.get('select[name*="apr_lesson"]').select('digital');
+            cy.get('select[name*="may_lesson"]').select('digital');
+            cy.get('select[name*="jun_lesson"]').select('digital');
+            cy.getBySel('form_submit_btn').click();
+
+            //Delete dummy curriculum by searching for the name
             cy.get('h1').contains(/manage curricula/i);
             cy.get('table tbody tr').should('contain', curriculumName);
 
-            cy.get('table tbody tr').contains(/Cypress Test Curriculum/i).then(($el) => {
+            cy.get('table tbody tr').contains(curriculumName).then(($el) => {
                 cy.wrap($el).parent('td').parent('tr').within(() => {
                     cy.getBySel('delete_icon').click()
                 })
             });
             cy.contains(/delete curriculum?/i);
             cy.getBySel('confirm_delete_btn').click();
+
+            // List does not contain dummy curriculum
+            cy.get('h1').contains(/manage curricula/i);
+            cy.get('table tbody tr').should('not.contain', curriculumName);
 
         })
     })

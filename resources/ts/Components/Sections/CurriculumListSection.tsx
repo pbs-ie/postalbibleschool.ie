@@ -117,7 +117,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
 
     ] as ColumnDef<CurriculumProps>[];
     return (
-        <div className="mb-4 lg:mb-10">
+        <section className="mb-4 lg:mb-10">
             <div className="flex justify-between mb-1">
                 <span className="flex items-start gap-2">
                     <Heading2Alt>Curriculum</Heading2Alt>
@@ -126,7 +126,7 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                     </TooltipCard>
                 </span>
                 {canManageCurriculum &&
-                    <ButtonLink href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
+                    <ButtonLink dataTest="manage_curriculum_btn" href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
                 }
             </div>
             {tableDataMemo && tableDataMemo.length > 0 ?
@@ -142,6 +142,6 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                 :
                 <p className="text-gray-700">No curricula created</p>
             }
-        </div>
+        </section>
     )
 }

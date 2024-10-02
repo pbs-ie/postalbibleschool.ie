@@ -151,7 +151,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                     <div className="flex justify-end w-full gap-2">
                         <SecondaryButton onClick={() => closeModal()}>Cancel</SecondaryButton>
                         <BasicButton dataTest="confirm_delete_btn" hierarchy="delete" onClick={() => {
-                            router.delete(route('curriculum.destroy', idToDelete + ""));
+                            router.delete(route('curriculum.destroy', idToDelete + ""), { preserveScroll: true });
                             closeModal();
                         }}>Delete</BasicButton>
                     </div>
