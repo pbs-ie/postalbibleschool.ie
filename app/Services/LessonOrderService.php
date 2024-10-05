@@ -69,7 +69,7 @@ class LessonOrderService
         $mapValues = $this->getFmOrderRecordsMap();
         $mappedOrders = $fmLessonOrders->map(function ($item, $key) use ($mapValues) {
             $fieldData = $item->fieldData;
-            $returnObject = array(
+            $returnObject = [
                 'fmRecordId' => $item->recordId,
                 'schoolName' => trim($fieldData->{$mapValues['schoolName']}),
                 'email' => trim($fieldData->{$mapValues['email']}),
@@ -87,7 +87,7 @@ class LessonOrderService
                 'address2' => trim($fieldData->{$mapValues['address2']}),
                 'address3' => trim($fieldData->{$mapValues['address3']}),
                 'address4' => trim($fieldData->{$mapValues['address4']}),
-            );
+            ];
             return $returnObject;
         });
         return $mappedOrders->toArray();
