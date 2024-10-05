@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
-import { Column, Row, createColumnHelper } from "@tanstack/react-table";
+import { Column, ColumnDef, Row, createColumnHelper } from "@tanstack/react-table";
 import { modalHelper } from "@/helper";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
@@ -321,7 +321,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                 )
             }
         })
-    ];
+    ] as ColumnDef<ClassroomProps>[];
     // ****************END TABLE SECTION ***********************
 
 

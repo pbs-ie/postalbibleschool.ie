@@ -12,16 +12,16 @@ import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import Trash from "@/Elements/Icons/Trash";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import SidebarLayout from "@/Layouts/SidebarLayout";
-import TwoColumnLayout from "@/Layouts/TwoColumnLayout";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { modalHelper } from "@/helper";
-import { router } from "@inertiajs/react";
-import { createColumnHelper } from "@tanstack/react-table";
+import { getIconForLessonType, modalHelper } from "@/helper";
+import { router, usePage } from "@inertiajs/react";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import route from "ziggy-js";
 
 
 export default function Index({ curriculumList }: { curriculumList?: CurriculumProps[] }) {
+    const { currentMonthToSeries } = usePage<PassedProps>().props;
     const { dialogRef, showModal, closeModal } = modalHelper();
     const [idToDelete, setIdToDelete] = useState<Number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
@@ -47,11 +47,75 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
         columnHelper.accessor(row => row.email, {
             header: "Email"
         }),
-        columnHelper.accessor(row => row.curriculum_type, {
-            header: "Curriculum Type"
+        columnHelper.display({
+            id: 'sep-lesson',
+            header: currentMonthToSeries.sep_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.sep_lesson)
+            ),
         }),
-        columnHelper.accessor(row => row.digital_count + "", {
-            header: "Digital Months"
+        columnHelper.display({
+            id: 'oct-lesson',
+            header: currentMonthToSeries.oct_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.oct_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'nov-lesson',
+            header: currentMonthToSeries.nov_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.nov_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'dec-lesson',
+            header: currentMonthToSeries.dec_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.dec_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'jan-lesson',
+            header: currentMonthToSeries.jan_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jan_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'feb-lesson',
+            header: currentMonthToSeries.feb_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.feb_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'mar-lesson',
+            header: currentMonthToSeries.mar_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.mar_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'apr-lesson',
+            header: currentMonthToSeries.apr_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.apr_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'may-lesson',
+            header: currentMonthToSeries.may_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.may_lesson)
+            ),
+        }),
+        columnHelper.display({
+            id: 'jun-lesson',
+            header: currentMonthToSeries.jun_lesson,
+            cell: ({ row }) => (
+                getIconForLessonType(row.original.jun_lesson)
+            ),
         }),
         columnHelper.display({
             id: 'actions',
@@ -71,9 +135,12 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                         </IconHoverSpan>
                     </div>
                 )
+            },
+            meta: {
+                isPinned: "right"
             }
         })
-    ];
+    ] as ColumnDef<CurriculumProps>[];
     return (
         <WrapperLayout>
             <PopupModal innerRef={dialogRef} onClose={closeModal}>
@@ -84,7 +151,7 @@ export default function Index({ curriculumList }: { curriculumList?: CurriculumP
                     <div className="flex justify-end w-full gap-2">
                         <SecondaryButton onClick={() => closeModal()}>Cancel</SecondaryButton>
                         <BasicButton dataTest="confirm_delete_btn" hierarchy="delete" onClick={() => {
-                            router.delete(route('curriculum.destroy', idToDelete + ""));
+                            router.delete(route('curriculum.destroy', idToDelete + ""), { preserveScroll: true });
                             closeModal();
                         }}>Delete</BasicButton>
                     </div>

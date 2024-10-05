@@ -1,6 +1,6 @@
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import RadioInput from "@/Elements/Forms/RadioInput";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
@@ -22,7 +22,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
         columnHelper.display({
             id: 'select-col',
             cell: ({ table, row }) => (
-                <label htmlFor={"checkbox" + row.original.id} className="flex items-center p-1 hover:bg-black/10 rounded-full">
+                <label htmlFor={"checkbox" + row.original.id} className="flex items-center p-1 rounded-full hover:bg-black/10">
                     <RadioInput
                         id={"checkbox" + row.original.id}
                         checked={row.getIsSelected()}
@@ -121,7 +121,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
             }
         }),
 
-    ]
+    ] as ColumnDef<CurriculumProps>[];
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -152,7 +152,7 @@ export default function AddClassroomCurriculumForm({ curricula, classroomId, onC
                         rowSelection={rowSelection}
                         setRowSelection={setRowSelection}
                     />
-                    <div className="flex w-full justify-end gap-2">
+                    <div className="flex justify-end w-full gap-2">
                         <PrimaryButton processing={Object.keys(rowSelection).length === 0} dataTest="submit_btn" type="submit">Save</PrimaryButton>
                     </div>
                 </form>

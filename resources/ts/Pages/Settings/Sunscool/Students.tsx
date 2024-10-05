@@ -3,7 +3,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 import { SunscoolClassProps, SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 
 export default function Students({ classroom }: { classroom: SunscoolClassProps }) {
@@ -24,7 +24,7 @@ export default function Students({ classroom }: { classroom: SunscoolClassProps 
                 <div>
                     <Heading2Alt>All Classrooms</Heading2Alt>
                     <hr />
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                    <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<SunscoolStudentProps>[]} />
                 </div>
             </SettingsSection>
         </SettingsLayout>

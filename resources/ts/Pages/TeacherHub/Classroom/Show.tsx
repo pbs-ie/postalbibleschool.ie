@@ -11,7 +11,7 @@ import TwoColumnLayout from "@/Layouts/TwoColumnLayout"
 import WrapperLayout from "@/Layouts/WrapperLayout"
 import { modalHelper } from "@/helper"
 import { router } from "@inertiajs/react"
-import { RowSelectionState, createColumnHelper } from "@tanstack/react-table"
+import { ColumnDef, RowSelectionState, createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useState } from "react"
 import AddClassroomCurriculumForm from "@/Components/Forms/AddClassroomCurriculumForm"
 import ClassroomCurriculumCard from "@/Components/Cards/ClassroomCurriculumCard"
@@ -133,7 +133,7 @@ export default function Show({
                                     :
                                     <AdvancedTable
                                         data={tableDataMemo}
-                                        columns={defaultColumns}
+                                        columns={defaultColumns as ColumnDef<StudentProps>[]}
                                         enableGlobalFilter={true}
                                         enableRowSelection={true}
                                         rowSelection={rowSelection}

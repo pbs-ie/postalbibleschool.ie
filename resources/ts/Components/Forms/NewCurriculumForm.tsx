@@ -116,7 +116,6 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                             name={"curriculum_type"}
                             id={"curriculum_type"}
                             value={data.curriculum_type}
-                            defaultValue="paper"
                             className={""}
                             handleChange={handleChange}
                             required >
@@ -140,7 +139,6 @@ export default function NewCurriculumForm({ curriculum }: { curriculum?: Curricu
                                         name={month}
                                         id={month}
                                         value={data[month] ?? ""}
-                                        defaultValue="paper"
                                         className={""}
                                         handleChange={handleChange} >
                                         <option value="paper">Paper Lesson</option>

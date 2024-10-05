@@ -7,7 +7,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { modalHelper } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
@@ -91,7 +91,7 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
                 </div>
 
                 <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                    <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
                 </div>
             </ContentWrapper>
         </WrapperLayout>

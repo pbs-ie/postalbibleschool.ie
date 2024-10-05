@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { router } from "@inertiajs/react";
-import { createColumnHelper, RowSelectionState } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper, RowSelectionState } from "@tanstack/react-table";
 import route from "ziggy-js";
 
 import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
@@ -140,7 +140,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
             </div>
             <AdvancedTable
                 data={tableData}
-                columns={defaultColumns}
+                columns={defaultColumns as ColumnDef<typeof getFlattenedStudents[0]>[]}
                 enableColumnFilters={true}
                 enableGlobalFilter={false}
                 enableRowSelection={true}

@@ -28,7 +28,7 @@ Cypress.Commands.add('login', (email, password) => {
     cy.visit('/');
     if (isTablet()) {
         cy.getBySel("menubutton").should('be.visible').click();
-        cy.get("a[href*='login']").should('contain.text', 'Login').filter(":visible").click();
+        cy.get("a[href*='login']").should('contain.text', 'Login').filter(":visible").first().click();
 
     } else {
         cy.getBySel("menubutton").should('not.be.visible');
@@ -48,7 +48,7 @@ Cypress.Commands.add('loginSession', (email, password) => {
         cy.visit('/');
         if (isTablet()) {
             cy.getBySel("menubutton").should('be.visible').click();
-            cy.get("a[href*='login']").should('contain.text', 'Login').filter(":visible").click();
+            cy.get("a[href*='login']").should('contain.text', 'Login').filter(":visible").first().click();
 
         } else {
             cy.getBySel("menubutton").should('not.be.visible');

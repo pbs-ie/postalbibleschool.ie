@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 
 class LessonOrderController extends Controller
@@ -127,10 +128,13 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
+        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($lessonOrder->email);
+
         return Inertia::render('SchoolOrder/Edit', [
             'lessonOrder' => $lessonOrder,
             'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
-            'curriculumList' => Curriculum::current()
+            'curricula' => fn() => Curriculum::all(),
+            'projectedOrders' => fn() => $projectedOrders
         ]);
     }
 
@@ -186,6 +190,7 @@ class LessonOrderController extends Controller
         try {
             (new LessonOrderService)->populateOrdersFromFilemaker();
         } catch (\Exception $e) {
+            Log::error($e);
             return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
         }
         return redirect(route('orders.index'))->with('success', "Table data synchronised");
