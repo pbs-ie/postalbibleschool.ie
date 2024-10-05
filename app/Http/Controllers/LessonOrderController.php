@@ -128,10 +128,13 @@ class LessonOrderController extends Controller
             return abort(404);
         }
 
+        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($lessonOrder->email);
+
         return Inertia::render('SchoolOrder/Edit', [
             'lessonOrder' => $lessonOrder,
             'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
-            'curriculumList' => Curriculum::current()
+            'curricula' => fn() => Curriculum::all(),
+            'projectedOrders' => fn() => $projectedOrders
         ]);
     }
 

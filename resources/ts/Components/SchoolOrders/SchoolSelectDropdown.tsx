@@ -13,7 +13,7 @@ export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: {
         router.visit(
             route('orders.show', event.target.value),
             {
-                only: ['lessonOrder', 'classrooms'],
+                only: ['lessonOrder', 'classrooms', 'projectedOrders'],
                 preserveScroll: true
             });
     }

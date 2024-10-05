@@ -14,8 +14,9 @@ import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import NumberInput from "@/Elements/Forms/NumberInput";
+import { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
 
-export default function Edit({ lessonOrder, classrooms, curriculumList }: { lessonOrder: LessonOrder, classrooms: ClassroomProps[], curriculumList?: CurriculumProps[] }) {
+export default function Edit({ lessonOrder, classrooms, curricula, projectedOrders }: { lessonOrder: LessonOrder, classrooms: ClassroomProps[], curricula?: CurriculumProps[], projectedOrders: ProjectedOrders[] }) {
     const { errors } = usePage().props;
     const { data, setData, processing, reset, put } = useForm({
         schoolName: lessonOrder.schoolName,
@@ -106,7 +107,7 @@ export default function Edit({ lessonOrder, classrooms, curriculumList }: { less
                         </form>
                     </div>
                     <div>
-                        <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} curriculumList={curriculumList ?? []} />
+                        <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} curricula={curricula ?? []} projectedOrders={projectedOrders} />
                     </div>
                 </div>
             </ContentWrapper>
