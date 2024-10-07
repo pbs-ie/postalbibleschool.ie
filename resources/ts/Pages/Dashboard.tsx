@@ -3,7 +3,6 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 
 import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
-import DashboardResourceSection from "@/Components/Sections/DashboardResourceSection";
 import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
 import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
