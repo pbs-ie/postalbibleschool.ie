@@ -16,6 +16,7 @@ class LessonOrderService
         return [
             'fmRecordId' => ['nullable'],
             'email' => ['email', 'nullable'],
+            'areaCode' => [],
             'schoolName' => ['required', 'max:50', 'min:3'],
             'schoolType' => ['nullable', 'string', 'max:50'],
             'contactName' => ['nullable', 'string'],
@@ -54,6 +55,7 @@ class LessonOrderService
             'address2' => 'Address 2',
             'address3' => 'Address 3',
             'address4' => 'Address 4',
+            'areaCode' => 'Area Code',
         ];
     }
 
@@ -87,6 +89,7 @@ class LessonOrderService
                 'address2' => trim($fieldData->{$mapValues['address2']}),
                 'address3' => trim($fieldData->{$mapValues['address3']}),
                 'address4' => trim($fieldData->{$mapValues['address4']}),
+                'areaCode' => trim($fieldData->{$mapValues['areaCode']}),
             ];
             return $returnObject;
         });

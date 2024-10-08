@@ -13,6 +13,7 @@ class FmLessonOrder extends Model
     protected $fillable = [
         'fmRecordId',
         'email',
+        'areaCode',
         'schoolName',
         'schoolType',
         'contactName',
