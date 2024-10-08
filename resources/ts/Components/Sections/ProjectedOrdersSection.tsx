@@ -6,6 +6,7 @@ import { MonthKeys, monthMap } from "@/constants";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import { usePage } from "@inertiajs/react";
+import DetailsSummary from "@/Elements/Sections/DetailsSummary";
 
 export interface ProjectedOrders {
     "jan_lesson": number
@@ -52,13 +53,14 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
     })
 
     return (
-        <div className="pt-5 text-left">
-            <Heading2Alt>Projected Orders for Year</Heading2Alt>
+        <DetailsSummary defaultOpen summaryBody={
+            <Heading2Alt>Paper Orders for the Year</Heading2Alt>
+        }>
             <AdvancedTable
                 data={tableDataMemo}
                 columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
                 enableGlobalFilter={false}
             />
-        </div>
+        </DetailsSummary>
     )
 }

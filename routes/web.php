@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\CurriculumController;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Services\ClassroomService;
 
 /*
 |--------------------------------------------------------------------------
@@ -222,7 +223,8 @@ Route::get('/dashboard', function () {
         'classrooms' => fn() => $classroomList,
         'canManageCurriculum' => Gate::allows('view:curriculum'),
         'curriculumList' => fn() => Curriculum::current(),
-        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first()
+        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
+        'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 

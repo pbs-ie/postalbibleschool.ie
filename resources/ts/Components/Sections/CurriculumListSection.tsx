@@ -12,6 +12,7 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import { usePage } from "@inertiajs/react";
+import DetailsSummary from "@/Elements/Sections/DetailsSummary";
 
 export default function CurriculumListSection({ curriculumList, canManageCurriculum = false }: { curriculumList: CurriculumProps[], canManageCurriculum?: boolean }) {
     const { currentMonthToSeries } = usePage<PassedProps>().props;
@@ -117,8 +118,8 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
 
     ] as ColumnDef<CurriculumProps>[];
     return (
-        <details className="relative mb-4 cursor-pointer group lg:mb-10" open>
-            <summary className="pl-4 group-open:before:rotate-90 flex justify-between mb-1 select-none before:transition-transform before:rotate-0 before:border-8 before:border-[transparent_transparent_transparent_black] before:absolute before:left-0 before:top-2 before:origin-[.2rem_50%]">
+        <DetailsSummary defaultOpen summaryBody={
+            <>
                 <span className="flex items-start gap-2">
                     <Heading2Alt>Curriculum</Heading2Alt>
                     <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
@@ -128,7 +129,8 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                 {canManageCurriculum &&
                     <ButtonLink dataTest="manage_curriculum_btn" href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
                 }
-            </summary>
+            </>
+        } >
             {tableDataMemo && tableDataMemo.length > 0 ?
                 <div className="w-full">
                     <AdvancedTable
@@ -142,6 +144,6 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                 :
                 <p className="text-gray-700">No curricula created</p>
             }
-        </details>
+        </DetailsSummary>
     )
 }

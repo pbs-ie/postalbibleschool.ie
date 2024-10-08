@@ -8,6 +8,7 @@ import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
 import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
 import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
+import ProjectedOrdersSection, { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
 
 
 interface DashboardProps {
@@ -15,8 +16,9 @@ interface DashboardProps {
     canManageCurriculum: boolean,
     curriculumList?: CurriculumProps[],
     lessonOrder: LessonOrder,
+    projectedOrders: ProjectedOrders[]
 }
-export default function Dashboard({ classrooms, canManageCurriculum = false, curriculumList, lessonOrder }: DashboardProps) {
+export default function Dashboard({ classrooms, canManageCurriculum = false, curriculumList, lessonOrder, projectedOrders }: DashboardProps) {
 
     return (
         <WrapperLayout>
@@ -29,7 +31,10 @@ export default function Dashboard({ classrooms, canManageCurriculum = false, cur
                         }
                         <CurriculumListSection curriculumList={curriculumList ?? []} canManageCurriculum={canManageCurriculum} />
                         {!canManageCurriculum &&
-                            <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
+                            <>
+                                <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
+                                <ProjectedOrdersSection projectedOrders={projectedOrders} />
+                            </>
                         }
                     </div>
                 </ContentWrapper>
