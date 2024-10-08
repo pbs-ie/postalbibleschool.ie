@@ -1,12 +1,16 @@
+import { usePage } from "@inertiajs/react";
 import { useMemo } from "react";
+
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import { MonthKeys, monthMap } from "@/constants";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import { usePage } from "@inertiajs/react";
+import TooltipCard from "@/Components/Cards/TooltipCard";
+
 import DetailsSummary from "@/Elements/Sections/DetailsSummary";
+import InformationCircle from "@/Elements/Icons/InformationCircle";
 
 export interface ProjectedOrders {
     "jan_lesson": number
@@ -54,7 +58,12 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
 
     return (
         <DetailsSummary defaultOpen summaryBody={
-            <Heading2Alt>Paper Orders for the Year</Heading2Alt>
+            <span className="flex gap-2 align-top">
+                <Heading2Alt>Paper Orders for the Year</Heading2Alt>
+                <TooltipCard id={"projection-tip"} text={"This section shows the paper lessons you will be sent for each month. The numbers are calculated based on the curriculum you have set for your classrooms"} direction={"top"}>
+                    <a href="#" className="pointer-events-none" aria-describedby="projection-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                </TooltipCard>
+            </span>
         }>
             <AdvancedTable
                 data={tableDataMemo}
