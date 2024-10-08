@@ -133,6 +133,10 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
         } >
             {tableDataMemo && tableDataMemo.length > 0 ?
                 <div className="w-full">
+                    <div className="flex justify-end w-full gap-4 font-bold select-none">
+                        <span className="flex">{getIconForLessonType("paper")} :Paper</span>
+                        <span className="flex">{getIconForLessonType("digital")} :Digital</span>
+                    </div>
                     <AdvancedTable
                         data={tableDataMemo}
                         columns={defaultColumns}
