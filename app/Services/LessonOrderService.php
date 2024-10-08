@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Http\Controllers\FilemakerController;
+use App\Models\Classroom;
+use App\Models\Curriculum;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use App\Models\FmLessonOrder;
@@ -112,6 +114,30 @@ class LessonOrderService
             $validatedArray = $validator->validated();
 
             FmLessonOrder::upsert($validatedArray, ['email']);
+        });
+
+    }
+
+    public function createDefaultClassroooms()
+    {
+        $schools = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        $schools->each(function ($school, $key) {
+            // Search for classrooms associated to school email
+            $classrooms = Classroom::where('email', $school->email)->get();
+            // If classrooms do not exist create one with the order numbers for school
+            if ($classrooms->isEmpty()) {
+                Classroom::create([
+                    'name' => 'All Students',
+                    'email' => $school->email,
+                    'level_0_order' => $school->level0Order,
+                    'level_1_order' => $school->level1Order,
+                    'level_2_order' => $school->level2Order,
+                    'level_3_order' => $school->level3Order,
+                    'level_4_order' => $school->level4Order,
+                    'tlp_order' => $school->tlpOrder,
+                    'curriculum_id' => Curriculum::getDefaultId()
+                ]);
+            }
         });
 
     }

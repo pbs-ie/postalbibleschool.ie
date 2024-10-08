@@ -196,4 +196,20 @@ class LessonOrderController extends Controller
         return redirect(route('orders.index'))->with('success', "Table data synchronised");
     }
 
+    /**
+     * Create default classrooms for school emails that do not have an associated classroom
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createDefaultClassrooms()
+    {
+        try {
+            (new LessonOrderService)->createDefaultClassroooms();
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect(route('orders.index'))->with('failure', "Could not create default classrooms. Check error logs");
+        }
+        return redirect(route('orders.index'))->with('success', "Default classrooms created");
+    }
+
 }

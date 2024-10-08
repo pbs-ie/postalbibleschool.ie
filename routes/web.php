@@ -264,6 +264,7 @@ Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders
     Route::get('/', [LessonOrderController::class, 'index'])->name('index');
     Route::get('/projections/{month?}', [LessonOrderController::class, 'projections'])->name('projections');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
+    Route::get('/createdefaultclassrooms', [LessonOrderController::class, 'createDefaultClassrooms'])->name('createdefaultclassrooms');
     Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
     Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');

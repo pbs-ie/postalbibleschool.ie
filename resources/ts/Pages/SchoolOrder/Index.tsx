@@ -17,6 +17,7 @@ import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
+import PlusSolid from "@/Elements/Icons/PlusSolid";
 
 export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] }) {
     const getTypeFromDispatchCode = (code: string) => {
@@ -111,6 +112,9 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
     const handleDataSync = () => {
         router.get(route('orders.sync'));
     }
+    const handleClassroomPopulate = () => {
+        router.get(route('orders.createdefaultclassrooms'));
+    }
 
     return (
         <WrapperLayout>
@@ -122,8 +126,9 @@ export default function Index({ lessonOrders }: { lessonOrders: LessonOrder[] })
                     <div className="flex justify-between w-full mb-2">
                         <h2 className="p-0 text-xl font-bold text-black lg:text-2xl">Schools List</h2>
                         <div className="flex gap-2 text-sm">
+                            <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Create Default Classrooms <PlusSolid /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
-                            <SecondaryButton onClick={() => router.get(route('orders.projections'))}><span className="flex items-center gap-1">Show Projections <ChevronRight /></span></SecondaryButton>
+                            <SecondaryButton onClick={() => router.get(route('orders.projections'))}><span className="flex items-center gap-1">Show Projections Table <ChevronRight /></span></SecondaryButton>
                         </div>
                     </div>
                     <div className="w-full">
