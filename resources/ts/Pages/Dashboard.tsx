@@ -24,17 +24,17 @@ export default function Dashboard({ classrooms, canManageCurriculum = false, cur
         <WrapperLayout>
             <SidebarLayout>
                 <DashboardSidebar canManageCurriculum={canManageCurriculum} />
-                <ContentWrapper title="School Hub" className="w-full">
+                <ContentWrapper className="w-full overflow-auto" title={""}>
                     <div className="flex flex-col w-full pr-4 mx-auto lg:max-w-7xl">
-                        {!_.isEmpty(lessonOrder) &&
+                        {/* {!_.isEmpty(lessonOrder) &&
                             <SchoolInformationSection lessonOrder={lessonOrder} />
+                        } */}
+                        {!canManageCurriculum &&
+                            <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
                         }
                         <CurriculumListSection curriculumList={curriculumList ?? []} canManageCurriculum={canManageCurriculum} />
                         {!canManageCurriculum &&
-                            <>
-                                <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
-                                <ProjectedOrdersSection projectedOrders={projectedOrders} />
-                            </>
+                            <ProjectedOrdersSection projectedOrders={projectedOrders} />
                         }
                     </div>
                 </ContentWrapper>
