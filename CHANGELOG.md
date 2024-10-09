@@ -3,6 +3,7 @@
 - Lesson Planner Tool updated for teachers to start using digital lessons
   - New schools will now start with a default Paper only classroom with numbers set from PBS database
   - Existing schools with no classrooms will need a one time action to create a new classroom with the above information
+  - School information is now available in the Profile section for user
 
 ## 1.3.2 (2024-06-10)
 

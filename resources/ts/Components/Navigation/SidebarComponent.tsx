@@ -10,9 +10,10 @@ export interface SidebarProps {
         name: string;
         isActive: boolean;
         Icon: Icon["props"];
-    }[]
+    }[],
+    bottomListItems?: SidebarProps["listItems"]
 }
-export default function SidebarComponent({ Icon, title, listItems }: SidebarProps) {
+export default function SidebarComponent({ Icon, title, listItems, bottomListItems = [] }: SidebarProps) {
     return (
         <div className="px-4 z-10 text-white lg:h-dvh sticky top-0 lg:max-w-[20dvw] lg:min-w-64 bg-pbsblue">
             <div className="flex items-center">
@@ -31,6 +32,20 @@ export default function SidebarComponent({ Icon, title, listItems }: SidebarProp
                         </SidebarLink>
                     ))}
                 </List>
+                {bottomListItems.length > 0 &&
+                    <>
+                        <hr />
+                        <List>
+                            {bottomListItems.map(({ routeString, name, isActive, Icon }) => (
+                                <SidebarLink key={routeString} href={routeString} isActive={isActive}>
+                                    <ListItem Icon={Icon}>
+                                        {name}
+                                    </ListItem>
+                                </SidebarLink>
+                            ))}
+                        </List>
+                    </>
+                }
             </nav>
         </div>
     )

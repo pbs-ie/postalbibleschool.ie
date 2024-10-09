@@ -228,6 +228,11 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
+Route::get('/profile', function () {
+    return Inertia::render('Profile', [
+        'schoolDetails' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
+    ]);
+})->middleware(['auth'])->name('profile')->can('view:dashboard');
 // TODO: Revealed route with Digital lessons features 
 // Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [StudentController::class, 'index'])->name('index');
