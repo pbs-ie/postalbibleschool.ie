@@ -7,7 +7,6 @@ import { getIconForLessonType } from "@/helper";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import TooltipCard from "@/Components/Cards/TooltipCard";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import InformationCircle from "@/Elements/Icons/InformationCircle";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
@@ -118,10 +117,10 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
 
     ] as ColumnDef<CurriculumProps>[];
     return (
-        <DetailsSummary defaultOpen summaryBody={
+        <DetailsSummary defaultOpen summaryElement={
             <>
                 <span className="flex items-start gap-2">
-                    <Heading2Alt>Curriculum</Heading2Alt>
+                    <p className="text-xl font-bold">Curriculum List</p>
                     <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
                         <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                     </TooltipCard>

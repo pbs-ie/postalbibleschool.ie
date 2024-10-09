@@ -6,7 +6,6 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { MonthKeys, monthMap } from "@/constants";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import TooltipCard from "@/Components/Cards/TooltipCard";
 
 import DetailsSummary from "@/Elements/Sections/DetailsSummary";
@@ -57,19 +56,21 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
     })
 
     return (
-        <DetailsSummary defaultOpen summaryBody={
+        <DetailsSummary defaultOpen summaryElement={
             <span className="flex gap-2 align-top">
-                <Heading2Alt>Paper Orders for the Year</Heading2Alt>
+                <p className="text-xl font-bold">Paper Orders for the Year</p>
                 <TooltipCard id={"projection-tip"} text={"This section shows the paper lessons you will be sent for each month. The numbers are calculated based on the curriculum you have set for your classrooms"} direction={"top"}>
                     <a href="#" className="pointer-events-none" aria-describedby="projection-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                 </TooltipCard>
             </span>
         }>
-            <AdvancedTable
-                data={tableDataMemo}
-                columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
-                enableGlobalFilter={false}
-            />
+            <div className="">
+                <AdvancedTable
+                    data={tableDataMemo}
+                    columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
+                    enableGlobalFilter={false}
+                />
+            </div>
         </DetailsSummary>
     )
 }
