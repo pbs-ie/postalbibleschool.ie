@@ -121,10 +121,10 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
 
     switch (size) {
         case "large":
-            classList.push(...("text-lg px-8 py-3 tracking-wide".split(' ')));
+            classList.push(...("lg:text-lg text-base px-8 py-3 tracking-wide".split(' ')));
             break;
         case "medium":
-            classList.push(...("px-6 py-2.5".split(' ')));
+            classList.push(...("px-6 text-sm lg:text-base py-2.5".split(' ')));
             break;
         case "small":
             classList.push(...("text-sm px-4 py-1.5".split(' ')));

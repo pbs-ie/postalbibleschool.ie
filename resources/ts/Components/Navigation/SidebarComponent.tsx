@@ -14,7 +14,7 @@ export interface SidebarProps {
 }
 export default function SidebarComponent({ Icon, title, listItems }: SidebarProps) {
     return (
-        <div className="px-4 text-white lg:min-h-[75dvh] lg:max-w-[20dvw] bg-pbsblue">
+        <div className="px-4 text-white lg:min-h-[75dvh] lg:max-w-[20dvw] lg:min-w-64 bg-pbsblue">
             <div className="flex items-center">
                 <span className="p-1 rounded-full bg-pbsblue/20">
                     <Icon className="w-8 h-8 text-white" />

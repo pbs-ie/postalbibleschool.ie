@@ -326,7 +326,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-3 lg:mb-14">
             {!viewOnly &&
                 <>
                     <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
@@ -367,7 +367,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                         </p>
                     }
                 </div>
-                <div className="space-y-2">
+                <div className="mt-4 space-y-2">
                     {errors && Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (
                         <ErrorBanner key={'error_banner' + idx} message={errors[key]} />
                     ))
