@@ -22,7 +22,7 @@ export default function PopupModal({ onClose, innerRef = null, size = "base", ch
     const getSizeCss = () => {
         switch (size) {
             case "base":
-                return "md:w-1/3";
+                return "lg:w-1/3 md:w-1/2";
             case "large":
                 return "md:w-1/2";
         }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MapEmailAreacode;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,25 +21,6 @@ class StudentController extends Controller
         ];
     }
 
-    /**
-     * Create a map between user email and area code
-     * 
-     * @param string $email
-     * @param string $areaCode
-     */
-    private function mapEmailAreaCode(string $email, string $areaCode)
-    {
-        $areaEntry = MapEmailAreacode::where('area_code', $areaCode)->first();
-        if ($areaEntry) {
-            MapEmailAreacode::where('area_code', $areaCode)->update(['email' => $email]);
-        } else {
-            MapEmailAreacode::firstOrCreate(
-                ['email' => $email],
-                ['area_code' => $areaCode]
-            );
-        }
-    }
-
 
     /**
      * Convert Filemaker object to Laravel database friendly array
@@ -55,14 +35,14 @@ class StudentController extends Controller
 
         $mappedStudents = $studentCollection->map(function ($student) use ($mapValues) {
             $fieldData = $student->fieldData;
-            return array (
+            return [
                 'fm_record_id' => trim($student->{$mapValues['fm_record_id']}),
                 'fm_student_id' => trim($fieldData->{$mapValues['fm_student_id']}),
                 'first_name' => trim($fieldData->{$mapValues['first_name']}),
                 'last_name' => trim($fieldData->{$mapValues['last_name']}),
                 'area_code' => trim($fieldData->{$mapValues['area_code']}),
                 'grade' => trim($fieldData->{$mapValues['grade']})
-            );
+            ];
         })->toArray();
         return $mappedStudents;
     }
@@ -131,8 +111,6 @@ class StudentController extends Controller
             throw new \Exception("No students found for user : " . $userEmail);
         }
         $studentList = $this->sanitizeStudentList($studentListFm);
-
-        $this->mapEmailAreaCode($userEmail, $studentList[0]['area_code']);
 
         $this->updateStudents($studentList);
     }

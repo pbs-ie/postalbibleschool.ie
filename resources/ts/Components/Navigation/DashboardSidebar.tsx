@@ -5,6 +5,7 @@ import SidebarComponent, { SidebarProps } from "./SidebarComponent";
 import Cog6Tooth from "@/Elements/Icons/Cog6Tooth";
 import Group from "@/Elements/Icons/Group";
 import Newspaper from "@/Elements/Icons/Newspaper";
+import UserIcon from "@/Elements/Icons/UserIcon";
 
 export default function DashboardSidebar({ canManageCurriculum = false }: { canManageCurriculum?: boolean }) {
     let sidebarListItems: SidebarProps["listItems"] = [
@@ -21,7 +22,7 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
             name: "Bonus Videos"
         },
     ];
-
+    let bottomSideListItems: SidebarProps["bottomListItems"] = [];
     if (canManageCurriculum) {
         sidebarListItems.unshift(...[
             {
@@ -37,8 +38,17 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
                 name: "Manage School Orders"
             }
         ]);
+    } else {
+        bottomSideListItems = [
+            {
+                routeString: route('profile'),
+                isActive: route().current('profile'),
+                Icon: UserIcon,
+                name: "Profile"
+            }
+        ]
     }
     return (
-        <SidebarComponent title="Resources" Icon={Cog6Tooth} listItems={sidebarListItems} />
+        <SidebarComponent title="Resources" Icon={Cog6Tooth} listItems={sidebarListItems} bottomListItems={bottomSideListItems} />
     )
 }

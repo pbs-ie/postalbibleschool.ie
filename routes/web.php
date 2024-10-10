@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\CurriculumController;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Services\ClassroomService;
 
 /*
 |--------------------------------------------------------------------------
@@ -220,12 +221,22 @@ Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
     return Inertia::render('Dashboard', [
         'classrooms' => fn() => $classroomList,
-        'canManageCurriculum' => Gate::allows('view:curriculum'),
+        'canManageCurriculum' => Gate::allows('create:curriculum'),
         'curriculumList' => fn() => Curriculum::current(),
-        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first()
+        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
+        'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
+Route::get('/profile', function () {
+    $schoolDetails = FmLessonOrder::where('email', auth()->user()->email)->first();
+    if (is_null($schoolDetails)) {
+        abort(404);
+    }
+    return Inertia::render('Profile', [
+        'schoolDetails' => fn() => $schoolDetails,
+    ]);
+})->middleware(['auth'])->name('profile')->can('admin-cannot');
 // TODO: Revealed route with Digital lessons features 
 // Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [StudentController::class, 'index'])->name('index');
@@ -264,6 +275,7 @@ Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders
     Route::get('/', [LessonOrderController::class, 'index'])->name('index');
     Route::get('/projections/{month?}', [LessonOrderController::class, 'projections'])->name('projections');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
+    Route::get('/createdefaultclassrooms', [LessonOrderController::class, 'createDefaultClassrooms'])->name('createdefaultclassrooms');
     Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
     Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
