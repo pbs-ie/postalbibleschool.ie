@@ -359,7 +359,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                 <div className="w-full mb-2 lg:mb-8">
                     <span className="flex items-start gap-2">
                         <Heading2Alt isTitlecase>Manage Classroom Numbers</Heading2Alt>
-                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"top"}>
+                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"right"}>
                             <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                         </TooltipCard>
                     </span>
