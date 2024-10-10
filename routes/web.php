@@ -221,7 +221,7 @@ Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
     return Inertia::render('Dashboard', [
         'classrooms' => fn() => $classroomList,
-        'canManageCurriculum' => Gate::allows('view:curriculum'),
+        'canManageCurriculum' => Gate::allows('create:curriculum'),
         'curriculumList' => fn() => Curriculum::current(),
         'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
         'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
@@ -229,10 +229,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 Route::get('/profile', function () {
+    $schoolDetails = FmLessonOrder::where('email', auth()->user()->email)->first();
+    if (is_null($schoolDetails)) {
+        abort(404);
+    }
     return Inertia::render('Profile', [
-        'schoolDetails' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
+        'schoolDetails' => fn() => $schoolDetails,
     ]);
-})->middleware(['auth'])->name('profile')->can('view:dashboard');
+})->middleware(['auth'])->name('profile')->can('admin-cannot');
 // TODO: Revealed route with Digital lessons features 
 // Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [StudentController::class, 'index'])->name('index');

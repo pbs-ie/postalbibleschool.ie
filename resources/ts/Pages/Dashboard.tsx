@@ -32,7 +32,7 @@ export default function Dashboard({ classrooms, canManageCurriculum = false, cur
                         {!canManageCurriculum &&
                             <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
                         }
-                        <CurriculumListSection curriculumList={curriculumList ?? []} canManageCurriculum={canManageCurriculum} />
+                        <CurriculumListSection curriculumList={curriculumList ?? []} />
                         {!canManageCurriculum &&
                             <ProjectedOrdersSection projectedOrders={projectedOrders} />
                         }

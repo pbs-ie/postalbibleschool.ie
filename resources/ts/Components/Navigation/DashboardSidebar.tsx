@@ -22,7 +22,7 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
             name: "Bonus Videos"
         },
     ];
-
+    let bottomSideListItems: SidebarProps["bottomListItems"] = [];
     if (canManageCurriculum) {
         sidebarListItems.unshift(...[
             {
@@ -38,16 +38,16 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
                 name: "Manage School Orders"
             }
         ]);
+    } else {
+        bottomSideListItems = [
+            {
+                routeString: route('profile'),
+                isActive: route().current('profile'),
+                Icon: UserIcon,
+                name: "Profile"
+            }
+        ]
     }
-
-    const bottomSideListItems: SidebarProps["bottomListItems"] = [
-        {
-            routeString: route('profile'),
-            isActive: route().current('profile'),
-            Icon: UserIcon,
-            name: "Profile"
-        }
-    ]
     return (
         <SidebarComponent title="Resources" Icon={Cog6Tooth} listItems={sidebarListItems} bottomListItems={bottomSideListItems} />
     )

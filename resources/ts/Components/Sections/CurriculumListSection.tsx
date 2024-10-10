@@ -9,11 +9,10 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import TooltipCard from "@/Components/Cards/TooltipCard";
 
 import InformationCircle from "@/Elements/Icons/InformationCircle";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import { usePage } from "@inertiajs/react";
 import DetailsSummary from "@/Elements/Sections/DetailsSummary";
 
-export default function CurriculumListSection({ curriculumList, canManageCurriculum = false }: { curriculumList: CurriculumProps[], canManageCurriculum?: boolean }) {
+export default function CurriculumListSection({ curriculumList }: { curriculumList: CurriculumProps[] }) {
     const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
@@ -125,9 +124,6 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                         <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                     </TooltipCard>
                 </span>
-                {canManageCurriculum &&
-                    <ButtonLink dataTest="manage_curriculum_btn" href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
-                }
             </>
         } >
             {tableDataMemo && tableDataMemo.length > 0 ?
