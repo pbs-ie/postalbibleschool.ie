@@ -15,7 +15,6 @@ class BonusVideoController extends Controller
     {
         return Inertia::render('Assembly/Bonus/Admin', [
             'videoList' => BonusVideo::all(BonusVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
         ]);
     }
     /**
@@ -41,9 +40,7 @@ class BonusVideoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Assembly/Bonus/Create', [
-            'canEdit' => Gate::check('create:assembly')
-        ]);
+        return Inertia::render('Assembly/Bonus/Create');
     }
 
     /**
@@ -93,7 +90,6 @@ class BonusVideoController extends Controller
     {
         return Inertia::render('Assembly/Bonus/Edit', [
             "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 

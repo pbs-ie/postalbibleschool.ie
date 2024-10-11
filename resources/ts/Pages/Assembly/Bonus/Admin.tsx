@@ -1,20 +1,25 @@
+import route from "ziggy-js";
+import { router } from "@inertiajs/core";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import { router } from "@inertiajs/core";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
-import { modalHelper, truncateString } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
-import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
-import route from "ziggy-js";
 
-export default function BonusAdmin({ videoList, canEdit }: { videoList: BonusVideoProps[], canEdit?: boolean }) {
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
+
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
+
+import { modalHelper, truncateString } from "@/helper";
+
+export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -74,7 +79,7 @@ export default function BonusAdmin({ videoList, canEdit }: { videoList: BonusVid
     ]
 
     return (
-        <WrapperSidebarWithNavback title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} canEdit={canEdit}>
+        <SettingSidebarWithNavbackLayout title={"Admin - Bonus Videos"} navBackText={"Go to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')} >
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -93,6 +98,6 @@ export default function BonusAdmin({ videoList, canEdit }: { videoList: BonusVid
             <div className="w-full overflow-x-auto">
                 <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
             </div>
-        </WrapperSidebarWithNavback>
+        </SettingSidebarWithNavbackLayout>
     )
 }

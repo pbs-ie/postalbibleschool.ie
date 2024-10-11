@@ -6,6 +6,7 @@ import SunIcon from "@/Elements/Icons/SunIcon";
 import SidebarComponent, { SidebarProps } from "./SidebarComponent";
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon";
 import Newspaper from "@/Elements/Icons/Newspaper";
+import PlayIcon from "@/Elements/Icons/PlayIcon";
 
 export default function SettingsSidebar() {
     const settingsMenuList: SidebarProps["listItems"] = [
@@ -38,6 +39,18 @@ export default function SettingsSidebar() {
             isActive: route().current('settings.lesson.*'),
             Icon: Newspaper,
             name: "Lesson"
+        },
+        {
+            routeString: route('assembly.admin'),
+            isActive: route().current('assembly.admin'),
+            Icon: PlayIcon,
+            name: "Assembly Admin"
+        },
+        {
+            routeString: route('assembly.bonus.admin'),
+            isActive: route().current('assembly.bonus.admin'),
+            Icon: VideoCamera,
+            name: "Bonus Admin"
         }
     ]
     return (

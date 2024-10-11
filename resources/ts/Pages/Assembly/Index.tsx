@@ -24,14 +24,6 @@ export default function Index({ videoList = [], canViewGallery = false, canEdit 
         <WrapperSidebarWithNavback title="School Assembly" canEdit={canEdit}>
             <section className="flex flex-col items-center px-10 md:mb-10">
                 <div className="mb-5 md:max-w-4xl">
-                    {canEdit &&
-                        <div className="flex justify-end w-full mb-5">
-                            <div className="inline-flex gap-2 rounded-md">
-                                <ButtonLink href={route('assembly.admin')}>Admin Panel</ButtonLink>
-                                <ButtonLink href={route('assembly.create')}>Add New Video</ButtonLink>
-                            </div>
-                        </div>
-                    }
                     <Paragraph>
                         You will find additional video content for the year 2023/2024 down below. These videos will parallel the BibleTime lessons students are doing for each month of the coming school year. We hope you will find these additional videos helpful.
                     </Paragraph>

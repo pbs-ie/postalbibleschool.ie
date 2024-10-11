@@ -1,21 +1,25 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
-import Trash from "@/Elements/Icons/Trash";
-import EditIcon from "@/Elements/Icons/EditIcon";
-import Eye from "@/Elements/Icons/Eye";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import route from "ziggy-js";
 import { router } from "@inertiajs/core";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { modalHelper } from "@/helper";
-import BasicButton from "@/Elements/Buttons/BasicButton";
+
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import Trash from "@/Elements/Icons/Trash";
+import EditIcon from "@/Elements/Icons/EditIcon";
+import Eye from "@/Elements/Icons/Eye";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
-import route from "ziggy-js";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+
 import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
-import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
 
-export default function Admin({ videoList, canEdit }: { videoList: AssemblyVideoProps[], canEdit?: boolean }) {
+import { modalHelper } from "@/helper";
+
+export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -68,7 +72,7 @@ export default function Admin({ videoList, canEdit }: { videoList: AssemblyVideo
     ]
 
     return (
-        <WrapperSidebarWithNavback title="Admin" canEdit={canEdit} navBackText="Back to Assembly Videos" navBackRoute={route("assembly.index")}>
+        <SettingSidebarWithNavbackLayout title="Admin" navBackText="Go to Assembly Gallery" navBackRoute={route("assembly.index")}>
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -87,6 +91,6 @@ export default function Admin({ videoList, canEdit }: { videoList: AssemblyVideo
             <div className="w-full overflow-x-auto">
                 <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
             </div>
-        </WrapperSidebarWithNavback>
+        </SettingSidebarWithNavbackLayout>
     )
 }

@@ -1,10 +1,12 @@
-import AssemblyVideoForm from "@/Components/Forms/AssemblyVideoForm";
-import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
+import route from "ziggy-js";
 
-export default function Create({ canEdit = false }: { canEdit?: boolean }) {
+import AssemblyVideoForm from "@/Components/Forms/AssemblyVideoForm";
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
+
+export default function Create() {
     return (
-        <WrapperSidebarWithNavback title="Create New Assembly" canEdit={canEdit}>
+        <SettingSidebarWithNavbackLayout title="Create New Assembly" navBackText={"Back to Admin"} navBackRoute={route('assembly.admin')}>
             <AssemblyVideoForm />
-        </WrapperSidebarWithNavback>
+        </SettingSidebarWithNavbackLayout>
     )
 }

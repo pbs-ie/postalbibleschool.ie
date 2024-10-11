@@ -20,7 +20,6 @@ class AssemblyVideoController extends Controller
     {
         return Inertia::render('Assembly/Admin', [
             'videoList' => AssemblyVideo::oldest()->get(AssemblyVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 
@@ -59,9 +58,7 @@ class AssemblyVideoController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Assembly/Create', [
-            'canEdit' => Gate::check('create:assembly')
-        ]);
+        return Inertia::render('Assembly/Create');
     }
 
     /**
@@ -97,7 +94,6 @@ class AssemblyVideoController extends Controller
     {
         return Inertia::render('Assembly/Edit', [
             "videoData" => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 
