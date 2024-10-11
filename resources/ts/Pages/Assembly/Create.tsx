@@ -1,13 +1,10 @@
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import AssemblyVideoForm from "@/Components/Forms/AssemblyVideoForm";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
-export default function Create() {
+export default function Create({ canEdit = false }: { canEdit?: boolean }) {
     return (
-        <WrapperLayout>
-            <ContentWrapper title="Create New Assembly">
-                <AssemblyVideoForm />
-            </ContentWrapper>
-        </WrapperLayout>
+        <WrapperSidebarWithNavback title="Create New Assembly" canEdit={canEdit}>
+            <AssemblyVideoForm />
+        </WrapperSidebarWithNavback>
     )
 }

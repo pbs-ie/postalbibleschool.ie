@@ -11,13 +11,13 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
     let sidebarListItems: SidebarProps["listItems"] = [
         {
             routeString: route('assembly.index'),
-            isActive: route().current('assembly.index'),
+            isActive: !route().current('assembly.bonus.*') && route().current('assembly.*'),
             Icon: PlayIcon,
             name: "Assembly Videos"
         },
         {
             routeString: route('assembly.bonus.index'),
-            isActive: route().current('assembly.bonus.index'),
+            isActive: route().current('assembly.bonus.*'),
             Icon: VideoCamera,
             name: "Bonus Videos"
         },

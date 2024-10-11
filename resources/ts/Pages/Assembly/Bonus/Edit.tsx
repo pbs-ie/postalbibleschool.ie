@@ -1,13 +1,13 @@
-import WrapperWithNavback from "@/Layouts/WrapperWithNavback";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 import route from "ziggy-js";
 import { BonusVideoProps } from "./Index";
 import BonusVideoForm from "@/Components/Forms/BonusVideoForm";
 
-export default function Edit({ videoData }: { videoData: BonusVideoProps }) {
+export default function Edit({ videoData, canEdit }: { videoData: BonusVideoProps, canEdit?: boolean }) {
 
     return (
-        <WrapperWithNavback title={"Edit - Bonus Assembly Video"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
+        <WrapperSidebarWithNavback title={"Edit - Bonus Assembly Video"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')} canEdit={canEdit}>
             <BonusVideoForm videoData={videoData} />
-        </WrapperWithNavback>
+        </WrapperSidebarWithNavback>
     )
 }

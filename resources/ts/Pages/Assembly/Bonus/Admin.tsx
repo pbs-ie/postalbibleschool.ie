@@ -6,15 +6,15 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import { router } from "@inertiajs/core";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import WrapperWithNavback from "@/Layouts/WrapperWithNavback";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 import { modalHelper, truncateString } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 import route from "ziggy-js";
-import { BonusVideoProps } from "./Index";
 
-export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[] }) {
+export default function BonusAdmin({ videoList, canEdit }: { videoList: BonusVideoProps[], canEdit?: boolean }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -74,7 +74,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
     ]
 
     return (
-        <WrapperWithNavback title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
+        <WrapperSidebarWithNavback title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} canEdit={canEdit}>
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -93,6 +93,6 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
             <div className="w-full overflow-x-auto">
                 <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
             </div>
-        </WrapperWithNavback>
+        </WrapperSidebarWithNavback>
     )
 }

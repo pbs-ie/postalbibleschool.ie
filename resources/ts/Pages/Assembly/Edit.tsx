@@ -1,16 +1,13 @@
 
 import AssemblyVideoForm from "@/Components/Forms/AssemblyVideoForm";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import { AssemblyVideoProps } from "./Index";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
-export default function Edit({ videoData }: { videoData: AssemblyVideoProps }) {
+export default function Edit({ videoData, canEdit = false }: { videoData: AssemblyVideoProps, canEdit?: boolean }) {
 
     return (
-        <WrapperLayout>
-            <ContentWrapper title="Edit Assembly">
-                <AssemblyVideoForm videoData={videoData} />
-            </ContentWrapper>
-        </WrapperLayout>
+        <WrapperSidebarWithNavback title="Edit Assembly" canEdit={canEdit}>
+            <AssemblyVideoForm videoData={videoData} />
+        </WrapperSidebarWithNavback>
     )
 }

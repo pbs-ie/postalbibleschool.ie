@@ -4,8 +4,6 @@ import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
@@ -13,11 +11,11 @@ import { modalHelper } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import route from "ziggy-js";
-import { AssemblyVideoProps } from "./Index";
-import ChevronLeft from "@/Elements/Icons/ChevronLeft";
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
 
-export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }) {
+export default function Admin({ videoList, canEdit }: { videoList: AssemblyVideoProps[], canEdit?: boolean }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -70,10 +68,7 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
     ]
 
     return (
-        <WrapperLayout>
-            <ButtonLink hierarchy="transparent" href={route('assembly.index')}><span className="flex items-center gap-2">
-                <ChevronLeft />{"Back to Assembly Videos"}
-            </span></ButtonLink>
+        <WrapperSidebarWithNavback title="Admin" canEdit={canEdit} navBackText="Back to Assembly Videos" navBackRoute={route("assembly.index")}>
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -85,15 +80,13 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
                 message="Are you sure you want to delete this event:"
                 nameToDelete={nameToDelete}
             />
-            <ContentWrapper title="Admin" >
-                <div className="flex justify-end w-full">
-                    <ButtonLink href={route('assembly.create')}>Add video</ButtonLink>
-                </div>
+            <div className="flex justify-end w-full">
+                <ButtonLink href={route('assembly.create')}>Add video</ButtonLink>
+            </div>
 
-                <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
-                </div>
-            </ContentWrapper>
-        </WrapperLayout>
+            <div className="w-full overflow-x-auto">
+                <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
+            </div>
+        </WrapperSidebarWithNavback>
     )
 }

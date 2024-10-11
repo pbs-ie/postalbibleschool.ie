@@ -1,5 +1,5 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import WrapperWithNavback from "@/Layouts/WrapperWithNavback";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 import route from "ziggy-js";
 import BonusVideoGallery from "@/Components/Gallery/BonusVideoGallery";
 
@@ -16,7 +16,7 @@ export interface BonusVideoProps {
 
 export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwList: BonusVideoProps[], bbooksList: BonusVideoProps[], canEdit: boolean }) {
     return (
-        <WrapperWithNavback title={"Bonus Videos"} navBackText={"Back to Assembly Videos"} navBackRoute={route('assembly.index')} canEdit={canEdit}>
+        <WrapperSidebarWithNavback title={"Bonus Videos"} navBackText={"Back to Assembly Videos"} navBackRoute={route('assembly.index')} canEdit={canEdit}>
             <div>
                 {canEdit &&
                     <div className="flex justify-end w-full gap-2">
@@ -27,6 +27,6 @@ export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwL
                 <BonusVideoGallery headingText="Big Bible Words" videoList={bbwList}></BonusVideoGallery>
                 <BonusVideoGallery headingText="Bible Books Explained" videoList={bbooksList}></BonusVideoGallery>
             </div>
-        </WrapperWithNavback>
+        </WrapperSidebarWithNavback>
     )
 }
