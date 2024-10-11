@@ -6,7 +6,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import { router } from "@inertiajs/core";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
+import WrapperWithNavback from "@/Layouts/WrapperWithNavback";
 import { modalHelper, truncateString } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
@@ -74,7 +74,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
     ]
 
     return (
-        <BonusAssemblyWrapper title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
+        <WrapperWithNavback title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -93,6 +93,6 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
             <div className="w-full overflow-x-auto">
                 <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
             </div>
-        </BonusAssemblyWrapper>
+        </WrapperWithNavback>
     )
 }
