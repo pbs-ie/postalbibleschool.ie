@@ -9,11 +9,8 @@ import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
 export default function Show({ videoData, canEdit }: { videoData: AssemblyVideoProps, canEdit?: boolean }) {
     return (
-        <WrapperSidebarWithNavback title="School Assembly" canEdit={canEdit}>
+        <WrapperSidebarWithNavback title="School Assembly" canEdit={canEdit} navBackText="Back to Assembly Gallery" navBackRoute={route('assembly.index')}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('images.show', videoData.imageLink)} content={videoData.videoContent} />
-            <div className="flex justify-center w-full px-5 mt-5 md:mt-10 md:px-10">
-                <Link href={route('assembly.index')}><SecondaryButton>Go Back to Assembly Gallery</SecondaryButton></Link>
-            </div>
         </WrapperSidebarWithNavback>
     )
 }

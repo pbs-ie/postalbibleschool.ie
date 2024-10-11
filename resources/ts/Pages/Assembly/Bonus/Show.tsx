@@ -16,8 +16,6 @@ export default function Show({ videoData }: { videoData: BonusVideoProps }) {
     return (
         <WrapperSidebarWithNavback title={"Bonus Videos"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('images.show', videoData.imageLink)} content={content} />
-            <div className="flex justify-center w-full px-5 mt-5 md:mt-10 md:px-10">
-            </div>
         </WrapperSidebarWithNavback>
     )
 }
