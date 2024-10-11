@@ -12,8 +12,6 @@ import NavProfileMenuitem from '@/Components/Navigation/NavProfileMenuitem';
 import MenuItems from '@/Components/Navigation/MenuItems';
 import NavMenuButton from '@/Elements/Buttons/NavMenuButton';
 import ResponsiveMenuItems from '@/Components/Navigation/ResponsiveMenuItems';
-import NavItem from './NavItem';
-import CaratDown from '@/Elements/Icons/CaratDown';
 import Cog6Tooth from '@/Elements/Icons/Cog6Tooth';
 import route from 'ziggy-js';
 
@@ -23,7 +21,7 @@ export interface MenuItemsProps {
     active: boolean,
     submenu?: MenuItemsProps[]
 }
-export default function Navbar() {
+export default function Navbar({ hasAdditionalNav = false }: { hasAdditionalNav?: boolean }) {
     const [showResponsiveNavmenu, setShowResponsiveNavmenu] = useState<boolean>(false);
     const { auth } = usePage<PassedProps>().props;
 
@@ -159,7 +157,7 @@ export default function Navbar() {
                     </ul>
                 </div>
             </nav>
-            <nav className={(showResponsiveNavmenu ? 'block opacity-100 translate-y-0 z-50' : 'invisible opacity-10 -translate-y-20 -z-10') + ' w-full absolute lg:hidden transition-[transform,opacity] duration-200 ease-out  bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
+            <nav className={(showResponsiveNavmenu ? hasAdditionalNav ? 'block opacity-100 translate-y-12 z-30' : 'block opacity-100 translate-y-0 z-30' : 'invisible opacity-10 -translate-y-10 -z-10') + ' w-full absolute lg:hidden transition-[transform,opacity] duration-200 ease-out bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-200'}>
                 <ul className="pt-2 pb-3 space-y-1">
                     {auth?.user &&
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
