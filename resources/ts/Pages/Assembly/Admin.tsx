@@ -1,21 +1,23 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
-import Trash from "@/Elements/Icons/Trash";
-import EditIcon from "@/Elements/Icons/EditIcon";
-import Eye from "@/Elements/Icons/Eye";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
+import route from "ziggy-js";
 import { router } from "@inertiajs/core";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { modalHelper } from "@/helper";
-import BasicButton from "@/Elements/Buttons/BasicButton";
-import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
-import route from "ziggy-js";
-import { AssemblyVideoProps } from "./Index";
-import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import Trash from "@/Elements/Icons/Trash";
+import EditIcon from "@/Elements/Icons/EditIcon";
+import Eye from "@/Elements/Icons/Eye";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import BasicButton from "@/Elements/Buttons/BasicButton";
+
+import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
+
+import { modalHelper } from "@/helper";
 
 export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
@@ -70,10 +72,7 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
     ]
 
     return (
-        <WrapperLayout>
-            <ButtonLink hierarchy="transparent" href={route('assembly.index')}><span className="flex items-center gap-2">
-                <ChevronLeft />{"Back to Assembly Videos"}
-            </span></ButtonLink>
+        <SettingSidebarWithNavbackLayout title="Admin" navBackText="Go to Assembly Gallery" navBackRoute={route("assembly.index")}>
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -85,15 +84,13 @@ export default function Admin({ videoList }: { videoList: AssemblyVideoProps[] }
                 message="Are you sure you want to delete this event:"
                 nameToDelete={nameToDelete}
             />
-            <ContentWrapper title="Admin" >
-                <div className="flex justify-end w-full">
-                    <ButtonLink href={route('assembly.create')}>Add video</ButtonLink>
-                </div>
+            <div className="flex justify-end w-full">
+                <ButtonLink href={route('assembly.create')}>Add video</ButtonLink>
+            </div>
 
-                <div className="w-full overflow-x-auto">
-                    <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
-                </div>
-            </ContentWrapper>
-        </WrapperLayout>
+            <div className="w-full overflow-x-auto">
+                <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<AssemblyVideoProps>[]} />
+            </div>
+        </SettingSidebarWithNavbackLayout>
     )
 }

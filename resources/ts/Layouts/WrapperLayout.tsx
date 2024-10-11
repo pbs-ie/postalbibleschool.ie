@@ -38,7 +38,7 @@ export default function WrapperLayout({ showStepNav = false, showCampNav = false
 
         }}>
             <div className="flex flex-col items-stretch min-h-screen">
-                <Navbar />
+                <Navbar hasAdditionalNav={showStepNav || showCampNav} />
                 {showStepNav &&
                     <StepNavbar />
                 }

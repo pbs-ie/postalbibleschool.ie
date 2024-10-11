@@ -1,18 +1,23 @@
+import route from "ziggy-js";
+import { router } from "@inertiajs/core";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Trash from "@/Elements/Icons/Trash";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import { router } from "@inertiajs/core";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
-import { modalHelper, truncateString } from "@/helper";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
-import route from "ziggy-js";
-import { BonusVideoProps } from "./Index";
+
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
+
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
+
+import { modalHelper, truncateString } from "@/helper";
 
 export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
@@ -74,7 +79,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
     ]
 
     return (
-        <BonusAssemblyWrapper title={"Admin - Bonus Videos"} navBackText={"Go to Gallery"} navBackRoute={route('assembly.bonus.index')} >
+        <SettingSidebarWithNavbackLayout title={"Admin - Bonus Videos"} navBackText={"Go to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')} >
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -93,6 +98,6 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
             <div className="w-full overflow-x-auto">
                 <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
             </div>
-        </BonusAssemblyWrapper>
+        </SettingSidebarWithNavbackLayout>
     )
 }

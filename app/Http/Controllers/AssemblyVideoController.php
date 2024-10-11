@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +19,7 @@ class AssemblyVideoController extends Controller
     public function admin()
     {
         return Inertia::render('Assembly/Admin', [
-            'videoList' => AssemblyVideo::oldest()->get(AssemblyVideo::columnsAsCamel)
+            'videoList' => AssemblyVideo::oldest()->get(AssemblyVideo::columnsAsCamel),
         ]);
     }
 
@@ -47,7 +46,8 @@ class AssemblyVideoController extends Controller
     public function show(int $id)
     {
         return Inertia::render('Assembly/Show', [
-            'videoData' => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel)
+            'videoData' => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
+            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 
@@ -93,7 +93,7 @@ class AssemblyVideoController extends Controller
     public function edit(int $id)
     {
         return Inertia::render('Assembly/Edit', [
-            "videoData" => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel)
+            "videoData" => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
         ]);
     }
 

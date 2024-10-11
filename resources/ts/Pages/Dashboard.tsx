@@ -9,6 +9,7 @@ import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
 import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
 import ProjectedOrdersSection, { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
+import { Head } from "@inertiajs/react";
 
 
 interface DashboardProps {
@@ -25,6 +26,7 @@ export default function Dashboard({ classrooms, canManageCurriculum = false, cur
             <SidebarLayout>
                 <DashboardSidebar canManageCurriculum={canManageCurriculum} />
                 <ContentWrapper className="w-full overflow-auto" title={""}>
+                    <Head title="School Hub" />
                     <div className="flex flex-col w-full pr-4 mx-auto lg:max-w-7xl">
                         {/* {!_.isEmpty(lessonOrder) &&
                             <SchoolInformationSection lessonOrder={lessonOrder} />

@@ -1,20 +1,16 @@
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
+import route from "ziggy-js";
 
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 
-import route from "ziggy-js";
-import { AssemblyVideoProps } from "./Index";
 
-export default function Show({ videoData }: { videoData: AssemblyVideoProps }) {
+export default function Show({ videoData, canEdit }: { videoData: AssemblyVideoProps, canEdit?: boolean }) {
     return (
-        <WrapperLayout>
-            <Head title="School Assembly" />
+        <WrapperSidebarWithNavback title="School Assembly" canEdit={canEdit} navBackText="Back to Assembly Gallery" navBackRoute={route('assembly.index')}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('images.show', videoData.imageLink)} content={videoData.videoContent} />
-            <div className="flex justify-center w-full px-5 mt-5 md:mt-10 md:px-10">
-                <Link href={route('assembly.index')}><SecondaryButton>Go Back to Assembly Gallery</SecondaryButton></Link>
-            </div>
-        </WrapperLayout>
+        </WrapperSidebarWithNavback>
     )
 }

@@ -6,7 +6,7 @@ import route from "ziggy-js";
 export default function StepNavbar() {
     const stepSettings = usePage().props.stepSettings as StepSettingsProps;
     return (
-        <div role="navigation" className="w-full text-blue-900 bg-sky-300">
+        <div role="navigation" className="z-50 w-full text-blue-900 bg-sky-300">
             {LogoWhite && (
                 <div className="relative hidden md:block">
                     <img src={LogoWhite} alt="STEP Logo" className="absolute h-10 my-1 left-20" />
