@@ -42,7 +42,7 @@ export default function SettingsSidebar() {
         },
         {
             routeString: route('assembly.admin'),
-            isActive: route().current('assembly.*'),
+            isActive: !route().current('assembly.bonus.*') && route().current('assembly.*'),
             Icon: PlayIcon,
             name: "Assembly Admin"
         },

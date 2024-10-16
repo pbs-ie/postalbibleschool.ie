@@ -4,7 +4,7 @@ import route from "ziggy-js";
 import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 
-export default function Show({ videoData }: { videoData: BonusVideoProps }) {
+export default function Show({ videoData, canEdit }: { videoData: BonusVideoProps, canEdit?: boolean }) {
     const content: VideoMeta[] = [
         {
             externalUrl: videoData.externalUrl,
@@ -14,7 +14,7 @@ export default function Show({ videoData }: { videoData: BonusVideoProps }) {
         }
     ]
     return (
-        <WrapperSidebarWithNavback title={"Bonus Videos"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
+        <WrapperSidebarWithNavback title={"Bonus Videos"} canEdit={canEdit} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('images.show', videoData.imageLink)} content={content} />
         </WrapperSidebarWithNavback>
     )
