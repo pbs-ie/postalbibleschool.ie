@@ -84,6 +84,8 @@ class LessonOrderController extends Controller
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
         $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+
+        // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = $lessonOrders->map(function ($order, $key) use ($month) {
             return (new ClassroomService)->getProjectedOrdersByMonth($order, $month);
         });

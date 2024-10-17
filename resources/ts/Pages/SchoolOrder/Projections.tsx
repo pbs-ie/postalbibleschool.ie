@@ -20,6 +20,7 @@ interface ProjectedOrdersProps {
     id: number;
     schoolName: string;
     schoolType: string;
+    hasDigitalClass: boolean;
     contactName: string;
     level_0: number;
     level_1: number;
@@ -51,16 +52,26 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
     const columnHelper = createColumnHelper<ProjectedOrdersProps>();
 
     const defaultColumns = [
-        columnHelper.accessor(row => truncateString(row.schoolName, 20), {
+        columnHelper.accessor(row => row.schoolName, {
             id: 'schoolName',
             header: 'School Name',
             maxSize: 20,
-            enableColumnFilter: true
+            enableColumnFilter: true,
+            cell: ({ row }) => (
+                <span title={row.original.schoolName}>{truncateString(row.original.schoolName, 20)}</span>
+            )
         }),
         columnHelper.accessor(row => getTypeFromDispatchCode(row.schoolType), {
             id: 'schoolType',
             header: 'School Type',
             minSize: 100,
+            enableColumnFilter: true
+        }),
+        columnHelper.accessor(row => row.hasDigitalClass ? "Yes" : "No", {
+            id: 'hasDigital',
+            header: 'Any digital class?',
+            maxSize: 20,
+            enableSorting: false,
             enableColumnFilter: true
         }),
         columnHelper.accessor(row => row.level_0.toString(), {
@@ -119,7 +130,8 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                         <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
                     </IconHoverSpan>
                 </div>
-            )
+            ),
+            meta: { isPinned: "right" }
         })
     ];
 

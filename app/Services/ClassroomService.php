@@ -8,7 +8,7 @@ use App\Models\Curriculum;
 class ClassroomService
 {
     /**
-     * Returns the projected order values for paper lessons based on the curriculum set for each class
+     * Returns the projected order values of a school for a specified month 
      * 
      * @param \App\Models\FmLessonOrder $orderDetails
      * @param string $month
@@ -21,6 +21,7 @@ class ClassroomService
             "id" => $orderDetails->id,
             "schoolName" => $orderDetails->schoolName,
             "schoolType" => $orderDetails->schoolType,
+            "hasDigitalClass" => !$allClassrooms->every('curriculum_id', Curriculum::getDefaultId()),
             "level_0" => 0,
             "level_1" => 0,
             "level_2" => 0,
@@ -39,6 +40,11 @@ class ClassroomService
         }
         return $levelSums;
     }
+    /**
+     * *Get all projected orders for the year for specified school
+     * @param string $schoolEmail
+     * @return object[]
+     */
     public function getProjectedMonthlyOrders($schoolEmail)
     {
         $allClassrooms = Classroom::where('email', $schoolEmail)->get();
