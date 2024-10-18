@@ -107,7 +107,7 @@ export default function Edit({ lessonOrder, classrooms, curricula, projectedOrde
                         </form>
                     </div>
                     <div>
-                        <SchoolOrderSection lessonOrder={lessonOrder} classrooms={classrooms} curricula={curricula ?? []} projectedOrders={projectedOrders} />
+                        <SchoolOrderSection classrooms={classrooms} curricula={curricula ?? []} projectedOrders={projectedOrders} />
                     </div>
                 </div>
             </ContentWrapper>

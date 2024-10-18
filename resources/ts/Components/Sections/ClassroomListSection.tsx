@@ -388,7 +388,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     ))
                     }
                     {classrooms.length === 0 ?
-                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button below.</p>
+                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button <b>Add New Classroom</b>.</p>
                         :
                         <AdvancedTable
                             data={tableDataMemo}
