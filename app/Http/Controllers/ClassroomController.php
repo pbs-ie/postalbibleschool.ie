@@ -140,11 +140,14 @@ class ClassroomController extends Controller
         if ($classroom->isDirty()) {
             $classroom->save();
             $classroom->refresh();
-            $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
-            try {
-                Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
-            } catch (\Exception $e) {
-                Log::error("Could not send email for classroom order update", [$e]);
+
+            if (Gate::denies('create:curriculum')) {
+                $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
+                try {
+                    Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
+                } catch (\Exception $e) {
+                    Log::error("Could not send email for classroom order update", [$e]);
+                }
             }
         }
 
