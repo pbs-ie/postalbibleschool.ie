@@ -58,37 +58,21 @@ class LessonOrderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param \Illuminate\Http\Request  $request
-     * @return \Inertia\Response
-     */
-    public function index(Request $request)
-    {
-        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
-        return Inertia::render('SchoolOrder/Index', [
-            'lessonOrders' => $lessonOrders
-        ]);
-    }
-
-    /**
      * Show list of schools with projections per $month
-     * 
-     * @param \Illuminate\Http\Request $request
+     *
      * @param string $month
      * @return \Inertia\Response|\Illuminate\Http\RedirectResponse
      */
-    public function projections($month = "sep")
+    public function index($month = "sep")
     {
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
         $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
-
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $month);
 
-        return Inertia::render('SchoolOrder/Projections', [
+        return Inertia::render('SchoolOrder/Index', [
             'projectedOrders' => fn() => $projectedOrders,
             'currentMonth' => $month
         ]);
@@ -117,27 +101,6 @@ class LessonOrderController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\FmLessonOrder  $lessonOrder
-     * @return \Inertia\Response | void
-     */
-    public function edit(FmLessonOrder $lessonOrder)
-    {
-        if ($this->isCurrentOrderUser($lessonOrder)) {
-            return abort(404);
-        }
-
-        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($lessonOrder->email);
-
-        return Inertia::render('SchoolOrder/Edit', [
-            'lessonOrder' => $lessonOrder,
-            'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
-            'curricula' => fn() => Curriculum::all(),
-            'projectedOrders' => fn() => $projectedOrders
-        ]);
-    }
 
     /**
      * Update the specified resource in storage.

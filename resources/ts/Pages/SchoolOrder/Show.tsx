@@ -6,7 +6,6 @@ import { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
 import SchoolSelectDropdown, { SchoolsList } from "@/Components/SchoolOrders/SchoolSelectDropdown";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
-import EditIcon from "@/Elements/Icons/EditIcon";
 
 import route from "ziggy-js";
 

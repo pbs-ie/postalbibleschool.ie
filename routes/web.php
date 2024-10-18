@@ -272,12 +272,10 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
     Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
 Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders'])->group(function () {
-    Route::get('/', [LessonOrderController::class, 'index'])->name('index');
-    Route::get('/projections/{month?}', [LessonOrderController::class, 'projections'])->name('projections');
+    Route::get('/projections/{month?}', [LessonOrderController::class, 'index'])->name('index');
     Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
     Route::get('/createdefaultclassrooms', [LessonOrderController::class, 'createDefaultClassrooms'])->name('createdefaultclassrooms');
     Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
-    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
     Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
 });
 
