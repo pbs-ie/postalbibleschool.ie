@@ -15,14 +15,14 @@ export interface SidebarProps {
 }
 export default function SidebarComponent({ Icon, title, listItems, bottomListItems = [] }: SidebarProps) {
     return (
-        <div className="px-4 z-10 text-white lg:h-dvh sticky top-0 lg:min-w-[20dvw] bg-pbsblue">
+        <div className="px-4 z-10 text-white lg:h-dvh relative lg:sticky top-0 lg:min-w-[20dvw] bg-pbsblue">
             <div className="flex items-center">
                 <span className="p-1 rounded-full bg-pbsblue/20">
                     <Icon className="w-8 h-8 text-white" />
                 </span>
                 <h1 className="p-4 py-6 text-3xl font-bold leading-relaxed text-center text-white uppercase">{title}</h1>
             </div>
-            <nav className="flex w-full gap-4 text-white lg:flex-col">
+            <nav className="flex w-full gap-4 overflow-x-auto text-white lg:flex-col lg:overflow-hidden">
                 <List>
                     {listItems.map(({ routeString, name, isActive, Icon }) => (
                         <SidebarLink key={routeString} href={routeString} isActive={isActive}>
