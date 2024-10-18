@@ -86,9 +86,8 @@ class LessonOrderController extends Controller
         $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
 
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
-        $projectedOrders = $lessonOrders->map(function ($order, $key) use ($month) {
-            return (new ClassroomService)->getProjectedOrdersByMonth($order, $month);
-        });
+        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $month);
+
         return Inertia::render('SchoolOrder/Projections', [
             'projectedOrders' => fn() => $projectedOrders,
             'currentMonth' => $month
@@ -112,7 +111,7 @@ class LessonOrderController extends Controller
         return Inertia::render('SchoolOrder/Show', [
             'lessonOrder' => $lessonOrder,
             'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
-            'classrooms' => fn() => Classroom::where('email', $lessonOrder->email)->get(),
+            'classrooms' => fn() => Classroom::with('curriculum')->where('email', $lessonOrder->email)->get(),
             'curricula' => fn() => Curriculum::all(),
             'projectedOrders' => fn() => $projectedOrders
         ]);
