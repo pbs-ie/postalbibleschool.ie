@@ -22,7 +22,7 @@ export default function Show({ lessonOrder, schoolsList, classrooms, projectedOr
                 <div className="flex items-baseline gap-2 bg-gray-100 rounded">
                     <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
                 </div>
-                <SchoolOrderSection classrooms={classrooms} projectedOrders={projectedOrders} curricula={curricula} />
+                <SchoolOrderSection classrooms={classrooms} projectedOrders={projectedOrders} curricula={curricula} schoolEmail={lessonOrder.email} />
 
             </ContentWrapper>
         </WrapperLayout>
