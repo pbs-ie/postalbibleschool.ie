@@ -157,8 +157,8 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                             <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
                         <div className="flex items-center gap-2 text-sm shrink">
-                            <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Create Default Classrooms <PlusSolid /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
+                            <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
+                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull Filemaker Data <RefreshIcon /></span></SecondaryButton>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">
