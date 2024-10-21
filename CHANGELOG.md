@@ -4,6 +4,7 @@
 
 - Lesson Planner Tool updated with admin features
   - Projections details for a school now include their classroom divisions. FM data has been removed from views.
+- Changed loader to full page loader that is more prominent during loading times
 
 ## 1.3.3 (2024-10-07)
 
