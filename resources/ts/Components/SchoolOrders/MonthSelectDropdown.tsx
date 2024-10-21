@@ -13,7 +13,7 @@ export default function MonthSelectDropdown({ currentMonth, monthList }: { curre
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setInputValue(event.target.value);
         router.visit(
-            route('orders.projections', event.target.value),
+            route('orders.index', event.target.value),
             {
             });
     }
