@@ -1,15 +1,12 @@
-import _ from "lodash";
+import { Head } from "@inertiajs/react";
 
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 
 import DashboardSidebar from "@/Components/Navigation/DashboardSidebar";
-import ClassroomListSection from "@/Components/Sections/ClassroomListSection";
-import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
-import SchoolInformationSection from "@/Components/Sections/SchoolInformationSection";
-import ProjectedOrdersSection, { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
-import { Head } from "@inertiajs/react";
+import { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
+import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
 
 
 interface DashboardProps {
@@ -27,18 +24,11 @@ export default function Dashboard({ classrooms, canManageCurriculum = false, cur
                 <DashboardSidebar canManageCurriculum={canManageCurriculum} />
                 <ContentWrapper className="w-full overflow-auto" title={""}>
                     <Head title="School Hub" />
-                    <div className="flex flex-col w-full pr-4 mx-auto lg:max-w-7xl">
-                        {/* {!_.isEmpty(lessonOrder) &&
-                            <SchoolInformationSection lessonOrder={lessonOrder} />
-                        } */}
-                        {!canManageCurriculum &&
-                            <ClassroomListSection classrooms={classrooms} curriculumList={curriculumList ?? []} />
-                        }
-                        <CurriculumListSection curriculumList={curriculumList ?? []} />
-                        {!canManageCurriculum &&
-                            <ProjectedOrdersSection projectedOrders={projectedOrders} />
-                        }
-                    </div>
+                    {canManageCurriculum ?
+                        <p className="italic text-gray-700">You are logged in as an admin. Resources can be found in the sidebar.</p>
+                        :
+                        <SchoolOrderSection classrooms={classrooms} projectedOrders={projectedOrders} curricula={curriculumList ?? []} />
+                    }
                 </ContentWrapper>
             </SidebarLayout>
         </WrapperLayout>

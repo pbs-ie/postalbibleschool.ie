@@ -1,30 +1,20 @@
-import _ from "lodash";
-
-import OrderInfoCard from "@/Components/Cards/OrderInfoCard";
 import ProjectedOrdersSection, { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
 import CurriculumListSection from "@/Components/Sections/CurriculumListSection";
+import ClassroomListSection from "./ClassroomListSection";
 
 interface SchoolOrderProps {
-    lessonOrder: LessonOrder;
     classrooms: ClassroomProps[];
     projectedOrders: ProjectedOrders[];
     curricula: CurriculumProps[];
+    schoolEmail?: string;
 }
 
-export default function SchoolOrderSection({ lessonOrder, classrooms, projectedOrders, curricula }: SchoolOrderProps) {
+export default function SchoolOrderSection({ classrooms, projectedOrders, curricula, schoolEmail }: SchoolOrderProps) {
     return (
-        <div className="w-full gap-2 p-4 space-y-4">
-            <div className="shrink-0">
-                <OrderInfoCard contactName={lessonOrder.contactName} schoolName={lessonOrder.schoolName} email={lessonOrder.email} level0Order={lessonOrder.level0Order} level1Order={lessonOrder.level1Order} level2Order={lessonOrder.level2Order} level3Order={lessonOrder.level3Order} level4Order={lessonOrder.level4Order} tlpOrder={lessonOrder.tlpOrder}></OrderInfoCard>
-            </div>
-            {classrooms.length === 0 ?
-                <p className="w-full text-red-800 bg-red-200 lg:w-1/2">No classrooms created for this school</p>
-                :
-                <>
-                    <CurriculumListSection curriculumList={curricula} />
-                    <ProjectedOrdersSection projectedOrders={projectedOrders} />
-                </>
-            }
+        <div className="flex flex-col w-full p-2 mx-auto lg:p-4 lg:max-w-7xl">
+            <ClassroomListSection schoolEmail={schoolEmail} classrooms={classrooms} curriculumList={curricula} />
+            <CurriculumListSection curriculumList={curricula} />
+            <ProjectedOrdersSection projectedOrders={projectedOrders} hasClassrooms={classrooms.length !== 0} />
         </div>
     )
 }

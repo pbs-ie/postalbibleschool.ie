@@ -1,4 +1,12 @@
-# 1.3.3 (2024-10-07)
+# Changelog
+
+## 1.3.4 (2024-10-18)
+
+- Lesson Planner Tool updated with admin features
+  - Projections details for a school now include their classroom divisions. FM data has been removed from views.
+- Changed loader to full page loader that is more prominent during loading times
+
+## 1.3.3 (2024-10-07)
 
 - Lesson Planner Tool updated for teachers to start using digital lessons
   - New schools will now start with a default Paper only classroom with numbers set from PBS database

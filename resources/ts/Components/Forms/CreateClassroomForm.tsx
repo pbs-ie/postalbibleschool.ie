@@ -10,12 +10,14 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 interface ClassroomProps {
-    name: string
+    name: string,
+    email: string
 }
-export default function CreateClassroomForm({ onCancel }: { onCancel: () => void }) {
+export default function CreateClassroomForm({ onCancel, schoolEmail = "" }: { onCancel: () => void, schoolEmail?: string }) {
     const { errors } = usePage<PassedProps>().props;
     const { data, setData, post, reset } = useForm<ClassroomProps>({
-        name: ""
+        name: "",
+        email: schoolEmail
     });
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

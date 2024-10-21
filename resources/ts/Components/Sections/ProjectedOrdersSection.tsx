@@ -24,7 +24,7 @@ export interface ProjectedOrders {
     "dec_lesson": number
     "level": string
 }
-export default function ProjectedOrdersSection({ projectedOrders = [] }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean }) {
+export default function ProjectedOrdersSection({ projectedOrders = [], hasClassrooms = false }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean, hasClassrooms?: boolean }) {
     const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => projectedOrders, [projectedOrders]);
     const columnHelper = createColumnHelper<ProjectedOrders>();
@@ -64,13 +64,15 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
                 </TooltipCard>
             </span>
         }>
-            <div className="">
+            {hasClassrooms ?
                 <AdvancedTable
                     data={tableDataMemo}
                     columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
                     enableGlobalFilter={false}
                 />
-            </div>
+                :
+                <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button <b>Add New Classroom</b>.</p>
+            }
         </DetailsSummary>
     )
 }

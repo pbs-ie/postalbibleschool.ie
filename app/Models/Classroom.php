@@ -34,7 +34,7 @@ class Classroom extends Model
     {
         return Attribute::make(
             get: fn($value, $attributes) =>
-            optional($this->curriculum()->find($attributes['curriculum_id']))->name ?? "N/A"
+            optional($this->curriculum()->find($attributes['curriculum_id'], 'name'))->name ?? "N/A"
         );
     }
 

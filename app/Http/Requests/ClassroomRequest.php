@@ -31,6 +31,7 @@ class ClassroomRequest extends FormRequest
     {
         return [
             "name" => ["required"],
+            "email" => ["email", "nullable"],
             "level_0_order" => ["numeric"],
             "level_1_order" => ["numeric"],
             "level_2_order" => ["numeric"],

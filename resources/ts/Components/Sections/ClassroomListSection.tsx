@@ -30,7 +30,7 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name" | "updated_at">;
 
-export default function ClassroomListSection({ classrooms = [], curriculumList = [], viewOnly = false }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[], viewOnly?: boolean }) {
+export default function ClassroomListSection({ classrooms = [], curriculumList = [], viewOnly = false, schoolEmail }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[], viewOnly?: boolean, schoolEmail?: string }) {
     const defaultEditingArray = Array(classrooms.length).fill(false);
     const [isEditing, setIsEditing] = useState<boolean[]>(defaultEditingArray);
     const { errors } = usePage().props;
@@ -332,7 +332,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             {!viewOnly &&
                 <>
                     <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
-                        <CreateClassroomForm onCancel={() => closeCreateModal()} />
+                        <CreateClassroomForm schoolEmail={schoolEmail} onCancel={() => closeCreateModal()} />
                     </PopupModal>
                     <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
                         <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
@@ -388,7 +388,7 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     ))
                     }
                     {classrooms.length === 0 ?
-                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button below.</p>
+                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button <b>Add New Classroom</b>.</p>
                         :
                         <AdvancedTable
                             data={tableDataMemo}
