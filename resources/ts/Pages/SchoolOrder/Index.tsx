@@ -152,11 +152,11 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
             </span></ButtonLink>
             <ContentWrapper title="Order Projections by Month">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
-                    <div className="flex justify-between w-full mb-2">
-                        <div className="w-64">
+                    <div className="flex flex-col justify-between w-full mb-2 lg:flex-row">
+                        <div className="w-full lg:w-64">
                             <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
-                        <div className="flex gap-2 text-sm">
+                        <div className="flex items-center gap-2 text-sm shrink">
                             <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Create Default Classrooms <PlusSolid /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Sync Data <RefreshIcon /></span></SecondaryButton>
                         </div>
