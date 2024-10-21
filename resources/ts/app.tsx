@@ -11,7 +11,6 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 let timeout: number;
 
 router.on('start', (event) => {
-    console.log(event.detail.visit);
     timeout = setTimeout(() => {
         document.getElementById('loader')?.classList.remove('hidden')
         document.body.style.overflow = 'hidden';
@@ -19,7 +18,6 @@ router.on('start', (event) => {
 });
 
 router.on('finish', (event) => {
-    console.log(event.detail.visit);
     document.body.style.overflow = 'unset';
     document.getElementById('loader')?.classList.add('hidden');
     clearTimeout(timeout);

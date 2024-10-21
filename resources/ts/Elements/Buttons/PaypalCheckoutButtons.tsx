@@ -1,4 +1,4 @@
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { DISPATCH_ACTION, PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import React, { useEffect, useState } from "react";
 import Loader from "@/Components/Loader";
 import route from "ziggy-js";
@@ -132,7 +132,7 @@ export default function PaypalCheckoutButtons({ cart, onClick, setErrorMessage, 
                         onCancel={() => {
                             resetMessage();
                             dispatch({
-                                type: "resetOptions",
+                                type: DISPATCH_ACTION.RESET_OPTIONS,
                                 value: {
                                     ...options,
                                 }
