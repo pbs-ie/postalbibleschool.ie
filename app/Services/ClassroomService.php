@@ -41,6 +41,7 @@ class ClassroomService
                 "level_3" => 0,
                 "level_4" => 0,
                 "tlp" => 0,
+                "month" => $month
             ];
             $property = "{$month}_lesson";
             foreach ($emailClassrooms as $classroom) {

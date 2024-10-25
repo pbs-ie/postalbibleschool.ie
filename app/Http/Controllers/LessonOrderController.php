@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\PushOrdersToFilemaker;
 
 
 class LessonOrderController extends Controller
@@ -158,6 +159,26 @@ class LessonOrderController extends Controller
             return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
         }
         return redirect(route('orders.index'))->with('success', "Table data synchronised");
+    }
+
+    /**
+     * Push snapshot to Filemaker database
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function push(Request $request)
+    {
+        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
+        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $request->month);
+        try {
+            PushOrdersToFilemaker::dispatch($projectedOrders);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('failure', "Could not push to database");
+        }
+        return redirect()->back()->with('success', "Table data synchronising");
     }
 
     /**

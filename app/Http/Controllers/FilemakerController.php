@@ -29,6 +29,7 @@ class FilemakerController extends Controller
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
     const STUDENT_LIST_LAYOUT = 'Student Record API';
     const CURRICULUM_LAYOUT = 'Curriculum API';
+    const PROJECTED_ORDER_LAYOUT = 'Projected Order Report';
 
     public function __construct()
     {
@@ -270,5 +271,48 @@ class FilemakerController extends Controller
     {
         return $this->createRecord(self::CURRICULUM_LAYOUT, $newRecord);
     }
+
+    /**
+     * Function to clear all records in the projected orders table
+     * @return void
+     */
+    public function clearProjectedOrdersTable()
+    {
+        $this->runScript(self::PROJECTED_ORDER_LAYOUT, 'dapi_reset_projected_orders');
+    }
+
+    /**
+     * Create a new record for Projected Orders table
+     * 
+     * @param mixed $newRecord
+     * @return string
+     */
+    public function createProjectedOrderRecord($newRecord)
+    {
+        return $this->createRecord(self::PROJECTED_ORDER_LAYOUT, $newRecord);
+    }
+
+    private function setGlobalField($table, $field, $value)
+    {
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/globals";
+
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body->globalFields = [$table . '::' . $field => $value];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->patch($path);
+
+        if ($response->ok()) {
+            $responseData = json_decode(json_encode($response->json()))->messages;
+            return $responseData;
+        } else {
+            Log::error($response->json());
+            return "";
+        }
+    }
+
 
 }

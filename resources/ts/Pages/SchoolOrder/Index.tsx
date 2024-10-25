@@ -20,6 +20,7 @@ import ChevronRight from "@/Elements/Icons/ChevronRight";
 import PlusSolid from "@/Elements/Icons/PlusSolid";
 import { MonthKeys, MonthToSeriesMap } from "@/constants";
 import MonthSelectDropdown from "@/Components/SchoolOrders/MonthSelectDropdown";
+import CloudArrowUp from "@/Elements/Icons/CloudArrowUp";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -144,6 +145,11 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
     const handleClassroomPopulate = () => {
         router.get(route('orders.createdefaultclassrooms'));
     }
+    const handleDataPush = () => {
+        router.post(route('orders.push'), {
+            month: currentMonth
+        });
+    }
 
     return (
         <WrapperLayout>
@@ -158,7 +164,8 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                         </div>
                         <div className="flex items-center gap-2 text-sm shrink">
                             <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull Filemaker Data <RefreshIcon /></span></SecondaryButton>
+                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull School Data from FM <RefreshIcon /></span></SecondaryButton>
+                            <SecondaryButton onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">
