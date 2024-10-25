@@ -26,7 +26,7 @@ class ClassroomService
             ->groupBy('email'); // Group classrooms by email
 
         return $lessonOrders->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
-            $emailClassrooms = $classrooms->get($orderDetails->email); // Get classrooms for the current email
+            $emailClassrooms = $classrooms->get($orderDetails->email, collect()); // Get classrooms for the current email
 
             $levelSums = (object) [
                 "id" => $orderDetails->id,
@@ -41,6 +41,7 @@ class ClassroomService
                 "level_3" => 0,
                 "level_4" => 0,
                 "tlp" => 0,
+                "month" => $month
             ];
             $property = "{$month}_lesson";
             foreach ($emailClassrooms as $classroom) {

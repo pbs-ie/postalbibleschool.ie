@@ -62,9 +62,18 @@ export default function AdvancedTable<TData, TValue>({
         if (isPinned === "")
             return "";
         else if (isPinned === "right")
-            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] z-20 bg-gray-100";
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] bg-gray-100";
         else if (isPinned === "left")
-            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] z-20 bg-gray-100";
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] bg-gray-100";
+    }
+
+    const getPinnedStylingHead = (isPinned: "left" | "right" | "") => {
+        if (isPinned === "")
+            return "";
+        else if (isPinned === "right")
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] z-30 bg-gray-100";
+        else if (isPinned === "left")
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] z-30 bg-gray-100";
     }
 
     return (
@@ -98,12 +107,12 @@ export default function AdvancedTable<TData, TValue>({
                             ))}
                         </colgroup>
                     }
-                    <thead className="sticky top-0 bg-gray-100">
+                    <thead >
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id}>
+                            <tr key={headerGroup.id} className="sticky top-0 z-10 bg-gray-100">
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
-                                    <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStyling(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
+                                    <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStylingHead(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()

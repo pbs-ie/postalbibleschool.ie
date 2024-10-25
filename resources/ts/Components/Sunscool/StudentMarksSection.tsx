@@ -25,7 +25,6 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 idSelection.push(student)
         });
         if (Object.keys(rowSelection).length > 0) {
-            console.log("SELECTED IDs", idSelection);
             router.post(route('settings.sunscool.index'), {
                 schoolId: schoolId,
                 selectedStudents: idSelection

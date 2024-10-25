@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Controllers\FilemakerController;
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Facades\Log;
@@ -60,6 +59,24 @@ class LessonOrderService
             'areaCode' => 'Area Code',
         ];
     }
+
+    private function getFmProjectedOrderRecordsMap()
+    {
+        return [
+            'email' => 'Contact Email',
+            'month' => 'Month',
+            'schoolName' => 'Area',
+            'schoolType' => 'Dispatch Code',
+            'contactName' => 'Contact Name',
+            'level_0' => 'L0 Ord',
+            'level_1' => 'L1 Ord',
+            'level_2' => 'L2 Ord',
+            'level_3' => 'L3 Ord',
+            'level_4' => 'L4 Ord',
+            'tlp' => 'TLP Ord',
+        ];
+    }
+
 
     /**
      * Convert Filemaker object to Laravel database friendly array
@@ -116,6 +133,32 @@ class LessonOrderService
             FmLessonOrder::upsert($validatedArray, ['email']);
         });
 
+    }
+
+    /**
+     * Push current view of orders to Filemaker view
+     * @param mixed $projectedOrders
+     * @return void
+     */
+    public function pushOrdersToFilemaker($projectedOrders)
+    {
+        $nameMap = $this->getFmProjectedOrderRecordsMap();
+        $fmObject = new FilemakerController();
+        $fmObject->clearProjectedOrdersTable();
+        $ordersCollection = collect($projectedOrders);
+        $ordersCollection->each(
+            function ($order) use ($fmObject, $nameMap) {
+                $mappedObject = collect($order)->mapWithKeys(function ($value, $key) use ($nameMap) {
+                    // If the key exists in the map, use the new name, otherwise ignore
+                    if (isset($nameMap[$key])) {
+                        $newKey = $nameMap[$key];
+                        return [$newKey => $value];
+                    }
+                    return [];
+                });
+                $fmObject->createProjectedOrderRecord($mappedObject);
+            }
+        );
     }
 
     public function createDefaultClassroooms()

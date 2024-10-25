@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\FmLessonOrder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\PushOrdersToFilemaker;
 
 
 class LessonOrderController extends Controller
@@ -68,7 +69,10 @@ class LessonOrderController extends Controller
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
-        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get()->sortBy([
+            ['schoolType', 'asc'],
+            ['schoolName', 'asc']
+        ])->values();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $month);
 
@@ -152,12 +156,35 @@ class LessonOrderController extends Controller
     public function sync()
     {
         try {
-            (new LessonOrderService)->populateOrdersFromFilemaker();
+            $lessonOrderService = new LessonOrderService();
+            $lessonOrderService->populateOrdersFromFilemaker();
+            $lessonOrderService->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
             return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
         }
         return redirect(route('orders.index'))->with('success', "Table data synchronised");
+    }
+
+    /**
+     * Push snapshot to Filemaker database
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function push(Request $request)
+    {
+        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
+        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $request->month);
+        try {
+            // PushOrdersToFilemaker::dispatch($projectedOrders);
+            (new LessonOrderService)->pushOrdersToFilemaker($projectedOrders);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('failure', "Could not push to database");
+        }
+        return redirect()->back()->with('success', "Table data synchronising");
     }
 
     /**
