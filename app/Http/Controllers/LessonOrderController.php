@@ -153,7 +153,9 @@ class LessonOrderController extends Controller
     public function sync()
     {
         try {
-            (new LessonOrderService)->populateOrdersFromFilemaker();
+            $lessonOrderService = new LessonOrderService();
+            $lessonOrderService->populateOrdersFromFilemaker();
+            $lessonOrderService->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
             return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
