@@ -173,7 +173,8 @@ class LessonOrderController extends Controller
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $request->month);
         try {
-            PushOrdersToFilemaker::dispatch($projectedOrders);
+            // PushOrdersToFilemaker::dispatch($projectedOrders);
+            (new LessonOrderService)->pushOrdersToFilemaker($projectedOrders);
         } catch (\Exception $e) {
             Log::error($e);
             return redirect()->back()->with('failure', "Could not push to database");
