@@ -119,6 +119,10 @@ class LessonOrderService
     public function populateOrdersFromFilemaker()
     {
         $ordersFm = (new FilemakerController())->getLessonOrders();
+
+        // Reset school type for FmLessonOrder
+        FmLessonOrder::query()->update(['schoolType' => null]);
+
         $lessonOrders = collect($this->sanitizeOrders($ordersFm));
         $lessonOrders->each(function ($item) {
 
@@ -163,7 +167,7 @@ class LessonOrderService
 
     public function createDefaultClassroooms()
     {
-        $schools = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        $schools = FmLessonOrder::getActiveOrders()->get();
         $schools->each(function ($school, $key) {
             // Search for classrooms associated to school email
             $classrooms = Classroom::where('email', $school->email)->get();
