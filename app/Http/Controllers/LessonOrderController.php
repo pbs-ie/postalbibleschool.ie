@@ -69,7 +69,7 @@ class LessonOrderController extends Controller
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
-        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get()->sortBy([
+        $lessonOrders = FmLessonOrder::getActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
             ['schoolName', 'asc']
         ])->values();
@@ -98,7 +98,7 @@ class LessonOrderController extends Controller
 
         return Inertia::render('SchoolOrder/Show', [
             'lessonOrder' => $lessonOrder,
-            'schoolsList' => fn() => FmLessonOrder::where('schoolType', '<>', 'G')->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
+            'schoolsList' => fn() => FmLessonOrder::getActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
             'classrooms' => fn() => Classroom::with('curriculum')->where('email', $lessonOrder->email)->get(),
             'curricula' => fn() => Curriculum::all(),
             'projectedOrders' => fn() => $projectedOrders
@@ -174,7 +174,7 @@ class LessonOrderController extends Controller
      */
     public function push(Request $request)
     {
-        $lessonOrders = FmLessonOrder::where('schoolType', '<>', 'G')->get();
+        $lessonOrders = FmLessonOrder::getActiveOrders()->get();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $request->month);
         try {
@@ -184,7 +184,7 @@ class LessonOrderController extends Controller
             Log::error($e);
             return redirect()->back()->with('failure', "Could not push to database");
         }
-        return redirect()->back()->with('success', "Table data synchronising");
+        return redirect()->back()->with('success', "Table data synchronised");
     }
 
     /**

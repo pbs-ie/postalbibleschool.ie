@@ -51,4 +51,9 @@ class FmLessonOrder extends Model
             ])))
         );
     }
+
+    public function scopeGetActiveOrders($query)
+    {
+        return $query->whereNotNull('schoolType');
+    }
 }
