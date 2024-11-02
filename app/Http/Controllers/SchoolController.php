@@ -114,40 +114,40 @@ class SchoolController extends Controller
      * @param  \App\Models\FmSchoolDetails  $schoolDetails
      * @return \Illuminate\Http\RedirectResponse | void
      */
-    public function update(Request $request, FmSchoolDetails $schoolDetails)
-    {
-        $isAdmin = Gate::check('create:orders');
-        if ($this->isCurrentOrderUser($schoolDetails)) {
-            return abort(404);
-        }
+    // public function update(Request $request, FmSchoolDetails $schoolDetails)
+    // {
+    //     $isAdmin = Gate::check('create:orders');
+    //     if ($this->isCurrentOrderUser($schoolDetails)) {
+    //         return abort(404);
+    //     }
 
-        $validated = $request->validate([
-            'level0Order' => ['numeric', 'max_digits:3'],
-            'level1Order' => ['numeric', 'max_digits:3'],
-            'level2Order' => ['numeric', 'max_digits:3'],
-            'level3Order' => ['numeric', 'max_digits:3'],
-            'level4Order' => ['numeric', 'max_digits:3'],
-            'tlpOrder' => ['numeric', 'max_digits:3'],
-            'goingDeeperOrder' => ['numeric', 'max_digits:3'],
-            'gleanersOrder' => ['numeric', 'max_digits:3']
-        ]);
-        // };
+    //     $validated = $request->validate([
+    //         'level0Order' => ['numeric', 'max_digits:3'],
+    //         'level1Order' => ['numeric', 'max_digits:3'],
+    //         'level2Order' => ['numeric', 'max_digits:3'],
+    //         'level3Order' => ['numeric', 'max_digits:3'],
+    //         'level4Order' => ['numeric', 'max_digits:3'],
+    //         'tlpOrder' => ['numeric', 'max_digits:3'],
+    //         'goingDeeperOrder' => ['numeric', 'max_digits:3'],
+    //         'gleanersOrder' => ['numeric', 'max_digits:3']
+    //     ]);
+    //     // };
 
-        $schoolDetails->fill($validated);
+    //     $schoolDetails->fill($validated);
 
-        if ($schoolDetails->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
-            $updatedRecord = (object) $validated;
-            $isUpdated = $this->updateFilemakerOrder($schoolDetails['fmRecordId'], $updatedRecord);
-            if ($isUpdated) {
-                $schoolDetails->updated_at = Carbon::now();
-                $schoolDetails->save();
-                $schoolDetails->refresh();
-            }
-        }
+    //     if ($schoolDetails->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
+    //         $updatedRecord = (object) $validated;
+    //         $isUpdated = $this->updateFilemakerOrder($schoolDetails['fmRecordId'], $updatedRecord);
+    //         if ($isUpdated) {
+    //             $schoolDetails->updated_at = Carbon::now();
+    //             $schoolDetails->save();
+    //             $schoolDetails->refresh();
+    //         }
+    //     }
 
-        // Redirect back
-        return redirect()->route('orders.show', $schoolDetails->id)->with('success', "Updated order for school successfully");
-    }
+    //     // Redirect back
+    //     return redirect()->route('orders.show', $schoolDetails->id)->with('success', "Updated order for school successfully");
+    // }
 
     /**
      * Pull from the Filemaker database to Laravel

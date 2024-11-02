@@ -275,7 +275,7 @@ Route::prefix('orders')->name('orders.')->controller(SchoolController::class)->m
     Route::post('/push', 'push')->name('push');
     Route::get('/createdefaultclassrooms', 'createDefaultClassrooms')->name('createdefaultclassrooms');
     Route::get('/{schoolDetails}', 'show')->name('show');
-    Route::put('/{schoolDetails}', 'update')->name('update');
+    // Route::put('/{schoolDetails}', 'update')->name('update');
 });
 
 // ************* PAYMENT ROUTES *****************
