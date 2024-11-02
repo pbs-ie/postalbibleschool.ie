@@ -6,7 +6,7 @@ use App\Http\Controllers\GroupLessonRequestController;
 // use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
-use App\Http\Controllers\LessonOrderController;
+use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\CampSettingController;
@@ -21,7 +21,7 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchoolDetails;
 use App\Settings\ITeamSettings;
 use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
@@ -222,13 +222,12 @@ Route::get('/dashboard', function () {
         'classrooms' => fn() => $classroomList,
         'canManageCurriculum' => Gate::allows('create:curriculum'),
         'curriculumList' => fn() => Curriculum::current(),
-        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first(),
         'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 Route::get('/profile', function () {
-    $schoolDetails = FmLessonOrder::where('email', auth()->user()->email)->first();
+    $schoolDetails = FmSchoolDetails::where('email', auth()->user()->email)->first();
     if (is_null($schoolDetails)) {
         abort(404);
     }
@@ -270,13 +269,13 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
     Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
     Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
-Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders'])->group(function () {
-    Route::get('/projections/{month?}', [LessonOrderController::class, 'index'])->name('index');
-    Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
-    Route::post('/push', [LessonOrderController::class, 'push'])->name('push');
-    Route::get('/createdefaultclassrooms', [LessonOrderController::class, 'createDefaultClassrooms'])->name('createdefaultclassrooms');
-    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
-    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
+Route::prefix('orders')->name('orders.')->controller(SchoolController::class)->middleware(['auth', 'can:create:orders'])->group(function () {
+    Route::get('/projections/{month?}', 'index')->name('index');
+    Route::get('/sync', 'sync')->name('sync');
+    Route::post('/push', 'push')->name('push');
+    Route::get('/createdefaultclassrooms', 'createDefaultClassrooms')->name('createdefaultclassrooms');
+    Route::get('/{schoolDetails}', 'show')->name('show');
+    Route::put('/{schoolDetails}', 'update')->name('update');
 });
 
 // ************* PAYMENT ROUTES *****************

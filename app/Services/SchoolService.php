@@ -6,11 +6,11 @@ use App\Http\Controllers\FilemakerController;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use Illuminate\Support\Facades\Validator;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchoolDetails;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class LessonOrderService
+class SchoolService
 {
     private function getRules()
     {
@@ -120,8 +120,8 @@ class LessonOrderService
     {
         $ordersFm = (new FilemakerController())->getLessonOrders();
 
-        // Reset school type for FmLessonOrder
-        FmLessonOrder::query()->update(['schoolType' => null]);
+        // Reset school type for FmSchoolDetails
+        FmSchoolDetails::query()->update(['schoolType' => null]);
 
         $lessonOrders = collect($this->sanitizeOrders($ordersFm));
         $lessonOrders->each(function ($item) {
@@ -134,7 +134,7 @@ class LessonOrderService
             }
             $validatedArray = $validator->validated();
 
-            FmLessonOrder::upsert($validatedArray, ['email']);
+            FmSchoolDetails::upsert($validatedArray, ['email']);
         });
 
     }
@@ -167,7 +167,7 @@ class LessonOrderService
 
     public function createDefaultClassroooms()
     {
-        $schools = FmLessonOrder::getActiveOrders()->get();
+        $schools = FmSchoolDetails::getActiveOrders()->get();
         $schools->each(function ($school, $key) {
             // Search for classrooms associated to school email
             $classrooms = Classroom::where('email', $school->email)->get();

@@ -94,7 +94,7 @@ declare global {
         id: number
     }
 
-    interface LessonOrder {
+    interface SchoolDetailsProps {
         id: number;
         fmRecordId: number | string;
         email: string;

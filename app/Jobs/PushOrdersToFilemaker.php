@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\LessonOrderService;
+use App\Services\SchoolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,8 +32,8 @@ class PushOrdersToFilemaker implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function handle(LessonOrderService $lessonOrderService)
+    public function handle(SchoolService $schoolService)
     {
-        $lessonOrderService->pushOrdersToFilemaker($this->projectedOrders);
+        $schoolService->pushOrdersToFilemaker($this->projectedOrders);
     }
 }

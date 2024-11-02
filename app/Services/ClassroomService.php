@@ -10,13 +10,13 @@ class ClassroomService
     /**
      * Returns the projected order values of a school for a specified month 
      * 
-     * @param \App\Models\FmLessonOrder[]|\Illuminate\Database\Eloquent\Collection $lessonOrders
+     * @param \App\Models\FmSchoolDetails[]|\Illuminate\Database\Eloquent\Collection $schoolDetails
      * @param string $month
      * @return mixed
      */
-    public function getProjectedOrdersByMonth($lessonOrders, $month)
+    public function getProjectedOrdersByMonth($schoolDetails, $month)
     {
-        $emails = $lessonOrders->pluck('email');
+        $emails = $schoolDetails->pluck('email');
         $defaultCurriculumId = Curriculum::getDefaultId();
 
         // Fetch all classrooms with curricula for the emails in one go
@@ -25,7 +25,7 @@ class ClassroomService
             ->get()
             ->groupBy('email'); // Group classrooms by email
 
-        return $lessonOrders->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
+        return $schoolDetails->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
             $emailClassrooms = $classrooms->get($orderDetails->email, collect()); // Get classrooms for the current email
 
             $levelSums = (object) [

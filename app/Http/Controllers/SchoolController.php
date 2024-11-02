@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Services\ClassroomService;
-use App\Services\LessonOrderService;
+use App\Services\SchoolService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchoolDetails;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\PushOrdersToFilemaker;
 
 
-class LessonOrderController extends Controller
+class SchoolController extends Controller
 {
     private function getFmOrderRecordsMap()
     {
@@ -36,13 +36,13 @@ class LessonOrderController extends Controller
     }
     function getCurrentUserOrder()
     {
-        return FmLessonOrder::where('email', auth()->user()->email)->get()?->first();
+        return FmSchoolDetails::where('email', auth()->user()->email)->get()?->first();
     }
 
-    function isCurrentOrderUser(FmLessonOrder $lessonOrder)
+    function isCurrentOrderUser(FmSchoolDetails $schoolDetails)
     {
         $isAdmin = Gate::check('create:orders');
-        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $lessonOrder?->id);
+        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $schoolDetails?->id);
     }
 
 
@@ -69,12 +69,12 @@ class LessonOrderController extends Controller
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
-        $lessonOrders = FmLessonOrder::getActiveOrders()->get()->sortBy([
+        $schoolDetails = FmSchoolDetails::getActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
             ['schoolName', 'asc']
         ])->values();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
-        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $month);
+        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $month);
 
         return Inertia::render('SchoolOrder/Index', [
             'projectedOrders' => fn() => $projectedOrders,
@@ -85,21 +85,22 @@ class LessonOrderController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FmLessonOrder  $lessonOrder
+     * @param  \App\Models\FmSchoolDetails  $schoolDetails
      * @return \Inertia\Response | void
      */
-    public function show(FmLessonOrder $lessonOrder)
+    public function show(FmSchoolDetails $schoolDetails)
     {
-        if ($this->isCurrentOrderUser($lessonOrder)) {
+        if ($this->isCurrentOrderUser($schoolDetails)) {
             return abort(404);
         }
 
-        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($lessonOrder->email);
-
+        $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($schoolDetails->email);
+        $activeSchools = FmSchoolDetails::getActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
+        $classrooms = Classroom::with('curriculum')->where('email', $schoolDetails->email)->get();
         return Inertia::render('SchoolOrder/Show', [
-            'lessonOrder' => $lessonOrder,
-            'schoolsList' => fn() => FmLessonOrder::getActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']),
-            'classrooms' => fn() => Classroom::with('curriculum')->where('email', $lessonOrder->email)->get(),
+            'schoolDetails' => $schoolDetails,
+            'schoolsList' => fn() => $activeSchools,
+            'classrooms' => fn() => $classrooms,
             'curricula' => fn() => Curriculum::all(),
             'projectedOrders' => fn() => $projectedOrders
         ]);
@@ -110,13 +111,13 @@ class LessonOrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FmLessonOrder  $lessonOrder
+     * @param  \App\Models\FmSchoolDetails  $schoolDetails
      * @return \Illuminate\Http\RedirectResponse | void
      */
-    public function update(Request $request, FmLessonOrder $lessonOrder)
+    public function update(Request $request, FmSchoolDetails $schoolDetails)
     {
         $isAdmin = Gate::check('create:orders');
-        if ($this->isCurrentOrderUser($lessonOrder)) {
+        if ($this->isCurrentOrderUser($schoolDetails)) {
             return abort(404);
         }
 
@@ -132,20 +133,20 @@ class LessonOrderController extends Controller
         ]);
         // };
 
-        $lessonOrder->fill($validated);
+        $schoolDetails->fill($validated);
 
-        if ($lessonOrder->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
+        if ($schoolDetails->isDirty(['level0Order', 'level1Order', 'level2Order', 'level3Order', 'level4Order', 'tlpOrder'])) {
             $updatedRecord = (object) $validated;
-            $isUpdated = $this->updateFilemakerOrder($lessonOrder['fmRecordId'], $updatedRecord);
+            $isUpdated = $this->updateFilemakerOrder($schoolDetails['fmRecordId'], $updatedRecord);
             if ($isUpdated) {
-                $lessonOrder->updated_at = Carbon::now();
-                $lessonOrder->save();
-                $lessonOrder->refresh();
+                $schoolDetails->updated_at = Carbon::now();
+                $schoolDetails->save();
+                $schoolDetails->refresh();
             }
         }
 
         // Redirect back
-        return redirect()->route('orders.show', $lessonOrder->id)->with('success', "Updated order for school successfully");
+        return redirect()->route('orders.show', $schoolDetails->id)->with('success', "Updated order for school successfully");
     }
 
     /**
@@ -156,9 +157,9 @@ class LessonOrderController extends Controller
     public function sync()
     {
         try {
-            $lessonOrderService = new LessonOrderService();
-            $lessonOrderService->populateOrdersFromFilemaker();
-            $lessonOrderService->createDefaultClassroooms();
+            $schoolService = new SchoolService();
+            $schoolService->populateOrdersFromFilemaker();
+            $schoolService->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
             return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
@@ -174,12 +175,12 @@ class LessonOrderController extends Controller
      */
     public function push(Request $request)
     {
-        $lessonOrders = FmLessonOrder::getActiveOrders()->get();
+        $schoolDetails = FmSchoolDetails::getActiveOrders()->get();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
-        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($lessonOrders, $request->month);
+        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $request->month);
         try {
             // PushOrdersToFilemaker::dispatch($projectedOrders);
-            (new LessonOrderService)->pushOrdersToFilemaker($projectedOrders);
+            (new SchoolService)->pushOrdersToFilemaker($projectedOrders);
         } catch (\Exception $e) {
             Log::error($e);
             return redirect()->back()->with('failure', "Could not push to database");
@@ -195,7 +196,7 @@ class LessonOrderController extends Controller
     public function createDefaultClassrooms()
     {
         try {
-            (new LessonOrderService)->createDefaultClassroooms();
+            (new SchoolService)->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
             return redirect(route('orders.index'))->with('failure', "Could not create default classrooms. Check error logs");
