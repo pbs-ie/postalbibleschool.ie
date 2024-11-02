@@ -1,9 +1,11 @@
-import Cog6Tooth from "@/Elements/Icons/Cog6Tooth";
 import route from "ziggy-js";
+
+import SidebarComponent, { SidebarProps } from "@/Components/Navigation/SidebarComponent";
+
+import Cog6Tooth from "@/Elements/Icons/Cog6Tooth";
 import PresentationChart from "@/Elements/Icons/PresentationChart";
 import VideoCamera from "@/Elements/Icons/VideoCamera";
 import SunIcon from "@/Elements/Icons/SunIcon";
-import SidebarComponent, { SidebarProps } from "./SidebarComponent";
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon";
 import Newspaper from "@/Elements/Icons/Newspaper";
 import PlayIcon from "@/Elements/Icons/PlayIcon";
@@ -29,12 +31,6 @@ export default function SettingsSidebar() {
             name: "Camp"
         },
         {
-            routeString: route('settings.sunscool.index'),
-            isActive: route().current('settings.sunscool.*'),
-            Icon: SunIcon,
-            name: "Sunscool"
-        },
-        {
             routeString: route('settings.lesson.index'),
             isActive: route().current('settings.lesson.*'),
             Icon: Newspaper,
@@ -53,7 +49,17 @@ export default function SettingsSidebar() {
             name: "Bonus Admin"
         }
     ]
+
+    const bottomSettingsMenuList: SidebarProps["bottomListItems"] = [
+        {
+            routeString: route('settings.sunscool.index'),
+            isActive: route().current('settings.sunscool.*'),
+            Icon: SunIcon,
+            name: "Sunscool"
+
+        }
+    ];
     return (
-        <SidebarComponent Icon={Cog6Tooth} title="Settings" listItems={settingsMenuList} />
+        <SidebarComponent Icon={Cog6Tooth} title="Settings" listItems={settingsMenuList} bottomListItems={bottomSettingsMenuList} />
     )
 }

@@ -29,10 +29,8 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
             'selectedStudents' => ['required', 'array'],
             'selectedStudents.*.studentId' => ['numeric', 'required'],
             'selectedStudents.*.name' => ['string', 'required'],
-            'selectedStudents.*.attemptedAverage' => ['numeric', 'required'],
-            'selectedStudents.*.bibletime' => ['string', 'required'],
-            'selectedStudents.*.itemCount' => ['numeric', 'required'],
-            'selectedStudents.*.totalAverage' => ['numeric', 'required'],
+            'selectedStudents.*.total' => ['numeric', 'required'],
+            'selectedStudents.*.bibletime' => ['string', 'required']
         ];
     }
 }
