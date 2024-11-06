@@ -10,8 +10,8 @@ import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import route from "ziggy-js";
 
 
-export default function Show({ lessonOrder, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { lessonOrder: LessonOrder, schoolsList: SchoolsList[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
-
+export default function Show({ schoolDetails, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { schoolDetails: SchoolDetailsProps, schoolsList: SchoolsList[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
+    console.log(schoolsList);
     return (
         <WrapperLayout>
             <ButtonLink hierarchy="transparent" href={route('orders.index')}><span className="flex items-center gap-2">
@@ -19,9 +19,9 @@ export default function Show({ lessonOrder, schoolsList, classrooms, projectedOr
             </span></ButtonLink>
             <ContentWrapper title="School Lesson Order">
                 <div className="flex items-baseline gap-2 bg-gray-100 rounded">
-                    <SchoolSelectDropdown currentSchoolId={lessonOrder.id} schoolsList={schoolsList} />
+                    <SchoolSelectDropdown currentSchoolId={schoolDetails.id} schoolsList={schoolsList} />
                 </div>
-                <SchoolOrderSection classrooms={classrooms} projectedOrders={projectedOrders} curricula={curricula} schoolEmail={lessonOrder.email} />
+                <SchoolOrderSection classrooms={classrooms} projectedOrders={projectedOrders} curricula={curricula} schoolEmail={schoolDetails.email} />
 
             </ContentWrapper>
         </WrapperLayout>

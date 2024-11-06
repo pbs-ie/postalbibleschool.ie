@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { ColumnDef, createColumnHelper, RowSelectionState } from "@tanstack/react-table";
 import route from "ziggy-js";
+import _ from "lodash";
 
 import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import CheckboxInput from "@/Components/Forms/CheckboxInput";
+import ErrorBanner from "@/Components/Forms/ErrorBanner";
 
 import BasicButton from "@/Elements/Buttons/BasicButton";
 
 export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
+    const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     useEffect(() => {
@@ -25,7 +28,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 idSelection.push(student)
         });
         if (Object.keys(rowSelection).length > 0) {
-            router.post(route('settings.sunscool.index'), {
+            router.post(route('settings.sunscool.store'), {
                 schoolId: schoolId,
                 selectedStudents: idSelection
             });
@@ -34,7 +37,10 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
 
     const getFlattenedStudents = useMemo(() => {
         const flattenedStudentMarks = students.flatMap((student) => {
-            return student.lessons.filter((lesson) => !!lesson.bibletime).sort((a, b) => (a.bibletime < b.bibletime ? -1 : 1)).map((lesson) => {
+            if (student.lessons === null) {
+                return null
+            }
+            return student.lessons["en-gb"].filter((lesson) => !!lesson.bibletime).sort((a, b) => (a.bibletime < b.bibletime ? -1 : 1)).map((lesson) => {
                 return {
                     name: student.name,
                     ...lesson,
@@ -42,11 +48,13 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 }
             })
         });
-
-        const result = flattenedStudentMarks.reduce((acc, curr) => {
+        const result = !flattenedStudentMarks ? {} : flattenedStudentMarks?.reduce((acc, curr) => {
+            if (_.isEmpty(curr)) {
+                return acc
+            }
             let lessonCodeRegex = /([a-zA-z]\d+)-/.exec(curr.bibletime);
             let currentBibletime = lessonCodeRegex !== null ? lessonCodeRegex[1] : "";
-            if (currentBibletime.startsWith("G")) {
+            if (currentBibletime.startsWith("G") || currentBibletime === "") {
                 return acc;
             }
             const accumulatorParam = curr.name + currentBibletime + curr.level;
@@ -61,13 +69,12 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         const averagedProgress = Object.values(result).map((item) => ({
             studentId: item.studentId,
             name: item.name,
-            totalAverage: item.totalProgress / 4,
+            total: item.totalProgress,
             attemptedAverage: item.totalProgress / item.count,
             itemCount: item.count + "/4",
             bibletime: item.bibletime,
             level: item.level
         }));
-
         return averagedProgress;
     }, [students]);
 
@@ -126,8 +133,8 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         //     header: "Attempted Avg (%)",
         //     enableColumnFilter: false
         // }),
-        columnHelper.accessor(row => Math.round(row.totalAverage * 100) / 100 + "", {
-            header: "Avg Score (%)",
+        columnHelper.accessor(row => Math.round(row.total) + "", {
+            header: "Total Score",
             enableColumnFilter: false,
             enableSorting: false
         }),
@@ -136,6 +143,13 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         <>
             <div className="flex justify-end gap-2 my-2">
                 <BasicButton dataTest="add_results_fm_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="primary" onClick={addStudentsToDatabase}>Add Students</BasicButton>
+            </div>
+            <div className="space-y-2">
+                {errors &&
+                    Object.keys(errors).map((key) =>
+                        <ErrorBanner key={key} message={errors[key]} />
+                    )
+                }
             </div>
             <AdvancedTable
                 data={tableData}

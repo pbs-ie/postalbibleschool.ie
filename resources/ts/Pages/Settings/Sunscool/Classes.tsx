@@ -1,16 +1,18 @@
-import StudentMarksSection from "@/Components/Sunscool/StudentMarksSection";
-import ClassroomSelectSection from "@/Components/Sunscool/ClassroomSelectSection";
+import route from "ziggy-js";
+
+import SettingsLayout from "@/Layouts/SettingsLayout";
+
+import { SunscoolSchoolProps } from "@/Pages/Settings/Sunscool/Index";
+
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import StudentListSection from "@/Components/Sections/StudentListSection";
+import SunscoolResultsSection from "@/Components/Sections/SunscoolResultsSection";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
-import SettingsLayout from "@/Layouts/SettingsLayout";
-import { SunscoolSchoolProps } from "@/Pages/Settings/Sunscool/Index";
-import { useState } from "react";
-import route from "ziggy-js";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 
 export default function Classes({ school }: { school: SunscoolSchoolProps }) {
-    const [currentClass, setCurrentClass] = useState(school.classes[0]);
     return (
         <SettingsLayout title={"Sunscool Settings"}>
             <SettingsSection>
@@ -22,14 +24,8 @@ export default function Classes({ school }: { school: SunscoolSchoolProps }) {
                         </span></ButtonLink>
                     </div>
                     <hr />
+                    <SunscoolResultsSection school={school} />
 
-                    <div>
-                        <ClassroomSelectSection
-                            classrooms={school.classes}
-                            currentClass={currentClass}
-                            setCurrentClass={setCurrentClass} />
-                        <StudentMarksSection schoolId={school.id} students={currentClass.students} />
-                    </div>
                 </div>
             </SettingsSection>
         </SettingsLayout>

@@ -6,28 +6,28 @@ import Newspaper from "@/Elements/Icons/Newspaper";
 import School from "@/Elements/Icons/SchoolIcon";
 import HomeIcon from "@/Elements/Icons/HomeIcon";
 
-export default function SchoolInformationSection({ lessonOrder }: { lessonOrder: LessonOrder }) {
+export default function SchoolInformationSection({ schoolDetails }: { schoolDetails: SchoolDetailsProps }) {
     let cardRows: InformationCardProps[] = [];
     // let lessonRows: InformationCardProps[] = [];
     cardRows = [
         {
             title: 'School Name',
-            value: lessonOrder.schoolName,
+            value: schoolDetails.schoolName,
             Icon: School
         },
         {
             title: 'Email',
-            value: lessonOrder.email,
+            value: schoolDetails.email,
             Icon: Envelope
         },
         {
             title: 'Contact Name',
-            value: lessonOrder.contactName,
+            value: schoolDetails.contactName,
             Icon: Newspaper
         },
         {
             title: 'Address',
-            value: <div className="w-full text-left whitespace-pre-line">{lessonOrder.address.replaceAll('\\n', '\n')}</div>,
+            value: <div className="w-full text-left whitespace-pre-line">{schoolDetails.address.replaceAll('\\n', '\n')}</div>,
             Icon: HomeIcon
         }
     ]
@@ -35,37 +35,37 @@ export default function SchoolInformationSection({ lessonOrder }: { lessonOrder:
     // lessonRows = [
     //     {
     //         title: 'Level 0',
-    //         value: lessonOrder.level0Order + "",
+    //         value: schoolDetails.level0Order + "",
     //         Icon: ChevronRight,
     //         titleStyle: "text-white bg-bibletime-pink"
     //     },
     //     {
     //         title: 'Level 1',
-    //         value: lessonOrder.level1Order + "",
+    //         value: schoolDetails.level1Order + "",
     //         Icon: ChevronRight,
     //         titleStyle: "text-white bg-bibletime-orange"
     //     },
     //     {
     //         title: 'Level 2',
-    //         value: lessonOrder.level2Order + "",
+    //         value: schoolDetails.level2Order + "",
     //         Icon: ChevronRight,
     //         titleStyle: "text-white bg-bibletime-red"
     //     },
     //     {
     //         title: 'Level 3',
-    //         value: lessonOrder.level3Order + "",
+    //         value: schoolDetails.level3Order + "",
     //         Icon: ChevronRight,
     //         titleStyle: "text-white bg-bibletime-green"
     //     },
     //     {
     //         title: 'Level 4',
-    //         value: lessonOrder.level4Order + "",
+    //         value: schoolDetails.level4Order + "",
     //         Icon: ChevronRight,
     //         titleStyle: "text-white bg-bibletime-blue"
     //     },
     //     {
     //         title: 'Teacher Lesson Plans',
-    //         value: lessonOrder.tlpOrder + "",
+    //         value: schoolDetails.tlpOrder + "",
     //         Icon: ChevronRight
     //     },
     // ]

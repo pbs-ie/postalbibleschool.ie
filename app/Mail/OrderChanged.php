@@ -2,8 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\LessonOrder;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchoolDetails;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +19,7 @@ class OrderChanged extends Mailable
      *
      * @return void
      */
-    public function __construct(protected FmLessonOrder $oldOrder, protected FmLessonOrder $newOrder)
+    public function __construct(protected FmSchoolDetails $oldOrder, protected FmSchoolDetails $newOrder)
     {
         //
     }
