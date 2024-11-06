@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProjectionsExport;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Services\ClassroomService;
@@ -13,6 +14,7 @@ use App\Models\FmSchoolDetails;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\PushOrdersToFilemaker;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class SchoolController extends Controller
@@ -69,7 +71,7 @@ class SchoolController extends Controller
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
         }
-        $schoolDetails = FmSchoolDetails::getActiveOrders()->get()->sortBy([
+        $schoolDetails = FmSchoolDetails::queryActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
             ['schoolName', 'asc']
         ])->values();
@@ -95,7 +97,7 @@ class SchoolController extends Controller
         }
 
         $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($schoolDetails->email);
-        $activeSchools = FmSchoolDetails::getActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
+        $activeSchools = FmSchoolDetails::queryActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
         $classrooms = Classroom::with('curriculum')->where('email', $schoolDetails->email)->get();
         return Inertia::render('SchoolOrder/Show', [
             'schoolDetails' => $schoolDetails,
@@ -175,7 +177,7 @@ class SchoolController extends Controller
      */
     public function push(Request $request)
     {
-        $schoolDetails = FmSchoolDetails::getActiveOrders()->get();
+        $schoolDetails = FmSchoolDetails::queryActiveOrders()->get();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $request->month);
         try {
@@ -202,6 +204,11 @@ class SchoolController extends Controller
             return redirect(route('orders.index'))->with('failure', "Could not create default classrooms. Check error logs");
         }
         return redirect(route('orders.index'))->with('success', "Default classrooms created");
+    }
+
+    public function export($month)
+    {
+        return Excel::download(new ProjectionsExport($month), 'projections.xlsx');
     }
 
 }

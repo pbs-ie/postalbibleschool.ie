@@ -12,7 +12,7 @@ class ClassroomService
      * 
      * @param \App\Models\FmSchoolDetails[]|\Illuminate\Database\Eloquent\Collection $schoolDetails
      * @param string $month
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     public function getProjectedOrdersByMonth($schoolDetails, $month)
     {

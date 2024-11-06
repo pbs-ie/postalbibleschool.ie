@@ -167,7 +167,7 @@ class SchoolService
 
     public function createDefaultClassroooms()
     {
-        $schools = FmSchoolDetails::getActiveOrders()->get();
+        $schools = FmSchoolDetails::queryActiveOrders()->get();
         $schools->each(function ($school, $key) {
             // Search for classrooms associated to school email
             $classrooms = Classroom::where('email', $school->email)->get();

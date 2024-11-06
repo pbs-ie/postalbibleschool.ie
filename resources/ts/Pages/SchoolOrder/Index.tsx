@@ -19,6 +19,8 @@ import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import PlusSolid from "@/Elements/Icons/PlusSolid";
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp";
+import Download from "@/Elements/Icons/Download";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -164,6 +166,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                             <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull School Data from FM <RefreshIcon /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
+                            <ButtonAnchor href={route('orders.export', currentMonth)}><span className="flex items-center gap-2">Download <Download /></span></ButtonAnchor>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

@@ -52,7 +52,7 @@ class FmSchoolDetails extends Model
         );
     }
 
-    public function scopeGetActiveOrders($query)
+    public function scopeQueryActiveOrders($query)
     {
         return $query->whereNotNull('schoolType');
     }
