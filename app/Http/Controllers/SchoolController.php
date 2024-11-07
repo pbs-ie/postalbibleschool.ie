@@ -7,14 +7,14 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Services\ClassroomService;
 use App\Services\SchoolService;
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
 use App\Models\FmSchoolDetails;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
-use App\Jobs\PushOrdersToFilemaker;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Student;
 
 
 class SchoolController extends Controller
@@ -209,6 +209,41 @@ class SchoolController extends Controller
     public function export($month)
     {
         return Excel::download(new ProjectionsExport($month), 'projections.xlsx');
+    }
+
+    /**
+     * Show the students for a school
+     * @param \App\Models\FmSchoolDetails $schoolDetails
+     * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
+     */
+    public function students(FmSchoolDetails $schoolDetails)
+    {
+        $students = Student::where('area_code', $schoolDetails->areaCode)->get();
+        try {
+            if ($students->count() === 0) {
+                (new StudentService)->storeStudentsForUser($schoolDetails->email);
+                $students = Student::where('area_code', $schoolDetails->areaCode)->get();
+            }
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('failure', "Could not fetch students. Check error logs");
+        }
+
+        return Inertia::render('SchoolOrder/Students', [
+            'students' => fn() => $students,
+            'schoolDetails' => $schoolDetails->only(['id', 'schoolName'])
+        ]);
+    }
+
+    public function studentsRefresh(FmSchoolDetails $schoolDetails)
+    {
+        try {
+            (new StudentService)->storeStudentsForUser($schoolDetails->email);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('failure', "Could not fetch students. Check error logs");
+        }
+        return redirect()->back()->with('success', "Students refreshed");
     }
 
 }

@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import SelectInput from "@/Elements/Forms/SelectInput";
 
-export type SchoolsList = Pick<SchoolDetailsProps, "id" | "schoolName">;
+export type SchoolsListProps = Pick<SchoolDetailsProps, "id" | "schoolName">;
 
-export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: { currentSchoolId: number, schoolsList: SchoolsList[] }) {
+export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: { currentSchoolId: number, schoolsList: SchoolsListProps[] }) {
     const [inputValue, setInputValue] = useState(currentSchoolId);
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setInputValue(+event.target.value);

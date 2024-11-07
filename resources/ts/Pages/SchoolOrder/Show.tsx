@@ -3,14 +3,14 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 
 import SchoolOrderSection from "@/Components/Sections/SchoolOrderSection";
 import { ProjectedOrders } from "@/Components/Sections/ProjectedOrdersSection";
-import SchoolSelectDropdown, { SchoolsList } from "@/Components/SchoolOrders/SchoolSelectDropdown";
+import SchoolSelectDropdown, { SchoolsListProps } from "@/Components/SchoolOrders/SchoolSelectDropdown";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 
 import route from "ziggy-js";
 
 
-export default function Show({ schoolDetails, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { schoolDetails: SchoolDetailsProps, schoolsList: SchoolsList[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
+export default function Show({ schoolDetails, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { schoolDetails: SchoolDetailsProps, schoolsList: SchoolsListProps[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
     console.log(schoolsList);
     return (
         <WrapperLayout>
