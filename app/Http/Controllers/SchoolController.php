@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ProjectionsExport;
+use App\Exports\StudentsExport;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Services\ClassroomService;
@@ -209,6 +210,17 @@ class SchoolController extends Controller
     public function export($month)
     {
         return Excel::download(new ProjectionsExport($month), 'projections.xlsx');
+    }
+
+    /**
+     * Create excel export file of students for a school
+     * @param number $schoolId
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportStudentsList($schoolId)
+    {
+        $schoolDetails = FmSchoolDetails::queryActiveOrders()->find($schoolId);
+        return Excel::download(new StudentsExport($schoolDetails->areaCode), $schoolDetails->schoolName . '.xlsx');
     }
 
     /**

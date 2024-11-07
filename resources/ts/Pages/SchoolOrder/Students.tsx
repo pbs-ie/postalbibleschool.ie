@@ -10,6 +10,8 @@ import { useMemo } from "react";
 import route from "ziggy-js";
 import { SchoolsListProps } from "@/Components/SchoolOrders/SchoolSelectDropdown";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import Download from "@/Elements/Icons/Download";
 
 export interface StudentProps {
     classroom_id: number,
@@ -77,8 +79,9 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
             </span></ButtonLink>
             <div className="mx-10 mb-10">
                 <Heading1>{schoolDetails.schoolName}</Heading1>
-                <div className="inline-flex justify-end w-full">
+                <div className="inline-flex justify-end gap-2 w-full">
                     <SecondaryButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></SecondaryButton>
+                    <ButtonAnchor hierarchy="secondary" size="small" href={route('orders.exportStudentsList', schoolDetails.id)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
                 </div>
                 <div className="mt-5">
                     {students.length > 0 ?

@@ -271,6 +271,7 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
 });
 Route::prefix('orders')->name('orders.')->controller(SchoolController::class)->middleware(['auth', 'can:create:orders'])->group(function () {
     Route::get('/projections/{month?}', 'index')->name('index');
+    Route::get('/download/school/{schoolId}', 'exportStudentsList')->name('exportStudentsList');
     Route::get('/download/{month?}', 'export')->name('export');
     Route::get('/{schoolDetails}/students', 'students')->name('students');
     Route::get('/{schoolDetails}/students/refresh', 'studentsRefresh')->name('studentsRefresh');
