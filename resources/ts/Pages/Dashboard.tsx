@@ -13,10 +13,9 @@ interface DashboardProps {
     classrooms: ClassroomProps[],
     canManageCurriculum: boolean,
     curriculumList?: CurriculumProps[],
-    lessonOrder: LessonOrder,
     projectedOrders: ProjectedOrders[]
 }
-export default function Dashboard({ classrooms, canManageCurriculum = false, curriculumList, lessonOrder, projectedOrders }: DashboardProps) {
+export default function Dashboard({ classrooms, canManageCurriculum = false, curriculumList, projectedOrders }: DashboardProps) {
 
     return (
         <WrapperLayout>

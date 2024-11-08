@@ -13,14 +13,14 @@ export default function MonthSelectDropdown({ currentMonth, monthList }: { curre
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setInputValue(event.target.value);
         router.visit(
-            route('orders.index', event.target.value),
+            route('schools.index', event.target.value),
             {
             });
     }
 
     return (
-        <div className="relative flex flex-col items-baseline w-full gap-2 p-2 md:flex-row">
-            <span className="w-full font-bold">Select Month: </span>
+        <div className="relative flex flex-col items-center w-full gap-2 p-2 md:flex-row">
+            <span className="w-full font-bold text-white">Select Month: </span>
             <SelectInput
                 handleChange={handleChange}
                 defaultValue={inputValue}

@@ -50,8 +50,8 @@ export default function NavProfileMenuitem() {
             name: "Manage Curriculum"
         },
         {
-            routeString: route('orders.index'),
-            isActive: route().current('orders.index'),
+            routeString: route('schools.index'),
+            isActive: route().current('schools.index'),
             Icon: Newspaper,
             name: "Manage School Orders"
         }

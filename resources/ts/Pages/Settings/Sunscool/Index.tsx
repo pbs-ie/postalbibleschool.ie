@@ -16,9 +16,12 @@ export interface SunscoolStudentProps {
     levels: [number],
     name: string,
     ts: number,
-    lessons: [
-        SunscoolLessonProps
-    ]
+    lessons: {
+        [lang: string]:
+        [
+            SunscoolLessonProps
+        ]
+    } | null
 }
 export interface SunscoolClassProps {
     id: number,

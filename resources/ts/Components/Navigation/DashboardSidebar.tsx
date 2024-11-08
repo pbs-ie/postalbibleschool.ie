@@ -35,8 +35,8 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
                     name: "Manage Curriculum"
                 },
                 {
-                    routeString: route('orders.index'),
-                    isActive: route().current('orders.index'),
+                    routeString: route('schools.index'),
+                    isActive: route().current('schools.index'),
                     Icon: Newspaper,
                     name: "Manage School Orders"
                 }

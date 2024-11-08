@@ -48,7 +48,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
             markdown: 'emails.classroom-order-changed',
             with: [
                 'schoolName' => $this->schoolName,
-                'url' => route('orders.show', $this->orderId)
+                'url' => route('schools.show', $this->orderId)
             ]
         );
     }

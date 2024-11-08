@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class FmLessonOrder extends Model
+class FmSchool extends Model
 {
     use HasFactory;
 
@@ -52,7 +52,7 @@ class FmLessonOrder extends Model
         );
     }
 
-    public function scopeGetActiveOrders($query)
+    public function scopeQueryActiveOrders($query)
     {
         return $query->whereNotNull('schoolType');
     }

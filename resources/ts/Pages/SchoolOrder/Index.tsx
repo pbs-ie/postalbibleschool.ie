@@ -1,26 +1,27 @@
 import { router } from "@inertiajs/react";
 import { useMemo } from "react";
 import route from "ziggy-js";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { truncateString } from "@/helper";
+import { MonthKeys, MonthToSeriesMap } from "@/constants";
 
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { truncateString } from "@/helper";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import MonthSelectDropdown from "@/Components/SchoolOrders/MonthSelectDropdown";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
-
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
-import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
-import ChevronRight from "@/Elements/Icons/ChevronRight";
-import PlusSolid from "@/Elements/Icons/PlusSolid";
-import { MonthKeys, MonthToSeriesMap } from "@/constants";
-import MonthSelectDropdown from "@/Components/SchoolOrders/MonthSelectDropdown";
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp";
+import Download from "@/Elements/Icons/Download";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import Group from "@/Elements/Icons/Group";
+import DatabaseIcon from "@/Elements/Icons/DatabaseIcon";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -75,7 +76,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
         }),
         columnHelper.accessor(row => row.hasDigitalClass ? "Yes" : "No", {
             id: 'hasDigital',
-            header: 'Any digital class?',
+            header: 'Digital this month',
             maxSize: 20,
             enableSorting: false,
             enableColumnFilter: true
@@ -130,7 +131,12 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 text-sm">
                     <IconHoverSpan>
-                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('schools.show', row.original.id)}><Eye /> View</ButtonLink>
+                    </IconHoverSpan>
+                    <IconHoverSpan>
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('schools.students', row.original.id)}><span className="inline-flex flex-col items-center">
+                            <Group /> Students
+                        </span></ButtonLink>
                     </IconHoverSpan>
                 </div>
             ),
@@ -140,13 +146,13 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
 
 
     const handleDataSync = () => {
-        router.get(route('orders.sync'));
+        router.get(route('schools.sync'));
     }
     const handleClassroomPopulate = () => {
-        router.get(route('orders.createdefaultclassrooms'));
+        router.get(route('schools.createdefaultclassrooms'));
     }
     const handleDataPush = () => {
-        router.post(route('orders.push'), {
+        router.post(route('schools.push'), {
             month: currentMonth
         });
     }
@@ -156,16 +162,17 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
             <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Hub"}
             </span></ButtonLink>
-            <ContentWrapper title="Order Projections by Month">
+            <ContentWrapper title="Paper Orders by Month">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex flex-col justify-between w-full mb-2 lg:flex-row">
-                        <div className="w-full lg:w-64">
+                        <div className="w-full bg-blue-500 rounded-md lg:w-64">
                             <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
                         <div className="flex items-center gap-2 text-sm shrink">
-                            <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull School Data from FM <RefreshIcon /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <RefreshIcon /></span></SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataSync}><span className="flex items-center gap-2">Pull all schools from FM <DatabaseIcon /></span></SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
+                            <ButtonAnchor size="small" href={route('schools.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

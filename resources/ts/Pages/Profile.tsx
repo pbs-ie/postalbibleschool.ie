@@ -6,7 +6,7 @@ import WrapperLayout from "@/Layouts/WrapperLayout";
 
 interface ProfileProps {
     canManageCurriculum: boolean,
-    schoolDetails: LessonOrder
+    schoolDetails: SchoolProps
 
 }
 

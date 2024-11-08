@@ -10,13 +10,13 @@ class ClassroomService
     /**
      * Returns the projected order values of a school for a specified month 
      * 
-     * @param \App\Models\FmLessonOrder[]|\Illuminate\Database\Eloquent\Collection $lessonOrders
+     * @param \App\Models\FmSchool[]|\Illuminate\Database\Eloquent\Collection $schoolDetails
      * @param string $month
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
-    public function getProjectedOrdersByMonth($lessonOrders, $month)
+    public function getProjectedOrdersByMonth($schoolDetails, $month)
     {
-        $emails = $lessonOrders->pluck('email');
+        $emails = $schoolDetails->pluck('email');
         $defaultCurriculumId = Curriculum::getDefaultId();
 
         // Fetch all classrooms with curricula for the emails in one go
@@ -25,16 +25,17 @@ class ClassroomService
             ->get()
             ->groupBy('email'); // Group classrooms by email
 
-        return $lessonOrders->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
+        return $schoolDetails->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
             $emailClassrooms = $classrooms->get($orderDetails->email, collect()); // Get classrooms for the current email
+            $property = "{$month}_lesson";
 
             $levelSums = (object) [
                 "id" => $orderDetails->id,
                 "schoolName" => $orderDetails->schoolName,
                 "schoolType" => $orderDetails->schoolType,
-                "hasDigitalClass" => $emailClassrooms->filter(function ($classroom) use ($defaultCurriculumId) {
-                    return $classroom->curriculum_id !== $defaultCurriculumId;
-                })->isNotEmpty(),
+                "hasDigitalClass" => $emailClassrooms->contains(function ($classroom) use ($property) {
+                    return $classroom->curriculum->$property !== Curriculum::PAPER;
+                }),
                 "level_0" => 0,
                 "level_1" => 0,
                 "level_2" => 0,
@@ -43,7 +44,6 @@ class ClassroomService
                 "tlp" => 0,
                 "month" => $month
             ];
-            $property = "{$month}_lesson";
             foreach ($emailClassrooms as $classroom) {
                 // $classroomCurriculum = Curriculum::find($classroom->curriculum_id);
                 if ($classroom->curriculum->$property === Curriculum::PAPER) {

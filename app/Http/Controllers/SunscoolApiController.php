@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
 use App\Services\SunscoolApiService;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class SunscoolApiController extends Controller
@@ -25,6 +26,15 @@ class SunscoolApiController extends Controller
         usort($school->classes, fn($a, $b) => (
             strcasecmp($a->name, $b->name)
         ));
+        $school->classes = Arr::map($school->classes, function ($classroom) {
+            $classroom->students = Arr::map($classroom->students, function ($student) use ($classroom) {
+                if (empty($student->lessons)) {
+                    $student->lessons = null;
+                }
+                return $student;
+            });
+            return $classroom;
+        });
         return Inertia::render('Settings/Sunscool/Classes', [
             'school' => $school
         ]);
