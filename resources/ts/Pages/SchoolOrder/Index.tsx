@@ -131,10 +131,10 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
             cell: ({ row }) => (
                 <div className="flex w-full gap-2 text-sm">
                     <IconHoverSpan>
-                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.show', row.original.id)}><Eye /> View</ButtonLink>
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('schools.show', row.original.id)}><Eye /> View</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('orders.students', row.original.id)}><span className="inline-flex flex-col items-center">
+                        <ButtonLink hierarchy="transparent" size="xsmall" href={route('schools.students', row.original.id)}><span className="inline-flex flex-col items-center">
                             <Group /> Students
                         </span></ButtonLink>
                     </IconHoverSpan>
@@ -146,13 +146,13 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
 
 
     const handleDataSync = () => {
-        router.get(route('orders.sync'));
+        router.get(route('schools.sync'));
     }
     const handleClassroomPopulate = () => {
-        router.get(route('orders.createdefaultclassrooms'));
+        router.get(route('schools.createdefaultclassrooms'));
     }
     const handleDataPush = () => {
-        router.post(route('orders.push'), {
+        router.post(route('schools.push'), {
             month: currentMonth
         });
     }
@@ -172,7 +172,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                             <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull School Data from FM <RefreshIcon /></span></SecondaryButton>
                             <SecondaryButton onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
-                            <ButtonAnchor href={route('orders.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
+                            <ButtonAnchor href={route('schools.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

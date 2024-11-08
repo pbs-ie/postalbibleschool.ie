@@ -21,7 +21,7 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
-use App\Models\FmSchoolDetails;
+use App\Models\FmSchool;
 use App\Settings\ITeamSettings;
 use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
@@ -227,7 +227,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
 Route::get('/profile', function () {
-    $schoolDetails = FmSchoolDetails::where('email', auth()->user()->email)->first();
+    $schoolDetails = FmSchool::where('email', auth()->user()->email)->first();
     if (is_null($schoolDetails)) {
         abort(404);
     }
@@ -269,7 +269,7 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
     Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
     Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
-Route::prefix('orders')->name('orders.')->controller(SchoolController::class)->middleware(['auth', 'can:create:orders'])->group(function () {
+Route::prefix('schools')->name('schools.')->controller(SchoolController::class)->middleware(['auth', 'can:create:orders'])->group(function () {
     Route::get('/projections/{month?}', 'index')->name('index');
     Route::get('/download/school/{schoolId}', 'exportStudentsList')->name('exportStudentsList');
     Route::get('/download/{month?}', 'export')->name('export');

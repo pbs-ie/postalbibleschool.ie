@@ -2,7 +2,7 @@ import School from "@/Elements/Icons/SchoolIcon";
 import Envelope from "@/Elements/Icons/Envelope";
 import Newspaper from "@/Elements/Icons/Newspaper";
 
-export default function OrderInfoCard({ schoolName, email, level0Order, level1Order, level2Order, level3Order, level4Order, tlpOrder, contactName }: Omit<SchoolDetailsProps, "id" | "fmRecordId" | "address" | "schoolType">) {
+export default function OrderInfoCard({ schoolName, email, level0Order, level1Order, level2Order, level3Order, level4Order, tlpOrder, contactName }: Omit<SchoolProps, "id" | "fmRecordId" | "address" | "schoolType">) {
     const rowStyle = "inline-flex flex-row w-full justify-between gap-5 mb-2 py-2 px-3 rounded-md bg-white border border-gray-800";
 
     return (

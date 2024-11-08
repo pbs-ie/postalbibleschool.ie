@@ -6,7 +6,7 @@ import Newspaper from "@/Elements/Icons/Newspaper";
 import School from "@/Elements/Icons/SchoolIcon";
 import HomeIcon from "@/Elements/Icons/HomeIcon";
 
-export default function SchoolInformationSection({ schoolDetails }: { schoolDetails: SchoolDetailsProps }) {
+export default function SchoolInformationSection({ schoolDetails }: { schoolDetails: SchoolProps }) {
     let cardRows: InformationCardProps[] = [];
     // let lessonRows: InformationCardProps[] = [];
     cardRows = [

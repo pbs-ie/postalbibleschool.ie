@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\FmSchoolDetails;
+use App\Models\FmSchool;
 use App\Services\ClassroomService;
 use App\Services\SchoolService;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -31,10 +31,10 @@ class ProjectionsExport implements FromQuery, WithMapping, WithHeadings
      */
     public function query()
     {
-        return FmSchoolDetails::queryActiveOrders();
+        return FmSchool::queryActiveOrders();
     }
     /**
-     * @param FmSchoolDetails $school
+     * @param FmSchool $school
      * @return array
      */
     public function map($school): array
@@ -45,7 +45,7 @@ class ProjectionsExport implements FromQuery, WithMapping, WithHeadings
         ];
     }
     /**
-     * @param FmSchoolDetails[] $schools
+     * @param FmSchool[] $schools
      * @return array
      */
     public function prepareRows($schools): array

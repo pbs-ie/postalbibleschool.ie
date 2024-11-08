@@ -10,7 +10,7 @@ class ClassroomService
     /**
      * Returns the projected order values of a school for a specified month 
      * 
-     * @param \App\Models\FmSchoolDetails[]|\Illuminate\Database\Eloquent\Collection $schoolDetails
+     * @param \App\Models\FmSchool[]|\Illuminate\Database\Eloquent\Collection $schoolDetails
      * @param string $month
      * @return \Illuminate\Support\Collection
      */

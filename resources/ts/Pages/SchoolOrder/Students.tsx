@@ -12,6 +12,7 @@ import { SchoolsListProps } from "@/Components/SchoolOrders/SchoolSelectDropdown
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
+import Heading2 from "@/Components/Typography/Heading2";
 
 export interface StudentProps {
     classroom_id: number,
@@ -37,7 +38,7 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
         columnHelper.display({
             id: 'select-col',
             header: () => (
-                <p>No.</p>
+                <p>#</p>
             ),
             cell: ({ row }) => (
                 <div className="flex items-center">
@@ -56,32 +57,32 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
             enableColumnFilter: true,
         }),
         columnHelper.accessor(row => row.grade, {
-            header: "Grade",
+            header: "Level",
             enableColumnFilter: true,
         }),
         columnHelper.accessor(row => row.fm_student_id, {
-            header: "Student ID",
+            header: "FM Student ID",
             enableColumnFilter: true,
         }),
 
     ];
 
     const getStudentList = () => {
-        router.get(route('orders.studentsRefresh', schoolDetails.id), {
+        router.get(route('schools.studentsRefresh', schoolDetails.id), {
             only: ['students']
         });
     }
 
     return (
         <WrapperLayout>
-            <ButtonLink hierarchy="transparent" href={route('orders.index')}><span className="flex items-center gap-2">
+            <ButtonLink hierarchy="transparent" href={route('schools.index')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Schools"}
             </span></ButtonLink>
             <div className="mx-10 mb-10">
-                <Heading1>{schoolDetails.schoolName}</Heading1>
-                <div className="inline-flex justify-end gap-2 w-full">
+                <Heading2>School - {schoolDetails.schoolName}</Heading2>
+                <div className="inline-flex justify-end w-full gap-2">
                     <SecondaryButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></SecondaryButton>
-                    <ButtonAnchor hierarchy="secondary" size="small" href={route('orders.exportStudentsList', schoolDetails.id)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
+                    <ButtonAnchor hierarchy="secondary" size="small" href={route('schools.exportStudentsList', schoolDetails.id)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
                 </div>
                 <div className="mt-5">
                     {students.length > 0 ?

@@ -10,11 +10,11 @@ import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import route from "ziggy-js";
 
 
-export default function Show({ schoolDetails, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { schoolDetails: SchoolDetailsProps, schoolsList: SchoolsListProps[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
+export default function Show({ schoolDetails, schoolsList, classrooms, projectedOrders = [], curricula = [] }: { schoolDetails: SchoolProps, schoolsList: SchoolsListProps[], classrooms: ClassroomProps[], projectedOrders: ProjectedOrders[], curricula: CurriculumProps[] }) {
     console.log(schoolsList);
     return (
         <WrapperLayout>
-            <ButtonLink hierarchy="transparent" href={route('orders.index')}><span className="flex items-center gap-2">
+            <ButtonLink hierarchy="transparent" href={route('schools.index')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to List"}
             </span></ButtonLink>
             <ContentWrapper title="School Lesson Order">

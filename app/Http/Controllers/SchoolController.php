@@ -12,7 +12,7 @@ use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Gate;
-use App\Models\FmSchoolDetails;
+use App\Models\FmSchool;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Student;
@@ -39,10 +39,10 @@ class SchoolController extends Controller
     }
     function getCurrentUserOrder()
     {
-        return FmSchoolDetails::where('email', auth()->user()->email)->get()?->first();
+        return FmSchool::where('email', auth()->user()->email)->get()?->first();
     }
 
-    function isCurrentOrderUser(FmSchoolDetails $schoolDetails)
+    function isCurrentOrderUser(FmSchool $schoolDetails)
     {
         $isAdmin = Gate::check('create:orders');
         return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $schoolDetails?->id);
@@ -70,9 +70,9 @@ class SchoolController extends Controller
     public function index($month = "sep")
     {
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
-            return redirect()->route('orders.index')->with('failure', 'Incorrect month value');
+            return redirect()->route('schools.index')->with('failure', 'Incorrect month value');
         }
-        $schoolDetails = FmSchoolDetails::queryActiveOrders()->get()->sortBy([
+        $schoolDetails = FmSchool::queryActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
             ['schoolName', 'asc']
         ])->values();
@@ -88,17 +88,17 @@ class SchoolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FmSchoolDetails  $schoolDetails
+     * @param  \App\Models\FmSchool  $schoolDetails
      * @return \Inertia\Response | void
      */
-    public function show(FmSchoolDetails $schoolDetails)
+    public function show(FmSchool $schoolDetails)
     {
         if ($this->isCurrentOrderUser($schoolDetails)) {
             return abort(404);
         }
 
         $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($schoolDetails->email);
-        $activeSchools = FmSchoolDetails::queryActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
+        $activeSchools = FmSchool::queryActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
         $classrooms = Classroom::with('curriculum')->where('email', $schoolDetails->email)->get();
         return Inertia::render('SchoolOrder/Show', [
             'schoolDetails' => $schoolDetails,
@@ -149,7 +149,7 @@ class SchoolController extends Controller
     //     }
 
     //     // Redirect back
-    //     return redirect()->route('orders.show', $schoolDetails->id)->with('success', "Updated order for school successfully");
+    //     return redirect()->route('schools.show', $schoolDetails->id)->with('success', "Updated order for school successfully");
     // }
 
     /**
@@ -165,9 +165,9 @@ class SchoolController extends Controller
             $schoolService->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect(route('orders.index'))->with('failure', "Could not synchronise data");
+            return redirect(route('schools.index'))->with('failure', "Could not synchronise data");
         }
-        return redirect(route('orders.index'))->with('success', "Table data synchronised");
+        return redirect(route('schools.index'))->with('success', "Table data synchronised");
     }
 
     /**
@@ -178,7 +178,7 @@ class SchoolController extends Controller
      */
     public function push(Request $request)
     {
-        $schoolDetails = FmSchoolDetails::queryActiveOrders()->get();
+        $schoolDetails = FmSchool::queryActiveOrders()->get();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
         $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $request->month);
         try {
@@ -202,9 +202,9 @@ class SchoolController extends Controller
             (new SchoolService)->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect(route('orders.index'))->with('failure', "Could not create default classrooms. Check error logs");
+            return redirect(route('schools.index'))->with('failure', "Could not create default classrooms. Check error logs");
         }
-        return redirect(route('orders.index'))->with('success', "Default classrooms created");
+        return redirect(route('schools.index'))->with('success', "Default classrooms created");
     }
 
     public function export($month)
@@ -219,16 +219,16 @@ class SchoolController extends Controller
      */
     public function exportStudentsList($schoolId)
     {
-        $schoolDetails = FmSchoolDetails::queryActiveOrders()->find($schoolId);
+        $schoolDetails = FmSchool::queryActiveOrders()->find($schoolId);
         return Excel::download(new StudentsExport($schoolDetails->areaCode), $schoolDetails->schoolName . '.xlsx');
     }
 
     /**
      * Show the students for a school
-     * @param \App\Models\FmSchoolDetails $schoolDetails
+     * @param \App\Models\FmSchool $schoolDetails
      * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
      */
-    public function students(FmSchoolDetails $schoolDetails)
+    public function students(FmSchool $schoolDetails)
     {
         $students = Student::where('area_code', $schoolDetails->areaCode)->get();
         try {
@@ -247,7 +247,7 @@ class SchoolController extends Controller
         ]);
     }
 
-    public function studentsRefresh(FmSchoolDetails $schoolDetails)
+    public function studentsRefresh(FmSchool $schoolDetails)
     {
         try {
             (new StudentService)->storeStudentsForUser($schoolDetails->email);

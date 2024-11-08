@@ -24,7 +24,7 @@ class Student extends BaseModel
 
     public function scopeGetStudentsForUser($query)
     {
-        $areaCode = FmSchoolDetails::where('email', auth()->user()->email)->get()->only(['areaCode']);
+        $areaCode = FmSchool::where('email', auth()->user()->email)->get()->only(['areaCode']);
         return $query->where('area_code', $areaCode)
             ->orderBy('grade')
             ->orderBy('last_name')
