@@ -44,6 +44,7 @@ import SunIcon from "@/Elements/Icons/SunIcon"
 import PresentationChart from "@/Elements/Icons/PresentationChart"
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon"
 import SparkesIcon from "@/Elements/Icons/SparklesIcon"
+import DatabaseIcon from "@/Elements/Icons/DatabaseIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -92,6 +93,9 @@ export default function IconSection() {
         }, {
             heading: <CloudArrowUp />,
             content: "CloudArrowUp",
+        }, {
+            heading: <DatabaseIcon />,
+            content: "DatabaseIcon",
         }, {
             heading: <DeviceTabletIcon />,
             content: "DeviceTabletIcon",

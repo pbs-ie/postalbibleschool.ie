@@ -19,8 +19,8 @@ export default function MonthSelectDropdown({ currentMonth, monthList }: { curre
     }
 
     return (
-        <div className="relative flex flex-col items-baseline w-full gap-2 p-2 md:flex-row">
-            <span className="w-full font-bold">Select Month: </span>
+        <div className="relative flex flex-col items-center w-full gap-2 p-2 md:flex-row">
+            <span className="w-full font-bold text-white">Select Month: </span>
             <SelectInput
                 handleChange={handleChange}
                 defaultValue={inputValue}

@@ -27,14 +27,15 @@ class ClassroomService
 
         return $schoolDetails->map(function ($orderDetails, $key) use ($month, $classrooms, $defaultCurriculumId) {
             $emailClassrooms = $classrooms->get($orderDetails->email, collect()); // Get classrooms for the current email
+            $property = "{$month}_lesson";
 
             $levelSums = (object) [
                 "id" => $orderDetails->id,
                 "schoolName" => $orderDetails->schoolName,
                 "schoolType" => $orderDetails->schoolType,
-                "hasDigitalClass" => $emailClassrooms->filter(function ($classroom) use ($defaultCurriculumId) {
-                    return $classroom->curriculum_id !== $defaultCurriculumId;
-                })->isNotEmpty(),
+                "hasDigitalClass" => $emailClassrooms->contains(function ($classroom) use ($property) {
+                    return $classroom->curriculum->$property !== Curriculum::PAPER;
+                }),
                 "level_0" => 0,
                 "level_1" => 0,
                 "level_2" => 0,
@@ -43,7 +44,6 @@ class ClassroomService
                 "tlp" => 0,
                 "month" => $month
             ];
-            $property = "{$month}_lesson";
             foreach ($emailClassrooms as $classroom) {
                 // $classroomCurriculum = Curriculum::find($classroom->curriculum_id);
                 if ($classroom->curriculum->$property === Curriculum::PAPER) {

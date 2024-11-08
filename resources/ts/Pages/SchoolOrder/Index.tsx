@@ -17,11 +17,11 @@ import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
-import PlusSolid from "@/Elements/Icons/PlusSolid";
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp";
 import Download from "@/Elements/Icons/Download";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Group from "@/Elements/Icons/Group";
+import DatabaseIcon from "@/Elements/Icons/DatabaseIcon";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -76,7 +76,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
         }),
         columnHelper.accessor(row => row.hasDigitalClass ? "Yes" : "No", {
             id: 'hasDigital',
-            header: 'Any digital class?',
+            header: 'Digital this month',
             maxSize: 20,
             enableSorting: false,
             enableColumnFilter: true
@@ -162,17 +162,17 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
             <ButtonLink hierarchy="transparent" href={route('dashboard')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Hub"}
             </span></ButtonLink>
-            <ContentWrapper title="Order Projections by Month">
+            <ContentWrapper title="Paper Orders by Month">
                 <div className="flex flex-col items-start gap-4 px-2 py-5 border md:px-10">
                     <div className="flex flex-col justify-between w-full mb-2 lg:flex-row">
-                        <div className="w-full lg:w-64">
+                        <div className="w-full bg-blue-500 rounded-md lg:w-64">
                             <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
                         <div className="flex items-center gap-2 text-sm shrink">
-                            <SecondaryButton onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <PlusSolid /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataSync}><span className="flex items-center gap-2">Pull School Data from FM <RefreshIcon /></span></SecondaryButton>
-                            <SecondaryButton onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
-                            <ButtonAnchor href={route('schools.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
+                            <SecondaryButton size="small" onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <RefreshIcon /></span></SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataSync}><span className="flex items-center gap-2">Pull all schools from FM <DatabaseIcon /></span></SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
+                            <ButtonAnchor size="small" href={route('schools.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

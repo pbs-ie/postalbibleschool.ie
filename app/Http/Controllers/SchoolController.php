@@ -209,7 +209,7 @@ class SchoolController extends Controller
 
     public function export($month)
     {
-        return Excel::download(new ProjectionsExport($month), 'projections.xlsx');
+        return new ProjectionsExport($month);
     }
 
     /**
