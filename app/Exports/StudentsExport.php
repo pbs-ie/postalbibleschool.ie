@@ -57,7 +57,11 @@ class StudentsExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection()
     {
-        return Student::with('classroom:id,name')->where('area_code', $this->areaCode)->get();
+        return Student::with('classroom:id,name')->where('area_code', $this->areaCode)->get()->sortBy([
+            ['grade', 'asc'],
+            ['last_name', 'asc'],
+            ['first_name', 'asc'],
+        ]);
 
     }
 }

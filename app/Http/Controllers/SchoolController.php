@@ -242,7 +242,11 @@ class SchoolController extends Controller
         }
 
         return Inertia::render('SchoolOrder/Students', [
-            'students' => fn() => $students,
+            'students' => fn() => $students->sortBy([
+                ['grade', 'asc'],
+                ['last_name', 'asc'],
+                ['first_name', 'asc'],
+            ])->values(),
             'schoolDetails' => $schoolDetails->only(['id', 'schoolName'])
         ]);
     }

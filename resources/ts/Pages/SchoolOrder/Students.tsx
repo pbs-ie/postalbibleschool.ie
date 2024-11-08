@@ -1,18 +1,20 @@
+import { Head, router } from "@inertiajs/react";
+import { useMemo } from "react";
+import route from "ziggy-js";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+
+import WrapperLayout from "@/Layouts/WrapperLayout";
+
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import Heading1 from "@/Components/Typography/Heading1";
+import Heading1Nospace from "@/Components/Typography/Heading1Nospace";
+import { SchoolsListProps } from "@/Components/SchoolOrders/SchoolSelectDropdown";
+
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
-import { router } from "@inertiajs/react";
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { useMemo } from "react";
-import route from "ziggy-js";
-import { SchoolsListProps } from "@/Components/SchoolOrders/SchoolSelectDropdown";
-import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
-import Heading2 from "@/Components/Typography/Heading2";
 
 export interface StudentProps {
     classroom_id: number,
@@ -78,11 +80,14 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
             <ButtonLink hierarchy="transparent" href={route('schools.index')}><span className="flex items-center gap-2">
                 <ChevronLeft />{"Back to Schools"}
             </span></ButtonLink>
-            <div className="mx-10 mb-10">
-                <Heading2>School - {schoolDetails.schoolName}</Heading2>
-                <div className="inline-flex justify-end w-full gap-2">
-                    <SecondaryButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></SecondaryButton>
-                    <ButtonAnchor hierarchy="secondary" size="small" href={route('schools.exportStudentsList', schoolDetails.id)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
+            <div className="m-5 lg:m-10">
+                <div className="flex items-start justify-between w-full">
+                    <Heading1Nospace>School - {schoolDetails.schoolName}</Heading1Nospace>
+                    <Head><title>{schoolDetails.schoolName}</title></Head>
+                    <div className="inline-flex gap-2">
+                        <SecondaryButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-2">Refresh List <RefreshIcon /></span></SecondaryButton>
+                        <ButtonAnchor Icon={Download} hierarchy="secondary" size="small" href={route('schools.exportStudentsList', schoolDetails.id)}>Download Excel</ButtonAnchor>
+                    </div>
                 </div>
                 <div className="mt-5">
                     {students.length > 0 ?
