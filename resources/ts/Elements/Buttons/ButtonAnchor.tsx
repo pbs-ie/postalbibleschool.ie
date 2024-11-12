@@ -7,7 +7,7 @@ export default function ButtonAnchor({ hierarchy = "primary", href, isExternalLi
             className={getButtonClassNamesAsString(hierarchy, size)}
             target={isExternalLink ? "_blank" : "_self"}>
             <span className="flex items-center gap-2">
-                <span>{children ?? href}</span>{Icon && <Icon />}
+                {Icon && <Icon />}<span>{children ?? href}</span>
             </span>
         </a>
     )

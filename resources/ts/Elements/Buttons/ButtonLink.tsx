@@ -13,7 +13,7 @@ export default function ButtonLink({ hierarchy = "primary", size = "medium", hre
                 data-test={dataTest}
             >
                 <span className="flex items-center gap-2">
-                    <span>{children}</span>{Icon && <Icon />}
+                    {Icon && <Icon />}<span>{children}</span>
                 </span>
             </Link>
         </>
