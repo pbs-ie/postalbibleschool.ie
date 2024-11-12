@@ -168,11 +168,11 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                         <div className="w-full bg-blue-500 rounded-md lg:w-64">
                             <MonthSelectDropdown currentMonth={currentMonth} monthList={monthList} />
                         </div>
-                        <div className="flex items-center gap-2 text-sm shrink">
-                            <SecondaryButton size="small" onClick={handleClassroomPopulate}><span className="flex items-center gap-2">Restore Default Classrooms <RefreshIcon /></span></SecondaryButton>
-                            <SecondaryButton size="small" onClick={handleDataSync}><span className="flex items-center gap-2">Pull all schools from FM <DatabaseIcon /></span></SecondaryButton>
-                            <SecondaryButton size="small" onClick={handleDataPush}><span className="flex items-center gap-2">Push Month to FM <CloudArrowUp /></span></SecondaryButton>
-                            <ButtonAnchor size="small" href={route('schools.export', currentMonth)}><span className="flex items-center gap-2">Download Excel<Download /></span></ButtonAnchor>
+                        <div className="flex flex-wrap items-center gap-2 text-sm shrink">
+                            <SecondaryButton size="small" onClick={handleClassroomPopulate} Icon={RefreshIcon}>Restore Default Classrooms</SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataSync} Icon={DatabaseIcon}>Pull all schools from FM</SecondaryButton>
+                            <SecondaryButton size="small" onClick={handleDataPush} Icon={CloudArrowUp}>Push Month to FM</SecondaryButton>
+                            <ButtonAnchor size="small" href={route('schools.export', currentMonth)} Icon={Download}>Download Excel</ButtonAnchor>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

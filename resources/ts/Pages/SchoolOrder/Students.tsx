@@ -85,7 +85,7 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
                     <Heading1Nospace>School - {schoolDetails.schoolName}</Heading1Nospace>
                     <Head><title>{schoolDetails.schoolName}</title></Head>
                     <div className="inline-flex gap-2">
-                        <SecondaryButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-2">Refresh List <RefreshIcon /></span></SecondaryButton>
+                        <SecondaryButton size="small" onClick={() => getStudentList()} Icon={RefreshIcon}>Refresh List</SecondaryButton>
                         <ButtonAnchor Icon={Download} hierarchy="secondary" size="small" href={route('schools.exportStudentsList', schoolDetails.id)}>Download Excel</ButtonAnchor>
                     </div>
                 </div>

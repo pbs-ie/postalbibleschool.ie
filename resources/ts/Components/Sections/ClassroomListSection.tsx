@@ -368,9 +368,9 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                     <span>
                         {viewOnly ? null :
                             <div className="flex justify-end">
-                                <PrimaryButton size="medium" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}><span className="flex items-center gap-2">
-                                    <PlusHollow className="size-4" /> Add new classroom
-                                </span></PrimaryButton>
+                                <PrimaryButton size="medium" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()} Icon={PlusHollow}>
+                                    Add new classroom
+                                </PrimaryButton>
                             </div>
                         }
                     </span>

@@ -16,6 +16,7 @@ use App\Models\FmSchool;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Student;
+use Carbon\Carbon;
 
 
 class SchoolController extends Controller
@@ -67,10 +68,13 @@ class SchoolController extends Controller
      * @param string $month
      * @return \Inertia\Response|\Illuminate\Http\RedirectResponse
      */
-    public function index($month = "sep")
+    public function index($month = null)
     {
+        if (is_null($month)) {
+            $month = strtolower(Carbon::now()->format('M'));
+        }
         if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
-            return redirect()->route('schools.index')->with('failure', 'Incorrect month value');
+            return redirect()->route('schools.index', ['month' => 'sep']);
         }
         $schoolDetails = FmSchool::queryActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
