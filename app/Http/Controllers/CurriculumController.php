@@ -62,7 +62,7 @@ class CurriculumController extends Controller
         $allCurricula = Curriculum::all();
         // Get all students for each curriculum
         foreach ($allCurricula as $curriculum) {
-            $curriculumStudents = Student::whereHas('classroom.curriculum', function ($query) use ($curriculum) {
+            $curriculumStudents = Student::getActiveStudents()->whereHas('classroom.curriculum', function ($query) use ($curriculum) {
                 return $query->where('id', $curriculum->id);
             })->get();
             foreach ($curriculumStudents as $student) {

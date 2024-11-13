@@ -13,7 +13,7 @@ class StudentController extends Controller
     public function index()
     {
         return Inertia::render("TeacherHub/Student/Index", [
-            'students' => Student::with('classroom:id,name')->getStudentsForUser(),
+            'students' => Student::with('classroom:id,name')->getActiveStudents()->getStudentsForUser(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class StudentController extends Controller
             Log::warning($e);
             return redirect()->back()->with('failure', 'No students found');
         }
-        $studentList = Student::getStudentsForUser();
+        $studentList = Student::getActiveStudents()->getStudentsForUser();
         if ($studentList->isEmpty()) {
             return redirect()->back()->with('failure', 'No students found');
         }
