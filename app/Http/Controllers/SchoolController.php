@@ -234,11 +234,11 @@ class SchoolController extends Controller
      */
     public function students(FmSchool $schoolDetails)
     {
-        $students = Student::where('area_code', $schoolDetails->areaCode)->get();
+        $students = Student::getActiveStudents()->where('area_code', $schoolDetails->areaCode)->get();
         try {
             if ($students->count() === 0) {
                 (new StudentService)->storeStudentsForUser($schoolDetails->email);
-                $students = Student::where('area_code', $schoolDetails->areaCode)->get();
+                $students = Student::getActiveStudents()->where('area_code', $schoolDetails->areaCode)->get();
             }
         } catch (\Exception $e) {
             Log::error($e);

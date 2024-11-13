@@ -16,6 +16,7 @@ class StudentService
             'last_name' => 'S Name',
             'area_code' => 'Area',
             'grade' => 'Grade',
+            'active' => 'Active',
         ];
     }
 
@@ -39,7 +40,8 @@ class StudentService
                 'first_name' => trim($fieldData->{$mapValues['first_name']}),
                 'last_name' => trim($fieldData->{$mapValues['last_name']}),
                 'area_code' => trim($fieldData->{$mapValues['area_code']}),
-                'grade' => trim($fieldData->{$mapValues['grade']})
+                'grade' => trim($fieldData->{$mapValues['grade']}),
+                'active' => trim($fieldData->{$mapValues['active']})
             ];
         })->toArray();
         return $mappedStudents;
@@ -66,6 +68,7 @@ class StudentService
             $studentModel->last_name = $student['last_name'];
             $studentModel->area_code = $student['area_code'];
             $studentModel->grade = $student['grade'];
+            $studentModel->active = $student['active'];
             $studentModel->save();
         });
     }

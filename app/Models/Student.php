@@ -12,7 +12,16 @@ class Student extends BaseModel
 
     protected $table = "fm_students";
 
-    protected $fillable = ['classroom_id', 'fm_student_id', 'fm_record_id', 'first_name', 'last_name', 'area_code', 'grade'];
+    protected $fillable = [
+        'classroom_id',
+        'fm_student_id',
+        'fm_record_id',
+        'first_name',
+        'last_name',
+        'area_code',
+        'grade',
+        'active'
+    ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -29,6 +38,11 @@ class Student extends BaseModel
             ->orderBy('grade')
             ->orderBy('last_name')
             ->get();
+    }
+
+    public function scopeGetActiveStudents($query)
+    {
+        return $query->where('active', 'Y');
     }
 
 }

@@ -39,7 +39,7 @@ class ClassroomController extends Controller
         if ($classroom->email !== auth()->user()->email) {
             return Inertia::render('NotFound');
         }
-        $allStudents = Student::getStudentsForUser();
+        $allStudents = Student::getActiveStudents()->getStudentsForUser();
         $classroomStudents = $classroom
             ->students()
             ->orderBy('grade')
