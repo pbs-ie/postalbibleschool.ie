@@ -3,29 +3,27 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 
-export interface SunscoolLessonProps {
-    id: number;
-    done: boolean;
-    progress: number;
-    title: string;
-    bibletime: string;
-    level: string;
-}
+// export interface SunscoolLessonProps {
+//     id: number;
+//     done: boolean;
+//     progress: number;
+//     title: string;
+//     bibletime: string;
+//     level: string;
+// }
+
 export interface SunscoolStudentProps {
-    id: number,
-    levels: [number],
+    sunscoolId: number,
+    pbsId: number | null,
+    level: number,
     name: string,
-    ts: number,
-    lessons: {
-        [lang: string]:
-        [
-            SunscoolLessonProps
-        ]
-    } | null
+    bibletime: string,
+    progress: number,
+    language: string,
 }
 export interface SunscoolClassProps {
     id: number,
-    lessons: [string],
+    // lessons: [string],
     name: string,
     students: [
         SunscoolStudentProps
@@ -34,7 +32,6 @@ export interface SunscoolClassProps {
 export interface SunscoolSchoolProps {
     id: number;
     name: string;
-    org_id: number;
     classes: [
         SunscoolClassProps
     ]

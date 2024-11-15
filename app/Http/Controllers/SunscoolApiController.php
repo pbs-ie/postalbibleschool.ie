@@ -23,20 +23,49 @@ class SunscoolApiController extends Controller
     public function classes($schoolId)
     {
         $school = (new SunscoolApiService())->getSchoolDetail($schoolId);
-        usort($school->classes, fn($a, $b) => (
-            strcasecmp($a->name, $b->name)
-        ));
-        $school->classes = Arr::map($school->classes, function ($classroom) {
-            $classroom->students = Arr::map($classroom->students, function ($student) use ($classroom) {
-                if (empty($student->lessons)) {
-                    $student->lessons = null;
-                }
-                return $student;
+
+        // Convert the main data to a collection
+        $classes = collect($school->classes)
+            ->sortBy(fn($class) => strtolower($class->name))
+            ->map(function ($class) {
+                // Map students for each class
+                $students = collect($class->students)
+                    ->filter(fn($student) => (!empty ($student->lessons)))
+                    ->flatMap(function ($student) {
+                    // Get student details
+                    $pbsId = $student->pbs_id ?? null;
+                    $sunscoolId = $student->id;
+                    $studentName = $student->name;
+
+                    // Iterate through all language keys in lessons
+                    return collect($student->lessons)->flatMap(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName) {
+                        // Map each lesson with the language parameter
+                        return collect($lessons)->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
+                            return (object) [
+                                'pbsId' => $pbsId,
+                                'sunscoolId' => $sunscoolId,
+                                'name' => $studentName,
+                                'language' => $language,
+                                'bibletime' => $lesson->bibletime,
+                                'progress' => $lesson->progress,
+                                'level' => $lesson->level,
+                            ];
+                        });
+                    });
+                });
+
+                // Return the class with its students
+                return (object) [
+                    'id' => $class->id,
+                    'name' => $class->name,
+                    'students' => $students->values(),
+                ];
             });
-            return $classroom;
-        });
+
         return Inertia::render('Settings/Sunscool/Classes', [
-            'school' => $school
+            'schoolId' => $school->id,
+            'schoolName' => $school->name,
+            'classes' => $classes->values()
         ]);
     }
 

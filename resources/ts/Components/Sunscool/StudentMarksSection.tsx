@@ -22,10 +22,10 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
 
     const addStudentsToDatabase = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        let idSelection = [] as typeof tableData;
-        getFlattenedStudents.map((student, idx) => {
+        let idSelection = [] as typeof tableData[0]["pbsId"][];
+        students.map((student, idx) => {
             if (rowSelection[idx])
-                idSelection.push(student)
+                idSelection.push(student.pbsId)
         });
         if (Object.keys(rowSelection).length > 0) {
             router.post(route('settings.sunscool.store'), {
@@ -35,54 +35,9 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }
     }
 
-    const getFlattenedStudents = useMemo(() => {
-        const flattenedStudentMarks = students.flatMap((student) => {
-            if (student.lessons === null) {
-                return null
-            }
-            return student.lessons["en-gb"].filter((lesson) => !!lesson.bibletime).sort((a, b) => (a.bibletime < b.bibletime ? -1 : 1)).map((lesson) => {
-                return {
-                    name: student.name,
-                    ...lesson,
-                    studentId: student.id
-                }
-            })
-        });
-        const result = !flattenedStudentMarks ? {} : flattenedStudentMarks?.reduce((acc, curr) => {
-            if (_.isEmpty(curr)) {
-                return acc
-            }
-            let lessonCodeRegex = /([a-zA-z]\d+)-/.exec(curr.bibletime);
-            let currentBibletime = lessonCodeRegex !== null ? lessonCodeRegex[1] : "";
-            if (currentBibletime.startsWith("G") || currentBibletime === "") {
-                return acc;
-            }
-            const accumulatorParam = curr.name + currentBibletime + curr.level;
-            if (!acc[accumulatorParam]) {
-                acc[accumulatorParam] = { studentId: curr.studentId, name: curr.name, totalProgress: 0, count: 0, bibletime: currentBibletime, level: curr.level };
-            }
-            acc[accumulatorParam].totalProgress += curr.progress;
-            acc[accumulatorParam].count += 1;
-            return acc;
-        }, {} as Record<string, { studentId: number, name: string, totalProgress: number, count: number, bibletime: string, level: string }>);
+    const tableData = useMemo(() => students, [students]);
 
-        const averagedProgress = Object.values(result).map((item) => ({
-            studentId: item.studentId,
-            name: item.name,
-            total: item.totalProgress,
-            attemptedAverage: item.totalProgress / item.count,
-            itemCount: item.count + "/4",
-            bibletime: item.bibletime,
-            level: item.level
-        }));
-        return averagedProgress;
-    }, [students]);
-
-
-
-    const tableData = useMemo(() => getFlattenedStudents, [getFlattenedStudents]);
-
-    const columnHelper = createColumnHelper<typeof getFlattenedStudents[0]>();
+    const columnHelper = createColumnHelper<typeof students[0]>();
 
     const defaultColumns = [
         columnHelper.display({
@@ -110,9 +65,16 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }),
         columnHelper.display({
             id: "Sr",
-            header: "ID.",
+            header: "Sunscool ID.",
             cell: ({ row }) => (
-                <span>{(+row.original.studentId)}</span>
+                <span>{(+row.original.sunscoolId)}</span>
+            )
+        }),
+        columnHelper.display({
+            id: "pbsid",
+            header: "PBS ID.",
+            cell: ({ row }) => (
+                <span>{(row.original.pbsId ?? "-")}</span>
             )
         }),
         columnHelper.accessor(row => row.name + "", {
@@ -124,17 +86,12 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         columnHelper.accessor(row => row.bibletime ?? "", {
             header: "BibleTime"
         }),
-        columnHelper.accessor(row => row.itemCount + "", {
-            header: "Stories Attempted (of 4)",
-            enableColumnFilter: false,
-            enableSorting: false
-        }),
         // columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
         //     header: "Attempted Avg (%)",
         //     enableColumnFilter: false
         // }),
-        columnHelper.accessor(row => Math.round(row.total) + "", {
-            header: "Total Score",
+        columnHelper.accessor(row => Math.round(row.progress) + "", {
+            header: "Score",
             enableColumnFilter: false,
             enableSorting: false
         }),
@@ -153,7 +110,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
             </div>
             <AdvancedTable
                 data={tableData}
-                columns={defaultColumns as ColumnDef<typeof getFlattenedStudents[0]>[]}
+                columns={defaultColumns as ColumnDef<SunscoolStudentProps>[]}
                 enableColumnFilters={true}
                 enableGlobalFilter={false}
                 enableRowSelection={true}
