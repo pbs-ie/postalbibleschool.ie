@@ -29,11 +29,11 @@ class StudentsExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
+            'PBS ID',
             'Student Name',
             'Class',
             'Level',
             'Lessons',
-            'Student ID'
         ];
     }
     /**
@@ -44,11 +44,11 @@ class StudentsExport implements FromCollection, WithMapping, WithHeadings
     {
         $studentLevel = $this->getStudentLevel($student->grade);
         return [
+            $student->fm_student_id,
             $student->first_name . ' ' . substr($student->last_name, 0, 1),
             '',
             $studentLevel,
             '',
-            $student->fm_student_id,
         ];
     }
 
