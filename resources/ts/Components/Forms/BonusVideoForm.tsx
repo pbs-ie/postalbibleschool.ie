@@ -88,11 +88,12 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
                             <option value="" disabled>Select&hellip;</option>
                             <option value="bbw">Big Bible Words</option>
                             <option value="bbooks">Bible Books</option>
+                            <option value="music">Bible Songs</option>
                         </SelectInput>
                     </div>
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required={!videoData} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} required={!videoData} accept="image/png" />
+                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} required={!videoData} accept="image/*" />
                     </div>
                     <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : videoData ? route('images.show', data.imageLink) : ""} />
                 </div>

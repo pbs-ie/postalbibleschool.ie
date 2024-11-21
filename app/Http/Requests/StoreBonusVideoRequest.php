@@ -26,7 +26,7 @@ class StoreBonusVideoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
-            'imageFile' => ['required', 'image', 'mimetypes:image/png'],
+            'imageFile' => ['required_without:imageLink', 'image', 'mimetypes:image/*', 'nullable'],
             'imageLink' => ['string', 'nullable'],
             'videoTitle' => ['required', 'string'],
             'externalUrl' => ['required', 'url'],
@@ -34,8 +34,8 @@ class StoreBonusVideoRequest extends FormRequest
             'category' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if ($value !== "bbw" && $value !== "bbooks") {
-                        $fail('Expected either "Big Bible Words" or "Bible Books');
+                    if ($value !== "bbw" && $value !== "bbooks" && $value !== "music") {
+                        $fail('Expected either "Big Bible Words" or "Bible Books" or "Music"');
                     }
                 }
             ]
