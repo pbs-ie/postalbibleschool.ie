@@ -38,10 +38,16 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
         }),
         columnHelper.accessor(row => row.title, {
             header: 'Title',
+            cell: ({ row }) => (
+                <span title={row.original.title}>{truncateString(row.original.title, 20)}</span>
+            )
         }),
 
         columnHelper.accessor(row => row.videoTitle, {
             header: 'Video title',
+            cell: ({ row }) => (
+                <span title={row.original.videoTitle}>{truncateString(row.original.videoTitle, 20)}</span>
+            )
         }),
         columnHelper.accessor(row => row.category, {
             header: 'Category',
@@ -95,9 +101,8 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
                 <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add video</ButtonLink>
             </div>
 
-            <div className="w-full overflow-x-auto">
-                <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
-            </div>
+            <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<BonusVideoProps>[]} />
+
         </SettingSidebarWithNavbackLayout>
     )
 }

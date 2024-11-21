@@ -26,9 +26,11 @@ class BonusVideoController extends Controller
     {
         $sortedBbwList = BonusVideo::where('category', 'bbw')->latest()->get(BonusVideo::columnsAsCamel);
         $sortedBbooksList = BonusVideo::where('category', 'bbooks')->latest()->get(BonusVideo::columnsAsCamel);
+        $sortedSongsList = BonusVideo::where('category', 'music')->latest()->get(BonusVideo::columnsAsCamel);
         return Inertia::render('Assembly/Bonus/Index', [
             'bbwList' => $sortedBbwList,
             'bbooksList' => $sortedBbooksList,
+            'music' => $sortedSongsList,
             'canEdit' => Gate::check('create:assembly')
         ]);
     }
