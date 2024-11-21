@@ -46,7 +46,7 @@ export default function BonusAdmin({ videoList }: { videoList: BonusVideoProps[]
         columnHelper.accessor(row => row.videoTitle, {
             header: 'Video title',
             cell: ({ row }) => (
-                <span title={row.original.title}>{truncateString(row.original.title, 20)}</span>
+                <span title={row.original.videoTitle}>{truncateString(row.original.videoTitle, 20)}</span>
             )
         }),
         columnHelper.accessor(row => row.category, {

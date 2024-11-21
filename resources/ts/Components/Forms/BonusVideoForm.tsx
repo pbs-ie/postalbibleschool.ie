@@ -1,19 +1,24 @@
+import { FormEvent, useEffect } from "react";
+import { usePage, useForm } from "@inertiajs/react";
+import route from "ziggy-js";
+
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
+
+import ToastBanner from "@/Components/Forms/ToastBanner";
+
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import FileInput from "@/Elements/Forms/FileInput";
 import InputLabel from "@/Elements/Forms/InputLabel";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
-import route from "ziggy-js";
-import ToastBanner from "./ToastBanner";
-import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
-import { usePage, useForm } from "@inertiajs/react";
-import { FormEvent, useEffect } from "react";
+import InputWithRemainingCharsWrapper from "@/Elements/Forms/InputWithRemainingCharsWrapper";
 
 type BonusVideoCreateProps = Omit<BonusVideoProps, "id">;
 
 export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoProps }) {
     const { errors } = usePage().props;
+    const MAX_INPUT_CHARACTERS = 30;
 
     let defaultFormObject: BonusVideoProps | BonusVideoCreateProps = {
         title: "",
@@ -78,9 +83,11 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
             <form onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
                 <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
                 <div className="flex flex-col gap-4 mb-4">
-                    <div className="inline-flex gap-2">
+                    <div className="inline-flex items-start gap-2 mb-5">
                         <InputLabel forInput={"title"} value={"Title"} required />
-                        <TextInput type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
+                        <InputWithRemainingCharsWrapper usedChars={data.title.length} maxChars={MAX_INPUT_CHARACTERS}>
+                            <TextInput type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
+                        </InputWithRemainingCharsWrapper>
                     </div>
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"category"} value={"Category"} required />
@@ -121,14 +128,16 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
                                 />
                             </td>
                             <td>
-                                <TextInput
-                                    type={"text"}
-                                    name={"videoTitle"}
-                                    id={`videoTitle`}
-                                    value={data.videoTitle}
-                                    className={""}
-                                    handleChange={handleChange}
-                                />
+                                <InputWithRemainingCharsWrapper usedChars={data.videoTitle.length} maxChars={MAX_INPUT_CHARACTERS}>
+                                    <TextInput
+                                        type={"text"}
+                                        name={"videoTitle"}
+                                        id={`videoTitle`}
+                                        value={data.videoTitle}
+                                        className={""}
+                                        handleChange={handleChange}
+                                    />
+                                </InputWithRemainingCharsWrapper>
                             </td>
                             <td>
                                 <TextInput

@@ -25,10 +25,10 @@ class StoreBonusVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string'],
+            'title' => ['required', 'string', 'max:30'],
             'imageFile' => ['required_without:imageLink', 'image', 'mimetypes:image/*', 'nullable'],
             'imageLink' => ['string', 'nullable'],
-            'videoTitle' => ['required', 'string'],
+            'videoTitle' => ['required', 'string', 'max:30'],
             'externalUrl' => ['required', 'url'],
             'duration' => ['nullable', 'string'],
             'category' => [
