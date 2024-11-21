@@ -42,7 +42,7 @@ class Student extends BaseModel
 
     public function scopeGetActiveStudents($query)
     {
-        return $query->where('active', 'Y');
+        return $query->where('active', 'Y')->orWhere('active', 'T');
     }
 
 }

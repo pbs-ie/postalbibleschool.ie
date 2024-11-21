@@ -12,6 +12,18 @@ import ErrorBanner from "@/Components/Forms/ErrorBanner";
 
 import BasicButton from "@/Elements/Buttons/BasicButton";
 
+interface GroupedStudent {
+    pbsId: number | null;
+    sunscoolId: number;
+    name: string;
+    language: string;
+    level: number;
+    lessons: {
+        bibletime: string;
+        progress: number;
+    }[];
+}
+
 export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -35,9 +47,35 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }
     }
 
-    const tableData = useMemo(() => students, [students]);
+    const groupedStudents = useMemo(() => {
+        const grouped = students.reduce((acc: Record<number, GroupedStudent>, lesson) => {
+            const { sunscoolId, pbsId, name, language, level, bibletime, progress } = lesson;
 
-    const columnHelper = createColumnHelper<typeof students[0]>();
+            // Check if the student already exists in the accumulator
+            if (!acc[sunscoolId]) {
+                // Initialize a new entry for the student
+                acc[sunscoolId] = {
+                    pbsId,
+                    sunscoolId,
+                    name,
+                    language,
+                    level,
+                    lessons: [],
+                };
+            }
+
+            // Add the lesson to the student's lessons array
+            acc[sunscoolId].lessons.push({ bibletime, progress });
+
+            return acc;
+        }, {});
+        return Object.values(grouped);
+    }, [students]);
+    console.log(groupedStudents);
+
+    const tableData = useMemo(() => groupedStudents, [groupedStudents]);
+
+    const columnHelper = createColumnHelper<typeof groupedStudents[0]>();
 
     const defaultColumns = [
         columnHelper.display({
@@ -65,14 +103,14 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }),
         columnHelper.display({
             id: "Sr",
-            header: "Sunscool ID.",
+            header: "Sunscool ID",
             cell: ({ row }) => (
                 <span>{(+row.original.sunscoolId)}</span>
             )
         }),
         columnHelper.display({
             id: "pbsid",
-            header: "PBS ID.",
+            header: "PBS ID",
             cell: ({ row }) => (
                 <span>{(row.original.pbsId ?? "-")}</span>
             )
@@ -83,14 +121,14 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         columnHelper.accessor(row => row.level + "", {
             header: "Level",
         }),
-        columnHelper.accessor(row => row.bibletime ?? "", {
+        columnHelper.accessor(row => row.lessons[0].bibletime ?? "", {
             header: "BibleTime"
         }),
         // columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
         //     header: "Attempted Avg (%)",
         //     enableColumnFilter: false
         // }),
-        columnHelper.accessor(row => Math.round(row.progress) + "", {
+        columnHelper.accessor(row => Math.round(row.lessons[0].progress) + "", {
             header: "Score",
             enableColumnFilter: false,
             enableSorting: false
@@ -110,7 +148,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
             </div>
             <AdvancedTable
                 data={tableData}
-                columns={defaultColumns as ColumnDef<SunscoolStudentProps>[]}
+                columns={defaultColumns as ColumnDef<GroupedStudent>[]}
                 enableColumnFilters={true}
                 enableGlobalFilter={false}
                 enableRowSelection={true}

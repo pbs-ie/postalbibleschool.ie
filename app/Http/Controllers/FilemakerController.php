@@ -28,6 +28,7 @@ class FilemakerController extends Controller
 
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
     const STUDENT_LIST_LAYOUT = 'Student Record API';
+    const STUDENT_MARK_LAYOUT = 'Student Marks API';
     const CURRICULUM_LAYOUT = 'Curriculum API';
     const PROJECTED_ORDER_LAYOUT = 'Projected Order Report';
 
@@ -126,6 +127,38 @@ class FilemakerController extends Controller
         $queryData = [
             '_limit' => 1000,
             'script' => 'dapi_student_record',
+            'script.param' => $email
+        ];
+        $query = http_build_query($queryData);
+        $token = $this->getBearerToken();
+        $promise = Http::async()->withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody('', 'application/json')
+            ->get($path . '?' . $query);
+
+        $responseJson = json_decode(json_encode($promise->wait()->json()));
+        if (!isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+            Log::error($responseJson->messages[0]->message);
+        }
+        $responseData = $responseJson->response->data;
+        return $responseData;
+
+    }
+
+    /**
+     * Get list of student grades for current user from Filemaker
+     * 
+     * @param string $email
+     * @return array
+     */
+    private function getStudentsMarksRecords(string $email)
+    {
+        $formattedLayout = rawurlencode(self::STUDENT_MARK_LAYOUT);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
+        $queryData = [
+            '_limit' => 1000,
+            'script' => 'dapi_student_marks_record',
             'script.param' => $email
         ];
         $query = http_build_query($queryData);
@@ -258,7 +291,7 @@ class FilemakerController extends Controller
      */
     public function getStudentsByUser(string $email)
     {
-        return $this->getStudentsForAreaRecords($email);
+        return $this->getStudentsMarksRecords($email);
     }
 
     /**
@@ -312,6 +345,11 @@ class FilemakerController extends Controller
             Log::error($response->json());
             return "";
         }
+    }
+
+    public function getStudentMarks()
+    {
+        return $this->getStudentMarkRecords();
     }
 
 
