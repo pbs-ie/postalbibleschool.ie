@@ -3,14 +3,20 @@ import { router, usePage } from "@inertiajs/react";
 import { ColumnDef, createColumnHelper, RowSelectionState } from "@tanstack/react-table";
 import route from "ziggy-js";
 import _ from "lodash";
+import { modalHelper } from "@/helper";
 
 import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
 
+import ListingTable, { ListingTableData } from "@/Components/Tables/ListingTable";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import CheckboxInput from "@/Components/Forms/CheckboxInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
+import PopupModal from "@/Components/Modals/PopupModal";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import BasicButton from "@/Elements/Buttons/BasicButton";
+import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+import Eye from "@/Elements/Icons/Eye";
 
 interface GroupedStudent {
     pbsId: number | null;
@@ -27,6 +33,9 @@ interface GroupedStudent {
 export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const [lessonsToView, setLessonsToView] = useState<GroupedStudent["lessons"]>();
+    const [nameToView, setNameToView] = useState<GroupedStudent["name"]>();
+    const { dialogRef, showModal, closeModal } = modalHelper();
 
     useEffect(() => {
         setRowSelection({});
@@ -133,9 +142,40 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
             enableColumnFilter: false,
             enableSorting: false
         }),
+        columnHelper.display({
+            id: "actions",
+            header: "Actions",
+            cell: ({ row }) => (
+                <div className="flex items-center">
+                    <IconHoverSpan>
+                        <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
+                            setNameToView(row.original.name);
+                            setLessonsToView(row.original.lessons);
+                            showModal();
+                        }}><span className="flex flex-col items-center">
+                                <Eye /> Details
+                            </span></BasicButton>
+                    </IconHoverSpan>
+                </div>
+            )
+        })
     ]
+
+    const popupTableData: ListingTableData = {
+        headings: ['bibletime', 'progress'],
+        content: lessonsToView?.map(({ bibletime, progress }) => (
+            <>
+                <td>{bibletime}</td>
+                <td>{progress}</td>
+            </>
+        ))
+    }
     return (
         <>
+            <PopupModal onClose={closeModal} innerRef={dialogRef}>
+                <Heading2Alt>{nameToView}</Heading2Alt>
+                <ListingTable tableData={popupTableData} />
+            </PopupModal>
             <div className="flex justify-end gap-2 my-2">
                 <BasicButton dataTest="add_results_fm_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="primary" onClick={addStudentsToDatabase}>Add Students</BasicButton>
             </div>

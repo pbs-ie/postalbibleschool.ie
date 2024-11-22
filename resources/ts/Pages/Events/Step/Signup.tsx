@@ -1,5 +1,5 @@
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import BasicTable, { TableData } from "@/Components/Tables/BasicTable";
+import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
@@ -8,7 +8,7 @@ import ChevronRight from "@/Elements/Icons/ChevronRight";
 import route from "ziggy-js";
 
 export default function Signup({ stepSettings }: { stepSettings: StepSettingsProps }) {
-    const tableData: TableData[] = [
+    const tableData: BasicTableData[] = [
         {
             heading: "Topic",
             content: <><p className="font-normal">{stepSettings.topic}</p></>

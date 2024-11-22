@@ -1,4 +1,4 @@
-import BasicTable, { TableData } from "@/Components/Tables/BasicTable"
+import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable"
 import Banknotes from "@/Elements/Icons/Banknotes"
 import Calendar from "@/Elements/Icons/Calendar"
 import ChatBubble from "@/Elements/Icons/ChatBubble"
@@ -192,7 +192,7 @@ export default function IconSection() {
             heading: <VideoCamera />,
             content: "VideoCamera",
         }
-        ] as TableData[]
+        ] as BasicTableData[]
     }
     return (
         <section className="text-green-900 md:max-w-3xl">
