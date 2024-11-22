@@ -85,7 +85,7 @@ class SunscoolApiController extends Controller
      */
     public function store(StoreSunscoolStudentMarksRequest $request)
     {
-        dd($request->validated());
+        dd($request->all());
         return redirect()->route('settings.sunscool.index')->with('success', 'Values stored in Database');
     }
 }

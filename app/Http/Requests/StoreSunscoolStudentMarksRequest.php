@@ -33,4 +33,19 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
             'selectedStudents.*.bibletime' => ['string', 'required']
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'selectedStudents' => 'Students',
+            'selectedStudents.*.studentId' => 'Student Id',
+            'selectedStudents.*.name' => 'Student name',
+            'selectedStudents.*.total' => 'Total score',
+        ];
+    }
 }

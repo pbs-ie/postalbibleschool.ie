@@ -43,7 +43,7 @@ class SunscoolApiService
     {
         $baseUrl = self::BASE_URL;
         $path = "{$baseUrl}/results/schools/{$schoolId}.json";
-        return Cache::remember('sunscoolSchool-' . $schoolId, 3600, fn() => (
+        return Cache::remember('sunscoolSchool-' . $schoolId, 0, fn() => (
             $this->getAsync($path)
         ));
     }
