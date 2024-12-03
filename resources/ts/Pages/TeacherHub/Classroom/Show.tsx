@@ -1,5 +1,5 @@
 import AddClassroomStudentsForm from "@/Components/Forms/AddClassroomStudentsForm"
-import CheckboxInput from "@/Components/Forms/CheckboxInput"
+import CheckboxInput from "@/Elements/Forms/CheckboxInput"
 import PopupModal from "@/Components/Modals/PopupModal"
 import AdvancedTable from "@/Components/Tables/AdvancedTable"
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace"

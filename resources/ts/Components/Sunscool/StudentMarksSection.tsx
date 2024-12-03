@@ -7,9 +7,8 @@ import { modalHelper } from "@/helper";
 
 import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
 
-import ListingTable, { ListingTableData } from "@/Components/Tables/ListingTable";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import CheckboxInput from "@/Components/Forms/CheckboxInput";
+import CheckboxInput from "@/Elements/Forms/CheckboxInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
 import PopupModal from "@/Components/Modals/PopupModal";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
@@ -17,24 +16,27 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import Eye from "@/Elements/Icons/Eye";
+import SunscoolMarksForm from "../Forms/SunscoolMarksForm";
+import FmMarksForm from "../Forms/FmMarksForm";
 
-interface GroupedStudent {
-    pbsId: number | null;
-    sunscoolId: number;
-    name: string;
-    language: string;
-    level: number;
-    lessons: {
-        bibletime: string;
-        progress: number;
-    }[];
-}
+// interface GroupedStudent {
+//     pbsId: number | null;
+//     sunscoolId: number;
+//     name: string;
+//     language: string;
+//     level: number;
+//     lessons: {
+//         bibletime: string;
+//         progress: number;
+//     }[];
+// }
 
 export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const [lessonsToView, setLessonsToView] = useState<GroupedStudent["lessons"]>();
-    const [nameToView, setNameToView] = useState<GroupedStudent["name"]>();
+    const [lessonsToView, setLessonsToView] = useState<SunscoolStudentProps["lessons"]>(students[0].lessons);
+    const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
+    const [nameToView, setNameToView] = useState<SunscoolStudentProps["name"]>("");
     const { dialogRef, showModal, closeModal } = modalHelper();
 
     useEffect(() => {
@@ -56,35 +58,33 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }
     }
 
-    const groupedStudents = useMemo(() => {
-        const grouped = students.reduce((acc: Record<number, GroupedStudent>, lesson) => {
-            const { sunscoolId, pbsId, name, language, level, bibletime, progress } = lesson;
+    // const groupedStudents = useMemo(() => {
+    //     const grouped = students.reduce((acc: Record<number, GroupedStudent>, lesson) => {
+    //         const { sunscoolId, pbsId, name, language } = lesson;
 
-            // Check if the student already exists in the accumulator
-            if (!acc[sunscoolId]) {
-                // Initialize a new entry for the student
-                acc[sunscoolId] = {
-                    pbsId,
-                    sunscoolId,
-                    name,
-                    language,
-                    level,
-                    lessons: [],
-                };
-            }
+    //         // Check if the student already exists in the accumulator
+    //         if (!acc[sunscoolId]) {
+    //             // Initialize a new entry for the student
+    //             acc[sunscoolId] = {
+    //                 pbsId,
+    //                 sunscoolId,
+    //                 name,
+    //                 language,
+    //                 lessons: [],
+    //             };
+    //         }
 
-            // Add the lesson to the student's lessons array
-            acc[sunscoolId].lessons.push({ bibletime, progress });
+    //         // Add the lesson to the student's lessons array
+    //         acc[sunscoolId].lessons.push({ bibletime, progress });
 
-            return acc;
-        }, {});
-        return Object.values(grouped);
-    }, [students]);
-    console.log(groupedStudents);
+    //         return acc;
+    //     }, {});
+    //     return Object.values(grouped);
+    // }, [students]);
 
-    const tableData = useMemo(() => groupedStudents, [groupedStudents]);
+    const tableData = useMemo(() => students, [students]);
 
-    const columnHelper = createColumnHelper<typeof groupedStudents[0]>();
+    const columnHelper = createColumnHelper<typeof students[0]>();
 
     const defaultColumns = [
         columnHelper.display({
@@ -127,21 +127,6 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         columnHelper.accessor(row => row.name + "", {
             header: "Student",
         }),
-        columnHelper.accessor(row => row.level + "", {
-            header: "Level",
-        }),
-        columnHelper.accessor(row => row.lessons[0].bibletime ?? "", {
-            header: "BibleTime"
-        }),
-        // columnHelper.accessor(row => Math.round(row.attemptedAverage * 100) / 100 + "", {
-        //     header: "Attempted Avg (%)",
-        //     enableColumnFilter: false
-        // }),
-        columnHelper.accessor(row => Math.round(row.lessons[0].progress) + "", {
-            header: "Score",
-            enableColumnFilter: false,
-            enableSorting: false
-        }),
         columnHelper.display({
             id: "actions",
             header: "Actions",
@@ -151,30 +136,32 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                         <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
                             setNameToView(row.original.name);
                             setLessonsToView(row.original.lessons);
+                            setFmDataToView(row.original.fmData);
                             showModal();
                         }}><span className="flex flex-col items-center">
                                 <Eye /> Details
                             </span></BasicButton>
                     </IconHoverSpan>
                 </div>
-            )
+            ),
+            meta: {
+                isPinned: 'right'
+            }
         })
     ]
 
-    const popupTableData: ListingTableData = {
-        headings: ['bibletime', 'progress'],
-        content: lessonsToView?.map(({ bibletime, progress }) => (
-            <>
-                <td>{bibletime}</td>
-                <td>{progress}</td>
-            </>
-        ))
-    }
+
     return (
         <>
-            <PopupModal onClose={closeModal} innerRef={dialogRef}>
+            <PopupModal onClose={closeModal} innerRef={dialogRef} size="xlarge">
                 <Heading2Alt>{nameToView}</Heading2Alt>
-                <ListingTable tableData={popupTableData} />
+                <div className="lg:flex flex-col lg:flex-row gap-4 items-start m-4 justify-center">
+
+                    <SunscoolMarksForm studentName={nameToView} lessons={lessonsToView} />
+                    {fmDataToView &&
+                        <FmMarksForm studentName={nameToView} fmData={fmDataToView} />
+                    }
+                </div>
             </PopupModal>
             <div className="flex justify-end gap-2 my-2">
                 <BasicButton dataTest="add_results_fm_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="primary" onClick={addStudentsToDatabase}>Add Students</BasicButton>
@@ -188,10 +175,11 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
             </div>
             <AdvancedTable
                 data={tableData}
-                columns={defaultColumns as ColumnDef<GroupedStudent>[]}
+                columns={defaultColumns as ColumnDef<SunscoolStudentProps>[]}
                 enableColumnFilters={true}
                 enableGlobalFilter={false}
                 enableRowSelection={true}
+                enableSorting={false}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
             />

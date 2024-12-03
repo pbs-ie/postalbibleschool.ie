@@ -3,7 +3,7 @@ import { RefObject, useEffect } from "react";
 
 interface ModalProps {
     onClose: () => void;
-    size?: "base" | "large";
+    size?: "base" | "large" | "xlarge";
     innerRef?: RefObject<HTMLDialogElement> | null;
     children?: React.ReactNode;
 }
@@ -25,6 +25,8 @@ export default function PopupModal({ onClose, innerRef = null, size = "base", ch
                 return "lg:w-1/3 md:w-1/2";
             case "large":
                 return "md:w-1/2";
+            case "xlarge":
+                return "w-full";
         }
     }
 

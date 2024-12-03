@@ -46,6 +46,7 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
             'selectedStudents.*.studentId' => 'Student Id',
             'selectedStudents.*.name' => 'Student name',
             'selectedStudents.*.total' => 'Total score',
+            'selectedStudents.*.bibletime' => 'Bibletime',
         ];
     }
 }

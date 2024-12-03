@@ -12,14 +12,93 @@ import SettingsLayout from "@/Layouts/SettingsLayout";
 //     level: string;
 // }
 
+interface FieldData {
+    studentId: number;
+    areaCode: string;
+    firstName: string;
+    lastName: string;
+    active: string;
+    grade: string;
+}
+
+interface PortalDataEntry {
+    yearDescription: string;
+    month1: string;
+    month2: string;
+    month3: string;
+    month4: string;
+    month5: string;
+    month6: string;
+    month7: string;
+    month8: string;
+    month9: string;
+    month10: string;
+    month11: string;
+    month12: string;
+    yearPercentage: number;
+    yearPrize: string;
+    monthName1: string;
+    monthName2: string;
+    monthName3: string;
+    monthName4: string;
+    monthName5: string;
+    monthName6: string;
+    monthName7: string;
+    monthName8: string;
+    monthName9: string;
+    monthName10: string;
+    monthName11: string;
+    monthName12: string;
+    grade: string;
+    yearFormat: string;
+    source1: string;
+    source2: string;
+    source3: string;
+    source4: string;
+    source5: string;
+    source6: string;
+    source7: string;
+    source8: string;
+    source9: string;
+    source10: string;
+    source11: string;
+    source12: string;
+}
+
+interface MonthNames {
+    monthName1: string;
+    monthName2: string;
+    monthName3: string;
+    monthName4: string;
+    monthName5: string;
+    monthName6: string;
+    monthName7: string;
+    monthName8: string;
+    monthName9: string;
+    monthName10: string;
+    monthName11: string;
+    monthName12: string;
+}
+
+export interface FmDataProps {
+    recordId: string;
+    fieldData: FieldData;
+    portalData: PortalDataEntry[];
+    monthNames: MonthNames;
+}
+
+
 export interface SunscoolStudentProps {
     sunscoolId: number,
     pbsId: number | null,
-    level: number,
     name: string,
-    bibletime: string,
-    progress: number,
     language: string,
+    lessons: {
+        level: number,
+        bibletime: string;
+        progress: number;
+    }[],
+    fmData?: FmDataProps
 }
 export interface SunscoolClassProps {
     id: number,

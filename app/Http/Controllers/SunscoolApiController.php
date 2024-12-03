@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
 use App\Services\SunscoolApiService;
-use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class SunscoolApiController extends Controller
@@ -22,61 +21,36 @@ class SunscoolApiController extends Controller
 
     public function classes($schoolId)
     {
-        $school = (new SunscoolApiService())->getSchoolDetail($schoolId);
+        $sunscoolService = new SunscoolApiService();
+        $school = $sunscoolService->getSchoolDetail($schoolId);
 
-        // Convert the main data to a collection
-        $classes = collect($school->classes)
-            ->sortBy(fn($class) => strtolower($class->name))
-            ->map(function ($class) {
-                // Map students for each class
-                $students = collect($class->students)
-                    ->filter(fn($student) => (!empty ($student->lessons)))
-                    ->flatMap(function ($student) {
-                    // Get student details
-                    $pbsId = $student->pbs_id ?? null;
-                    $sunscoolId = $student->id;
-                    $studentName = $student->name;
-
-                    // Iterate through all language keys in lessons
-                    return collect($student->lessons)->flatMap(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName) {
-                        // Map each lesson with the language parameter
-                        return collect($lessons)->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
-                            return (object) [
-                                'pbsId' => $pbsId,
-                                'sunscoolId' => $sunscoolId,
-                                'name' => $studentName,
-                                'language' => $language,
-                                'bibletime' => $lesson->bibletime,
-                                'progress' => $lesson->progress,
-                                'level' => $lesson->level,
-                            ];
-                        });
-                    });
-                });
-
-                // Return the class with its students
-                return (object) [
-                    'id' => $class->id,
-                    'name' => $class->name,
-                    'students' => $students->values(),
-                ];
-            });
+        $sunscoolClasses = $sunscoolService->flattenClasses($school->classes);
 
         return Inertia::render('Settings/Sunscool/Classes', [
             'schoolId' => $school->id,
             'schoolName' => $school->name,
-            'classes' => $classes->values()
+            'classes' => $sunscoolClasses
         ]);
     }
 
-    public function students($schoolId, $classId)
-    {
-        $class = (new SunscoolApiService())->getClassDetails($schoolId, $classId);
-        dd($class);
-        return Inertia::render('Settings/Sunscool/Students', [
-            'classroom' => $class
-        ]);
-    }
+    // public function students($schoolId, $classId)
+    // {
+    //     $class = (new SunscoolApiService())->getClassDetails($schoolId, $classId);
+    //     dd($class);
+    //     return Inertia::render('Settings/Sunscool/Students', [
+    //         'classroom' => $class
+    //     ]);
+    // }
+
+    // public function studentDetails($studentId)
+    // {
+    //     // $student = Student::where('fm_student_id', $studentId)->first();
+    //     $student = (new FilemakerService())->getFmStudentMarks($studentId);
+
+    //     return Inertia::render('Settings/Sunscool/Student', [
+    //         'student' => $student
+    //     ]);
+    // }
 
     /**
      * Store student marks to Filemaker Database

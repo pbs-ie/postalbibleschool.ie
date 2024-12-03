@@ -7,7 +7,7 @@ import TableColumnFilter from "@/Components/Tables/TableColumnFilter";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 
-interface AdvancedTableProps<TData, TValue> {
+export interface AdvancedTableProps<TData, TValue> {
     data: TData[],
     columns: ColumnDef<TData, TValue>[],
     enableGlobalFilter?: boolean,
@@ -62,9 +62,9 @@ export default function AdvancedTable<TData, TValue>({
         if (isPinned === "")
             return "";
         else if (isPinned === "right")
-            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] bg-gray-100";
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] bg-white";
         else if (isPinned === "left")
-            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] bg-gray-100";
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] bg-white";
     }
 
     const getPinnedStylingHead = (isPinned: "left" | "right" | "") => {
@@ -74,6 +74,14 @@ export default function AdvancedTable<TData, TValue>({
             return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] z-30 bg-gray-100";
         else if (isPinned === "left")
             return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] z-30 bg-gray-100";
+    }
+
+    const getIsSelectedStyling = (isSelected = false) => {
+        if (isSelected) {
+            return "bg-blue-100";
+        } else {
+            return "hover:bg-gray-100"
+        }
     }
 
     return (
@@ -109,7 +117,7 @@ export default function AdvancedTable<TData, TValue>({
                     }
                     <thead >
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id} className="sticky top-0 z-10 bg-gray-100">
+                            <tr key={headerGroup.id} className="sticky top-0 z-10 bg-gray-100 table-row">
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
                                     <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStylingHead(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
@@ -143,10 +151,10 @@ export default function AdvancedTable<TData, TValue>({
                     </thead>
                     <tbody className="overflow-y-auto bg-white divide-y divide-gray-200 max-h-96">
                         {table.getRowModel().rows.map(row => (
-                            <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
+                            <tr className={getIsSelectedStyling(row.getIsSelected())} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
                                     // @ts-ignore Meta may have className
-                                    <td className={`${cell.column.columnDef.meta?.className ?? ""} ${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap bg-white`} key={cell.id}>
+                                    <td className={`${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap`} key={cell.id}>
                                         <div className="flex items-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </div>

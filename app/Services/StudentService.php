@@ -82,7 +82,6 @@ class StudentService
     public function storeStudentsForUser($userEmail)
     {
         $studentListFm = (new FilemakerController())->getStudentsByUser($userEmail);
-        dd($studentListFm);
         if (sizeof($studentListFm) === 0) {
             throw new \Exception("No students found for user : " . $userEmail);
         }

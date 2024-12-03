@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\FilemakerController;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 
 class SunscoolApiService
@@ -53,5 +53,60 @@ class SunscoolApiService
         $baseUrl = self::BASE_URL;
         $path = "{$baseUrl}/results/schools/{$schoolId}/classes/{$classId}.json";
         return $this->getAsync($path);
+    }
+
+    public function flattenClasses($classes)
+    {
+        return collect($classes)
+            ->sortBy(fn($class) => strtolower($class->name))
+            ->map(function ($class) {
+                // Map students for each class
+                $students = collect($class->students)
+                    ->filter(fn($student) => (!empty ($student->lessons)));
+
+                $pbsIds = $students->pluck('pbs_id');
+
+                $studentFmMarks = (new FilemakerController())->getStudentsByIds($pbsIds->values()->toArray());
+
+                $sanitizedFmStudents = collect($studentFmMarks)->map(function ($student) {
+                    return (new FilemakerService())->sanitizeFmStudentMarks($student);
+                });
+
+                $students = $students->flatMap(function ($student) use ($sanitizedFmStudents) {
+                    // Get student details
+                    $pbsId = $student->pbs_id ?? null;
+                    $sunscoolId = $student->id;
+                    $studentName = $student->name;
+                    $fmData = null;
+                    if (isset($pbsId)) {
+                        $fmData = $sanitizedFmStudents->firstWhere('fieldData.studentId', $pbsId);
+                    }
+
+                    // Iterate through all language keys in lessons
+                    $studentLessons = collect($student->lessons)->map(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName, $fmData) {
+                        // Map each lesson with the language parameter
+                        $studentDetails = (object) [
+                            'pbsId' => $pbsId,
+                            'sunscoolId' => $sunscoolId,
+                            'name' => $studentName,
+                            'language' => $language,
+                            'lessons' => collect($lessons)->map(fn($lesson) => (object) [
+                                'bibletime' => $lesson->bibletime,
+                                'progress' => $lesson->progress,
+                                'level' => $lesson->level,
+                            ])->values()->toArray(),
+                            'fmData' => $fmData
+                        ];
+                        return $studentDetails;
+                    })->values();
+                    return $studentLessons;
+                });
+                // Return the class with its students
+                return (object) [
+                    'id' => $class->id,
+                    'name' => $class->name,
+                    'students' => $students->values(),
+                ];
+            })->values();
     }
 }

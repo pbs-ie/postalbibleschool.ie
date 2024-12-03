@@ -149,17 +149,17 @@ class FilemakerController extends Controller
     /**
      * Get list of student grades for current user from Filemaker
      * 
-     * @param string $email
-     * @return array
+     * @param array $studentIds
+     * @return object
      */
-    private function getStudentsMarksRecords(string $email)
+    private function getStudentsMarkByIds($studentIds)
     {
         $formattedLayout = rawurlencode(self::STUDENT_MARK_LAYOUT);
         $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
         $queryData = [
             '_limit' => 1000,
             'script' => 'dapi_student_marks_record',
-            'script.param' => $email
+            'script.param' => json_encode($studentIds)
         ];
         $query = http_build_query($queryData);
         $token = $this->getBearerToken();
@@ -291,7 +291,7 @@ class FilemakerController extends Controller
      */
     public function getStudentsByUser(string $email)
     {
-        return $this->getStudentsMarksRecords($email);
+        return $this->getStudentsForAreaRecords($email);
     }
 
     /**
@@ -347,9 +347,14 @@ class FilemakerController extends Controller
         }
     }
 
-    public function getStudentMarks()
+    /**
+     * Get an individual students marks records from Filemaker
+     * @param array $studentIds
+     * @return object
+     */
+    public function getStudentsByIds($studentIds)
     {
-        return $this->getStudentMarkRecords();
+        return $this->getStudentsMarkByIds($studentIds);
     }
 
 
