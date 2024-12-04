@@ -37,6 +37,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
     const [lessonsToView, setLessonsToView] = useState<SunscoolStudentProps["lessons"]>(students[0].lessons);
     const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
     const [nameToView, setNameToView] = useState<SunscoolStudentProps["name"]>("");
+    const [idToView, setIdToView] = useState<SunscoolStudentProps["pbsId"]>();
     const { dialogRef, showModal, closeModal } = modalHelper();
 
     useEffect(() => {
@@ -135,6 +136,7 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                     <IconHoverSpan>
                         <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
                             setNameToView(row.original.name);
+                            setIdToView(row.original.pbsId);
                             setLessonsToView(row.original.lessons);
                             setFmDataToView(row.original.fmData);
                             showModal();
@@ -155,9 +157,11 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         <>
             <PopupModal onClose={closeModal} innerRef={dialogRef} size="xlarge">
                 <Heading2Alt>{nameToView}</Heading2Alt>
-                <div className="lg:flex flex-col lg:flex-row gap-4 items-start m-4 justify-center">
+                <div className="flex-col items-start justify-center gap-4 m-4 lg:flex lg:flex-row">
 
-                    <SunscoolMarksForm studentName={nameToView} lessons={lessonsToView} />
+                    {idToView &&
+                        <SunscoolMarksForm closeModal={closeModal} studentId={idToView} lessons={lessonsToView} />
+                    }
                     {fmDataToView &&
                         <FmMarksForm studentName={nameToView} fmData={fmDataToView} />
                     }

@@ -25,12 +25,10 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
     public function rules()
     {
         return [
-            'schoolId' => ['numeric', 'required'],
-            'selectedStudents' => ['required', 'array'],
-            'selectedStudents.*.studentId' => ['numeric', 'required'],
-            'selectedStudents.*.name' => ['string', 'required'],
-            'selectedStudents.*.total' => ['numeric', 'required'],
-            'selectedStudents.*.bibletime' => ['string', 'required']
+            'selectedGrades' => ['required', 'array'],
+            'selectedGrades.*.studentId' => ['numeric', 'required'],
+            // 'selectedGrades.*.level' => ['string', 'required'],
+            'selectedGrades.*.bibletime' => ['string', 'required']
         ];
     }
 
@@ -42,11 +40,10 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'selectedStudents' => 'Students',
-            'selectedStudents.*.studentId' => 'Student Id',
-            'selectedStudents.*.name' => 'Student name',
-            'selectedStudents.*.total' => 'Total score',
-            'selectedStudents.*.bibletime' => 'Bibletime',
+            'selectedGrades' => 'Students',
+            'selectedGrades.*.studentId' => 'Student Id',
+            // 'selectedGrades.*.level' => 'Level',
+            'selectedGrades.*.bibletime' => 'Bibletime',
         ];
     }
 }

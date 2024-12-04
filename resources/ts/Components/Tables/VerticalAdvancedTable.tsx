@@ -16,8 +16,7 @@ export default function VerticalAdvancedTable<TData, TValue>({ data, columns }: 
     const table = useReactTable({
         data: data,
         columns: columns,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel()
+        getCoreRowModel: getCoreRowModel()
     });
 
     function renderRemainingRowData(header: any, table: Table<TData>) {
@@ -29,45 +28,38 @@ export default function VerticalAdvancedTable<TData, TValue>({ data, columns }: 
                         : header.column.columnDef.accessorFn
                             ? header.column.columnDef.accessorFn(row.original)
                             : undefined;
-                    return <td className="w-2 p-2 px-4 text-base text-gray-900 whitespace-nowrap border-r" key={row.id}>{String(val)}</td>;
+                    return <td className="p-2 px-4 text-base text-gray-900 border-r whitespace-nowrap" key={row.id}>{String(val)}</td>;
                 })}
             </>
         );
     }
 
     return (
-        <div className="relative overflow-auto max-h-96 lg:max-h-[75dvh]">
-            <table className="min-w-full divide-y divide-x divide-gray-200 table-auto border">
-                {table.getHeaderGroups().map((headerGroup) =>
-                    headerGroup.headers.map((header) => (
-                        <tr key={header.id} className="hover:bg-gray-100" >
-                            <th className={`${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4 bg-gray-100 border-r`}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : (
-                                        <div className="flex flex-col">
-                                            <div className={header.column.getCanSort()
-                                                ? 'cursor-pointer select-none inline-flex items-center gap-2'
-                                                : ''}
-                                                onClick={header.column.getToggleSortingHandler()}
-                                            >
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {header.column.getCanSort() && {
-                                                    asc: <ChevronUp className="w-4 h-4" />,
-                                                    desc: <ChevronDown className="w-4 h-4" />,
-                                                    none: <ChevronUpDown className="w-4 h-4" />,
-                                                }[header.column.getIsSorted() ? header.column.getIsSorted() as string : 'none']}
+        <div className="relative overflow-auto max-h-96 lg:max-h-[70dvh]">
+            <table className="min-w-full border divide-x divide-y divide-gray-200 table-auto">
+                <tbody>
+                    {table.getHeaderGroups().map((headerGroup) =>
+                        headerGroup.headers.map((header) => (
+                            <tr key={header.id} className="border-b hover:bg-gray-100" >
+                                <th className={`${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4 bg-gray-100 border-r w-fit`}>
+                                    {header.isPlaceholder
+                                        ? null
+                                        : (
+                                            <div className="flex flex-col">
+                                                <div>
+                                                    {flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                            </th>
-                            {renderRemainingRowData(header, table)}
-                        </tr>
-                    ))
-                )}
+                                        )}
+                                </th>
+                                {renderRemainingRowData(header, table)}
+                            </tr>
+                        ))
+                    )}
+                </tbody>
             </table>
         </div>
     )

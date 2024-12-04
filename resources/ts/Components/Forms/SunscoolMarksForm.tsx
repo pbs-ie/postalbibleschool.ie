@@ -4,13 +4,43 @@ import { useMemo, useState } from "react";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import CheckboxInput from "@/Elements/Forms/CheckboxInput";
 import Heading3 from "@/Components/Typography/Heading3";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import PlusHollow from "@/Elements/Icons/PlusHollow";
+import { router } from "@inertiajs/react";
+import route from "ziggy-js";
 
 interface FormProps {
-    studentName: string,
-    lessons?: SunscoolStudentProps["lessons"]
+    studentId: number,
+    lessons?: SunscoolStudentProps["lessons"],
+    closeModal: () => void
 }
-export default function SunscoolMarksForm({ studentName, lessons = [] }: FormProps) {
+interface IdSelection {
+    studentId: number,
+    bibletime: string;
+}
+export default function SunscoolMarksForm({ studentId, lessons = [], closeModal }: FormProps) {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+    const addStudentsToDatabase = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        let idSelection: IdSelection[] = [];
+        lessons.map((lesson, idx) => {
+            if (rowSelection[idx])
+                idSelection.push({
+                    studentId: studentId,
+                    bibletime: lesson.bibletime
+                });
+        });
+        if (Object.keys(rowSelection).length > 0) {
+            const formData = new FormData();
+            idSelection.forEach((item, index) => {
+                formData.append(`selectedGrades[${index}][studentId]`, item.studentId + "");
+                formData.append(`selectedGrades[${index}][bibletime]`, item.bibletime);
+            });
+            router.post(route('settings.sunscool.store'), formData);
+            closeModal();
+        }
+    }
 
     const tableData = useMemo(() => lessons, [lessons]);
 
@@ -64,6 +94,10 @@ export default function SunscoolMarksForm({ studentName, lessons = [] }: FormPro
                     setRowSelection={setRowSelection}
                 />
             }
+
+            <div className="w-full flex justify-end">
+                <PrimaryButton onClick={addStudentsToDatabase} processing={rowSelection && Object.keys(rowSelection).length === 0} size="small" Icon={PlusHollow}>Add marks to Filemaker</PrimaryButton>
+            </div>
         </div>
     )
 }
