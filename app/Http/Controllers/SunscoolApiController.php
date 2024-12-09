@@ -46,7 +46,7 @@ class SunscoolApiController extends Controller
 
         $updatedStudents = SunscoolApiService::populateStudentsFmData($students);
 
-        return Inertia::render('Settings/Sunscool/Students', [
+        return Inertia::render('Settings/Sunscool/Processing', [
             "schoolId" => fn() => $request->schoolId,
             "students" => fn() => $updatedStudents
         ]);
@@ -74,9 +74,9 @@ class SunscoolApiController extends Controller
         SunscoolMap::whereIn('fm_student_id', $studentIds)
             ->whereIn('level', $levels)
             ->whereIn('bibletime', $bibletimes)
-            ->update(['processed' => false]);
+            ->update(['is_processed' => false, 'progress' => null]);
 
-        return back()->with('success', 'Marked students as unprocessed');
+        return redirect()->back()->with('success', 'Marked students as unprocessed');
 
     }
 }

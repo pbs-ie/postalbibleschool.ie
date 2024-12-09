@@ -13,7 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('sunscool_map', function (Blueprint $table) {
-            $table->boolean('processed')->default(false);
+            $table->boolean('is_processed')->default(false);
+            $table->unsignedMediumInteger('progress')->nullable();
         });
     }
 
@@ -25,7 +26,8 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('sunscool_map', function (Blueprint $table) {
-            $table->dropColumn('processed');
+            $table->dropColumn('is_processed');
+            $table->dropColumn('progress');
         });
     }
 };

@@ -17,11 +17,44 @@ interface SunscoolProcessProps extends SunscoolStudentProps {
     processedProgress: string,
     processedBibletime: string,
     bibletimeProgress: {
-        [bibletime: string]: string
-    }
+        bibletime: string,
+        progress: string | null
+    }[]
+    processedBibletimeProgress: {
+        bibletime: string,
+        progress: string | null
+    }[]
 }
 
-export default function Students({ schoolId, students }: { schoolId: string, students: SunscoolProcessProps[] }) {
+const ProgressTooltip = ({ bibletimeProgress, id }: { bibletimeProgress: SunscoolProcessProps["bibletimeProgress"], id: string }) => {
+    return (
+        <TooltipCard direction={"top"} size="xsmall" id={id} text={
+            <div>
+                <p className="mb-1 text-lg">Breakdown</p>
+                <table className="border border-collapse border-white table-fixed">
+                    <thead>
+                        <tr>
+                            <th className="border border-gray-400">Series</th>
+                            <th className="border border-gray-400">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bibletimeProgress.map(({ bibletime, progress }) => (
+                            <tr key={id + bibletime}>
+                                <th className="border border-gray-400">{bibletime}</th>
+                                <td className="border border-gray-400">{progress}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        }>
+            <a href="#" className="pointer-events-none" aria-describedby={id}><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+        </TooltipCard>
+    )
+}
+
+export default function Processing({ schoolId, students }: { schoolId: string, students: SunscoolProcessProps[] }) {
     const { errors } = usePage().props;
 
     const defaultFormObject = students.map((student) => ({
@@ -101,6 +134,11 @@ export default function Students({ schoolId, students }: { schoolId: string, stu
         return data.filter((entry) => entry.finalGrade === "").length > 0;
     }
 
+    const withBonusRow = (bibletimeProgress: SunscoolProcessProps["bibletimeProgress"]) => {
+        const newBibletimeProgress = [...bibletimeProgress, { bibletime: "Bonus", progress: "20" }];
+        return newBibletimeProgress
+    }
+
 
     const tableData = useMemo(() => students, [students]);
 
@@ -127,29 +165,9 @@ export default function Students({ schoolId, students }: { schoolId: string, stu
                     cell: ({ row }) => (
                         <div className="flex items-start gap-2">
                             {row.getValue('progress')}
-                            <TooltipCard direction={"top"} size="xsmall" id={"progress-tooltip-" + row.index} text={
-                                <div>
-                                    <p className="mb-1 text-lg">Breakdown</p>
-                                    <table className="border border-collapse border-white table-fixed">
-                                        <thead>
-                                            <tr>
-                                                <th className="border border-gray-400">Series</th>
-                                                <th className="border border-gray-400">Progress</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {Object.entries(students[row.index].bibletimeProgress).map(([key, value]) => (
-                                                <tr key={key + value}>
-                                                    <th className="border border-gray-400">{key}</th>
-                                                    <td className="border border-gray-400">{value}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            }>
-                                <a href="#" className="pointer-events-none" aria-describedby={"progress-tooltip-" + row.index}><InformationCircle className="w-4 h-4 text-gray-600" /></a>
-                            </TooltipCard>
+                            {(students[row.index].bibletimeProgress.length > 0) &&
+                                <ProgressTooltip bibletimeProgress={students[row.index].bibletimeProgress} id={"progress-tooltip-" + row.index} />
+                            }
                         </div>
                     )
                 }),
@@ -221,9 +239,14 @@ export default function Students({ schoolId, students }: { schoolId: string, stu
                     cell: ({ row }) => (
                         <>
                             {row.original.fmData ?
-                                <span>
+                                <div className="flex items-start gap-2">
                                     {getFmGrade(row.original.fmData.portalData, row.index)}
-                                </span>
+                                    {(students[row.index].processedBibletimeProgress.length > 0) ?
+
+                                        <ProgressTooltip bibletimeProgress={withBonusRow(students[row.index].processedBibletimeProgress)} id={"processed-tooltip-" + row.index} />
+                                        : null
+                                    }
+                                </div>
                                 :
                                 <span>No data</span>
                             }

@@ -45,7 +45,7 @@ class SunscoolApiService
     {
         $baseUrl = self::BASE_URL;
         $path = "{$baseUrl}/results/schools/{$schoolId}.json";
-        return Cache::remember('sunscoolSchool-' . $schoolId, 0, fn() => (
+        return Cache::remember('sunscoolSchool-' . $schoolId, 3600, fn() => (
             $this->getAsync($path)
         ));
     }
@@ -90,7 +90,7 @@ class SunscoolApiService
                                 'bibletime' => $lesson->bibletime,
                                 'progress' => $lesson->progress,
                                 'level' => $lesson->level,
-                                'processed' => is_null($mapStudent) ? false : (boolean) $mapStudent->processed
+                                'isProcessed' => is_null($mapStudent) ? false : (boolean) $mapStudent->isProcessed
                             ];
                         })->sortBy([['name', 'asc'], ['bibletime', 'asc', SORT_NATURAL]]);
                     })->values();
@@ -123,17 +123,20 @@ class SunscoolApiService
             $firstItem = $group->first();
 
             // Map to extract bibletime => progress pairs
-            $bibletimeProgress = $group->mapWithKeys(function ($item) {
-                return [$item['bibletime'] => $item['progress']];
+            $bibletimeProgress = $group->map(function ($item) {
+                return [
+                    'bibletime' => $item['bibletime'],
+                    'progress' => $item['progress'] / 5
+                ];
             })->toArray();
 
-            $bibletimeProgress = array_merge($bibletimeProgress, ["Bonus" => "100"]);
+            array_push($bibletimeProgress, ["bibletime" => "Bonus", "progress" => "20"]);
 
             // Extract progress values
-            $progressValues = array_values($bibletimeProgress);
+            $progressValues = collect($bibletimeProgress)->pluck('progress');
 
             // Calculate the average
-            $processedProgress = array_sum($progressValues) / 5;
+            $processedProgress = $progressValues->sum();
 
             $processedBibletime = explode('-', $firstItem['bibletime'])[0];
 
@@ -142,7 +145,12 @@ class SunscoolApiService
                 [
                     'processedProgress' => round($processedProgress),
                     'processedBibletime' => $processedBibletime,
-                    "bibletimeProgress" => $bibletimeProgress
+                    "bibletimeProgress" => $bibletimeProgress,
+                    "processedBibletimeProgress" => SunscoolMap::where('fm_student_id', $firstItem["pbsId"])
+                        ->where('level', $firstItem["level"])
+                        ->where('is_processed', true)
+                        ->whereRaw("bibletime LIKE ?", [$processedBibletime . '%'])
+                        ->get(['bibletime', 'progress'])->toArray()
                 ]
             );
         })->values()->toArray();
@@ -210,27 +218,28 @@ class SunscoolApiService
                 ],
             ];
 
-            $processed = $fmController->updateStudentMarks($fmStudent->recordId, $modObject);
+            $updatedFmStudents = $fmController->updateStudentMarks($fmStudent->recordId, $modObject);
 
-            if (!$processed) {
+            if (!$updatedFmStudents) {
                 throw new \Exception("Error Processing Request", 1);
 
             }
 
             // Update map with bibletimes and student id
-            foreach ($requestStudent["bibletimeProgress"] as $bibletime => $progress) {
-                if (strtolower($bibletime) === "bonus") {
+            foreach ($requestStudent["bibletimeProgress"] as $item) {
+                if (strtolower($item["bibletime"]) === "bonus") {
                     continue;
                 }
                 SunscoolMap::updateOrCreate(
                     [
                         'fm_student_id' => $currentStudentId,
-                        'bibletime' => $bibletime,
+                        'bibletime' => $item["bibletime"],
                         "level" => $requestStudent["level"]
                     ],
                     [
                         'fm_grade_record_id' => $currentPortal->recordId,
-                        'processed' => true
+                        'is_processed' => true,
+                        'progress' => $item["progress"]
                     ]
                 );
 

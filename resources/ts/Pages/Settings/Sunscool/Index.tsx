@@ -96,7 +96,7 @@ export interface SunscoolStudentProps {
     level: number,
     bibletime: string;
     progress: number;
-    processed: boolean;
+    isProcessed: boolean;
     fmData?: FmDataProps
 }
 export interface SunscoolClassProps {

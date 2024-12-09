@@ -13,7 +13,8 @@ import ErrorBanner from "@/Components/Forms/ErrorBanner";
 
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
-export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
+
+export default function StudentMarksSection({ schoolId, students, setShowProcessed }: { schoolId: number, students: SunscoolStudentProps[], setShowProcessed: React.Dispatch<React.SetStateAction<number>> }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     // const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
@@ -64,33 +65,14 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 formData.append(`selectedStudents[${index}][pbsId]`, student.pbsId + "");
                 formData.append(`selectedStudents[${index}][sunscoolId]`, student.sunscoolId + "");
             })
-            router.post(route('settings.sunscool.unprocessed.mark', schoolId), formData);
+            router.post(route('settings.sunscool.unprocessed.mark'), formData, {
+                onSuccess: () => {
+                    setRowSelection({})
+                    setShowProcessed(0)
+                }
+            });
         }
     }
-
-    // const groupedStudents = useMemo(() => {
-    //     const grouped = students.reduce((acc: Record<number, GroupedStudent>, lesson) => {
-    //         const { sunscoolId, pbsId, name, language } = lesson;
-
-    //         // Check if the student already exists in the accumulator
-    //         if (!acc[sunscoolId]) {
-    //             // Initialize a new entry for the student
-    //             acc[sunscoolId] = {
-    //                 pbsId,
-    //                 sunscoolId,
-    //                 name,
-    //                 language,
-    //                 lessons: [],
-    //             };
-    //         }
-
-    //         // Add the lesson to the student's lessons array
-    //         acc[sunscoolId].lessons.push({ bibletime, progress });
-
-    //         return acc;
-    //     }, {});
-    //     return Object.values(grouped);
-    // }, [students]);
 
     const tableData = useMemo(() => students, [students]);
 
@@ -146,6 +128,9 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
         }),
         columnHelper.accessor(row => row.progress, {
             header: "Grade"
+        }),
+        columnHelper.accessor(row => row.isProcessed, {
+            header: "Is Processed"
         })
         // columnHelper.display({
         //     id: "actions",
@@ -188,6 +173,11 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 enableSorting={false}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
+                getRowClassNames={(row) => {
+                    if (row.original.isProcessed === true)
+                        return "bg-emerald-100 hover:bg-emerald-200"
+                    return ""
+                }}
             />
             <div className="flex justify-end gap-2 my-2">
                 <SecondaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={markStudentsUnprocessed}>Mark Unprocessed</SecondaryButton>

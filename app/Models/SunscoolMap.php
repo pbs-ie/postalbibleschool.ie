@@ -16,7 +16,8 @@ class SunscoolMap extends Model
         'fm_grade_record_id',
         'bibletime',
         'level',
-        'processed',
+        'is_processed',
+        'progress',
     ];
 
     public const columnsAsCamel = [
@@ -24,7 +25,8 @@ class SunscoolMap extends Model
         'fm_grade_record_id as fmGradeRecordId',
         'bibletime',
         'level',
-        'processed',
+        'is_processed as isProcessed',
+        'progress',
     ];
 
     public function Student()

@@ -1,4 +1,4 @@
-import { ColumnDef, ColumnFiltersState, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, ColumnFiltersState, Row, RowData, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
 import ChevronUp from "@/Elements/Icons/ChevronUp";
@@ -7,6 +7,11 @@ import TableColumnFilter from "@/Components/Tables/TableColumnFilter";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 
+declare module '@tanstack/react-table' {
+    interface TableMeta<TData extends RowData> {
+        getRowClassNames: (row: Row<TData>) => string;
+    }
+}
 export interface AdvancedTableProps<TData, TValue> {
     data: TData[],
     columns: ColumnDef<TData, TValue>[],
@@ -17,7 +22,8 @@ export interface AdvancedTableProps<TData, TValue> {
     rowSelection?: RowSelectionState,
     searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
-    enableHighlightedColumns?: boolean
+    enableHighlightedColumns?: boolean,
+    getRowClassNames?: (row: Row<TData>) => string;
 }
 export default function AdvancedTable<TData, TValue>({
     data,
@@ -29,7 +35,8 @@ export default function AdvancedTable<TData, TValue>({
     enableSorting = true,
     rowSelection = {},
     setRowSelection = () => { },
-    enableHighlightedColumns = false
+    enableHighlightedColumns = false,
+    getRowClassNames
 }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
@@ -55,7 +62,10 @@ export default function AdvancedTable<TData, TValue>({
         enableSorting: enableSorting,
         enableColumnFilters: enableColumnFilters,
         onRowSelectionChange: setRowSelection,
-        onColumnFiltersChange: setColumnFilters
+        onColumnFiltersChange: setColumnFilters,
+        meta: {
+            getRowClassNames: getRowClassNames || (() => '')
+        }
     });
 
     const getPinnedStyling = (isPinned: "left" | "right" | "") => {
@@ -151,7 +161,7 @@ export default function AdvancedTable<TData, TValue>({
                     </thead>
                     <tbody className="overflow-y-auto bg-white divide-y divide-gray-200 max-h-96">
                         {table.getRowModel().rows.map(row => (
-                            <tr className={getIsSelectedStyling(row.getIsSelected())} key={row.id}>
+                            <tr className={`${getIsSelectedStyling(row.getIsSelected())}  ${table.options.meta?.getRowClassNames(row)}`} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
                                     // @ts-ignore Meta may have className
                                     <td className={`${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap`} key={cell.id}>

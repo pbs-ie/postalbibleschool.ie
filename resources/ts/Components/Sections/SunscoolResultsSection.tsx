@@ -8,7 +8,7 @@ export default function SunscoolResultsSection({ schoolId, classes }: { schoolId
     const [currentClass, setCurrentClass] = useState(classes[0]);
     const [showProcessed, setShowProcessed] = useState(0);
 
-    const unprocessedStudents = useMemo(() => currentClass.students.filter(({ processed }) => !processed), [currentClass.students]);
+    const unprocessedStudents = useMemo(() => currentClass.students.filter(({ isProcessed }) => !isProcessed), [currentClass]);
 
     return (
         <DetailsSummary defaultOpen summaryElement={
@@ -22,7 +22,7 @@ export default function SunscoolResultsSection({ schoolId, classes }: { schoolId
                     showProcessed={showProcessed}
                     setShowProcessed={setShowProcessed}
                 />
-                <StudentMarksSection schoolId={schoolId} students={showProcessed ? currentClass.students : unprocessedStudents} />
+                <StudentMarksSection schoolId={schoolId} students={showProcessed ? currentClass.students : unprocessedStudents} setShowProcessed={setShowProcessed} />
             </>
         </DetailsSummary>
     )
