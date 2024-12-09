@@ -25,10 +25,14 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
     public function rules()
     {
         return [
-            'selectedGrades' => ['required', 'array'],
-            'selectedGrades.*.studentId' => ['numeric', 'required'],
-            // 'selectedGrades.*.level' => ['string', 'required'],
-            'selectedGrades.*.bibletime' => ['string', 'required']
+            '*' => ['array'],
+            '*.pbsId' => ['required'],
+            '*.sunscoolId' => ['required'],
+            '*.level' => ['required'],
+            '*.bibletimeProgress' => ['required'],
+            '*.selectedYear' => ['required'],
+            '*.selectedMonth' => ['required'],
+            '*.finalGrade' => ['required', 'numeric', 'max:100', 'min:0'],
         ];
     }
 
@@ -39,11 +43,13 @@ class StoreSunscoolStudentMarksRequest extends FormRequest
      */
     public function attributes(): array
     {
-        return [
-            'selectedGrades' => 'Students',
-            'selectedGrades.*.studentId' => 'Student Id',
-            // 'selectedGrades.*.level' => 'Level',
-            'selectedGrades.*.bibletime' => 'Bibletime',
+        $messages = [
+            '*.pbsId' => 'PBS Id',
+            '*.sunscoolId' => 'Sunscool Id',
+            '*.selectedYear' => 'Selected Year',
+            '*.selectedMonth' => 'Selected Month',
         ];
+
+        return $messages;
     }
 }

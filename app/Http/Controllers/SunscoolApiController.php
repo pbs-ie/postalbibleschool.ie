@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
+use App\Models\SunscoolMap;
 use App\Services\SunscoolApiService;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class SunscoolApiController extends Controller
 {
@@ -27,39 +29,54 @@ class SunscoolApiController extends Controller
         $sunscoolClasses = $sunscoolService->flattenClasses($school->classes);
 
         return Inertia::render('Settings/Sunscool/Classes', [
-            'schoolId' => $school->id,
-            'schoolName' => $school->name,
-            'classes' => $sunscoolClasses
+            'schoolId' => fn() => $school->id,
+            'schoolName' => fn() => $school->name,
+            'classes' => fn() => $sunscoolClasses
         ]);
     }
 
-    // public function students($schoolId, $classId)
-    // {
-    //     $class = (new SunscoolApiService())->getClassDetails($schoolId, $classId);
-    //     dd($class);
-    //     return Inertia::render('Settings/Sunscool/Students', [
-    //         'classroom' => $class
-    //     ]);
-    // }
-
-    // public function studentDetails($studentId)
-    // {
-    //     // $student = Student::where('fm_student_id', $studentId)->first();
-    //     $student = (new FilemakerService())->getFmStudentMarks($studentId);
-
-    //     return Inertia::render('Settings/Sunscool/Student', [
-    //         'student' => $student
-    //     ]);
-    // }
 
     /**
-     * Store student marks to Filemaker Database
+     * Get all information for selected students and show page
+     * @return \Inertia\Response
+     */
+    public function process(Request $request)
+    {
+        $students = $request->selectedStudents;
+
+        $updatedStudents = SunscoolApiService::populateStudentsFmData($students);
+
+        return Inertia::render('Settings/Sunscool/Students', [
+            "schoolId" => fn() => $request->schoolId,
+            "students" => fn() => $updatedStudents
+        ]);
+    }
+
+    /**
+     * Summary of store
      * @param \App\Http\Requests\StoreSunscoolStudentMarksRequest $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSunscoolStudentMarksRequest $request)
     {
-        dd($request->all());
-        return redirect()->route('settings.sunscool.index')->with('success', 'Values stored in Database');
+        SunscoolApiService::uploadStudentGrades($request->validated());
+        return redirect()->back()->with('success', 'Values stored in Database');
+
+    }
+
+    public function markUnprocessed(Request $request)
+    {
+        $students = collect($request->selectedStudents);
+
+        $studentIds = $students->pluck('pbsId')->unique();
+        $levels = $students->pluck('level')->unique();
+        $bibletimes = $students->pluck('bibletime')->unique();
+
+        SunscoolMap::whereIn('fm_student_id', $studentIds)
+            ->whereIn('level', $levels)
+            ->whereIn('bibletime', $bibletimes)
+            ->update(['processed' => false]);
+
+        return back()->with('success', 'Marked students as unprocessed');
+
     }
 }

@@ -93,11 +93,10 @@ export interface SunscoolStudentProps {
     pbsId: number | null,
     name: string,
     language: string,
-    lessons: {
-        level: number,
-        bibletime: string;
-        progress: number;
-    }[],
+    level: number,
+    bibletime: string;
+    progress: number;
+    processed: boolean;
     fmData?: FmDataProps
 }
 export interface SunscoolClassProps {

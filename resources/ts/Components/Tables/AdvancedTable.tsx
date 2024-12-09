@@ -1,4 +1,4 @@
-import { ColumnDef, ColumnFiltersState, OnChangeFn, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, ColumnFiltersState, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
 import ChevronUp from "@/Elements/Icons/ChevronUp";
@@ -115,9 +115,9 @@ export default function AdvancedTable<TData, TValue>({
                             ))}
                         </colgroup>
                     }
-                    <thead >
+                    <thead className="sticky top-0 z-10 ">
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id} className="sticky top-0 z-10 bg-gray-100 table-row">
+                            <tr key={headerGroup.id} className="table-row bg-gray-100">
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
                                     <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStylingHead(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
@@ -156,7 +156,11 @@ export default function AdvancedTable<TData, TValue>({
                                     // @ts-ignore Meta may have className
                                     <td className={`${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap`} key={cell.id}>
                                         <div className="flex items-center">
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            {cell.getIsAggregated() ? (
+                                                flexRender(cell.column.columnDef.aggregatedCell, cell.getContext())
+                                            ) : (
+                                                flexRender(cell.column.columnDef.cell, cell.getContext())
+                                            )}
                                         </div>
                                     </td>
                                 ))}

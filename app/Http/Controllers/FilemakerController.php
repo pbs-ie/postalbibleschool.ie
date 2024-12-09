@@ -261,6 +261,33 @@ class FilemakerController extends Controller
             ->patch($path);
 
         $responseData = json_decode(json_encode($response->json()))->response;
+        dd($response->json());
+        return $response->ok();
+    }
+
+    /**
+     * Update filemaker record by its record ID
+     * 
+     * @param string $layoutName
+     * @param int $recordId
+     * @param mixed $changedRecord
+     * @return bool
+     */
+    private function updateRecordByIdFullBody(string $layoutName, int $recordId, $changedRecord)
+    {
+        $formattedLayout = rawurlencode($layoutName);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records/{$recordId}";
+
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body = $changedRecord;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->patch($path);
+
+        $responseData = json_decode(json_encode($response->json()))->response;
         return $response->ok();
     }
 
@@ -281,6 +308,11 @@ class FilemakerController extends Controller
     public function updateLessonOrders(int $recordId, $changedRecord)
     {
         return $this->updateRecordById(self::MONTHLY_ORDER_LAYOUT, $recordId, $changedRecord);
+    }
+
+    public function updateStudentMarks(int $recordId, $changedRecord)
+    {
+        return $this->updateRecordByIdFullBody(self::STUDENT_MARK_LAYOUT, $recordId, $changedRecord);
     }
 
     /**

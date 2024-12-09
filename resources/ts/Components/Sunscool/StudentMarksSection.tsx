@@ -10,52 +10,61 @@ import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import CheckboxInput from "@/Elements/Forms/CheckboxInput";
 import ErrorBanner from "@/Components/Forms/ErrorBanner";
-import PopupModal from "@/Components/Modals/PopupModal";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
-import BasicButton from "@/Elements/Buttons/BasicButton";
-import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
-import Eye from "@/Elements/Icons/Eye";
-import SunscoolMarksForm from "../Forms/SunscoolMarksForm";
-import FmMarksForm from "../Forms/FmMarksForm";
-
-// interface GroupedStudent {
-//     pbsId: number | null;
-//     sunscoolId: number;
-//     name: string;
-//     language: string;
-//     level: number;
-//     lessons: {
-//         bibletime: string;
-//         progress: number;
-//     }[];
-// }
-
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 export default function StudentMarksSection({ schoolId, students }: { schoolId: number, students: SunscoolStudentProps[] }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const [lessonsToView, setLessonsToView] = useState<SunscoolStudentProps["lessons"]>(students[0].lessons);
-    const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
-    const [nameToView, setNameToView] = useState<SunscoolStudentProps["name"]>("");
-    const [idToView, setIdToView] = useState<SunscoolStudentProps["pbsId"]>();
-    const { dialogRef, showModal, closeModal } = modalHelper();
+    // const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
+    // const [nameToView, setNameToView] = useState<SunscoolStudentProps["name"]>("");
+    // const { dialogRef, showModal, closeModal } = modalHelper();
 
     useEffect(() => {
         setRowSelection({});
     }, [students]);
 
-    const addStudentsToDatabase = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+    const processStudents = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        let idSelection = [] as typeof tableData[0]["pbsId"][];
+        let idSelection = [] as typeof tableData[0][];
         students.map((student, idx) => {
             if (rowSelection[idx])
-                idSelection.push(student.pbsId)
+                idSelection.push(student)
         });
         if (Object.keys(rowSelection).length > 0) {
-            router.post(route('settings.sunscool.store'), {
-                schoolId: schoolId,
-                selectedStudents: idSelection
-            });
+            const formData = new FormData();
+
+            idSelection.forEach((student, index) => {
+                formData.append(`selectedStudents[${index}][bibletime]`, student.bibletime);
+                formData.append(`selectedStudents[${index}][name]`, student.name);
+                formData.append(`selectedStudents[${index}][level]`, student.level + "");
+                formData.append(`selectedStudents[${index}][pbsId]`, student.pbsId + "");
+                formData.append(`selectedStudents[${index}][sunscoolId]`, student.sunscoolId + "");
+                formData.append(`selectedStudents[${index}][progress]`, student.progress + "");
+            })
+            router.post(route('settings.sunscool.process', schoolId), formData);
+        }
+    }
+
+    const markStudentsUnprocessed = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        let idSelection = [] as typeof tableData[0][];
+        students.map((student, idx) => {
+            if (rowSelection[idx])
+                idSelection.push(student)
+        });
+        if (Object.keys(rowSelection).length > 0) {
+            const formData = new FormData();
+
+            idSelection.forEach((student, index) => {
+                formData.append(`selectedStudents[${index}][bibletime]`, student.bibletime);
+                formData.append(`selectedStudents[${index}][name]`, student.name);
+                formData.append(`selectedStudents[${index}][level]`, student.level + "");
+                formData.append(`selectedStudents[${index}][pbsId]`, student.pbsId + "");
+                formData.append(`selectedStudents[${index}][sunscoolId]`, student.sunscoolId + "");
+            })
+            router.post(route('settings.sunscool.unprocessed.mark', schoolId), formData);
         }
     }
 
@@ -111,65 +120,58 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 </label>
             ),
         }),
-        columnHelper.display({
-            id: "Sr",
-            header: "Sunscool ID",
-            cell: ({ row }) => (
-                <span>{(+row.original.sunscoolId)}</span>
-            )
-        }),
-        columnHelper.display({
-            id: "pbsid",
-            header: "PBS ID",
-            cell: ({ row }) => (
-                <span>{(row.original.pbsId ?? "-")}</span>
-            )
-        }),
+        // columnHelper.display({
+        //     id: "Sr",
+        //     header: "Sunscool ID",
+        //     cell: ({ row }) => (
+        //         <span>{(row.original.sunscoolId)}</span>
+        //     )
+        // }),
+        // columnHelper.display({
+        //     id: "pbsid",
+        //     header: "PBS ID",
+        //     cell: ({ row }) => (
+        //         <span>{(row.original.pbsId ?? "-")}</span>
+        //     )
+        // }),
         columnHelper.accessor(row => row.name + "", {
-            header: "Student",
+            id: "student",
+            header: "Student"
         }),
-        columnHelper.display({
-            id: "actions",
-            header: "Actions",
-            cell: ({ row }) => (
-                <div className="flex items-center">
-                    <IconHoverSpan>
-                        <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
-                            setNameToView(row.original.name);
-                            setIdToView(row.original.pbsId);
-                            setLessonsToView(row.original.lessons);
-                            setFmDataToView(row.original.fmData);
-                            showModal();
-                        }}><span className="flex flex-col items-center">
-                                <Eye /> Details
-                            </span></BasicButton>
-                    </IconHoverSpan>
-                </div>
-            ),
-            meta: {
-                isPinned: 'right'
-            }
+        columnHelper.accessor(row => row.bibletime + "", {
+            header: "Bibletime"
+        }),
+        columnHelper.accessor(row => row.level + "", {
+            header: "Level"
+        }),
+        columnHelper.accessor(row => row.progress, {
+            header: "Grade"
         })
+        // columnHelper.display({
+        //     id: "actions",
+        //     header: "Actions",
+        //     cell: ({ row }) => (
+        //         <div className="flex items-center">
+        //             <IconHoverSpan>
+        //                 <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
+        //                     setNameToView(row.original.name);
+        //                     setFmDataToView(row.original.fmData);
+        //                     showModal();
+        //                 }}><span className="flex flex-col items-center">
+        //                         <Eye /> Details
+        //                     </span></BasicButton>
+        //             </IconHoverSpan>
+        //         </div>
+        //     ),
+        //     meta: {
+        //         isPinned: 'right'
+        //     }
+        // })
     ]
 
 
     return (
         <>
-            <PopupModal onClose={closeModal} innerRef={dialogRef} size="xlarge">
-                <Heading2Alt>{nameToView}</Heading2Alt>
-                <div className="flex-col items-start justify-center gap-4 m-4 lg:flex lg:flex-row">
-
-                    {idToView &&
-                        <SunscoolMarksForm closeModal={closeModal} studentId={idToView} lessons={lessonsToView} />
-                    }
-                    {fmDataToView &&
-                        <FmMarksForm studentName={nameToView} fmData={fmDataToView} />
-                    }
-                </div>
-            </PopupModal>
-            <div className="flex justify-end gap-2 my-2">
-                <BasicButton dataTest="add_results_fm_button" processing={rowSelection && Object.keys(rowSelection).length === 0} hierarchy="primary" onClick={addStudentsToDatabase}>Add Students</BasicButton>
-            </div>
             <div className="space-y-2">
                 {errors &&
                     Object.keys(errors).map((key) =>
@@ -187,6 +189,10 @@ export default function StudentMarksSection({ schoolId, students }: { schoolId: 
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
             />
+            <div className="flex justify-end gap-2 my-2">
+                <SecondaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={markStudentsUnprocessed}>Mark Unprocessed</SecondaryButton>
+                <PrimaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={processStudents}>Process Students</PrimaryButton>
+            </div>
         </>
     )
 }

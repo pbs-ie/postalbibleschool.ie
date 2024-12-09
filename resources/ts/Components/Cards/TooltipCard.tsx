@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface TooltipProps {
-    text: string;
+    text: string | React.ReactNode;
     children: React.ReactNode;
     direction: "top" | "bottom" | "left" | "right";
     id: string;
@@ -65,17 +65,19 @@ export default function TooltipCard({ id, text, direction, children, size }: Too
             onFocus={openTooltip}
             onBlur={closeTooltip}
         >
-            {showTooltip && (
-                <div
-                    className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 text-sm ${getClassListBySize()} ${getClassListByDirection()}`}
-                    data-placement={direction}
-                    role="tooltip"
-                    id={id}
-                >
-                    {text}
-                </div>
+            <div className="fixed z-20">
+                {showTooltip && (
+                    <div
+                        className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 text-sm ${getClassListBySize()} ${getClassListByDirection()}`}
+                        data-placement={direction}
+                        role="tooltip"
+                        id={id}
+                    >
+                        {text}
+                    </div>
 
-            )}
+                )}
+            </div>
             {children}
         </div>
     )

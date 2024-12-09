@@ -17,9 +17,9 @@ export default function TextInput({ type = 'text', ariaLabelledBy, className, ha
             {...props}
             type={type}
             className={
-                "border-gray-400 bg-clip-padding  rounded-md shadow-sm transition ease-in-out self-center "
+                className +
+                " border-gray-400 bg-clip-padding  rounded-md shadow-sm transition ease-in-out self-center "
                 + (hasError ? "border-red-500 ring-red-500" : "focus:border-indigo-500 focus:ring-indigo-500")
-                + className
             }
             autoComplete={autoComplete}
             onChange={(e) => handleChange(e)}
