@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::table('sunscool_map', function (Blueprint $table) {
             $table->boolean('is_processed')->default(false);
             $table->unsignedMediumInteger('progress')->nullable();
+            $table->string('fm_month')->nullable();
         });
     }
 
@@ -26,8 +27,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('sunscool_map', function (Blueprint $table) {
-            $table->dropColumn('is_processed');
-            $table->dropColumn('progress');
+            $table->dropColumn(['is_processed', 'progress', 'fm_month']);
         });
     }
 };

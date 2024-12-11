@@ -22,39 +22,45 @@ interface SunscoolProcessProps extends SunscoolStudentProps {
     }[]
     processedBibletimeProgress: {
         bibletime: string,
-        progress: string | null
+        progress: string | null,
+        fmMonth: string
     }[]
 }
 
 const ProgressTooltip = ({ bibletimeProgress, id }: { bibletimeProgress: SunscoolProcessProps["bibletimeProgress"], id: string }) => {
     return (
-        <TooltipCard direction={"top"} size="xsmall" id={id} text={
-            <div>
-                <p className="mb-1 text-lg">Breakdown</p>
-                <table className="border border-collapse border-white table-fixed">
-                    <thead>
-                        <tr>
-                            <th className="border border-gray-400">Series</th>
-                            <th className="border border-gray-400">Progress</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {bibletimeProgress.map(({ bibletime, progress }) => (
-                            <tr key={id + bibletime}>
-                                <th className="border border-gray-400">{bibletime}</th>
-                                <td className="border border-gray-400">{progress}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        }>
-            <a href="#" className="pointer-events-none" aria-describedby={id}><InformationCircle className="w-4 h-4 text-gray-600" /></a>
-        </TooltipCard>
+        <>
+            {(bibletimeProgress.length > 0) ?
+                <TooltipCard direction={"top"} size="xsmall" id={id} text={
+                    <div>
+                        <p className="mb-1 text-lg">Breakdown</p>
+                        <table className="border border-collapse border-white table-fixed">
+                            <thead>
+                                <tr>
+                                    <th className="border border-gray-400">Series</th>
+                                    <th className="border border-gray-400">Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bibletimeProgress.map(({ bibletime, progress }) => (
+                                    <tr key={id + bibletime}>
+                                        <th className="border border-gray-400">{bibletime}</th>
+                                        <td className="border border-gray-400">{progress}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                }>
+                    <a href="#" className="pointer-events-none" aria-describedby={id}><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                </TooltipCard>
+                : null
+            }
+        </>
     )
 }
 
-export default function Processing({ schoolId, students }: { schoolId: string, students: SunscoolProcessProps[] }) {
+export default function Processing({ schoolId, classroomId, students }: { schoolId: string, classroomId: string, students: SunscoolProcessProps[] }) {
     const { errors } = usePage().props;
 
     const defaultFormObject = students.map((student) => ({
@@ -134,8 +140,11 @@ export default function Processing({ schoolId, students }: { schoolId: string, s
         return data.filter((entry) => entry.finalGrade === "").length > 0;
     }
 
-    const withBonusRow = (bibletimeProgress: SunscoolProcessProps["bibletimeProgress"]) => {
-        const newBibletimeProgress = [...bibletimeProgress, { bibletime: "Bonus", progress: "20" }];
+    const getProgressWithBonusRow = (bibletimeProgress: SunscoolProcessProps["processedBibletimeProgress"], selectedMonth: string) => {
+        const filteredData = bibletimeProgress.filter((item) => item.fmMonth === selectedMonth);
+        if (filteredData.length === 0)
+            return [];
+        const newBibletimeProgress = [...filteredData, { bibletime: "Bonus", progress: "20" }];
         return newBibletimeProgress
     }
 
@@ -242,8 +251,7 @@ export default function Processing({ schoolId, students }: { schoolId: string, s
                                 <div className="flex items-start gap-2">
                                     {getFmGrade(row.original.fmData.portalData, row.index)}
                                     {(students[row.index].processedBibletimeProgress.length > 0) ?
-
-                                        <ProgressTooltip bibletimeProgress={withBonusRow(students[row.index].processedBibletimeProgress)} id={"processed-tooltip-" + row.index} />
+                                        <ProgressTooltip bibletimeProgress={getProgressWithBonusRow(students[row.index].processedBibletimeProgress, data[row.index].selectedMonth)} id={"processed-tooltip-" + row.index} />
                                         : null
                                     }
                                 </div>
@@ -267,7 +275,7 @@ export default function Processing({ schoolId, students }: { schoolId: string, s
     return (
         <SettingsLayout title={"Sunscool Settings"}>
             <SettingsSection>
-                <BackToButton href={route('settings.sunscool.classes', schoolId)}>Back to Students</BackToButton>
+                <BackToButton href={route('settings.sunscool.classroom', { schoolId: schoolId, classroomId: classroomId })}>Back to Students</BackToButton>
                 <AdvancedTable
                     enableGlobalFilter={false}
                     data={tableData}

@@ -150,7 +150,7 @@ class SunscoolApiService
                         ->where('level', $firstItem["level"])
                         ->where('is_processed', true)
                         ->whereRaw("bibletime LIKE ?", [$processedBibletime . '%'])
-                        ->get(['bibletime', 'progress'])->toArray()
+                        ->get(['bibletime', 'progress', 'fm_month as fmMonth'])->toArray()
                 ]
             );
         })->values()->toArray();
@@ -239,7 +239,8 @@ class SunscoolApiService
                     [
                         'fm_grade_record_id' => $currentPortal->recordId,
                         'is_processed' => true,
-                        'progress' => $item["progress"]
+                        'progress' => $item["progress"],
+                        'fm_month' => $requestStudent["selectedMonth"]
                     ]
                 );
 
