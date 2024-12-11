@@ -90,14 +90,14 @@ export default function AdvancedTable<TData, TValue>({
         if (isSelected) {
             return "bg-blue-100";
         } else {
-            return "hover:bg-gray-100"
+            return "hover:ring-2 hover:ring-black/10 hover:ring-inset"
         }
     }
 
     return (
         <>
             {enableGlobalFilter &&
-                <div className="flex items-center gap-2 mb-2 ">
+                <div className="flex items-center gap-2 mb-2">
                     <InputLabel2 forInput={"filter"} value={"Filter :"} />
                     <TextInput
                         placeholder={searchPlaceholder ?? "Search all columns..."}
