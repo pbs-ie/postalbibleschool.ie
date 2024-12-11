@@ -107,8 +107,8 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/unmark', 'markUnprocessed')->name('unprocessed.mark');
-        Route::get('/{schoolId}', 'classes')->name('classes');
-        Route::post('/{schoolId}', 'process')->name('process');
+        Route::get('/{schoolId}/classroom/{classroomId}', 'classroom')->name('classroom');
+        Route::post('/{schoolId}/classroom/{classroomId}', 'process')->name('process');
         Route::post('/', 'store')->name('store');
     });
     Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {

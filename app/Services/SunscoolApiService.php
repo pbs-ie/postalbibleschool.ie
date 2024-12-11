@@ -50,60 +50,60 @@ class SunscoolApiService
         ));
     }
 
-    public function getClassDetails($schoolId, $classId)
+    public function getClassroomDetails($schoolId, $classId)
     {
         $baseUrl = self::BASE_URL;
         $path = "{$baseUrl}/results/schools/{$schoolId}/classes/{$classId}.json";
-        return $this->getAsync($path);
+        return Cache::remember('sunscoolClass-' . $schoolId . '-' . $classId, 3600, fn() => (
+            $this->getAsync($path)
+        ));
     }
 
-    public function flattenClasses($classes)
+    public static function flattenClassroom($classroom)
     {
-        return collect($classes)
-            ->sortBy(fn($class) => strtolower($class->name))
-            ->map(function ($class) {
-                // Map students for each class
-                $students = collect($class->students)
-                    ->filter(fn($student) => (!empty ($student->lessons)));
+        // Map students for each class
+        $students = collect($classroom->students)
+            ->filter(fn($student) => (!empty ($student->lessons)));
 
-                $students = $students->flatMap(function ($student) {
-                    // Get student details
-                    $pbsId = $student->pbs_id ?? null;
-                    $sunscoolId = $student->id;
-                    $studentName = $student->name;
+        $students = $students->flatMap(function ($student) {
+            // Get student details
+            $pbsId = $student->pbs_id ?? null;
+            $sunscoolId = $student->id;
+            $studentName = $student->name;
 
-                    // Iterate through all language keys in lessons
-                    $studentLessons = collect($student->lessons)->flatMap(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName) {
-                        // Map each lesson with the language parameter
-                        return collect($lessons)->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
-                            // Get processed status of lesson
-                            $mapStudent = SunscoolMap::where('fm_student_id', $pbsId)
-                                ->where('level', $lesson->level)
-                                ->where('bibletime', $lesson->bibletime)
-                                ->first(SunscoolMap::columnsAsCamel);
+            // Iterate through all language keys in lessons
+            $studentLessons = collect($student->lessons)->flatMap(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName) {
+                // Map each lesson with the language parameter
+                return collect($lessons)->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
+                    // Get processed status of lesson
+                    $mapStudent = SunscoolMap::where('fm_student_id', $pbsId)
+                        ->where('level', $lesson->level)
+                        ->where('bibletime', $lesson->bibletime)
+                        ->first(SunscoolMap::columnsAsCamel);
 
-                            return (object) [
-                                'pbsId' => $pbsId,
-                                'sunscoolId' => $sunscoolId,
-                                'name' => $studentName,
-                                'language' => $language,
-                                'bibletime' => $lesson->bibletime,
-                                'progress' => $lesson->progress,
-                                'level' => $lesson->level,
-                                'isProcessed' => is_null($mapStudent) ? false : (boolean) $mapStudent->isProcessed
-                            ];
-                        })->sortBy([['name', 'asc'], ['bibletime', 'asc', SORT_NATURAL]]);
-                    })->values();
-                    return $studentLessons;
-                });
-                // Return the class with its students
-                return (object) [
-                    'id' => $class->id,
-                    'name' => $class->name,
-                    'students' => $students->values(),
-                ];
+                    return (object) [
+                        'pbsId' => $pbsId,
+                        'sunscoolId' => $sunscoolId,
+                        'name' => $studentName,
+                        'language' => $language,
+                        'bibletime' => $lesson->bibletime,
+                        'progress' => $lesson->progress,
+                        'level' => $lesson->level,
+                        'isProcessed' => is_null($mapStudent) ? false : (boolean) $mapStudent->isProcessed
+                    ];
+                })->sortBy([['name', 'asc'], ['bibletime', 'asc', SORT_NATURAL]]);
             })->values();
+            return $studentLessons;
+        });
+        // Return the class with its students
+        return (object) [
+            'id' => $classroom->id,
+            'name' => $classroom->name,
+            'students' => $students->values(),
+        ];
+
     }
+
 
     public static function populateStudentsFmData($students)
     {

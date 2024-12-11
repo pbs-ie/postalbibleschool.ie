@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class SunscoolApiController extends Controller
 {
+    private $sunscoolApiService;
+    public function __construct()
+    {
+        $this->sunscoolApiService = new SunscoolApiService();
+    }
     public function index()
     {
         $schoolsList = (new SunscoolApiService())->getSchoolsList();
@@ -21,17 +26,20 @@ class SunscoolApiController extends Controller
         ]);
     }
 
-    public function classes($schoolId)
+
+    public function classroom($schoolId, $classroomId)
     {
-        $sunscoolService = new SunscoolApiService();
-        $school = $sunscoolService->getSchoolDetail($schoolId);
+        $school = $this->sunscoolApiService->getSchoolDetail($schoolId);
+        $classroom = $this->sunscoolApiService->getClassroomDetails($schoolId, $classroomId);
 
-        $sunscoolClasses = $sunscoolService->flattenClasses($school->classes);
+        $sunscoolClassroom = SunscoolApiService::flattenClassroom($classroom);
 
-        return Inertia::render('Settings/Sunscool/Classes', [
-            'schoolId' => fn() => $school->id,
+        return Inertia::render('Settings/Sunscool/Classroom', [
+            'schoolId' => fn() => $schoolId,
             'schoolName' => fn() => $school->name,
-            'classes' => fn() => $sunscoolClasses
+            'classroomId' => fn() => $classroom->id,
+            'classrooms' => fn() => collect($school->classes)->map(fn($class) => collect($class)->only(['id', 'name'])),
+            'classroomDetails' => fn() => $sunscoolClassroom
         ]);
     }
 
@@ -40,14 +48,15 @@ class SunscoolApiController extends Controller
      * Get all information for selected students and show page
      * @return \Inertia\Response
      */
-    public function process(Request $request)
+    public function process($schoolId, $classroomId, Request $request)
     {
         $students = $request->selectedStudents;
 
         $updatedStudents = SunscoolApiService::populateStudentsFmData($students);
 
         return Inertia::render('Settings/Sunscool/Processing', [
-            "schoolId" => fn() => $request->schoolId,
+            "schoolId" => fn() => $schoolId,
+            "classroomId" => fn() => $classroomId,
             "students" => fn() => $updatedStudents
         ]);
     }

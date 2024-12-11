@@ -14,7 +14,7 @@ import ErrorBanner from "@/Components/Forms/ErrorBanner";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 
-export default function StudentMarksSection({ schoolId, students, setShowProcessed }: { schoolId: number, students: SunscoolStudentProps[], setShowProcessed: React.Dispatch<React.SetStateAction<number>> }) {
+export default function StudentMarksSection({ schoolId, classroomId, students, setShowProcessed }: { schoolId: number, classroomId: number, students: SunscoolStudentProps[], setShowProcessed: React.Dispatch<React.SetStateAction<number>> }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     // const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
@@ -44,7 +44,7 @@ export default function StudentMarksSection({ schoolId, students, setShowProcess
                 formData.append(`selectedStudents[${index}][sunscoolId]`, student.sunscoolId + "");
                 formData.append(`selectedStudents[${index}][progress]`, student.progress + "");
             })
-            router.post(route('settings.sunscool.process', schoolId), formData);
+            router.post(route('settings.sunscool.process', { schoolId: schoolId, classroomId: classroomId }), formData);
         }
     }
 
@@ -109,13 +109,13 @@ export default function StudentMarksSection({ schoolId, students, setShowProcess
         //         <span>{(row.original.sunscoolId)}</span>
         //     )
         // }),
-        // columnHelper.display({
-        //     id: "pbsid",
-        //     header: "PBS ID",
-        //     cell: ({ row }) => (
-        //         <span>{(row.original.pbsId ?? "-")}</span>
-        //     )
-        // }),
+        columnHelper.display({
+            id: "pbsid",
+            header: "PBS ID",
+            cell: ({ row }) => (
+                <span>{(row.original.pbsId ?? "-")}</span>
+            )
+        }),
         columnHelper.accessor(row => row.name + "", {
             id: "student",
             header: "Student"
@@ -128,9 +128,6 @@ export default function StudentMarksSection({ schoolId, students, setShowProcess
         }),
         columnHelper.accessor(row => row.progress, {
             header: "Grade"
-        }),
-        columnHelper.accessor(row => row.isProcessed, {
-            header: "Is Processed"
         })
         // columnHelper.display({
         //     id: "actions",
