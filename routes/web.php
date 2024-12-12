@@ -109,6 +109,8 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::post('/unmark', 'markUnprocessed')->name('unprocessed.mark');
         Route::get('/{schoolId}/classroom/{classroomId}', 'classroom')->name('classroom');
         Route::post('/{schoolId}/classroom/{classroomId}', 'process')->name('process');
+        Route::get('/{schoolId}/classroom/{classroomId}/export', 'exportClassroom')->name('classroom.export');
+        Route::get('/{schoolId}/classroom/{classroomId}/exportNames', 'exportNames')->name('classroom.exportNames');
         Route::post('/', 'store')->name('store');
     });
     Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {

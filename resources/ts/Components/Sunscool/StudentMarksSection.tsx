@@ -13,6 +13,9 @@ import ErrorBanner from "@/Components/Forms/ErrorBanner";
 
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
+import Download from "@/Elements/Icons/Download";
+import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
+import ListBulletIcon from "@/Elements/Icons/ListBulletIcon";
 
 export default function StudentMarksSection({ schoolId, classroomId, students, setShowProcessed }: { schoolId: number, classroomId: number, students: SunscoolStudentProps[], setShowProcessed: React.Dispatch<React.SetStateAction<number>> }) {
     const { errors } = usePage().props;
@@ -152,6 +155,7 @@ export default function StudentMarksSection({ schoolId, classroomId, students, s
     ]
 
 
+
     return (
         <>
             <div className="space-y-2">
@@ -177,6 +181,8 @@ export default function StudentMarksSection({ schoolId, classroomId, students, s
                 }}
             />
             <div className="flex justify-end gap-2 my-2">
+                <ButtonAnchor hierarchy="secondary" Icon={ListBulletIcon} href={route('settings.sunscool.classroom.exportNames', { schoolId: schoolId, classroomId: classroomId })}>Names Export</ButtonAnchor>
+                <ButtonAnchor hierarchy="secondary" Icon={Download} href={route('settings.sunscool.classroom.export', { schoolId: schoolId, classroomId: classroomId })}>Class Export</ButtonAnchor>
                 <SecondaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={markStudentsUnprocessed}>Mark Unprocessed</SecondaryButton>
                 <PrimaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={processStudents}>Process Students</PrimaryButton>
             </div>

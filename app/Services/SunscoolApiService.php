@@ -92,7 +92,7 @@ class SunscoolApiService
                         'isProcessed' => is_null($mapStudent) ? false : (boolean) $mapStudent->isProcessed
                     ];
                 })->sortBy([['name', 'asc'], ['bibletime', 'asc', SORT_NATURAL]]);
-            })->values();
+            })->values()->toArray();
             return $studentLessons;
         });
         // Return the class with its students
@@ -105,14 +105,8 @@ class SunscoolApiService
     }
 
 
-    public static function populateStudentsFmData($students)
+    public static function processedStudentsWithFmData($students)
     {
-        $pbsIds = collect($students)->pluck('pbsId')->unique();
-        $studentFmMarks = (new FilemakerController())->getStudentsByIds($pbsIds->values()->toArray());
-        $sanitizedFmStudents = collect($studentFmMarks)->map(function ($student) {
-            return (new FilemakerService())->sanitizeFmStudentMarks($student);
-        });
-
         $grouped = collect($students)->groupBy(function ($item) {
             return $item['name'] . '|' . $item['level'] . '|' . explode('-', $item['bibletime'])[0];
         });
@@ -140,7 +134,7 @@ class SunscoolApiService
 
             $processedBibletime = explode('-', $firstItem['bibletime'])[0];
 
-            return array_merge(
+            return (object) array_merge(
                 Arr::except($firstItem, ['bibletime']),
                 [
                     'processedProgress' => round($processedProgress),
@@ -156,21 +150,31 @@ class SunscoolApiService
         })->values()->toArray();
 
 
-        $studentsWithFmData = collect($reduced)->map(function ($student) use ($sanitizedFmStudents) {
+        $studentsWithFmData = self::appendFmData($reduced);
+
+
+        return $studentsWithFmData->values();
+    }
+
+    public static function appendFmData(array $students)
+    {
+        $pbsIds = collect($students)->pluck('pbsId')->unique();
+        $studentFmMarks = (new FilemakerController())->getStudentsByIds($pbsIds->values()->toArray());
+        $sanitizedFmStudents = collect($studentFmMarks)->map(function ($student) {
+            return (new FilemakerService())->sanitizeFmStudentMarks($student);
+        });
+        return collect($students)->map(function ($student) use ($sanitizedFmStudents) {
             // Get student details
             // $pbsId = $student->pbsId ?? null;
             // $sunscoolId = $student->sunscoolId;
             // $studentName = $student->name;
             $fmData = null;
-            if (isset($student["pbsId"])) {
-                $fmData = $sanitizedFmStudents->firstWhere('fieldData.studentId', $student["pbsId"]);
+            if (isset($student->pbsId)) {
+                $fmData = $sanitizedFmStudents->firstWhere('fieldData.studentId', $student->pbsId);
             };
-            $student["fmData"] = $fmData;
+            $student->fmData = $fmData;
             return $student;
         });
-
-
-        return $studentsWithFmData->values();
     }
 
     public static function uploadStudentGrades($students)

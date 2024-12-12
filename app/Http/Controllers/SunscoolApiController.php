@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SunscoolClassroomExport;
+use App\Exports\SunscoolNamesExport;
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
 use App\Models\SunscoolMap;
 use App\Services\SunscoolApiService;
@@ -52,7 +54,7 @@ class SunscoolApiController extends Controller
     {
         $students = $request->selectedStudents;
 
-        $updatedStudents = SunscoolApiService::populateStudentsFmData($students);
+        $updatedStudents = SunscoolApiService::processedStudentsWithFmData($students);
 
         return Inertia::render('Settings/Sunscool/Processing', [
             "schoolId" => fn() => $schoolId,
@@ -87,5 +89,15 @@ class SunscoolApiController extends Controller
 
         return redirect()->back()->with('success', 'Marked students as unprocessed');
 
+    }
+
+    public function exportClassroom($schoolId, $classroomId)
+    {
+        return new SunscoolClassroomExport($schoolId, $classroomId);
+    }
+
+    public function exportNames($schoolId, $classroomId)
+    {
+        return new SunscoolNamesExport($schoolId, $classroomId);
     }
 }
