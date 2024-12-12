@@ -48,7 +48,7 @@ class SunscoolApiController extends Controller
 
     /**
      * Get all information for selected students and show page
-     * @return \Inertia\Response
+     * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
      */
     public function process($schoolId, $classroomId, Request $request)
     {
@@ -56,6 +56,9 @@ class SunscoolApiController extends Controller
 
         $updatedStudents = SunscoolApiService::processedStudentsWithFmData($students);
 
+        if ($updatedStudents->isEmpty()) {
+            return back()->with('failure', 'Could not find valid students in selection');
+        }
         return Inertia::render('Settings/Sunscool/Processing', [
             "schoolId" => fn() => $schoolId,
             "classroomId" => fn() => $classroomId,
@@ -66,6 +69,7 @@ class SunscoolApiController extends Controller
     /**
      * Summary of store
      * @param \App\Http\Requests\StoreSunscoolStudentMarksRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSunscoolStudentMarksRequest $request)
     {

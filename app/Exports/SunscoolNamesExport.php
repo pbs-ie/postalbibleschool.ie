@@ -46,9 +46,10 @@ class SunscoolNamesExport implements FromCollection, WithHeadings, WithStrictNul
         $classroom = (new SunscoolApiService())->getClassroomDetails($this->schoolId, $this->classroomId);
         $sunscoolClassroom = SunscoolApiService::flattenClassroom($classroom);
 
-        $studentsWithFmData = SunscoolApiService::appendFmData($sunscoolClassroom->students->toArray());
+        $studentsWithFmData = SunscoolApiService::appendFmData($sunscoolClassroom->students->filter(fn($student) => isset ($student->pbsId))->toArray());
 
         return $studentsWithFmData
+            ->filter(fn($student) => isset ($student->pbsId))
             ->unique(function ($student) {
                 return $student->pbsId . ' ' . $student->sunscoolId;
             })

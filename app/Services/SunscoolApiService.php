@@ -74,7 +74,7 @@ class SunscoolApiService
             // Iterate through all language keys in lessons
             $studentLessons = collect($student->lessons)->flatMap(function ($lessons, $language) use ($pbsId, $sunscoolId, $studentName) {
                 // Map each lesson with the language parameter
-                return collect($lessons)->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
+                return collect($lessons)->filter(fn($lesson) => isset ($lesson->bibletime))->map(function ($lesson) use ($pbsId, $sunscoolId, $studentName, $language) {
                     // Get processed status of lesson
                     $mapStudent = SunscoolMap::where('fm_student_id', $pbsId)
                         ->where('level', $lesson->level)
@@ -147,10 +147,9 @@ class SunscoolApiService
                         ->get(['bibletime', 'progress', 'fm_month as fmMonth'])->toArray()
                 ]
             );
-        })->values()->toArray();
+        })->values();
 
-
-        $studentsWithFmData = self::appendFmData($reduced);
+        $studentsWithFmData = self::appendFmData($reduced->filter(fn($student) => isset ($student->pbsId) && $student->pbsId !== "null")->toArray());
 
 
         return $studentsWithFmData->values();
@@ -158,8 +157,11 @@ class SunscoolApiService
 
     public static function appendFmData(array $students)
     {
-        $pbsIds = collect($students)->pluck('pbsId')->unique();
-        $studentFmMarks = (new FilemakerController())->getStudentsByIds($pbsIds->values()->toArray());
+        $pbsIds = collect($students)->pluck('pbsId')->unique()->values()->toArray();
+        if (empty(array_filter($pbsIds))) {
+            return collect($students)->map(fn($student) => ($student->fmData = null) && $student);
+        }
+        $studentFmMarks = (new FilemakerController())->getStudentsByIds($pbsIds);
         $sanitizedFmStudents = collect($studentFmMarks)->map(function ($student) {
             return (new FilemakerService())->sanitizeFmStudentMarks($student);
         });

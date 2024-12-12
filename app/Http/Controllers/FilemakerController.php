@@ -138,7 +138,7 @@ class FilemakerController extends Controller
             ->get($path . '?' . $query);
 
         $responseJson = json_decode(json_encode($promise->wait()->json()));
-        if (!isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+        if (isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
             Log::error($responseJson->messages[0]->message);
         }
         $responseData = $responseJson->response->data;
@@ -170,7 +170,7 @@ class FilemakerController extends Controller
             ->get($path . '?' . $query);
 
         $responseJson = json_decode(json_encode($promise->wait()->json()));
-        if (!isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+        if (isset($responseJson->messages) && $responseJson->messages[0]->message !== "OK") {
             Log::error($responseJson->messages[0]->message);
         }
         $responseData = $responseJson->response->data;

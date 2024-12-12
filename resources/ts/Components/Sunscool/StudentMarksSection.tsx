@@ -3,7 +3,6 @@ import { router, usePage } from "@inertiajs/react";
 import { ColumnDef, createColumnHelper, RowSelectionState } from "@tanstack/react-table";
 import route from "ziggy-js";
 import _ from "lodash";
-import { modalHelper } from "@/helper";
 
 import { SunscoolStudentProps } from "@/Pages/Settings/Sunscool/Index";
 
@@ -20,9 +19,6 @@ import AnchorLink from "@/Components/Navigation/AnchorLink";
 export default function StudentMarksSection({ schoolId, classroomId, students, setShowProcessed }: { schoolId: number, classroomId: number, students: SunscoolStudentProps[], setShowProcessed: React.Dispatch<React.SetStateAction<number>> }) {
     const { errors } = usePage().props;
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    // const [fmDataToView, setFmDataToView] = useState<SunscoolStudentProps["fmData"]>();
-    // const [nameToView, setNameToView] = useState<SunscoolStudentProps["name"]>("");
-    // const { dialogRef, showModal, closeModal } = modalHelper();
 
     useEffect(() => {
         setRowSelection({});
@@ -131,27 +127,11 @@ export default function StudentMarksSection({ schoolId, classroomId, students, s
         }),
         columnHelper.accessor(row => row.progress, {
             header: "Grade"
+        }),
+        columnHelper.accessor(row => row.isProcessed, {
+            header: "Is Processed",
+            enableColumnFilter: false
         })
-        // columnHelper.display({
-        //     id: "actions",
-        //     header: "Actions",
-        //     cell: ({ row }) => (
-        //         <div className="flex items-center">
-        //             <IconHoverSpan>
-        //                 <BasicButton hierarchy="transparent" size="xsmall" onClick={() => {
-        //                     setNameToView(row.original.name);
-        //                     setFmDataToView(row.original.fmData);
-        //                     showModal();
-        //                 }}><span className="flex flex-col items-center">
-        //                         <Eye /> Details
-        //                     </span></BasicButton>
-        //             </IconHoverSpan>
-        //         </div>
-        //     ),
-        //     meta: {
-        //         isPinned: 'right'
-        //     }
-        // })
     ]
 
 
@@ -180,10 +160,12 @@ export default function StudentMarksSection({ schoolId, classroomId, students, s
                     return ""
                 }}
             />
-            <div>
-                <AnchorLink aria-disabled={students.length === 0} Icon={ListBulletIcon} href={route('settings.sunscool.classroom.exportNames', { schoolId: schoolId, classroomId: classroomId })}>Download names list (.xlsx)</AnchorLink>
-                <AnchorLink aria-disabled={students.length === 0} Icon={Download} href={route('settings.sunscool.classroom.export', { schoolId: schoolId, classroomId: classroomId })}>Download classroom details (.xlsx)</AnchorLink>
-            </div>
+            {students.length > 0 &&
+                <div>
+                    <AnchorLink Icon={ListBulletIcon} href={route('settings.sunscool.classroom.exportNames', { schoolId: schoolId, classroomId: classroomId })}>Download names list (.xlsx)</AnchorLink>
+                    <AnchorLink Icon={Download} href={route('settings.sunscool.classroom.export', { schoolId: schoolId, classroomId: classroomId })}>Download classroom details (.xlsx)</AnchorLink>
+                </div>
+            }
             <div className="flex justify-end gap-2 my-2">
 
                 <SecondaryButton processing={rowSelection && Object.keys(rowSelection).length === 0} onClick={markStudentsUnprocessed}>Mark Unprocessed</SecondaryButton>
