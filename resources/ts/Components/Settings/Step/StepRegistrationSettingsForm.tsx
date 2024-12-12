@@ -8,12 +8,12 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import route from "ziggy-js";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 import NumberInput from "@/Elements/Forms/NumberInput";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import LabelSpan from "@/Components/Typography/LabelSpan";
 import Trash from "@/Elements/Icons/Trash";
 import BasicButton from "@/Elements/Buttons/BasicButton";
+import AnchorLink from "@/Components/Navigation/AnchorLink";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -150,7 +150,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     }
                     {stepSettings.scheduleFileLink &&
                         <div className="flex gap-2 w-fit">
-                            <ButtonAnchor size="small" hierarchy="secondary" Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</ButtonAnchor>
+                            <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</AnchorLink>
                             <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.step.destroyFile'), { preserveScroll: true })}>
                                 <span className="flex items-center gap-2"><Trash />Remove File</span>
                             </BasicButton>

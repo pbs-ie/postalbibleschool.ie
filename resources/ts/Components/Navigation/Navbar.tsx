@@ -113,7 +113,7 @@ export default function Navbar({ hasAdditionalNav = false }: { hasAdditionalNav?
 
     return (
         <header className="z-50 text-white border-b-2 border-gray-800">
-            <div className="absolute p-2 m-3 font-bold text-gray-800 no-underline duration-100 transform -translate-y-16 bg-gray-200 visited:text-white focus-within:translate-y-0" >Skip to <AnchorLink href='#mainContent'>content</AnchorLink> or <AnchorLink href='#footerContent'>footer</AnchorLink></div>
+            <div className="absolute hidden gap-1 p-2 m-3 font-bold text-gray-800 no-underline duration-100 transform -translate-y-16 bg-gray-200 md:flex visited:text-white focus-within:translate-y-0" >Skip to <AnchorLink href='#mainContent'>content</AnchorLink> or <AnchorLink href='#footerContent'>footer</AnchorLink></div>
             <nav className="px-6 mx-auto bg-pbsblue">
                 <div className="flex justify-between h-16">
                     <ul className="flex">

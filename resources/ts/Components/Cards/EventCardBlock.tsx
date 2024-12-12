@@ -1,7 +1,7 @@
 import EventCardHeading from "@/Components/Typography/EventCardHeading";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
+import AnchorLink from "../Navigation/AnchorLink";
 
 declare global {
     interface CardBlock {
@@ -25,7 +25,9 @@ export default function EventCardBlock({ Icon, title, description, buttonText, b
             <div className="mb-4 text-base text-gray-700 whitespace-normal">{description}</div>
             {buttonText && buttonLink !== "" &&
                 (isExternal ?
-                    <ButtonAnchor Icon={ExternalLink} href={buttonLink} isExternalLink>{buttonText}</ButtonAnchor>
+                    <div className="flex justify-center">
+                        <AnchorLink href={buttonLink} newTab={true}>{buttonText}</AnchorLink>
+                    </div>
                     :
                     <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
                 )}

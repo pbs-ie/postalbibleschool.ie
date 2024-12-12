@@ -26,7 +26,6 @@ import Location from "@/Elements/Icons/Location";
 
 import route from "ziggy-js";
 import Download from "@/Elements/Icons/Download";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 
 export default function Index({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const images: Gallery[] = [
@@ -113,10 +112,10 @@ export default function Index({ stepSettings }: { stepSettings: StepSettingsProp
             </ExtendScreenWrapper>
             {stepSettings.isActive &&
                 <EventCardContainer cards={stepCards}>
-                    <div className="flex justify-center w-full gap-2">
+                    <div className="flex flex-col items-center w-full gap-2">
                         <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
                         {stepSettings.scheduleFileLink &&
-                            <ButtonAnchor Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule</ButtonAnchor>
+                            <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule (PDF)</AnchorLink>
                         }
                     </div>
                 </EventCardContainer>
