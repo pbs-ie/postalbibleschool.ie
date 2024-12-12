@@ -15,8 +15,10 @@ export default function SunscoolSchoolsTable({ schools }: { schools: SunscoolSch
     const defaultColumns = [
         columnHelper.accessor(row => row.id + "", {
             header: "School ID",
+            enableColumnFilter: false
         }), columnHelper.accessor(row => row.name, {
             header: "School Name",
+            enableColumnFilter: true
         }),
         columnHelper.display({
             id: 'actions',
@@ -37,6 +39,6 @@ export default function SunscoolSchoolsTable({ schools }: { schools: SunscoolSch
         })
     ];
     return (
-        <AdvancedTable enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<SunscoolSchoolProps>[]} />
+        <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<SunscoolSchoolProps>[]} />
     )
 }
