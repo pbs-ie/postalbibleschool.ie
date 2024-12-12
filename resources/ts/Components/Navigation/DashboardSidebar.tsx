@@ -41,6 +41,14 @@ export default function DashboardSidebar({ canManageCurriculum = false }: { canM
                     name: "Manage School Orders"
                 }
             ]);
+            bottomSideListItems = [
+                {
+                    routeString: route('settings.index'),
+                    isActive: route().current('settings.*'),
+                    Icon: Cog6Tooth,
+                    name: "Settings"
+                }
+            ];
         } else {
             bottomSideListItems = [
                 {

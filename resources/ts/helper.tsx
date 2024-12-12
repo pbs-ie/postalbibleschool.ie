@@ -97,17 +97,17 @@ export const sortArrayById = (array: any[]) => array.sort((a, b) => a.id - b.id)
 export const getLastElementsOfArray = (array: any[], number: number) => array.slice(-1 * number);
 
 export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size: Button["size"]) => {
-    let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-300".split(' ');
+    let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2".split(' ');
 
     //Form entry related css
     classList.push(...("disabled:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500".split(' ')));
 
     switch (hierarchy) {
         case "primary":
-            classList.push(...("drop-shadow-md text-white bg-pbsblue focus:bg-blue-700 focus:drop-shadow-lg  hover:bg-blue-700 hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md active:bg-blue-700".split(' ')));
+            classList.push(...("drop-shadow-md text-white bg-pbsblue focus:bg-blue-700 focus:shadow-lg  hover:bg-blue-700 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-md active:bg-blue-700".split(' ')));
             break;
         case "secondary":
-            classList.push(...("border border-pbsblue disabled:border-slate-200 disabled:border text-blue-900 bg-white focus:drop-shadow-lg hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md focus:bg-gray-50 hover:bg-gray-50 active:bg-gray-50".split(' ')));
+            classList.push(...("border border-pbsblue disabled:border-slate-200 disabled:border text-blue-900 bg-white focus:shadow-md hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-md focus:bg-gray-50 hover:bg-gray-50 active:bg-gray-50".split(' ')));
             break;
         case "tertiary":
             classList.push(...("text-blue-900 bg-gray-200 focus:bg-gray-300 hover:bg-gray-300 active:bg-gray-300".split(' ')));
@@ -116,7 +116,7 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
             classList.push(...("text-blue-800 bg-transparent focus:underline hover:underline active:underline".split(' ')));
             break;
         case "delete":
-            classList.push(...("drop-shadow-md text-white bg-red-500 focus:bg-red-700 focus:drop-shadow-lg  hover:bg-red-700 hover:-translate-y-px hover:drop-shadow-lg active:translate-y-0 active:drop-shadow-md active:bg-red-700".split(' ')));
+            classList.push(...("shadow-md text-white bg-red-500 focus:bg-red-700 focus:shadow-md  hover:bg-red-700 hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-md active:bg-red-700".split(' ')));
     }
 
     switch (size) {

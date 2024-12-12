@@ -31,6 +31,11 @@ class Student extends BaseModel
         return $this->belongsTo(Classroom::class);
     }
 
+    public function SunscoolMap()
+    {
+        return $this->hasMany(SunscoolMap::class);
+    }
+
     public function scopeGetStudentsForUser($query)
     {
         $areaCode = FmSchool::where('email', auth()->user()->email)->get()->only(['areaCode']);
@@ -42,7 +47,7 @@ class Student extends BaseModel
 
     public function scopeGetActiveStudents($query)
     {
-        return $query->where('active', 'Y');
+        return $query->where('active', 'Y')->orWhere('active', 'T');
     }
 
 }

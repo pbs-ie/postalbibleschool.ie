@@ -20,13 +20,13 @@ import ShedChallenges from "@images/shed/shed-challenges.jpg";
 import ShedLogo from "@images/shed/shed-logo.png";
 
 import ConsentForm from "@images/SHED_Consent-form_2022-23.pdf";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
 import Calendar from "@/Elements/Icons/Calendar";
 import Group from "@/Elements/Icons/Group";
 import QuestionMarkCircle from "@/Elements/Icons/QuestionMarkCircle";
 import School from "@/Elements/Icons/SchoolIcon";
 import Location from "@/Elements/Icons/Location";
+import AnchorLink from "@/Components/Navigation/AnchorLink";
 
 export default function Shed() {
 
@@ -115,10 +115,12 @@ export default function Shed() {
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
                 <CardContainer cards={shedCards} >
-                    <ButtonAnchor href={"https://forms.gle/MmPDKpdHy4mfm1yB9"} isExternalLink={true} Icon={ExternalLink}>Sign up</ButtonAnchor>
+                    <div className="flex justify-center">
+                        <AnchorLink href={"https://forms.gle/MmPDKpdHy4mfm1yB9"} newTab Icon={ExternalLink}>Sign up Google Form</AnchorLink>
+                    </div>
                 </CardContainer>
                 <div className="mb-10">
-                    <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Consent Form" isExternal={true} />
+                    <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Download Consent Form 2022-23 (PDF)" isExternal={true} />
                 </div>
             </EventWrapper>
         </WrapperLayout>

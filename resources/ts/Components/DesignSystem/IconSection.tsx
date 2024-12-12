@@ -1,4 +1,4 @@
-import BasicTable, { TableData } from "@/Components/Tables/BasicTable"
+import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable"
 import Banknotes from "@/Elements/Icons/Banknotes"
 import Calendar from "@/Elements/Icons/Calendar"
 import ChatBubble from "@/Elements/Icons/ChatBubble"
@@ -45,6 +45,7 @@ import PresentationChart from "@/Elements/Icons/PresentationChart"
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon"
 import SparkesIcon from "@/Elements/Icons/SparklesIcon"
 import DatabaseIcon from "@/Elements/Icons/DatabaseIcon"
+import ListBulletIcon from "@/Elements/Icons/ListBulletIcon"
 
 export default function IconSection() {
     const getIconTableData = () => {
@@ -141,6 +142,9 @@ export default function IconSection() {
             heading: <InformationCircle />,
             content: "InformationCircle",
         }, {
+            heading: <ListBulletIcon />,
+            content: "ListBulletIcon",
+        }, {
             heading: <Location />,
             content: "Location",
         }, {
@@ -192,7 +196,7 @@ export default function IconSection() {
             heading: <VideoCamera />,
             content: "VideoCamera",
         }
-        ] as TableData[]
+        ] as BasicTableData[]
     }
     return (
         <section className="text-green-900 md:max-w-3xl">

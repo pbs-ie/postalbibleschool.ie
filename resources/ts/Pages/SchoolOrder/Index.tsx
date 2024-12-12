@@ -19,9 +19,9 @@ import Eye from "@/Elements/Icons/Eye";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import CloudArrowUp from "@/Elements/Icons/CloudArrowUp";
 import Download from "@/Elements/Icons/Download";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Group from "@/Elements/Icons/Group";
 import DatabaseIcon from "@/Elements/Icons/DatabaseIcon";
+import AnchorLink from "@/Components/Navigation/AnchorLink";
 
 interface ProjectedOrdersProps {
     id: number;
@@ -172,7 +172,7 @@ export default function Index({ projectedOrders, currentMonth, currentMonthToSer
                             <SecondaryButton size="small" onClick={handleClassroomPopulate} Icon={RefreshIcon}>Restore Default Classrooms</SecondaryButton>
                             <SecondaryButton size="small" onClick={handleDataSync} Icon={DatabaseIcon}>Pull all schools from FM</SecondaryButton>
                             <SecondaryButton size="small" onClick={handleDataPush} Icon={CloudArrowUp}>Push Month to FM</SecondaryButton>
-                            <ButtonAnchor size="small" href={route('schools.export', currentMonth)} Icon={Download}>Download Excel</ButtonAnchor>
+                            <AnchorLink href={route('schools.export', currentMonth)} Icon={Download}>Download Excel</AnchorLink>
                         </div>
                     </div>
                     <div className="flex items-center w-full mb-2">

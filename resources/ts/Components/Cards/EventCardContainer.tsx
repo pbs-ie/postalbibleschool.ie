@@ -1,4 +1,4 @@
-import CardBlock from "@/Components/Cards/EventCardBlock";
+import EventCardBlock from "@/Components/Cards/EventCardBlock";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 
@@ -21,7 +21,7 @@ export default function EventCardContainer({ cards, children }: CardContainer) {
             <div className={`flex flex-col flex-wrap md:mx-auto justify-center md:justify-around md:flex-row md:mb-5`}>
                 {cards.map(({ Icon, title, description, buttonText, buttonLink, isExternal }) => (
                     <div key={title} className={`flex flex-col ${cards.length < 3 ? 'basis-1/2  justify-between' : 'basis-1/3'} items-center md:max-w-sm`}>
-                        <CardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
+                        <EventCardBlock Icon={Icon} title={title} description={description} buttonLink={buttonLink} buttonText={buttonText} isExternal={isExternal} />
                     </div>
                 ))}
             </div>

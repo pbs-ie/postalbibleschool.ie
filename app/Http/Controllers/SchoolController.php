@@ -38,16 +38,6 @@ class SchoolController extends Controller
             'gleanersOrder' => 'Adv Ord'
         ];
     }
-    function getCurrentUserOrder()
-    {
-        return FmSchool::where('email', auth()->user()->email)->get()?->first();
-    }
-
-    function isCurrentOrderUser(FmSchool $schoolDetails)
-    {
-        $isAdmin = Gate::check('create:orders');
-        return !$isAdmin && ($this->getCurrentUserOrder()?->id !== $schoolDetails?->id);
-    }
 
 
     private function updateFilemakerOrder(int $recordId, $changedRecord)
@@ -97,10 +87,6 @@ class SchoolController extends Controller
      */
     public function show(FmSchool $schoolDetails)
     {
-        if ($this->isCurrentOrderUser($schoolDetails)) {
-            return abort(404);
-        }
-
         $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($schoolDetails->email);
         $activeSchools = FmSchool::queryActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
         $classrooms = Classroom::with('curriculum')->where('email', $schoolDetails->email)->get();

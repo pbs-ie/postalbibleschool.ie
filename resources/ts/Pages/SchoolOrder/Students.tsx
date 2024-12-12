@@ -13,8 +13,8 @@ import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronLeft from "@/Elements/Icons/ChevronLeft";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import Download from "@/Elements/Icons/Download";
+import AnchorLink from "@/Components/Navigation/AnchorLink";
 
 export interface StudentProps {
     classroom_id: number,
@@ -81,12 +81,12 @@ export default function Index({ students, schoolDetails }: { students: StudentPr
                 <ChevronLeft />{"Back to Schools"}
             </span></ButtonLink>
             <div className="m-5 lg:m-10">
-                <div className="flex items-start justify-between w-full">
+                <div className="flex flex-col items-start justify-between w-full lg:flex-row">
                     <Heading1Nospace>School - {schoolDetails.schoolName}</Heading1Nospace>
                     <Head><title>{schoolDetails.schoolName}</title></Head>
-                    <div className="inline-flex gap-2">
+                    <div className="inline-flex flex-wrap items-center gap-2 lg:gap-4">
                         <SecondaryButton size="small" onClick={() => getStudentList()} Icon={RefreshIcon}>Refresh List</SecondaryButton>
-                        <ButtonAnchor Icon={Download} hierarchy="secondary" size="small" href={route('schools.exportStudentsList', schoolDetails.id)}>Download Excel</ButtonAnchor>
+                        <AnchorLink Icon={Download} href={route('schools.exportStudentsList', schoolDetails.id)}>Download Excel</AnchorLink>
                     </div>
                 </div>
                 <div className="mt-5">

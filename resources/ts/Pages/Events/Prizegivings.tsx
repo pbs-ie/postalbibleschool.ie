@@ -1,4 +1,4 @@
-import CardContainer from "@/Components/Cards/EventCardContainer";
+import EventCardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
@@ -71,7 +71,7 @@ export default function Prizegivings({ queryParams }: { queryParams?: any }) {
             Icon: Calendar,
             title: "When",
             description: "Prizegivings are held each year in a large number of venues across Ireland. They are generally held in the month of February, March and April",
-            buttonText: "2024 Schedule",
+            buttonText: "Download 2024 Schedule (PDF)",
             buttonLink: PGSchedule,
             isExternal: true
         },
@@ -95,7 +95,7 @@ export default function Prizegivings({ queryParams }: { queryParams?: any }) {
                     <Paragraph>Prizegivings are a special time for the staff of Postal Bible School as they get an opportunity to meet students and their families across Ireland.</Paragraph>
                 </ParagraphContainer>
                 <div id="prizegivings">
-                    <CardContainer cards={prizegivingCards} />
+                    <EventCardContainer cards={prizegivingCards} />
                 </div>
             </EventWrapper>
         </WrapperLayout>
