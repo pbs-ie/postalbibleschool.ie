@@ -8,6 +8,7 @@ use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\Setting\EventsSettingController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\LessonSettingController;
@@ -112,6 +113,11 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/{schoolId}/classroom/{classroomId}/export', 'exportClassroom')->name('classroom.export');
         Route::get('/{schoolId}/classroom/{classroomId}/exportNames', 'exportNames')->name('classroom.exportNames');
         Route::post('/', 'store')->name('store');
+    });
+    Route::controller(EventsSettingController::class)->name('events.')->prefix('events')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+        Route::delete('destroy', 'destroyFile')->name('destroyFile');
     });
     Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {
         Route::get('/', 'index')->name('index');

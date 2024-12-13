@@ -7,6 +7,8 @@ import EventWrapper from "@/Layouts/EventWrapper";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
+import { EventsSettingsProps } from "@/Pages/Settings/Events";
+
 import PrizesImage from "@images/prizegivings/prizegiving-prizes.jpg";
 import StoriesImage from "@images/prizegivings/prizegiving-stories.jpg";
 import QuizImage from "@images/prizegivings/prizegiving-quiz.jpg";
@@ -22,7 +24,8 @@ import PGSchedule from "@images/Public PRIZEGIVINGS 2024.pdf";
 import Location from "@/Elements/Icons/Location";
 import route from "ziggy-js";
 
-export default function Prizegivings({ queryParams }: { queryParams?: any }) {
+
+export default function Prizegivings({ eventsSettings, queryParams }: { eventsSettings: EventsSettingsProps, queryParams?: any }) {
 
     const images: Gallery[] = [
         {

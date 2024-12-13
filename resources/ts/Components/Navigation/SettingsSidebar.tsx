@@ -9,6 +9,7 @@ import SunIcon from "@/Elements/Icons/SunIcon";
 import PuzzleIcon from "@/Elements/Icons/PuzzleIcon";
 import Newspaper from "@/Elements/Icons/Newspaper";
 import PlayIcon from "@/Elements/Icons/PlayIcon";
+import Group from "@/Elements/Icons/Group";
 
 export default function SettingsSidebar() {
     const settingsMenuList: SidebarProps["listItems"] = [
@@ -47,6 +48,12 @@ export default function SettingsSidebar() {
             isActive: route().current('assembly.bonus.*'),
             Icon: VideoCamera,
             name: "Bonus Admin"
+        },
+        {
+            routeString: route('settings.events.index'),
+            isActive: route().current('settings.events.*'),
+            Icon: Group,
+            name: "Other Events"
         }
     ]
 
