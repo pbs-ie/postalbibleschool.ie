@@ -27,8 +27,9 @@ import QuestionMarkCircle from "@/Elements/Icons/QuestionMarkCircle";
 import School from "@/Elements/Icons/SchoolIcon";
 import Location from "@/Elements/Icons/Location";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+import { EventsSettingsProps } from "../Settings/Events";
 
-export default function Shed() {
+export default function Shed({ eventsSettings }: { eventsSettings: EventsSettingsProps }) {
 
     const images: Gallery[] = [
         {
@@ -76,14 +77,14 @@ export default function Shed() {
         {
             Icon: Location,
             title: "Where",
-            description: "Mullertown House, Annalong, Co. Down",
+            description: eventsSettings.shed_location,
             buttonText: "",
             buttonLink: ""
         },
         {
             Icon: Calendar,
             title: "When",
-            description: "3rd-5th May 2024",
+            description: eventsSettings.shed_dates,
             buttonText: "",
             buttonLink: ""
         },
@@ -114,14 +115,18 @@ export default function Shed() {
                 <ExtendScreenWrapper>
                     <GalleryBasic images={images}></GalleryBasic>
                 </ExtendScreenWrapper>
-                <CardContainer cards={shedCards} >
-                    <div className="flex justify-center">
-                        <AnchorLink href={"https://forms.gle/MmPDKpdHy4mfm1yB9"} newTab Icon={ExternalLink}>Sign up Google Form</AnchorLink>
+                {eventsSettings.shed_isActive &&
+                    <CardContainer cards={shedCards} >
+                        <div className="flex justify-center">
+                            <AnchorLink href={eventsSettings.shed_embedLink} newTab Icon={ExternalLink}>Sign up Google Form</AnchorLink>
+                        </div>
+                    </CardContainer>
+                }
+                {eventsSettings.shed_consentFormLink !== "" &&
+                    <div className="mb-10">
+                        <CardBlock buttonLink={eventsSettings.shed_consentFormLink} title="Contact" description={descriptionText} buttonText={`Download Consent Form ${eventsSettings.shed_year} (PDF)`} isExternal={true} />
                     </div>
-                </CardContainer>
-                <div className="mb-10">
-                    <CardBlock buttonLink={ConsentForm} title="Contact" description={descriptionText} buttonText="Download Consent Form 2022-23 (PDF)" isExternal={true} />
-                </div>
+                }
             </EventWrapper>
         </WrapperLayout>
     )

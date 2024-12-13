@@ -23,6 +23,7 @@ use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
 use App\Models\FmSchool;
+use App\Settings\EventsSettings;
 use App\Settings\ITeamSettings;
 use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
@@ -127,13 +128,16 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
 // ************** END SETTINGS ********************
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::get('/prizegivings', function (Request $request) {
+    Route::get('/prizegivings', function (Request $request, EventsSettings $eventsSettings) {
         return Inertia::render('Events/Prizegivings', [
+            'eventsSettings' => $eventsSettings,
             'queryParams' => $request->query(),
         ]);
     })->name('prizegivings');
-    Route::get('/shed', function () {
-        return Inertia::render('Events/Shed');
+    Route::get('/shed', function (EventsSettings $eventsSettings) {
+        return Inertia::render('Events/Shed', [
+            'eventsSettings' => $eventsSettings
+        ]);
     })->name('shed');
 
     Route::prefix('camp')->name('camp.')->group(function () {

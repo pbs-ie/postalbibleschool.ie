@@ -183,7 +183,7 @@ export default function Events({ eventsSettings }: { eventsSettings: EventsSetti
                                 }
                                 {eventsSettings.shed_consentFormLink &&
                                     <div className="flex gap-2 w-fit">
-                                        <AnchorLink Icon={Download} href={route('assets.download', eventsSettings.shed_consentFormLink)}>Download Schedule File</AnchorLink>
+                                        <AnchorLink Icon={Download} href={route('assets.download', eventsSettings.shed_consentFormLink)}>Download Consent Form (PDF)</AnchorLink>
                                         <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.events.destroyFile'), { preserveScroll: true })}>
                                             <span className="flex items-center gap-2"><Trash />Remove File</span>
                                         </BasicButton>

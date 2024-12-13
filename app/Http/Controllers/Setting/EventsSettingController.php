@@ -56,6 +56,7 @@ class EventsSettingController extends Controller
 
     public function destroyFile(EventsSettings $settings)
     {
+        dd(Storage::disk('public')->exists(""));
         if (Storage::disk('public')->exists($settings->prizegivings_scheduleFileLink)) {
             Storage::disk('public')->delete($settings->prizegivings_scheduleFileLink);
 
