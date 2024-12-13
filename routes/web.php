@@ -8,6 +8,7 @@ use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\Setting\EventsSettingController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\LessonSettingController;
@@ -22,6 +23,7 @@ use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
 use App\Models\FmSchool;
+use App\Settings\EventsSettings;
 use App\Settings\ITeamSettings;
 use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
@@ -113,6 +115,11 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
         Route::get('/{schoolId}/classroom/{classroomId}/exportNames', 'exportNames')->name('classroom.exportNames');
         Route::post('/', 'store')->name('store');
     });
+    Route::controller(EventsSettingController::class)->name('events.')->prefix('events')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+        Route::delete('destroy', 'destroyFile')->name('destroyFile');
+    });
     Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
@@ -121,13 +128,16 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
 // ************** END SETTINGS ********************
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::get('/prizegivings', function (Request $request) {
+    Route::get('/prizegivings', function (Request $request, EventsSettings $eventsSettings) {
         return Inertia::render('Events/Prizegivings', [
+            'eventsSettings' => $eventsSettings,
             'queryParams' => $request->query(),
         ]);
     })->name('prizegivings');
-    Route::get('/shed', function () {
-        return Inertia::render('Events/Shed');
+    Route::get('/shed', function (EventsSettings $eventsSettings) {
+        return Inertia::render('Events/Shed', [
+            'eventsSettings' => $eventsSettings
+        ]);
     })->name('shed');
 
     Route::prefix('camp')->name('camp.')->group(function () {

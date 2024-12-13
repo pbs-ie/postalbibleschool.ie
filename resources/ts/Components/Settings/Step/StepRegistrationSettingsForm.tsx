@@ -149,7 +149,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <div><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</div>
                     }
                     {stepSettings.scheduleFileLink &&
-                        <div className="flex gap-2 w-fit">
+                        <div className="flex items-center gap-2 w-fit">
                             <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</AnchorLink>
                             <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.step.destroyFile'), { preserveScroll: true })}>
                                 <span className="flex items-center gap-2"><Trash />Remove File</span>

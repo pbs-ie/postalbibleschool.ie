@@ -1,6 +1,5 @@
 import EventCardHeading from "@/Components/Typography/EventCardHeading";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import ExternalLink from "@/Elements/Icons/ExternalLink";
 import AnchorLink from "../Navigation/AnchorLink";
 
 declare global {
@@ -26,7 +25,7 @@ export default function EventCardBlock({ Icon, title, description, buttonText, b
             {buttonText && buttonLink !== "" &&
                 (isExternal ?
                     <div className="flex justify-center">
-                        <AnchorLink href={buttonLink} newTab={true}>{buttonText}</AnchorLink>
+                        <AnchorLink href={buttonLink}>{buttonText}</AnchorLink>
                     </div>
                     :
                     <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>
