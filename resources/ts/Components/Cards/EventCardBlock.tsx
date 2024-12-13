@@ -26,7 +26,7 @@ export default function EventCardBlock({ Icon, title, description, buttonText, b
             {buttonText && buttonLink !== "" &&
                 (isExternal ?
                     <div className="flex justify-center">
-                        <AnchorLink href={buttonLink} newTab={true}>{buttonText}</AnchorLink>
+                        <AnchorLink href={buttonLink}>{buttonText}</AnchorLink>
                     </div>
                     :
                     <ButtonLink href={buttonLink}>{buttonText}</ButtonLink>

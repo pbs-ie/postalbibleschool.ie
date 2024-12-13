@@ -74,7 +74,7 @@ export default function Prizegivings({ eventsSettings, queryParams }: { eventsSe
             title: "When",
             description: "Prizegivings are held each year in a large number of venues across Ireland. They are generally held in the month of February, March and April",
             buttonText: "Download " + eventsSettings.prizegivings_year + " Schedule (PDF)",
-            buttonLink: eventsSettings.prizegivings_scheduleFileLink,
+            buttonLink: route('assets.download', eventsSettings.prizegivings_scheduleFileLink),
             isExternal: true
         },
         {

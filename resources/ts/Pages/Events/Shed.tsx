@@ -28,6 +28,7 @@ import School from "@/Elements/Icons/SchoolIcon";
 import Location from "@/Elements/Icons/Location";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import { EventsSettingsProps } from "../Settings/Events";
+import route from "ziggy-js";
 
 export default function Shed({ eventsSettings }: { eventsSettings: EventsSettingsProps }) {
 
@@ -124,7 +125,7 @@ export default function Shed({ eventsSettings }: { eventsSettings: EventsSetting
                 }
                 {eventsSettings.shed_consentFormLink !== "" &&
                     <div className="mb-10">
-                        <CardBlock buttonLink={eventsSettings.shed_consentFormLink} title="Contact" description={descriptionText} buttonText={`Download Consent Form ${eventsSettings.shed_year} (PDF)`} isExternal={true} />
+                        <CardBlock buttonLink={route('assets.download', eventsSettings.shed_consentFormLink)} title="Contact" description={descriptionText} buttonText={`Download Consent Form ${eventsSettings.shed_year} (PDF)`} isExternal={true} />
                     </div>
                 }
             </EventWrapper>
