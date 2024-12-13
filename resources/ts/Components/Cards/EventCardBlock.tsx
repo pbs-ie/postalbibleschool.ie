@@ -1,6 +1,5 @@
 import EventCardHeading from "@/Components/Typography/EventCardHeading";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import ExternalLink from "@/Elements/Icons/ExternalLink";
 import AnchorLink from "../Navigation/AnchorLink";
 
 declare global {
