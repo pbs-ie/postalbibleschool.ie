@@ -61,23 +61,35 @@ class EventsSettingController extends Controller
 
     public function destroyFile(Request $request, EventsSettings $settings)
     {
-        if (isset($request->prizegivings_scheduleFileLink) && Storage::disk('public')->exists($request->prizegivings_scheduleFileLink)) {
-            Storage::disk('public')->delete($request->prizegivings_scheduleFileLink);
+        // Validate the request to ensure exactly one file link is present
+        $validatedData = $request->validate([
+            'prizegivings_scheduleFileLink' => 'required_without:shed_consentFormLink|string',
+            'shed_consentFormLink' => 'required_without:prizegivings_scheduleFileLink|string',
+        ]);
 
-            $settings->prizegivings_scheduleFileLink = null;
+        // Determine which file link is being processed
+        $fileKey = $request->has('prizegivings_scheduleFileLink') ? 'prizegivings_scheduleFileLink' : 'shed_consentFormLink';
+        $fileLink = $validatedData[$fileKey];
+
+        // Process the file link and update settings
+        return $this->removeFileAndUpdateSettings($fileLink, $settings, $fileKey);
+    }
+    private function removeFileAndUpdateSettings($fileLink, EventsSettings $settings, $attribute)
+    {
+        $disk = Storage::disk('public');
+
+        if (!$disk->exists($fileLink)) {
+            $settings->{$attribute} = null;
             $settings->save();
 
-            return redirect()->route('settings.events.index')->with('success', 'Schedule file removed');
+            return redirect()->route('settings.events.index')->with('warning', 'File not found. Link removed.');
         }
-        if (isset($request->shed_consentFormLink) && Storage::disk('public')->exists($request->shed_consentFormLink)) {
-            Storage::disk('public')->delete($request->shed_consentFormLink);
 
-            $settings->shed_consentFormLink = null;
+        $disk->delete($fileLink);
+        $settings->{$attribute} = null;
             $settings->save();
 
-            return redirect()->route('settings.events.index')->with('success', 'Consent form file removed');
-        }
-        return redirect()->route('settings.events.index')->with('warning', 'File not found');
+        return redirect()->route('settings.events.index')->with('success', ucfirst(str_replace('_', ' ', $attribute)) . ' removed successfully');
     }
 
 }
