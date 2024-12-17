@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Setting;
 
 use App\Http\Requests\UpdateStepSettingRequest;
+use App\Services\SettingsService;
 use App\Settings\StepSettings;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
@@ -23,28 +24,20 @@ class StepSettingController extends Controller
         try {
             // Replacing stored image
             if ($request->hasFile('eventImage')) {
-                if (Storage::disk('images')->exists($settings->eventImageLink)) {
-                    Storage::disk('images')->delete($settings->eventImageLink);
-                }
-                $storagePath = Storage::disk('images')->put('/event_images', $request->file('eventImage'));
-                $settings->eventImageLink = $storagePath;
+                SettingsService::saveNewImage($request->file('eventImage'), 'eventImageLink', $settings);
             }
             // Replacing stored file
             if ($request->hasFile('scheduleFile')) {
-                if (Storage::disk('public')->exists($settings->scheduleFileLink)) {
-                    Storage::disk('public')->delete($settings->scheduleFileLink);
-                }
-                $storagePath = Storage::disk('public')->put('/files', $request->file('scheduleFile'));
-                $settings->scheduleFileLink = $storagePath;
+                SettingsService::saveNewFile($request->file('scheduleFile'), 'scheduleFileLink', $settings);
             }
 
-            $settings->dates = $request->input('dates');
-            $settings->topic = $request->input('topic');
-            $settings->description = $request->input('description');
-            $settings->standardCost = $request->input('standardCost');
-            $settings->concessionCost = $request->input('concessionCost');
-            $settings->speaker = $request->input('speaker');
-            $settings->embedLink = $request->input('embedLink');
+            $settings->dates = $request->input('dates') ?? "";
+            $settings->topic = $request->input('topic') ?? "";
+            $settings->description = $request->input('description') ?? "";
+            $settings->standardCost = $request->input('standardCost') ?? "";
+            $settings->concessionCost = $request->input('concessionCost') ?? "";
+            $settings->speaker = $request->input('speaker') ?? "";
+            $settings->embedLink = $request->input('embedLink') ?? "";
             $settings->isActive = $request->boolean('isActive');
 
             $settings->save();

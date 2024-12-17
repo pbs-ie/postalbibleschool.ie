@@ -26,23 +26,30 @@ class UpdateStepSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            "dates" => ['required', 'string'],
-            "topic" => ['required', 'string'],
-            "standardCost" => ['required', 'numeric'],
-            "concessionCost" => ['required', 'numeric'],
-            "speaker" => ['required', 'string'],
-            "embedLink" => ['required', 'string'],
-            "isActive" => ['required'],
+            "dates" => ['required_if:isActive,true', 'string', 'nullable'],
+            "topic" => ['required_if:isActive,true', 'string', 'nullable'],
+            "standardCost" => ['required_if:isActive,true', 'numeric', 'nullable'],
+            "concessionCost" => ['required_if:isActive,true', 'numeric', 'nullable'],
+            "speaker" => ['required_if:isActive,true', 'string', 'nullable'],
+            "embedLink" => ['required_if:isActive,true', 'string', 'nullable'],
+            "isActive" => ['required', 'boolean'],
             'eventImage' => [
                 File::image()
                     ->types(['png', 'jpg'])
-                    ->max(15 * 1024),
+                    ->max(2 * 1024),
                 'nullable'
             ],
             'scheduleFile' => [
                 File::types('pdf'),
                 'nullable'
             ]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'eventImage.max' => 'The image may not be greater than 2 MB'
         ];
     }
 }

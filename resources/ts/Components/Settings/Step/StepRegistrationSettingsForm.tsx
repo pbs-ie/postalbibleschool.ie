@@ -2,7 +2,6 @@ import { router, useForm } from "@inertiajs/react"
 import { FormEvent, useEffect, useState } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import route from "ziggy-js";
@@ -15,6 +14,7 @@ import Trash from "@/Elements/Icons/Trash";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -60,8 +60,10 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
             case "standardCost":
             case "concessionCost":
             case "embedLink":
-            case "isActive":
                 setData(event.target.name, event.target.value);
+                break;
+            case "isActive":
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -87,6 +89,10 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? "1" : "0"} handleChange={handleChange} />
+                        <InputError message={errors.isActive} />
+                    </div>
                     <div>
                         <InputLabel2 forInput={"topic"} value={"Topic"} />
                         <TextInput name={"topic"} id={"topic"} value={data.topic} handleChange={handleChange} />
@@ -122,14 +128,6 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <InputLabel2 forInput={"embedLink"} value={"Google Form Embed Link"} />
                         <TextInput name={"embedLink"} id={"embedLink"} value={data.embedLink} handleChange={handleChange} />
                         <InputError message={errors.embedLink} />
-                    </div>
-                    <div>
-                        <InputLabel2 forInput={"isActive"} value={"Is Event Active?"} />
-                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </SelectInput>
-                        <InputError message={errors.isActive} />
                     </div>
 
                 </div>
