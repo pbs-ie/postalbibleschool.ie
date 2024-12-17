@@ -2,7 +2,6 @@ import { router, useForm } from "@inertiajs/react"
 import { FormEvent, useEffect, useState } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import route from "ziggy-js";
@@ -14,6 +13,8 @@ import LabelSpan from "@/Components/Typography/LabelSpan";
 import Trash from "@/Elements/Icons/Trash";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -48,7 +49,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     }, [stepSettings])
 
-    const { data, setData, post, errors } = useForm<StepSettingsProps>(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm<StepSettingsProps>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -59,8 +60,10 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
             case "standardCost":
             case "concessionCost":
             case "embedLink":
-            case "isActive":
                 setData(event.target.name, event.target.value);
+                break;
+            case "isActive":
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -79,13 +82,19 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.step.update'));
+        post(route('settings.step.update'), {
+            onSuccess: () => setDefaults()
+        });
     }
     return (
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? 1 : 0} handleChange={handleChange} />
+                        <InputError message={errors.isActive} />
+                    </div>
                     <div>
                         <InputLabel2 forInput={"topic"} value={"Topic"} />
                         <TextInput name={"topic"} id={"topic"} value={data.topic} handleChange={handleChange} />
@@ -122,14 +131,6 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <TextInput name={"embedLink"} id={"embedLink"} value={data.embedLink} handleChange={handleChange} />
                         <InputError message={errors.embedLink} />
                     </div>
-                    <div>
-                        <InputLabel2 forInput={"isActive"} value={"Is Event Active?"} />
-                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </SelectInput>
-                        <InputError message={errors.isActive} />
-                    </div>
 
                 </div>
                 <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
@@ -158,9 +159,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     }
                 </div>
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form >
     )
 }

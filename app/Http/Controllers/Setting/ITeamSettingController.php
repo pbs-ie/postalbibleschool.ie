@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Setting;
 
+use App\Http\Requests\UpdateITeamSettingRequest;
+use App\Services\SettingsService;
 use App\Settings\ITeamSettings;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
-use Storage;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
 
 class ITeamSettingController extends Controller
 {
@@ -18,29 +17,15 @@ class ITeamSettingController extends Controller
         ]);
     }
 
-    public function update(ITeamSettings $settings, Request $request)
+    public function update(ITeamSettings $settings, UpdateITeamSettingRequest $request)
     {
-        $request->validate([
-            "dates" => ['required', 'string'],
-            "embedLink" => ['required', 'string'],
-            "isActive" => ['required'],
-            'eventImage' => [
-                File::image()
-                    ->types(['png', 'jpg'])
-                    ->max(15 * 1024)
-            ],
-        ]);
         // Replacing stored image
         if ($request->hasFile('eventImage')) {
-            if (Storage::disk('images')->exists($settings->eventImageLink)) {
-                Storage::disk('images')->delete($settings->eventImageLink);
-            }
-            $storagePath = Storage::disk('images')->put('/event_images', $request->file('eventImage'));
-            $settings->eventImageLink = $storagePath;
+            SettingsService::saveNewImage($request->file('eventImage'), 'eventImageLink', $settings);
         }
 
-        $settings->dates = $request->input('dates');
-        $settings->embedLink = $request->input('embedLink');
+        $settings->dates = $request->input('dates') ?? "";
+        $settings->embedLink = $request->input('embedLink') ?? "";
         $settings->isActive = $request->boolean('isActive');
 
         $settings->save();
