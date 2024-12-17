@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Setting;
 
 use App\Http\Requests\UpdateEventsSettingRequest;
+use App\Services\SettingsService;
 use App\Settings\EventsSettings;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
@@ -38,10 +39,10 @@ class EventsSettingController extends Controller
 
             // Replacing stored file
             if ($request->hasFile('prizegivings_scheduleFile')) {
-                $this->saveNewFile($request->file('prizegivings_scheduleFile'), 'prizegivings_scheduleFileLink', $settings);
+                SettingsService::saveNewFile($request->file('prizegivings_scheduleFile'), 'prizegivings_scheduleFileLink', $settings);
             }
             if ($request->hasFile('shed_consentForm')) {
-                $this->saveNewFile($request->file('shed_consentForm'), 'shed_consentFormLink', $settings);
+                SettingsService::saveNewFile($request->file('shed_consentForm'), 'shed_consentFormLink', $settings);
             }
 
             $settings->save();
@@ -94,13 +95,5 @@ class EventsSettingController extends Controller
         return redirect()->route('settings.events.index')->with('success', ucfirst(str_replace('_', ' ', $attribute)) . ' removed successfully');
     }
 
-    private function saveNewFile($newFile, $settingsLinkParam, $settings)
-    {
-        if ($settings->{$settingsLinkParam} && Storage::disk('public')->exists($settings->{$settingsLinkParam})) {
-            Storage::disk('public')->delete($settings->{$settingsLinkParam});
-        }
-        $storagePath = Storage::disk('public')->put('/files', $newFile);
-        $settings->{$settingsLinkParam} = $storagePath;
-    }
 
 }
