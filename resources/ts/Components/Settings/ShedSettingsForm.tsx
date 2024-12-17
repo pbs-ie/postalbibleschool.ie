@@ -10,7 +10,7 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import Download from "@/Elements/Icons/Download";
 import Trash from "@/Elements/Icons/Trash";
-import { router, useForm } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { useState, useEffect, FormEvent } from "react";
 import route from "ziggy-js";
 
@@ -37,7 +37,7 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
 
     }, [eventsSettings])
 
-    const { data, setData, post, errors, delete: destroy } = useForm<Omit<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
+    const { data, setData, post, errors, delete: destroy, isDirty, processing } = useForm<Omit<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -67,7 +67,9 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.events.update'));
+        post(route('settings.events.update'), {
+            preserveScroll: true
+        });
     }
     return (
         <form name="shedSettingsForm" aria-label="SHED Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md mb-5">
@@ -75,6 +77,14 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div>
+                        <InputLabel2 forInput={"shed_isActive"} value={"Is Event Active?"} required />
+                        <SelectInput name="shed_isActive" id="shed_isActive" handleChange={handleChange} defaultValue={data.shed_isActive ? "1" : "0"} required>
+                            <option value="1">True</option>
+                            <option value="0">False</option>
+                        </SelectInput>
+                        <InputError message={errors.shed_isActive} />
+                    </div>
                     <div>
                         <InputLabel2 forInput={"shed_dates"} value={"Dates"} />
                         <TextInput name={"shed_dates"} id={"shed_dates"} value={data.shed_dates} handleChange={handleChange} />
@@ -95,16 +105,10 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
                         <TextInput name={"shed_embedLink"} id={"shed_embedLink"} value={data.shed_embedLink} handleChange={handleChange} />
                         <InputError message={errors.shed_embedLink} />
                     </div>
-                    <div>
-                        <InputLabel2 forInput={"shed_isActive"} value={"Is Event Active?"} />
-                        <SelectInput name="shed_isActive" id="shed_isActive" handleChange={handleChange} defaultValue={data.shed_isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </SelectInput>
-                        <InputError message={errors.shed_isActive} />
-                    </div>
+
 
                 </div>
+                <hr className="my-4" />
                 <div className="flex flex-col items-start h-full w-fit">
                     <FileUploadDropzone name={"shed_consentForm"} labelText="Consent Form File (PDF)" onDrop={(e) => handleDrop(e, 'shed_consentForm')} onChange={handleFileChange} accept="application/pdf" />
                     <InputError message={errors.shed_consentForm} />
@@ -121,7 +125,10 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
                     }
                 </div>
             </div>
-            <PrimaryButton>Update</PrimaryButton>
+            <div>
+                <PrimaryButton processing={processing || !isDirty}>Update</PrimaryButton>
+                {isDirty && <span className="text-gray-500 ml-2 italic">You have unsaved changes.</span>}
+            </div>
         </form>
     )
 }

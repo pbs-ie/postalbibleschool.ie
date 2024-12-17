@@ -10,7 +10,7 @@ import TextInput from "@/Elements/Forms/TextInput";
 import Download from "@/Elements/Icons/Download";
 import Trash from "@/Elements/Icons/Trash";
 import { EventsSettingsProps } from "@/Pages/Settings/Events";
-import { router, useForm } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { useState, useEffect, FormEvent } from "react";
 import route from "ziggy-js";
 
@@ -31,7 +31,7 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
 
     }, [eventsSettings])
 
-    const { data, setData, post, errors, delete: destroy } = useForm<Pick<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
+    const { data, setData, post, errors, delete: destroy, isDirty, processing } = useForm<Pick<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -66,20 +66,21 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div>
+                        <InputLabel2 forInput={"prizegivings_isActive"} value={"Is Event Active?"} required />
+                        <SelectInput name="prizegivings_isActive" id="prizegivings_isActive" handleChange={handleChange} defaultValue={data.prizegivings_isActive ? "1" : "0"} required>
+                            <option value="1">True</option>
+                            <option value="0">False</option>
+                        </SelectInput>
+                        <InputError message={errors.prizegivings_isActive} />
+                    </div>
+                    <div>
                         <InputLabel2 forInput={"prizegivings_year"} value={"Year"} />
                         <TextInput name={"prizegivings_year"} id={"prizegivings_year"} value={data.prizegivings_year} handleChange={handleChange} />
                         <InputError message={errors.prizegivings_year} />
                     </div>
-                    <div>
-                        <InputLabel2 forInput={"prizegivings_isActive"} value={"Is Event Active?"} />
-                        <SelectInput name="prizegivings_isActive" id="prizegivings_isActive" handleChange={handleChange} defaultValue={data.prizegivings_isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </SelectInput>
-                        <InputError message={errors.prizegivings_isActive} />
-                    </div>
 
                 </div>
+                <hr className="my-4" />
                 <div className="flex flex-col items-start h-full w-fit">
                     <FileUploadDropzone name={"prizegivings_scheduleFile"} labelText="Schedule File (PDF)" onDrop={(e) => handleDrop(e, 'prizegivings_scheduleFile')} onChange={handleFileChange} accept="application/pdf" />
                     <InputError message={errors.prizegivings_scheduleFile} />
@@ -96,7 +97,10 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
                     }
                 </div>
             </div>
-            <PrimaryButton>Update</PrimaryButton>
+            <div>
+                <PrimaryButton processing={processing || !isDirty}>Update</PrimaryButton>
+                {isDirty && <span className="text-gray-500 ml-2 italic">You have unsaved changes.</span>}
+            </div>
 
         </form>
     )
