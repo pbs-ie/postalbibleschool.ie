@@ -2,12 +2,11 @@ import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import InputError from "@/Elements/Forms/InputError";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 import Download from "@/Elements/Icons/Download";
 import Trash from "@/Elements/Icons/Trash";
 import { EventsSettingsProps } from "@/Pages/Settings/Events";
@@ -39,8 +38,10 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
             case "prizegivings_scheduleFile":
             case "prizegivings_scheduleFileLink":
             case "prizegivings_year":
-            case "prizegivings_isActive":
                 setData(event.target.name, event.target.value);
+                break;
+            case "prizegivings_isActive":
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -58,7 +59,9 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
     };
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.events.update'));
+        post(route('settings.events.update'), {
+            preserveScroll: true
+        });
     }
     return (
         <form name="eventsSettingsForm" aria-label="Events Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md mb-5">
@@ -66,13 +69,10 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div>
-                        <InputLabel2 forInput={"prizegivings_isActive"} value={"Is Event Active?"} required />
-                        <SelectInput name="prizegivings_isActive" id="prizegivings_isActive" handleChange={handleChange} defaultValue={data.prizegivings_isActive ? "1" : "0"} required>
-                            <option value="1">True</option>
-                            <option value="0">False</option>
-                        </SelectInput>
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Event Active?" name="prizegivings_isActive" handleChange={handleChange} value={data.prizegivings_isActive ? 1 : 0} />
                         <InputError message={errors.prizegivings_isActive} />
+
                     </div>
                     <div>
                         <InputLabel2 forInput={"prizegivings_year"} value={"Year"} />

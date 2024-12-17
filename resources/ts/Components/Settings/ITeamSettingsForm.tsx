@@ -55,7 +55,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="w-fit">
-                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? "1" : "0"} handleChange={handleChange} />
+                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? 1 : 0} handleChange={handleChange} />
                         <InputError message={errors.isActive} />
                     </div>
                     <div>

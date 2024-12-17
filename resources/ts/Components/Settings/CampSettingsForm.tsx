@@ -1,8 +1,6 @@
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
-import SelectInput from "@/Elements/Forms/SelectInput";
 
 import { CampSettingProps } from "@/Pages/Settings/Camp";
 
@@ -10,6 +8,7 @@ import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 export default function CampSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "dates" | "year" | "embedLink" | "isActive"> }) {
     const defaultData = {
@@ -25,8 +24,10 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
             case "dates":
             case "year":
             case "embedLink":
-            case "isActive":
                 setData(event.target.name, event.target.value);
+                break;
+            case "isActive":
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -40,7 +41,10 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
         <form name="campSettingsForm" aria-label="Camp Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <div className="my-4 ">
                 <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-2">
-
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Registration Active?" name="isActive" handleChange={handleChange} value={data.isActive ? 1 : 0} />
+                        <InputError message={errors.isActive} />
+                    </div>
                     <div>
                         <InputLabel2 forInput={"dates"} value={"Dates"} />
                         <TextInput name={"dates"} id={"dates"} value={data.dates + ""} handleChange={handleChange} />
@@ -57,14 +61,7 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
                         <TextInput name={"embedLink"} id={"embedLink"} value={data.embedLink} handleChange={handleChange} />
                         <InputError message={errors.embedLink} />
                     </div>
-                    <div>
-                        <InputLabel2 forInput={"isActive"} value={"Is Registration Active?"} />
-                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive ? 1 : 0}>
-                            <option value={1}>True</option>
-                            <option value={0}>False</option>
-                        </SelectInput>
-                        <InputError message={errors.isActive} />
-                    </div>
+
                 </div>
             </div>
             <UpdateFormButton isDirty={isDirty} />

@@ -3,10 +3,8 @@ import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import Download from "@/Elements/Icons/Download";
 import Trash from "@/Elements/Icons/Trash";
@@ -14,6 +12,7 @@ import { useForm } from "@inertiajs/react";
 import { useState, useEffect, FormEvent } from "react";
 import route from "ziggy-js";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 export default function shedSettingsForm({ eventsSettings }: { eventsSettings: EventsSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -38,7 +37,7 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
 
     }, [eventsSettings])
 
-    const { data, setData, post, errors, delete: destroy, isDirty, processing } = useForm<Omit<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
+    const { data, setData, post, errors, delete: destroy, isDirty } = useForm<Omit<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -46,11 +45,12 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
             case "shed_location":
             case "shed_year":
             case "shed_embedLink":
-            case "shed_isActive":
             case "shed_consentForm":
             case "shed_consentFormLink":
                 setData(event.target.name, event.target.value);
                 break;
+            case "shed_isActive":
+                setData(event.target.name, Boolean(+event.target.value));
         }
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,13 +78,10 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div>
-                        <InputLabel2 forInput={"shed_isActive"} value={"Is Event Active?"} required />
-                        <SelectInput name="shed_isActive" id="shed_isActive" handleChange={handleChange} defaultValue={data.shed_isActive ? "1" : "0"} required>
-                            <option value="1">True</option>
-                            <option value="0">False</option>
-                        </SelectInput>
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Event Active?" name="shed_isActive" handleChange={handleChange} value={data.shed_isActive ? 1 : 0} />
                         <InputError message={errors.shed_isActive} />
+
                     </div>
                     <div>
                         <InputLabel2 forInput={"shed_dates"} value={"Dates"} />

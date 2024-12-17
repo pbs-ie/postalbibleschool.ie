@@ -1,5 +1,4 @@
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
 import NumberInput from "@/Elements/Forms/NumberInput";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
