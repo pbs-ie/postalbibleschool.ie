@@ -12,13 +12,14 @@ import Heading3 from "@/Components/Typography/Heading3";
 import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function CampPaymentSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "paymentPrices" | "paymentDescription"> }) {
     const defaultData = {
         "paymentDescription": campSettings.paymentDescription,
         "paymentPrices": campSettings.paymentPrices.concat(Array(3 - campSettings.paymentPrices.length).fill("")).slice(0, 3)
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty } = useForm(defaultData);
 
     const handleChange = (value: string, index: number) => {
         data.paymentPrices[index] = value;
@@ -71,9 +72,7 @@ export default function CampPaymentSettingsForm({ campSettings }: { campSettings
 
                 </div>
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }

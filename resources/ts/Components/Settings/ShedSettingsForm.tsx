@@ -13,6 +13,7 @@ import Trash from "@/Elements/Icons/Trash";
 import { useForm } from "@inertiajs/react";
 import { useState, useEffect, FormEvent } from "react";
 import route from "ziggy-js";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function shedSettingsForm({ eventsSettings }: { eventsSettings: EventsSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -125,10 +126,7 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
                     }
                 </div>
             </div>
-            <div>
-                <PrimaryButton processing={processing || !isDirty}>Update</PrimaryButton>
-                {isDirty && <span className="text-gray-500 ml-2 italic">You have unsaved changes.</span>}
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }

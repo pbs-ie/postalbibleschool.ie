@@ -10,6 +10,7 @@ import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function ReunionSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, 'reunionDates' | 'reunionIsActive' | 'reunionFormEmbedLink'> }) {
     const defaultData = {
@@ -17,7 +18,7 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
         "reunionIsActive": campSettings.reunionIsActive,
         "reunionFormEmbedLink": campSettings.reunionFormEmbedLink
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -62,9 +63,7 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
                     </div>
                 </div>
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }

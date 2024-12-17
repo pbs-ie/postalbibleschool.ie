@@ -9,6 +9,7 @@ import { CampSettingProps } from "@/Pages/Settings/Camp";
 import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function CampSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "dates" | "year" | "embedLink" | "isActive"> }) {
     const defaultData = {
@@ -17,7 +18,7 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
         "embedLink": campSettings.embedLink,
         "isActive": campSettings.isActive
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -66,9 +67,7 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
                     </div>
                 </div>
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }

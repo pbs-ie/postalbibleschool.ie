@@ -14,6 +14,7 @@ import LabelSpan from "@/Components/Typography/LabelSpan";
 import Trash from "@/Elements/Icons/Trash";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -48,7 +49,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     }, [stepSettings])
 
-    const { data, setData, post, errors } = useForm<StepSettingsProps>(defaultData);
+    const { data, setData, post, errors, isDirty } = useForm<StepSettingsProps>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -158,9 +159,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                     }
                 </div>
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form >
     )
 }

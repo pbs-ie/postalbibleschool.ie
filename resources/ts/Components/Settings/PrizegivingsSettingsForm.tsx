@@ -3,6 +3,7 @@ import AnchorLink from "@/Components/Navigation/AnchorLink";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import InputError from "@/Elements/Forms/InputError";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import SelectInput from "@/Elements/Forms/SelectInput";
@@ -97,10 +98,7 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
                     }
                 </div>
             </div>
-            <div>
-                <PrimaryButton processing={processing || !isDirty}>Update</PrimaryButton>
-                {isDirty && <span className="text-gray-500 ml-2 italic">You have unsaved changes.</span>}
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
 
         </form>
     )

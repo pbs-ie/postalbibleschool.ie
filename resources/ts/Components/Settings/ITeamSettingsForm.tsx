@@ -8,6 +8,7 @@ import SelectInput from "@/Elements/Forms/SelectInput";
 import FileInput from "@/Elements/Forms/FileInput";
 import { ITeamSettingProps } from "@/Pages/Events/ITeam";
 import route from "ziggy-js";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 
 export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     const defaultData = {
@@ -17,7 +18,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
         "eventImage": iteamSettings.eventImage,
         "eventImageLink": iteamSettings.eventImageLink
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -71,9 +72,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
                 </div>
                 <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }
