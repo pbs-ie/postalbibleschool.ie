@@ -18,7 +18,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
         "eventImage": iteamSettings.eventImage,
         "eventImageLink": iteamSettings.eventImageLink
     }
-    const { data, setData, post, errors, isDirty } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -47,7 +47,9 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.iteam.update'));
+        post(route('settings.iteam.update'), {
+            onSuccess: () => setDefaults()
+        });
     }
     return (
         <form name="iteamSettingsForm" aria-label="iTeam Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">

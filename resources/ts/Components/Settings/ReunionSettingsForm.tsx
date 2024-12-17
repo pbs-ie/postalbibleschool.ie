@@ -17,7 +17,7 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
         "reunionIsActive": campSettings.reunionIsActive,
         "reunionFormEmbedLink": campSettings.reunionFormEmbedLink
     }
-    const { data, setData, post, errors, isDirty } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -33,7 +33,8 @@ export default function ReunionSettingsForm({ campSettings }: { campSettings: Pi
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('settings.camp.reunion.update'), {
-            preserveScroll: true
+            preserveScroll: true,
+            onSuccess: () => setDefaults()
         });
     }
     return (

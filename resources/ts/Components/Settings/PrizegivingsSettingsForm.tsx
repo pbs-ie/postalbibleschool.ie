@@ -31,7 +31,7 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
 
     }, [eventsSettings])
 
-    const { data, setData, post, errors, delete: destroy, isDirty, processing } = useForm<Pick<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
+    const { data, setData, post, errors, delete: destroy, isDirty, setDefaults } = useForm<Pick<EventsSettingsProps, "prizegivings_isActive" | "prizegivings_scheduleFile" | "prizegivings_scheduleFileLink" | "prizegivings_year">>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -60,7 +60,8 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('settings.events.update'), {
-            preserveScroll: true
+            preserveScroll: true,
+            onSuccess: () => setDefaults()
         });
     }
     return (

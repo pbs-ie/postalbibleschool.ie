@@ -49,7 +49,7 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     }, [stepSettings])
 
-    const { data, setData, post, errors, isDirty } = useForm<StepSettingsProps>(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm<StepSettingsProps>(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -82,7 +82,9 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.step.update'));
+        post(route('settings.step.update'), {
+            onSuccess: () => setDefaults()
+        });
     }
     return (
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">

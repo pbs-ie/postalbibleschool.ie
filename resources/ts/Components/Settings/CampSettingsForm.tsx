@@ -17,7 +17,7 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
         "embedLink": campSettings.embedLink,
         "isActive": campSettings.isActive
     }
-    const { data, setData, post, errors, isDirty } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
@@ -34,7 +34,8 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('settings.camp.update'), {
-            preserveScroll: true
+            preserveScroll: true,
+            onSuccess: () => setDefaults()
         });
     }
     return (

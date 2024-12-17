@@ -18,7 +18,7 @@ export default function CampPaymentSettingsForm({ campSettings }: { campSettings
         "paymentDescription": campSettings.paymentDescription,
         "paymentPrices": campSettings.paymentPrices.concat(Array(3 - campSettings.paymentPrices.length).fill("")).slice(0, 3)
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, setDefaults } = useForm(defaultData);
 
     const handleChange = (value: string, index: number) => {
         data.paymentPrices[index] = value;
@@ -28,7 +28,8 @@ export default function CampPaymentSettingsForm({ campSettings }: { campSettings
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         post(route('settings.camp.payment.update'), {
-            preserveScroll: true
+            preserveScroll: true,
+            onSuccess: () => setDefaults()
         })
     }
     return (
