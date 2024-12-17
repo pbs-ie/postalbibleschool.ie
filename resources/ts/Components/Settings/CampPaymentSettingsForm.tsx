@@ -2,6 +2,7 @@ import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import InputError from "@/Elements/Forms/InputError";
 import NumberInput from "@/Elements/Forms/NumberInput";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 import { CampSettingProps } from "@/Pages/Settings/Camp";
 
@@ -11,8 +12,6 @@ import Heading3 from "@/Components/Typography/Heading3";
 import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import route from "ziggy-js";
-import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 export default function CampPaymentSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "paymentPrices" | "paymentDescription"> }) {
     const defaultData = {

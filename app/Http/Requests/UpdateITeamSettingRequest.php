@@ -32,7 +32,7 @@ class UpdateITeamSettingRequest extends FormRequest
             'eventImage' => [
                 File::image()
                     ->types(['png', 'jpg'])
-                    ->max(15 * 1024)
+                    ->max(2 * 1024)
             ],
         ];
     }
