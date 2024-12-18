@@ -20,17 +20,26 @@ export default function SettingsSidebar() {
             name: "STEP"
         },
         {
+            routeString: route('settings.camp.index'),
+            isActive: route().current('settings.camp.*'),
+            Icon: PuzzleIcon,
+            name: "Camp"
+        },
+        {
             routeString: route('settings.iteam.index'),
             isActive: route().current('settings.iteam.*'),
             Icon: VideoCamera,
             name: "iTeam"
         },
         {
-            routeString: route('settings.camp.index'),
-            isActive: route().current('settings.camp.*'),
-            Icon: PuzzleIcon,
-            name: "Camp"
-        },
+            routeString: route('settings.events.index'),
+            isActive: route().current('settings.events.*'),
+            Icon: Group,
+            name: "Other Events"
+        }
+    ]
+
+    const bottomSettingsMenuList: SidebarProps["bottomListItems"] = [
         {
             routeString: route('settings.lesson.index'),
             isActive: route().current('settings.lesson.*'),
@@ -47,23 +56,13 @@ export default function SettingsSidebar() {
             routeString: route('assembly.bonus.admin'),
             isActive: route().current('assembly.bonus.*'),
             Icon: VideoCamera,
-            name: "Bonus Admin"
+            name: "Bonus Videos Admin"
         },
-        {
-            routeString: route('settings.events.index'),
-            isActive: route().current('settings.events.*'),
-            Icon: Group,
-            name: "Other Events"
-        }
-    ]
-
-    const bottomSettingsMenuList: SidebarProps["bottomListItems"] = [
         {
             routeString: route('settings.sunscool.index'),
             isActive: route().current('settings.sunscool.*'),
             Icon: SunIcon,
             name: "Sunscool"
-
         }
     ];
     return (

@@ -24,6 +24,13 @@ class CampSettingController extends Controller
             "year" => ['required_if:isActive,true', 'string', 'nullable'],
             "embedLink" => ['required_if:isActive,true', 'string', 'nullable'],
             "isActive" => ['required', 'boolean'],
+            "reunionIsActive" => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->boolean('isActive') && $request->boolean('reunionIsActive')) {
+                        $fail("The `isActive` and `reunionIsActive` settings cannot both be true.");
+                    }
+                }
+            ],
         ]);
 
         $settings->dates = $request->input('dates') ?? "";
@@ -42,6 +49,13 @@ class CampSettingController extends Controller
             "reunionDates" => ['required_if:reunionIsActive,true', 'string', 'nullable'],
             "reunionFormEmbedLink" => ['required_if:reunionIsActive,true', 'string', 'nullable'],
             "reunionIsActive" => ['required', 'boolean'],
+            "isActive" => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->boolean('isActive') && $request->boolean('reunionIsActive')) {
+                        $fail("The `isActive` and `reunionIsActive` settings cannot both be true.");
+                    }
+                }
+            ],
         ]);
 
         $settings->reunionDates = $request->input('reunionDates') ?? "";

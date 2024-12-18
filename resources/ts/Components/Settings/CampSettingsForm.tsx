@@ -9,6 +9,7 @@ import { FormEvent } from "react";
 import route from "ziggy-js";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 export default function CampSettingsForm({ campSettings }: { campSettings: Pick<CampSettingProps, "dates" | "year" | "embedLink" | "isActive"> }) {
     const defaultData = {
@@ -40,6 +41,8 @@ export default function CampSettingsForm({ campSettings }: { campSettings: Pick<
     }
     return (
         <form name="campSettingsForm" aria-label="Camp Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
+            <Heading2Alt>Camp Registration</Heading2Alt>
+            <hr />
             <div className="my-4 ">
                 <div className="flex flex-col sm:flex-row sm:gap-2 sm:flex-wrap lg:grid lg:grid-cols-2">
                     <div className="w-fit">
