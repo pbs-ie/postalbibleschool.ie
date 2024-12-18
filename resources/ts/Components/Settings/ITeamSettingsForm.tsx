@@ -2,12 +2,13 @@ import { useForm } from "@inertiajs/react"
 import { FormEvent } from "react";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import InputError from "@/Elements/Forms/InputError";
-import SelectInput from "@/Elements/Forms/SelectInput";
-import FileInput from "@/Elements/Forms/FileInput";
 import { ITeamSettingProps } from "@/Pages/Events/ITeam";
 import route from "ziggy-js";
+import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
+import LabelSpan from "@/Components/Typography/LabelSpan";
 
 export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     const defaultData = {
@@ -17,14 +18,16 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
         "eventImage": iteamSettings.eventImage,
         "eventImageLink": iteamSettings.eventImageLink
     }
-    const { data, setData, post, errors } = useForm(defaultData);
+    const { data, setData, post, errors, isDirty, setDefaults } = useForm(defaultData);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "dates":
             case "embedLink":
-            case "isActive":
                 setData(event.target.name, event.target.value);
+                break;
+            case "isActive":
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -34,16 +37,29 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
         }
     }
 
+    const handleDrop = (event: React.DragEvent, name: string) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (name === "eventImage" && (droppedFiles.length > 0)) {
+            setData(name, droppedFiles[0]);
+        }
+    };
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('settings.iteam.update'));
+        post(route('settings.iteam.update'), {
+            onSuccess: () => setDefaults()
+        });
     }
     return (
         <form name="iteamSettingsForm" aria-label="iTeam Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <hr />
             <div className="my-4 ">
-                <div className="grid grid-cols-2 ">
-
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="w-fit">
+                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? 1 : 0} handleChange={handleChange} />
+                        <InputError message={errors.isActive} />
+                    </div>
                     <div>
                         <InputLabel2 forInput={"dates"} value={"Dates"} />
                         <TextInput name={"dates"} id={"dates"} value={data.dates + ""} handleChange={handleChange} />
@@ -55,25 +71,20 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
                         <TextInput name={"embedLink"} id={"embedLink"} value={data.embedLink} handleChange={handleChange} />
                         <InputError message={errors.embedLink} />
                     </div>
+
+                </div>
+                <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
+                    <div className="inline-flex flex-col gap-2">
+                        <FileUploadDropzone name={"eventImage"} labelText={"Thumbnail Image"} onDrop={(e) => handleDrop(e, 'eventImage')} onChange={handleFileChange} accept="image/png, image/jpeg" />
+                        <InputError message={errors.eventImage} />
+                    </div>
                     <div>
-                        <InputLabel2 forInput={"isActive"} value={"Is Registration Active?"} />
-                        <SelectInput name="isActive" id="isActive" handleChange={handleChange} defaultValue={data.isActive + ""}>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </SelectInput>
-                        <InputError message={errors.isActive} />
+                        <LabelSpan>Preview</LabelSpan>
+                        <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
                     </div>
                 </div>
-                <div className="inline-flex gap-2 mt-4">
-                    <InputLabel2 forInput={"eventImage"} value={"Banner Image"} />
-                    <FileInput name={"eventImage"} id={"eventImage"} className={""} onChange={handleFileChange} accept="image/png, image/jpeg" />
-                    <InputError message={errors.eventImage} />
-                </div>
-                <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
             </div>
-            <div>
-                <PrimaryButton>Update</PrimaryButton>
-            </div>
+            <UpdateFormButton isDirty={isDirty} />
         </form>
     )
 }

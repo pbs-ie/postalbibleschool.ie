@@ -4,16 +4,16 @@ import { useState } from "react";
 
 import SelectInput from "@/Elements/Forms/SelectInput";
 
-export type SchoolsList = Pick<LessonOrder, "id" | "schoolName">;
+export type SchoolsListProps = Pick<SchoolProps, "id" | "schoolName">;
 
-export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: { currentSchoolId: number, schoolsList: SchoolsList[] }) {
+export default function SchoolSelectDropdown({ currentSchoolId, schoolsList }: { currentSchoolId: number, schoolsList: SchoolsListProps[] }) {
     const [inputValue, setInputValue] = useState(currentSchoolId);
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setInputValue(+event.target.value);
         router.visit(
-            route('orders.show', event.target.value),
+            route('schools.show', event.target.value),
             {
-                only: ['lessonOrder', 'classrooms'],
+                only: ['schoolDetails', 'classrooms', 'projectedOrders'],
                 preserveScroll: true
             });
     }

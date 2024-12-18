@@ -1,4 +1,4 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import route from "ziggy-js";
 
@@ -7,13 +7,12 @@ import { getIconForLessonType } from "@/helper";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import TooltipCard from "@/Components/Cards/TooltipCard";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 import InformationCircle from "@/Elements/Icons/InformationCircle";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import { usePage } from "@inertiajs/react";
+import DetailsSummary from "@/Elements/Sections/DetailsSummary";
 
-export default function CurriculumListSection({ curriculumList, canManageCurriculum = false }: { curriculumList: CurriculumProps[], canManageCurriculum?: boolean }) {
+export default function CurriculumListSection({ curriculumList }: { curriculumList: CurriculumProps[] }) {
     const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => curriculumList, [curriculumList]);
     const columnHelper = createColumnHelper<CurriculumProps>();
@@ -115,22 +114,24 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
             meta: { highlightColumn: getCurrentMonthNumber() + 1 === 6 }
         }),
 
-    ];
+    ] as ColumnDef<CurriculumProps>[];
     return (
-        <div className="mb-4 lg:mb-10">
-            <div className="flex justify-between mb-1">
+        <DetailsSummary defaultOpen summaryElement={
+            <>
                 <span className="flex items-start gap-2">
-                    <Heading2Alt>Curriculum</Heading2Alt>
+                    <p className="text-xl font-bold">Curriculum List</p>
                     <TooltipCard id={"classroom-tip"} text={"Curriculum sets the type of lesson that the classroom will be completing for the year. By default all students are set to do paper lessons. A curriculum only needs to be assigned for custom digital lessons during the year"} direction={"top"}>
                         <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                     </TooltipCard>
                 </span>
-                {canManageCurriculum &&
-                    <ButtonLink href={route('curriculum.index')}>Manage Curriculum</ButtonLink>
-                }
-            </div>
+            </>
+        } >
             {tableDataMemo && tableDataMemo.length > 0 ?
                 <div className="w-full">
+                    <div className="flex justify-end w-full gap-4 font-bold select-none">
+                        <span className="flex">{getIconForLessonType("paper")} :Paper</span>
+                        <span className="flex">{getIconForLessonType("digital")} :Digital</span>
+                    </div>
                     <AdvancedTable
                         data={tableDataMemo}
                         columns={defaultColumns}
@@ -142,6 +143,6 @@ export default function CurriculumListSection({ curriculumList, canManageCurricu
                 :
                 <p className="text-gray-700">No curricula created</p>
             }
-        </div>
+        </DetailsSummary>
     )
 }

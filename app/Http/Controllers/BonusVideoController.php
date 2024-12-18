@@ -14,7 +14,7 @@ class BonusVideoController extends Controller
     public function admin()
     {
         return Inertia::render('Assembly/Bonus/Admin', [
-            'videoList' => BonusVideo::all(BonusVideo::columnsAsCamel)
+            'videoList' => BonusVideo::all(BonusVideo::columnsAsCamel),
         ]);
     }
     /**
@@ -24,14 +24,14 @@ class BonusVideoController extends Controller
      */
     public function index()
     {
-        $canEdit = Gate::check('create:assembly');
-
         $sortedBbwList = BonusVideo::where('category', 'bbw')->latest()->get(BonusVideo::columnsAsCamel);
         $sortedBbooksList = BonusVideo::where('category', 'bbooks')->latest()->get(BonusVideo::columnsAsCamel);
+        $sortedSongsList = BonusVideo::where('category', 'music')->latest()->get(BonusVideo::columnsAsCamel);
         return Inertia::render('Assembly/Bonus/Index', [
             'bbwList' => $sortedBbwList,
             'bbooksList' => $sortedBbooksList,
-            'canEdit' => $canEdit
+            'music' => $sortedSongsList,
+            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 
@@ -77,7 +77,8 @@ class BonusVideoController extends Controller
     public function show($id)
     {
         return Inertia::render('Assembly/Bonus/Show', [
-            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel)
+            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel),
+            'canEdit' => Gate::check('create:assembly')
         ]);
     }
 
@@ -90,7 +91,7 @@ class BonusVideoController extends Controller
     public function edit($id)
     {
         return Inertia::render('Assembly/Bonus/Edit', [
-            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel)
+            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel),
         ]);
     }
 
@@ -120,8 +121,6 @@ class BonusVideoController extends Controller
         $video->save();
 
         return redirect()->route('assembly.bonus.admin')->with('success', 'Video updated successfully');
-
-
     }
 
     /**

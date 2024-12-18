@@ -39,7 +39,7 @@ export default function Create() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        post(route('orders.store'));
+        post(route('schools.store'));
     }
     return (
         <WrapperLayout>
@@ -100,7 +100,7 @@ export default function Create() {
                         </div>
 
                         <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                            <ButtonLink hierarchy="secondary" href={route('orders.index')}>Cancel</ButtonLink>
+                            <ButtonLink hierarchy="secondary" href={route('schools.index')}>Cancel</ButtonLink>
                             <PrimaryButton type="submit" processing={processing}>Create</PrimaryButton>
                         </div>
                     </form>

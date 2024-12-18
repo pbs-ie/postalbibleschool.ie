@@ -32,7 +32,7 @@ class UpdateStudentListFm implements ShouldQueue
     public function handle(AuthenticationSucceeded $event)
     {
         try {
-            (new StudentController())->storeStudentsListForUser($event->user->email);
+            // (new StudentController())->storeStudentsListForUser($event->user->email);
         } catch (\Exception $e) {
             Log::notice($e->getMessage());
         }

@@ -8,7 +8,7 @@ import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 import { router } from "@inertiajs/core";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import Heading2 from "@/Components/Typography/Heading2";
 import { modalHelper, truncateString } from "@/helper";
@@ -99,7 +99,7 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
                     <div className="w-full">No videos added</div>
                     :
                     <div className="w-full overflow-x-auto">
-                        <AdvancedTable data={tableDataMemo} columns={defaultColumns} />
+                        <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<PastEventCardProps>[]} />
                     </div>
                 }
             </ContentWrapper>

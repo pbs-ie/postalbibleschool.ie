@@ -1,13 +1,14 @@
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
 import route from "ziggy-js";
+
 import BonusVideoForm from "@/Components/Forms/BonusVideoForm";
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
 
 
 export default function Create() {
 
     return (
-        <BonusAssemblyWrapper title={"Create New Bonus Assembly Video"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
+        <SettingSidebarWithNavbackLayout title={"Create New Bonus Assembly Video"} navBackText={"Back to Bonus Admin"} navBackRoute={route('assembly.bonus.admin')}>
             <BonusVideoForm />
-        </BonusAssemblyWrapper>
+        </SettingSidebarWithNavbackLayout>
     )
 }

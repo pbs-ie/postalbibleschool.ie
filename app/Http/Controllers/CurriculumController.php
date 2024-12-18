@@ -7,6 +7,8 @@ use App\Http\Requests\CurriculumPutRequest;
 use App\Models\Curriculum;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\Classroom;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use stdClass;
 
@@ -60,7 +62,7 @@ class CurriculumController extends Controller
         $allCurricula = Curriculum::all();
         // Get all students for each curriculum
         foreach ($allCurricula as $curriculum) {
-            $curriculumStudents = Student::whereHas('classroom.curriculum', function ($query) use ($curriculum) {
+            $curriculumStudents = Student::getActiveStudents()->whereHas('classroom.curriculum', function ($query) use ($curriculum) {
                 return $query->where('id', $curriculum->id);
             })->get();
             foreach ($curriculumStudents as $student) {
@@ -180,6 +182,16 @@ class CurriculumController extends Controller
      */
     public function destroy(Curriculum $curriculum)
     {
+        $classroomsCollection = Classroom::where('curriculum_id', $curriculum->id)->get();
+        if ($classroomsCollection->isNotEmpty()) {
+            Log::warning(
+                "Curriculum ({$curriculum->name}) has already been assigned to school classrooms. Cannot be deleted as it will break relations.",
+                [
+                    "Classroom names" => $classroomsCollection->value('name'),
+                ]
+            );
+            return redirect()->route('curriculum.index')->with('warning', 'Curriculum assigned to classroom. Cannot be deleted');
+        }
         Curriculum::findOrFail($curriculum->id)->delete();
 
         return redirect()->route('curriculum.index')->with('success', 'Curriculum deleted successfully');

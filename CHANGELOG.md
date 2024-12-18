@@ -1,4 +1,19 @@
-# 1.3.2 (2024-06-10)
+# Changelog
+
+## 1.3.4 (2024-10-18)
+
+- Lesson Planner Tool updated with admin features
+  - Projections details for a school now include their classroom divisions. FM data has been removed from views.
+- Changed loader to full page loader that is more prominent during loading times
+
+## 1.3.3 (2024-10-07)
+
+- Lesson Planner Tool updated for teachers to start using digital lessons
+  - New schools will now start with a default Paper only classroom with numbers set from PBS database
+  - Existing schools with no classrooms will need a one time action to create a new classroom with the above information
+  - School information is now available in the Profile section for user
+
+## 1.3.2 (2024-06-10)
 
 - BACKEND - Refactor for Bonus assembly videos storage to DB instead of JSON files
 - Refactor of assembly videos to DB instead of JSON files

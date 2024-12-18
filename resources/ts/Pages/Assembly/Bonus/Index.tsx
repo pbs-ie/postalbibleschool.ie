@@ -1,6 +1,4 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
-import route from "ziggy-js";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
 import BonusVideoGallery from "@/Components/Gallery/BonusVideoGallery";
 
 export interface BonusVideoProps {
@@ -14,17 +12,14 @@ export interface BonusVideoProps {
     category: string
 }
 
-export default function Index({ bbwList = [], bbooksList = [], canEdit }: { bbwList: BonusVideoProps[], bbooksList: BonusVideoProps[], canEdit: boolean }) {
+export default function Index({ bbwList = [], bbooksList = [], music = [], canEdit }: { bbwList: BonusVideoProps[], bbooksList: BonusVideoProps[], music: BonusVideoProps[], canEdit: boolean }) {
     return (
-        <BonusAssemblyWrapper title={"Bonus Videos"} navBackText={"Back to Assembly Videos"} navBackRoute={route('assembly.index')}>
-            {canEdit &&
-                <div className="flex justify-end w-full gap-2">
-                    <ButtonLink dataTest="bonus_admin_button" href={route('assembly.bonus.admin')}>Admin Panel</ButtonLink>
-                    <ButtonLink dataTest="add_new_bonus_button" href={route('assembly.bonus.create')}>Add New Video</ButtonLink>
-                </div>
-            }
-            <BonusVideoGallery headingText="Big Bible Words" videoList={bbwList}></BonusVideoGallery>
-            <BonusVideoGallery headingText="Bible Books Explained" videoList={bbooksList}></BonusVideoGallery>
-        </BonusAssemblyWrapper>
+        <WrapperSidebarWithNavback title={"Bonus Videos"} canEdit={canEdit}>
+            <div>
+                <BonusVideoGallery headingText="Big Bible Words" videoList={bbwList} defaultOpen />
+                <BonusVideoGallery headingText="Bible Books Explained" videoList={bbooksList} />
+                <BonusVideoGallery headingText="Bible Songs" videoList={music} />
+            </div>
+        </WrapperSidebarWithNavback>
     )
 }

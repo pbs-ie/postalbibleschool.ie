@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface TooltipProps {
-    text: string;
+    text: string | React.ReactNode;
     children: React.ReactNode;
     direction: "top" | "bottom" | "left" | "right";
     id: string;
@@ -35,10 +35,10 @@ export default function TooltipCard({ id, text, direction, children, size }: Too
         switch (direction) {
             case "bottom":
                 return "top-[calc(100%+1px)] left-10 transform translate-x-[-60%] mt-2";
-            case "left":
-                return "-left-100 top-1/2 transform -translate-y-1/2 mr-2";
             case "right":
-                return "-right-100 top-1/2 transform -translate-y-1/2 ml-2";
+                return "left-[calc(100%+1px)] top-1/2 transform -translate-y-1/2 ml-2";
+            case "left":
+                return "right-[calc(100%+1px)] top-1/2 transform -translate-y-1/2 mr-2";
             case "top":
                 return "bottom-[calc(100%+1px)] left-10 transform translate-x-[-60%] mb-2";
         }
@@ -59,23 +59,25 @@ export default function TooltipCard({ id, text, direction, children, size }: Too
     }
 
     return (
-        <div className="relative text-sm inline-block justify-center text-center"
+        <div className="relative justify-center inline-block text-sm text-center"
             onMouseEnter={openTooltip}
             onMouseLeave={closeTooltip}
             onFocus={openTooltip}
             onBlur={closeTooltip}
         >
-            {showTooltip && (
-                <div
-                    className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 text-sm ${getClassListBySize()} ${getClassListByDirection()}`}
-                    data-placement={direction}
-                    role="tooltip"
-                    id={id}
-                >
-                    {text}
-                </div>
+            <div className="fixed z-20">
+                {showTooltip && (
+                    <div
+                        className={`bg-black text-gray-200 text-center rounded p-3 absolute z-10 text-sm ${getClassListBySize()} ${getClassListByDirection()}`}
+                        data-placement={direction}
+                        role="tooltip"
+                        id={id}
+                    >
+                        {text}
+                    </div>
 
-            )}
+                )}
+            </div>
             {children}
         </div>
     )

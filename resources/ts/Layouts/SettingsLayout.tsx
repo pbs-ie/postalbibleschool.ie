@@ -17,7 +17,7 @@ export default function SettingsLayout({ title, pageRoute, children }: { title: 
                 }
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_4fr]">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(0,4fr)]">
                 <SettingsSidebar />
                 {children}
             </div>

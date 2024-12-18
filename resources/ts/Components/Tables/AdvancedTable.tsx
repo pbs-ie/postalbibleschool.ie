@@ -1,4 +1,4 @@
-import { ColumnDef, ColumnFiltersState, OnChangeFn, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, ColumnFiltersState, Row, RowData, RowSelectionState, SortingState, flexRender, getCoreRowModel, getFacetedUniqueValues, getFilteredRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import ChevronUpDown from "@/Elements/Icons/ChevronUpDown";
 import ChevronUp from "@/Elements/Icons/ChevronUp";
@@ -7,7 +7,12 @@ import TableColumnFilter from "@/Components/Tables/TableColumnFilter";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 
-interface AdvancedTableProps<TData, TValue> {
+declare module '@tanstack/react-table' {
+    interface TableMeta<TData extends RowData> {
+        getRowClassNames: (row: Row<TData>) => string;
+    }
+}
+export interface AdvancedTableProps<TData, TValue> {
     data: TData[],
     columns: ColumnDef<TData, TValue>[],
     enableGlobalFilter?: boolean,
@@ -17,7 +22,8 @@ interface AdvancedTableProps<TData, TValue> {
     rowSelection?: RowSelectionState,
     searchPlaceholder?: string,
     setRowSelection?: Dispatch<SetStateAction<RowSelectionState>>
-    enableHighlightedColumns?: boolean
+    enableHighlightedColumns?: boolean,
+    getRowClassNames?: (row: Row<TData>) => string;
 }
 export default function AdvancedTable<TData, TValue>({
     data,
@@ -29,7 +35,8 @@ export default function AdvancedTable<TData, TValue>({
     enableSorting = true,
     rowSelection = {},
     setRowSelection = () => { },
-    enableHighlightedColumns = false
+    enableHighlightedColumns = false,
+    getRowClassNames
 }: AdvancedTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [filtering, setFiltering] = useState('');
@@ -55,13 +62,42 @@ export default function AdvancedTable<TData, TValue>({
         enableSorting: enableSorting,
         enableColumnFilters: enableColumnFilters,
         onRowSelectionChange: setRowSelection,
-        onColumnFiltersChange: setColumnFilters
+        onColumnFiltersChange: setColumnFilters,
+        meta: {
+            getRowClassNames: getRowClassNames || (() => '')
+        }
     });
+
+    const getPinnedStyling = (isPinned: "left" | "right" | "") => {
+        if (isPinned === "")
+            return "";
+        else if (isPinned === "right")
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] bg-white";
+        else if (isPinned === "left")
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] bg-white";
+    }
+
+    const getPinnedStylingHead = (isPinned: "left" | "right" | "") => {
+        if (isPinned === "")
+            return "";
+        else if (isPinned === "right")
+            return "sticky right-0 shadow-[inset_4px_0px_2px_-4px_gray] z-30 bg-gray-100";
+        else if (isPinned === "left")
+            return "sticky left-0 shadow-[inset_-4px_0px_2px_-4px_gray] z-30 bg-gray-100";
+    }
+
+    const getIsSelectedStyling = (isSelected = false) => {
+        if (isSelected) {
+            return "bg-blue-100";
+        } else {
+            return "hover:ring-2 hover:ring-black/10 hover:ring-inset"
+        }
+    }
 
     return (
         <>
             {enableGlobalFilter &&
-                <div className="flex items-center gap-2 mb-2 ">
+                <div className="flex items-center gap-2 mb-2">
                     <InputLabel2 forInput={"filter"} value={"Filter :"} />
                     <TextInput
                         placeholder={searchPlaceholder ?? "Search all columns..."}
@@ -89,12 +125,12 @@ export default function AdvancedTable<TData, TValue>({
                             ))}
                         </colgroup>
                     }
-                    <thead className="sticky top-0 bg-gray-100">
+                    <thead className="sticky top-0 z-10 ">
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id}>
+                            <tr key={headerGroup.id} className="table-row bg-gray-100">
                                 {headerGroup.headers.map(header => (
                                     // @ts-ignore Meta may have className
-                                    <th colSpan={header.colSpan} scope="col" className={(header.column.columnDef.meta?.className ?? "") + " " + (header.colSpan > 1 ? "text-center" : "text-left") + " p-2 pl-4"} key={header.id}>
+                                    <th colSpan={header.colSpan} scope="col" className={`${(header.column.columnDef.meta?.className ?? "")} ${getPinnedStylingHead(header.column.columnDef.meta?.isPinned ?? "")} ${(header.colSpan > 1 ? "text-center" : "text-left")} p-2 pl-4`} key={header.id}>
                                         {header.isPlaceholder ? null : (
                                             <div className="flex flex-col">
                                                 <div className={header.column.getCanSort()
@@ -125,11 +161,16 @@ export default function AdvancedTable<TData, TValue>({
                     </thead>
                     <tbody className="overflow-y-auto bg-white divide-y divide-gray-200 max-h-96">
                         {table.getRowModel().rows.map(row => (
-                            <tr className={(row.getIsSelected() ? "bg-blue-100" : "hover:bg-gray-100 ")} key={row.id}>
+                            <tr className={`${getIsSelectedStyling(row.getIsSelected())}  ${table.options.meta?.getRowClassNames(row)}`} key={row.id}>
                                 {row.getVisibleCells().map(cell => (
-                                    <td className="w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap" key={cell.id}>
+                                    // @ts-ignore Meta may have className
+                                    <td className={`${getPinnedStyling(cell.column.columnDef.meta?.isPinned ?? "")} w-2 p-2 px-4 text-base font-medium text-gray-900 whitespace-nowrap`} key={cell.id}>
                                         <div className="flex items-center">
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            {cell.getIsAggregated() ? (
+                                                flexRender(cell.column.columnDef.aggregatedCell, cell.getContext())
+                                            ) : (
+                                                flexRender(cell.column.columnDef.cell, cell.getContext())
+                                            )}
                                         </div>
                                     </td>
                                 ))}

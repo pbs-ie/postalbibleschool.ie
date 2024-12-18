@@ -6,8 +6,9 @@ use App\Http\Controllers\GroupLessonRequestController;
 // use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
-use App\Http\Controllers\LessonOrderController;
+use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\Setting\EventsSettingController;
 use App\Http\Controllers\Setting\ITeamSettingController;
 use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\LessonSettingController;
@@ -21,7 +22,8 @@ use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepPastController;
 use App\Models\DownloadsList;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchool;
+use App\Settings\EventsSettings;
 use App\Settings\ITeamSettings;
 use App\Settings\CampSettings;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +33,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\CurriculumController;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Services\ClassroomService;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,10 +108,17 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
     });
     Route::controller(SunscoolApiController::class)->name('sunscool.')->prefix('sunscool')->group(function () {
         Route::get('/', 'index')->name('index');
-        // Route::get('/{schoolId}/classes/{classId}', 'students')->name('students');
-        Route::get('/{schoolId}', 'classes')->name('classes');
-
+        Route::post('/unmark', 'markUnprocessed')->name('unprocessed.mark');
+        Route::get('/{schoolId}/classroom/{classroomId}', 'classroom')->name('classroom');
+        Route::post('/{schoolId}/classroom/{classroomId}', 'process')->name('process');
+        Route::get('/{schoolId}/classroom/{classroomId}/export', 'exportClassroom')->name('classroom.export');
+        Route::get('/{schoolId}/classroom/{classroomId}/exportNames', 'exportNames')->name('classroom.exportNames');
         Route::post('/', 'store')->name('store');
+    });
+    Route::controller(EventsSettingController::class)->name('events.')->prefix('events')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+        Route::delete('destroy', 'destroyFile')->name('destroyFile');
     });
     Route::controller(LessonSettingController::class)->name('lesson.')->prefix('lesson')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -118,13 +128,16 @@ Route::prefix('settings')->name('settings.')->middleware(['auth', 'can:create:ev
 // ************** END SETTINGS ********************
 
 Route::prefix('events')->name('events.')->group(function () {
-    Route::get('/prizegivings', function (Request $request) {
+    Route::get('/prizegivings', function (Request $request, EventsSettings $eventsSettings) {
         return Inertia::render('Events/Prizegivings', [
+            'eventsSettings' => $eventsSettings,
             'queryParams' => $request->query(),
         ]);
     })->name('prizegivings');
-    Route::get('/shed', function () {
-        return Inertia::render('Events/Shed');
+    Route::get('/shed', function (EventsSettings $eventsSettings) {
+        return Inertia::render('Events/Shed', [
+            'eventsSettings' => $eventsSettings
+        ]);
     })->name('shed');
 
     Route::prefix('camp')->name('camp.')->group(function () {
@@ -220,12 +233,21 @@ Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
     return Inertia::render('Dashboard', [
         'classrooms' => fn() => $classroomList,
-        'canManageCurriculum' => Gate::allows('view:curriculum'),
+        'canManageCurriculum' => Gate::allows('create:curriculum'),
         'curriculumList' => fn() => Curriculum::current(),
-        'lessonOrder' => fn() => FmLessonOrder::where('email', auth()->user()->email)->first()
+        'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
+Route::get('/profile', function () {
+    $schoolDetails = FmSchool::where('email', auth()->user()->email)->first();
+    if (is_null($schoolDetails)) {
+        abort(404);
+    }
+    return Inertia::render('Profile', [
+        'schoolDetails' => fn() => $schoolDetails,
+    ]);
+})->middleware(['auth'])->name('profile')->can('admin-cannot');
 // TODO: Revealed route with Digital lessons features 
 // Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [StudentController::class, 'index'])->name('index');
@@ -260,13 +282,17 @@ Route::prefix('curriculum')->name('curriculum.')->middleware(['auth'])->group(fu
     Route::put('/{curriculum}', [CurriculumController::class, 'update'])->name('update')->can('create:curriculum');
     Route::delete('/{curriculum}', [CurriculumController::class, 'destroy'])->name('destroy')->can('create:curriculum');
 });
-Route::prefix('orders')->name('orders.')->middleware(['auth', 'can:create:orders'])->group(function () {
-    Route::get('/', [LessonOrderController::class, 'index'])->name('index');
-    Route::get('/projections/{month?}', [LessonOrderController::class, 'projections'])->name('projections');
-    Route::get('/sync', [LessonOrderController::class, 'sync'])->name('sync');
-    Route::get('/{lessonOrder}', [LessonOrderController::class, 'show'])->name('show');
-    Route::get('/{lessonOrder}/edit', [LessonOrderController::class, 'edit'])->name('edit');
-    Route::put('/{lessonOrder}', [LessonOrderController::class, 'update'])->name('update');
+Route::prefix('schools')->name('schools.')->controller(SchoolController::class)->middleware(['auth', 'can:create:orders'])->group(function () {
+    Route::get('/projections/{month?}', 'index')->name('index');
+    Route::get('/download/school/{schoolId}', 'exportStudentsList')->name('exportStudentsList');
+    Route::get('/download/{month}', 'export')->name('export');
+    Route::get('/{schoolDetails}/students', 'students')->name('students');
+    Route::get('/{schoolDetails}/students/refresh', 'studentsRefresh')->name('studentsRefresh');
+    Route::get('/sync', 'sync')->name('sync');
+    Route::post('/push', 'push')->name('push');
+    Route::get('/createdefaultclassrooms', 'createDefaultClassrooms')->name('createdefaultclassrooms');
+    Route::get('/{schoolDetails}', 'show')->name('show');
+    // Route::put('/{schoolDetails}', 'update')->name('update');
 });
 
 // ************* PAYMENT ROUTES *****************

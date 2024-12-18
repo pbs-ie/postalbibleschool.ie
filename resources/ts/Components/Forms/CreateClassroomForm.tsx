@@ -1,19 +1,23 @@
+import { useForm, usePage } from "@inertiajs/react"
+import { FormEvent } from "react";
+import route from "ziggy-js";
+
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
 import TextInput from "@/Elements/Forms/TextInput";
 import BasicButton from "@/Elements/Buttons/BasicButton";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import { useForm, usePage } from "@inertiajs/react"
-import { FormEvent } from "react";
-import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
-import route from "ziggy-js";
+
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
 
 interface ClassroomProps {
-    name: string
+    name: string,
+    email: string
 }
-export default function CreateClassroomForm({ onCancel }: { onCancel: () => void }) {
+export default function CreateClassroomForm({ onCancel, schoolEmail = "" }: { onCancel: () => void, schoolEmail?: string }) {
     const { errors } = usePage<PassedProps>().props;
     const { data, setData, post, reset } = useForm<ClassroomProps>({
-        name: ""
+        name: "",
+        email: schoolEmail
     });
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -27,8 +31,8 @@ export default function CreateClassroomForm({ onCancel }: { onCancel: () => void
 
     return (
         <>
-            <Heading2Nospace>Create A New Classroom</Heading2Nospace>
-            <form onSubmit={handleSubmit} name="classroomCreate" aria-label="Create Classroom">
+            <Heading2Alt isTitlecase>Create A New Classroom</Heading2Alt>
+            <form className="mt-10 mb-5" onSubmit={handleSubmit} name="classroomCreate" aria-label="Create Classroom">
                 <div>
                     <InputLabel2 forInput="classroomName" value="Classroom Name" />
                     <TextInput

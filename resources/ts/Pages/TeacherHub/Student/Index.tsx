@@ -7,7 +7,7 @@ import RefreshIcon from "@/Elements/Icons/RefreshIcon";
 import SidebarLayout from "@/Layouts/SidebarLayout";
 import { router } from "@inertiajs/react";
 import WrapperLayout from "@/Layouts/WrapperLayout";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import route from "ziggy-js";
 
@@ -82,7 +82,7 @@ export default function Index({ students }: { students: StudentProps[] }) {
                     <div className="inline-flex justify-end w-full"><BasicButton size="small" onClick={() => getStudentList()}><span className="flex items-center gap-3">Refresh List <RefreshIcon /></span></BasicButton></div>
                     <div className="mt-5">
                         {students.length > 0 ?
-                            <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns} />
+                            <AdvancedTable enableColumnFilters={true} enableGlobalFilter={false} data={tableDataMemo} columns={defaultColumns as ColumnDef<StudentProps>[]} />
                             :
                             <p className="italic text-gray-500">No students found for your account. If this is a mistake please contact the administrator.</p>
                         }

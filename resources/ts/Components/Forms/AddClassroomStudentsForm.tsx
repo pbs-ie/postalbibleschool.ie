@@ -2,8 +2,8 @@ import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import { router } from "@inertiajs/react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import CheckboxInput from "./CheckboxInput";
-import { RowSelectionState, createColumnHelper } from "@tanstack/react-table";
+import CheckboxInput from "@/Elements/Forms/CheckboxInput";
+import { ColumnDef, RowSelectionState, createColumnHelper } from "@tanstack/react-table";
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
 import Heading2Nospace from "@/Components/Typography/Heading2Nospace";
 import RefreshIcon from "@/Elements/Icons/RefreshIcon";
@@ -73,7 +73,7 @@ export default function AddClassroomStudentsForm({ onClose, classroomId, student
         columnHelper.accessor(row => row.grade, {
             header: "Grade"
         })
-    ];
+    ] as ColumnDef<StudentProps>[];
 
     return (
         <article>

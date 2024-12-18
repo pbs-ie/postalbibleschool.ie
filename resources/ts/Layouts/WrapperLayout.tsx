@@ -38,7 +38,7 @@ export default function WrapperLayout({ showStepNav = false, showCampNav = false
 
         }}>
             <div className="flex flex-col items-stretch min-h-screen">
-                <Navbar />
+                <Navbar hasAdditionalNav={showStepNav || showCampNav} />
                 {showStepNav &&
                     <StepNavbar />
                 }
@@ -48,7 +48,7 @@ export default function WrapperLayout({ showStepNav = false, showCampNav = false
                 <FlashMessage />
                 <div id="modal"></div>
                 <main id="mainContent" className="relative flex flex-col h-full grow md:justify-center">
-                    <div className="w-full overflow-hidden grow">
+                    <div className="w-full grow">
                         {children}
                     </div>
                 </main>

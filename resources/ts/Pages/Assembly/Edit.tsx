@@ -1,16 +1,14 @@
+import route from "ziggy-js";
 
 import AssemblyVideoForm from "@/Components/Forms/AssemblyVideoForm";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { AssemblyVideoProps } from "./Index";
+import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
 
 export default function Edit({ videoData }: { videoData: AssemblyVideoProps }) {
 
     return (
-        <WrapperLayout>
-            <ContentWrapper title="Edit Assembly">
-                <AssemblyVideoForm videoData={videoData} />
-            </ContentWrapper>
-        </WrapperLayout>
+        <SettingSidebarWithNavbackLayout title="Edit Assembly" navBackText={"Back to Admin"} navBackRoute={route('assembly.admin')}>
+            <AssemblyVideoForm videoData={videoData} />
+        </SettingSidebarWithNavbackLayout>
     )
 }

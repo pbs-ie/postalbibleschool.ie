@@ -40,6 +40,7 @@ declare global {
         formMethod?: string;
         form?: string;
         dataTest?: string;
+        Icon?: Icon["props"];
     }
     interface ButtonLinkProps {
         hierarchy?: Button["hierarchy"];
@@ -94,7 +95,7 @@ declare global {
         id: number
     }
 
-    interface LessonOrder {
+    interface SchoolProps {
         id: number;
         fmRecordId: number | string;
         email: string;

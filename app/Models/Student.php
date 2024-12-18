@@ -12,7 +12,16 @@ class Student extends BaseModel
 
     protected $table = "fm_students";
 
-    protected $fillable = ['classroom_id', 'fm_student_id', 'fm_record_id', 'first_name', 'last_name', 'area_code', 'grade'];
+    protected $fillable = [
+        'classroom_id',
+        'fm_student_id',
+        'fm_record_id',
+        'first_name',
+        'last_name',
+        'area_code',
+        'grade',
+        'active'
+    ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
@@ -22,13 +31,23 @@ class Student extends BaseModel
         return $this->belongsTo(Classroom::class);
     }
 
+    public function SunscoolMap()
+    {
+        return $this->hasMany(SunscoolMap::class);
+    }
+
     public function scopeGetStudentsForUser($query)
     {
-        $areaCode = MapEmailAreacode::where('email', auth()->user()->email)->get()->value('area_code');
+        $areaCode = FmSchool::where('email', auth()->user()->email)->get()->only(['areaCode']);
         return $query->where('area_code', $areaCode)
             ->orderBy('grade')
             ->orderBy('last_name')
             ->get();
+    }
+
+    public function scopeGetActiveStudents($query)
+    {
+        return $query->where('active', 'Y')->orWhere('active', 'T');
     }
 
 }

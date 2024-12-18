@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
-import { Column, Row, createColumnHelper } from "@tanstack/react-table";
+import { Column, ColumnDef, Row, createColumnHelper } from "@tanstack/react-table";
 import { modalHelper } from "@/helper";
 
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
@@ -24,11 +24,13 @@ import SecondaryButton from "@/Elements/Buttons/SecondaryButton";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
+import PlusHollow from "@/Elements/Icons/PlusHollow";
+import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 
 
 type ClassroomForm = Omit<ClassroomProps, "curriculum_name" | "updated_at">;
 
-export default function ClassroomListSection({ classrooms = [], curriculumList = [], viewOnly = false }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[], viewOnly?: boolean }) {
+export default function ClassroomListSection({ classrooms = [], curriculumList = [], viewOnly = false, schoolEmail }: { classrooms: ClassroomProps[], curriculumList: CurriculumProps[], viewOnly?: boolean, schoolEmail?: string }) {
     const defaultEditingArray = Array(classrooms.length).fill(false);
     const [isEditing, setIsEditing] = useState<boolean[]>(defaultEditingArray);
     const { errors } = usePage().props;
@@ -321,20 +323,20 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                 )
             }
         })
-    ];
+    ] as ColumnDef<ClassroomProps>[];
     // ****************END TABLE SECTION ***********************
 
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-3 lg:mb-14">
             {!viewOnly &&
                 <>
                     <PopupModal onClose={closeCreateModal} innerRef={dialogRefCreate}>
-                        <CreateClassroomForm onCancel={() => closeCreateModal()} />
+                        <CreateClassroomForm schoolEmail={schoolEmail} onCancel={() => closeCreateModal()} />
                     </PopupModal>
                     <PopupModal onClose={closeDeleteModal} innerRef={dialogRefDelete}>
                         <article className="flex flex-col max-w-screen-sm gap-4 lg:max-w-screen-lg">
-                            <Heading2Nospace>Delete Classroom?</Heading2Nospace>
+                            <Heading2Nospace isTitlecase>Delete Classroom?</Heading2Nospace>
                             <p>The classroom and all its related data will be removed. Are you sure you want to delete this classroom:</p>
                             <p className="font-bold">{`"${nameToDelete}"`}</p>
                             <div className="flex justify-end w-full gap-2">
@@ -354,26 +356,39 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
             }
 
             <form id="classroom_form" action="submit" onSubmit={handleSubmit}>
-                <div className="flex items-center justify-between w-full gap-2 pb-2">
+                <div className="w-full mb-2 lg:mb-8">
                     <span className="flex items-start gap-2">
-                        <Heading2Alt>Participant numbers</Heading2Alt>
-                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"top"}>
+                        <Heading2Alt isTitlecase>Manage Classroom Numbers</Heading2Alt>
+                        <TooltipCard id={"classroom-tip"} text={"Classrooms help segregate students into different groups that can be assigned a common curriculum. You can set the number of students in each class by their levels."} direction={"right"}>
                             <a href="#" className="pointer-events-none" aria-describedby="classroom-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
                         </TooltipCard>
                     </span>
-                    {classrooms.length !== 0 &&
-                        <p className="align-bottom">
-                            <span className="font-bold">Last updated at :</span> {getUpdatedAtDate()}
-                        </p>
-                    }
                 </div>
-                <div className="space-y-2">
+                <div className="flex items-end justify-between gap-2 mb-2">
+                    <span>
+                        {viewOnly ? null :
+                            <div className="flex justify-end">
+                                <PrimaryButton size="medium" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()} Icon={PlusHollow}>
+                                    Add new classroom
+                                </PrimaryButton>
+                            </div>
+                        }
+                    </span>
+                    <span>
+                        {classrooms.length !== 0 &&
+                            <p className="align-bottom">
+                                <span className="font-bold">Last updated at :</span> {getUpdatedAtDate()}
+                            </p>
+                        }
+                    </span>
+                </div>
+                <div className="mt-4 space-y-2">
                     {errors && Object.keys(errors).length > 0 && Object.keys(errors).map((key, idx) => (
                         <ErrorBanner key={'error_banner' + idx} message={errors[key]} />
                     ))
                     }
                     {classrooms.length === 0 ?
-                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button below.</p>
+                        <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button <b>Add New Classroom</b>.</p>
                         :
                         <AdvancedTable
                             data={tableDataMemo}
@@ -381,11 +396,6 @@ export default function ClassroomListSection({ classrooms = [], curriculumList =
                             enableGlobalFilter={false}
                             enableSorting={false}
                         />
-                    }
-                    {viewOnly ? null :
-                        <div className="flex justify-end">
-                            <BasicButton hierarchy="primary" type="button" dataTest="classroom_create_button" onClick={() => showCreateModal()}>Create Classroom</BasicButton>
-                        </div>
                     }
                 </div>
             </form>

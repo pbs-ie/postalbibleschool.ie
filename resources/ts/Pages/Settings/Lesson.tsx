@@ -7,7 +7,7 @@ import RadioInput from "@/Elements/Forms/RadioInput";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
 import { router, usePage } from "@inertiajs/react";
-import { createColumnHelper, RowSelectionState } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper, RowSelectionState } from "@tanstack/react-table";
 import { FormEvent, useMemo, useState } from "react";
 import route from "ziggy-js";
 
@@ -18,15 +18,15 @@ export interface LessonSettingsProps {
 export default function Lesson({ lessonSettings }: { lessonSettings: LessonSettingsProps }) {
     const { errors } = usePage<PassedProps>().props;
 
-    const tableDataMemo = useMemo(() => lessonSettings.lesson_map, [lessonSettings.lesson_map]);
-    const columnHelper = createColumnHelper<LessonSettingsProps["lesson_map"][0]>();
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({ [lessonSettings.active_index]: true });
+    const tableDataMemo = useMemo(() => lessonSettings.lesson_map, [lessonSettings.lesson_map]);
+    const columnHelper = createColumnHelper<MonthToSeriesMap>();
 
     let defaultColumns = Object.entries(monthMap).map(([key, monthName]) =>
         columnHelper.accessor(row => row[key as MonthKeys], {
             header: monthName.slice(0, 3)
         })
-    );
+    ) as ColumnDef<MonthToSeriesMap>[];
     defaultColumns.unshift(
         columnHelper.display({
             id: 'select-col',
@@ -44,7 +44,7 @@ export default function Lesson({ lessonSettings }: { lessonSettings: LessonSetti
                         value={row.id + ""} />
                     <label htmlFor={"checkbox" + row.id} className="sr-only">checkbox</label>
                 </label>
-            ),
+            )
         }),
         columnHelper.display({
             id: 'sr-no',

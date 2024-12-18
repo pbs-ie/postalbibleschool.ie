@@ -1,7 +1,7 @@
 import IconSection from "@/Components/DesignSystem/IconSection";
+import AnchorLink from "@/Components/Navigation/AnchorLink";
 import { Header1, Header2 } from "@/Components/Typography/DesignSystemTypography";
 import BasicButton from "@/Elements/Buttons/BasicButton";
-import ButtonAnchor from "@/Elements/Buttons/ButtonAnchor";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
 import ExternalLink from "@/Elements/Icons/ExternalLink";
@@ -43,12 +43,12 @@ export default function DesignSystem() {
                     <Header1>Links as buttons</Header1>
                     <Header2>Basic</Header2>
                     <div className="flex gap-2">
-                        <ButtonAnchor href={"#"}>Anchor button</ButtonAnchor>
+                        <AnchorLink href={"#"}>Anchor button</AnchorLink>
                         <ButtonLink href={"#"}>Link button</ButtonLink>
                     </div>
                     <Header2>With Icons</Header2>
                     <div className="flex gap-2">
-                        <ButtonAnchor Icon={ExternalLink} href={"#"}>Anchor button</ButtonAnchor>
+                        <AnchorLink Icon={ExternalLink} href={"#"}>Anchor button</AnchorLink>
                         <ButtonLink Icon={ChevronRight} href={"#"}>Link button</ButtonLink>
                     </div>
                 </section>

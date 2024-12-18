@@ -28,7 +28,9 @@ class FilemakerController extends Controller
 
     const MONTHLY_ORDER_LAYOUT = 'Monthly Order Report API';
     const STUDENT_LIST_LAYOUT = 'Student Record API';
+    const STUDENT_MARK_LAYOUT = 'Student Marks API';
     const CURRICULUM_LAYOUT = 'Curriculum API';
+    const PROJECTED_ORDER_LAYOUT = 'Projected Order Report';
 
     public function __construct()
     {
@@ -136,7 +138,39 @@ class FilemakerController extends Controller
             ->get($path . '?' . $query);
 
         $responseJson = json_decode(json_encode($promise->wait()->json()));
-        if (!isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+        if (isset($responseJson->messages) || $responseJson->messages[0]->message !== "OK") {
+            Log::error($responseJson->messages[0]->message);
+        }
+        $responseData = $responseJson->response->data;
+        return $responseData;
+
+    }
+
+    /**
+     * Get list of student grades for current user from Filemaker
+     * 
+     * @param array $studentIds
+     * @return object
+     */
+    private function getStudentsMarkByIds($studentIds)
+    {
+        $formattedLayout = rawurlencode(self::STUDENT_MARK_LAYOUT);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records";
+        $queryData = [
+            '_limit' => 1000,
+            'script' => 'dapi_student_marks_record',
+            'script.param' => json_encode($studentIds)
+        ];
+        $query = http_build_query($queryData);
+        $token = $this->getBearerToken();
+        $promise = Http::async()->withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody('', 'application/json')
+            ->get($path . '?' . $query);
+
+        $responseJson = json_decode(json_encode($promise->wait()->json()));
+        if (isset($responseJson->messages) && $responseJson->messages[0]->message !== "OK") {
             Log::error($responseJson->messages[0]->message);
         }
         $responseData = $responseJson->response->data;
@@ -227,6 +261,33 @@ class FilemakerController extends Controller
             ->patch($path);
 
         $responseData = json_decode(json_encode($response->json()))->response;
+        dd($response->json());
+        return $response->ok();
+    }
+
+    /**
+     * Update filemaker record by its record ID
+     * 
+     * @param string $layoutName
+     * @param int $recordId
+     * @param mixed $changedRecord
+     * @return bool
+     */
+    private function updateRecordByIdFullBody(string $layoutName, int $recordId, $changedRecord)
+    {
+        $formattedLayout = rawurlencode($layoutName);
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/layouts/{$formattedLayout}/records/{$recordId}";
+
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body = $changedRecord;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->patch($path);
+
+        $responseData = json_decode(json_encode($response->json()))->response;
         return $response->ok();
     }
 
@@ -247,6 +308,11 @@ class FilemakerController extends Controller
     public function updateLessonOrders(int $recordId, $changedRecord)
     {
         return $this->updateRecordById(self::MONTHLY_ORDER_LAYOUT, $recordId, $changedRecord);
+    }
+
+    public function updateStudentMarks(int $recordId, $changedRecord)
+    {
+        return $this->updateRecordByIdFullBody(self::STUDENT_MARK_LAYOUT, $recordId, $changedRecord);
     }
 
     /**
@@ -270,5 +336,58 @@ class FilemakerController extends Controller
     {
         return $this->createRecord(self::CURRICULUM_LAYOUT, $newRecord);
     }
+
+    /**
+     * Function to clear all records in the projected orders table
+     * @return void
+     */
+    public function clearProjectedOrdersTable()
+    {
+        $this->runScript(self::PROJECTED_ORDER_LAYOUT, 'dapi_reset_projected_orders');
+    }
+
+    /**
+     * Create a new record for Projected Orders table
+     * 
+     * @param mixed $newRecord
+     * @return string
+     */
+    public function createProjectedOrderRecord($newRecord)
+    {
+        return $this->createRecord(self::PROJECTED_ORDER_LAYOUT, $newRecord);
+    }
+
+    private function setGlobalField($table, $field, $value)
+    {
+        $path = "{$this->fmHost}/fmi/data/{$this->fmVersion}/databases/{$this->fmDatabase}/globals";
+
+        $token = $this->getBearerToken();
+        $body = new stdClass();
+        $body->globalFields = [$table . '::' . $field => $value];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])
+            ->withBody(json_encode($body), 'application/json')
+            ->patch($path);
+
+        if ($response->ok()) {
+            $responseData = json_decode(json_encode($response->json()))->messages;
+            return $responseData;
+        } else {
+            Log::error($response->json());
+            return "";
+        }
+    }
+
+    /**
+     * Get an individual students marks records from Filemaker
+     * @param array $studentIds
+     * @return object
+     */
+    public function getStudentsByIds($studentIds)
+    {
+        return $this->getStudentsMarkByIds($studentIds);
+    }
+
 
 }

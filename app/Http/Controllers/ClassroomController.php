@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use App\Models\FmLessonOrder;
+use App\Models\FmSchool;
+use Gate;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use App\Models\Student;
@@ -38,7 +39,7 @@ class ClassroomController extends Controller
         if ($classroom->email !== auth()->user()->email) {
             return Inertia::render('NotFound');
         }
-        $allStudents = Student::getStudentsForUser();
+        $allStudents = Student::getActiveStudents()->getStudentsForUser();
         $classroomStudents = $classroom
             ->students()
             ->orderBy('grade')
@@ -80,23 +81,29 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
+        if (Gate::allows('create:curriculum')) {
+            $schoolEmail = $request->email;
+        } else {
+            $schoolEmail = auth()->user()->email;
+        }
+
         $classroom = Classroom::where([
-            ['email', auth()->user()->email]
+            ['email', $schoolEmail]
         ])
             ->whereRaw("LOWER(name) = ?", [strtolower($request->name)])
             ->first();
         if ($classroom) {
-            return redirect()->route('dashboard')->with('warning', "Classroom already exists");
+            return redirect()->back()->with('warning', "Classroom already exists");
         }
-        $schoolOrder = FmLessonOrder::where('email', auth()->user()->email)->first();
+        $schoolOrder = FmSchool::where('email', $schoolEmail)->first();
         // if (Student::getStudentsForUser()->isEmpty()) {
         if (!isset($schoolOrder)) {
-            return redirect()->route('dashboard')->with("failure", "No students found for current user");
+            return redirect()->back()->with("failure", "No students found for current user");
         }
         $classroom = new Classroom();
         $classroom->fill([
             'name' => strtolower($request->name),
-            'email' => auth()->user()->email,
+            'email' => $schoolEmail,
             'level_0_order' => 0,
             'level_1_order' => 0,
             'level_2_order' => 0,
@@ -110,10 +117,10 @@ class ClassroomController extends Controller
             $classroom->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('dashboard')->with('failure', 'Something went wrong');
+            return redirect()->back()->with('failure', 'Something went wrong');
         }
 
-        return redirect()->route('dashboard')->with('success', "New classroom created");
+        return redirect()->back()->with('success', "New classroom created");
     }
 
     /**
@@ -133,15 +140,18 @@ class ClassroomController extends Controller
         if ($classroom->isDirty()) {
             $classroom->save();
             $classroom->refresh();
-            $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
-            try {
-                Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
-            } catch (\Exception $e) {
-                Log::error("Could not send email for classroom order update", [$e]);
+
+            if (Gate::denies('create:curriculum')) {
+                $schoolOrder = FmSchool::where('email', $classroom->email)->first(['schoolName', 'id']);
+                try {
+                    Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
+                } catch (\Exception $e) {
+                    Log::error("Could not send email for classroom order update", [$e]);
+                }
             }
         }
 
-        return redirect()->route('dashboard')->with('success', "Changes have been updated");
+        return redirect()->back()->with('success', "Changes have been updated");
     }
 
     /**
@@ -170,7 +180,7 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        $schoolOrder = FmLessonOrder::where('email', $classroom->email)->first(['schoolName', 'id']);
+        $schoolOrder = FmSchool::where('email', $classroom->email)->first(['schoolName', 'id']);
         $classroom->delete();
         try {
             Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));

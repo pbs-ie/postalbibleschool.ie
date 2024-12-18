@@ -34,7 +34,6 @@ export default function NavItem({ name, href, active, submenu }: MenuItems) {
                         mouseEvent.clientY < buttonDimensions.top ||
                         mouseEvent.clientY > buttonDimensions.bottom)
                 ) {
-                    console.log(menuDimensions);
                     setShowSubmenu(false);
                 }
             }

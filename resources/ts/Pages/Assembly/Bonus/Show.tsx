@@ -1,10 +1,10 @@
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 
 import route from "ziggy-js";
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
-import { BonusVideoProps } from "./Index";
+import WrapperSidebarWithNavback from "@/Layouts/WrapperSidebarWithNavback";
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 
-export default function Show({ videoData }: { videoData: BonusVideoProps }) {
+export default function Show({ videoData, canEdit }: { videoData: BonusVideoProps, canEdit?: boolean }) {
     const content: VideoMeta[] = [
         {
             externalUrl: videoData.externalUrl,
@@ -14,10 +14,8 @@ export default function Show({ videoData }: { videoData: BonusVideoProps }) {
         }
     ]
     return (
-        <BonusAssemblyWrapper title={"Bonus Videos"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
+        <WrapperSidebarWithNavback title={"Bonus Videos"} canEdit={canEdit} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
             <VideoPlayerComponent title={videoData.title} imageLink={route('images.show', videoData.imageLink)} content={content} />
-            <div className="flex justify-center w-full px-5 mt-5 md:mt-10 md:px-10">
-            </div>
-        </BonusAssemblyWrapper>
+        </WrapperSidebarWithNavback>
     )
 }

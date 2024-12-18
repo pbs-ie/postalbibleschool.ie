@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SunscoolClassroomExport;
+use App\Exports\SunscoolNamesExport;
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
+use App\Models\SunscoolMap;
 use App\Services\SunscoolApiService;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class SunscoolApiController extends Controller
 {
+    private $sunscoolApiService;
+    public function __construct()
+    {
+        $this->sunscoolApiService = new SunscoolApiService();
+    }
     public function index()
     {
         $schoolsList = (new SunscoolApiService())->getSchoolsList();
@@ -19,34 +28,80 @@ class SunscoolApiController extends Controller
         ]);
     }
 
-    public function classes($schoolId)
+
+    public function classroom($schoolId, $classroomId)
     {
-        $school = (new SunscoolApiService())->getSchoolDetail($schoolId);
-        usort($school->classes, fn($a, $b) => (
-            strcasecmp($a->name, $b->name)
-        ));
-        return Inertia::render('Settings/Sunscool/Classes', [
-            'school' => $school
+        $school = $this->sunscoolApiService->getSchoolDetail($schoolId);
+        $classroom = $this->sunscoolApiService->getClassroomDetails($schoolId, $classroomId);
+
+        $sunscoolClassroom = SunscoolApiService::flattenClassroom($classroom);
+
+        return Inertia::render('Settings/Sunscool/Classroom', [
+            'schoolId' => fn() => $schoolId,
+            'schoolName' => fn() => $school->name,
+            'classroomId' => fn() => $classroom->id,
+            'classrooms' => fn() => collect($school->classes)->map(fn($class) => collect($class)->only(['id', 'name'])),
+            'classroomDetails' => fn() => $sunscoolClassroom
         ]);
     }
 
-    public function students($schoolId, $classId)
+
+    /**
+     * Get all information for selected students and show page
+     * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
+     */
+    public function process($schoolId, $classroomId, Request $request)
     {
-        $class = (new SunscoolApiService())->getClassDetails($schoolId, $classId);
-        dd($class);
-        return Inertia::render('Settings/Sunscool/Students', [
-            'classroom' => $class
+        $students = $request->selectedStudents;
+
+        $updatedStudents = SunscoolApiService::processedStudentsWithFmData($students);
+
+        if ($updatedStudents->isEmpty()) {
+            return back()->with('failure', 'Could not find valid students in selection');
+        }
+        return Inertia::render('Settings/Sunscool/Processing', [
+            "schoolId" => fn() => $schoolId,
+            "classroomId" => fn() => $classroomId,
+            "students" => fn() => $updatedStudents
         ]);
     }
 
     /**
-     * Store student marks to Filemaker Database
+     * Summary of store
      * @param \App\Http\Requests\StoreSunscoolStudentMarksRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSunscoolStudentMarksRequest $request)
     {
-        dd($request->validated());
-        return redirect()->route('settings.sunscool.index')->with('success', 'Values stored in Database');
+        SunscoolApiService::uploadStudentGrades($request->validated());
+        return redirect()->back()->with('success', 'Values stored in Database');
+
+    }
+
+    public function markUnprocessed(Request $request)
+    {
+        $students = collect($request->selectedStudents);
+
+        $studentIds = $students->pluck('pbsId')->unique();
+        $levels = $students->pluck('level')->unique();
+        $bibletimes = $students->pluck('bibletime')->unique();
+
+        SunscoolMap::whereIn('fm_student_id', $studentIds)
+            ->whereIn('level', $levels)
+            ->whereIn('bibletime', $bibletimes)
+            ->update(['is_processed' => false, 'progress' => null]);
+
+        return redirect()->back()->with('success', 'Marked students as unprocessed');
+
+    }
+
+    public function exportClassroom($schoolId, $classroomId)
+    {
+        return new SunscoolClassroomExport($schoolId, $classroomId);
+    }
+
+    public function exportNames($schoolId, $classroomId)
+    {
+        return new SunscoolNamesExport($schoolId, $classroomId);
     }
 }

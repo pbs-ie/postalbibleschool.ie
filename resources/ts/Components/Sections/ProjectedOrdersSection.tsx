@@ -1,11 +1,15 @@
+import { usePage } from "@inertiajs/react";
 import { useMemo } from "react";
-import { createColumnHelper } from "@tanstack/react-table";
+
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 import { MonthKeys, monthMap } from "@/constants";
 
 import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import { usePage } from "@inertiajs/react";
+import TooltipCard from "@/Components/Cards/TooltipCard";
+
+import DetailsSummary from "@/Elements/Sections/DetailsSummary";
+import InformationCircle from "@/Elements/Icons/InformationCircle";
 
 export interface ProjectedOrders {
     "jan_lesson": number
@@ -20,7 +24,7 @@ export interface ProjectedOrders {
     "dec_lesson": number
     "level": string
 }
-export default function ProjectedOrdersSection({ projectedOrders = [] }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean }) {
+export default function ProjectedOrdersSection({ projectedOrders = [], hasClassrooms = false }: { projectedOrders: ProjectedOrders[], viewOnly?: boolean, hasClassrooms?: boolean }) {
     const { currentMonthToSeries } = usePage<PassedProps>().props;
     const tableDataMemo = useMemo(() => projectedOrders, [projectedOrders]);
     const columnHelper = createColumnHelper<ProjectedOrders>();
@@ -52,13 +56,23 @@ export default function ProjectedOrdersSection({ projectedOrders = [] }: { proje
     })
 
     return (
-        <div className="pt-5 text-left">
-            <Heading2Alt>Projected Orders for Year</Heading2Alt>
-            <AdvancedTable
-                data={tableDataMemo}
-                columns={defaultColumns}
-                enableGlobalFilter={false}
-            />
-        </div>
+        <DetailsSummary defaultOpen summaryElement={
+            <span className="flex gap-2 align-top">
+                <p className="text-xl font-bold">Paper Orders for the Year</p>
+                <TooltipCard id={"projection-tip"} text={"This section shows the paper lessons you will be sent for each month. The numbers are calculated based on the curriculum you have set for your classrooms"} direction={"top"}>
+                    <a href="#" className="pointer-events-none" aria-describedby="projection-tip"><InformationCircle className="w-4 h-4 text-gray-600" /></a>
+                </TooltipCard>
+            </span>
+        }>
+            {hasClassrooms ?
+                <AdvancedTable
+                    data={tableDataMemo}
+                    columns={defaultColumns as ColumnDef<ProjectedOrders>[]}
+                    enableGlobalFilter={false}
+                />
+                :
+                <p className="italic text-gray-500">No classroom found. Create a new one by clicking the button <b>Add New Classroom</b>.</p>
+            }
+        </DetailsSummary>
     )
 }

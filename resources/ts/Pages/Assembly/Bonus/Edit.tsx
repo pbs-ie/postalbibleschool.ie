@@ -1,13 +1,14 @@
-import BonusAssemblyWrapper from "@/Layouts/BonusAssemblyWrapper";
 import route from "ziggy-js";
-import { BonusVideoProps } from "./Index";
+
+import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 import BonusVideoForm from "@/Components/Forms/BonusVideoForm";
+import SettingSidebarWithNavbackLayout from "@/Layouts/SettingsSidebarWithNavbackLayout";
 
 export default function Edit({ videoData }: { videoData: BonusVideoProps }) {
 
     return (
-        <BonusAssemblyWrapper title={"Edit - Bonus Assembly Video"} navBackText={"Back to Bonus Gallery"} navBackRoute={route('assembly.bonus.index')}>
+        <SettingSidebarWithNavbackLayout title={"Edit - Bonus Assembly Video"} navBackText={"Back to Bonus Admin"} navBackRoute={route('assembly.bonus.admin')} >
             <BonusVideoForm videoData={videoData} />
-        </BonusAssemblyWrapper>
+        </SettingSidebarWithNavbackLayout>
     )
 }

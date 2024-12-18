@@ -23,6 +23,7 @@ export default function TableColumnFilter<TData>({ column }: { column: Column<TD
                 ))}
             </datalist>
             <DebouncedInput
+                name="filter-text"
                 type="text"
                 value={(columnFilterValue ?? '') as string}
                 onChange={value => column.setFilterValue(value)}
