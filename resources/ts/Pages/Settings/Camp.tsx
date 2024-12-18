@@ -22,8 +22,6 @@ export default function Camp({ campSettings }: { campSettings: CampSettingProps 
             <SettingsSection>
 
                 <div>
-                    <Heading2Alt>Registration Details</Heading2Alt>
-                    <hr />
                     <CampSettingsForm campSettings={campSettings} />
                     <ReunionSettingsForm campSettings={campSettings} />
                     <CampPaymentSettingsForm campSettings={campSettings} />

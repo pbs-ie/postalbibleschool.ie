@@ -13,6 +13,7 @@ import { useState, useEffect, FormEvent } from "react";
 import route from "ziggy-js";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+import YearSelect from "@/Elements/Forms/YearSelect";
 
 export default function shedSettingsForm({ eventsSettings }: { eventsSettings: EventsSettingsProps }) {
     const [defaultData, setDefaultData] = useState({
@@ -96,7 +97,7 @@ export default function shedSettingsForm({ eventsSettings }: { eventsSettings: E
                     </div>
                     <div>
                         <InputLabel2 forInput={"shed_year"} value={"Year"} />
-                        <TextInput name={"shed_year"} id={"shed_year"} value={data.shed_year} handleChange={handleChange} />
+                        <YearSelect name={"shed_year"} id={"shed_year"} value={data.shed_year} startYear={new Date().getFullYear()} endYear={new Date().getFullYear() + 11} handleChange={handleChange} />
                         <InputError message={errors.shed_year} />
                     </div>
                     <div>

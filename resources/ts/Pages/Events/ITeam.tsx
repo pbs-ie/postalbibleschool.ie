@@ -30,7 +30,9 @@ export default function ITeam({ iteamSettings }: { iteamSettings: ITeamSettingPr
             <section className={"py-12 mx-auto text-center shadow-sm max-w-7xl sm:px-6 lg:px-8"}>
                 <h1 className="p-6 mt-2 mb-4 font-sans text-5xl font-bold leading-snug text-blue-800">{title}</h1>
                 <div className="grid gap-5 px-5 mb-5 md:grid-cols-2 md:gap-10 md:mb-10">
-                    <img src={route('images.show', iteamSettings.eventImageLink)} alt="iTeam flyer" className="md:order-last" />
+                    {iteamSettings.isActive &&
+                        <img src={route('images.show', iteamSettings.eventImageLink)} alt="iTeam flyer" className="md:order-last" />
+                    }
                     <div className="md:px-10">
                         <Paragraph>
                             iTeam is a new event which intends to encourage those with an interest in producing digital educational resources to teach the bible to work together within a defined project for PBS. It is hoped that each contributor benefits personally in developing their own skillset by working along with complimentary skills while the group as a whole brings a whole year of bible lessons to be "click ready" for the classroom.

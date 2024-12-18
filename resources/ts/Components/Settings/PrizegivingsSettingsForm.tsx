@@ -5,7 +5,7 @@ import BasicButton from "@/Elements/Buttons/BasicButton";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import InputError from "@/Elements/Forms/InputError";
 import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import TextInput from "@/Elements/Forms/TextInput";
+import YearSelect from "@/Elements/Forms/YearSelect";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 import Download from "@/Elements/Icons/Download";
 import Trash from "@/Elements/Icons/Trash";
@@ -77,7 +77,7 @@ export default function PrizegivingsSettingsForm({ eventsSettings }: { eventsSet
                     </div>
                     <div>
                         <InputLabel2 forInput={"prizegivings_year"} value={"Year"} />
-                        <TextInput name={"prizegivings_year"} id={"prizegivings_year"} value={data.prizegivings_year} handleChange={handleChange} />
+                        <YearSelect startYear={new Date().getFullYear()} endYear={new Date().getFullYear() + 11} name={"prizegivings_year"} id={"prizegivings_year"} value={data.prizegivings_year} handleChange={handleChange} />
                         <InputError message={errors.prizegivings_year} />
                     </div>
 
