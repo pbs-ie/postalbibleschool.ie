@@ -124,9 +124,17 @@ The database schema consists of the following key tables:
 
 ### Data Flow
 
-1. Frontend sends web requests via Inertia routes.
-2. Backend processes the request, interacts with the database, and returns a response.
-3. Frontend updates the UI based on the API response.
+- **Basic flow**
+
+  1. Frontend sends web requests via Inertia routes.
+  2. Backend processes the request, interacts with the database, and returns a response.
+  3. Frontend updates the UI based on the response.
+
+- **Filemaker actions flow**
+
+  1. Frontend sends web requests via Inertia routes
+  2. Backend processes the request interacts with Filemaker database through the Filemaker Data API
+  3. Backend processed response from the Data API and updates the UI based on the response
 
 ---
 
@@ -134,14 +142,22 @@ The database schema consists of the following key tables:
 
 - **Backend:**
   - MVC (Model-View-Controller) structure in Laravel.
-  - [Other design patterns or strategies used.]
+  - Using default Laravel functionality for most actions.
 
 - **Frontend:**
   - Component-based design.
-  - Separation of concerns for state, UI, and API logic.
+  - Styling using Tailwind.
+  - Typescript used for type-safe development as values from backend will always be typed.
+
+- **Database:**
+  - Primary database is MySQL relational tables.
+  - Filemaker is used as the database for student and school information.
 
 - **Why Chosen:**
-  - [Explain why specific technologies or patterns were chosen.]
+  - This tech stack was chosen to make the integration to the host server (Cloudways) easier. Cloudways provides a managed web host with scaffolding for Laravel.
+  - React frontend was integrated to the Laravel backend for component-based design and out-of-the-box state management.
+  - Laravel integrates with tailwind very easily and there is plenty of documentation to help with this development.
+  - Typescript integrated to add in type safety to the frontend.
 
 ---
 
@@ -156,10 +172,9 @@ The database schema consists of the following key tables:
 
 ## 8. Future Scalability
 
-- **Horizontal Scaling:** Use of load balancers for scaling.
-- **Database Scaling:** [Read replicas, partitioning.]
-- **Caching:** [Describe caching strategy, e.g., Redis.]
-- **Codebase Modularity:** Designed to support feature-based modularity.
+- **Horizontal Scaling:** Upgrade Cloudways server storage *or* expand to using a second server with load balancing. Cloudways provides solutions for both scenarios.
+- **Database Scaling:** *needs research. Probably also provided by Cloudways*
+- **Caching:** Memcached used for basic backend caching. Redis cache used for queues.
 
 ---
 
