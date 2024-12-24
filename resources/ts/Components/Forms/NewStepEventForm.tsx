@@ -1,4 +1,4 @@
-import { StepPastProps } from "@/Pages/Events/Step/Past/Edit";
+import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
 import FileInput from "@/Elements/Forms/FileInput";
@@ -12,26 +12,33 @@ import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
 import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 
-import { FormEvent, useEffect } from "react";
+import { DragEvent, FormEvent, useEffect } from "react";
 import route from "ziggy-js";
 import { usePage, useForm } from "@inertiajs/react";
 import DateInput from "@/Elements/Forms/DateInput";
 import { MonthKeys, monthNames } from "@/constants";
+import FileUploadDropzone from "./FileUploadDropzone";
+import LabelSpan from "../Typography/LabelSpan";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
-type StepPastCreateProps = Omit<StepPastProps, "id">;
+type StepPastCreateProps = Omit<StepEventsProps, "id">;
 
-export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps }) {
+export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEventsProps }) {
     const { errors } = usePage().props;
 
-    const parseDateString = (date: string) => {
-        const [month, year] = date.split(' ');
-        const monthNumber = (monthNames.indexOf(month as typeof monthNames[0]) + 1).toString().padStart(2, "0");
-        return `${year}-${monthNumber}`;
-    }
+    // const parseDateString = (date: string) => {
+    //     const [month, year] = date.split(' ');
+    //     const monthNumber = (monthNames.indexOf(month as typeof monthNames[0]) + 1).toString().padStart(2, "0");
+    //     return `${year}-${monthNumber}`;
+    // }
 
-    let defaultFormObject: StepPastProps | StepPastCreateProps = {
-        date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, "0")}`,
-        title: "",
+    const dateObject = new Date();
+
+    let defaultFormObject: StepEventsProps | StepPastCreateProps = {
+        startDate: `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)}-${dateObject.getDate().toString().padStart(2, "0")}`,
+        endDate: `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)}-${dateObject.getDate().toString().padStart(2, "0")}`,
+        topic: "",
+        speaker: "",
         description: "",
         imageFile: null as File | null,
         imageLink: "",
@@ -42,8 +49,10 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
     if (pastEvent) {
         defaultFormObject = {
             id: pastEvent.id,
-            date: parseDateString(pastEvent.date),
-            title: pastEvent.title,
+            startDate: pastEvent.startDate,
+            endDate: pastEvent.endDate,
+            topic: pastEvent.topic,
+            speaker: pastEvent.speaker,
             description: pastEvent.description,
             imageFile: pastEvent.imageFile,
             imageLink: pastEvent.imageLink,
@@ -56,13 +65,14 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
-            case "date":
-            case "title":
+            case "startDate":
+            case "topic":
+            case "speaker":
             case "description":
                 setData(event.target.name, event.target.value);
                 break;
             case "showDetails":
-                setData(event.target.name, event.target.value === "true");
+                setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
@@ -86,6 +96,14 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
     const setFileContent = (newContent: FileMeta[]) => {
         setData('fileContent', [...newContent]);
     }
+    const handleDrop = (event: React.DragEvent, name: string) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (name === "imageFile" && (droppedFiles.length > 0)) {
+            setData(name, droppedFiles[0]);
+        }
+    };
+
     return (
         <>
             {errors &&
@@ -95,46 +113,43 @@ export default function StepPastForm({ pastEvent }: { pastEvent?: StepPastProps 
             }
             <form method="post" onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
                 <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
-                <div className="flex flex-col gap-4 mb-4">
-                    <div className="inline-flex gap-2">
-                        <InputLabel forInput={"date"} value={"Date"} required />
-                        <DateInput type={'month'} hasError={!!errors.date} name={"date"} id={"date"} value={data.date} className={""} handleChange={handleChange} required />
-                        <p className="text-gray-600">//Full month name and Year. E.g. "January 2023"</p>
+                <div className="flex flex-col w-full gap-4 mb-4">
+                    <div className="inline-flex items-center gap-2">
+                        <InputLabel forInput={"startDate"} value={"Start Date"} required />
+                        <DateInput type={'date'} hasError={!!errors.startDate} name={"startDate"} id={"startDate"} value={data.startDate} className={""} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex gap-2">
-                        <InputLabel forInput={"title"} value={"Title"} required />
-                        <TextInput type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
+                        <InputLabel forInput={"speaker"} value={"speaker"} required />
+                        <TextInput type={"text"} name={"speaker"} id={"speaker"} value={data.speaker} className={""} handleChange={handleChange} required />
+                    </div>
+                    <div className="inline-flex gap-2">
+                        <InputLabel forInput={"topic"} value={"topic"} required />
+                        <TextInput type={"text"} name={"topic"} id={"topic"} value={data.topic} className={""} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex items-start gap-2">
                         <InputLabel forInput={"description"} value={"Description"} required />
                         <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex items-end gap-2">
-                        <fieldset className="inline-flex">
-                            <Legend required value="Show Details" />
-                            <InputLabel2 className="mr-2" forInput="true">
-                                <RadioInput name={"showDetails"} id={"true"} value={"true"} className={""} handleChange={handleChange} checked={data.showDetails} />
-                                Yes
-                            </InputLabel2>
-                            <InputLabel2 forInput="false">
-                                <RadioInput name={"showDetails"} id={"false"} value={"false"} className={""} handleChange={handleChange} checked={!data.showDetails} />
-                                No
-                            </InputLabel2>
-                        </fieldset>
+                        <YesNoRadio title="Show Details" name="showDetails" value={data.showDetails ? 1 : 0} handleChange={handleChange} />
                     </div>
 
-                    <div className="inline-flex gap-2">
-                        <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} accept="image/png" />
+                    <div className="inline-flex flex-wrap justify-start gap-2">
+                        <FileUploadDropzone name={"imageFile"} onChange={handleFileChange} accept="image/png" onDrop={(e) => handleDrop(e, 'imageFile')} labelText={"Thumbnail Image"} required />
+                        {(data.imageLink || data.imageFile) &&
+                            <div className="w-fit">
+                                <LabelSpan>Preview</LabelSpan>
+                                <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : route('images.show', data.imageLink)} />
+                            </div>
+                        }
                     </div>
-                    <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : pastEvent ? route('images.show', data.imageLink) : ""} />
                 </div>
                 <VideoEditFormComponent videoContent={pastEvent?.videoContent ?? []} setContent={setVideoContent} />
                 <VideoFilesEditComponent fileContent={pastEvent?.fileContent ?? []} setContent={setFileContent} />
 
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                     <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
-                    <PrimaryButton type="submit" processing={processing}>Update</PrimaryButton>
+                    <PrimaryButton type="submit" processing={processing}>{pastEvent ? "Update" : "Create"}</PrimaryButton>
                 </div>
 
             </form>

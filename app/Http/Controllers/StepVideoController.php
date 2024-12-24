@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreStepPastRequest;
+use App\Http\Requests\StoreStepEventRequest;
 use Inertia\Inertia;
-use App\Models\StepPast;
+use App\Models\StepEvent;
 use Illuminate\Support\Facades\Storage;
 use App\Settings\StepSettings;
 use Illuminate\Support\Facades\Gate;
 
-class StepPastController extends Controller
+class StepVideoController extends Controller
 {
     /**
      * Display admin panel for the past resources.
@@ -18,8 +18,9 @@ class StepPastController extends Controller
      */
     public function admin()
     {
-        return Inertia::render('Events/Step/Past/Admin', [
-            'pastEvents' => StepPast::orderByDesc('date')->get()
+        $events = StepEvent::orderByDesc('startDate')->get();
+        return Inertia::render('Events/Step/Admin', [
+            'pastEvents' => $events
         ]);
     }
 
@@ -31,8 +32,8 @@ class StepPastController extends Controller
      */
     public function index(StepSettings $stepSettings)
     {
-        return Inertia::render('Events/Step/Past/Gallery', [
-            'pastEvents' => fn() => StepPast::orderByDesc('date')->get(),
+        return Inertia::render('Events/Step/Gallery', [
+            'pastEvents' => fn() => StepEvent::orderByDesc('startDate')->get(),
             'stepSettings' => fn() => $stepSettings
         ]);
     }
@@ -40,15 +41,15 @@ class StepPastController extends Controller
     /**
      * Show details for one Past Event
      * 
-     * @param \App\Models\StepPast $event
+     * @param \App\Models\StepEvent $event
      * @return \Inertia\Response | void
      */
-    public function show(StepPast $event)
+    public function show(StepEvent $event)
     {
         if (Gate::denies('create:events') && !$event['showDetails']) {
             return abort(404);
         }
-        return Inertia::render('Events/Step/Past/Show', [
+        return Inertia::render('Events/Step/Show', [
             'pastEvent' => $event
         ]);
     }
@@ -60,18 +61,18 @@ class StepPastController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Events/Step/Past/Create');
+        return Inertia::render('Events/Step/Create');
     }
 
     /**
      * Store a new past STEP event
      * 
-     * @param \App\Http\Requests\StoreStepPastRequest $request
+     * @param \App\Http\Requests\StoreStepEventRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreStepPastRequest $request)
+    public function store(StoreStepEventRequest $request)
     {
-        $stepEvent = new StepPast;
+        $stepEvent = new StepEvent;
         $stepEvent->fill($request->validated());
 
         // Storing image and saving image link to request
@@ -83,7 +84,6 @@ class StepPastController extends Controller
         // Convert submitted vimeo links
         $stepEvent->videoContent = $stepEvent->parseVideoLinks($request);
 
-
         $stepEvent->save();
 
         return redirect()->route('events.step.past.admin')->with('success', 'New event created');
@@ -92,12 +92,12 @@ class StepPastController extends Controller
     /**
      * Show the form for editing the specified event.
      *
-     * @param  \App\Models\StepPast
+     * @param  \App\Models\StepEvent
      * @return \Inertia\Response
      */
-    public function edit(StepPast $event)
+    public function edit(StepEvent $event)
     {
-        return Inertia::render('Events/Step/Past/Edit', [
+        return Inertia::render('Events/Step/Edit', [
             "pastEvent" => $event
         ]);
     }
@@ -105,16 +105,16 @@ class StepPastController extends Controller
     /**
      * Update an existing past event
      * 
-     * @param \App\Http\Requests\StoreStepPastRequest $request
-     * @param \App\Models\StepPast $event
+     * @param \App\Http\Requests\StoreStepEventRequest $request
+     * @param \App\Models\StepEvent $event
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StoreStepPastRequest $request, StepPast $event)
+    public function update(StoreStepEventRequest $request, StepEvent $event)
     {
         $event->fill($request->validated());
         // Replacing image and saving image link to request
         if ($request->file('imageFile')) {
-            if (Storage::disk('images')->exists($event->imageLink)) {
+            if ($request->imageLink && Storage::disk('images')->exists($request->imageLink)) {
                 Storage::disk('images')->delete($event->imageLink);
             }
             $event->imageLink = $request->file('imageFile')->store('/', 'images');
@@ -135,10 +135,10 @@ class StepPastController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StepPast
+     * @param  \App\Models\StepEvent
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(StepPast $event)
+    public function destroy(StepEvent $event)
     {
         $event->delete();
 

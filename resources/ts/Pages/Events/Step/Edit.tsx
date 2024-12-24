@@ -1,14 +1,16 @@
 
-import StepPastForm from "@/Components/Forms/StepPastForm";
+import NewStepEventForm from "@/Components/Forms/NewStepEventForm";
 import ContentWrapper from "@/Layouts/ContentWrapper";
 import WrapperLayout from "@/Layouts/WrapperLayout";
 
 
-export interface StepPastProps {
+export interface StepEventsProps {
     id: number,
-    date: string,
+    startDate: string,
+    endDate: string,
     description: string,
-    title: string,
+    topic: string,
+    speaker: string,
     imageFile?: File | null,
     imageLink: string,
     videoContent: VideoMeta[],
@@ -17,12 +19,12 @@ export interface StepPastProps {
 }
 
 
-export default function Edit({ pastEvent }: { pastEvent: StepPastProps }) {
+export default function Edit({ pastEvent }: { pastEvent: StepEventsProps }) {
 
     return (
         <WrapperLayout>
             <ContentWrapper title="Edit STEP event">
-                <StepPastForm pastEvent={pastEvent} />
+                <NewStepEventForm pastEvent={pastEvent} />
             </ContentWrapper>
         </WrapperLayout>
     )

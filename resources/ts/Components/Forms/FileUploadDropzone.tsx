@@ -22,7 +22,7 @@ export default function FileUploadDropzone({ name, accept, labelText, onChange, 
                     <p className="text-sm text-gray-500">Maximum file size 2 MB</p>
                 </div>
             </label>
-            <FileInput className="invisible" name={name} id={name} onChange={onChange} accept={accept} required={required} />
+            <FileInput className="hidden" name={name} id={name} onChange={onChange} accept={accept} formNoValidate />
         </div>
     )
 }

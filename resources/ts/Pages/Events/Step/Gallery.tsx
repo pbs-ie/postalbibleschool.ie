@@ -7,7 +7,7 @@ export default function Gallery({ pastEvents = [] }: { pastEvents: PastEventCard
         const firstEvent = pastEvents[0];
         return (
             <div className="flex justify-center w-full">
-                <StepEventCard id={firstEvent.id} title={firstEvent.title} imageLink={firstEvent.imageLink} description={firstEvent.description} date={firstEvent.date} showDetails={firstEvent.showDetails} size="large" />
+                <StepEventCard speaker={firstEvent.speaker} id={firstEvent.id} topic={firstEvent.topic} imageLink={firstEvent.imageLink} description={firstEvent.description} startDate={firstEvent.startDate} showDetails={firstEvent.showDetails} size="large" endDate={""} />
             </div>
         );
     }
@@ -22,8 +22,8 @@ export default function Gallery({ pastEvents = [] }: { pastEvents: PastEventCard
                         <LatestEvent />
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        {pastEvents.slice(1).map(({ title: heading, imageLink, description, date, id, showDetails }) => (
-                            <StepEventCard key={id} id={id} title={heading} imageLink={imageLink} description={description} date={date} showDetails={showDetails} />
+                        {pastEvents.slice(1).map(({ topic: heading, imageLink, description, startDate: date, id, showDetails, speaker }) => (
+                            <StepEventCard speaker={speaker} key={id} id={id} topic={heading} imageLink={imageLink} description={description} startDate={date} showDetails={showDetails} endDate="" />
                         ))}
                     </div>
                 </>

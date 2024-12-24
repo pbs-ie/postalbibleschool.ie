@@ -20,7 +20,7 @@ use App\Http\Controllers\StudentController;
 use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use App\Http\Controllers\StepPastController;
+use App\Http\Controllers\StepVideoController;
 use App\Models\DownloadsList;
 use App\Models\FmSchool;
 use App\Settings\EventsSettings;
@@ -178,7 +178,7 @@ Route::prefix('events')->name('events.')->group(function () {
 
         Route::get('/schedule', 'schedule')->name('schedule');
 
-        Route::prefix('past')->name('past.')->controller(StepPastController::class)->group(function () {
+        Route::prefix('past')->name('past.')->controller(StepVideoController::class)->group(function () {
             Route::middleware(['auth', 'can:create:events'])->group(function () {
                 Route::post('/', 'store')->name('store');
                 Route::get('/admin', 'admin')->name('admin');

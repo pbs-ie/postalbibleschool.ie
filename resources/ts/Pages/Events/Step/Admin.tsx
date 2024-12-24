@@ -35,20 +35,20 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
             id: 'image',
             header: 'Thumbnail',
             cell: ({ row }) => (
-                <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Image for " + row.original.title} />
+                <img className="w-40" src={route('images.show', row.original.imageLink)} alt={"Image for " + row.original.topic} />
             )
         }),
-        columnHelper.accessor(row => row.title, {
+        columnHelper.accessor(row => row.topic, {
             header: 'Title',
         }),
-        columnHelper.accessor(row => row.date, {
+        columnHelper.accessor(row => row.startDate, {
             header: 'Date',
         }),
         columnHelper.display({
             id: 'description',
             header: 'Description',
             cell: ({ row }) => (
-                <p title={row.original.description} className="w-40 font-normal whitespace-normal lg:w-80">{truncateString(row.original.description, 40)}</p>
+                <p title={row.original.description} className="w-40 font-normal text-left whitespace-normal lg:w-80">{truncateString(row.original.description, 40)}</p>
             )
         }),
         columnHelper.display({
@@ -65,7 +65,7 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
                     <IconHoverSpan>
                         <BasicButton dataTest={"step_past_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {
                             setIdToDelete(row.original.id);
-                            setNameToDelete(row.original.title);
+                            setNameToDelete(row.original.topic);
                             showModal();
                         }}><span className="flex flex-col items-center text-red-500">
                                 <Trash key={row.id} />Delete
