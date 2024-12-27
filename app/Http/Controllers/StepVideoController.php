@@ -12,19 +12,6 @@ use Illuminate\Support\Facades\Gate;
 class StepVideoController extends Controller
 {
     /**
-     * Display admin panel for STEP events management.
-     *
-     * @return \Inertia\Response
-     */
-    public function admin()
-    {
-        $events = StepEvent::orderByDesc('startDate')->get();
-        return Inertia::render('Events/Step/Admin', [
-            'allEvents' => $events
-        ]);
-    }
-
-    /**
      * Display the events gallery for STEP events
      * 
      * @param \App\Settings\StepSettings $stepSettings
@@ -88,7 +75,7 @@ class StepVideoController extends Controller
 
         $stepEvent->save();
 
-        return redirect()->route('events.step.past.admin')->with('success', 'New event created');
+        return redirect()->route('settings.step.index')->with('success', 'New event created');
     }
 
     /**
@@ -130,7 +117,7 @@ class StepVideoController extends Controller
 
         $event->save();
 
-        return redirect()->route('events.step.past.admin')->with('success', 'Event updated successfully');
+        return redirect()->route('settings.step.index')->with('success', 'Event updated successfully');
     }
 
 
@@ -144,7 +131,7 @@ class StepVideoController extends Controller
     {
         $event->delete();
 
-        return redirect()->route('events.step.past.admin')->with('success', 'Event removed successfully');
+        return redirect()->route('settings.step.index')->with('success', 'Event removed successfully');
     }
 
 }

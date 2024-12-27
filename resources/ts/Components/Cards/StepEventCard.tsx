@@ -2,16 +2,9 @@ import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import route from "ziggy-js";
+import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 
-export interface PastEventCardProps {
-    id: number;
-    topic: string;
-    speaker: string;
-    imageLink?: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    showDetails?: boolean;
+export interface PastEventCardProps extends Omit<StepEventsProps, "videoContent" | "fileContent"> {
     size?: "small" | "large";
 }
 

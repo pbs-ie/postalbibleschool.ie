@@ -1,23 +1,23 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import DeleteDialogCard from "@/Components/Cards/DeleteDialogCard";
 import { PastEventCardProps } from "@/Components/Cards/StepEventCard";
-import Trash from "@/Elements/Icons/Trash";
+import AdvancedTable from "@/Components/Tables/AdvancedTable";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
+
+import BasicButton from "@/Elements/Buttons/BasicButton";
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import EditIcon from "@/Elements/Icons/EditIcon";
 import Eye from "@/Elements/Icons/Eye";
-import AdvancedTable from "@/Components/Tables/AdvancedTable";
-import ContentWrapper from "@/Layouts/ContentWrapper";
-import WrapperLayout from "@/Layouts/WrapperLayout";
-import { router } from "@inertiajs/core";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import Heading2 from "@/Components/Typography/Heading2";
-import { modalHelper, truncateString } from "@/helper";
-import BasicButton from "@/Elements/Buttons/BasicButton";
+import Trash from "@/Elements/Icons/Trash";
 import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
+
+import { modalHelper, truncateString } from "@/helper";
+
+import { router } from "@inertiajs/react";
+import { createColumnHelper, ColumnDef } from "@tanstack/react-table";
+import { useState, useMemo } from "react";
 import route from "ziggy-js";
 
-
-export default function Admin({ allEvents = [] }: { allEvents: PastEventCardProps[] }) {
+export default function EventManagementTable({ allEvents = [] }: { allEvents: PastEventCardProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
@@ -77,7 +77,9 @@ export default function Admin({ allEvents = [] }: { allEvents: PastEventCardProp
     ];
 
     return (
-        <WrapperLayout>
+        <div className="space-y-2">
+            <Heading2Alt>Event Manager</Heading2Alt>
+            <hr />
             <DeleteDialogCard
                 dialogRef={dialogRef}
                 closeModal={closeModal}
@@ -89,20 +91,21 @@ export default function Admin({ allEvents = [] }: { allEvents: PastEventCardProp
                 message="Are you sure you want to delete:"
                 nameToDelete={nameToDelete}
             />
-            <ContentWrapper title="Step Management" >
-                <Heading2>All Events</Heading2>
-                <div className="flex justify-end w-full">
-                    <ButtonLink href={route('events.step.past.create')}>Add event</ButtonLink>
-                </div>
+            <div className="flex justify-end w-full">
+                <ButtonLink href={route('events.step.past.create')}>Add event</ButtonLink>
+            </div>
 
-                {allEvents.length === 0 ?
-                    <div className="w-full">No events added</div>
-                    :
-                    <div className="w-full overflow-x-auto">
-                        <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<PastEventCardProps>[]} />
-                    </div>
-                }
-            </ContentWrapper>
-        </WrapperLayout>
+            {allEvents.length === 0 ?
+                <div className="w-full">No events added</div>
+                :
+                <div className="w-full overflow-x-auto">
+                    <AdvancedTable
+                        data={tableDataMemo}
+                        columns={defaultColumns as ColumnDef<PastEventCardProps>[]}
+                        enableGlobalFilter={false}
+                    />
+                </div>
+            }
+        </div>
     )
 }

@@ -15,10 +15,12 @@ class StepSettingController extends Controller
 {
     public function index(StepSettings $settings)
     {
+        $allEvents = StepEvent::orderByDesc('startDate')->get();
         $eventOptions = SettingsService::getEventOptions(StepEvent::all(), $settings);
         return Inertia::render('Settings/Step', [
             'stepSettings' => $settings,
-            'eventOptions' => $eventOptions
+            'eventOptions' => $eventOptions,
+            'allEvents' => $allEvents
         ]);
     }
 

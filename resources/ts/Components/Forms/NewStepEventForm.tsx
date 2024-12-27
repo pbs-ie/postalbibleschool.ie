@@ -111,7 +111,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                     <ToastBanner key={key} message={errors[key]} />
                 )
             }
-            <form method="post" onSubmit={handleSubmit} className="flex flex-col items-start gap-4 px-10 py-5 border w-fit">
+            <form method="post" onSubmit={handleSubmit} className="flex flex-col items-start w-full gap-4 px-10 py-5 border md:w-fit md:min-w-[50vw]">
                 <h2 className="p-0 mb-2 text-xl font-bold text-black">Basic Information</h2>
                 <div className="flex flex-col w-full gap-4 mb-4">
                     <div className="inline-flex items-center gap-2">
@@ -119,7 +119,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                         <DateInput type={'date'} hasError={!!errors.startDate} name={"startDate"} id={"startDate"} value={data.startDate} className={""} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex items-center gap-2">
-                        <InputLabel forInput={"endDate"} value={"Start Date"} required />
+                        <InputLabel forInput={"endDate"} value={"End Date"} required />
                         <DateInput type={'date'} hasError={!!errors.endDate} name={"endDate"} id={"endDate"} value={data.endDate} className={""} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex gap-2">
@@ -152,7 +152,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                 <VideoFilesEditComponent fileContent={currentEvent?.fileContent ?? []} setContent={setFileContent} />
 
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
-                    <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
+                    <ButtonLink hierarchy="secondary" href={route('settings.step.index')}>Cancel</ButtonLink>
                     <PrimaryButton type="submit" processing={processing}>{currentEvent ? "Update" : "Create"}</PrimaryButton>
                 </div>
 

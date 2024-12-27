@@ -181,7 +181,6 @@ Route::prefix('events')->name('events.')->group(function () {
         Route::prefix('past')->name('past.')->controller(StepVideoController::class)->group(function () {
             Route::middleware(['auth', 'can:create:events'])->group(function () {
                 Route::post('/', 'store')->name('store');
-                Route::get('/admin', 'admin')->name('admin');
                 Route::get('/create', 'create')->name('create');
                 Route::get('/{event}/edit', 'edit')->name('edit');
                 // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
