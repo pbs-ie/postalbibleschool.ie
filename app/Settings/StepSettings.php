@@ -12,10 +12,10 @@ class StepSettings extends Settings
     public string $concessionCost;
 
     public bool $isRegistrationActive;
-    public ?int $activeId;
-    public ?int $upcomingId1;
-    public ?int $upcomingId2;
-    public ?int $upcomingId3;
+    public ?string $activeId;
+    public ?string $upcomingId1;
+    public ?string $upcomingId2;
+    public ?string $upcomingId3;
     public string $embedLink;
     public ?string $scheduleFileLink;
 

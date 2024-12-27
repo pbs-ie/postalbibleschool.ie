@@ -18,6 +18,7 @@ import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 import { EventSelectOption } from "@/Pages/Settings/Step";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import Heading3 from "@/Components/Typography/Heading3";
+import ToastBanner from "@/Components/Forms/ToastBanner";
 
 export default function StepRegistrationSettingsForm({ stepSettings, eventOptions }: { stepSettings: StepSettingsProps, eventOptions: EventSelectOption[] }) {
 
@@ -91,7 +92,7 @@ export default function StepRegistrationSettingsForm({ stepSettings, eventOption
     const EventSelectInput = (props: { name: string, value?: string }) => {
         return (
             <SelectInput name={props.name} defaultValue={props.value} id={props.name} handleChange={handleChange}>
-                <option key="disabled-option" value="" className="border-b-2 border-black">None selected</option>
+                <option key="disabled-option" value="" className="italic">None selected</option>
                 {eventOptions.map((event) => (
                     <option key={event.id} value={event.id}>#{event.id} - {event.topic}</option>
                 ))}
@@ -102,6 +103,11 @@ export default function StepRegistrationSettingsForm({ stepSettings, eventOption
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
             <Heading2Alt>Active Event</Heading2Alt>
             <hr />
+            {errors &&
+                Object.keys(errors).map((key) =>
+                    <ToastBanner key={key} message={errors[key as keyof StepSettingsProps] ?? ""} />
+                )
+            }
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="w-fit">
