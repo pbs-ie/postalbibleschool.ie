@@ -23,7 +23,7 @@ import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 type StepPastCreateProps = Omit<StepEventsProps, "id">;
 
-export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEventsProps }) {
+export default function NewStepEventForm({ currentEvent }: { currentEvent?: StepEventsProps }) {
     const { errors } = usePage().props;
 
     // const parseDateString = (date: string) => {
@@ -46,19 +46,18 @@ export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEvents
         videoContent: [],
         fileContent: []
     }
-    if (pastEvent) {
+    if (currentEvent) {
         defaultFormObject = {
-            id: pastEvent.id,
-            startDate: pastEvent.startDate,
-            endDate: pastEvent.endDate,
-            topic: pastEvent.topic,
-            speaker: pastEvent.speaker,
-            description: pastEvent.description,
-            imageFile: pastEvent.imageFile,
-            imageLink: pastEvent.imageLink,
-            showDetails: pastEvent.showDetails,
-            videoContent: pastEvent.videoContent ?? [],
-            fileContent: pastEvent.fileContent ?? []
+            id: currentEvent.id,
+            startDate: currentEvent.startDate,
+            endDate: currentEvent.endDate,
+            topic: currentEvent.topic,
+            speaker: currentEvent.speaker,
+            description: currentEvent.description,
+            imageLink: currentEvent.imageLink,
+            showDetails: currentEvent.showDetails,
+            videoContent: currentEvent.videoContent ?? [],
+            fileContent: currentEvent.fileContent ?? []
         }
     }
     const { data, setData, post, reset, processing } = useForm(defaultFormObject);
@@ -66,6 +65,7 @@ export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEvents
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
             case "startDate":
+            case "endDate":
             case "topic":
             case "speaker":
             case "description":
@@ -84,8 +84,8 @@ export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEvents
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (pastEvent)
-            post(route('events.step.past.update', pastEvent.id));
+        if (currentEvent)
+            post(route('events.step.past.update', currentEvent.id));
         else
             post(route('events.step.past.store'));
     }
@@ -118,6 +118,10 @@ export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEvents
                         <InputLabel forInput={"startDate"} value={"Start Date"} required />
                         <DateInput type={'date'} hasError={!!errors.startDate} name={"startDate"} id={"startDate"} value={data.startDate} className={""} handleChange={handleChange} required />
                     </div>
+                    <div className="inline-flex items-center gap-2">
+                        <InputLabel forInput={"endDate"} value={"Start Date"} required />
+                        <DateInput type={'date'} hasError={!!errors.endDate} name={"endDate"} id={"endDate"} value={data.endDate} className={""} handleChange={handleChange} required />
+                    </div>
                     <div className="inline-flex gap-2">
                         <InputLabel forInput={"speaker"} value={"speaker"} required />
                         <TextInput type={"text"} name={"speaker"} id={"speaker"} value={data.speaker} className={""} handleChange={handleChange} required />
@@ -144,12 +148,12 @@ export default function NewStepEventForm({ pastEvent }: { pastEvent?: StepEvents
                         }
                     </div>
                 </div>
-                <VideoEditFormComponent videoContent={pastEvent?.videoContent ?? []} setContent={setVideoContent} />
-                <VideoFilesEditComponent fileContent={pastEvent?.fileContent ?? []} setContent={setFileContent} />
+                <VideoEditFormComponent videoContent={currentEvent?.videoContent ?? []} setContent={setVideoContent} />
+                <VideoFilesEditComponent fileContent={currentEvent?.fileContent ?? []} setContent={setFileContent} />
 
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                     <ButtonLink hierarchy="secondary" href={route('events.step.past.admin')}>Cancel</ButtonLink>
-                    <PrimaryButton type="submit" processing={processing}>{pastEvent ? "Update" : "Create"}</PrimaryButton>
+                    <PrimaryButton type="submit" processing={processing}>{currentEvent ? "Update" : "Create"}</PrimaryButton>
                 </div>
 
             </form>

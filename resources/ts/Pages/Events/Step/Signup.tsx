@@ -1,25 +1,29 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
+import { StepEventsProps } from "@/Pages/Events/Step/Edit";
+
 import StepWrapper from "@/Layouts/StepWrapper";
+
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
+
 import route from "ziggy-js";
 
-export default function Signup({ stepSettings }: { stepSettings: StepSettingsProps }) {
+export default function Signup({ activeEvent, stepSettings }: { activeEvent?: StepEventsProps, stepSettings: StepSettingsProps }) {
     const tableData: BasicTableData[] = [
         {
             heading: "Topic",
-            content: <><p className="font-normal">{stepSettings.topic}</p></>
+            content: <><p className="font-normal">{activeEvent?.topic}</p></>
         },
         {
             heading: "Speaker",
-            content: <>{stepSettings.speaker}</>
+            content: <>{activeEvent?.speaker}</>
         },
         {
             heading: "Dates",
-            content: <>{stepSettings.dates}</>
+            content: <>{activeEvent?.startDate}</>
         },
         {
             heading: "Cost",
@@ -28,10 +32,12 @@ export default function Signup({ stepSettings }: { stepSettings: StepSettingsPro
     ]
     return (
         <StepWrapper heading="Registration" title={"Sign Up"}>
-            <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
-                <BasicTable tableData={tableData}></BasicTable>
-                <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', stepSettings.eventImageLink)} alt="Step June 2024 banner - Nehemiah" />
-            </div>
+            {activeEvent &&
+                <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
+                    <BasicTable tableData={tableData}></BasicTable>
+                    <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', activeEvent?.imageLink)} alt="Step June 2024 banner - Nehemiah" />
+                </div>
+            }
             <ParagraphContainer>
                 <Paragraph>{stepSettings.description}</Paragraph>
 

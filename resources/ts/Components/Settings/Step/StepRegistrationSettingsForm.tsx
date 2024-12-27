@@ -15,36 +15,38 @@ import BasicButton from "@/Elements/Buttons/BasicButton";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
 import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+import { EventSelectOption } from "@/Pages/Settings/Step";
+import Heading2Alt from "@/Components/Typography/Heading2Alt";
+import Heading3 from "@/Components/Typography/Heading3";
 
-export default function StepRegistrationSettingsForm({ stepSettings }: { stepSettings: StepSettingsProps }) {
+export default function StepRegistrationSettingsForm({ stepSettings, eventOptions }: { stepSettings: StepSettingsProps, eventOptions: EventSelectOption[] }) {
+
     const [defaultData, setDefaultData] = useState({
-        "topic": stepSettings.topic,
-        "speaker": stepSettings.speaker,
         "description": stepSettings.description,
-        "dates": stepSettings.dates,
         "standardCost": stepSettings.standardCost,
         "concessionCost": stepSettings.concessionCost,
         "embedLink": stepSettings.embedLink,
-        "isActive": stepSettings.isActive,
-        "eventImage": stepSettings.eventImage,
-        "eventImageLink": stepSettings.eventImageLink,
+        "isRegistrationActive": stepSettings.isRegistrationActive,
+        "activeId": stepSettings.activeId ?? "",
+        "upcomingId1": stepSettings.upcomingId1 ?? "",
+        "upcomingId2": stepSettings.upcomingId2 ?? "",
+        "upcomingId3": stepSettings.upcomingId3 ?? "",
         "scheduleFile": stepSettings.scheduleFile,
-        "scheduleFileLink": stepSettings.scheduleFileLink
+        "scheduleFileLink": stepSettings.scheduleFileLink,
     });
     useEffect(() => {
         setDefaultData({
-            "topic": stepSettings.topic,
-            "speaker": stepSettings.speaker,
             "description": stepSettings.description,
-            "dates": stepSettings.dates,
             "standardCost": stepSettings.standardCost,
             "concessionCost": stepSettings.concessionCost,
+            "isRegistrationActive": stepSettings.isRegistrationActive,
             "embedLink": stepSettings.embedLink,
-            "isActive": stepSettings.isActive,
-            "eventImage": stepSettings.eventImage,
-            "eventImageLink": stepSettings.eventImageLink,
+            "activeId": stepSettings.activeId ?? "",
+            "upcomingId1": stepSettings.upcomingId1 ?? "",
+            "upcomingId2": stepSettings.upcomingId2 ?? "",
+            "upcomingId3": stepSettings.upcomingId3 ?? "",
             "scheduleFile": stepSettings.scheduleFile,
-            "scheduleFileLink": stepSettings.scheduleFileLink
+            "scheduleFileLink": stepSettings.scheduleFileLink,
         });
 
     }, [stepSettings])
@@ -53,29 +55,29 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
-            case "topic":
-            case "speaker":
             case "description":
-            case "dates":
             case "standardCost":
             case "concessionCost":
-            case "embedLink":
+            case "activeId":
+            case "upcomingId1":
+            case "upcomingId2":
+            case "upcomingId3":
                 setData(event.target.name, event.target.value);
                 break;
-            case "isActive":
+            case "isRegistrationActive":
                 setData(event.target.name, Boolean(+event.target.value));
                 break;
         }
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if ((event.target.name === "eventImage" || event.target.name === "scheduleFile") && event.target.files) {
+        if (event.target.name === "scheduleFile" && event.target.files) {
             setData(event.target.name, event.target.files[0]);
         }
     }
     const handleDrop = (event: React.DragEvent, name: string) => {
         event.preventDefault();
         const droppedFiles = event.dataTransfer.files;
-        if ((name === "eventImage" || name === "scheduleFile") && (droppedFiles.length > 0)) {
+        if (name === "scheduleFile" && (droppedFiles.length > 0)) {
             setData(name, droppedFiles[0]);
         }
     };
@@ -86,34 +88,30 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
             onSuccess: () => setDefaults()
         });
     }
+    const EventSelectInput = (props: { name: string, value?: string }) => {
+        return (
+            <SelectInput name={props.name} defaultValue={props.value} id={props.name} handleChange={handleChange}>
+                <option key="disabled-option" value="" className="border-b-2 border-black">None selected</option>
+                {eventOptions.map((event) => (
+                    <option key={event.id} value={event.id}>#{event.id} - {event.topic}</option>
+                ))}
+            </SelectInput>
+        )
+    }
     return (
         <form name="stepRegistrationSettingsForm" aria-label="STEP Settings form" onSubmit={handleSubmit} method="post" className="max-w-screen-md">
+            <Heading2Alt>Active Event</Heading2Alt>
             <hr />
             <div className="my-4 ">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="w-fit">
-                        <YesNoRadio title="Is Registration Active?" name="isActive" value={data.isActive ? 1 : 0} handleChange={handleChange} />
-                        <InputError message={errors.isActive} />
-                    </div>
-                    <div>
-                        <InputLabel2 forInput={"topic"} value={"Topic"} />
-                        <TextInput name={"topic"} id={"topic"} value={data.topic} handleChange={handleChange} />
-                        <InputError message={errors.topic} />
-                    </div>
-                    <div>
-                        <InputLabel2 forInput={"speaker"} value={"Speaker"} />
-                        <TextInput name={"speaker"} id={"speaker"} value={data.speaker} handleChange={handleChange} />
-                        <InputError message={errors.speaker} />
+                        <YesNoRadio title="Is Registration Active?" name="isRegistrationActive" value={data.isRegistrationActive ? 1 : 0} handleChange={handleChange} />
+                        <InputError message={errors.isRegistrationActive} />
                     </div>
                     <div className="md:col-span-2">
                         <InputLabel2 forInput={"description"} value={"Description"} />
                         <TextAreaInput rows={4} className="w-full" name={"description"} id={"description"} value={data.description} handleChange={handleChange} />
                         <InputError message={errors.description} />
-                    </div>
-                    <div>
-                        <InputLabel2 forInput={"dates"} value={"Dates"} />
-                        <TextInput name={"dates"} id={"dates"} value={data.dates + ""} handleChange={handleChange} />
-                        <InputError message={errors.dates} />
                     </div>
                     <div>
                         <InputLabel2 forInput={"standardCost"} value={"Standard Cost"} />
@@ -131,32 +129,48 @@ export default function StepRegistrationSettingsForm({ stepSettings }: { stepSet
                         <TextInput name={"embedLink"} id={"embedLink"} value={data.embedLink} handleChange={handleChange} />
                         <InputError message={errors.embedLink} />
                     </div>
-
-                </div>
-                <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
-                    <div className="inline-flex flex-col gap-2">
-                        <FileUploadDropzone name={"eventImage"} labelText={"Thumbnail Image"} onDrop={(e) => handleDrop(e, 'eventImage')} onChange={handleFileChange} accept="image/png, image/jpeg" />
-                        <InputError message={errors.eventImage} />
-                    </div>
                     <div>
-                        <LabelSpan>Preview</LabelSpan>
-                        <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
+                        <InputLabel2 forInput={"activeId"} value={"Active ID"} />
+                        {/* <TextInput name={"activeId"} id={"activeId"} value={data.activeId} handleChange={handleChange} /> */}
+                        <EventSelectInput name={"activeId"} value={data.activeId} />
+                        <InputError message={errors.activeId} />
+                    </div>
+                    <div className="flex flex-col h-full w-fit">
+                        <FileUploadDropzone name={"scheduleFile"} labelText="Schedule File (PDF)" onDrop={(e) => handleDrop(e, 'scheduleFile')} onChange={handleFileChange} accept="application/pdf" />
+                        <InputError message={errors.scheduleFile} />
+                        {data.scheduleFile &&
+                            <div><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</div>
+                        }
+                        {stepSettings.scheduleFileLink &&
+                            <div className="flex items-center gap-2 w-fit">
+                                <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</AnchorLink>
+                                <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.step.destroyFile'), { preserveScroll: true })}>
+                                    <span className="flex items-center gap-2"><Trash />Remove File</span>
+                                </BasicButton>
+                            </div>
+                        }
                     </div>
                 </div>
-                <div className="flex flex-col h-full w-fit">
-                    <FileUploadDropzone name={"scheduleFile"} labelText="Schedule File (PDF)" onDrop={(e) => handleDrop(e, 'scheduleFile')} onChange={handleFileChange} accept="application/pdf" />
-                    <InputError message={errors.scheduleFile} />
-                    {data.scheduleFile &&
-                        <div><span className="font-bold">Selected File :</span> {data.scheduleFile.name}</div>
-                    }
-                    {stepSettings.scheduleFileLink &&
-                        <div className="flex items-center gap-2 w-fit">
-                            <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule File</AnchorLink>
-                            <BasicButton size="small" hierarchy="delete" onClick={() => router.delete(route('settings.step.destroyFile'), { preserveScroll: true })}>
-                                <span className="flex items-center gap-2"><Trash />Remove File</span>
-                            </BasicButton>
-                        </div>
-                    }
+            </div>
+            <Heading3>Upcoming Events</Heading3>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+                <div>
+                    <InputLabel2 forInput={"upcomingId1"} value={"Upcoming ID 1"} />
+                    {/* <TextInput name={"upcomingId1"} id={"upcomingId1"} value={data.upcomingId1} handleChange={handleChange} /> */}
+                    <EventSelectInput name={"upcomingId1"} value={data.upcomingId1} />
+                    <InputError message={errors.upcomingId1} />
+                </div>
+                <div>
+                    <InputLabel2 forInput={"upcomingId2"} value={"Upcoming ID 2"} />
+                    {/* <TextInput name={"upcomingId2"} id={"upcomingId2"} value={data.upcomingId2} handleChange={handleChange} /> */}
+                    <EventSelectInput name={"upcomingId2"} value={data.upcomingId2} />
+                    <InputError message={errors.upcomingId2} />
+                </div>
+                <div>
+                    <InputLabel2 forInput={"upcomingId3"} value={"Upcoming ID 3"} />
+                    {/* <TextInput name={"upcomingId3"} id={"upcomingId3"} value={data.upcomingId3} handleChange={handleChange} /> */}
+                    <EventSelectInput name={"upcomingId3"} value={data.upcomingId3} />
+                    <InputError message={errors.upcomingId3} />
                 </div>
             </div>
             <UpdateFormButton isDirty={isDirty} />

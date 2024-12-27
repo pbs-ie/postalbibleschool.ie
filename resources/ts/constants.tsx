@@ -130,16 +130,15 @@ declare global {
     }
 
     interface StepSettingsProps {
-        dates: string;
-        topic: string;
-        description: string;
+        description?: string;
         standardCost: string;
         concessionCost: string;
-        speaker: string;
+        isRegistrationActive: boolean;
+        activeId?: string;
         embedLink: string;
-        isActive: boolean;
-        eventImage?: File | null;
-        eventImageLink?: string,
+        upcomingId1?: string;
+        upcomingId2?: string;
+        upcomingId3?: string;
         scheduleFile?: File | null;
         scheduleFileLink?: string;
     }

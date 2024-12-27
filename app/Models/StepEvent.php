@@ -31,8 +31,8 @@ class StepEvent extends Model
     protected $casts = [
         'videoContent' => 'array',
         'fileContent' => 'array',
-        'startDate' => 'datetime:d F Y',
-        'endDate' => 'datetime:d F Y',
+        'startDate' => 'datetime:Y-m-d',
+        'endDate' => 'datetime:Y-m-d',
     ];
 
 

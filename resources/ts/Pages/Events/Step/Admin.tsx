@@ -17,13 +17,13 @@ import IconHoverSpan from "@/Elements/Span/IconHoverSpan";
 import route from "ziggy-js";
 
 
-export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardProps[] }) {
+export default function Admin({ allEvents = [] }: { allEvents: PastEventCardProps[] }) {
     const [idToDelete, setIdToDelete] = useState<number>();
     const [nameToDelete, setNameToDelete] = useState<string>();
     const { dialogRef, showModal, closeModal } = modalHelper();
 
 
-    const tableDataMemo = useMemo(() => pastEvents, [pastEvents]);
+    const tableDataMemo = useMemo(() => allEvents, [allEvents]);
 
     const columnHelper = createColumnHelper<PastEventCardProps>();
 
@@ -90,13 +90,13 @@ export default function Admin({ pastEvents = [] }: { pastEvents: PastEventCardPr
                 nameToDelete={nameToDelete}
             />
             <ContentWrapper title="Step Management" >
-                <Heading2>Past Events</Heading2>
+                <Heading2>All Events</Heading2>
                 <div className="flex justify-end w-full">
-                    <ButtonLink href={route('events.step.past.create')}>Add video</ButtonLink>
+                    <ButtonLink href={route('events.step.past.create')}>Add event</ButtonLink>
                 </div>
 
-                {pastEvents.length === 0 ?
-                    <div className="w-full">No videos added</div>
+                {allEvents.length === 0 ?
+                    <div className="w-full">No events added</div>
                     :
                     <div className="w-full overflow-x-auto">
                         <AdvancedTable data={tableDataMemo} columns={defaultColumns as ColumnDef<PastEventCardProps>[]} />

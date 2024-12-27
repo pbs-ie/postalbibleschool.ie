@@ -19,12 +19,12 @@ export interface StepEventsProps {
 }
 
 
-export default function Edit({ pastEvent }: { pastEvent: StepEventsProps }) {
+export default function Edit({ currentEvent }: { currentEvent: StepEventsProps }) {
 
     return (
         <WrapperLayout>
             <ContentWrapper title="Edit STEP event">
-                <NewStepEventForm pastEvent={pastEvent} />
+                <NewStepEventForm currentEvent={currentEvent} />
             </ContentWrapper>
         </WrapperLayout>
     )

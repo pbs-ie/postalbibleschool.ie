@@ -188,7 +188,7 @@ Route::prefix('events')->name('events.')->group(function () {
                 Route::post('/{event}', 'update')->name('update');
                 Route::delete('/{event}', 'destroy')->name('destroy');
             });
-            Route::get('/', 'index')->name('gallery');
+            Route::get('/', 'gallery')->name('gallery');
             Route::get('/{event}', 'show')->name('show');
         });
     });

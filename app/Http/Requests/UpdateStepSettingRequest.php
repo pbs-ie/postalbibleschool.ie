@@ -26,19 +26,15 @@ class UpdateStepSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            "dates" => ['required_if:isActive,true', 'string', 'nullable'],
-            "topic" => ['required_if:isActive,true', 'string', 'nullable'],
-            "standardCost" => ['required_if:isActive,true', 'numeric', 'nullable'],
-            "concessionCost" => ['required_if:isActive,true', 'numeric', 'nullable'],
-            "speaker" => ['required_if:isActive,true', 'string', 'nullable'],
-            "embedLink" => ['required_if:isActive,true', 'string', 'nullable'],
-            "isActive" => ['required', 'boolean'],
-            'eventImage' => [
-                File::image()
-                    ->types(['png', 'jpg'])
-                    ->max(2 * 1024),
-                'nullable'
-            ],
+            "description" => ['required_with:activeId', 'string', 'nullable'],
+            "standardCost" => ['required_with:activeId', 'numeric'],
+            "concessionCost" => ['required_with:activeId', 'numeric'],
+            "embedLink" => ['required_with:activeId', 'string', 'nullable'],
+            "isRegistrationActive" => ['required', 'boolean'],
+            "activeId" => ['required_if:isRegistrationActive,true', 'exists:App\Models\StepEvent,id', 'nullable', 'numeric'],
+            "upcomingId1" => ['nullable', 'numeric', 'different:activeId'],
+            "upcomingId2" => ['nullable', 'numeric', 'different:activeId', 'different:upcomingId1'],
+            "upcomingId3" => ['nullable', 'numeric', 'different:activeId', 'different:upcomingId1', 'different:upcomingId2'],
             'scheduleFile' => [
                 File::types('pdf'),
                 'nullable'
@@ -46,10 +42,4 @@ class UpdateStepSettingRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'eventImage.max' => 'The image may not be greater than 2 MB'
-        ];
-    }
 }

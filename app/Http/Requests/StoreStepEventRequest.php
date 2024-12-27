@@ -29,12 +29,12 @@ class StoreStepEventRequest extends FormRequest
         //Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
         return [
             'startDate' => ['required', 'string', 'unique:step_events,startDate'],
-            'endDate' => ['required', 'string', 'unique:step_events,endDate'],
+            'endDate' => ['required', 'string', 'unique:step_events,endDate', 'after:startDate'],
             'description' => ['required', 'string'],
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
             'showDetails' => ['required', 'boolean'],
-            'imageFile' => ['required', 'mimes:jpeg,png', 'max:2048'],
+            'imageFile' => ['required_without:imageLink', 'mimes:jpeg,png', 'max:2048'],
             'imageLink' => ['string', "nullable"],
             'videoContent' => ['array', 'max:20', 'nullable'],
             'videoContent.*.id' => ['required_with:videoContent'],

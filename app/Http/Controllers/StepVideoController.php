@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 class StepVideoController extends Controller
 {
     /**
-     * Display admin panel for the past resources.
+     * Display admin panel for STEP events management.
      *
      * @return \Inertia\Response
      */
@@ -20,37 +20,39 @@ class StepVideoController extends Controller
     {
         $events = StepEvent::orderByDesc('startDate')->get();
         return Inertia::render('Events/Step/Admin', [
-            'pastEvents' => $events
+            'allEvents' => $events
         ]);
     }
 
     /**
-     * Display the past events gallery for STEP events
+     * Display the events gallery for STEP events
      * 
      * @param \App\Settings\StepSettings $stepSettings
      * @return \Inertia\Response
      */
-    public function index(StepSettings $stepSettings)
+    public function gallery(StepSettings $stepSettings)
     {
         return Inertia::render('Events/Step/Gallery', [
-            'pastEvents' => fn() => StepEvent::orderByDesc('startDate')->get(),
+            'allEvents' => fn() => StepEvent::orderByDesc('startDate')->get(),
             'stepSettings' => fn() => $stepSettings
         ]);
     }
 
     /**
-     * Show details for one Past Event
+     * Show details for one Event
      * 
      * @param \App\Models\StepEvent $event
+     * @param \App\Settings\StepSettings $stepSettings
      * @return \Inertia\Response | void
      */
-    public function show(StepEvent $event)
+    public function show(StepEvent $event, StepSettings $stepSettings)
     {
         if (Gate::denies('create:events') && !$event['showDetails']) {
             return abort(404);
         }
         return Inertia::render('Events/Step/Show', [
-            'pastEvent' => $event
+            'currentEvent' => $event,
+            'stepSettings' => $stepSettings
         ]);
     }
 
@@ -98,12 +100,12 @@ class StepVideoController extends Controller
     public function edit(StepEvent $event)
     {
         return Inertia::render('Events/Step/Edit', [
-            "pastEvent" => $event
+            "currentEvent" => $event
         ]);
     }
 
     /**
-     * Update an existing past event
+     * Update an existing event
      * 
      * @param \App\Http\Requests\StoreStepEventRequest $request
      * @param \App\Models\StepEvent $event
