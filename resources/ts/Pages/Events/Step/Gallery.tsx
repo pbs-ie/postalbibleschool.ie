@@ -14,9 +14,9 @@ export default function Gallery({ allEvents = [] }: { allEvents: StepEventsProps
     }
 
     return (
-        <StepWrapper heading="Past Events" title="Past Events">
+        <StepWrapper heading="Videos" title="Videos">
             {(allEvents && allEvents.length === 0) ?
-                <div className="grid content-center h-64">No Events found</div>
+                <div className="grid content-center h-64">No Videos found</div>
                 :
                 <>
                     <div className="my-5">

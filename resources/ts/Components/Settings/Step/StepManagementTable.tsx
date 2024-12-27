@@ -60,7 +60,9 @@ export default function EventManagementTable({ allEvents = [] }: { allEvents: Pa
                         <ButtonLink size="xsmall" hierarchy="transparent" href={route('events.step.past.edit', row.original.id)}><EditIcon className="w-6 h-6" /> Edit</ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
-                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('events.step.past.show', row.original.id)}><Eye className="w-6 h-6" /> View</ButtonLink>
+                        <ButtonLink size="xsmall" hierarchy="transparent" href={route('events.step.past.show', row.original.id)}><span className="flex flex-col items-center">
+                            <Eye className="w-6 h-6" /> Videos
+                        </span></ButtonLink>
                     </IconHoverSpan>
                     <IconHoverSpan>
                         <BasicButton dataTest={"step_past_delete_icon" + row.id} hierarchy="transparent" size="xsmall" onClick={() => {

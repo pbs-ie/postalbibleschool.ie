@@ -20,7 +20,7 @@ class StepVideoController extends Controller
     public function gallery(StepSettings $stepSettings)
     {
         return Inertia::render('Events/Step/Gallery', [
-            'allEvents' => fn() => StepEvent::orderByDesc('startDate')->get(),
+            'allEvents' => fn() => StepEvent::whereNotNull('videoContent')->orderByDesc('startDate')->get(),
             'stepSettings' => fn() => $stepSettings
         ]);
     }
@@ -34,7 +34,7 @@ class StepVideoController extends Controller
      */
     public function show(StepEvent $event, StepSettings $stepSettings)
     {
-        if (Gate::denies('create:events') && !$event['showDetails']) {
+        if ((Gate::denies('create:events') && !$event['showDetails']) || $event['videoContent'] === null) {
             return abort(404);
         }
         return Inertia::render('Events/Step/Show', [
