@@ -28,8 +28,29 @@ class StoreStepEventRequest extends FormRequest
     {
         //Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
         return [
-            'startDate' => ['required', 'string', 'unique:step_events,startDate'],
-            'endDate' => ['required', 'string', 'unique:step_events,endDate', 'after:startDate'],
+            'startDate' => [
+                'required',
+                'string',
+                'date_format:Y-m-d',
+                function ($attribute, $value, $fail) {
+                    $exists = \App\Models\StepEvent::whereDate('startDate', $value)->exists();
+                    if ($exists) {
+                        $fail('Event with start date already exists.');
+                    }
+                }
+            ],
+            'endDate' => [
+                'required',
+                'string',
+                'date_format:Y-m-d',
+                function ($attribute, $value, $fail) {
+                    $exists = \App\Models\StepEvent::whereDate('endDate', $value)->exists();
+                    if ($exists) {
+                        $fail('Event with end date already exists.');
+                    }
+                },
+                'after:startDate'
+            ],
             'description' => ['required', 'string'],
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
