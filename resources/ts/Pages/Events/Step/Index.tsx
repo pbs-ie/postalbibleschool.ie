@@ -28,6 +28,7 @@ import Location from "@/Elements/Icons/Location";
 import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 
 import route from "ziggy-js";
+import { getDateRangeLongString } from "@/helper";
 
 export default function Index({ activeEvent, stepSettings }: { activeEvent?: StepEventsProps, stepSettings: Pick<StepSettingsProps, 'concessionCost' | 'standardCost' | 'embedLink' | 'scheduleFileLink' | 'isRegistrationActive'> }) {
     const images: Gallery[] = [
@@ -69,7 +70,7 @@ export default function Index({ activeEvent, stepSettings }: { activeEvent?: Ste
         {
             Icon: Calendar,
             title: "When",
-            description: <p className="text-lg font-bold">{activeEvent?.startDate}</p>,
+            description: <p className="text-lg font-bold">{activeEvent ? getDateRangeLongString(activeEvent.startDate, activeEvent.endDate) : ""}</p>,
             buttonText: "",
             buttonLink: ""
         },

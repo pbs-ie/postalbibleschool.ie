@@ -10,8 +10,10 @@ import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import ChevronRight from "@/Elements/Icons/ChevronRight";
 
 import route from "ziggy-js";
+import { getDateRangeLongString } from "@/helper";
 
 export default function Signup({ activeEvent, stepSettings }: { activeEvent?: StepEventsProps, stepSettings: StepSettingsProps }) {
+
     const tableData: BasicTableData[] = [
         {
             heading: "Topic",
@@ -23,7 +25,7 @@ export default function Signup({ activeEvent, stepSettings }: { activeEvent?: St
         },
         {
             heading: "Dates",
-            content: <>{activeEvent?.startDate}</>
+            content: <> {activeEvent ? getDateRangeLongString(activeEvent.startDate, activeEvent.endDate) : ""}</>
         },
         {
             heading: "Cost",
@@ -33,9 +35,9 @@ export default function Signup({ activeEvent, stepSettings }: { activeEvent?: St
     return (
         <StepWrapper heading="Registration" title={"Sign Up"}>
             {activeEvent &&
-                <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
+                <div className="flex flex-col items-center justify-center gap-4 mb-8 md:flex-row">
                     <BasicTable tableData={tableData}></BasicTable>
-                    <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', activeEvent?.imageLink)} alt="Step June 2024 banner - Nehemiah" />
+                    <img className="object-contain max-h-64 md:max-h-72 aspect-video" src={route('images.show', activeEvent?.imageLink)} alt={`Step ${activeEvent.startDate} banner - ${activeEvent.topic}`} />
                 </div>
             }
             <ParagraphContainer>

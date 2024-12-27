@@ -176,6 +176,31 @@ export const modalHelper = () => {
     return { dialogRef, showModal, closeModal };
 }
 
+export const getDateRangeLongString = (startDate: string, endDate: string) => {
+    const getDaySuffix = (day: number) => {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+            case 1: return "st";
+            case 2: return "nd";
+            case 3: return "rd";
+            default: return "th";
+        }
+    }
+    const convertEndDate = (date: string) => {
+        const newDate = new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+        return newDate.replace(/(\d+)(?=\s)/, (day) => {
+            return day + (getDaySuffix(parseInt(day)));
+        })
+    }
+    const convertStartDate = (date: string) => {
+        const newDate = new Date(date).toLocaleDateString('en-GB', { day: '2-digit' });
+        return newDate + (getDaySuffix(parseInt(newDate)));
+    }
+
+    return convertStartDate(startDate) + " - " + convertEndDate(endDate)
+
+}
+
 // ************* Curriculum Helper ************
 const mapLessonTypeToIcon = {
     paper: <span title="paper">
