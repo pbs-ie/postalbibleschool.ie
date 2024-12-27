@@ -26,14 +26,19 @@ class StoreStepEventRequest extends FormRequest
      */
     public function rules()
     {
-        //Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
+        $eventId = $this->route('event')?->id;
+
         return [
             'startDate' => [
                 'required',
                 'string',
                 'date_format:Y-m-d',
-                function ($attribute, $value, $fail) {
-                    $exists = \App\Models\StepEvent::whereDate('startDate', $value)->exists();
+                function ($attribute, $value, $fail) use ($eventId) {
+                    $exists = \App\Models\StepEvent::whereDate('startDate', $value)
+                        ->when($eventId, function ($query) use ($eventId) {
+                            return $query->where('id', '!=', $eventId);
+                        })
+                        ->exists();
                     if ($exists) {
                         $fail('Event with start date already exists.');
                     }
@@ -43,8 +48,12 @@ class StoreStepEventRequest extends FormRequest
                 'required',
                 'string',
                 'date_format:Y-m-d',
-                function ($attribute, $value, $fail) {
-                    $exists = \App\Models\StepEvent::whereDate('endDate', $value)->exists();
+                function ($attribute, $value, $fail) use ($eventId) {
+                    $exists = \App\Models\StepEvent::whereDate('endDate', $value)
+                        ->when($eventId, function ($query) use ($eventId) {
+                            return $query->where('id', '!=', $eventId);
+                        })
+                        ->exists();
                     if ($exists) {
                         $fail('Event with end date already exists.');
                     }
