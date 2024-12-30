@@ -1,25 +1,29 @@
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
 import StepWrapper from "@/Layouts/StepWrapper";
-import ChevronRight from "@/Elements/Icons/ChevronRight";
-import route from "ziggy-js";
 
-export default function Signup({ stepSettings }: { stepSettings: StepSettingsProps }) {
+import ButtonLink from "@/Elements/Buttons/ButtonLink";
+import ChevronRight from "@/Elements/Icons/ChevronRight";
+
+import route from "ziggy-js";
+import { getDateRangeLongString } from "@/helper";
+
+export default function Signup({ activeEvent, stepSettings }: { activeEvent?: StepEventsProps, stepSettings: StepSettingsProps }) {
+
     const tableData: BasicTableData[] = [
         {
             heading: "Topic",
-            content: <><p className="font-normal">{stepSettings.topic}</p></>
+            content: <><p className="font-normal">{activeEvent?.topic}</p></>
         },
         {
             heading: "Speaker",
-            content: <>{stepSettings.speaker}</>
+            content: <>{activeEvent?.speaker}</>
         },
         {
             heading: "Dates",
-            content: <>{stepSettings.dates}</>
+            content: <> {activeEvent ? getDateRangeLongString(activeEvent.startDate, activeEvent.endDate) : ""}</>
         },
         {
             heading: "Cost",
@@ -28,16 +32,18 @@ export default function Signup({ stepSettings }: { stepSettings: StepSettingsPro
     ]
     return (
         <StepWrapper heading="Registration" title={"Sign Up"}>
-            <div className="flex flex-col items-center justify-center w-full gap-4 mb-8 md:flex-row">
-                <BasicTable tableData={tableData}></BasicTable>
-                <img className="max-h-64 md:max-h-72 aspect-video" src={route('images.show', stepSettings.eventImageLink)} alt="Step June 2024 banner - Nehemiah" />
-            </div>
+            {activeEvent &&
+                <div className="flex flex-col items-center justify-center gap-4 mb-8 md:flex-row">
+                    <BasicTable tableData={tableData}></BasicTable>
+                    <img className="object-contain max-h-64 md:max-h-72 aspect-video" src={route('images.show', activeEvent?.imageLink)} alt={`Step ${activeEvent.startDate} banner - ${activeEvent.topic}`} />
+                </div>
+            }
             <ParagraphContainer>
                 <Paragraph>{stepSettings.description}</Paragraph>
 
                 <Paragraph>You can sign up using the form below. To cover the cost of your stay, the price for the weekend will be €{stepSettings.standardCost} for regular attendees and €{stepSettings.concessionCost} for students. Please fill in the form first before making payment. You can either pay using your card by clicking the button below or at the venue when you arrive.</Paragraph>
 
-                <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Make Payment</ButtonLink>
+                <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Pay Online</ButtonLink>
 
             </ParagraphContainer>
             <div className="flex items-stretch justify-center my-10">

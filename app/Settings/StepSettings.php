@@ -7,15 +7,16 @@ use Spatie\LaravelSettings\Settings;
 class StepSettings extends Settings
 {
 
-    public ?string $dates;
-    public ?string $topic;
     public ?string $description;
-    public ?string $standardCost;
-    public ?string $concessionCost;
-    public ?string $speaker;
-    public ?string $embedLink;
-    public bool $isActive;
-    public ?string $eventImageLink;
+    public string $standardCost;
+    public string $concessionCost;
+
+    public bool $isRegistrationActive;
+    public ?string $activeId;
+    public ?string $upcomingId1;
+    public ?string $upcomingId2;
+    public ?string $upcomingId3;
+    public string $embedLink;
     public ?string $scheduleFileLink;
 
     public static function group(): string
