@@ -130,13 +130,6 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                         <InputLabel forInput={"topic"} value={"topic"} required />
                         <TextInput type={"text"} name={"topic"} id={"topic"} value={data.topic} className={""} handleChange={handleChange} required />
                     </div>
-                    <div className="inline-flex items-start gap-2">
-                        <InputLabel forInput={"description"} value={"Video Description"} required />
-                        <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
-                    </div>
-                    <div className="inline-flex items-end gap-2">
-                        <YesNoRadio title="Show Details" name="showDetails" value={data.showDetails ? 1 : 0} handleChange={handleChange} />
-                    </div>
 
                     <div className="inline-flex flex-wrap justify-start gap-2">
                         <div className="flex flex-col gap-2">
@@ -154,6 +147,16 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                                 }
                             </div>
                         }
+                    </div>
+                </div>
+                <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
+                <div className="flex flex-col w-full gap-4">
+                    <div className="inline-flex items-start gap-2">
+                        <InputLabel forInput={"description"} value={"Video card description"} />
+                        <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} />
+                    </div>
+                    <div className="inline-flex items-end gap-2">
+                        <YesNoRadio title="Show Details for Video" name="showDetails" value={data.showDetails ? 1 : 0} handleChange={handleChange} />
                     </div>
                 </div>
                 <VideoEditFormComponent videoContent={currentEvent?.videoContent ?? []} setContent={setVideoContent} />

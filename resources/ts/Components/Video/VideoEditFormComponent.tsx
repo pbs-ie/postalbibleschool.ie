@@ -81,7 +81,7 @@ export default function VideoEditFormComponent({ videoContent = [], setContent }
 
     return (
         <>
-            <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
+            <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Links</h2>
             {isEditMode &&
                 <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
             }

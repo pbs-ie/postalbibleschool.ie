@@ -27,7 +27,7 @@ class StepEventController extends Controller
             return abort(404);
         }
         $activeEvent = StepEvent::find($stepSettings->activeId);
-        $showSettings = collect($stepSettings)->only('standardCost', 'concessionCost', 'embedLink', 'scheduleFileLink', 'isRegistrationActive');
+        $showSettings = collect($stepSettings)->only('standardCost', 'concessionCost', 'embedLink', 'scheduleFileLink', 'isRegistrationActive', 'description');
 
         return Inertia::render('Events/Step/Signup', [
             'activeEvent' => $activeEvent,

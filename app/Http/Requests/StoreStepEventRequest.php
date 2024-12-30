@@ -60,7 +60,7 @@ class StoreStepEventRequest extends FormRequest
                 },
                 'after:startDate'
             ],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
             'showDetails' => ['required', 'boolean'],

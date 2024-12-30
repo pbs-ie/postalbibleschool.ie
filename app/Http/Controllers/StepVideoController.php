@@ -64,6 +64,8 @@ class StepVideoController extends Controller
         $stepEvent = new StepEvent;
         $stepEvent->fill($request->validated());
 
+        $stepEvent->description = $request->description ?? "";
+
         // Storing image and saving image link to request
         $stepEvent->imageLink = $request->file('imageFile')->store('/', 'images');
 
@@ -101,6 +103,8 @@ class StepVideoController extends Controller
     public function update(StoreStepEventRequest $request, StepEvent $event)
     {
         $event->fill($request->validated());
+        $event->description = $request->description ?? "";
+
         // Replacing image and saving image link to request
         if ($request->file('imageFile')) {
             if ($request->imageLink && Storage::disk('images')->exists($request->imageLink)) {
