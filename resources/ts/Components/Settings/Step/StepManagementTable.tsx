@@ -46,7 +46,7 @@ export default function EventManagementTable({ allEvents = [] }: { allEvents: Pa
         }),
         columnHelper.display({
             id: 'description',
-            header: 'Description',
+            header: 'Video Description',
             cell: ({ row }) => (
                 <p title={row.original.description} className="w-40 font-normal text-left whitespace-normal lg:w-80">{truncateString(row.original.description, 40)}</p>
             )

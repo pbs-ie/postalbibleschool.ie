@@ -126,7 +126,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                         <TextInput type={"text"} name={"topic"} id={"topic"} value={data.topic} className={""} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex items-start gap-2">
-                        <InputLabel forInput={"description"} value={"Description"} required />
+                        <InputLabel forInput={"description"} value={"Video Description"} required />
                         <TextAreaInput rows={3} name={"description"} id={"description"} value={data.description} className={"w-1/2"} handleChange={handleChange} required />
                     </div>
                     <div className="inline-flex items-end gap-2">
