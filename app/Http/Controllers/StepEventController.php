@@ -11,10 +11,13 @@ class StepEventController extends Controller
     public function index(StepSettings $stepSettings)
     {
         $activeEvent = StepEvent::find($stepSettings->activeId);
+
+        $upcomingEvents = StepEvent::whereIn('id', [$stepSettings->upcomingId1, $stepSettings->upcomingId2, $stepSettings->upcomingId3])->get()->sortBy('startDate');
         $showSettings = collect($stepSettings)->only('standardCost', 'concessionCost', 'embedLink', 'scheduleFileLink', 'isRegistrationActive');
         return Inertia::render('Events/Step/Index', [
             'activeEvent' => $activeEvent,
-            'stepSettings' => $showSettings
+            'stepSettings' => $showSettings,
+            'upcomingEvents' => $upcomingEvents
         ]);
     }
 

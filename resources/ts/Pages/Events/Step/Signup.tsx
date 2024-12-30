@@ -43,7 +43,7 @@ export default function Signup({ activeEvent, stepSettings }: { activeEvent?: St
 
                 <Paragraph>You can sign up using the form below. To cover the cost of your stay, the price for the weekend will be €{stepSettings.standardCost} for regular attendees and €{stepSettings.concessionCost} for students. Please fill in the form first before making payment. You can either pay using your card by clicking the button below or at the venue when you arrive.</Paragraph>
 
-                <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Make Payment</ButtonLink>
+                <ButtonLink Icon={ChevronRight} href={route('payment.step')}>Pay Online</ButtonLink>
 
             </ParagraphContainer>
             <div className="flex items-stretch justify-center my-10">

@@ -10,26 +10,24 @@ import MeetingImage from "@images/step/step-meeting.jpg";
 import ExtendScreenWrapper from "@/Layouts/ExtendScreenWrapper";
 import StepWrapper from "@/Layouts/StepWrapper";
 
-import EventCardContainer from "@/Components/Cards/EventCardContainer";
 import GalleryBasic from "@/Components/Gallery/GalleryBasic";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 import Heading2 from "@/Components/Typography/Heading2";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+import StepUpcomingEventsSection from "@/Components/Sections/StepUpcomingEventsSection";
+import StepNextEventSection from "@/Components/Sections/StepNextEventSection";
 
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import Banknotes from "@/Elements/Icons/Banknotes";
 import Calendar from "@/Elements/Icons/Calendar";
 import ChatBubble from "@/Elements/Icons/ChatBubble";
 import Group from "@/Elements/Icons/Group";
-import Download from "@/Elements/Icons/Download";
 import Location from "@/Elements/Icons/Location";
 
 
-import route from "ziggy-js";
 import { getDateRangeLongString } from "@/helper";
 
-export default function Index({ activeEvent, stepSettings }: { activeEvent?: StepEventsProps, stepSettings: Pick<StepSettingsProps, 'concessionCost' | 'standardCost' | 'embedLink' | 'scheduleFileLink' | 'isRegistrationActive'> }) {
+export default function Index({ activeEvent, stepSettings, upcomingEvents }: { activeEvent?: StepEventsProps, stepSettings: Pick<StepSettingsProps, 'concessionCost' | 'standardCost' | 'embedLink' | 'scheduleFileLink' | 'isRegistrationActive'>, upcomingEvents: StepEventsProps[] }) {
     const images: Gallery[] = [
         {
             title: "Teaching",
@@ -112,15 +110,11 @@ export default function Index({ activeEvent, stepSettings }: { activeEvent?: Ste
             <ExtendScreenWrapper>
                 <GalleryBasic images={images}></GalleryBasic>
             </ExtendScreenWrapper>
-            {stepSettings.isRegistrationActive &&
-                <EventCardContainer cards={stepCards}>
-                    <div className="flex flex-col items-center w-full gap-2">
-                        <ButtonLink href={route('events.step.signup')}>Register Now</ButtonLink>
-                        {stepSettings.scheduleFileLink &&
-                            <AnchorLink Icon={Download} href={route('assets.download', stepSettings.scheduleFileLink)}>Download Schedule (PDF)</AnchorLink>
-                        }
-                    </div>
-                </EventCardContainer>
+            {stepSettings.isRegistrationActive && activeEvent &&
+                <StepNextEventSection event={activeEvent} />
+            }
+            {upcomingEvents.length > 0 &&
+                <StepUpcomingEventsSection events={upcomingEvents} />
             }
             <ExtendScreenWrapper>
                 <section className="pt-4 pb-8 bg-stone-100">
