@@ -3,7 +3,6 @@ import VideoAdditionalFilesComponent from "@/Components/Video/VideoAdditionalFil
 import VideoPlayerComponent from "@/Components/Video/VideoPlayerComponent";
 import StepWrapper from "@/Layouts/StepWrapper";
 import route from "ziggy-js";
-import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 
 export default function Show({ currentEvent }: { currentEvent: StepEventsProps }) {
     let worksheetFiles = currentEvent.fileContent?.filter((fileData) => fileData.type === "document");

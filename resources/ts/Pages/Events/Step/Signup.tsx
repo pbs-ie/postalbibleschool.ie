@@ -2,8 +2,6 @@ import BasicTable, { BasicTableData } from "@/Components/Tables/BasicTable";
 import Paragraph from "@/Components/Typography/Paragraph";
 import ParagraphContainer from "@/Components/Typography/ParagraphContainer";
 
-import { StepEventsProps } from "@/Pages/Events/Step/Edit";
-
 import StepWrapper from "@/Layouts/StepWrapper";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";

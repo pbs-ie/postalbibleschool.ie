@@ -37,7 +37,8 @@ class StepEventController extends Controller
         $showSettings = collect($stepSettings)->only('scheduleFileLink', 'isRegistrationActive');
 
         return Inertia::render('Events/Step/Schedule', [
-            'stepSettings' => $showSettings
+            'stepSettings' => $showSettings,
+            'activeEvent' => StepEvent::find($stepSettings->activeId)
         ]);
     }
 

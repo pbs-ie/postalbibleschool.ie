@@ -1,25 +1,20 @@
-import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import FileInput from "@/Elements/Forms/FileInput";
 import InputLabel from "@/Elements/Forms/InputLabel";
-import InputLabel2 from "@/Elements/Forms/InputLabel2";
-import Legend from "@/Elements/Forms/Legend";
-import RadioInput from "@/Elements/Forms/RadioInput";
 import TextInput from "@/Elements/Forms/TextInput";
+import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import DateInput from "@/Elements/Forms/DateInput";
+import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
 import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent";
-import TextAreaInput from "@/Elements/Forms/TextAreaInput";
+import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
+import LabelSpan from "@/Components/Typography/LabelSpan";
 
-import { DragEvent, FormEvent, useEffect } from "react";
+import { FormEvent } from "react";
 import route from "ziggy-js";
 import { usePage, useForm } from "@inertiajs/react";
-import DateInput from "@/Elements/Forms/DateInput";
-import { MonthKeys, monthNames } from "@/constants";
-import FileUploadDropzone from "./FileUploadDropzone";
-import LabelSpan from "../Typography/LabelSpan";
-import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 
 type StepPastCreateProps = Omit<StepEventsProps, "id">;
 

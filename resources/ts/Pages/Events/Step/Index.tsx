@@ -25,7 +25,6 @@ import Group from "@/Elements/Icons/Group";
 import Download from "@/Elements/Icons/Download";
 import Location from "@/Elements/Icons/Location";
 
-import { StepEventsProps } from "@/Pages/Events/Step/Edit";
 
 import route from "ziggy-js";
 import { getDateRangeLongString } from "@/helper";

@@ -142,6 +142,20 @@ declare global {
         scheduleFile?: File | null;
         scheduleFileLink?: string;
     }
+    interface StepEventsProps {
+        id: number,
+        startDate: string,
+        endDate: string,
+        description: string,
+        topic: string,
+        speaker: string,
+        imageFile?: File | null,
+        imageLink: string,
+        videoContent: VideoMeta[],
+        fileContent: FileMeta[],
+        showDetails: boolean;
+    }
+
 
     interface CurriculumProps {
         name: string,
