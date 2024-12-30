@@ -5,6 +5,7 @@ import TextInput from "@/Elements/Forms/TextInput";
 import TextAreaInput from "@/Elements/Forms/TextAreaInput";
 import DateInput from "@/Elements/Forms/DateInput";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
+import InputError from "@/Elements/Forms/InputError";
 
 import ToastBanner from "@/Components/Forms/ToastBanner";
 import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
@@ -12,7 +13,7 @@ import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent"
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import LabelSpan from "@/Components/Typography/LabelSpan";
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import route from "ziggy-js";
 import { usePage, useForm } from "@inertiajs/react";
 
@@ -20,12 +21,8 @@ type StepPastCreateProps = Omit<StepEventsProps, "id">;
 
 export default function NewStepEventForm({ currentEvent }: { currentEvent?: StepEventsProps }) {
     const { errors } = usePage().props;
+    const [isFormInvalid, setIsFormInvalid] = useState(false);
 
-    // const parseDateString = (date: string) => {
-    //     const [month, year] = date.split(' ');
-    //     const monthNumber = (monthNames.indexOf(month as typeof monthNames[0]) + 1).toString().padStart(2, "0");
-    //     return `${year}-${monthNumber}`;
-    // }
 
     const dateObject = new Date();
 
@@ -55,7 +52,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
             fileContent: currentEvent.fileContent ?? []
         }
     }
-    const { data, setData, post, reset, processing } = useForm(defaultFormObject);
+    const { data, setData, post, reset, processing, setError, errors: formErrors } = useForm(defaultFormObject);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         switch (event.target.name) {
@@ -73,6 +70,14 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.name === "imageFile" && event.target.files) {
+            if (event.target.files[0].size > 2097152) {
+                setError('imageFile', 'File size should be less than 2MB');
+                setIsFormInvalid(true);
+            }
+            else {
+                setError('imageFile', '');
+                setIsFormInvalid(false);
+            }
             setData(event.target.name, event.target.files[0]);
         }
     }
@@ -134,11 +139,19 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                     </div>
 
                     <div className="inline-flex flex-wrap justify-start gap-2">
-                        <FileUploadDropzone name={"imageFile"} onChange={handleFileChange} accept="image/png" onDrop={(e) => handleDrop(e, 'imageFile')} labelText={"Thumbnail Image"} required />
+                        <div className="flex flex-col gap-2">
+                            <FileUploadDropzone name={"imageFile"} onChange={handleFileChange} accept="image/jpeg, image/gif, image/png" onDrop={(e) => handleDrop(e, 'imageFile')} labelText={"Thumbnail Image"} required />
+                            <span className="text-sm text-gray-500">* Aspect Ratio should be 16:9</span>
+                        </div>
                         {(data.imageLink || data.imageFile) &&
                             <div className="w-fit">
                                 <LabelSpan>Preview</LabelSpan>
                                 <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : route('images.show', data.imageLink)} />
+                                {formErrors.imageFile &&
+                                    <span className="flex items-center gap-1">
+                                        <i className="font-bold text-red-500 motion-safe:animate-pulse">!!</i><InputError message={formErrors.imageFile} />
+                                    </span>
+                                }
                             </div>
                         }
                     </div>
@@ -148,7 +161,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
 
                 <div className="inline-flex justify-center w-full gap-2 mt-5 md:justify-end">
                     <ButtonLink hierarchy="secondary" href={route('settings.step.index')}>Cancel</ButtonLink>
-                    <PrimaryButton type="submit" processing={processing}>{currentEvent ? "Update" : "Create"}</PrimaryButton>
+                    <PrimaryButton type="submit" processing={processing || isFormInvalid}>{currentEvent ? "Update" : "Create"}</PrimaryButton>
                 </div>
 
             </form>

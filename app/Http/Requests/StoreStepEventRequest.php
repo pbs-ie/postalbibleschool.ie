@@ -64,7 +64,12 @@ class StoreStepEventRequest extends FormRequest
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
             'showDetails' => ['required', 'boolean'],
-            'imageFile' => ['required_without:imageLink', 'mimes:jpeg,png', 'max:2048'],
+            'imageFile' => [
+                'required_without:imageLink',
+                'mimes:jpeg,png,gif',
+                'max:2048',
+                Rule::dimensions()->ratio(16 / 9)
+            ],
             'imageLink' => ['string', "nullable"],
             'videoContent' => ['array', 'max:20', 'nullable'],
             'videoContent.*.id' => ['required_with:videoContent'],
