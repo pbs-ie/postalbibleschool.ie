@@ -253,7 +253,7 @@ export default function Step({ stepSettings }: { stepSettings: StepSettingsProps
 
         <StepWrapper heading="STEP Payment" title="Payment">
             <div className="flex justify-center w-3/4 mx-auto">
-                <div className="flex flex-col items-center w-full gap-2 p-8 mb-5 border border-gray-300 rounded-md lg:w-2/3">
+                <div className="flex flex-col items-center w-full gap-2 p-8 mb-5 border border-gray-300 rounded-md lg:w-2/3 lg:mt-5">
                     <div className="inline-flex justify-center w-full px-6">
                         <img src={LogoSmall} alt="Postal Bible School Logo" className="my-4 h-14"></img>
                     </div>

@@ -130,19 +130,32 @@ declare global {
     }
 
     interface StepSettingsProps {
-        dates: string;
-        topic: string;
-        description: string;
+        description?: string;
         standardCost: string;
         concessionCost: string;
-        speaker: string;
+        isRegistrationActive: boolean;
+        activeId?: string;
         embedLink: string;
-        isActive: boolean;
-        eventImage?: File | null;
-        eventImageLink?: string,
+        upcomingId1?: string;
+        upcomingId2?: string;
+        upcomingId3?: string;
         scheduleFile?: File | null;
         scheduleFileLink?: string;
     }
+    interface StepEventsProps {
+        id: number,
+        startDate: string,
+        endDate: string,
+        description: string,
+        topic: string,
+        speaker: string,
+        imageFile?: File | null,
+        imageLink: string,
+        videoContent: VideoMeta[],
+        fileContent: FileMeta[],
+        showDetails: boolean;
+    }
+
 
     interface CurriculumProps {
         name: string,

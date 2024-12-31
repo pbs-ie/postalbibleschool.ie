@@ -1,26 +1,21 @@
-import SettingsSidebar from "@/Components/Navigation/SettingsSidebar";
+import { PastEventCardProps } from "@/Components/Cards/StepEventCard";
+import EventManagementTable from "@/Components/Settings/Step/StepManagementTable";
 import StepRegistrationSettingsForm from "@/Components/Settings/Step/StepRegistrationSettingsForm";
-import Heading2Alt from "@/Components/Typography/Heading2Alt";
-import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import SettingsSection from "@/Elements/Sections/SettingsSection";
 import SettingsLayout from "@/Layouts/SettingsLayout";
-import route from "ziggy-js";
 
-export default function Step({ stepSettings }: { stepSettings: StepSettingsProps }) {
+export interface EventSelectOption {
+    id: number,
+    topic: string
+}
+
+export default function Step({ stepSettings, eventOptions, allEvents = [] }: { stepSettings: StepSettingsProps, eventOptions: EventSelectOption[], allEvents: PastEventCardProps[] }) {
     return (
         <SettingsLayout title={"STEP Settings"}>
             <SettingsSection>
-                <div>
-                    <Heading2Alt>Active Event</Heading2Alt>
-                    <hr />
-                    <StepRegistrationSettingsForm stepSettings={stepSettings} />
-                </div>
+                <StepRegistrationSettingsForm stepSettings={stepSettings} eventOptions={eventOptions} />
 
-                <div>
-                    <Heading2Alt>Past Events Management</Heading2Alt>
-                    <hr />
-                    <ButtonLink href={route('events.step.past.admin')}>Go to management page</ButtonLink>
-                </div>
+                <EventManagementTable allEvents={allEvents} />
             </SettingsSection>
         </SettingsLayout>
     )

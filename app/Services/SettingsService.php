@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Settings\StepSettings;
 use Storage;
+use App\Models\StepEvent;
+use Illuminate\Support\Collection;
 
 class SettingsService
 {
@@ -22,5 +25,20 @@ class SettingsService
         }
         $storagePath = Storage::disk('images')->put('/event_images', $newFile);
         $settings->{$settingsLinkParam} = $storagePath;
+    }
+
+    /**
+     * Get all events as option for select input
+     * @param \Illuminate\Support\Collection<StepEvent> $stepEvents
+     * @return mixed
+     */
+    public static function getEventOptions(Collection $stepEvents, StepSettings $settings)
+    {
+        return $stepEvents->map(function ($event) use ($settings) {
+            return [
+                'id' => $event->id,
+                'topic' => $event->topic
+            ];
+        });
     }
 }

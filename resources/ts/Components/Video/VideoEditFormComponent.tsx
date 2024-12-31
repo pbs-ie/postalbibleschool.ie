@@ -25,7 +25,7 @@ export default function VideoEditFormComponent({ videoContent = [], setContent }
         duration: "",
         id: 0
     }];
-    const initialState: VideoMeta[] = isEditMode ? [...videoContent] : blankState;
+    const initialState: VideoMeta[] = isEditMode ? [...videoContent] : [];
 
 
     const reducer = (state: VideoMeta[], action: ChangeAction | Action) => {
@@ -45,7 +45,7 @@ export default function VideoEditFormComponent({ videoContent = [], setContent }
             ];
         } else if (action.type === "removeValue" && "idx" in action) {
             if (state.length === 1) {
-                return blankState;
+                return [];
             }
             let returnObj = [...state];
             returnObj.splice(action.idx, 1);
@@ -81,81 +81,84 @@ export default function VideoEditFormComponent({ videoContent = [], setContent }
 
     return (
         <>
-            <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
+            <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Links</h2>
             {isEditMode &&
                 <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
             }
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>External URL</th>
-                        <th>Title</th>
-                        <th>Duration</th>
-                        <th><SecondaryButton onClick={() => dispatch({ type: "addValue" })}><span className="inline-flex items-center gap-2">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {videoState.map(({ title, externalUrl, duration, id }, idx) => (
-                        <tr className={Object.keys(errors).some(key => key.includes('videoContent.' + idx)) ? "border-2 border-red-500" : ""} key={"contenttable" + idx}>
-                            <td>
-                                {isEditMode ?
+            <SecondaryButton onClick={() => dispatch({ type: "addValue" })}><span className="inline-flex items-center gap-2">Add Row <PlusHollow className="w-5 h-5" /></span></SecondaryButton>
+            {videoState.length > 0 &&
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>External URL</th>
+                            <th>Title</th>
+                            <th>Duration</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {videoState.map(({ title, externalUrl, duration, id }, idx) => (
+                            <tr className={Object.keys(errors).some(key => key.includes('videoContent.' + idx)) ? "border-2 border-red-500" : ""} key={"contenttable" + idx}>
+                                <td>
+                                    {isEditMode ?
+                                        <TextInput
+                                            type={"text"}
+                                            name={"id"}
+                                            id={`id${idx}`}
+                                            value={id}
+                                            className={""}
+                                            handleChange={(e) => handleComplexChange(idx, e)}
+                                            required
+                                        />
+                                        :
+                                        <div className="px-4">{idx}</div>
+                                    }
+                                </td>
+                                <td>
                                     <TextInput
                                         type={"text"}
-                                        name={"id"}
-                                        id={`id${idx}`}
-                                        value={id}
+                                        name={"externalUrl"}
+                                        id={`externalUrl${idx}`}
+                                        value={externalUrl}
                                         className={""}
                                         handleChange={(e) => handleComplexChange(idx, e)}
-                                        required
                                     />
-                                    :
-                                    <div className="px-4">{idx}</div>
-                                }
-                            </td>
-                            <td>
-                                <TextInput
-                                    type={"text"}
-                                    name={"externalUrl"}
-                                    id={`externalUrl${idx}`}
-                                    value={externalUrl}
-                                    className={""}
-                                    handleChange={(e) => handleComplexChange(idx, e)}
-                                />
-                            </td>
-                            <td>
-                                <TextInput
-                                    type={"text"}
-                                    name={"title"}
-                                    id={`title${idx}`}
-                                    value={title}
-                                    className={""}
-                                    handleChange={(e) => handleComplexChange(idx, e)}
-                                />
-                            </td>
-                            <td>
-                                <TextInput
-                                    type={"text"}
-                                    name={"duration"}
-                                    id={`duration${idx}`}
-                                    value={duration}
-                                    className={""}
-                                    handleChange={(e) => handleComplexChange(idx, e)}
-                                />
-                            </td>
-                            <td>
-                                <SecondaryButton
-                                    onClick={() => dispatch({
-                                        type: "removeValue",
-                                        idx: idx
-                                    })}>
-                                    <span className="inline-flex items-center gap-2">Remove Row <MinusCircle className="w-5 h-5" /></span>
-                                </SecondaryButton>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                </td>
+                                <td>
+                                    <TextInput
+                                        type={"text"}
+                                        name={"title"}
+                                        id={`title${idx}`}
+                                        value={title}
+                                        className={""}
+                                        handleChange={(e) => handleComplexChange(idx, e)}
+                                    />
+                                </td>
+                                <td>
+                                    <TextInput
+                                        type={"text"}
+                                        name={"duration"}
+                                        id={`duration${idx}`}
+                                        value={duration}
+                                        className={""}
+                                        handleChange={(e) => handleComplexChange(idx, e)}
+                                    />
+                                </td>
+                                <td>
+                                    <SecondaryButton
+                                        onClick={() => dispatch({
+                                            type: "removeValue",
+                                            idx: idx
+                                        })}>
+                                        <span className="inline-flex items-center gap-2">Remove Row <MinusCircle className="w-5 h-5" /></span>
+                                    </SecondaryButton>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            }
         </>
     )
 }
