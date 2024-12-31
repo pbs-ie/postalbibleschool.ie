@@ -28,7 +28,7 @@ class SunscoolMap extends Model
         'level',
         'is_processed as isProcessed',
         'progress',
-        'fm_month as fmMonth'
+        'fm_month as fmMonth',
     ];
 
     public function Student()

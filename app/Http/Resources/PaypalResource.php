@@ -15,7 +15,7 @@ class PaypalResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'accessToken' => $this->accessToken
+            'accessToken' => $this->accessToken,
         ];
     }
 }

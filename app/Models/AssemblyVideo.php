@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Http\Requests\StoreAssemblyVideoRequest;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use App\Services\VideoService;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class AssemblyVideo extends BaseModel
 {
@@ -17,11 +16,11 @@ class AssemblyVideo extends BaseModel
         'month',
         'series',
         'imageLink',
-        'videoContent'
+        'videoContent',
     ];
 
     protected $casts = [
-        'videoContent' => 'array'
+        'videoContent' => 'array',
     ];
 
     public const columnsAsCamel = [
@@ -30,7 +29,7 @@ class AssemblyVideo extends BaseModel
         'month',
         'series',
         'image_link as imageLink',
-        'video_content as videoContent'
+        'video_content as videoContent',
     ];
 
     protected static function booted(): void
@@ -48,10 +47,10 @@ class AssemblyVideo extends BaseModel
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
         $videoContent = $videoCollection->map(function ($item) {
             $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+
             return $item;
         });
 
         return $videoContent;
     }
-
 }

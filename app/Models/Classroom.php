@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Str;
 
 class Classroom extends Model
@@ -20,21 +20,18 @@ class Classroom extends Model
         'level_3_order',
         'level_4_order',
         'tlp_order',
-        'curriculum_id'
+        'curriculum_id',
     ];
 
     protected $appends = ['curriculum_name'];
 
     /**
      * Add curriculum name to parameters.
-     *
-     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
      */
     protected function curriculumName(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) =>
-            optional($this->curriculum()->find($attributes['curriculum_id'], 'name'))->name ?? "N/A"
+            get: fn ($value, $attributes) => optional($this->curriculum()->find($attributes['curriculum_id'], 'name'))->name ?? 'N/A'
         );
     }
 
@@ -46,8 +43,7 @@ class Classroom extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value) =>
-            Str::headline($value),
+            get: fn (mixed $value) => Str::headline($value),
         );
     }
 

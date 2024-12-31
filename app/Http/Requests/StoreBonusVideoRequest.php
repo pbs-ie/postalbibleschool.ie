@@ -34,11 +34,11 @@ class StoreBonusVideoRequest extends FormRequest
             'category' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if ($value !== "bbw" && $value !== "bbooks" && $value !== "music") {
+                    if ($value !== 'bbw' && $value !== 'bbooks' && $value !== 'music') {
                         $fail('Expected either "Big Bible Words" or "Bible Books" or "Music"');
                     }
-                }
-            ]
+                },
+            ],
         ];
     }
 }

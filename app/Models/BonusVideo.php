@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Requests\StoreBonusVideoRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Services\VideoService;
 use Illuminate\Support\Facades\Storage;
 
 class BonusVideo extends BaseModel
@@ -19,6 +17,7 @@ class BonusVideo extends BaseModel
         'externalUrl',
         'duration',
     ];
+
     public const columnsAsCamel = [
         'id',
         'title',
@@ -38,5 +37,4 @@ class BonusVideo extends BaseModel
             }
         });
     }
-
 }

@@ -4,13 +4,13 @@ namespace App\Exports;
 
 use App\Models\FmSchool;
 use App\Services\ClassroomService;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\Support\Responsable;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ProjectionsExport implements FromQuery, WithMapping, WithHeadings, Responsable
+class ProjectionsExport implements FromQuery, Responsable, WithHeadings, WithMapping
 {
     use Exportable;
 
@@ -21,11 +21,13 @@ class ProjectionsExport implements FromQuery, WithMapping, WithHeadings, Respons
     private $fileName;
 
     private string $month;
+
     public function __construct(string $month)
     {
         $this->month = $month;
-        $this->fileName = 'projections_' . $month . '_' . date('Ymd') . '.xlsx';
+        $this->fileName = 'projections_'.$month.'_'.date('Ymd').'.xlsx';
     }
+
     public function headings(): array
     {
         return [
@@ -40,16 +42,14 @@ class ProjectionsExport implements FromQuery, WithMapping, WithHeadings, Respons
             'TLP',
         ];
     }
-    /**
-     * 
-     */
+
     public function query()
     {
         return FmSchool::queryActiveOrders();
     }
+
     /**
-     * @param \Illuminate\Support\Collection $school
-     * @return array
+     * @param  \Illuminate\Support\Collection  $school
      */
     public function map($school): array
     {
@@ -65,13 +65,12 @@ class ProjectionsExport implements FromQuery, WithMapping, WithHeadings, Respons
             $school->tlp,
         ];
     }
+
     /**
-     * @param FmSchool[] $schools
-     * @return array
+     * @param  FmSchool[]  $schools
      */
     public function prepareRows($schools): array
     {
         return (new ClassroomService)->getProjectedOrdersByMonth($schools, $this->month)->toArray();
     }
-
 }

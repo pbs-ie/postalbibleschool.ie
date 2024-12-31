@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Student;
 use App\Http\Controllers\FilemakerController;
+use App\Models\Student;
 
 class StudentService
 {
@@ -20,11 +20,9 @@ class StudentService
         ];
     }
 
-
     /**
      * Convert Filemaker object to Laravel database friendly array
-     * 
-     * @param array $studentList
+     *
      * @return array
      */
     private function sanitizeStudentsFromList(array $studentList)
@@ -34,6 +32,7 @@ class StudentService
 
         $mappedStudents = $studentCollection->map(function ($student) use ($mapValues) {
             $fieldData = $student->fieldData;
+
             return [
                 'fm_record_id' => trim($student->{$mapValues['fm_record_id']}),
                 'fm_student_id' => trim($fieldData->{$mapValues['fm_student_id']}),
@@ -41,26 +40,25 @@ class StudentService
                 'last_name' => trim($fieldData->{$mapValues['last_name']}),
                 'area_code' => trim($fieldData->{$mapValues['area_code']}),
                 'grade' => trim($fieldData->{$mapValues['grade']}),
-                'active' => trim($fieldData->{$mapValues['active']})
+                'active' => trim($fieldData->{$mapValues['active']}),
             ];
         })->toArray();
+
         return $mappedStudents;
     }
 
-
     /**
      * Update students in local database
-     * 
-     * @param array $studentList
-     * @return void 
+     *
+     * @return void
      */
     private function updateStudentsFromList(array $studentList)
     {
         $studentCollection = collect($studentList);
         $studentCollection->each(function ($student) {
             $studentModel = Student::firstWhere('fm_student_id', $student['fm_student_id']);
-            if (!$studentModel) {
-                $studentModel = new Student();
+            if (! $studentModel) {
+                $studentModel = new Student;
             }
             $studentModel->fm_record_id = $student['fm_record_id'];
             $studentModel->fm_student_id = $student['fm_student_id'];
@@ -75,15 +73,15 @@ class StudentService
 
     /**
      * Store Student list in Database from FileMaker for user
-     * 
-     * @param string $userEmail
+     *
+     * @param  string  $userEmail
      * @return void
      */
     public function storeStudentsForUser($userEmail)
     {
-        $studentListFm = (new FilemakerController())->getStudentsByUser($userEmail);
-        if (sizeof($studentListFm) === 0) {
-            throw new \Exception("No students found for user : " . $userEmail);
+        $studentListFm = (new FilemakerController)->getStudentsByUser($userEmail);
+        if (count($studentListFm) === 0) {
+            throw new \Exception('No students found for user : '.$userEmail);
         }
         $studentList = $this->sanitizeStudentsFromList($studentListFm);
 

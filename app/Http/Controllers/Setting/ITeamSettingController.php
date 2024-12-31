@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Setting;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateITeamSettingRequest;
 use App\Services\SettingsService;
 use App\Settings\ITeamSettings;
-use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
 class ITeamSettingController extends Controller
@@ -13,7 +13,7 @@ class ITeamSettingController extends Controller
     public function index(ITeamSettings $settings)
     {
         return Inertia::render('Settings/ITeam', [
-            'iteamSettings' => $settings
+            'iteamSettings' => $settings,
         ]);
     }
 
@@ -24,8 +24,8 @@ class ITeamSettingController extends Controller
             SettingsService::saveNewImage($request->file('eventImage'), 'eventImageLink', $settings);
         }
 
-        $settings->dates = $request->input('dates') ?? "";
-        $settings->embedLink = $request->input('embedLink') ?? "";
+        $settings->dates = $request->input('dates') ?? '';
+        $settings->embedLink = $request->input('embedLink') ?? '';
         $settings->isActive = $request->boolean('isActive');
 
         $settings->save();

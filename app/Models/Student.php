@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Classroom;
-use App\Models\BaseModel;
 
 class Student extends BaseModel
 {
     use HasFactory;
 
-    protected $table = "fm_students";
+    protected $table = 'fm_students';
 
     protected $fillable = [
         'classroom_id',
@@ -20,11 +18,10 @@ class Student extends BaseModel
         'last_name',
         'area_code',
         'grade',
-        'active'
+        'active',
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
-
 
     public function classroom()
     {
@@ -39,6 +36,7 @@ class Student extends BaseModel
     public function scopeGetStudentsForUser($query)
     {
         $areaCode = FmSchool::where('email', auth()->user()->email)->get()->only(['areaCode']);
+
         return $query->where('area_code', $areaCode)
             ->orderBy('grade')
             ->orderBy('last_name')
@@ -49,5 +47,4 @@ class Student extends BaseModel
     {
         return $query->where('active', 'Y')->orWhere('active', 'T');
     }
-
 }

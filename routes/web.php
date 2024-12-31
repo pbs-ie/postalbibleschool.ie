@@ -1,39 +1,39 @@
 <?php
 
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\IndividualLessonRequestController;
-use App\Http\Controllers\GroupLessonRequestController;
-// use App\Http\Controllers\AssemblyController;
 use App\Http\Controllers\AssemblyVideoController;
 use App\Http\Controllers\BonusVideoController;
-use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\ClassroomController;
+// use App\Http\Controllers\AssemblyController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\GroupLessonRequestController;
+use App\Http\Controllers\IndividualLessonRequestController;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\EventsSettingController;
 use App\Http\Controllers\Setting\ITeamSettingController;
-use App\Http\Controllers\Setting\CampSettingController;
 use App\Http\Controllers\Setting\LessonSettingController;
 use App\Http\Controllers\Setting\StepSettingController;
-use App\Http\Controllers\SunscoolApiController;
 use App\Http\Controllers\StepEventController;
-use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StepVideoController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SunscoolApiController;
 use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use App\Http\Controllers\StepVideoController;
-use App\Services\WorksheetLinksService;
 use App\Models\FmSchool;
+use App\Services\ClassroomService;
+use App\Services\WorksheetLinksService;
+use App\Settings\CampSettings;
 use App\Settings\EventsSettings;
 use App\Settings\ITeamSettings;
-use App\Settings\CampSettings;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Controllers\CurriculumController;
-use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
-use App\Services\ClassroomService;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +74,6 @@ Route::prefix('request')->name('request.')->group(function () {
     Route::get('/individual', [IndividualLessonRequestController::class, 'create'])->name('individual');
     Route::post('/individual', [IndividualLessonRequestController::class, 'store'])->name('individual.store');
 });
-
 
 Route::get('/courses', function (Request $request) {
     return Inertia::render('Courses/Index', [
@@ -136,38 +135,39 @@ Route::prefix('events')->name('events.')->group(function () {
     })->name('prizegivings');
     Route::get('/shed', function (EventsSettings $eventsSettings) {
         return Inertia::render('Events/Shed', [
-            'eventsSettings' => $eventsSettings
+            'eventsSettings' => $eventsSettings,
         ]);
     })->name('shed');
 
     Route::prefix('camp')->name('camp.')->group(function () {
         Route::get('/', function (CampSettings $campSettings) {
             return Inertia::render('Events/Camp/Home', [
-                'campSettings' => $campSettings
+                'campSettings' => $campSettings,
             ]);
         })->name('index');
         // Signup form has /signup for reunion so temporarily redirecting to the same for now
         Route::get('/signup', function (CampSettings $settings) {
             if ($settings->isActive) {
                 return Inertia::render('Events/Camp/CampSignup', [
-                    'campSettings' => $settings
+                    'campSettings' => $settings,
                 ]);
 
-            } else if ($settings->reunionIsActive) {
+            } elseif ($settings->reunionIsActive) {
                 return redirect()->route('events.camp.reunion');
             }
+
             return redirect()->route('home');
         })->name('signup');
         Route::get('/reunion', function (CampSettings $campSettings) {
             return Inertia::render('Events/Camp/ReunionSignup', [
-                'campSettings' => $campSettings
+                'campSettings' => $campSettings,
             ]);
         })->name('reunion');
     });
 
     Route::get('/iteam', function (ITeamSettings $iteamSettings) {
         return Inertia::render('Events/ITeam', [
-            'iteamSettings' => $iteamSettings
+            'iteamSettings' => $iteamSettings,
         ]);
     })->name('iteam');
 
@@ -196,7 +196,6 @@ Route::prefix('events')->name('events.')->group(function () {
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
-
 
 Route::prefix('assembly')->name('assembly.')->group(function () {
     Route::prefix('bonus')->controller(BonusVideoController::class)->name('bonus.')->middleware(['auth'])->group(function () {
@@ -227,14 +226,14 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
     });
 });
 
-
 Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
+
     return Inertia::render('Dashboard', [
-        'classrooms' => fn() => $classroomList,
+        'classrooms' => fn () => $classroomList,
         'canManageCurriculum' => Gate::allows('create:curriculum'),
-        'curriculumList' => fn() => Curriculum::current(),
-        'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email)
+        'curriculumList' => fn () => Curriculum::current(),
+        'projectedOrders' => fn () => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email),
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
@@ -243,16 +242,16 @@ Route::get('/profile', function () {
     if (is_null($schoolDetails)) {
         abort(404);
     }
+
     return Inertia::render('Profile', [
-        'schoolDetails' => fn() => $schoolDetails,
+        'schoolDetails' => fn () => $schoolDetails,
     ]);
 })->middleware(['auth'])->name('profile')->can('admin-cannot');
-// TODO: Revealed route with Digital lessons features 
+// TODO: Revealed route with Digital lessons features
 // Route::prefix('students')->name('students.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [StudentController::class, 'index'])->name('index');
 //     Route::get('/all', [StudentController::class, 'getAllStudents'])->name('all');
 // });
-
 
 Route::prefix('classroom')->name('classroom.')->middleware(['auth'])->group(function () {
     // Route::prefix('students')->name('students.')->group(function () {
@@ -302,18 +301,20 @@ Route::prefix('payment')->name('payment.')->group(function () {
 });
 
 Route::get('/download/{file}', function ($file) {
-    $filename = Str::kebab(Carbon::now()->format('YmdHi') . ' Postal Bible School download.' . Str::afterLast($file, '.'));
+    $filename = Str::kebab(Carbon::now()->format('YmdHi').' Postal Bible School download.'.Str::afterLast($file, '.'));
     $headers = [
         'Content-Type' => 'application/pdf',
     ];
-    return response()->download(public_path('storage/' . $file), $filename, $headers);
+
+    return response()->download(public_path('storage/'.$file), $filename, $headers);
 })->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
     $filePath = Storage::disk('public')->path($file);
-    if (!file_exists($filePath)) {
+    if (! file_exists($filePath)) {
         return redirect()->back()->with('error', 'The file could not be found');
     }
+
     return response()->file($filePath);
 })->where('file', '.*')->name('assets.show');
 

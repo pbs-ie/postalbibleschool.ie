@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use App\Http\Requests\StoreAssemblyVideoRequest;
+use App\Models\AssemblyVideo;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use App\Services\VideoService;
-use App\Models\AssemblyVideo;
-use App\Http\Requests\StoreAssemblyVideoRequest;
+use Inertia\Inertia;
 
 class AssemblyVideoController extends Controller
 {
@@ -25,7 +24,7 @@ class AssemblyVideoController extends Controller
 
     /**
      * Display the index gallery for assembly videos
-     * 
+     *
      * @return \Inertia\Response
      */
     public function index()
@@ -33,21 +32,20 @@ class AssemblyVideoController extends Controller
         return Inertia::render('Assembly/Index', [
             'videoList' => AssemblyVideo::oldest()->get(AssemblyVideo::columnsAsCamel),
             'canViewGallery' => Gate::check('view:assembly'),
-            'canEdit' => Gate::check('create:assembly')
+            'canEdit' => Gate::check('create:assembly'),
         ]);
     }
 
     /**
-     * Show details for a month's assembly 
-     * 
-     * @param  int  $id
+     * Show details for a month's assembly
+     *
      * @return \Inertia\Response
      */
     public function show(int $id)
     {
         return Inertia::render('Assembly/Show', [
             'videoData' => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
+            'canEdit' => Gate::check('create:assembly'),
         ]);
     }
 
@@ -63,8 +61,7 @@ class AssemblyVideoController extends Controller
 
     /**
      * Store a new assembly video
-     * 
-     * @param \App\Http\Requests\StoreAssemblyVideoRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreAssemblyVideoRequest $request)
@@ -86,22 +83,19 @@ class AssemblyVideoController extends Controller
     /**
      * Show the form for editing the specified assembly.
      *
-     * @param  \App\Models\AssemblyVideo $video
-     * @param  int  $id
+     * @param  \App\Models\AssemblyVideo  $video
      * @return \Inertia\Response
      */
     public function edit(int $id)
     {
         return Inertia::render('Assembly/Edit', [
-            "videoData" => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
+            'videoData' => AssemblyVideo::find($id, AssemblyVideo::columnsAsCamel),
         ]);
     }
 
     /**
      * Update an existing assembly video
-     * 
-     * @param \App\Http\Requests\StoreAssemblyVideoRequest $request
-     * @param  \App\Models\AssemblyVideo $video
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreAssemblyVideoRequest $request, AssemblyVideo $video)

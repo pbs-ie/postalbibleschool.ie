@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
-
 class StoreStepEventRequest extends FormRequest
 {
     /**
@@ -42,7 +41,7 @@ class StoreStepEventRequest extends FormRequest
                     if ($exists) {
                         $fail('Event with start date already exists.');
                     }
-                }
+                },
             ],
             'endDate' => [
                 'required',
@@ -58,7 +57,7 @@ class StoreStepEventRequest extends FormRequest
                         $fail('Event with end date already exists.');
                     }
                 },
-                'after:startDate'
+                'after:startDate',
             ],
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
@@ -66,9 +65,9 @@ class StoreStepEventRequest extends FormRequest
                 'required_without:imageLink',
                 'mimes:jpeg,png,gif',
                 'max:2048',
-                Rule::dimensions()->ratio(16 / 9)
+                Rule::dimensions()->ratio(16 / 9),
             ],
-            'imageLink' => ['string', "nullable"],
+            'imageLink' => ['string', 'nullable'],
             'showDetails' => ['required', 'boolean'],
             'description' => ['nullable', 'string', 'required_if:showDetails,true'],
             'videoContent' => ['array', 'max:20', 'nullable', 'required_if:showDetails,true'],
@@ -138,9 +137,10 @@ class StoreStepEventRequest extends FormRequest
         }
         if ($this->input('fileContent')) {
             foreach ($this->input('fileContent') as $key => $val) {
-                $messages["fileContent.$key.fileData.required_without"] = "Uploaded file is required for new file";
+                $messages["fileContent.$key.fileData.required_without"] = 'Uploaded file is required for new file';
             }
         }
+
         return $messages;
     }
 }

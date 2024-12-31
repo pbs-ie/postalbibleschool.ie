@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CurriculumPostRequest;
 use App\Http\Requests\CurriculumPutRequest;
-use App\Models\Curriculum;
-use Illuminate\Http\Request;
-use App\Models\Student;
 use App\Models\Classroom;
+use App\Models\Curriculum;
+use App\Models\Student;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use stdClass;
@@ -17,44 +17,46 @@ class CurriculumController extends Controller
     private function getFMRecordsMap()
     {
         return [
-            "jan_lesson" => "January",
-            "feb_lesson" => "February",
-            "mar_lesson" => "March",
-            "apr_lesson" => "April",
-            "may_lesson" => "May",
-            "jun_lesson" => "June",
-            "sep_lesson" => "September",
-            "oct_lesson" => "October",
-            "nov_lesson" => "November",
-            "dec_lesson" => "December",
+            'jan_lesson' => 'January',
+            'feb_lesson' => 'February',
+            'mar_lesson' => 'March',
+            'apr_lesson' => 'April',
+            'may_lesson' => 'May',
+            'jun_lesson' => 'June',
+            'sep_lesson' => 'September',
+            'oct_lesson' => 'October',
+            'nov_lesson' => 'November',
+            'dec_lesson' => 'December',
         ];
     }
 
     /**
      * Change all month values to paper if type is paper
-     * @param mixed $validated
+     *
+     * @param  mixed  $validated
      * @return mixed
      */
     private function resetMonthTypes($validated)
     {
-        if ($validated["curriculum_type"] === Curriculum::PAPER) {
-            $validated["jan_lesson"] = Curriculum::PAPER;
-            $validated["feb_lesson"] = Curriculum::PAPER;
-            $validated["mar_lesson"] = Curriculum::PAPER;
-            $validated["apr_lesson"] = Curriculum::PAPER;
-            $validated["may_lesson"] = Curriculum::PAPER;
-            $validated["jun_lesson"] = Curriculum::PAPER;
-            $validated["sep_lesson"] = Curriculum::PAPER;
-            $validated["oct_lesson"] = Curriculum::PAPER;
-            $validated["nov_lesson"] = Curriculum::PAPER;
-            $validated["dec_lesson"] = Curriculum::PAPER;
+        if ($validated['curriculum_type'] === Curriculum::PAPER) {
+            $validated['jan_lesson'] = Curriculum::PAPER;
+            $validated['feb_lesson'] = Curriculum::PAPER;
+            $validated['mar_lesson'] = Curriculum::PAPER;
+            $validated['apr_lesson'] = Curriculum::PAPER;
+            $validated['may_lesson'] = Curriculum::PAPER;
+            $validated['jun_lesson'] = Curriculum::PAPER;
+            $validated['sep_lesson'] = Curriculum::PAPER;
+            $validated['oct_lesson'] = Curriculum::PAPER;
+            $validated['nov_lesson'] = Curriculum::PAPER;
+            $validated['dec_lesson'] = Curriculum::PAPER;
         }
+
         return $validated;
     }
+
     /**
      * Update Curriculum table in Filemaker
-     * 
-     * @param \Illuminate\Http\Request $request
+     *
      * @return void
      */
     public function updateCurriculumTable(Request $request)
@@ -70,18 +72,19 @@ class CurriculumController extends Controller
                 $this->updateFMCurriculum($student->fm_student_id, $curriculum);
             }
         }
-        return $request->session()->flash('success', "Filemaker records updated");
+
+        return $request->session()->flash('success', 'Filemaker records updated');
     }
 
     /**
      * Calls Filemaker API to store new curriculum or update existing one
-     * 
+     *
      * @return string
      */
     public function updateFMCurriculum($studentId, $validated)
     {
-        $fmDataObject = new stdClass();
-        $fmDataObject->{"FKStudentID"} = $studentId;
+        $fmDataObject = new stdClass;
+        $fmDataObject->{'FKStudentID'} = $studentId;
         $mapValues = $this->getFMRecordsMap();
         $keys = array_keys((array) $mapValues);
         for ($i = 0; $i < count($keys); $i++) {
@@ -103,8 +106,8 @@ class CurriculumController extends Controller
     {
         $curricula = Curriculum::allWithDigitalCount();
 
-        return Inertia::render("TeacherHub/Curriculum/Index", [
-            "curriculumList" => $curricula
+        return Inertia::render('TeacherHub/Curriculum/Index', [
+            'curriculumList' => $curricula,
         ]);
     }
 
@@ -115,13 +118,12 @@ class CurriculumController extends Controller
      */
     public function create()
     {
-        return Inertia::render("TeacherHub/Curriculum/Create");
+        return Inertia::render('TeacherHub/Curriculum/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\CurriculumPostRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CurriculumPostRequest $request)
@@ -129,40 +131,37 @@ class CurriculumController extends Controller
         $validated = $this->resetMonthTypes($request->validated());
 
         Curriculum::create($validated);
+
         return redirect()->route('curriculum.index')->with('success', 'Curriculum created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Curriculum  $curriculum
      * @return \Inertia\Response
      */
     public function show(Curriculum $curriculum)
     {
         return Inertia::render('TeacherHub/Curriculum/Edit', [
-            "curriculum" => $curriculum
+            'curriculum' => $curriculum,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Curriculum  $curriculum
      * @return \Inertia\Response
      */
     public function edit(Curriculum $curriculum)
     {
         return Inertia::render('TeacherHub/Curriculum/Edit', [
-            "curriculum" => $curriculum
+            'curriculum' => $curriculum,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\CurriculumPutRequest  $request
-     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CurriculumPutRequest $request, Curriculum $curriculum)
@@ -177,7 +176,6 @@ class CurriculumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Curriculum $curriculum)
@@ -187,9 +185,10 @@ class CurriculumController extends Controller
             Log::warning(
                 "Curriculum ({$curriculum->name}) has already been assigned to school classrooms. Cannot be deleted as it will break relations.",
                 [
-                    "Classroom names" => $classroomsCollection->value('name'),
+                    'Classroom names' => $classroomsCollection->value('name'),
                 ]
             );
+
             return redirect()->route('curriculum.index')->with('warning', 'Curriculum assigned to classroom. Cannot be deleted');
         }
         Curriculum::findOrFail($curriculum->id)->delete();

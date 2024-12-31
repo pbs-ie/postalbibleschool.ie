@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class FmSchool extends Model
 {
@@ -37,17 +37,15 @@ class FmSchool extends Model
 
     /**
      * Interact with the school address.
-     *
-     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
      */
     protected function address(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => nl2br(implode('\n', array_filter([
+            get: fn ($value, $attributes) => nl2br(implode('\n', array_filter([
                 $attributes['address1'],
                 $attributes['address2'],
                 $attributes['address3'],
-                $attributes['address4']
+                $attributes['address4'],
             ])))
         );
     }

@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ContactController extends Controller
 {
-
     // Display the contact us page
     public function create()
     {
@@ -30,14 +28,14 @@ class ContactController extends Controller
             'name' => ['nullable'],
             'contactName' => ['required', 'max:50'],
             'contactEmail' => ['required', 'email', 'max:50'],
-            'contactDescription' => ['required', 'max:200']
+            'contactDescription' => ['required', 'max:200'],
         ]);
 
         // Create an entry
         Contact::create([
             'contactName' => $request->contactName,
             'contactEmail' => $request->contactEmail,
-            'contactDescription' => $request->contactDescription
+            'contactDescription' => $request->contactDescription,
         ]);
 
         $newContact = Contact::orderBy('created_at', 'desc')->first();
@@ -46,6 +44,6 @@ class ContactController extends Controller
         Mail::to(config('mail.admin.address'))->send(new \App\Mail\ContactReceived($newContact));
 
         // Redirect the user
-        return redirect('/')->with('success', "Contact Us form submitted successfully");
+        return redirect('/')->with('success', 'Contact Us form submitted successfully');
     }
 }

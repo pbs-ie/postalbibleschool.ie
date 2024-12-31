@@ -2,9 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\IndividualRequest as IndividualRequestModel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -25,9 +23,9 @@ class IndividualRequest extends Mailable
     public function __construct($studentInfo, $contactInfo, $latest)
     {
         $this->request = [
-            'studentInfo' => (object)$studentInfo,
-            'contactInfo' => (object)$contactInfo,
-            'latest' => (object)$latest
+            'studentInfo' => (object) $studentInfo,
+            'contactInfo' => (object) $contactInfo,
+            'latest' => (object) $latest,
         ];
     }
 
@@ -42,7 +40,7 @@ class IndividualRequest extends Mailable
             replyTo: [
                 new Address($this->request['latest']->email, $this->request['latest']->firstname),
             ],
-            subject: 'New Individual Request from ' . $this->request['latest']->firstname . ' ' . $this->request['latest']->lastname,
+            subject: 'New Individual Request from '.$this->request['latest']->firstname.' '.$this->request['latest']->lastname,
             tags: ['individual']
         );
     }
@@ -59,7 +57,7 @@ class IndividualRequest extends Mailable
             with: [
                 'studentInfo' => $this->request['studentInfo'],
                 'contactInfo' => $this->request['contactInfo'],
-                'latest' => $this->request['latest']
+                'latest' => $this->request['latest'],
             ]
         );
     }

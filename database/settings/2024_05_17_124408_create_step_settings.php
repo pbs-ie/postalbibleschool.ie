@@ -3,18 +3,19 @@
 use Spatie\LaravelSettings\Migrations\SettingsBlueprint;
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-return new class extends SettingsMigration {
+return new class extends SettingsMigration
+{
     public function up(): void
     {
         $this->migrator->inGroup('step', function (SettingsBlueprint $blueprint): void {
-            $blueprint->add('dates', "14th June - 16th June, 2024");
-            $blueprint->add('topic', "Book of Nehemiah");
-            $blueprint->add('standardCost', "65");
-            $blueprint->add('concessionCost', "50");
-            $blueprint->add('speaker', "Noel McMeekin");
-            $blueprint->add('embedLink', "https://docs.google.com/forms/d/e/1FAIpQLSfRva_FHWeXVNXSj3i-HItkQ997atTb1m-DY9AmAbo5t7wpoA/viewform?usp=sf_link");
+            $blueprint->add('dates', '14th June - 16th June, 2024');
+            $blueprint->add('topic', 'Book of Nehemiah');
+            $blueprint->add('standardCost', '65');
+            $blueprint->add('concessionCost', '50');
+            $blueprint->add('speaker', 'Noel McMeekin');
+            $blueprint->add('embedLink', 'https://docs.google.com/forms/d/e/1FAIpQLSfRva_FHWeXVNXSj3i-HItkQ997atTb1m-DY9AmAbo5t7wpoA/viewform?usp=sf_link');
             $blueprint->add('isActive', true);
-            $blueprint->add('eventImageLink', "");
+            $blueprint->add('eventImageLink', '');
         });
     }
 

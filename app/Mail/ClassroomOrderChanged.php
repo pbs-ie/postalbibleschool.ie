@@ -2,13 +2,11 @@
 
 namespace App\Mail;
 
-use App\Models\Classroom;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
 class ClassroomOrderChanged extends Mailable implements ShouldQueue
 {
@@ -32,7 +30,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
     public function envelope()
     {
         return new Envelope(
-            subject: 'Lesson Order Changed for ' . $this->schoolName,
+            subject: 'Lesson Order Changed for '.$this->schoolName,
             tags: ['individual']
         );
     }
@@ -48,7 +46,7 @@ class ClassroomOrderChanged extends Mailable implements ShouldQueue
             markdown: 'emails.classroom-order-changed',
             with: [
                 'schoolName' => $this->schoolName,
-                'url' => route('schools.show', $this->orderId)
+                'url' => route('schools.show', $this->orderId),
             ]
         );
     }

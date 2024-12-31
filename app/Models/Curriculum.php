@@ -10,25 +10,25 @@ class Curriculum extends Model
 {
     use HasFactory;
 
-    public const DIGITAL = "digital";
-    public const PAPER = "paper";
+    public const DIGITAL = 'digital';
+
+    public const PAPER = 'paper';
 
     protected $fillable = [
-        "name",
-        "email",
-        "jan_lesson",
-        "feb_lesson",
-        "mar_lesson",
-        "apr_lesson",
-        "may_lesson",
-        "jun_lesson",
-        "sep_lesson",
-        "oct_lesson",
-        "nov_lesson",
-        "dec_lesson",
-        "curriculum_type"
+        'name',
+        'email',
+        'jan_lesson',
+        'feb_lesson',
+        'mar_lesson',
+        'apr_lesson',
+        'may_lesson',
+        'jun_lesson',
+        'sep_lesson',
+        'oct_lesson',
+        'nov_lesson',
+        'dec_lesson',
+        'curriculum_type',
     ];
-
 
     public function getDigitalMonthsCount()
     {
@@ -38,6 +38,7 @@ class Curriculum extends Model
                 $digitalCount = $digitalCount + 1;
             }
         }
+
         return $digitalCount;
     }
 
@@ -56,6 +57,7 @@ class Curriculum extends Model
         $curricula = $query->where('email', auth()->user()->email)
             ->orWhere('email', null)
             ->get();
+
         // TODO: To filter additional curricula till new features are released
         // $curricula = $curricula->filter(
         //     fn($item) => Str::lower($item->curriculum_type) === $this::PAPER
@@ -68,17 +70,17 @@ class Curriculum extends Model
         return $query->firstOrCreate(
             ['curriculum_type' => $this::PAPER],
             [
-                "name" => 'Paper Only',
-                "jan_lesson" => $this::PAPER,
-                "feb_lesson" => $this::PAPER,
-                "mar_lesson" => $this::PAPER,
-                "apr_lesson" => $this::PAPER,
-                "may_lesson" => $this::PAPER,
-                "jun_lesson" => $this::PAPER,
-                "sep_lesson" => $this::PAPER,
-                "oct_lesson" => $this::PAPER,
-                "nov_lesson" => $this::PAPER,
-                "dec_lesson" => $this::PAPER
+                'name' => 'Paper Only',
+                'jan_lesson' => $this::PAPER,
+                'feb_lesson' => $this::PAPER,
+                'mar_lesson' => $this::PAPER,
+                'apr_lesson' => $this::PAPER,
+                'may_lesson' => $this::PAPER,
+                'jun_lesson' => $this::PAPER,
+                'sep_lesson' => $this::PAPER,
+                'oct_lesson' => $this::PAPER,
+                'nov_lesson' => $this::PAPER,
+                'dec_lesson' => $this::PAPER,
             ]
         )->value('id');
     }
@@ -89,6 +91,7 @@ class Curriculum extends Model
         $curricula->map(function (Curriculum $curriculum) {
             $curriculum->digital_count = $curriculum->getDigitalMonthsCount();
         });
+
         return $curricula;
     }
 }

@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\IndividualRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-
-
-use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class IndividualLessonRequestController extends Controller
 {
@@ -17,6 +15,7 @@ class IndividualLessonRequestController extends Controller
     {
         $dateParse = Carbon::parse($dob);
         $age = Carbon::createFromDate($dateParse->year, $dateParse->month, $dateParse->day)->age;
+
         return $age;
     }
 
@@ -43,7 +42,6 @@ class IndividualLessonRequestController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,14 +58,14 @@ class IndividualLessonRequestController extends Controller
             'state' => [],
             'postcode' => [],
             'country' => ['required'],
-            'message' => []
+            'message' => [],
         ];
 
         $validator = Validator::make($request->all(), $rules, [], [
-            'studentDetails.*.firstname' => "First Name",
-            'studentDetails.*.lastname' => "Last Name",
-            'studentDetails.*.dob' => "Date of Birth",
-            'address1' => "Address",
+            'studentDetails.*.firstname' => 'First Name',
+            'studentDetails.*.lastname' => 'Last Name',
+            'studentDetails.*.dob' => 'Date of Birth',
+            'address1' => 'Address',
         ]);
 
         $validated = $validator->safe()->except(['studentDetails']);
@@ -86,8 +84,8 @@ class IndividualLessonRequestController extends Controller
                 [
                     'updated_at' => Carbon::now()->toDateTimeString(),
                     'created_at' => Carbon::now()->toDateTimeString(),
-                    'numberInFamily' => $i . "/" . $numberOfStudents,
-                    'age' => $this->getAge($value['dob'])
+                    'numberInFamily' => $i.'/'.$numberOfStudents,
+                    'age' => $this->getAge($value['dob']),
                 ]
             );
         }
@@ -101,14 +99,14 @@ class IndividualLessonRequestController extends Controller
 
         unset($computed);
         unset($i);
+
         // Redirect the user
-        return redirect('/')->with('success', "Lesson request form submitted successfully");
+        return redirect('/')->with('success', 'Lesson request form submitted successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\IndividualRequest  $individualRequest
      * @return \Illuminate\Http\Response
      */
     public function show(IndividualRequest $individualRequest)
@@ -119,7 +117,6 @@ class IndividualLessonRequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\IndividualRequest  $individualRequest
      * @return \Illuminate\Http\Response
      */
     public function edit(IndividualRequest $individualRequest)
@@ -130,8 +127,6 @@ class IndividualLessonRequestController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\IndividualRequest  $individualRequest
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, IndividualRequest $individualRequest)
@@ -142,7 +137,6 @@ class IndividualLessonRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\IndividualRequest  $individualRequest
      * @return \Illuminate\Http\Response
      */
     public function destroy(IndividualRequest $individualRequest)

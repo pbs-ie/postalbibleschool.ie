@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Settings\StepSettings;
-use Storage;
 use App\Models\StepEvent;
+use App\Settings\StepSettings;
 use Illuminate\Support\Collection;
+use Storage;
 
 class SettingsService
 {
@@ -29,15 +29,16 @@ class SettingsService
 
     /**
      * Get all events as option for select input
-     * @param \Illuminate\Support\Collection<StepEvent> $stepEvents
+     *
+     * @param  \Illuminate\Support\Collection<StepEvent>  $stepEvents
      * @return mixed
      */
     public static function getEventOptions(Collection $stepEvents, StepSettings $settings)
     {
-        return $stepEvents->map(function ($event) use ($settings) {
+        return $stepEvents->map(function ($event) {
             return [
                 'id' => $event->id,
-                'topic' => $event->topic
+                'topic' => $event->topic,
             ];
         });
     }

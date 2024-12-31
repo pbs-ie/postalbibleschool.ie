@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class PushOrdersToFilemaker implements ShouldQueue, ShouldBeUnique
+class PushOrdersToFilemaker implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -19,7 +19,7 @@ class PushOrdersToFilemaker implements ShouldQueue, ShouldBeUnique
     /**
      * Create a new job instance.
      *
-     * @param mixed $projectedOrders
+     * @param  mixed  $projectedOrders
      * @return void
      */
     public function __construct($projectedOrders)

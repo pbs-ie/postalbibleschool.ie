@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use Closure;
 use Illuminate\Contracts\Validation\InvokableRule;
 
 class CurriculumType implements InvokableRule
@@ -17,9 +16,8 @@ class CurriculumType implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
-        if ($value !== "paper" && $value !== "digital") {
-            $fail("The :attribute is not a valid value");
+        if ($value !== 'paper' && $value !== 'digital') {
+            $fail('The :attribute is not a valid value');
         }
     }
-
 }

@@ -7,27 +7,29 @@ use App\Exports\SunscoolNamesExport;
 use App\Http\Requests\StoreSunscoolStudentMarksRequest;
 use App\Models\SunscoolMap;
 use App\Services\SunscoolApiService;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SunscoolApiController extends Controller
 {
     private $sunscoolApiService;
+
     public function __construct()
     {
-        $this->sunscoolApiService = new SunscoolApiService();
-    }
-    public function index()
-    {
-        $schoolsList = (new SunscoolApiService())->getSchoolsList();
-        usort($schoolsList, fn($a, $b) => (
-            strcasecmp($a->name, $b->name)
-        ));
-        return Inertia::render('Settings/Sunscool/Index', [
-            'schools' => $schoolsList
-        ]);
+        $this->sunscoolApiService = new SunscoolApiService;
     }
 
+    public function index()
+    {
+        $schoolsList = (new SunscoolApiService)->getSchoolsList();
+        usort($schoolsList, fn ($a, $b) => (
+            strcasecmp($a->name, $b->name)
+        ));
+
+        return Inertia::render('Settings/Sunscool/Index', [
+            'schools' => $schoolsList,
+        ]);
+    }
 
     public function classroom($schoolId, $classroomId)
     {
@@ -37,17 +39,17 @@ class SunscoolApiController extends Controller
         $sunscoolClassroom = SunscoolApiService::flattenClassroom($classroom);
 
         return Inertia::render('Settings/Sunscool/Classroom', [
-            'schoolId' => fn() => $schoolId,
-            'schoolName' => fn() => $school->name,
-            'classroomId' => fn() => $classroom->id,
-            'classrooms' => fn() => collect($school->classes)->map(fn($class) => collect($class)->only(['id', 'name'])),
-            'classroomDetails' => fn() => $sunscoolClassroom
+            'schoolId' => fn () => $schoolId,
+            'schoolName' => fn () => $school->name,
+            'classroomId' => fn () => $classroom->id,
+            'classrooms' => fn () => collect($school->classes)->map(fn ($class) => collect($class)->only(['id', 'name'])),
+            'classroomDetails' => fn () => $sunscoolClassroom,
         ]);
     }
 
-
     /**
      * Get all information for selected students and show page
+     *
      * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
      */
     public function process($schoolId, $classroomId, Request $request)
@@ -59,21 +61,23 @@ class SunscoolApiController extends Controller
         if ($updatedStudents->isEmpty()) {
             return back()->with('failure', 'Could not find valid students in selection');
         }
+
         return Inertia::render('Settings/Sunscool/Processing', [
-            "schoolId" => fn() => $schoolId,
-            "classroomId" => fn() => $classroomId,
-            "students" => fn() => $updatedStudents
+            'schoolId' => fn () => $schoolId,
+            'classroomId' => fn () => $classroomId,
+            'students' => fn () => $updatedStudents,
         ]);
     }
 
     /**
      * Summary of store
-     * @param \App\Http\Requests\StoreSunscoolStudentMarksRequest $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreSunscoolStudentMarksRequest $request)
     {
         SunscoolApiService::uploadStudentGrades($request->validated());
+
         return redirect()->back()->with('success', 'Values stored in Database');
 
     }
