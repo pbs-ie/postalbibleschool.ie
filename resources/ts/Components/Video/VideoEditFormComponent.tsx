@@ -82,6 +82,7 @@ export default function VideoEditFormComponent({ videoContent = [], setContent }
     return (
         <>
             <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Links</h2>
+            <p className="text-gray-600">Only use Vimeo links as these are processed in the backend.</p>
             {isEditMode &&
                 <p className="text-gray-600">Change the ID number to change order of video. Be careful of the maximum number of videos</p>
             }
