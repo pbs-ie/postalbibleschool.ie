@@ -60,10 +60,8 @@ class StoreStepEventRequest extends FormRequest
                 },
                 'after:startDate'
             ],
-            'description' => ['nullable', 'string'],
             'topic' => ['required', 'string'],
             'speaker' => ['nullable', 'string'],
-            'showDetails' => ['required', 'boolean'],
             'imageFile' => [
                 'required_without:imageLink',
                 'mimes:jpeg,png,gif',
@@ -71,7 +69,9 @@ class StoreStepEventRequest extends FormRequest
                 Rule::dimensions()->ratio(16 / 9)
             ],
             'imageLink' => ['string', "nullable"],
-            'videoContent' => ['array', 'max:20', 'nullable'],
+            'showDetails' => ['required', 'boolean'],
+            'description' => ['nullable', 'string', 'required_if:showDetails,true'],
+            'videoContent' => ['array', 'max:20', 'nullable', 'required_if:showDetails,true'],
             'videoContent.*.id' => ['required_with:videoContent'],
             'videoContent.*.title' => ['required_with:videoContent', 'string'],
             'videoContent.*.externalUrl' => ['required_with:videoContent', 'url'],

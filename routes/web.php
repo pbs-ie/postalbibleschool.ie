@@ -310,7 +310,11 @@ Route::get('/download/{file}', function ($file) {
 })->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
-    return response()->file(public_path('storage/' . $file));
+    $filePath = Storage::disk('public')->path($file);
+    if (!file_exists($filePath)) {
+        return redirect()->back()->with('error', 'The file could not be found');
+    }
+    return response()->file($filePath);
 })->where('file', '.*')->name('assets.show');
 
 Route::get('/images/{file}', function ($image) {
