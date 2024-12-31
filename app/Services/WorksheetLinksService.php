@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Services;
 
+use App\Mail\BibletimeLinksMissing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use App\CustomClasses\HtmlDomParser;
 use Illuminate\Support\Facades\Log;
+use Mail;
 
-class DownloadsList extends Model
+class WorksheetLinksService
 {
-    function getListForUrl($properties, $baseUrl)
+    private static function getListForUrl($properties, $baseUrl)
     {
         try {
             $response = Http::get($baseUrl);
@@ -72,32 +74,69 @@ class DownloadsList extends Model
         return $response;
     }
 
+    private static function sendAdminEmail($typeName)
+    {
+        try {
+            Mail::to(config('mail.admin.address'))->queue(new BibletimeLinksMissing($typeName));
+        } catch (\Exception $e) {
+            Log::error("Could not send email for BES worksheet links missing warning", [$e]);
+        }
+    }
+
+    /**
+     * Get array Bibletime lessons from besweb.com
+     * @return array
+     */
     public static function getBibleTimeList()
     {
         $properties = ["timeline", "level0", "level1", "level2", "level3", "level4"];
 
         $baseUrl = "https://www.besweb.com/downloads/en/bibletime/";
 
-        return (new self)->getListForUrl($properties, $baseUrl);
+        $lessonsList = self::getListForUrl($properties, $baseUrl);
+
+        if (empty($lessonsList)) {
+            self::sendAdminEmail('Bibletime worksheet');
+        }
+
+        return $lessonsList;
     }
 
+    /**
+     * Get array of Going deeper lessons from besweb.com
+     * @return array
+     */
     public static function getGoingDeeperList()
     {
         $properties = ["goingdeeper"];
 
         $baseUrl = "https://www.besweb.com/downloads/en/goingdeeper/";
 
-        return (new self)->getListForUrl($properties, $baseUrl);
+        $lessonsList = self::getListForUrl($properties, $baseUrl);
 
+        if (empty($lessonsList)) {
+            self::sendAdminEmail('Going Deeper worksheet');
+        }
+
+        return $lessonsList;
     }
+
+    /**
+     * Get array of Gleaners lessons from besweb.com
+     * @return array
+     */
     public static function getGleanersList()
     {
         $properties = ["gleaners"];
 
         $baseUrl = "https://www.besweb.com/downloads/en/gleaners/";
 
-        return (new self)->getListForUrl($properties, $baseUrl);
+        $lessonsList = self::getListForUrl($properties, $baseUrl);
 
+        if (empty($lessonsList)) {
+            self::sendAdminEmail('Gleaners worksheet');
+        }
+        return $lessonsList;
     }
 
 }

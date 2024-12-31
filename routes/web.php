@@ -21,7 +21,7 @@ use App\Models\AssemblyVideo;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Http\Controllers\StepVideoController;
-use App\Models\DownloadsList;
+use App\Services\WorksheetLinksService;
 use App\Models\FmSchool;
 use App\Settings\EventsSettings;
 use App\Settings\ITeamSettings;
@@ -52,7 +52,7 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return Inertia::render('Home', [
-        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
+        'bibleTimeDownloads' => WorksheetLinksService::getBibleTimeList(),
         'videoList' => AssemblyVideo::latest()->get(AssemblyVideo::columnsAsCamel),
         'canViewGallery' => Gate::check('view:assembly'),
     ]);
@@ -78,9 +78,9 @@ Route::prefix('request')->name('request.')->group(function () {
 
 Route::get('/courses', function (Request $request) {
     return Inertia::render('Courses/Index', [
-        'bibleTimeDownloads' => DownloadsList::getBibleTimeList(),
-        'goingDeeperDownloads' => DownloadsList::getGoingDeeperList(),
-        'gleanersDownloads' => DownloadsList::getGleanersList(),
+        'bibleTimeDownloads' => WorksheetLinksService::getBibleTimeList(),
+        'goingDeeperDownloads' => WorksheetLinksService::getGoingDeeperList(),
+        'gleanersDownloads' => WorksheetLinksService::getGleanersList(),
         'queryParams' => $request->query(),
     ]);
 })->name('courses');
