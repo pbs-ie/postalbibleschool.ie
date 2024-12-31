@@ -9,8 +9,9 @@ This document provides an overview of the system's architecture, including the b
 This project is a web application designed to provide a landing page for Postal Bible School. The application has now evolved beyond just a landing page and also provides a classroom management system for schools related to the Postal Bible School lessons both on paper and digitally. Lastly, the application contains features to allow for admin management of the website and students.
 
 - **Tech Stack:**
-  - Backend: Laravel v9.x (PHP)
+  - Backend: Laravel v10.x (PHP)
   - Frontend: React v18.x (TypeScript)
+  - Adapter: Inertia JS v2.x
   - Database: MySQL, Claris Filemaker Pro
   - Testing: Jest, Cypress
   - Other Tools: Memcached, Redis (caching)
@@ -164,6 +165,9 @@ The database schema consists of the following key tables:
 ## 7. Third-Party Integrations
 
 - **Authentication:** Auth0
+
+Auth0 is used as a third party authentication and authorization manager and is connected to the Laravel backend for routes and guards. (Consider Stytch as an alternative).
+
 - **Payment Gateway:** PayPal
 - **Notifications:** -
 - **Analytics:** Google Analytics

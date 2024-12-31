@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IndividualRequest extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'firstname',
         'lastname',
@@ -22,6 +23,6 @@ class IndividualRequest extends Model
         'postcode',
         'numberInFamily',
         'country',
-        'message'
+        'message',
     ];
 }

@@ -3,11 +3,11 @@
 namespace App\Listeners;
 
 use App\Http\Controllers\StudentController;
+use Auth0\Laravel\Events\AuthenticationSucceeded;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Auth0\Laravel\Events\AuthenticationSucceeded;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class UpdateStudentListFm implements ShouldQueue
 {
@@ -26,7 +26,6 @@ class UpdateStudentListFm implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \Auth0\Laravel\Events\AuthenticationSucceeded  $event
      * @return void
      */
     public function handle(AuthenticationSucceeded $event)
@@ -41,7 +40,6 @@ class UpdateStudentListFm implements ShouldQueue
     /**
      * Determine whether the listener should be queued.
      *
-     * @param \Auth0\Laravel\Events\AuthenticationSucceeded $event
      * @return bool
      */
     public function shouldQueue(AuthenticationSucceeded $event)
@@ -52,7 +50,6 @@ class UpdateStudentListFm implements ShouldQueue
     /**
      * Handle a job failure.
      *
-     * @param  \Auth0\Laravel\Events\AuthenticationSucceeded $event
      * @param  \Throwable  $exception
      * @return void
      */

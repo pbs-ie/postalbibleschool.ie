@@ -23,6 +23,6 @@ class GroupRequest extends Model
         'type',
         'numberOfStudents',
         'ageRange',
-        'message'
+        'message',
     ];
 }

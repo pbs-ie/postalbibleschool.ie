@@ -33,6 +33,6 @@ return [
 
     'sendinblue' => [
         'key' => env('SENDINBLUE_API_KEY'),
-    ]
+    ],
 
 ];

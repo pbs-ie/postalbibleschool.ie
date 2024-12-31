@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Http\Requests\StoreStepEventRequest;
 use App\Services\VideoService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 
 class StepEvent extends Model
@@ -24,9 +24,8 @@ class StepEvent extends Model
         'imageLink',
         'routename',
         'videoContent',
-        'fileContent'
+        'fileContent',
     ];
-    protected $dates = ['startDate', 'endDate'];
 
     protected $casts = [
         'videoContent' => 'array',
@@ -34,7 +33,6 @@ class StepEvent extends Model
         'startDate' => 'datetime:Y-m-d',
         'endDate' => 'datetime:Y-m-d',
     ];
-
 
     protected static function booted(): void
     {
@@ -79,12 +77,12 @@ class StepEvent extends Model
 
     public function storeFiles(StoreStepEventRequest $request)
     {
-        if (!$request->input('fileContent')) {
+        if (! $request->input('fileContent')) {
             return null;
         }
         $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
         $fileContent = $fileCollection->map(function ($item, $key) {
-            if (!isset($item['fileData'])) {
+            if (! isset($item['fileData'])) {
                 return $item;
             }
             if (isset($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
@@ -92,19 +90,22 @@ class StepEvent extends Model
             }
             $item['filePath'] = $item['fileData']->store('video_files', 'public');
             unset($item['fileData']);
+
             return $item;
         });
+
         return $fileContent;
     }
 
     public function parseVideoLinks(StoreStepEventRequest $request)
     {
-        if (!$request->input('videoContent')) {
+        if (! $request->input('videoContent')) {
             return null;
         }
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
         $videoContent = $videoCollection->map(function ($item) {
             $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+
             return $item;
         });
 

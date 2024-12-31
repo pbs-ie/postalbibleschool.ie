@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\GroupRequest as GroupRequestModel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -38,7 +37,7 @@ class GroupRequest extends Mailable
             replyTo: [
                 new Address($this->request->email, $this->request->firstname),
             ],
-            subject: 'New Group Request from ' . $this->request->firstname . ' ' . $this->request->lastname,
+            subject: 'New Group Request from '.$this->request->firstname.' '.$this->request->lastname,
             tags: ['group']
         );
     }

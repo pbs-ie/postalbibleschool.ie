@@ -3,15 +3,17 @@
 namespace App\Exports;
 
 use App\Models\Student;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-class StudentsExport implements FromCollection, WithMapping, WithHeadings
+use Maatwebsite\Excel\Concerns\WithMapping;
+
+class StudentsExport implements FromCollection, WithHeadings, WithMapping
 {
     use Exportable;
 
     private string $areaCode;
+
     public function __construct(string $areaCode)
     {
         $this->areaCode = $areaCode;
@@ -23,6 +25,7 @@ class StudentsExport implements FromCollection, WithMapping, WithHeadings
         if ($level < 1) {
             return 1;
         }
+
         return $level;
     }
 
@@ -36,16 +39,17 @@ class StudentsExport implements FromCollection, WithMapping, WithHeadings
             'Lessons',
         ];
     }
+
     /**
-     * @param Student $student
-     * @return array
+     * @param  Student  $student
      */
     public function map($student): array
     {
         $studentLevel = $this->getStudentLevel($student->grade);
+
         return [
             $student->fm_student_id,
-            $student->first_name . ' ' . substr($student->last_name, 0, 1),
+            $student->first_name.' '.substr($student->last_name, 0, 1),
             '',
             $studentLevel,
             '',

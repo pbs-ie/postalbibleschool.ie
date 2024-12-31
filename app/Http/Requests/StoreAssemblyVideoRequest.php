@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
-
 class StoreAssemblyVideoRequest extends FormRequest
 {
     /**
@@ -26,12 +25,12 @@ class StoreAssemblyVideoRequest extends FormRequest
      */
     public function rules()
     {
-        //Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
+        // Rule::requiredIf(fn($request) => count($request->fileContent) > 0)
         return [
             'title' => ['required', 'string'],
             'month' => ['required', 'string'],
             'series' => ['required', 'string'],
-            'imageLink' => ['string', "nullable"],
+            'imageLink' => ['string', 'nullable'],
             'videoContent' => ['array', 'max:20', 'min:1'],
             'videoContent.*.id' => ['required_with:videoContent'],
             'videoContent.*.title' => ['required_with:videoContent', 'string'],
@@ -58,8 +57,8 @@ class StoreAssemblyVideoRequest extends FormRequest
     public function messages(): array
     {
         $videoContent = $this->input('videoContent');
-        if (!isset($videoContent)) {
-            $messages["videoContent"] = "Video Information not set";
+        if (! isset($videoContent)) {
+            $messages['videoContent'] = 'Video Information not set';
         } else {
 
             foreach ($this->input('videoContent') as $key => $val) {
@@ -67,6 +66,7 @@ class StoreAssemblyVideoRequest extends FormRequest
                 $messages["videoContent.$key.externalUrl.url"] = "$url is not a valid url";
             }
         }
+
         return $messages;
     }
 }

@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         'Auth0\Laravel\Events\AuthenticationSucceeded' => [
-            UpdateStudentListFm::class
+            UpdateStudentListFm::class,
         ],
     ];
 

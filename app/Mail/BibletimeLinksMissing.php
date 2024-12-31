@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -19,9 +18,7 @@ class BibletimeLinksMissing extends Mailable implements ShouldBeUnique
      *
      * @return void
      */
-    public function __construct(protected $content)
-    {
-    }
+    public function __construct(protected $content) {}
 
     /**
      * Get the message envelope.
@@ -49,5 +46,4 @@ class BibletimeLinksMissing extends Mailable implements ShouldBeUnique
             ]
         );
     }
-
 }

@@ -1,9 +1,10 @@
 <?php
 
-use Spatie\LaravelSettings\Migrations\SettingsMigration;
 use Spatie\LaravelSettings\Migrations\SettingsBlueprint;
+use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-return new class extends SettingsMigration {
+return new class extends SettingsMigration
+{
     public function up(): void
     {
         $this->migrator->inGroup('step', function (SettingsBlueprint $blueprint): void {
@@ -24,10 +25,10 @@ return new class extends SettingsMigration {
     public function down(): void
     {
         $this->migrator->inGroup('step', function (SettingsBlueprint $blueprint): void {
-            $blueprint->add('dates', "14th June - 16th June, 2024");
-            $blueprint->add('topic', "Book of Nehemiah");
-            $blueprint->add('speaker', "Noel McMeekin");
-            $blueprint->add('eventImageLink', "");
+            $blueprint->add('dates', '14th June - 16th June, 2024');
+            $blueprint->add('topic', 'Book of Nehemiah');
+            $blueprint->add('speaker', 'Noel McMeekin');
+            $blueprint->add('eventImageLink', '');
 
             $blueprint->rename('isRegistrationActive', 'isActive');
 

@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\FmSchool;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -32,7 +31,7 @@ class OrderChanged extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Lesson Order Changed for ' . $this->oldOrder->schoolName,
+            subject: 'Lesson Order Changed for '.$this->oldOrder->schoolName,
             tags: ['individual']
         );
     }
@@ -50,7 +49,7 @@ class OrderChanged extends Mailable
                 'schoolName' => $this->oldOrder->schoolName,
                 'oldOrder' => $this->oldOrder,
                 'newOrder' => $this->newOrder,
-                'orderUrl' => config('app.url') . '/orders/' . $this->oldOrder->id
+                'orderUrl' => config('app.url').'/orders/'.$this->oldOrder->id,
             ]
         );
     }

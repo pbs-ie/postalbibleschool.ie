@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Settings\StepSettings;
 use App\Models\StepEvent;
+use App\Settings\StepSettings;
 use Inertia\Inertia;
 
 class StepEventController extends Controller
@@ -14,16 +14,17 @@ class StepEventController extends Controller
 
         $upcomingEvents = StepEvent::whereIn('id', [$stepSettings->upcomingId1, $stepSettings->upcomingId2, $stepSettings->upcomingId3])->get()->sortBy('startDate');
         $showSettings = collect($stepSettings)->only('standardCost', 'concessionCost', 'embedLink', 'scheduleFileLink', 'isRegistrationActive');
+
         return Inertia::render('Events/Step/Index', [
             'activeEvent' => $activeEvent,
             'stepSettings' => $showSettings,
-            'upcomingEvents' => $upcomingEvents
+            'upcomingEvents' => $upcomingEvents,
         ]);
     }
 
     public function signup(StepSettings $stepSettings)
     {
-        if (!$stepSettings->isRegistrationActive) {
+        if (! $stepSettings->isRegistrationActive) {
             return abort(404);
         }
         $activeEvent = StepEvent::find($stepSettings->activeId);
@@ -31,7 +32,7 @@ class StepEventController extends Controller
 
         return Inertia::render('Events/Step/Signup', [
             'activeEvent' => $activeEvent,
-            'stepSettings' => $showSettings
+            'stepSettings' => $showSettings,
         ]);
     }
 
@@ -41,8 +42,7 @@ class StepEventController extends Controller
 
         return Inertia::render('Events/Step/Schedule', [
             'stepSettings' => $showSettings,
-            'activeEvent' => StepEvent::find($stepSettings->activeId)
+            'activeEvent' => StepEvent::find($stepSettings->activeId),
         ]);
     }
-
 }

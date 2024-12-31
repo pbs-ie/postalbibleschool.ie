@@ -4,22 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class StudentController extends Controller
 {
-
     public function index()
     {
-        return Inertia::render("TeacherHub/Student/Index", [
+        return Inertia::render('TeacherHub/Student/Index', [
             'students' => Student::with('classroom:id,name')->getActiveStudents()->getStudentsForUser(),
         ]);
     }
 
     /**
      * Get list of students for the current user
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function getAllStudents()
@@ -28,20 +27,20 @@ class StudentController extends Controller
             $this->storeStudentsListForUser(auth()->user()->email);
         } catch (\Exception $e) {
             Log::warning($e);
+
             return redirect()->back()->with('failure', 'No students found');
         }
         $studentList = Student::getActiveStudents()->getStudentsForUser();
         if ($studentList->isEmpty()) {
             return redirect()->back()->with('failure', 'No students found');
         }
+
         return redirect()->back()->with('success', 'Student list updated');
     }
 
-
     /**
      * Add students to the classroom
-     * 
-     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function addStudentsToClassroom(Request $request)
@@ -56,10 +55,10 @@ class StudentController extends Controller
 
         return redirect()->back()->with('success', 'New students added to classroom');
     }
+
     /**
      * Remove students to the classroom
-     * 
-     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function removeStudentsFromClassroom(Request $request)

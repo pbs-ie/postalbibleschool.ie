@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\File;
 
 class UpdateEventsSettingRequest extends FormRequest
 {
@@ -26,21 +26,21 @@ class UpdateEventsSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            "shed_dates" => ['required_if:shed_isActive,true', 'string', 'nullable'],
-            "shed_location" => ['required_if:shed_isActive,true', 'string', 'nullable'],
-            "shed_year" => ['required_if:shed_isActive,true', 'string', 'nullable'],
-            "shed_embedLink" => ['required_if:shed_isActive,true', 'string', 'nullable'],
-            "shed_isActive" => ['required_without:prizegivings_isActive', 'boolean'],
+            'shed_dates' => ['required_if:shed_isActive,true', 'string', 'nullable'],
+            'shed_location' => ['required_if:shed_isActive,true', 'string', 'nullable'],
+            'shed_year' => ['required_if:shed_isActive,true', 'string', 'nullable'],
+            'shed_embedLink' => ['required_if:shed_isActive,true', 'string', 'nullable'],
+            'shed_isActive' => ['required_without:prizegivings_isActive', 'boolean'],
             'shed_consentForm' => [
                 File::types('pdf'),
-                'nullable'
+                'nullable',
             ],
 
-            "prizegivings_year" => ['required_if:prizegivings_isActive,true', 'string', 'nullable'],
-            "prizegivings_isActive" => ['required_without:shed_isActive', 'boolean'],
+            'prizegivings_year' => ['required_if:prizegivings_isActive,true', 'string', 'nullable'],
+            'prizegivings_isActive' => ['required_without:shed_isActive', 'boolean'],
             'prizegivings_scheduleFile' => [
                 File::types('pdf'),
-                'nullable'
+                'nullable',
             ],
         ];
     }
@@ -48,8 +48,8 @@ class UpdateEventsSettingRequest extends FormRequest
     public function attributes()
     {
         return [
-            'shed_isActive' => "SHED event active",
-            'prizegivings_isActive' => "Prizegivings event active"
+            'shed_isActive' => 'SHED event active',
+            'prizegivings_isActive' => 'Prizegivings event active',
         ];
     }
 }

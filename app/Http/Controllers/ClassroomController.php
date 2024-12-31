@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClassroomRequest;
+use App\Mail\ClassroomOrderChanged;
 use App\Models\Classroom;
 use App\Models\Curriculum;
 use App\Models\FmSchool;
-use Gate;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
 use App\Models\Student;
+use Gate;
 use Illuminate\Http\Request;
-use App\Mail\ClassroomOrderChanged;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-
+use Inertia\Inertia;
 
 class ClassroomController extends Controller
 {
-
     /**
      * Display listing of the classrooms.
      *
@@ -31,7 +29,6 @@ class ClassroomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response | \Inertia\Response
      */
     public function show(Classroom $classroom)
@@ -47,36 +44,34 @@ class ClassroomController extends Controller
             ->orderBy('first_name')
             ->get();
 
-
         $curricula = Curriculum::current();
         $classroomCurriculum = $classroom->curriculum()->firstOrFail()
             ->only([
-                "name",
-                "jan_lesson",
-                "feb_lesson",
-                "mar_lesson",
-                "apr_lesson",
-                "may_lesson",
-                "jun_lesson",
-                "sep_lesson",
-                "oct_lesson",
-                "nov_lesson",
-                "dec_lesson",
+                'name',
+                'jan_lesson',
+                'feb_lesson',
+                'mar_lesson',
+                'apr_lesson',
+                'may_lesson',
+                'jun_lesson',
+                'sep_lesson',
+                'oct_lesson',
+                'nov_lesson',
+                'dec_lesson',
             ]);
 
         return Inertia::render('TeacherHub/Classroom/Show', [
-            "classroom" => $classroom,
-            "students" => $classroomStudents,
-            "allStudents" => $allStudents,
-            "curricula" => $curricula,
-            "classCurriculum" => $classroomCurriculum
+            'classroom' => $classroom,
+            'students' => $classroomStudents,
+            'allStudents' => $allStudents,
+            'curricula' => $curricula,
+            'classCurriculum' => $classroomCurriculum,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\ClassroomRequest  $request
      * @return \Illuminate\Http\RedirectResponse | void
      */
     public function store(ClassroomRequest $request)
@@ -88,19 +83,19 @@ class ClassroomController extends Controller
         }
 
         $classroom = Classroom::where([
-            ['email', $schoolEmail]
+            ['email', $schoolEmail],
         ])
-            ->whereRaw("LOWER(name) = ?", [strtolower($request->name)])
+            ->whereRaw('LOWER(name) = ?', [strtolower($request->name)])
             ->first();
         if ($classroom) {
-            return redirect()->back()->with('warning', "Classroom already exists");
+            return redirect()->back()->with('warning', 'Classroom already exists');
         }
         $schoolOrder = FmSchool::where('email', $schoolEmail)->first();
         // if (Student::getStudentsForUser()->isEmpty()) {
-        if (!isset($schoolOrder)) {
-            return redirect()->back()->with("failure", "No students found for current user");
+        if (! isset($schoolOrder)) {
+            return redirect()->back()->with('failure', 'No students found for current user');
         }
-        $classroom = new Classroom();
+        $classroom = new Classroom;
         $classroom->fill([
             'name' => strtolower($request->name),
             'email' => $schoolEmail,
@@ -117,17 +112,16 @@ class ClassroomController extends Controller
             $classroom->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+
             return redirect()->back()->with('failure', 'Something went wrong');
         }
 
-        return redirect()->back()->with('success', "New classroom created");
+        return redirect()->back()->with('success', 'New classroom created');
     }
 
     /**
      * Updates individual classroom entry
-     * 
-     * @param \App\Http\Requests\ClassroomRequest $classroomRequest
-     * @param \App\Models\Classroom $classroom
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ClassroomRequest $classroomRequest, Classroom $classroom)
@@ -146,18 +140,17 @@ class ClassroomController extends Controller
                 try {
                     Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
                 } catch (\Exception $e) {
-                    Log::error("Could not send email for classroom order update", [$e]);
+                    Log::error('Could not send email for classroom order update', [$e]);
                 }
             }
         }
 
-        return redirect()->back()->with('success', "Changes have been updated");
+        return redirect()->back()->with('success', 'Changes have been updated');
     }
 
     /**
      * Add Curriculum Id to Classroom
-     * 
-     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function curriculumStore(Request $request)
@@ -169,13 +162,12 @@ class ClassroomController extends Controller
         $classroom->curriculum_id = $curriculumId;
         $classroom->save();
 
-        return redirect()->back()->with("success", "Curriculum added to classroom");
+        return redirect()->back()->with('success', 'Curriculum added to classroom');
     }
 
     /**
      * Remove the classroom from storage.
      *
-     * @param \App\Models\Classroom $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Classroom $classroom)
@@ -185,9 +177,9 @@ class ClassroomController extends Controller
         try {
             Mail::to(config('mail.admin.address'))->queue(new ClassroomOrderChanged($schoolOrder->schoolName, $schoolOrder->id));
         } catch (\Exception $e) {
-            Log::error("Could not send email for classroom deletion", [$e]);
+            Log::error('Could not send email for classroom deletion', [$e]);
         }
 
-        return redirect()->back()->with('success', "Classroom deleted successfully");
+        return redirect()->back()->with('success', 'Classroom deleted successfully');
     }
 }

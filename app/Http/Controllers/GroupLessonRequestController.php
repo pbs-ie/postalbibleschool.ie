@@ -31,14 +31,14 @@ class GroupLessonRequestController extends Controller
             'country' => [],
             'type' => [
                 function ($attribute, $value, $fail) {
-                    if ($value !== "school" && $value !== "group") {
+                    if ($value !== 'school' && $value !== 'group') {
                         $fail('Expected either "school" or "group');
                     }
-                }
+                },
             ],
-            'numberOfStudents' => ['required', 'integer', "min:1", "max:1000"],
+            'numberOfStudents' => ['required', 'integer', 'min:1', 'max:1000'],
             'ageRange' => [],
-            'message' => []
+            'message' => [],
         ]);
 
         // Create an entry
@@ -50,6 +50,6 @@ class GroupLessonRequestController extends Controller
         Mail::to(config('mail.admin.address'))->send(new \App\Mail\GroupRequest($newGroup));
 
         // Redirect the user
-        return redirect('/')->with('success', "Lesson request form submitted successfully");
+        return redirect('/')->with('success', 'Lesson request form submitted successfully');
     }
 }

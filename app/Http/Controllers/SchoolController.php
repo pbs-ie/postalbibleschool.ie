@@ -6,18 +6,17 @@ use App\Exports\ProjectionsExport;
 use App\Exports\StudentsExport;
 use App\Models\Classroom;
 use App\Models\Curriculum;
+use App\Models\FmSchool;
+use App\Models\Student;
 use App\Services\ClassroomService;
 use App\Services\SchoolService;
 use App\Services\StudentService;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Gate;
-use App\Models\FmSchool;
-use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Student;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SchoolController extends Controller
 {
@@ -35,10 +34,9 @@ class SchoolController extends Controller
             'level4Order' => 'L4 Ord',
             'tlpOrder' => 'TLP Ord',
             'goingDeeperOrder' => 'NL Ord',
-            'gleanersOrder' => 'Adv Ord'
+            'gleanersOrder' => 'Adv Ord',
         ];
     }
-
 
     private function updateFilemakerOrder(int $recordId, $changedRecord)
     {
@@ -49,13 +47,14 @@ class SchoolController extends Controller
             $changedRecord->{$mapValues[$currentKey]} = $changedRecord->$currentKey;
             unset($changedRecord->$currentKey);
         }
-        return (new FilemakerController())->updateLessonOrders($recordId, $changedRecord);
+
+        return (new FilemakerController)->updateLessonOrders($recordId, $changedRecord);
     }
 
     /**
      * Show list of schools with projections per $month
      *
-     * @param string $month
+     * @param  string  $month
      * @return \Inertia\Response|\Illuminate\Http\RedirectResponse
      */
     public function index($month = null)
@@ -63,26 +62,25 @@ class SchoolController extends Controller
         if (is_null($month)) {
             $month = strtolower(Carbon::now()->format('M'));
         }
-        if (!in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
+        if (! in_array($month, ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'sep', 'oct', 'nov', 'dec'])) {
             return redirect()->route('schools.index', ['month' => 'sep']);
         }
         $schoolDetails = FmSchool::queryActiveOrders()->get()->sortBy([
             ['schoolType', 'asc'],
-            ['schoolName', 'asc']
+            ['schoolName', 'asc'],
         ])->values();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
-        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $month);
+        $projectedOrders = (new ClassroomService)->getProjectedOrdersByMonth($schoolDetails, $month);
 
         return Inertia::render('SchoolOrder/Index', [
-            'projectedOrders' => fn() => $projectedOrders,
-            'currentMonth' => $month
+            'projectedOrders' => fn () => $projectedOrders,
+            'currentMonth' => $month,
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FmSchool  $schoolDetails
      * @return \Inertia\Response | void
      */
     public function show(FmSchool $schoolDetails)
@@ -90,15 +88,15 @@ class SchoolController extends Controller
         $projectedOrders = (new ClassroomService)->getProjectedMonthlyOrders($schoolDetails->email);
         $activeSchools = FmSchool::queryActiveOrders()->get(['id', 'schoolName'])->map->only(['id', 'schoolName']);
         $classrooms = Classroom::with('curriculum')->where('email', $schoolDetails->email)->get();
+
         return Inertia::render('SchoolOrder/Show', [
             'schoolDetails' => $schoolDetails,
-            'schoolsList' => fn() => $activeSchools,
-            'classrooms' => fn() => $classrooms,
-            'curricula' => fn() => Curriculum::all(),
-            'projectedOrders' => fn() => $projectedOrders
+            'schoolsList' => fn () => $activeSchools,
+            'classrooms' => fn () => $classrooms,
+            'curricula' => fn () => Curriculum::all(),
+            'projectedOrders' => fn () => $projectedOrders,
         ]);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -144,46 +142,49 @@ class SchoolController extends Controller
 
     /**
      * Pull from the Filemaker database to Laravel
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function sync()
     {
         try {
-            $schoolService = new SchoolService();
+            $schoolService = new SchoolService;
             $schoolService->populateOrdersFromFilemaker();
             $schoolService->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect(route('schools.index'))->with('failure', "Could not synchronise data");
+
+            return redirect(route('schools.index'))->with('failure', 'Could not synchronise data');
         }
-        return redirect(route('schools.index'))->with('success', "Table data synchronised");
+
+        return redirect(route('schools.index'))->with('success', 'Table data synchronised');
     }
 
     /**
      * Push snapshot to Filemaker database
-     * 
-     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function push(Request $request)
     {
         $schoolDetails = FmSchool::queryActiveOrders()->get();
         // @param mixed $projectedOrders list of all schools with their projected orders filtered by month
-        $projectedOrders = (new ClassroomService())->getProjectedOrdersByMonth($schoolDetails, $request->month);
+        $projectedOrders = (new ClassroomService)->getProjectedOrdersByMonth($schoolDetails, $request->month);
         try {
             // PushOrdersToFilemaker::dispatch($projectedOrders);
             (new SchoolService)->pushOrdersToFilemaker($projectedOrders);
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect()->back()->with('failure', "Could not push to database");
+
+            return redirect()->back()->with('failure', 'Could not push to database');
         }
-        return redirect()->back()->with('success', "Table data synchronised");
+
+        return redirect()->back()->with('success', 'Table data synchronised');
     }
 
     /**
      * Create default classrooms for school emails that do not have an associated classroom
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function createDefaultClassrooms()
@@ -192,9 +193,11 @@ class SchoolController extends Controller
             (new SchoolService)->createDefaultClassroooms();
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect(route('schools.index'))->with('failure', "Could not create default classrooms. Check error logs");
+
+            return redirect(route('schools.index'))->with('failure', 'Could not create default classrooms. Check error logs');
         }
-        return redirect(route('schools.index'))->with('success', "Default classrooms created");
+
+        return redirect(route('schools.index'))->with('success', 'Default classrooms created');
     }
 
     public function export($month)
@@ -204,18 +207,20 @@ class SchoolController extends Controller
 
     /**
      * Create excel export file of students for a school
-     * @param number $schoolId
+     *
+     * @param  number  $schoolId
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function exportStudentsList($schoolId)
     {
         $schoolDetails = FmSchool::queryActiveOrders()->find($schoolId);
-        return Excel::download(new StudentsExport($schoolDetails->areaCode), $schoolDetails->schoolName . '.xlsx');
+
+        return Excel::download(new StudentsExport($schoolDetails->areaCode), $schoolDetails->schoolName.'.xlsx');
     }
 
     /**
      * Show the students for a school
-     * @param \App\Models\FmSchool $schoolDetails
+     *
      * @return \Inertia\Response | \Illuminate\Http\RedirectResponse
      */
     public function students(FmSchool $schoolDetails)
@@ -228,16 +233,17 @@ class SchoolController extends Controller
             }
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect()->back()->with('failure', "Could not fetch students. Check error logs");
+
+            return redirect()->back()->with('failure', 'Could not fetch students. Check error logs');
         }
 
         return Inertia::render('SchoolOrder/Students', [
-            'students' => fn() => $students->sortBy([
+            'students' => fn () => $students->sortBy([
                 ['grade', 'asc'],
                 ['last_name', 'asc'],
                 ['first_name', 'asc'],
             ])->values(),
-            'schoolDetails' => $schoolDetails->only(['id', 'schoolName'])
+            'schoolDetails' => $schoolDetails->only(['id', 'schoolName']),
         ]);
     }
 
@@ -247,9 +253,10 @@ class SchoolController extends Controller
             (new StudentService)->storeStudentsForUser($schoolDetails->email);
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect()->back()->with('failure', "Could not fetch students. Check error logs");
-        }
-        return redirect()->back()->with('success', "Students refreshed");
-    }
 
+            return redirect()->back()->with('failure', 'Could not fetch students. Check error logs');
+        }
+
+        return redirect()->back()->with('success', 'Students refreshed');
+    }
 }

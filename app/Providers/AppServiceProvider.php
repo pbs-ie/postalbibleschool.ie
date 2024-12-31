@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
 

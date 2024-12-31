@@ -5,9 +5,9 @@ namespace App\Services;
 use App\Http\Controllers\FilemakerController;
 use App\Models\Classroom;
 use App\Models\Curriculum;
-use Illuminate\Support\Facades\Validator;
 use App\Models\FmSchool;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class SchoolService
@@ -77,11 +77,10 @@ class SchoolService
         ];
     }
 
-
     /**
      * Convert Filemaker object to Laravel database friendly array
-     * 
-     * @param array $fmOrders
+     *
+     * @param  array  $fmOrders
      * @return array
      */
     private function sanitizeOrders($fmOrders)
@@ -102,7 +101,7 @@ class SchoolService
                 'level3Order' => trim($fieldData->{$mapValues['level3Order']}) ?: 0,
                 'level4Order' => trim($fieldData->{$mapValues['level4Order']}) ?: 0,
                 'goingDeeperOrder' => trim($fieldData->{$mapValues['goingDeeperOrder']}) ?: 0,
-                "gleanersOrder" => trim($fieldData->{$mapValues["gleanersOrder"]}) ?: 0,
+                'gleanersOrder' => trim($fieldData->{$mapValues['gleanersOrder']}) ?: 0,
                 'tlpOrder' => trim($fieldData->{$mapValues['tlpOrder']}) ?: 0,
                 'address1' => trim($fieldData->{$mapValues['address1']}),
                 'address2' => trim($fieldData->{$mapValues['address2']}),
@@ -110,15 +109,16 @@ class SchoolService
                 'address4' => trim($fieldData->{$mapValues['address4']}),
                 'areaCode' => trim($fieldData->{$mapValues['areaCode']}),
             ];
+
             return $returnObject;
         });
+
         return $mappedOrders->toArray();
     }
 
-
     public function populateOrdersFromFilemaker()
     {
-        $ordersFm = (new FilemakerController())->getLessonOrders();
+        $ordersFm = (new FilemakerController)->getLessonOrders();
 
         // Reset school type for FmSchoolDetails
         FmSchool::query()->update(['schoolType' => null]);
@@ -128,7 +128,7 @@ class SchoolService
 
             $validator = Validator::make($item, $this->getRules());
             if ($validator->fails()) {
-                $validator->errors()->add("Name of School", $item['schoolName']);
+                $validator->errors()->add('Name of School', $item['schoolName']);
                 Log::error($validator->errors());
                 throw ValidationException::withMessages($validator->errors()->toArray());
             }
@@ -141,13 +141,14 @@ class SchoolService
 
     /**
      * Push current view of orders to Filemaker view
-     * @param mixed $projectedOrders
+     *
+     * @param  mixed  $projectedOrders
      * @return void
      */
     public function pushOrdersToFilemaker($projectedOrders)
     {
         $nameMap = $this->getFmProjectedOrderRecordsMap();
-        $fmObject = new FilemakerController();
+        $fmObject = new FilemakerController;
         $fmObject->clearProjectedOrdersTable();
         $ordersCollection = collect($projectedOrders);
         $ordersCollection->each(
@@ -156,8 +157,10 @@ class SchoolService
                     // If the key exists in the map, use the new name, otherwise ignore
                     if (isset($nameMap[$key])) {
                         $newKey = $nameMap[$key];
+
                         return [$newKey => $value];
                     }
+
                     return [];
                 });
                 $fmObject->createProjectedOrderRecord($mappedObject);
@@ -182,7 +185,7 @@ class SchoolService
                     'level_3_order' => $school->level3Order,
                     'level_4_order' => $school->level4Order,
                     'tlp_order' => $school->tlpOrder,
-                    'curriculum_id' => Curriculum::getDefaultId()
+                    'curriculum_id' => Curriculum::getDefaultId(),
                 ]);
             }
         });

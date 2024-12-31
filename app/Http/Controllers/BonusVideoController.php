@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBonusVideoRequest;
 use App\Models\BonusVideo;
-use Inertia\Inertia;
+use App\Services\VideoService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use App\Services\VideoService;
+use Inertia\Inertia;
 
 class BonusVideoController extends Controller
 {
@@ -17,6 +17,7 @@ class BonusVideoController extends Controller
             'videoList' => BonusVideo::all(BonusVideo::columnsAsCamel),
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,11 +28,12 @@ class BonusVideoController extends Controller
         $sortedBbwList = BonusVideo::where('category', 'bbw')->latest()->get(BonusVideo::columnsAsCamel);
         $sortedBbooksList = BonusVideo::where('category', 'bbooks')->latest()->get(BonusVideo::columnsAsCamel);
         $sortedSongsList = BonusVideo::where('category', 'music')->latest()->get(BonusVideo::columnsAsCamel);
+
         return Inertia::render('Assembly/Bonus/Index', [
             'bbwList' => $sortedBbwList,
             'bbooksList' => $sortedBbooksList,
             'music' => $sortedSongsList,
-            'canEdit' => Gate::check('create:assembly')
+            'canEdit' => Gate::check('create:assembly'),
         ]);
     }
 
@@ -48,7 +50,6 @@ class BonusVideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBonusVideoRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreBonusVideoRequest $request)
@@ -61,7 +62,6 @@ class BonusVideoController extends Controller
 
         // Convert submitted vimeo links
         $bonusVideo->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
-
 
         $bonusVideo->save();
 
@@ -77,8 +77,8 @@ class BonusVideoController extends Controller
     public function show($id)
     {
         return Inertia::render('Assembly/Bonus/Show', [
-            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel),
-            'canEdit' => Gate::check('create:assembly')
+            'videoData' => BonusVideo::find($id, BonusVideo::columnsAsCamel),
+            'canEdit' => Gate::check('create:assembly'),
         ]);
     }
 
@@ -91,14 +91,13 @@ class BonusVideoController extends Controller
     public function edit($id)
     {
         return Inertia::render('Assembly/Bonus/Edit', [
-            "videoData" => BonusVideo::find($id, BonusVideo::columnsAsCamel),
+            'videoData' => BonusVideo::find($id, BonusVideo::columnsAsCamel),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBonusVideoRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */

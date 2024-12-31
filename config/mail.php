@@ -109,7 +109,7 @@ return [
     */
 
     'admin' => [
-        'address' => env('MAIL_CONTACT_ADDRESS', 'info@postalbibleschool.ie')
+        'address' => env('MAIL_CONTACT_ADDRESS', 'info@postalbibleschool.ie'),
     ],
 
     /*

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\File;
 
 class UpdateITeamSettingRequest extends FormRequest
 {
@@ -26,15 +26,15 @@ class UpdateITeamSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            "dates" => ['required_if:isActive,true', 'string', 'nullable'],
-            "embedLink" => ['required_if:isActive,true', 'string', 'nullable'],
-            "isActive" => ['required', 'boolean'],
+            'dates' => ['required_if:isActive,true', 'string', 'nullable'],
+            'embedLink' => ['required_if:isActive,true', 'string', 'nullable'],
+            'isActive' => ['required', 'boolean'],
             'eventImage' => [
                 File::image()
                     ->types(['png', 'jpg'])
                     ->max(2 * 1024),
                 'required_if:isActive,true',
-                'nullable'
+                'nullable',
             ],
         ];
     }
