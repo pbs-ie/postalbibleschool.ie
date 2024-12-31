@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to this project! This document outlines the guidelines for version control, branching, merging, and coding standards to ensure smooth collaboration and maintain code quality.
 
+For further details on documentation, check the [docs](./docs/) folder
+
 ---
 
 ## Version Control Workflow
@@ -17,7 +19,7 @@ This project uses **Git** for version control and is hosted on **GitHub**. Pleas
 - **`staging` Branch:**
   - Development code on Live environment.
   - `staging` branch is deployed on a similar server as `main`.
-  - All changes must first be commited to this branch.
+  - Can be used to verify code changes on a live server by pushing development branch to this.
 - **Feature Branches (`feature/`)**:
   - Used for developing new features.
   - Create branches from `main`.
@@ -55,39 +57,41 @@ This project uses **Git** for version control and is hosted on **GitHub**. Pleas
 
 3. **Make Changes and Commit:**
    - Write clear and concise commit messages.
+   - Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.
+
+     ```bash
+     <type>[optional scope]: <description>
+
+     [optional body]
+
+     [optional footer(s)]
+     ```
+
    - Example:
 
      ```bash
-     git commit -m "Add login functionality with form validation"
+     git commit -m "feat: Add login functionality with form validation"
      ```
 
-4. **Create a staging branch:**
-   - Create a new staging branch from your feature branch and push to the remote repository.
+4. **Push Your Branch:**
+   Push your branch to the remote repository:
 
    ```bash
-   git checkout -b staging
-   git push origin staging
+   git push origin branch-name
    ```
 
-5. **Review changes on the staging website:**
-   - Go to the staging site and see if changes are behaving as expected.
-   - If any bugs need fixed commit these changes also to the `staging` till production ready.
-
-6. **Create a Pull Request (PR):**
+5. **Create a Pull Request (PR):**
    - Go to the repository on GitHub.
-   - Open a PR from the `staging` into `main`.
+   - Open a PR from your branch into `main`.
    - Add a detailed description of the changes and include relevant screenshots or references.
 
-7. **Code Review:**
+6. **Code Review:**
    - Request a review from at least one other developer.
    - Make changes if feedback is provided.
 
-8. **Merge:**
+7. **Merge:**
    - Once approved, merge your branch into `main`.
    - Use the **Squash and Merge** strategy for a clean commit history.
-
-9. **Review changes on the main website:**
-   - Go to <https://postalbibleschool.ie> and make sure feature has been pushed correctly.
 
 ---
 
@@ -130,6 +134,7 @@ Before committing code, ensure the following:
 
 1. All tests pass.
 2. There are no unresolved merge conflicts.
+3. [CHANGELOG.md](./CHANGELOG.md) is updated.
 
 ---
 
@@ -142,6 +147,8 @@ Before committing code, ensure the following:
   ```
 
 - Add a descriptive title and summary for the PR.
+- Prefix with `FEATURE:` for a new feature or `BUGFIX:` for a fix.
+- Use the Github templates but feel free to remove the irrelevant headings.
 - Reference related issues or tasks using keywords (e.g., `Fixes #123`).
 
 ---
@@ -150,6 +157,7 @@ Before committing code, ensure the following:
 
 - **Continuous Integration (CI):**
   - All PRs must pass the CI pipeline before merging.
+  - Github actions handles the CI.
 
 ---
 

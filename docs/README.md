@@ -45,12 +45,12 @@ This project uses testing frameworks for both the backend and the frontend:
 
 ## Contributing
 
-If you're planning to contribute to this project, please read the [Contributing Guidelines](contributing.md). This section covers the development workflow, code style standards, and how to update documentation with your changes.
+If you're planning to contribute to this project, please read the [Contributing Guidelines](../CONTRIBUTING.md). This section covers the development workflow, code style standards, and how to update documentation with your changes.
 
 ## Additional Resources
 
-- [Laravel Documentation](https://laravel.com/docs)
-- [React Documentation](https://reactjs.org/docs/getting-started.html)
+- [Laravel Documentation](https://laravel.com/docs/9.x)
+- [React Documentation](https://react.dev/)
 - [Cypress Documentation](https://docs.cypress.io/)
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
 

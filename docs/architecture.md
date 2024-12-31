@@ -11,7 +11,7 @@ This project is a web application designed to provide a landing page for Postal 
 - **Tech Stack:**
   - Backend: Laravel v9.x (PHP)
   - Frontend: React v18.x (TypeScript)
-  - Database: MySQL, Filemaker Pro
+  - Database: MySQL, Claris Filemaker Pro
   - Testing: Jest, Cypress
   - Other Tools: Memcached, Redis (caching)
 
