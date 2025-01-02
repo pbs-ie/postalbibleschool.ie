@@ -5,14 +5,16 @@ import route from "ziggy-js";
 import { BonusVideoProps } from "@/Pages/Assembly/Bonus/Index";
 
 import ToastBanner from "@/Components/Forms/ToastBanner";
+import LabelSpan from "@/Components/Typography/LabelSpan";
+import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import FileInput from "@/Elements/Forms/FileInput";
 import InputLabel from "@/Elements/Forms/InputLabel";
 import SelectInput from "@/Elements/Forms/SelectInput";
 import TextInput from "@/Elements/Forms/TextInput";
 import InputWithRemainingCharsWrapper from "@/Elements/Forms/InputWithRemainingCharsWrapper";
+import InputError from "@/Elements/Forms/InputError";
 
 type BonusVideoCreateProps = Omit<BonusVideoProps, "id">;
 
@@ -59,6 +61,14 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
         }
     }
 
+    const handleDrop = (event: React.DragEvent, name: string) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (name === "imageFile" && (droppedFiles.length > 0)) {
+            setData(name, droppedFiles[0]);
+        }
+    };
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (videoData) {
@@ -98,11 +108,18 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
                             <option value="music">Bible Songs</option>
                         </SelectInput>
                     </div>
-                    <div className="inline-flex gap-2">
-                        <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required={!videoData} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} required={!videoData} accept="image/*" />
+                    <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
+                        <div className="inline-flex flex-col gap-2">
+                            <FileUploadDropzone name={"imageFile"} labelText={"Thumbnail Image"} onDrop={(e) => handleDrop(e, 'imageFile')} onChange={handleFileChange} accept="image/png, image/jpeg" />
+                            <InputError message={errors.imageFile} />
+                        </div>
+                        {(data.imageFile || data.imageLink) &&
+                            <div>
+                                <LabelSpan>Preview</LabelSpan>
+                                <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : route('images.show', data.imageLink)} />
+                            </div>
+                        }
                     </div>
-                    <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : videoData ? route('images.show', data.imageLink) : ""} />
                 </div>
                 <h2 className="p-0 mb-2 text-xl font-bold text-black">Video Information</h2>
                 <table>

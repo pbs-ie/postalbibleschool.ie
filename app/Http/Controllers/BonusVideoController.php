@@ -61,7 +61,7 @@ class BonusVideoController extends Controller
         $bonusVideo->imageLink = $request->file('imageFile')->store('/bonus_videos', 'images');
 
         // Convert submitted vimeo links
-        $bonusVideo->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
+        $bonusVideo->externalUrl = VideoService::parseExternalUrl($request['externalUrl']);
 
         $bonusVideo->save();
 
@@ -114,7 +114,7 @@ class BonusVideoController extends Controller
         }
 
         if ($video->isDirty('external_url')) {
-            $video->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
+            $video->externalUrl = VideoService::parseExternalUrl($request['externalUrl']);
         }
 
         $video->save();

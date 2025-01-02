@@ -4,7 +4,7 @@ namespace App\Services;
 
 class VideoService
 {
-    public function parseExternalUrl($externalUrl)
+    public static function parseExternalUrl($externalUrl)
     {
         $vimeoPath = 'https://player.vimeo.com/video/';
         $vimeoParams = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479';
@@ -12,7 +12,7 @@ class VideoService
         if (count($numCode) < 1 || is_null($numCode[1])) {
             return '';
         } else {
-            return $vimeoPath.$numCode[1].$vimeoParams;
+            return $vimeoPath . $numCode[1] . $vimeoParams;
         }
     }
 }

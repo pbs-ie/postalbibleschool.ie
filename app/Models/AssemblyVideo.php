@@ -46,7 +46,7 @@ class AssemblyVideo extends BaseModel
     {
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
         $videoContent = $videoCollection->map(function ($item) {
-            $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+            $item['externalUrl'] = VideoService::parseExternalUrl($item['externalUrl']);
 
             return $item;
         });
