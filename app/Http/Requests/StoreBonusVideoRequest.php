@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class StoreBonusVideoRequest extends FormRequest
 {
@@ -26,7 +27,13 @@ class StoreBonusVideoRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:30'],
-            'imageFile' => ['required_without:imageLink', 'image', 'mimetypes:image/*', 'nullable'],
+            'imageFile' => [
+                'nullable',
+                'required_without:imageLink',
+                'mimes:jpeg,png,gif',
+                'max:2048',
+                Rule::dimensions()->ratio(16 / 9),
+            ],
             'imageLink' => ['string', 'nullable'],
             'videoTitle' => ['required', 'string', 'max:30'],
             'externalUrl' => ['required', 'url'],
@@ -39,6 +46,9 @@ class StoreBonusVideoRequest extends FormRequest
                     }
                 },
             ],
+            'downloadFile' => ['nullable', 'file', 'max:2048'],
+            'downloadLink' => ['nullable', 'string'],
+            'downloadTitle' => ['nullable', 'string', 'max:30', 'required_with:downloadFile'],
         ];
     }
 }

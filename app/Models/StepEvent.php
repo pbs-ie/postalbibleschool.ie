@@ -77,12 +77,12 @@ class StepEvent extends Model
 
     public function storeFiles(StoreStepEventRequest $request)
     {
-        if (! $request->input('fileContent')) {
+        if (!$request->input('fileContent')) {
             return null;
         }
         $fileCollection = collect($request->safe(['fileContent'])['fileContent']);
         $fileContent = $fileCollection->map(function ($item, $key) {
-            if (! isset($item['fileData'])) {
+            if (!isset($item['fileData'])) {
                 return $item;
             }
             if (isset($item['filePath']) && Storage::disk('public')->exists($item['filePath'])) {
@@ -99,12 +99,16 @@ class StepEvent extends Model
 
     public function parseVideoLinks(StoreStepEventRequest $request)
     {
-        if (! $request->input('videoContent')) {
+        if (!$request->input('videoContent')) {
             return null;
         }
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
-        $videoContent = $videoCollection->map(function ($item) {
-            $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+        $videoContent = $videoCollection->map(function ($item, $key) {
+            try {
+                $item['externalUrl'] = VideoService::parseExternalUrl($item['externalUrl']);
+            } catch (\Exception $e) {
+                throw new \Exception('The external URL is not a valid Vimeo link', $key);
+            }
 
             return $item;
         });

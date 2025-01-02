@@ -57,11 +57,20 @@ class BonusVideoController extends Controller
         $bonusVideo = new BonusVideo;
         $bonusVideo->fill($request->validated());
 
+        // Convert submitted vimeo links
+        try {
+            $bonusVideo->externalUrl = VideoService::parseExternalUrl($request['externalUrl']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['externalUrl' => 'The external URL is not a valid Vimeo link']);
+        }
+
         // Storing image and saving image link to request
         $bonusVideo->imageLink = $request->file('imageFile')->store('/bonus_videos', 'images');
 
-        // Convert submitted vimeo links
-        $bonusVideo->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
+        // Storing download file and saving download link to request
+        if ($request->file('downloadFile')) {
+            $bonusVideo->downloadLink = $request->file('downloadFile')->store('/bonus_videos', 'public');
+        }
 
         $bonusVideo->save();
 
@@ -106,15 +115,26 @@ class BonusVideoController extends Controller
         $video = BonusVideo::find($id, BonusVideo::columnsAsCamel);
         $video->fill($request->validated());
 
+        if ($video->isDirty('external_url')) {
+            try {
+                $video->externalUrl = VideoService::parseExternalUrl($request['externalUrl']);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['externalUrl' => 'The external URL is not a valid Vimeo link']);
+            }
+        }
+
         if ($request->file('imageFile')) {
-            if (Storage::disk('images')->exists($video->imageLink)) {
-                Storage::disk('images')->delete($video->imageLink);
+            if ($request->imageLink && Storage::disk('images')->exists($request->imageLink)) {
+                Storage::disk('images')->delete($request->imageLink);
             }
             $video->imageLink = $request->file('imageFile')->store('/bonus_videos', 'images');
         }
 
-        if ($video->isDirty('external_url')) {
-            $video->externalUrl = (new VideoService)->parseExternalUrl($request['externalUrl']);
+        if ($request->file('downloadFile')) {
+            if ($request->downloadLink && Storage::disk('public')->exists($request->downloadLink)) {
+                Storage::disk('public')->delete($request->downloadLink);
+            }
+            $video->downloadLink = $request->file('downloadFile')->store('/bonus_videos', 'public');
         }
 
         $video->save();
@@ -134,5 +154,17 @@ class BonusVideoController extends Controller
         $video->delete();
 
         return redirect()->route('assembly.bonus.admin')->with('success', 'Bonus Video successfully deleted');
+    }
+
+    public function destroyFile($id)
+    {
+        $video = BonusVideo::find($id);
+        if (Storage::disk('public')->exists($video->downloadLink)) {
+            Storage::disk('public')->delete($video->downloadLink);
+        }
+        $video->downloadLink = null;
+        $video->save();
+
+        return redirect()->route('assembly.bonus.admin')->with('success', 'Download file removed successfully');
     }
 }

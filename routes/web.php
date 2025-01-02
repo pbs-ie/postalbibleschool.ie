@@ -208,6 +208,7 @@ Route::prefix('assembly')->name('assembly.')->group(function () {
         // Using POST instead of PUT because of known PHP issue with multipart/form-data - https://stackoverflow.com/questions/47676134/laravel-request-all-is-empty-using-multipart-form-data
         Route::post('/{id}', 'update')->name('update')->middleware(['auth'])->can('create:assembly');
         Route::delete('/{id}', 'destroy')->name('destroy')->can('create:assembly');
+        Route::delete('/{id}/file', 'destroyFile')->name('destroyFile')->can('create:assembly');
     });
 
     Route::controller(AssemblyVideoController::class)->middleware(['auth', 'can:create:assembly'])->group(function () {
@@ -230,10 +231,10 @@ Route::get('/dashboard', function () {
     $classroomList = Classroom::current();
 
     return Inertia::render('Dashboard', [
-        'classrooms' => fn () => $classroomList,
+        'classrooms' => fn() => $classroomList,
         'canManageCurriculum' => Gate::allows('create:curriculum'),
-        'curriculumList' => fn () => Curriculum::current(),
-        'projectedOrders' => fn () => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email),
+        'curriculumList' => fn() => Curriculum::current(),
+        'projectedOrders' => fn() => (new ClassroomService)->getProjectedMonthlyOrders(auth()->user()->email),
     ]);
 })->middleware(['auth'])->name('dashboard')->can('view:dashboard');
 
@@ -244,7 +245,7 @@ Route::get('/profile', function () {
     }
 
     return Inertia::render('Profile', [
-        'schoolDetails' => fn () => $schoolDetails,
+        'schoolDetails' => fn() => $schoolDetails,
     ]);
 })->middleware(['auth'])->name('profile')->can('admin-cannot');
 // TODO: Revealed route with Digital lessons features
@@ -301,17 +302,20 @@ Route::prefix('payment')->name('payment.')->group(function () {
 });
 
 Route::get('/download/{file}', function ($file) {
-    $filename = Str::kebab(Carbon::now()->format('YmdHi').' Postal Bible School download.'.Str::afterLast($file, '.'));
+    if (!file_exists(Storage::disk('public')->path($file))) {
+        return response()->json(['error' => 'The file could not be found'], 404);
+    }
+    $filename = Str::kebab(Carbon::now()->format('YmdHi') . ' Postal Bible School download.' . Str::afterLast($file, '.'));
     $headers = [
         'Content-Type' => 'application/pdf',
     ];
 
-    return response()->download(public_path('storage/'.$file), $filename, $headers);
+    return response()->download(Storage::disk('public')->path($file), $filename, $headers);
 })->where('file', '.*')->name('assets.download');
 
 Route::get('/assets/{file}', function ($file) {
     $filePath = Storage::disk('public')->path($file);
-    if (! file_exists($filePath)) {
+    if (!file_exists($filePath)) {
         return redirect()->back()->with('error', 'The file could not be found');
     }
 

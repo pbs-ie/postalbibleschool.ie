@@ -45,8 +45,12 @@ class AssemblyVideo extends BaseModel
     public function parseVideoLinks(StoreAssemblyVideoRequest $request)
     {
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
-        $videoContent = $videoCollection->map(function ($item) {
-            $item['externalUrl'] = (new VideoService)->parseExternalUrl($item['externalUrl']);
+        $videoContent = $videoCollection->map(function ($item, $key) {
+            try {
+                $item['externalUrl'] = VideoService::parseExternalUrl($item['externalUrl']);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['videoContent.' . $key . '.externalUrl' => 'The external URL is not a valid Vimeo link']);
+            }
 
             return $item;
         });
