@@ -12,7 +12,7 @@ export default function BonusVideoGallery({ headingText, videoList = [], default
                 {totalVideos !== 0 ? (
                     <div className="flex flex-wrap gap-2 w-fit lg:max-w-6xl">
                         {
-                            videoList.map(({ title, imageLink, id, category, duration, externalUrl, videoTitle }, index) => (
+                            videoList.map(({ title, imageLink, id }, index) => (
                                 <VideoGalleryCard key={title + index} clickLink={route('assembly.bonus.show', id)} month="" active={false} title={title} total={totalVideos} imageLink={imageLink} idx={index} />
                             ))
                         }

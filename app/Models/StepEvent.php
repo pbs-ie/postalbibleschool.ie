@@ -103,8 +103,12 @@ class StepEvent extends Model
             return null;
         }
         $videoCollection = collect($request->safe(['videoContent'])['videoContent']);
-        $videoContent = $videoCollection->map(function ($item) {
-            $item['externalUrl'] = VideoService::parseExternalUrl($item['externalUrl']);
+        $videoContent = $videoCollection->map(function ($item, $key) {
+            try {
+                $item['externalUrl'] = VideoService::parseExternalUrl($item['externalUrl']);
+            } catch (\Exception $e) {
+                throw new \Exception('The external URL is not a valid Vimeo link', $key);
+            }
 
             return $item;
         });

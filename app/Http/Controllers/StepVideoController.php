@@ -19,8 +19,8 @@ class StepVideoController extends Controller
     public function gallery(StepSettings $stepSettings)
     {
         return Inertia::render('Events/Step/Gallery', [
-            'allEvents' => fn () => StepEvent::whereNotNull('videoContent')->orderByDesc('startDate')->get(),
-            'stepSettings' => fn () => $stepSettings,
+            'allEvents' => fn() => StepEvent::whereNotNull('videoContent')->orderByDesc('startDate')->get(),
+            'stepSettings' => fn() => $stepSettings,
         ]);
     }
 
@@ -31,7 +31,7 @@ class StepVideoController extends Controller
      */
     public function show(StepEvent $event, StepSettings $stepSettings)
     {
-        if ((Gate::denies('create:events') && ! $event['showDetails']) || $event['videoContent'] === null) {
+        if ((Gate::denies('create:events') && !$event['showDetails']) || $event['videoContent'] === null) {
             return abort(404);
         }
 
@@ -63,14 +63,18 @@ class StepVideoController extends Controller
 
         $stepEvent->description = $request->description ?? '';
 
+        // Convert submitted vimeo links
+        try {
+            $stepEvent->videoContent = $stepEvent->parseVideoLinks($request);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['videoContent.' . $e->getCode() . '.externalUrl' => $e->getMessage()]);
+        }
+
         // Storing image and saving image link to request
         $stepEvent->imageLink = $request->file('imageFile')->store('/', 'images');
 
         // Store additional files
         $stepEvent->fileContent = $stepEvent->storeFiles($request);
-
-        // Convert submitted vimeo links
-        $stepEvent->videoContent = $stepEvent->parseVideoLinks($request);
 
         $stepEvent->save();
 
@@ -100,19 +104,23 @@ class StepVideoController extends Controller
         $event->fill($request->validated());
         $event->description = $request->description ?? '';
 
+        // Convert submitted vimeo links
+        try {
+            $event->videoContent = $event->parseVideoLinks($request);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['videoContent.' . $e->getCode() . '.externalUrl' => $e->getMessage()]);
+        }
+
         // Replacing image and saving image link to request
         if ($request->file('imageFile')) {
             if ($request->imageLink && Storage::disk('images')->exists($request->imageLink)) {
-                Storage::disk('images')->delete($event->imageLink);
+                Storage::disk('images')->delete($request->imageLink);
             }
             $event->imageLink = $request->file('imageFile')->store('/', 'images');
         }
 
         // Store additional files
         $event->fileContent = $event->storeFiles($request);
-
-        // Convert submitted vimeo links
-        $event->videoContent = $event->parseVideoLinks($request);
 
         $event->save();
 

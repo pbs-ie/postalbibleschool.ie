@@ -28,6 +28,7 @@ class StoreBonusVideoRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:30'],
             'imageFile' => [
+                'nullable',
                 'required_without:imageLink',
                 'mimes:jpeg,png,gif',
                 'max:2048',
@@ -45,6 +46,9 @@ class StoreBonusVideoRequest extends FormRequest
                     }
                 },
             ],
+            'downloadFile' => ['nullable', 'file', 'max:2048'],
+            'downloadLink' => ['nullable', 'string'],
+            'downloadTitle' => ['nullable', 'string', 'max:30', 'required_with:downloadFile'],
         ];
     }
 }

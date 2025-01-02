@@ -9,7 +9,10 @@ export interface BonusVideoProps {
     videoTitle: string,
     externalUrl: string,
     duration: string,
-    category: string
+    category: string,
+    downloadFile?: File | null,
+    downloadLink?: string,
+    downloadTitle?: string
 }
 
 export default function Index({ bbwList = [], bbooksList = [], music = [], canEdit }: { bbwList: BonusVideoProps[], bbooksList: BonusVideoProps[], music: BonusVideoProps[], canEdit: boolean }) {
