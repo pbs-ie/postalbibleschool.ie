@@ -22,8 +22,9 @@ import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BannerComponent from "@/Components/BannerComponent";
 import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+import { EventsSettingsProps } from "./Settings/Events";
 
-export default function Home({ bibleTimeDownloads, videoList = [], canViewGallery = false }: { bibleTimeDownloads: responseLinks, videoList: AssemblyVideoProps[], canViewGallery: boolean }): JSX.Element {
+export default function Home({ bibleTimeDownloads, videoList = [], canViewGallery = false, eventsSettings }: { bibleTimeDownloads: responseLinks, videoList: AssemblyVideoProps[], canViewGallery: boolean, eventsSettings: EventsSettingsProps }): JSX.Element {
     try {
         setAllBesLinks(bibleTimeDownloads);
     } catch (e) {
@@ -75,8 +76,8 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading={<p>Prize<wbr></wbr>givings 2024</p>}
-                                content="Find dates and locations."
+                                heading={<p>Prize<wbr></wbr>givings {eventsSettings.prizegivings_isActive ? eventsSettings.prizegivings_year : ""}</p>}
+                                content={eventsSettings.prizegivings_isActive ? "Find dates and locations." : "Click details to know more"}
                                 className="border-4"
                                 buttonText="Details"
                                 buttonLink={route('events.prizegivings', { 'type': 'prizegivings' })}
