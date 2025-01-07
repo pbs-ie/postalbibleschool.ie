@@ -50,11 +50,12 @@ Route::get('/', function () {
     return redirect()->route('home');
 })->middleware(['guest']);
 
-Route::get('/home', function () {
+Route::get('/home', function (EventsSettings $eventsSettings) {
     return Inertia::render('Home', [
         'bibleTimeDownloads' => WorksheetLinksService::getBibleTimeList(),
         'videoList' => AssemblyVideo::latest()->get(AssemblyVideo::columnsAsCamel),
         'canViewGallery' => Gate::check('view:assembly'),
+        'eventsSettings' => $eventsSettings,
     ]);
 })->name('home');
 
