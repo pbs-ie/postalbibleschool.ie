@@ -25,9 +25,9 @@ export default function NavLink({ href, active, isCta, isSecondary, role, ariaHa
             }
         }
         else if (active) {
-            styleValue += ` border-gray-300 ${isSecondary ? 'text-blue-900' : 'text-white'} font-bold hover:border-transparent`
+            styleValue += ` border-gray-300 ${isSecondary ? 'text-blue-900 border-transparent' : 'text-white'} font-bold hover:border-transparent`
         } else {
-            styleValue += ` border-transparent ${isSecondary ? 'text-blue-900 font-normal hover:font-bold' : 'text-gray-200 font-medium hover:text-white'}  hover:border-gray-50 focus:text-gray-100`
+            styleValue += ` border-transparent ${isSecondary ? 'text-blue-900 font-normal hover:font-bold hover:border-transparent' : 'text-gray-200 font-medium hover:text-white'}  hover:border-gray-50 focus:text-gray-100`
         }
 
         return styleValue;

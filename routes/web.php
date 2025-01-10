@@ -177,6 +177,8 @@ Route::prefix('events')->name('events.')->group(function () {
 
         Route::get('/signup', 'signup')->name('signup');
 
+        Route::get('/podcast', 'podcast')->name('podcast');
+
         Route::get('/schedule', 'schedule')->name('schedule');
 
         Route::prefix('past')->name('past.')->controller(StepVideoController::class)->group(function () {

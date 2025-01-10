@@ -14,12 +14,15 @@ export default function StepNavbar() {
 
             )
             }
-            <ul className="flex items-stretch justify-center h-12 gap-6 px-4 md:gap-8 md:px-8">
+            <ul className="flex items-stretch h-12 gap-6 px-4 overflow-x-auto overflow-y-hidden lg:justify-center md:gap-8 md:px-8">
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.index')} href={route('events.step.index')}>About</NavLink>
                 </li>
                 <li className="flex -my-px">
                     <NavLink isSecondary={true} active={route().current('events.step.past.*')} href={route('events.step.past.gallery')}>Videos</NavLink>
+                </li>
+                <li className="flex -my-px">
+                    <NavLink isSecondary={true} active={route().current('events.step.podcast')} href={route('events.step.podcast')}>Podcasts</NavLink>
                 </li>
                 {stepSettings.isRegistrationActive &&
                     <>
