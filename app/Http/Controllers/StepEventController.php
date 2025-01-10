@@ -24,7 +24,7 @@ class StepEventController extends Controller
 
     public function signup(StepSettings $stepSettings)
     {
-        if (! $stepSettings->isRegistrationActive) {
+        if (!$stepSettings->isRegistrationActive) {
             return abort(404);
         }
         $activeEvent = StepEvent::find($stepSettings->activeId);
@@ -43,6 +43,13 @@ class StepEventController extends Controller
         return Inertia::render('Events/Step/Schedule', [
             'stepSettings' => $showSettings,
             'activeEvent' => StepEvent::find($stepSettings->activeId),
+        ]);
+    }
+
+    public function podcast(StepSettings $stepSettings)
+    {
+        return Inertia::render('Events/Step/Podcast', [
+            'stepSettings' => $stepSettings,
         ]);
     }
 }

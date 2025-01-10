@@ -20,7 +20,7 @@ class StepVideoController extends Controller
     {
         return Inertia::render('Events/Step/Gallery', [
             'allEvents' => fn() => StepEvent::whereNotNull('videoContent')->orderByDesc('startDate')->get(),
-            'stepSettings' => fn() => $stepSettings,
+            'stepSettings' => $stepSettings,
         ]);
     }
 
