@@ -31,7 +31,7 @@ class StoreAssemblyVideoRequest extends FormRequest
             'month' => ['required', 'string'],
             'series' => ['required', 'string'],
             'imageLink' => ['string', 'nullable'],
-            'videoContent' => ['array', 'max:20', 'min:1'],
+            'videoContent' => ['array', 'max:20', 'min:1', 'required'],
             'videoContent.*.id' => ['required_with:videoContent'],
             'videoContent.*.title' => ['required_with:videoContent', 'string'],
             'videoContent.*.externalUrl' => ['required_with:videoContent', 'url'],
@@ -57,7 +57,7 @@ class StoreAssemblyVideoRequest extends FormRequest
     public function messages(): array
     {
         $videoContent = $this->input('videoContent');
-        if (! isset($videoContent)) {
+        if (!isset($videoContent)) {
             $messages['videoContent'] = 'Video Information not set';
         } else {
 

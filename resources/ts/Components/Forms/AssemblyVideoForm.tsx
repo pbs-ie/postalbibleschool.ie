@@ -1,17 +1,21 @@
 import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
-import FileInput from "@/Elements/Forms/FileInput";
 import InputLabel from "@/Elements/Forms/InputLabel";
 import TextInput from "@/Elements/Forms/TextInput";
 import ToastBanner from "@/Components/Forms/ToastBanner";
+import InputError from "@/Elements/Forms/InputError";
+import SelectInput from "@/Elements/Forms/SelectInput";
 
 import { usePage, useForm } from "@inertiajs/react";
-import { FormEvent, useEffect } from "react";
-
+import { FormEvent } from "react";
 import route from "ziggy-js";
-import VideoEditFormComponent from "../Video/VideoEditFormComponent";
-import ImagePreviewComponent from "./ImagePreviewComponent";
+
+import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
+import ImagePreviewComponent from "@/Components/Forms/ImagePreviewComponent";
+import LabelSpan from "@/Components/Typography/LabelSpan";
+import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
+import { monthNames } from "@/constants";
 
 type AssemblyVideoCreateProps = Omit<AssemblyVideoProps, "id">;
 
@@ -40,7 +44,7 @@ export default function AssemblyVideoForm({ videoData }: { videoData?: AssemblyV
     const { data, setData, post, reset, processing } = useForm(defaultFormObject);
 
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         switch (event.target.name) {
             case "title":
             case "month":
@@ -53,6 +57,13 @@ export default function AssemblyVideoForm({ videoData }: { videoData?: AssemblyV
             setData(event.target.name, event.target.files[0]);
         }
     }
+    const handleDrop = (event: React.DragEvent, name: string) => {
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (name === "imageFile" && (droppedFiles.length > 0)) {
+            setData(name, droppedFiles[0]);
+        }
+    };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -81,10 +92,12 @@ export default function AssemblyVideoForm({ videoData }: { videoData?: AssemblyV
                         <InputLabel forInput={"title"} value={"Title"} required />
                         <TextInput type={"text"} name={"title"} id={"title"} value={data.title} className={""} handleChange={handleChange} required />
                     </div>
-                    <div className="inline-flex gap-2">
+                    <div className="inline-flex items-center gap-2">
                         <InputLabel forInput={"month"} value={"Month"} required />
-                        <TextInput type={"text"} name={"month"} id={"month"} value={data.month} className={""} handleChange={handleChange} required />
-                        <p className="text-gray-600">//Full month name. E.g. "January"</p>
+                        <SelectInput name="month" id="month" value={data.month} handleChange={handleChange} required>
+                            <option key={"default"} value={""} disabled>--select month--</option>
+                            {monthNames.map((month, index) => <option key={index}>{month}</option>)}
+                        </SelectInput>
                     </div>
                     <div className="inline-flex items-end gap-2">
                         <InputLabel forInput={"series"} value={"series"} required />
@@ -101,11 +114,18 @@ export default function AssemblyVideoForm({ videoData }: { videoData?: AssemblyV
                         }
                     </div>
 
-                    <div className="inline-flex gap-2">
-                        <InputLabel forInput={"imageFile"} value={"Thumbnail Image"} required={!videoData} />
-                        <FileInput name={"imageFile"} id={"imageFile"} className={""} onChange={handleFileChange} accept="image/png" required={!videoData} />
+                    <div className="flex flex-col items-start gap-2 my-2 lg:flex-row">
+                        <div className="inline-flex flex-col gap-2">
+                            <FileUploadDropzone name={"imageFile"} labelText={"Thumbnail Image"} onDrop={(e) => handleDrop(e, 'imageFile')} onChange={handleFileChange} accept="image/png, image/jpeg" required />
+                            <InputError message={errors.imageFile} />
+                        </div>
+                        {(data.imageFile || data.imageLink) &&
+                            <div>
+                                <LabelSpan>Preview</LabelSpan>
+                                <ImagePreviewComponent imageFile={data.imageFile} imageLink={data.imageLink} />
+                            </div>
+                        }
                     </div>
-                    <ImagePreviewComponent imageFile={data.imageFile} imageLink={data.imageLink} />
                 </div>
                 <VideoEditFormComponent videoContent={videoData?.videoContent ?? []} setContent={setVideoContent} />
 
