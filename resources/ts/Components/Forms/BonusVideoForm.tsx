@@ -8,6 +8,7 @@ import ToastBanner from "@/Components/Forms/ToastBanner";
 import LabelSpan from "@/Components/Typography/LabelSpan";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import AnchorLink from "@/Components/Navigation/AnchorLink";
+import ImagePreviewComponent from "@/Components/Forms/ImagePreviewComponent";
 
 import ButtonLink from "@/Elements/Buttons/ButtonLink";
 import PrimaryButton from "@/Elements/Buttons/PrimaryButton";
@@ -127,7 +128,8 @@ export default function BonusVideoForm({ videoData }: { videoData?: BonusVideoPr
                         {(data.imageFile || data.imageLink) &&
                             <div>
                                 <LabelSpan>Preview</LabelSpan>
-                                <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : route('images.show', data.imageLink)} />
+                                <ImagePreviewComponent imageFile={data.imageFile} imageLink={data.imageLink} />
+
                             </div>
                         }
                     </div>

@@ -12,6 +12,7 @@ import VideoEditFormComponent from "@/Components/Video/VideoEditFormComponent";
 import VideoFilesEditComponent from "@/Components/Video/VideoFilesEditComponent";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import LabelSpan from "@/Components/Typography/LabelSpan";
+import ImagePreviewComponent from "@/Components/Forms/ImagePreviewComponent";
 
 import { FormEvent, useState } from "react";
 import route from "ziggy-js";
@@ -139,7 +140,7 @@ export default function NewStepEventForm({ currentEvent }: { currentEvent?: Step
                         {(data.imageLink || data.imageFile) &&
                             <div className="w-fit">
                                 <LabelSpan>Preview</LabelSpan>
-                                <img className="w-60" src={data.imageFile ? URL.createObjectURL(data.imageFile) : route('images.show', data.imageLink)} />
+                                <ImagePreviewComponent imageFile={data.imageFile} imageLink={data.imageLink} />
                                 {formErrors.imageFile &&
                                     <span className="flex items-center gap-1">
                                         <i className="font-bold text-red-500 motion-safe:animate-pulse">!!</i><InputError message={formErrors.imageFile} />

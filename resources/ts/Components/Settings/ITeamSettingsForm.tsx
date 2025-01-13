@@ -9,6 +9,7 @@ import UpdateFormButton from "@/Elements/Buttons/UpdateFormButton";
 import YesNoRadio from "@/Elements/Forms/YesNoRadio";
 import FileUploadDropzone from "@/Components/Forms/FileUploadDropzone";
 import LabelSpan from "@/Components/Typography/LabelSpan";
+import ImagePreviewComponent from "@/Components/Forms/ImagePreviewComponent";
 
 export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: ITeamSettingProps }) {
     const defaultData = {
@@ -80,7 +81,7 @@ export default function ITeamSettingsForm({ iteamSettings }: { iteamSettings: IT
                     </div>
                     <div>
                         <LabelSpan>Preview</LabelSpan>
-                        <img className="w-60" src={data.eventImage ? URL.createObjectURL(data.eventImage) : route('images.show', data.eventImageLink)} />
+                        <ImagePreviewComponent imageFile={data.eventImage} imageLink={data.eventImageLink} />
                     </div>
                 </div>
             </div>
