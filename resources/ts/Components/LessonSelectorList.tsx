@@ -19,8 +19,8 @@ export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphab
                 <Heading3>Bible Time Lessons</Heading3>
                 <div className="space-y-2">
                     {
-                        monthLessons.map((lesson, index) => (
-                            <LessonDownloadButton downloadLink={getDownloadLink(selectedSeriesAlphabet, lesson.tagCode, selectedMonth)} key={index} title={`${selectedSeriesAlphabet}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoSubText={lesson.tagSubText} infoText={lesson.tagName} infoClass={lesson.tagColor}></LessonDownloadButton>
+                        monthLessons.map((lesson) => (
+                            <LessonDownloadButton downloadLink={getDownloadLink(selectedSeriesAlphabet, lesson.tagCode, selectedMonth)} key={`${lesson.tagName}-${selectedMonth}`} title={`${selectedSeriesAlphabet}${selectedMonth + 1} - ${monthNames[selectedMonth]}`} infoSubText={lesson.tagSubText} infoText={lesson.tagName} infoClass={lesson.tagColor} />
                         ))
                     }
                 </div>
@@ -28,7 +28,7 @@ export default function LessonSelectorList({ selectedMonth, selectedSeriesAlphab
 
             <div className="mb-2">
                 <Heading3>School Assembly Video</Heading3>
-                <RedirectButtonWithPill title="Go to Assembly Videos" pillText="Online Presentation" pillClass="bg-blue-500" downloadLink={route('assembly.index')}></RedirectButtonWithPill>
+                <RedirectButtonWithPill title="Go to Assembly Videos" pillText="Online Presentation" pillClass="bg-blue-500" downloadLink={route('assembly.index')} />
             </div>
         </div>
     );

@@ -16,9 +16,9 @@ export interface responseLinks {
 }
 
 interface BesLinksType {
-    bibleTimeBySeries: any;
-    goingDeeperBySeries: any;
-    gleanersBySeries: any;
+    bibleTimeBySeries: { [property: string]: responseLinks };
+    goingDeeperBySeries: { [property: string]: responseLinks };
+    gleanersBySeries: { [property: string]: responseLinks };
 }
 
 const BES_GLOBALS: BesLinksType = {
@@ -27,7 +27,7 @@ const BES_GLOBALS: BesLinksType = {
     gleanersBySeries: {},
 };
 
-export const setAllBesLinks = function (bibleTimeValues: responseLinks, goingDeeperValues: responseLinks = {}, gleanersValues: responseLinks = {}) {
+export const setAllBesLinks = (bibleTimeValues: responseLinks, goingDeeperValues: responseLinks = {}, gleanersValues: responseLinks = {}) => {
     BES_GLOBALS.bibleTimeBySeries = groupedBySeriesBes(bibleTimeValues);
     if (Object.keys(goingDeeperValues).length !== 0) {
         BES_GLOBALS.goingDeeperBySeries = groupedBySeriesBes(goingDeeperValues);
@@ -38,14 +38,14 @@ export const setAllBesLinks = function (bibleTimeValues: responseLinks, goingDee
 }
 
 // Returns the download url for BES lessons from the BES links list
-export const getDownloadLink = function (seriesCode: string, tagCode: string, monthNumber: (number | string), type = "bibletime"): string {
+export const getDownloadLink = (seriesCode: string, tagCode: string, monthNumber: number, type = "bibletime"): string => {
     if (type === "bibletime") {
         return BES_GLOBALS.bibleTimeBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
     }
-    else if (type === "goingdeeper") {
+    if (type === "goingdeeper") {
         return BES_GLOBALS.goingDeeperBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
     }
-    else if (type === "gleaners") {
+    if (type === "gleaners") {
         return BES_GLOBALS.gleanersBySeries[seriesCode]?.[tagCode]?.[monthNumber]?.link ?? "";
 
     }
@@ -53,11 +53,11 @@ export const getDownloadLink = function (seriesCode: string, tagCode: string, mo
 };
 
 
-const getCurrentSeriesList = function (seriesCode: string, updateValues: responseLinks) {
-    let onlyTagged = {} as responseLinks;
+const getCurrentSeriesList = (seriesCode: string, updateValues: responseLinks) => {
+    const onlyTagged = {} as responseLinks;
     const besLinks = updateValues;
     for (const key in besLinks) {
-        let filtered = besLinks[key].filter((value: propertyItem) => value.series === seriesCode);
+        const filtered = besLinks[key].filter((value: propertyItem) => value.series === seriesCode).sort((a, b) => a.monthNumber - b.monthNumber);
         if (filtered.length === 0) {
             continue;
         }
@@ -71,20 +71,20 @@ const getCurrentSeriesList = function (seriesCode: string, updateValues: respons
     return onlyTagged;
 };
 
-const groupedBySeriesBes = function (updateValues: responseLinks) {
-    let pivot: { [property: string]: responseLinks } = {};
-    gleanersSeriesNames.forEach((series) => {
-        let currentList = getCurrentSeriesList(series.code, updateValues);
+const groupedBySeriesBes = (updateValues: responseLinks) => {
+    const pivot: { [property: string]: responseLinks } = {};
+    for (const series of gleanersSeriesNames) {
+        const currentList = getCurrentSeriesList(series.code, updateValues);
         if (Object.keys(currentList).length !== 0) {
             pivot[series.code] = currentList;
         }
-    });
+    }
     return pivot;
 };
 
 
 // Converts series number to corresponding alphabet
-export const getAlphabetFromNumber = function (num: number): string {
+export const getAlphabetFromNumber = (num: number): string => {
     return (num + 10).toString(36);
 };
 
@@ -92,12 +92,13 @@ export const getUpperCaseAlphabetFromNumber = (num: number): string => {
     return getAlphabetFromNumber(num).toUpperCase();
 }
 
-export const sortArrayById = (array: any[]) => array.sort((a, b) => a.id - b.id);
+export const sortArrayById = (array: Array<{ id: number } & Record<string, unknown>>) =>
+    array.sort((a, b) => a.id - b.id);
 
-export const getLastElementsOfArray = (array: any[], number: number) => array.slice(-1 * number);
+export const getLastElementsOfArray = (array: unknown[], number: number) => array.slice(-1 * number);
 
 export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size: Button["size"]) => {
-    let classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2".split(' ');
+    const classList: string[] = "inline-flex mt-1 items-center justify-center capitalize rounded font-medium leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2".split(' ');
 
     //Form entry related css
     classList.push(...("disabled:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-500 disabled:translate-y-0 disabled:drop-shadow-none disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 transition duration-500".split(' ')));
@@ -137,28 +138,28 @@ export const getButtonClassNamesAsString = (hierarchy: Button["hierarchy"], size
 }
 
 export const truncateString = (value: string, index: number) => {
-    return (value.length > index) ? value.slice(0, index - 1) + '…' : value;
+    return (value.length > index) ? `${value.slice(0, index - 1)}…` : value;
 };
 
 export const truncateStringEnd = (value: string, showLength: number) => {
-    return (value.length > showLength) ? '…' + value.slice(-1 * showLength) : value;
+    return (value.length > showLength) ? `…${value.slice(-1 * showLength)}` : value;
 };
 
-export const useScrollTo = (to: string, props: any) => {
+export const useScrollTo = (to: string, props: unknown) => {
     useEffect(() => {
         if (to && to !== "") {
             setTimeout(() => {
                 scroller.scrollTo(to, props)
             }, 100);
         }
-    }, [to]);
+    }, [to, props]);
 }
 
 export const modalHelper = () => {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [currentY, setCurrentY] = useState(0);
     const showModal = () => {
-        let tempY = Math.round(window.scrollY);
+        const tempY = Math.round(window.scrollY);
         setCurrentY(tempY);
         dialogRef.current?.showModal();
         document.body.style.position = 'fixed';
@@ -189,15 +190,15 @@ export const getDateRangeLongString = (startDate: string, endDate: string) => {
     const convertEndDate = (date: string) => {
         const newDate = new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
         return newDate.replace(/(\d+)(?=\s)/, (day) => {
-            return day + (getDaySuffix(parseInt(day)));
+            return day + (getDaySuffix(Number.parseInt(day)));
         })
     }
     const convertStartDate = (date: string) => {
         const newDate = new Date(date).toLocaleDateString('en-GB', { day: '2-digit' });
-        return newDate + (getDaySuffix(parseInt(newDate)));
+        return newDate + (getDaySuffix(Number.parseInt(newDate)));
     }
 
-    return convertStartDate(startDate) + " - " + convertEndDate(endDate)
+    return `${convertStartDate(startDate)} - ${convertEndDate(endDate)}`
 
 }
 

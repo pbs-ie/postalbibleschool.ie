@@ -7,8 +7,8 @@ import BibleTimeLessons from "@images/lessons/lessons-fan-english.png";
 import GoingDeeperLessons from "@images/lessons/goingdeeper-fan.png";
 import GleanersLessons from "@images/lessons/gleaners-lessons.png";
 import Paragraph from "@/Components/Typography/Paragraph";
-import { ErrorBag, Errors, PageProps } from "@inertiajs/core/types/types";
-import { Config } from "ziggy-js";
+import type { ErrorBag, Errors, PageProps } from "@inertiajs/core/types/types";
+import type { Config } from "ziggy-js";
 
 declare global {
     interface Window {
