@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { scroller } from 'react-scroll';
 
 import { courseContent } from '@/constants';
-import { responseLinks, setAllBesLinks, useScrollTo } from '@/helper';
+import { type responseLinks, setAllBesLinks, useScrollTo } from '@/helper';
 
 import WrapperLayout from '@/Layouts/WrapperLayout';
 
@@ -18,6 +18,7 @@ import ParagraphContainer from '@/Components/Typography/ParagraphContainer';
 
 
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleanersDownloads, queryParams }: { bibleTimeDownloads: responseLinks, goingDeeperDownloads: responseLinks, gleanersDownloads: responseLinks, queryParams: any }) {
     useEffect(() => {
         try {
@@ -47,19 +48,19 @@ export default function Index({ bibleTimeDownloads, goingDeeperDownloads, gleane
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                     {
                         courseContent.map((course, index) => (
-                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} scrollTo={course.scrollTo}></CourseCard>
+                            <CourseCard key={course.heading} heading={course.heading} type={course.type} description={course.description} image={course.image} scrollTo={course.scrollTo} />
                         ))
                     }
                 </div>
             </section>
 
             <div className="py-12 mx-auto max-w-screen sm:px-10 bg-sky-100">
-                <LessonSelectorComponent></LessonSelectorComponent>
+                <LessonSelectorComponent />
             </div>
             <RequestLessonBanner />
             {
                 courseContent.map((course) => (
-                    <LessonDownloadListSection key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type}></LessonDownloadListSection>
+                    <LessonDownloadListSection key={course.type} heading={course.heading} description={course.longDescription ?? course.description} type={course.type} />
                 ))
             }
         </WrapperLayout>
