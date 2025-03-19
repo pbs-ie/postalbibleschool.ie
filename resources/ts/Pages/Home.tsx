@@ -1,6 +1,6 @@
 import LessonSelectorList from "@/Components/LessonSelectorList"
 import WrapperLayout from "@/Layouts/WrapperLayout"
-import { getUpperCaseAlphabetFromNumber, responseLinks, setAllBesLinks } from "@/helper";
+import { getUpperCaseAlphabetFromNumber, type responseLinks, setAllBesLinks } from "@/helper";
 import { courseContent, getCurrentMonthNumber, getCurrentSeriesNumber, monthNames, seriesNames } from "@/constants";
 import { Head, usePage } from "@inertiajs/react";
 import route from "ziggy-js";
@@ -21,8 +21,8 @@ import Heading2 from "@/Components/Typography/Heading2";
 import { useEffect, useState } from "react";
 import Heading2Alt from "@/Components/Typography/Heading2Alt";
 import BannerComponent from "@/Components/BannerComponent";
-import { AssemblyVideoProps } from "@/Pages/Assembly/Index";
-import { EventsSettingsProps } from "./Settings/Events";
+import type { AssemblyVideoProps } from "@/Pages/Assembly/Index";
+import type { EventsSettingsProps } from "./Settings/Events";
 
 export default function Home({ bibleTimeDownloads, videoList = [], canViewGallery = false, eventsSettings }: { bibleTimeDownloads: responseLinks, videoList: AssemblyVideoProps[], canViewGallery: boolean, eventsSettings: EventsSettingsProps }): JSX.Element {
     try {
@@ -58,7 +58,7 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
                 <BannerComponent setShowBanner={setShowBanner} />
             }
             <section className="relative flex w-full">
-                <div className={`relative h-fit flex justify-center align-middle bg-sky-100 lg:bg-slate-50/70`}>
+                <div className={"relative h-fit flex justify-center align-middle bg-sky-100 lg:bg-slate-50/70"}>
                     <div className="absolute">
                         <img src={BibletimeBanner} alt="" className="relative flex justify-center flex-1 invisible align-middle pointer-events-none -z-50 lg:visible lg:h-[calc(100vh+5rem)] lg:w-auto lg:aspect-auto lg:-top-20" />
                     </div>
@@ -76,7 +76,7 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
                         </div>
                         <div className="bg-white md:col-span-1 md:row-span-1">
                             <LandingCards
-                                heading={<p>Prize<wbr></wbr>givings {eventsSettings.prizegivings_isActive ? eventsSettings.prizegivings_year : ""}</p>}
+                                heading={<p>Prize<wbr />givings {eventsSettings.prizegivings_isActive ? eventsSettings.prizegivings_year : ""}</p>}
                                 content={eventsSettings.prizegivings_isActive ? "Find dates and locations." : "Click details to know more"}
                                 className="border-4"
                                 buttonText="Details"
@@ -110,8 +110,8 @@ export default function Home({ bibleTimeDownloads, videoList = [], canViewGaller
                 <Heading2>Courses</Heading2>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:flex-row">
                     {
-                        courseContent.map((course, index) => (
-                            <CourseCard key={index} heading={course.heading} type={course.type} description={course.description} image={course.image} buttonText={course.buttonText}></CourseCard>
+                        courseContent.map((course) => (
+                            <CourseCard key={course.heading} heading={course.heading} type={course.type} description={course.description} image={course.image} buttonText={course.buttonText} />
                         ))
                     }
                 </div>
