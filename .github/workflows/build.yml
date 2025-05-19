@@ -51,7 +51,6 @@ jobs:
     environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
     permissions:
       contents: read
-      secrets: read
     steps:
       - uses: actions/download-artifact@v4
         with:
