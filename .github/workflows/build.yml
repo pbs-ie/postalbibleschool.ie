@@ -4,6 +4,9 @@ on:
   push:
     branches: ["staging", "main"]
 
+permissions:
+  contents: read
+
 jobs:
   create-deployment-artifacts:
     name: Create Deployment artifacts
@@ -46,6 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-deployment-artifacts]
     environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
+    permissions:
+      contents: read
+      secrets: read
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -89,6 +95,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-deployment-artifacts, prepare-release-on-server]
     environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
+    permissions:
+      contents: read
     steps:
       - name: Activate release
         uses: appleboy/ssh-action@v1.0.3
