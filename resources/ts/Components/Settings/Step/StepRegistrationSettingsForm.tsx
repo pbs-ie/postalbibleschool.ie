@@ -60,6 +60,7 @@ export default function StepRegistrationSettingsForm({ stepSettings, eventOption
             case "standardCost":
             case "concessionCost":
             case "activeId":
+            case "embedLink":
             case "upcomingId1":
             case "upcomingId2":
             case "upcomingId3":
