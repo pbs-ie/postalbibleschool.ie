@@ -65,7 +65,7 @@ define('HDOM_INFO_ENDSPACE', 7);
 define('DEFAULT_TARGET_CHARSET', 'UTF-8');
 define('DEFAULT_BR_TEXT', "\r\n");
 define('DEFAULT_SPAN_TEXT', ' ');
-if (! defined('MAX_FILE_SIZE')) {
+if (!defined('MAX_FILE_SIZE')) {
     define('MAX_FILE_SIZE', 600000);
 }
 // helper functions
@@ -166,11 +166,11 @@ class simple_html_dom_node
     {
         $lead = str_repeat('    ', $deep);
 
-        echo $lead.$this->tag;
+        echo $lead . $this->tag;
         if ($show_attr && count($this->attr) > 0) {
             echo '(';
             foreach ($this->attr as $k => $v) {
-                echo "[$k]=>\"".$this->$k.'", ';
+                echo "[$k]=>\"" . $this->$k . '", ';
             }
             echo ')';
         }
@@ -201,7 +201,7 @@ class simple_html_dom_node
     // verify that node has children
     public function has_child()
     {
-        return ! empty($this->children);
+        return !empty($this->children);
     }
 
     // returns children of node
@@ -285,9 +285,9 @@ class simple_html_dom_node
         // Start by including ourselves in the comparison.
         $returnDom = $this;
 
-        while (! is_null($returnDom)) {
+        while ($returnDom !== null) {
             if (is_object($debugObject)) {
-                $debugObject->debugLog(2, 'Current tag is: '.$returnDom->tag);
+                $debugObject->debugLog(2, 'Current tag is: ' . $returnDom->tag);
             }
 
             if ($returnDom->tag == $tag) {
@@ -324,11 +324,11 @@ class simple_html_dom_node
         if (is_object($debugObject)) {
             $text = '';
             if ($this->tag == 'text') {
-                if (! empty($this->text)) {
-                    $text = ' with text: '.$this->text;
+                if (!empty($this->text)) {
+                    $text = ' with text: ' . $this->text;
                 }
             }
-            $debugObject->debugLog(1, 'Innertext of tag: '.$this->tag.$text);
+            $debugObject->debugLog(1, 'Innertext of tag: ' . $this->tag . $text);
         }
 
         if ($this->tag === 'root') {
@@ -370,7 +370,7 @@ class simple_html_dom_node
 
         // render end tag
         if (isset($this->_[HDOM_INFO_END]) && $this->_[HDOM_INFO_END] != 0) {
-            $ret .= '</'.$this->tag.'>';
+            $ret .= '</' . $this->tag . '>';
         }
 
         return $ret;
@@ -401,7 +401,7 @@ class simple_html_dom_node
         // In rare cases, (always node type 1 or HDOM_TYPE_ELEMENT - observed for some span tags, and some p tags) $this->nodes is set to NULL.
         // NOTE: This indicates that there is a problem where it's set to NULL without a clear happening.
         // WHY is this happening?
-        if (! is_null($this->nodes)) {
+        if ($this->nodes !== null) {
             foreach ($this->nodes as $n) {
                 $ret .= $this->convert_text($n->text());
             }
@@ -433,7 +433,7 @@ class simple_html_dom_node
             return $this->dom->restore_noise($this->_[HDOM_INFO_TEXT]);
         }
 
-        $ret = '<'.$this->tag;
+        $ret = '<' . $this->tag;
         $i = -1;
 
         foreach ($this->attr as $key => $val) {
@@ -459,12 +459,12 @@ class simple_html_dom_node
                     default:
                         $quote = '';
                 }
-                $ret .= $key.$this->_[HDOM_INFO_SPACE][$i][1].'='.$this->_[HDOM_INFO_SPACE][$i][2].$quote.$val.$quote;
+                $ret .= $key . $this->_[HDOM_INFO_SPACE][$i][1] . '=' . $this->_[HDOM_INFO_SPACE][$i][2] . $quote . $val . $quote;
             }
         }
         $ret = $this->dom->restore_noise($ret);
 
-        return $ret.$this->_[HDOM_INFO_ENDSPACE].'>';
+        return $ret . $this->_[HDOM_INFO_ENDSPACE] . '>';
     }
 
     /**
@@ -491,7 +491,7 @@ class simple_html_dom_node
             if (($levle = count($selectors[$c])) === 0) {
                 return [];
             }
-            if (! isset($this->_[HDOM_INFO_BEGIN])) {
+            if (!isset($this->_[HDOM_INFO_BEGIN])) {
                 return [];
             }
 
@@ -509,7 +509,7 @@ class simple_html_dom_node
             }
 
             foreach ($head as $k => $v) {
-                if (! isset($found_keys[$k])) {
+                if (!isset($found_keys[$k])) {
                     $found_keys[$k] = 1;
                 }
             }
@@ -524,13 +524,13 @@ class simple_html_dom_node
         }
 
         // return nth-element or array
-        if (is_null($idx)) {
+        if ($idx === null) {
             return $found;
         } elseif ($idx < 0) {
             $idx = count($found) + $idx;
         }
 
-        return (isset($found[$idx])) ? $found[$idx] : null;
+        return $found[$idx] ?? null;
     }
 
     // seek for given conditions
@@ -560,10 +560,10 @@ class simple_html_dom_node
             return;
         }
 
-        $end = (! empty($this->_[HDOM_INFO_END])) ? $this->_[HDOM_INFO_END] : 0;
+        $end = (!empty($this->_[HDOM_INFO_END])) ? $this->_[HDOM_INFO_END] : 0;
         if ($end == 0) {
             $parent = $this->parent;
-            while (! isset($parent->_[HDOM_INFO_END]) && $parent !== null) {
+            while (!isset($parent->_[HDOM_INFO_END]) && $parent !== null) {
                 $end -= 1;
                 $parent = $parent->parent;
             }
@@ -575,7 +575,7 @@ class simple_html_dom_node
 
             $pass = true;
 
-            if ($tag === '*' && ! $key) {
+            if ($tag === '*' && !$key) {
                 if (in_array($node, $this->children, true)) {
                     $ret[$i] = 1;
                 }
@@ -594,7 +594,7 @@ class simple_html_dom_node
                         $pass = false;
                     }
                 } else {
-                    if (($key != 'plaintext') && ! isset($node->attr[$key])) {
+                    if (($key != 'plaintext') && !isset($node->attr[$key])) {
                         $pass = false;
                     }
                 }
@@ -610,7 +610,7 @@ class simple_html_dom_node
                     $nodeKeyValue = $node->attr[$key];
                 }
                 if (is_object($debugObject)) {
-                    $debugObject->debugLog(2, 'testing node: '.$node->tag.' for attribute: '.$key.$exp.$val.' where nodes value is: '.$nodeKeyValue);
+                    $debugObject->debugLog(2, 'testing node: ' . $node->tag . ' for attribute: ' . $key . $exp . $val . ' where nodes value is: ' . $nodeKeyValue);
                 }
 
                 // PaperG - If lowercase is set, do a case insensitive test of the value of the selector.
@@ -620,14 +620,14 @@ class simple_html_dom_node
                     $check = $this->match($exp, $val, $nodeKeyValue);
                 }
                 if (is_object($debugObject)) {
-                    $debugObject->debugLog(2, 'after match: '.($check ? 'true' : 'false'));
+                    $debugObject->debugLog(2, 'after match: ' . ($check ? 'true' : 'false'));
                 }
 
                 // handle multiple class
-                if (! $check && strcasecmp($key, 'class') === 0) {
+                if (!$check && strcasecmp($key, 'class') === 0) {
                     foreach (explode(' ', $node->attr[$key]) as $k) {
                         // Without this, there were cases where leading, trailing, or double spaces lead to our comparing blanks - bad form.
-                        if (! empty($k)) {
+                        if (!empty($k)) {
                             if ($lowercase) {
                                 $check = $this->match($exp, strtolower($val), strtolower($k));
                             } else {
@@ -639,7 +639,7 @@ class simple_html_dom_node
                         }
                     }
                 }
-                if (! $check) {
+                if (!$check) {
                     $pass = false;
                 }
             }
@@ -667,15 +667,15 @@ class simple_html_dom_node
             case '!=':
                 return $value !== $pattern;
             case '^=':
-                return preg_match('/^'.preg_quote($pattern, '/').'/', $value);
+                return preg_match('/^' . preg_quote($pattern, '/') . '/', $value);
             case '$=':
-                return preg_match('/'.preg_quote($pattern, '/').'$/', $value);
+                return preg_match('/' . preg_quote($pattern, '/') . '$/', $value);
             case '*=':
                 if ($pattern[0] == '/') {
                     return preg_match($pattern, $value);
                 }
 
-                return preg_match('/'.$pattern.'/i', $value);
+                return preg_match('/' . $pattern . '/i', $value);
         }
 
         return false;
@@ -696,7 +696,7 @@ class simple_html_dom_node
         // farther study is required to determine of this should be documented or removed.
         //        $pattern = "/([\w-:\*]*)(?:\#([\w-]+)|\.([\w-]+))?(?:\[@?(!?[\w-]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
         $pattern = "/([\w\-:\*]*)(?:\#([\w\-]+)|\.([\w\-]+))?(?:\[@?(!?[\w\-:]+)(?:([!*^$]?=)[\"']?(.*?)[\"']?)?\])?([\/, ]+)/is";
-        preg_match_all($pattern, trim($selector_string).' ', $matches, PREG_SET_ORDER);
+        preg_match_all($pattern, trim($selector_string) . ' ', $matches, PREG_SET_ORDER);
         if (is_object($debugObject)) {
             $debugObject->debugLog(2, 'Matches Array: ', $matches);
         }
@@ -716,28 +716,28 @@ class simple_html_dom_node
             }
 
             [$tag, $key, $val, $exp, $no_key] = [$m[1], null, null, '=', false];
-            if (! empty($m[2])) {
+            if (!empty($m[2])) {
                 $key = 'id';
                 $val = $m[2];
             }
-            if (! empty($m[3])) {
+            if (!empty($m[3])) {
                 $key = 'class';
                 $val = $m[3];
             }
-            if (! empty($m[4])) {
+            if (!empty($m[4])) {
                 $key = $m[4];
             }
-            if (! empty($m[5])) {
+            if (!empty($m[5])) {
                 $exp = $m[5];
             }
-            if (! empty($m[6])) {
+            if (!empty($m[6])) {
                 $val = $m[6];
             }
 
             // convert to lowercase
             if ($this->dom->lowercase) {
                 $tag = strtolower($tag);
-                $key = strtolower($key);
+                $key = $key !== null ? strtolower($key) : null;
             }
             // elements that do NOT have the specified attribute
             if (isset($key[0]) && $key[0] === '!') {
@@ -789,7 +789,7 @@ class simple_html_dom_node
 
                 return $this->_[HDOM_INFO_INNER] = $value;
         }
-        if (! isset($this->attr[$name])) {
+        if (!isset($this->attr[$name])) {
             $this->_[HDOM_INFO_SPACE][] = [' ', '', ''];
             $this->_[HDOM_INFO_QUOTE][] = HDOM_QUOTE_DOUBLE;
         }
@@ -836,10 +836,10 @@ class simple_html_dom_node
             $targetCharset = strtoupper($this->dom->_target_charset);
         }
         if (is_object($debugObject)) {
-            $debugObject->debugLog(3, 'source charset: '.$sourceCharset.' target charaset: '.$targetCharset);
+            $debugObject->debugLog(3, 'source charset: ' . $sourceCharset . ' target charaset: ' . $targetCharset);
         }
 
-        if (! empty($sourceCharset) && ! empty($targetCharset) && (strcasecmp($sourceCharset, $targetCharset) != 0)) {
+        if (!empty($sourceCharset) && !empty($targetCharset) && (strcasecmp($sourceCharset, $targetCharset) != 0)) {
             // Check if the reported encoding could have been incorrect and the text is actually already UTF-8
             if ((strcasecmp($targetCharset, 'UTF-8') == 0) && ($this->is_utf8($text))) {
                 $converted_text = $text;
@@ -960,7 +960,7 @@ class simple_html_dom_node
             // If there is a width in the style attributes:
             if (isset($attributes['width']) && $width == -1) {
                 // check that the last two characters are px (pixels)
-                if (strtolower(substr($attributes['width'], -2)) == 'px') {
+                if (($attributes['width'] !== null) && strtolower(substr($attributes['width'], -2)) == 'px') {
                     $proposed_width = substr($attributes['width'], 0, -2);
                     // Now make sure that it's an integer and not something stupid.
                     if (filter_var($proposed_width, FILTER_VALIDATE_INT)) {
@@ -972,7 +972,7 @@ class simple_html_dom_node
             // If there is a width in the style attributes:
             if (isset($attributes['height']) && $height == -1) {
                 // check that the last two characters are px (pixels)
-                if (strtolower(substr($attributes['height'], -2)) == 'px') {
+                if (($attributes['height'] !== null) && strtolower(substr($attributes['height'], -2)) == 'px') {
                     $proposed_height = substr($attributes['height'], 0, -2);
                     // Now make sure that it's an integer and not something stupid.
                     if (filter_var($proposed_height, FILTER_VALIDATE_INT)) {
@@ -1177,7 +1177,7 @@ class simple_html_dom
             }
         }
         // Forcing tags to be closed implies that we don't trust the html, but it can lead to parsing errors if we SHOULD trust the html.
-        if (! $forceTagsClosed) {
+        if (!$forceTagsClosed) {
             $this->optional_closing_array = [];
         }
         $this->_target_charset = $target_charset;
@@ -1215,7 +1215,8 @@ class simple_html_dom
         $this->remove_noise("'(\{\w)(.*?)(\})'s", true);
 
         // parsing
-        while ($this->parse());
+        while ($this->parse())
+            ;
         // end
         $this->root->_[HDOM_INFO_END] = $this->cursor;
         $this->parse_charset();
@@ -1367,7 +1368,7 @@ class simple_html_dom
             if ($success) {
                 $charset = $matches[1];
                 if (is_object($debugObject)) {
-                    $debugObject->debugLog(2, 'header content-type found charset of: '.$charset);
+                    $debugObject->debugLog(2, 'header content-type found charset of: ' . $charset);
                 }
             }
 
@@ -1375,13 +1376,13 @@ class simple_html_dom
 
         if (empty($charset)) {
             $el = $this->root->find('meta[http-equiv=Content-Type]', 0);
-            if (! empty($el)) {
+            if (!empty($el)) {
                 $fullvalue = $el->content;
                 if (is_object($debugObject)) {
-                    $debugObject->debugLog(2, 'meta content-type tag found'.$fullvalue);
+                    $debugObject->debugLog(2, 'meta content-type tag found' . $fullvalue);
                 }
 
-                if (! empty($fullvalue)) {
+                if (!empty($fullvalue)) {
                     $success = preg_match('/charset=(.+)/', $fullvalue, $matches);
                     if ($success) {
                         $charset = $matches[1];
@@ -1399,9 +1400,9 @@ class simple_html_dom
         // If we couldn't find a charset above, then lets try to detect one based on the text we got...
         if (empty($charset)) {
             // Have php try to detect the encoding from the text given to us.
-            $charset = mb_detect_encoding($this->root->plaintext.'ascii', $encoding_list = ['UTF-8', 'CP1252']);
+            $charset = mb_detect_encoding($this->root->plaintext . 'ascii', $encoding_list = ['UTF-8', 'CP1252']);
             if (is_object($debugObject)) {
-                $debugObject->debugLog(2, 'mb_detect found: '.$charset);
+                $debugObject->debugLog(2, 'mb_detect found: ' . $charset);
             }
 
             // and if this doesn't work...  then we need to just wrongheadedly assume it's UTF-8 so that we can move on - cause this will usually give us most of what we need...
@@ -1414,15 +1415,15 @@ class simple_html_dom
         }
 
         // Since CP1252 is a superset, if we get one of it's subsets, we want it instead.
-        if ((strtolower($charset) == strtolower('ISO-8859-1')) || (strtolower($charset) == strtolower('Latin1')) || (strtolower($charset) == strtolower('Latin-1'))) {
+        if ((is_string($charset) && (strtolower($charset) == strtolower('ISO-8859-1') || strtolower($charset) == strtolower('Latin1') || strtolower($charset) == strtolower('Latin-1')))) {
             if (is_object($debugObject)) {
-                $debugObject->debugLog(2, 'replacing '.$charset.' with CP1252 as its a superset');
+                $debugObject->debugLog(2, 'replacing ' . $charset . ' with CP1252 as its a superset');
             }
             $charset = 'CP1252';
         }
 
         if (is_object($debugObject)) {
-            $debugObject->debugLog(1, 'EXIT - '.$charset);
+            $debugObject->debugLog(1, 'EXIT - ' . $charset);
         }
 
         return $this->_charset = $charset;
@@ -1513,7 +1514,7 @@ class simple_html_dom
 
         // doctype, cdata & comments...
         if (isset($tag[0]) && $tag[0] === '!') {
-            $node->_[HDOM_INFO_TEXT] = '<'.$tag.$this->copy_until_char('>');
+            $node->_[HDOM_INFO_TEXT] = '<' . $tag . $this->copy_until_char('>');
 
             if (isset($tag[2]) && $tag[1] === '-' && $tag[2] === '-') {
                 $node->nodetype = HDOM_TYPE_COMMENT;
@@ -1533,7 +1534,7 @@ class simple_html_dom
 
         // text
         if ($pos = strpos($tag, '<') !== false) {
-            $tag = '<'.substr($tag, 0, -1);
+            $tag = '<' . substr($tag, 0, -1);
             $node->_[HDOM_INFO_TEXT] = $tag;
             $this->link_nodes($node, false);
             $this->char = $this->doc[--$this->pos]; // prev
@@ -1541,8 +1542,8 @@ class simple_html_dom
             return true;
         }
 
-        if (! preg_match("/^[\w\-:]+$/", $tag)) {
-            $node->_[HDOM_INFO_TEXT] = '<'.$tag.$this->copy_until('<>');
+        if (!preg_match("/^[\w\-:]+$/", $tag)) {
+            $node->_[HDOM_INFO_TEXT] = '<' . $tag . $this->copy_until('<>');
             if ($this->char === '<') {
                 $this->link_nodes($node, false);
 
@@ -1561,7 +1562,7 @@ class simple_html_dom
         // begin tag
         $node->nodetype = HDOM_TYPE_ELEMENT;
         $tag_lower = strtolower($tag);
-        $node->tag = ($this->lowercase) ? $tag_lower : $tag;
+        $node->tag = $this->lowercase ? (is_string($tag_lower) ? strtolower($tag_lower) : $tag_lower) : $tag;
 
         // handle optional closing tags
         if (isset($this->optional_closing_tags[$tag_lower])) {
@@ -1592,7 +1593,7 @@ class simple_html_dom
             if ($this->pos >= $this->size - 1 && $this->char !== '>') {
                 $node->nodetype = HDOM_TYPE_TEXT;
                 $node->_[HDOM_INFO_END] = 0;
-                $node->_[HDOM_INFO_TEXT] = '<'.$tag.$space[0].$name;
+                $node->_[HDOM_INFO_TEXT] = '<' . $tag . $space[0] . $name;
                 $node->tag = 'text';
                 $this->link_nodes($node, false);
 
@@ -1617,7 +1618,7 @@ class simple_html_dom
                 $space[1] = $this->copy_skip($this->token_blank);
                 $name = $this->restore_noise($name);
                 if ($this->lowercase) {
-                    $name = strtolower($name);
+                    $name = is_string($name) ? strtolower($name) : $name;
                 }
                 if ($this->char === '=') {
                     $this->char = (++$this->pos < $this->size) ? $this->doc[$this->pos] : null; // next
@@ -1646,7 +1647,7 @@ class simple_html_dom
             $node->_[HDOM_INFO_END] = 0;
         } else {
             // reset parent
-            if (! isset($this->self_closing_tags[strtolower($node->tag)])) {
+            if (!isset($this->self_closing_tags[strtolower($node->tag)])) {
                 $this->parent = $node;
             }
         }
@@ -1713,7 +1714,7 @@ class simple_html_dom
     {
         $node = new simple_html_dom_node($this);
         $this->cursor++;
-        $node->_[HDOM_INFO_TEXT] = '</'.$tag.'>';
+        $node->_[HDOM_INFO_TEXT] = '</' . $tag . '>';
         $this->link_nodes($node, false);
         $this->char = (++$this->pos < $this->size) ? $this->doc[$this->pos] : null; // next
 
@@ -1819,9 +1820,9 @@ class simple_html_dom
         $count = preg_match_all($pattern, $this->doc, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
         for ($i = $count - 1; $i > -1; $i--) {
-            $key = '___noise___'.sprintf('% 5d', count($this->noise) + 1000);
+            $key = '___noise___' . sprintf('% 5d', count($this->noise) + 1000);
             if (is_object($debugObject)) {
-                $debugObject->debugLog(2, 'key is: '.$key);
+                $debugObject->debugLog(2, 'key is: ' . $key);
             }
             $idx = ($remove_tag) ? 0 : 1;
             $this->noise[$key] = $matches[$i][$idx][0];
@@ -1846,20 +1847,20 @@ class simple_html_dom
         while (($pos = strpos($text, '___noise___')) !== false) {
             // Sometimes there is a broken piece of markup, and we don't GET the pos+11 etc... token which indicates a problem outside of us...
             if (strlen($text) > $pos + 15) {
-                $key = '___noise___'.$text[$pos + 11].$text[$pos + 12].$text[$pos + 13].$text[$pos + 14].$text[$pos + 15];
+                $key = '___noise___' . $text[$pos + 11] . $text[$pos + 12] . $text[$pos + 13] . $text[$pos + 14] . $text[$pos + 15];
                 if (is_object($debugObject)) {
-                    $debugObject->debugLog(2, 'located key of: '.$key);
+                    $debugObject->debugLog(2, 'located key of: ' . $key);
                 }
 
                 if (isset($this->noise[$key])) {
-                    $text = substr($text, 0, $pos).$this->noise[$key].substr($text, $pos + 16);
+                    $text = substr($text, 0, $pos) . $this->noise[$key] . substr($text, $pos + 16);
                 } else {
                     // do this to prevent an infinite loop.
-                    $text = substr($text, 0, $pos).'UNDEFINED NOISE FOR KEY: '.$key.substr($text, $pos + 16);
+                    $text = substr($text, 0, $pos) . 'UNDEFINED NOISE FOR KEY: ' . $key . substr($text, $pos + 16);
                 }
             } else {
                 // There is no valid key being given back to us... We must get rid of the ___noise___ or we will have a problem.
-                $text = substr($text, 0, $pos).'NO NUMERIC NOISE KEY'.substr($text, $pos + 11);
+                $text = substr($text, 0, $pos) . 'NO NUMERIC NOISE KEY' . substr($text, $pos + 11);
             }
         }
 
