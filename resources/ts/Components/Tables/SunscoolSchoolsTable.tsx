@@ -27,11 +27,13 @@ export default function SunscoolSchoolsTable({ schools }: { schools: SunscoolSch
                 return (
                     <div key={'actions' + row.id} className="flex items-center">
                         <>
-                            <IconHoverSpan>
-                                <ButtonLink dataTest="school_open_icon" hierarchy="transparent" size="xsmall" href={route("settings.sunscool.classroom", { schoolId: row.original.id, classroomId: row.original.classes[0].id })}><span className="flex flex-col items-center">
-                                    <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
-                                </span></ButtonLink>
-                            </IconHoverSpan>
+                            {row.original.classes?.length > 0 &&
+                                <IconHoverSpan>
+                                    <ButtonLink dataTest="school_open_icon" hierarchy="transparent" size="xsmall" href={route("settings.sunscool.classroom", { schoolId: row.original.id, classroomId: row.original.classes[0].id })}><span className="flex flex-col items-center">
+                                        <FolderOpenIcon className="w-6 h-6" key={row.id} />Open
+                                    </span></ButtonLink>
+                                </IconHoverSpan>
+                            }
                         </>
                     </div>
                 )
