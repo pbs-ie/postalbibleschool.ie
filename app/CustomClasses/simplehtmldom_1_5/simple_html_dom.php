@@ -1,6 +1,6 @@
 <?php
 
-namespace simplehtmldom_1_5;
+namespace App\CustomClasses;
 
 /**
  * Website: http://sourceforge.net/projects/simplehtmldom/
