@@ -13,7 +13,7 @@
         "doctrine/dbal": "^3.9",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "2.x",
-        "laravel/framework": "*",
+        "laravel/framework": "10.48.29",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
