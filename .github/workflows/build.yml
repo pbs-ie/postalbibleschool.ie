@@ -24,11 +24,10 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Create .env file for build
+          node-version: 20
+      - name: Node installation
+        run: npm ci
+      - name: Create .env file for builds
         run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
       - name: Build steps
         run: |
