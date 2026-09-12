@@ -2,29 +2,39 @@
     "compilerOptions": {
         "target": "ESNext",
         "useDefineForClassFields": true,
-        "module": "ESNext",
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "module": "EsNext",
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ],
         "jsx": "react-jsx",
         "noEmit": true,
         "isolatedModules": true,
         "allowJs": true,
-
         "strict": true,
         "noImplicitAny": true,
-
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "baseUrl": "./",
+        "moduleResolution": "bundler",
         "paths": {
-            "@/*": ["resources/ts/*"],
-            "@images/*": ["resources/images/*"],
-            "@ziggy/*": ["vendor/tightenco/ziggy/*"],
-            "test-utils": ["resources/ts/tests/utils/test-utils"]
+            "@/*": [
+                "./resources/ts/*"
+            ],
+            "@images/*": [
+                "./resources/images/*"
+            ],
+            "@ziggy/*": [
+                "./vendor/tightenco/ziggy/*"
+            ],
+            "test-utils": [
+                "./resources/ts/tests/utils/test-utils"
+            ]
         },
-        "types": ["vite/client", "jest"],
+        "types": [
+            "vite/client",
+            "jest"
+        ],
         "esModuleInterop": true,
         "skipLibCheck": true,
-
         "forceConsistentCasingInFileNames": true
     },
     "include": [
@@ -33,5 +43,10 @@
         "jest-setup.ts",
         "vendor/tightenco/**/*"
     ],
-    "exclude": ["cypress.config.ts", "cypress", "node_modules", "public"]
+    "exclude": [
+        "cypress.config.ts",
+        "cypress",
+        "node_modules",
+        "public"
+    ]
 }

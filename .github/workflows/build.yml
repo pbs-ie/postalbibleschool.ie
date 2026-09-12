@@ -12,18 +12,27 @@ jobs:
     name: Create Deployment artifacts
     runs-on: ubuntu-latest
     environment: ${{ contains(github.ref_name, 'main') && 'production' || 'staging'}}
+    strategy:
+      matrix:
+        node-version: [20]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 20
-      - name: Node installation
-        run: npm ci
+          version: 10
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
       - name: Create .env file for build
         run: printf "%s\n" "${{secrets.LARAVEL_ENV}}" > .env
       - name: Build steps
         run: |
-          npm run build
+          pnpm build
       - name: Configure PHP 8.1
         uses: shivammathur/setup-php@v2
         with:
