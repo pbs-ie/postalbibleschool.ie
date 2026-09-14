@@ -13,15 +13,15 @@
         "doctrine/dbal": "^3.9",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "2.x",
-        "laravel/framework": "^11.56",
-        "laravel/sanctum": "^4.3",
-        "laravel/tinker": "^3.0",
+        "laravel/framework": "10.48.29",
+        "laravel/sanctum": "^3.3",
+        "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "matatirosoln/fm-cloud-authentication": "*",
         "spatie/laravel-settings": "^3.3",
-        "symfony/brevo-mailer": "^6.0",
         "symfony/http-client": "^6.0",
-        "tightenco/ziggy": "2.6.2"
+        "symfony/brevo-mailer": "^6.0",
+        "tightenco/ziggy": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
