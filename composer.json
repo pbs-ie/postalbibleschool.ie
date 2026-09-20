@@ -9,19 +9,19 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "auth0/login": "~7.22",
+        "auth0/login": "^7.12",
         "doctrine/dbal": "^3.9",
         "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "2.x",
+        "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "10.48.29",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
-        "matatirosoln/fm-cloud-authentication": "*",
+        "matatirosoln/fm-cloud-authentication": "^0.2.0",
         "spatie/laravel-settings": "^3.3",
         "symfony/http-client": "^6.0",
         "symfony/brevo-mailer": "^6.0",
-        "tightenco/ziggy": "*"
+        "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
