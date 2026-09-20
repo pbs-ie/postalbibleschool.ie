@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\CustomClasses\HtmlDomParser;
+use voku\helper\HtmlDomParser;
 use App\Mail\BibletimeLinksMissing;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
